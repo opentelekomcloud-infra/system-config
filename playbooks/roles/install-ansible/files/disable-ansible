@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This is a simple script but ensures we don't mis-type the
+# file name.
+
+DISABLE_FILE=/home/zuul/DISABLE-ANSIBLE
+
+if [[ "$#" -lt 1 ]]; then
+    echo "Usage: disable-ansible COMMENT"
+    echo
+    echo "Please supply a comment to be placed in the disable file for the benefit"
+    echo "of other admins.  Include your name.  Don't forget to #status log."
+    exit 1
+fi
+
+date -Iseconds >> $DISABLE_FILE
+echo "$*" >> $DISABLE_FILE
+
+echo "Current value of DISABLE-ANSIBLE":
+cat $DISABLE_FILE

@@ -1,0 +1,16 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  name: "Bridge: boostrap the bastion host"
+  become: true
+  roles:
+    - pip3
+    # Note for production use we expect to take the defaults; unit
+    # test jobs override this to test with latest upstream ansible.
+    # For example, if there is a fix on the ansible stable branch we
+    # need that is unreleased, you could do the following:
+    #
+    - role: install-ansible
+      install_ansible_name: '{{ bridge_ansible_name | default("ansible") }}'
+      install_ansible_version: '{{ bridge_ansible_version | default("3.1.0") }}'
+      install_ansible_openstacksdk_name: '{{ bridge_openstacksdk_name | default("openstacksdk") }}'
+      install_ansible_openstacksdk_version: '{{ bridge_openstacksdk_verison | default("latest") }}'
+    - root-keys

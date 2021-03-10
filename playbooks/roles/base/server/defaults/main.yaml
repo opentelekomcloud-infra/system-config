@@ -1,0 +1,16 @@
+bastion_ipv4: 192.168.110.239
+bastion_ipv6: fe80::3709:495b:66ac:8875
+bastion_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYnt1MAAdWM8xW3Y5SeUhk+5cMZbpsz+juSUrbTsKDFx32BhsXtKR1sk8pCoKXTkvU+tD4PF3rI+7R8M/gI9MB8VM7l9BweZ1EDwVrDuiSxtl0HtYV+E+a7Fd0jDytGrzUloQtBqYqfPTOegU8APIOKOygrrQurBnZaCJfQoRtPEfoyuzL0maLAQ5AWATAwwbCJsQsgxVEL8flW2lt2r+JiQfXx8OGb/uUUzlDpwGdhZHa5l2VY+huShL7ij2LHxVuw3OExAzRdgPduqQG/xJGZZJsj5Vyorvkd0K78J2a+mEvNCIl0BjCfPhOJYk9FGB5Ne9XLCcwUVHImqPZpJIFTWW/Ic7/m73lqHNGGi9dem7aXCMQlltAvegL8H6JY6LhcIODB8zTDQ81mk1kmO0PTotujKWYLb9ptw1AuScvPAxcRHjKsSnlkUOK/oy3oE/J6LO/fUTay7DH34DqaqLNKGLXvYfmzkrqTi5IrCb0JE1HAcbelmRh/s5+CMxuOVk= root@bastion1.eco.tsi-dev.otc-service.com
+bastion_key_exclusive: true
+base_packages:
+  - at
+  - git
+  - logrotate
+  - lvm2
+  - openssh-server
+  - parted
+  - rsync
+  - rsyslog
+  - strace
+  - tcpdump
+  - wget

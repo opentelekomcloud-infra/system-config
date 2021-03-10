@@ -1,0 +1,8 @@
+- name: Add helper script
+  become: yes
+  copy:
+    dest: /usr/local/bin/openstack
+    group: root
+    mode: 0755
+    owner: root
+    src: openstack

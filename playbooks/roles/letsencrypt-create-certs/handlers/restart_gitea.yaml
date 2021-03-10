@@ -1,0 +1,49 @@
+- name: Ensure gitea cert directy exists
+  file:
+    state: directory
+    path: "/var/gitea/certs"
+    owner: 1000
+    group: 1000
+
+- name: Put key in place
+  copy:
+    remote_src: yes
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/{{ inventory_hostname }}.key
+    dest: /var/gitea/certs/key.pem
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Put cert in place
+  copy:
+    remote_src: yes
+    # Gitea doesn't seem to accept separate ca chain and cert files.
+    # I believe it wants a single combined file as per fullchain.cer.
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/fullchain.cer
+    dest: /var/gitea/certs/cert.pem
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Check for running gitea
+  command: pgrep -f gitea
+  ignore_errors: yes
+  register: gitea_pids
+
+- name: Restart gitea if running
+  when: gitea_pids.rc == 0
+  block:
+    - name: Restart gitea web
+      shell:
+        cmd: docker-compose restart gitea-web
+        chdir: /etc/gitea-docker/
+
+    - name: Wait for service to start and have valid users
+      uri:
+        url: "https://localhost:3000/api/v1/users/root"
+        validate_certs: false
+        status_code: 200, 404
+      register: root_user_check
+      delay: 1
+      retries: 300
+      until: root_user_check and root_user_check.status in (200, 404)

@@ -1,0 +1,39 @@
+- name: Ensure registry cert directy exists
+  file:
+    state: directory
+    path: "/var/registry/certs"
+    owner: root
+    group: root
+
+- name: Put key in place
+  copy:
+    remote_src: yes
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/{{ inventory_hostname }}.key
+    dest: /var/registry/certs/domain.key
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Put cert in place
+  copy:
+    remote_src: yes
+    # Zuul-registry doesn't seem to accept separate ca chain and cert files.
+    # I believe it wants a single combined file as per fullchain.cer.
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/fullchain.cer
+    dest: /var/registry/certs/domain.crt
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Check for running registry
+  command: pgrep -f zuul-registry
+  ignore_errors: yes
+  register: registry_pids
+
+- name: Restart registry if running
+  when: registry_pids.rc == 0
+  block:
+    - name: Restart registry
+      shell:
+        cmd: docker-compose restart registry
+        chdir: /etc/registry-docker/

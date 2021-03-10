@@ -1,0 +1,20 @@
+- name: Add PPA GPG key
+  become: yes
+  apt_key:
+    data: "{{ projectatomic_gpg_key }}"
+
+- name: Add projectatomic apt repo
+  become: yes
+  template:
+    dest: /etc/apt/sources.list.d/projectatomic.list
+    group: root
+    mode: 0644
+    owner: root
+    src: sources.list.j2
+
+- name: Install podman
+  become: yes
+  apt:
+    name: podman
+    state: present
+    update_cache: yes

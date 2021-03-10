@@ -1,0 +1,9 @@
+plugin: yamlgroup
+groups:
+  apimon-executor:
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+  cloud-launcher:
+    - bridge.eco.tsi-dev.otc-service.com
+  control-plane-clouds:
+    - bridge.eco.tsi-dev.otc-service.com
+  disabled: []

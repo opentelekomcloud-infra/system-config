@@ -1,0 +1,41 @@
+- name: Remove pip and virtualenv packages
+  package:
+    name:
+      - python3-pip
+      - python3-virtualenv
+    state: absent
+
+# NOTE(ianw) : See https://github.com/pypa/get-pip/issues/43;
+# requirement of get-pip.py
+# Xenial doesn't have python3-distutils as it appears to be part
+# of python3 itself.
+- name: Ensure distutils
+  package:
+    name:
+      - python3-distutils
+    state: present
+  when: ansible_distribution_release != 'xenial'
+
+- name: Download OS/Python specific get-pip.py
+  include_tasks: "{{ get_pip_os }}"
+  with_first_found:
+    - "{{ ansible_distribution_release }}.yaml"
+    - "{{ ansible_distribution }}.yaml"
+    - "{{ ansible_os_family }}.yaml"
+    - "default.yaml"
+  loop_control:
+    loop_var: get_pip_os
+
+- name: Install pip
+  command: python3 /var/lib/get-pip.py
+  args:
+    creates: /usr/local/bin/pip3
+
+- name: Install latest pip and virtualenv
+  pip:
+    name: "{{ item }}"
+    state: latest
+    executable: pip3
+  loop:
+    - pip
+    - virtualenv

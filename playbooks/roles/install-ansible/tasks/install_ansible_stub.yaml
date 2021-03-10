@@ -1,0 +1,22 @@
+- name: Create build dir
+  tempfile:
+    state: directory
+    suffix: fake-ansible
+  register: _build_dir
+
+- name: Install fake setup.py
+  blockinfile:
+    create: yes
+    path: '{{ _build_dir.path }}/setup.py'
+    block: |
+      import setuptools
+
+      setuptools.setup(name="ansible",
+                 url="http://fake.com",
+                 maintainer="nobody@nobody.com",
+                 version="2.9.0",
+                 description="Fake ansible")
+
+- name: Install stub ansible
+  pip:
+    name: '{{ _build_dir.path }}'

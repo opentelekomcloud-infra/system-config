@@ -1,0 +1,30 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  name: "Bridge: configure the bastion host"
+  roles:
+    #- iptables
+    - edit-secrets-script
+    - install-docker
+  tasks:
+    # Skip as no arm64 support available; only used for gate testing,
+    # where we can't mix arm64 and x86 nodes, so need a minimally
+    # working bridge to drive the tests for mirrors/nodepool
+    # etc. things.
+    - name: Install openshift/kubectl
+      when: ansible_architecture != 'aarch64'
+      block:
+        - include_role:
+            name: install-osc-container
+        - include_role:
+            name: install-kubectl
+        - include_role:
+            name: configure-kubectl
+
+    - include_role:
+        name: configure-openstacksdk
+      vars:
+        openstacksdk_config_template: clouds/bridge_all_clouds.yaml.j2
+
+    - name: Get rid of all-clouds.yaml
+      file:
+        state: absent
+        path: '/etc/openstack/all-clouds.yaml'

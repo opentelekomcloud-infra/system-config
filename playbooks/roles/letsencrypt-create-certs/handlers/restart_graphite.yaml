@@ -1,0 +1,12 @@
+- name: Check for running nginx
+  command: pgrep -f nginx
+  ignore_errors: yes
+  register: nginx_pids
+
+- name: Restart graphite container
+  when: nginx_pids.rc == 0
+  block:
+    - name: Restart nginx
+      shell:
+        cmd: docker-compose restart graphite
+        chdir: /etc/graphite-docker

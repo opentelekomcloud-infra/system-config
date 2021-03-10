@@ -1,0 +1,8 @@
+deb [arch=amd64] http://ftp.de.debian.org/debian/ bullseye main contrib non-free
+deb-src [arch=amd64] http://ftp.de.debian.org/debian/ bullseye main contrib non-free
+
+deb [arch=amd64] http://ftp.de.debian.org/debian/ bullseye-updates main contrib non-free
+deb-src [arch=amd64] http://ftp.de.debian.org/debian/ bullseye-updates main contrib non-free
+
+#deb [arch=amd64] http://security.debian.org/ bullseye/updates main contrib non-free
+#deb-src [arch=amd64] http://security.debian.org/ bullseye/updates main contrib non-free

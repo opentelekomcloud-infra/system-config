@@ -1,0 +1,14 @@
+- project:
+    check:
+      jobs:
+        - otc-tox-linters
+        #- system-config-run-base
+    gate:
+      jobs:
+        - otc-tox-linters
+        #- system-config-run-base
+    deploy:
+      jobs:
+        - infra-prod-install-ansible
+        - infra-prod-base
+        - infra-prod-service-bridge

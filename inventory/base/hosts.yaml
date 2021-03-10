@@ -1,0 +1,9 @@
+all:
+  hosts:
+    executor1.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.225
+        #executor2.apimon.eco.tsi-dev.otc-service.com:
+        #  ansible_host: 192.168.2.55
+        #  ansible_user: core
+    bridge.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.29
