@@ -1,0 +1,6 @@
+# https://github.com/pypa/get-pip/issues/83
+- name: Download get-pip.py
+  command: wget https://bootstrap.pypa.io/pip/3.5/get-pip.py
+  args:
+    chdir: /var/lib
+    creates: /var/lib/get-pip.py

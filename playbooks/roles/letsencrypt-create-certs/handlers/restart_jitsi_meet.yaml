@@ -1,0 +1,37 @@
+- name: Ensure cert directory exists
+  file:
+    state: directory
+    path: /var/jitsi-meet/web/keys
+    owner: root
+    group: root
+
+- name: Put key in place
+  copy:
+    remote_src: yes
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/{{ inventory_hostname }}.key
+    dest: /var/jitsi-meet/web/keys/cert.key
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Put cert in place
+  copy:
+    remote_src: yes
+    src: /etc/letsencrypt-certs/{{ inventory_hostname }}/fullchain.cer
+    dest: /var/jitsi-meet/web/keys/cert.crt
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Check for running nginx
+  command: pgrep -f nginx
+  ignore_errors: yes
+  register: nginx_pids
+
+- name: Restart nginx if running
+  when: nginx_pids.rc == 0
+  block:
+    - name: Restart nginx
+      shell:
+        cmd: docker-compose restart web
+        chdir: /etc/jitsi-meet-docker/

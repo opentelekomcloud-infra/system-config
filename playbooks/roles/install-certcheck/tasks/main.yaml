@@ -1,0 +1,32 @@
+- name: Ensure dependencies
+  package:
+    name:
+      - openssl
+      - bsd-mailx
+
+- name: Ensure certcheck user
+  user:
+    name: certcheck
+    comment: User for SSL validation
+
+- name: Ensure certcheck config directory
+  file:
+    state: directory
+    path: '{{ cert_check_domain_list | dirname }}'
+    owner: certcheck
+    group: certcheck
+    mode: 0755
+
+- name: Pull latest ssl-cert-check from git
+  git:
+    repo: 'https://github.com/Matty9191/ssl-cert-check'
+    dest: /opt/ssl-cert-check
+
+- name: Install cron job
+  cron:
+    user: certcheck
+    name: 'Run certcheck'
+    state: present
+    job: "/opt/ssl-cert-check/ssl-cert-check -a -q -f {{ cert_check_domain_list }} -x {{ cert_check_days }} -e {{ cert_check_email }}"
+    hour: 12
+    minute: 04

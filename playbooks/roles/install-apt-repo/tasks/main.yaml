@@ -1,0 +1,20 @@
+- name: Add apt repo key
+  become: yes
+  apt_key:
+    data: "{{ repo_key }}"
+    keyring: "/etc/apt/trusted.gpg.d/{{ repo_name }}.gpg"
+
+- name: Add apt repo
+  become: yes
+  copy:
+    dest: "/etc/apt/sources.list.d/{{ repo_name }}.list"
+    group: root
+    owner: root
+    mode: 0644
+    content: "{{ repo_content }}"
+  register: apt_repo
+
+- name: Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+  when: apt_repo is changed

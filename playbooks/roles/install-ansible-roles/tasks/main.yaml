@@ -1,0 +1,8 @@
+- name: Install ansible roles to /etc/ansible/roles
+  git:
+    repo: '{{ ansible_role_src_root }}/src/opendev.org/opendev/ansible-role-{{ ansible_role }}'
+    dest: '/etc/ansible/roles/{{ ansible_role }}'
+    force: yes
+  loop: '{{ ansible_roles }}'
+  loop_control:
+    loop_var: ansible_role

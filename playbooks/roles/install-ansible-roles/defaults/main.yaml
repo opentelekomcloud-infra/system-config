@@ -1,0 +1,4 @@
+# Roles to install from source
+ansible_roles: []
+ansible_role_src_root: /home/zuul
+ansible_role_dest: /etc/ansible/roles

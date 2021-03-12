@@ -1,0 +1,69 @@
+- name: Create docker directory
+  become: yes
+  file:
+    state: directory
+    path: /etc/docker
+
+- name: Install docker-ce from upstream
+  include: upstream.yaml
+  when: use_upstream_docker|bool
+
+- name: Install docker-engine from distro
+  include: distro.yaml
+  when: not use_upstream_docker|bool
+
+- name: reset ssh connection to pick up docker group
+  meta: reset_connection
+
+# We install docker-compose from pypi to get features like
+# stop_grace_period.
+
+# On arm64 we need build-essential, python3-dev, libffi-dev, and libssl-dev
+# because wheels don't exist for all the things on arm64
+
+- name: Install arm64 dev pacakges
+  when: ansible_architecture == 'aarch64'
+  package:
+    name:
+      - build-essential
+      - python3-dev
+      - libffi-dev
+      - libssl-dev
+    state: present
+
+- name: ensure pip3 is installed
+  include_role:
+    name: pip3
+
+- name: Install docker-compose
+  pip:
+    name: docker-compose
+    state: present
+    executable: pip3
+
+- name: Install rsyslog redirector for container tags
+  copy:
+    src: '10-docker.conf'
+    dest: /etc/rsyslog.d/
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart rsyslog
+
+- name: Ensure rsyslog restarted now
+  meta: flush_handlers
+
+- name: Create container log directories
+  file:
+    state: directory
+    path: /var/log/containers/
+    owner: syslog
+    group: adm
+    mode: 0775
+
+- name: Install log rotation for docker files
+  include_role:
+    name: logrotate
+  vars:
+    logrotate_file_name: '/var/log/containers/*.log'

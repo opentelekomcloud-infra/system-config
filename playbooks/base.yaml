@@ -1,0 +1,9 @@
+- hosts: "!disabled"
+  name: "Base: set up common environment on all hosts"
+  roles:
+    - base/users
+    - base/repos
+    - base/server
+    - base/timezone
+    - base/unbound
+    - firewalld

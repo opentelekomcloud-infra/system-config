@@ -1,0 +1,5 @@
+firewalld_services_enable:
+  - ssh
+firewalld_services_disable: []
+firewalld_ports_enable: []
+firewalld_ports_disable: []

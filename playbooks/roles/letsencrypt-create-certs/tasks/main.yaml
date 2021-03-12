@@ -1,0 +1,25 @@
+# NOTE(ianw): this var set for the host by the
+# letsencrypt-request-certs role; running this when empty would be a
+# no-op but we might as well skip it if we know this host hasn't
+# requested anything to actually create/renew.
+- name: Check for prerun state
+  fail:
+    msg: "acme_txt_required is not defined; was letsencrypt-request-certs run?"
+  when: acme_txt_required is not defined
+
+# acme_txt_keys is a list of tuples
+#
+#  (key from letsencrypt_certs, required TXT record)
+#
+# So in words, we walk acme_txt_required and keep a list of the unique
+# 0-values of each entry.  This is then the keys from
+# letsencrypt_certs that actually had updates; these are the only ones
+# we need to do a renewal for.
+- name: Generate list of changed certificates
+  set_fact:
+    acme_txt_changed: '{{ acme_txt_required|map("first")|list|unique }}'
+
+- name: Include ACME renewal
+  include_tasks: acme.yaml
+  loop: "{{ query('dict', letsencrypt_certs) }}"
+  when: item.key in acme_txt_changed

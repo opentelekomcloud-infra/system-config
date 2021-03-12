@@ -1,0 +1,59 @@
+ansible_python_interpreter: python3
+silence_synchronize: true
+
+distro_lookup_path:
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename }}.{{ ansible_facts.architecture }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.architecture }}.yaml"
+  - "{{ ansible_facts.distribution }}.yaml"
+  - "{{ ansible_facts.os_family }}.yaml"
+  - default.yaml
+
+exim_sysadmins: "{{ ','.join(sysadmins|default([])) }}"
+exim_extra_aliases: {}
+exim_base_aliases:
+  root: "{{ exim_sysadmins }}"
+exim_aliases: "{{ exim_base_aliases|combine(exim_extra_aliases) }}"
+
+iptables_base_allowed_hosts: []
+iptables_extra_allowed_hosts: []
+iptables_allowed_hosts: "{{ iptables_base_allowed_hosts + iptables_extra_allowed_hosts }}"
+
+iptables_base_allowed_groups: []
+iptables_extra_allowed_groups: []
+iptables_allowed_groups: "{{ iptables_base_allowed_groups + iptables_extra_allowed_groups }}"
+
+iptables_base_public_tcp_ports: []
+iptables_extra_public_tcp_ports: []
+# iptables_test_public_tcp_ports is here only to allow the test
+# framework to inject an iptables rule to allow zuul console
+# streaming.  Do not use it otherwise.
+iptables_public_tcp_ports: "{{ iptables_test_public_tcp_ports|default([]) + iptables_base_public_tcp_ports + iptables_extra_public_tcp_ports }}"
+
+iptables_base_public_udp_ports: []
+iptables_extra_public_udp_ports: []
+iptables_public_udp_ports: "{{ iptables_base_public_udp_ports + iptables_extra_public_udp_ports }}"
+
+# When adding new users, always pick a UID larger than the last UID, do not
+# fill in holes in the middle of the range.
+all_users:
+  gtema:
+    comment: Artem Goncharov
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBBVL8LJ14SfFPK2zNeuO8rglURUJ32LFQXn0IzinZ7Y3ic8vtmF+UBvg+h8th56GZ3/DR9b+zcXfbA+0cdfTr+BWlDCYwcLab2vgU/S9FyQBzYr7ZWxtEFOmb5ztVp2b5wFt/DD7YBfyJNzM9SpVQDO4furwNZDq5af0+D67KOsV2BPLXL4/zMGkLR3TSFNzdJCSLrWML96NWK1FvpEjDroyKXFTVVcLBTgtBnFtpjpUzmlJSntaUxTQq1htiWLTGQL3ApLqx7YYctxDDkeBrWGSQPZgFppqhk5U8sWE9ieGztGuVyYzAhvz8YO9nm8M26izVebjwe+9u1hqa3Pk9 artem.goncharov
+    uid: 2000
+    gid: 2000
+
+  zuul:
+    comment: Zuul CICD
+    key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDe7Sbl2sP6gasTFCh76TRfdvNesK3ZJr6LPAnls6H92xdc0/sNVBicqtiGeop/jbmTW8VVat4UXeC1eL+XOw4fonoD+tY1V+BpHtvjFloNSqH/UNwsOixuwdePl4ROkHgnPSWZVWbR1LXAOW/3zH3ez52aTgwkso8OKvH0vucWDPh5KLOB3YpHbOQ4D3J5ohVt+4AaVJRjLHMiSTSOKB4jAnd4+jJZ6GR+G39kLQ6PS6sdPC9uNu5GikAzcLp1+11XCmMbiG0mxPnQrqiEnDTAVxsPfuyX9HoteBRdVQrHWcUUEcogqcbTvGhXWYqGKVeUpGrqIilOVP47+dRvPYDruq7tMm6oM8xeex5t4jF3rneqwqQuPKGJl9ErMk+jJUVAr97Thfy3LqoTGAYeu2Vdubwaat9T1P8twg5S8FW5prKheRYytKWNRsc0wtkIS4XPPfK4fr08T1UITjZJ8eVc+cHfziP+wXoFi9MzYd8Jmgl5sp8CwJCIcOt5GiRxqBk= zuul.key
+    uid: 2031
+    gid: 2031
+
+# List of users to install on all hosts
+base_users:
+  - gtema
+# Default empty list of users to install on specific hosts or groups
+extra_users: []
+# Users who should be removed
+disabled_users: []

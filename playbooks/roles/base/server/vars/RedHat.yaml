@@ -1,0 +1,10 @@
+distro_packages:
+  - bind-utils
+  - emacs-nox
+  - iputils
+  - systemd-timesyncd
+  - vim-minimal
+  - dnf-automatic
+sftp_path: /usr/libexec/openssh/sftp-server
+ssh_service_name: sshd
+
