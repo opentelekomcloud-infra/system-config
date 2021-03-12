@@ -1,0 +1,89 @@
+# Make sure only one run of a system-config playbook happens at a time
+- semaphore:
+    name: infra-prod-playbook
+    max: 1
+
+- job:
+    name: infra-prod-playbook
+    parent: otc-infra-prod-base
+    description: |
+      Run specified playbook against productions hosts.
+
+      This is a parent job designed to be inherited to enabled
+      CD deployment of our infrastructure. Set playbook_name to
+      specify the playbook relative to
+      /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks
+      on bridge.eco.tsi-dev.otc-service.com.
+    abstract: true
+    semaphore: infra-prod-playbook
+    run: playbooks/zuul/run-production-playbook.yaml
+    required-projects:
+      - opentelekomcloud-infra/system-config
+    vars:
+      infra_prod_ansible_forks: 5
+      infra_prod_playbook_collect_log: false
+    nodeset:
+      nodes: []
+
+- job:
+    name: infra-prod-install-ansible
+    parent: infra-prod-playbook
+    description: Install ansible on bridge.
+    vars:
+      playbook_name: install-ansible.yaml
+    files:
+      - inventory/
+      - roles/
+      - install_modules.sh
+      - modules.env
+      - playbooks/install-ansible.yaml
+      - playbooks/roles/pip3/
+      - playbooks/roles/install-ansible/
+      - playbooks/roles/logrotate/
+      - playbooks/roles/root-keys/
+      - inventory/service/host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
+      - playbooks/zuul/run-production-playbook.yaml
+
+- job:
+    name: infra-prod-base
+    parent: infra-prod-playbook
+    description: Run the base playbook everywhere.
+    dependencies:
+      - name: infra-prod-install-ansible
+        soft: true
+    vars:
+      playbook_name: base.yaml
+      infra_prod_ansible_forks: 50
+    files:
+      - inventory/
+      - inventory/service/host_vars/
+      - inventory/service/group_vars/
+      - playbooks/base.yaml
+      - playbooks/roles/base/
+
+- job:
+    name: infra-prod-service-base
+    parent: infra-prod-playbook
+    description: Base job for most service playbooks.
+    abstract: true
+    dependencies:
+      - name: infra-prod-install-ansible
+        soft: true
+
+- job:
+    name: infra-prod-service-bridge
+    parent: infra-prod-service-base
+    description: Run service-bridge.yaml playbook.
+    vars:
+      playbook_name: service-bridge.yaml
+    files:
+      - inventory/
+      - playbooks/service-bridge.yaml
+      - inventory/service/host_vars/bridge.eco-tsi-dev.otc-service.com.yaml
+      - playbooks/roles/logrotate/
+      - playbooks/roles/edit-secrets-script/
+      - playbooks/roles/install-kubectl/
+      - playbooks/roles/iptables/
+      - playbooks/roles/configure-kubectl/
+      - playbooks/roles/configure-openstacksdk/
+      - playbooks/templates/clouds/bridge_all_clouds.yaml.j2

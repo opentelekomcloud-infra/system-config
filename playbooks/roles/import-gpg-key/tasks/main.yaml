@@ -1,0 +1,30 @@
+- name: Check for input args
+  assert:
+    that: gpg_key_id is defined
+
+- name: Check for existing key
+  command: |
+    gpg --list-keys {{ gpg_key_id }}
+  ignore_errors: true
+  register: _key_exists
+
+- name: Install key
+  when: _key_exists.rc != 0
+  block:
+
+    - name: Look for gpg key
+      lineinfile:
+        path: '{{ gpg_key_asc }}'
+        regexp: '^-----BEGIN PGP PUBLIC KEY BLOCK-----$'
+        state: absent
+      check_mode: yes
+      changed_when: false
+      register: _out
+
+    - name: Check keyfile
+      assert:
+        that: _out.found
+
+    - name: Import key
+      command: |
+        gpg --import {{ gpg_key_asc }}

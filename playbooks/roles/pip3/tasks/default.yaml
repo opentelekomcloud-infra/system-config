@@ -1,0 +1,5 @@
+- name: Download get-pip.py
+  command: wget https://bootstrap.pypa.io/get-pip.py
+  args:
+    chdir: /var/lib
+    creates: /var/lib/get-pip.py

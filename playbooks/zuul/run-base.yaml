@@ -1,0 +1,113 @@
+- import_playbook: ../install-ansible.yaml
+  vars:
+    root_rsa_key: "{{ lookup('file', zuul.executor.work_root + '/' + zuul.build + '_id_rsa', rstrip=False) }}"
+    ansible_cron_disable_job: true
+    cloud_launcher_disable_job: true
+
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  become: true
+  tasks:
+    - name: Write inventory on bridge
+      include_role:
+        name: write-inventory
+      vars:
+        write_inventory_dest: /home/zuul/src/github.com/opentelekomcloud-infra/system-config/inventory/base/gate-hosts.yaml
+        write_inventory_exclude_hostvars:
+          - ansible_user
+          - ansible_python_interpreter
+        write_inventory_additional_hostvars:
+          public_v4: nodepool.private_ipv4
+          public_v6: nodepool.public_ipv6
+    - name: Add groups config for test nodes
+      template:
+        src: "templates/gate-groups.yaml.j2"
+        dest: "/etc/ansible/hosts/gate-groups.yaml"
+    - name: Update ansible.cfg to use job inventory
+      ini_file:
+        path: /etc/ansible/ansible.cfg
+        section: defaults
+        option: inventory
+        value: /home/zuul/src/github.com/opentelekomcloud-infra/system-config/inventory/base/gate-hosts.yaml,/home/zuul/src/github.com/opentelekomcloud-infra/system-config/inventory/service/groups.yaml,/etc/ansible/hosts/gate-groups.yaml
+    - name: Make host_vars directory
+      file:
+        path: "/etc/ansible/hosts/host_vars"
+        state: directory
+    - name: Make group_vars directory
+      file:
+        path: "/etc/ansible/hosts/group_vars"
+        state: directory
+    - name: Write hostvars files
+      vars:
+        bastion_ipv4: "{{ nodepool['public_ipv4'] }}"
+        bastion_ipv6: "{{ nodepool['public_ipv6'] }}"
+        bastion_public_key: "{{ lookup('file', zuul.executor.work_root + '/' + zuul.build + '_id_rsa.pub') }}"
+        iptables_test_public_tcp_ports:
+          # Zuul web console
+          - 19885
+          # selenium
+          - 4444
+      template:
+        src: "templates/{{ item }}.j2"
+        dest: "/etc/ansible/hosts/{{ item }}"
+      loop:
+        - group_vars/all.yaml
+        - group_vars/letsencrypt.yaml
+        - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
+    - name: Display group membership
+      command: ansible localhost -m debug -a 'var=groups'
+    - name: Run base.yaml
+      command: ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/base.yaml
+    - name: Run bridge service playbook
+      command: ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/service-bridge.yaml
+    - name: Run playbook
+      when: run_playbooks is defined
+      loop: "{{ run_playbooks }}"
+      command: "ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ item }}"
+    - name: Run test playbook
+      when: run_test_playbook is defined
+      shell: "ANSIBLE_ROLES_PATH=/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/roles ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ run_test_playbook }}"
+
+    - name: Generate testinfra extra data fixture
+      set_fact:
+        testinfra_extra_data:
+          zuul_job: '{{ zuul.job }}'
+          zuul: '{{ zuul }}'
+
+    - name: Write out testinfra extra data fixture
+      copy:
+        content: '{{ testinfra_extra_data | to_nice_yaml(indent=2) }}'
+        dest: '/home/zuul/testinfra_extra_data_fixture.yaml'
+
+    - name: Make screenshots directory
+      file:
+        path: '/var/log/screenshots'
+        state: directory
+
+    - name: Return screenshots artifact
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: Screenshots
+                url: "bridge.eco.tsi-dev.otc-service.com/screenshots"
+
+    - name: Run and collect testinfra
+      block:
+        - name: Run testinfra to validate configuration
+          include_role:
+            name: tox
+          vars:
+            tox_envlist: testinfra
+            # This allows us to run from external projects (like testinfra
+            # itself)
+            tox_environment:
+              TESTINFRA_EXTRA_DATA: '/home/zuul/testinfra_extra_data_fixture.yaml'
+            zuul_work_dir: src/github.com/opentelekomcloud-infra/system-config
+      always:
+        - name: Return testinfra report artifact
+          zuul_return:
+            data:
+              zuul:
+                artifacts:
+                  - name: testinfra results
+                    url: "bridge.eco.tsi-dev.otc-service.com/test-results.html"

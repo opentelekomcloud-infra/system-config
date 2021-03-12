@@ -1,0 +1,25 @@
+- name: Remove ntp and run timesyncd
+  block:
+    - name: Remove ntp
+      ansible.builtin.package:
+        name: ntp
+        state: absent
+
+    - name: Ensure systemd-timesyncd is running
+      ansible.builtin.service:
+        name: systemd-timesyncd
+        enabled: yes
+        state: started
+
+- name: Ensure dnf-automatic updates the system
+  community.general.ini_file:
+    path: "/etc/dnf/automatic.conf"
+    section: "commands"
+    option: "apply_updates"
+    value: "yes"
+
+- name: Ensure dnf-automatic service is running
+  ansible.builtin.service:
+    name: dnf-automatic
+    enabled: yes
+    state: started

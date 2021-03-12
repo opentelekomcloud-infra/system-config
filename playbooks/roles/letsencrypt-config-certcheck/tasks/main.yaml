@@ -1,0 +1,17 @@
+- name: Make domain list
+  set_fact:
+    letsencrypt_certcheck_domains: []
+
+- name: Build SSL domain list
+  set_fact:
+    letsencrypt_certcheck_domains: '{{ letsencrypt_certcheck_domains }} + {{ hostvars[item]["letsencrypt_certcheck_domains" ] }}'
+  with_inventory_hostnames:
+    - letsencrypt:!disabled
+
+- name: Write configuration file
+  template:
+    dest: '{{ letsencrypt_certcheck_domain_list }}'
+    src: ssldomains.j2
+    owner: certcheck
+    group: certcheck
+    mode: 0644

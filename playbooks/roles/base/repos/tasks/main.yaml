@@ -1,0 +1,10 @@
+- name: Set up additional repos
+  include_tasks: "{{ item }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts.distribution }}.yaml"
+        - "{{ ansible_facts.os_family }}.yaml"
+  loop: "{{ query('first_found', params, errors='ignore') }}"
+
+- meta: flush_handlers

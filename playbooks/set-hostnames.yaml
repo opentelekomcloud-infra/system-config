@@ -1,0 +1,4 @@
+- hosts: "!disabled"
+  gather_facts: false
+  roles:
+    - set-hostname

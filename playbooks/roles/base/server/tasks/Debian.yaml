@@ -1,0 +1,65 @@
+- name: Disable install of additional recommends and suggests packages
+  copy:
+     mode: 0444
+     src: 95disable-recommends
+     dest: /etc/apt/apt.conf.d/
+     owner: root
+     group: root
+
+- name: Remove ntp and run timesyncd
+  block:
+    - name: Remove ntp
+      package:
+        name: ntp
+        state: absent
+
+    - name: Ensure systemd-timesyncd is running
+      service:
+        name: systemd-timesyncd
+        enabled: yes
+        state: started
+
+- name: Remove packages that make no sense for our servers
+  package:
+    name:
+      - apport
+      - whoopsie
+      - popularity-contest
+      - lxd
+      - lxd-client
+        #      - cloud-init
+    state: absent
+
+- name: Get rid of extra depends
+  command: apt-get autoremove -y
+
+- name: Configure file limits
+  copy:
+    mode: 0644
+    src: debian_limits.conf
+    dest: /etc/security/limits.d/60-nofile-limit.conf
+
+- name: Install apt-daily 10periodic file for unattended-upgrades
+  copy:
+     mode: 0444
+     src: 10periodic
+     dest: /etc/apt/apt.conf.d/10periodic
+     owner: root
+     group: root
+
+- name: Install 50unattended-upgrades file for unattended-upgrades
+  copy:
+     mode: 0444
+     src: 50unattended-upgrades
+     dest: /etc/apt/apt.conf.d/50unattended-upgrades
+     owner: root
+     group: root
+
+- name: Ensure required build packages
+  apt:
+    update_cache: yes
+    name:
+      - libffi-dev
+      - libssl-dev
+      - build-essential
+  when: ansible_architecture == 'aarch64'

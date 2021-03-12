@@ -1,0 +1,25 @@
+# Setting hostname with systemd apparently
+# requires dbus. We have this on our cloud-provided
+# nodes, but not on the minimal ones we get from
+# nodepool.
+- name: ensure dbus for working hostnamectl
+  become: true
+  apt:
+    name: dbus
+    state: present
+
+# Set hostname and /etc/hosts
+# Inspired by:
+# https://github.com/ansible/ansible/pull/8482)
+# https://gist.github.com/rothgar/8793800
+- name: Set /etc/hostname
+  become: true
+  hostname: name="{{ inventory_hostname.split('.', 1)[0] }}"
+
+- name: Set /etc/hosts
+  become: true
+  template: src=hosts.j2 dest=/etc/hosts mode=0644
+
+- name: Set /etc/mailname
+  become: true
+  template: src=mailname.j2 dest=/etc/mailname mode=0644
