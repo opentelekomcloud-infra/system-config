@@ -9,12 +9,6 @@ distro_lookup_path:
   - "{{ ansible_facts.os_family }}.yaml"
   - default.yaml
 
-exim_sysadmins: "{{ ','.join(sysadmins|default([])) }}"
-exim_extra_aliases: {}
-exim_base_aliases:
-  root: "{{ exim_sysadmins }}"
-exim_aliases: "{{ exim_base_aliases|combine(exim_extra_aliases) }}"
-
 iptables_base_allowed_hosts: []
 iptables_extra_allowed_hosts: []
 iptables_allowed_hosts: "{{ iptables_base_allowed_hosts + iptables_extra_allowed_hosts }}"
@@ -25,10 +19,12 @@ iptables_allowed_groups: "{{ iptables_base_allowed_groups + iptables_extra_allow
 
 iptables_base_public_tcp_ports: []
 iptables_extra_public_tcp_ports: []
+firewalld_base_ports_enable: []
+firewalld_extra_ports_enable: []
 # iptables_test_public_tcp_ports is here only to allow the test
 # framework to inject an iptables rule to allow zuul console
 # streaming.  Do not use it otherwise.
-iptables_public_tcp_ports: "{{ iptables_test_public_tcp_ports|default([]) + iptables_base_public_tcp_ports + iptables_extra_public_tcp_ports }}"
+firewalld_ports_enable: "{{ firewalld_test_ports_enable|default([]) + firewalld_base_ports_enable + firewalld_extra_ports_enable }}"
 
 iptables_base_public_udp_ports: []
 iptables_extra_public_udp_ports: []

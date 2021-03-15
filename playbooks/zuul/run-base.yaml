@@ -38,19 +38,20 @@
         state: directory
     - name: Write hostvars files
       vars:
-        bastion_ipv4: "{{ nodepool['public_ipv4'] }}"
-        bastion_ipv6: "{{ nodepool['public_ipv6'] }}"
+        bastion_ipv4: "{{ nodepool['private_ipv4'] }}"
+        bastion_ipv6: "{{ nodepool['private_ipv6'] | default('') }}"
         bastion_public_key: "{{ lookup('file', zuul.executor.work_root + '/' + zuul.build + '_id_rsa.pub') }}"
-        iptables_test_public_tcp_ports:
+        firewalld_test_ports_enable:
           # Zuul web console
-          - 19885
+          - 19885/tcp
           # selenium
-          - 4444
+          - 4444/tcp
       template:
         src: "templates/{{ item }}.j2"
         dest: "/etc/ansible/hosts/{{ item }}"
       loop:
         - group_vars/all.yaml
+        - group_vars/control-plane-clouds.yaml
         - group_vars/letsencrypt.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
     - name: Display group membership
