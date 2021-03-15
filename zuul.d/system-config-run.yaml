@@ -35,10 +35,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-            #        - name: bionic
-            #          label: ubuntu-bionic
-            #        - name: focal
-            #          label: ubuntu-focal
+        - name: f32
+          label: fedora-32
     files:
       - tox.ini
       - playbooks/
