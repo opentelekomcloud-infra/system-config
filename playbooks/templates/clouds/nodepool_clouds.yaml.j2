@@ -17,8 +17,27 @@ cache:
     port: 5
     floating-ip: 5
 clouds:
-  otc:
+  otcci-pool1:
     profile: otc
     auth:
-      username: {{ nodepool_username }}
-      password: {{ nodepool_password }}
+      username: {{ nodepool_pool1_username }}
+      password: {{ nodepool_pool1_password }}
+      project: {{ nodepool_pool1_project }}
+      user_domain_name: {{ nodepool_pool1_user_domain_name }}
+    private: true
+  otcci-pool2:
+    profile: otc
+    auth:
+      username: {{ nodepool_pool2_username }}
+      password: {{ nodepool_pool2_password }}
+      project: {{ nodepool_pool2_project}}
+      user_domain_name: {{ nodepool_pool2_user_domain_name }}
+    private: true
+  otcci-pool3:
+    profile: otc
+    auth:
+      username: {{ nodepool_pool3_username }}
+      password: {{ nodepool_pool3_password }}
+      project: {{ nodepool_pool3_project }}
+      user_domain_name: {{ nodepool_pool3_user_domain_name }}
+    private: true

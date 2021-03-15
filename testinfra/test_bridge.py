@@ -56,6 +56,8 @@ def test_kube_config(host):
     kubeconfig = host.file('/root/.kube/config')
     assert kubeconfig.exists
 
+    assert b'fake_key_data' in kubeconfig.content
+
 
 def test_kubectl(host):
     if platform.machine() != 'x86_64':
