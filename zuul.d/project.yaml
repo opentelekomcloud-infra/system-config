@@ -1,4 +1,5 @@
 - project:
+    merge-mode: squash-merge
     check:
       jobs:
         - otc-tox-linters
@@ -6,9 +7,21 @@
     gate:
       jobs:
         - otc-tox-linters
-        #- system-config-run-base
+        - system-config-run-base
     deploy:
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+    periodic:
+      jobs:
+        - infra-prod-install-ansible
+        - infra-prod-base
+        - infra-prod-service-bridge
+    periodic-hourly:
+      jobs:
+        - infra-prod-install-ansible
+        - infra-prod-service-bridge:
+            dependencies:
+              - name: infra-prod-install-ansible
+                soft: true
