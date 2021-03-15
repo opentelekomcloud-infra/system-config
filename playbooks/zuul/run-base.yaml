@@ -45,7 +45,7 @@
           # Zuul web console
           - 19885/tcp
           # selenium
-          - 4444/tcp
+          # - 4444/tcp
       template:
         src: "templates/{{ item }}.j2"
         dest: "/etc/ansible/hosts/{{ item }}"

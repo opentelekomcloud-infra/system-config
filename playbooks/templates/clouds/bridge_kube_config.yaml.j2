@@ -1,5 +1,16 @@
 apiVersion: v1
 kind: Config
-current-context: default # This context does not exist
+current-context: otcci
 preferences: {}
 clusters:
+  - name: otcci
+    cluster: https://192.168.20.230:5443
+contexts:
+  - name: otcci
+    context:
+      cluster: otcci
+      user: otcci-admin
+users:
+  - name: otcci-admin
+    client-certificate-data: {{ otcci_k8s.client_certificate_data }}
+    client-key-data: {{ otcci_k8s.client_key_data }}
