@@ -2,7 +2,7 @@
     check:
       jobs:
         - otc-tox-linters
-        #- system-config-run-base
+        - system-config-run-base
     gate:
       jobs:
         - otc-tox-linters

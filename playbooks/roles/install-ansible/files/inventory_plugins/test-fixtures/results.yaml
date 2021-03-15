@@ -3,53 +3,5 @@
 
 results:
 
-  adns1.opendev.org:
-    - adns
-    - dns
-
-  afs01.dfw.openstack.org:
-    - afs-server-common
-    - afs-file-server
-    - afs-client
-
-  firehose01.openstack.org:
-    - firehose
-    - puppet
-    - puppet4
-
-  graphite02.opendev.org:
-    - graphite
-    - letsencrypt
-    - webservers
-
-  lists.katacontainers.io:
-    - mailman
-    - puppet
-    - puppet4
-
-  logstash-worker02.openstack.org:
-    - logstash-worker
-    - puppet
-    - puppet4
-
-  mirror02.regionone.linaro-us.opendev.org:
-    - afs-client
-    - letsencrypt
-    - mirror
-
-  review01.openstack.org:
-    - borg-backup
-    - gerrit
-    - letsencrypt
-    - review
-
-  backup01.ord.rax.opendev.org:
-    - borg-backup-server
-
-  ze01.opendev.org:
-    - afs-client
-    - zuul
-    - zuul-executor
-
-  zk01.openstack.org:
-    - zookeeper
+  executor1.apimon.eco.tsi-dev.otc-service.com:
+    - apimon-executor

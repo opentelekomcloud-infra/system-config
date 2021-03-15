@@ -2,12 +2,9 @@
 # Bridge all clouds
 #
 # This file is deployed to /etc/openstack/clouds.yaml on the
-# bastion host and contains information for all cloud environments
-# provided to OpenDev.
+# bastion host and contains information for all cloud environments.
 #
 clouds:
-  otc:
+  otcapimon-probes1:
     profile: otc
-    auth:
-      username: {{ nodepool_username }}
-      password: {{ nodepool_password }}
+    auth: {{ clouds.otcapimon_probes1.auth }}

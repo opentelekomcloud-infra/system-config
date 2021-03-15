@@ -16,7 +16,7 @@
     permanent: "yes"
     service: "{{ item }}"
     state: "enabled"
-  loop: "{{ firewalld_services_enable }}"
+  loop: "{{ firewalld_all_services_enable }}"
   notify:
     - Reload firewalld
 
