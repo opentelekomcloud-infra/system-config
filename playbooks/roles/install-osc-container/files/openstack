@@ -16,5 +16,5 @@
 
 exec docker run -it --rm \
   -v/etc/openstack:/etc/openstack \
-  docker.io/osclient/python-openstackclient \
+  quay.io/opentelekomcloud/python-openstackclient \
   openstack $@

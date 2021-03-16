@@ -1,0 +1,4 @@
+- hosts: statsd:!disabled
+  name: "Configure StatsD service"
+  roles:
+    - statsd

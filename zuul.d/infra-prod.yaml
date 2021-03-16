@@ -83,7 +83,19 @@
       - playbooks/roles/logrotate/
       - playbooks/roles/edit-secrets-script/
       - playbooks/roles/install-kubectl/
-      - playbooks/roles/iptables/
+      - playbooks/roles/firewalld/
       - playbooks/roles/configure-kubectl/
       - playbooks/roles/configure-openstacksdk/
       - playbooks/templates/clouds/bridge_all_clouds.yaml.j2
+
+- job:
+    name: infra-prod-service-statsd
+    parent: infra-prod-service-base
+    description: Run service-statsd.yaml playbook.
+    vars:
+      playbook_name: service-statsd.yaml
+    files:
+      - inventory/
+      - playbooks/service-statsd.yaml
+      - inventory/service/group_vars/statsd.yaml
+      - playbooks/roles/statsd/
