@@ -4,7 +4,9 @@ current-context: otcci
 preferences: {}
 clusters:
   - name: otcci
-    cluster: https://192.168.20.230:5443
+    cluster: 
+      server: https://192.168.20.230:5443
+      insecure-skip-tls-verify: true
 contexts:
   - name: otcci
     context:
@@ -12,5 +14,6 @@ contexts:
       user: otcci-admin
 users:
   - name: otcci-admin
-    client-certificate-data: {{ otcci_k8s.client_certificate_data }}
-    client-key-data: {{ otcci_k8s.client_key_data }}
+    user:
+      client-certificate-data: {{ otcci_k8s.client_certificate_data }}
+      client-key-data: {{ otcci_k8s.client_key_data }}
