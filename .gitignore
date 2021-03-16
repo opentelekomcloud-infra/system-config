@@ -11,6 +11,7 @@ doc/build/
 tools/invite2summit/settings.py
 tools/invite2summit/done*
 *.egg
+opentelekomcloud_infra_config.egg-info*
 Vagrantfile
 .vagrant/
 *.retry
