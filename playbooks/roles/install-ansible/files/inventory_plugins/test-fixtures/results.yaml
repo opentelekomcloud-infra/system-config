@@ -4,4 +4,6 @@
 results:
 
   executor1.apimon.eco.tsi-dev.otc-service.com:
+    - statsd
     - apimon-executor
+    - apimon-production

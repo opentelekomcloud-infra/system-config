@@ -42,3 +42,26 @@
       - playbooks/
       - roles/
       - testinfra/
+
+- job:
+    name: system-config-run-statsd
+    parent: system-config-run
+    description: |
+      Run the "statsd" playbook on each of the node types
+      currently in use.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: f31.statsd
+          label: fedora-31
+        - name: f32.statsd
+          label: fedora-32
+    vars:
+      run_playbooks:
+        - playbooks/service-statsd.yaml
+    files:
+      - tox.ini
+      - playbooks/
+      - roles/
+      - testinfra/

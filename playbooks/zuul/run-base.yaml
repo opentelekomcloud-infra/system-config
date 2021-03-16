@@ -53,6 +53,7 @@
         - group_vars/all.yaml
         - group_vars/control-plane-clouds.yaml
         - group_vars/letsencrypt.yaml
+        - group_vars/statsd.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
     - name: Display group membership
       command: ansible localhost -m debug -a 'var=groups'
