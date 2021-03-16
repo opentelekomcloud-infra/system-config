@@ -2,8 +2,8 @@ ansible_python_interpreter: python3
 silence_synchronize: true
 
 distro_lookup_path:
-  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename }}.{{ ansible_facts.architecture }}.yaml"
-  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename|default() }}.{{ ansible_facts.architecture }}.yaml"
+  - "{{ ansible_facts.distribution }}.{{ ansible_facts.lsb.codename|default() }}.yaml"
   - "{{ ansible_facts.distribution }}.{{ ansible_facts.architecture }}.yaml"
   - "{{ ansible_facts.distribution }}.yaml"
   - "{{ ansible_facts.os_family }}.yaml"

@@ -1,5 +1,10 @@
 all:
   hosts:
+    scheduler1.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.58
+      apimon:
+        zone: production_eu-de
+        instance: production
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
       apimon:
