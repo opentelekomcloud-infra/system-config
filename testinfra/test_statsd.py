@@ -22,3 +22,10 @@ def test_statsd_service(host):
     service = host.service('statsd')
     assert service.is_enabled
     assert service.is_running
+
+
+# Disable this. pulling container might take time or fail at all. We do not
+# want to fail CI due to that __for now__.
+#def test_port(host):
+#    socket = host.socket('udp://8125')
+#    assert socket.is_listening
