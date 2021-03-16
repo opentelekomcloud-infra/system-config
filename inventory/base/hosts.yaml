@@ -2,8 +2,28 @@ all:
   hosts:
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
-        #executor2.apimon.eco.tsi-dev.otc-service.com:
-        #  ansible_host: 192.168.2.55
-        #  ansible_user: core
+      apimon:
+        zone: production_eu-de
+        instance: production
+    executor2.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.2.55
+      apimon:
+        zone: vcloud
+        instance: production
+    executor3.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.145
+      apimon:
+        zone: production_eu-de
+        instance: production
+    executor4.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.164
+      apimon:
+        zone: production_eu-de
+        instance: production
+    executor5.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.249
+      apimon:
+        zone: production_eu-de
+        instance: hybrid
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29

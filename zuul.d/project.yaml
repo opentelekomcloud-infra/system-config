@@ -4,21 +4,27 @@
       jobs:
         - otc-tox-linters
         - system-config-run-base
+        - system-config-run-statsd
     gate:
       jobs:
         - otc-tox-linters
         - system-config-run-base
+        - system-config-run-statsd
     deploy:
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-statsd
     periodic:
+      # Nightly execution
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-statsd
     periodic-hourly:
+      # hourly execution
       jobs:
         - infra-prod-install-ansible
         - infra-prod-service-bridge:

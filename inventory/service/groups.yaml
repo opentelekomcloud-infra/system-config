@@ -2,6 +2,34 @@ plugin: yamlgroup
 groups:
   apimon-executor:
     - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
+  apimon-scheduler:
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
+  apimon-epmon:
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
+  apimon-production:
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+  apimon-hybrid:
+    - executor5.apimon.eco.tsi-dev.otc-service.com
+  apimon-preprod: []
+  statsd:
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
   cloud-launcher:
     - bridge.eco.tsi-dev.otc-service.com
   control-plane-clouds:
