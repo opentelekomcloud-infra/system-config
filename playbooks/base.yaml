@@ -2,10 +2,10 @@
   name: "Base: set up common environment on all hosts"
   tasks:
     - include_role: name=base/users
-    - include_role: name=base/timezone
     - block:
         - include_role: name=base/repos
         - include_role: name=base/server
+        - include_role: name=base/timezone
         - include_role: name=base/unbound
         - include_role: name=firewalld
       when:
