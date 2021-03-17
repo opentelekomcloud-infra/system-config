@@ -46,14 +46,35 @@
     key_options: |
       from="{{ bastion_ipv4 }},{{ bastion_ipv6 }},localhost"
 
+# - name: Check presence of /etc/ssh/sshd_config.d directory
+#   ansible.builtin.stat:
+#     path: /etc/ssh/sshd_config.d/
+#   register: sshd_config_dir
+
 - name: Install sshd config
-  template:
-    src: sshd_config.j2
-    dest: /etc/ssh/sshd_config
-    owner: root
-    group: root
+  ansible.builtin.template:
+    src: "sshd_config.j2"
+    dest: "/etc/ssh/sshd_config"
+    owner: "root"
+    group: "root"
     mode: 0444
+    validate: "/usr/sbin/sshd -t -f %s"
+  # when: not sshd_config_dir.stat.exists
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
   notify: Restart ssh
+
+# #Some OS want us to place content under /etc/ssh/sshd_config.d/*.conf
+# but then we seem not to have possibility to allow root login from bridge
+# - name: Install sshd part config
+#   ansible.builtin.template:
+#     src: "90-eco.conf.j2"
+#     dest: "/etc/ssh/sshd_config.d/90-eco.conf"
+#     owner: "root"
+#     group: "root"
+#     mode: 0444
+#     validate: "/usr/sbin/sshd -t -f %s"
+#   when: sshd_config_dir.stat.isdir is defined and sshd_config_dir.stat.isdir
+#   notify: Restart ssh
 
 - name: Disable byobu
   file:

@@ -15,3 +15,4 @@ opentelekomcloud_infra_config.egg-info*
 Vagrantfile
 .vagrant/
 *.retry
+test_inventory

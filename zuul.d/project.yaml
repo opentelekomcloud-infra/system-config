@@ -5,17 +5,20 @@
         - otc-tox-linters
         - system-config-run-base
         - system-config-run-statsd
+        - system-config-run-apimon-epmon
     gate:
       jobs:
         - otc-tox-linters
         - system-config-run-base
         - system-config-run-statsd
+        - system-config-run-apimon-epmon
     deploy:
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
         - infra-prod-service-statsd
+        - infra-prod-service-apimon-epmon
     periodic:
       # Nightly execution
       jobs:
@@ -23,6 +26,7 @@
         - infra-prod-base
         - infra-prod-service-bridge
         - infra-prod-service-statsd
+        - infra-prod-service-apimon-epmon
     periodic-hourly:
       # hourly execution
       jobs:
