@@ -1,0 +1,31 @@
+PermitRootLogin no
+StrictModes yes
+
+PubkeyAuthentication yes
+
+PermitEmptyPasswords no
+
+# Change to yes to enable challenge-response passwords (beware issues with
+# some PAM modules and threads)
+ChallengeResponseAuthentication no
+
+# Change to no to disable tunnelled clear text passwords
+PasswordAuthentication no
+
+# Set this to 'yes' to enable PAM authentication, account processing,
+# and session processing. If this is enabled, PAM authentication will
+# be allowed through the ChallengeResponseAuthentication and
+# PasswordAuthentication.  Depending on your PAM configuration,
+# PAM authentication via ChallengeResponseAuthentication may bypass
+# the setting of "PermitRootLogin without-password".
+# If you just want the PAM account and session checks to run without
+# PAM authentication, then enable this but set PasswordAuthentication
+# and ChallengeResponseAuthentication to 'no'.
+UsePAM yes
+
+# allow ansible connections from bridge host
+Match address {{ bastion_ipv4 }},{{ bastion_ipv6 }}
+    PermitRootLogin without-password
+# allow ansible connections from localhost
+Match host localhost
+    PermitRootLogin without-password

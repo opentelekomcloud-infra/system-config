@@ -225,3 +225,8 @@
 
 - name: Verify ansible install
   command: ansible --version
+
+- name: Install additional Ansible collections
+  include_tasks: install_ansible_collection.yaml
+  when: install_ansible_collections is defined
+  loop: "{{ install_ansible_collections }}"

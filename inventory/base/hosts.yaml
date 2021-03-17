@@ -25,10 +25,12 @@ all:
       apimon:
         zone: production_eu-de
         instance: production
-    executor5.apimon.eco.tsi-dev.otc-service.com:
+    hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       apimon:
         zone: production_eu-de
         instance: hybrid
+    preprod.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.207
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29

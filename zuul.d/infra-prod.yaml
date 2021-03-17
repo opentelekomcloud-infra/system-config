@@ -31,6 +31,9 @@
     description: Install ansible on bridge.
     vars:
       playbook_name: install-ansible.yaml
+    required-projects:
+      - name: github.com/opentelekomcloud/ansible-collection-apimon
+        override-checkout: main
     files:
       - inventory/
       - roles/
@@ -99,3 +102,14 @@
       - playbooks/service-statsd.yaml
       - inventory/service/group_vars/statsd.yaml
       - playbooks/roles/statsd/
+
+- job:
+    name: infra-prod-service-apimon-epmon
+    parent: infra-prod-service-base
+    description: Run service-apimon-epmon.yaml playbook.
+    vars:
+      playbook_name: service-apimon-epmon.yaml
+    files:
+      - inventory/
+      - playbooks/service-apimon-epmon.yaml
+      - inventory/service/group_vars/apimon.yaml

@@ -1,0 +1,3 @@
+apimon_executor_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_epmon_image: "quay.io/opentelekomcloud/apimon:dev"

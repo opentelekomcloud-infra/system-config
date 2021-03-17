@@ -1,0 +1,23 @@
+apimon_alerta_token: alerta_token
+apimon_epmon_secure_file_location: /etc/apimon/apimon-secure.yaml
+     
+apimon_epmon_clouds:
+  - target_cloud:
+      service_overrride: {{ '"{{' }} [service_a, service_b] | combine {{ '}}"' }}
+
+apimon_test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+
+apimon_test_environments:
+  - name: proprod
+    env:
+      OS_CLOUD: preprod
+    clouds:
+      - preprod
+apimon_test_matrix:
+  - env: preprod
+    project: apimon
+    tasks:
