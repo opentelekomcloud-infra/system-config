@@ -1,0 +1,41 @@
+apimon_epmon_secure_file_location: /etc/apimon/apimon-secure.yaml
+apimon_epmon_clouds:
+  - hybrid_eum:
+      service_overrride: []
+  - hybrid_sbb:
+      service_overrride: []
+
+apimon_test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+
+apimon_test_environments:
+  - name: hybrid_eum
+    env:
+      OS_CLOUD: hybrid_eum
+    clouds:
+      - hybrid_eum
+  - name: hybrid_sbb
+    env:
+      OS_CLOUD: hybrid_sbb
+    clouds:
+      - hybrid_sbb
+apimon_test_matrix:
+  - env: hybrid_eum
+    project: apimon
+    tasks:
+      - scenario1_token.yaml
+      - scenario3a_evs_az.yaml
+      - scenario4_image.yaml
+  - env: hybrid_sbb
+    project: apimon
+    tasks:
+      - scenario1_token.yaml
+      - scenario3a_evs_az.yaml
+      - scenario4_image.yaml
+
+apimon_executor_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_epmon_image: "quay.io/opentelekomcloud/apimon:dev"

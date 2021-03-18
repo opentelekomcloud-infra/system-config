@@ -17,6 +17,9 @@
         '/var/log/messages': logs_txt
         '/var/log/docker': logs
         '/var/log/containers': logs
+    required-projects:
+      - name: github.com/opentelekomcloud/ansible-collection-apimon
+        override-checkout: main
     host-vars:
       bridge.eco.tsi-dev.otc-service.com:
         host_copy_output:
@@ -53,13 +56,35 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: f31.statsd
+        - name: statsd.f31
           label: fedora-31
-        - name: f32.statsd
+        - name: statsd.f32
           label: fedora-32
     vars:
       run_playbooks:
         - playbooks/service-statsd.yaml
+    files:
+      - tox.ini
+      - playbooks/roles/statsd
+      - testinfra/test_statsd.py
+
+- job:
+    name: system-config-run-apimon-epmon
+    parent: system-config-run
+    description: |
+      Run the "apimon-epmon" playbook on each of the node types
+      currently in use.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: epmon.f32
+          label: fedora-32
+        - name: epmon.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-apimon-epmon.yaml
     files:
       - tox.ini
       - playbooks/

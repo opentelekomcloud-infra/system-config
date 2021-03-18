@@ -1,6 +1,14 @@
+- name: Include OS-specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - 'vars'
+
 - name: Install container runtime
   ansible.builtin.package:
-    name: "{{ container_command }}"
+    name: "{{ distro_packages }}"
     state: present
   # If we are on CoreOS we can't use the module and podman already exists
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
@@ -24,4 +32,3 @@
     dest: "/etc/systemd/system/{{ statsd_service_unit }}"
   notify:
     - Restart StatsD
-

@@ -1,35 +1,68 @@
 plugin: yamlgroup
 groups:
+  # APImon groups:
+  # general APImon values
+  #
+  apimon:
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # apimon-clouds group is having apimon_all_clouds var,
+  # so all hosts needing cred should be in the group
+  apimon-clouds:
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+      #- executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+      #- executor3.apimon.eco.tsi-dev.otc-service.com
+      #- executor4.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # apimon-executor is where executors should be deployed
   apimon-executor:
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
-    - executor5.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # apimon-scheduler is where scheduler should be deployed
   apimon-scheduler:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
-    - executor5.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # apimon-epmon is where epmon should be deployed
   apimon-epmon:
-    - scheduler1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
-    - executor5.apimon.eco.tsi-dev.otc-service.com
+    #    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    #    - executor2.apimon.eco.tsi-dev.otc-service.com
+    #    - executor5.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # "production" instance of the apimon
   apimon-production:
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
+  # hyrdid instance of the apimon
   apimon-hybrid:
-    - executor5.apimon.eco.tsi-dev.otc-service.com
-  apimon-preprod: []
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+  # "preprod" instance of apimon
+  apimon-preprod:
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+  # Where local statsd should be deployed
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
-    - executor5.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
   cloud-launcher:
     - bridge.eco.tsi-dev.otc-service.com
   control-plane-clouds:
