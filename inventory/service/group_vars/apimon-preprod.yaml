@@ -1,0 +1,29 @@
+apimon_epmon_secure_file_location: /etc/apimon/apimon-secure.yaml
+apimon_epmon_clouds:
+  - preprod:
+      service_overrride: "{{ [epmon_antiddos, epmon_as, epmon_cce, epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_cts, epmon_dcs, epmon_dcs, epmon_dds, epmon_deh, epmon_skip_dis, epmon_dms, epmon_designate, epmon_dws, epmon_keystone, epmon_mrs, epmon_nat, epmon_network, epmon_swift, epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn] | combine }}"
+
+apimon_test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+
+apimon_test_environments:
+  - name: proprod
+    env:
+      OS_CLOUD: preprod
+    clouds:
+      - preprod
+apimon_test_matrix:
+  - env: preprod
+    project: apimon
+    tasks:
+       - scenario1_token.yaml
+       - scenario2_simple_ecs.yaml
+       - scenario3a_evs_az.yaml
+       - scenario4_image.yaml
+
+apimon_executor_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_epmon_image: "quay.io/opentelekomcloud/apimon:dev"

@@ -13,7 +13,7 @@ HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 #Privilege Separation is turned on for security
-UsePrivilegeSeparation yes
+#UsePrivilegeSeparation yes
 
 # Logging
 SyslogFacility AUTH
@@ -80,7 +80,7 @@ Subsystem sftp {{ sftp_path }}
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
 
-# allow ansible connections from puppetmaster host
+# allow ansible connections from bridge host
 Match address {{ bastion_ipv4 }},{{ bastion_ipv6 }}
     PermitRootLogin without-password
 # allow ansible connections from localhost

@@ -1,0 +1,4 @@
+apimon_zone: production_eu-de
+apimon_clouds:
+  - name: preprod
+    cloud: otcapimon_preprod
