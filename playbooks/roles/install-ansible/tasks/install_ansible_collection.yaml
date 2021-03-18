@@ -6,6 +6,6 @@
 
 - name: 'Link in {{ item.namespace }}/{{ item.name }} collection'
   file:
-    src: '{{ ansible_user_dir}}/src/github.com/{{ item.repo }}'
+    src: '/home/zuul/src/github.com/{{ item.repo }}'
     dest: '/root/.ansible/collections/ansible_collections/{{ item.namespace }}/{{ item.name }}'
     state: link
