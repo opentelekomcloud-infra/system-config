@@ -14,6 +14,7 @@ groups:
   # apimon-clouds group is having apimon_all_clouds var,
   # so all hosts needing cred should be in the group
   apimon-clouds:
+    - bridge.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
