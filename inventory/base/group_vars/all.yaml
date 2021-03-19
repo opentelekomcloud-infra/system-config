@@ -38,6 +38,12 @@ all_users:
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBBVL8LJ14SfFPK2zNeuO8rglURUJ32LFQXn0IzinZ7Y3ic8vtmF+UBvg+h8th56GZ3/DR9b+zcXfbA+0cdfTr+BWlDCYwcLab2vgU/S9FyQBzYr7ZWxtEFOmb5ztVp2b5wFt/DD7YBfyJNzM9SpVQDO4furwNZDq5af0+D67KOsV2BPLXL4/zMGkLR3TSFNzdJCSLrWML96NWK1FvpEjDroyKXFTVVcLBTgtBnFtpjpUzmlJSntaUxTQq1htiWLTGQL3ApLqx7YYctxDDkeBrWGSQPZgFppqhk5U8sWE9ieGztGuVyYzAhvz8YO9nm8M26izVebjwe+9u1hqa3Pk9 artem.goncharov
     uid: 2000
     gid: 2000
+  
+  kucerakk:
+    comment: Kristian Kucerak
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5IaDtWpe9BotoKYAJoJIPGaZJ99QarPNd7vZd+WphodShJ/lQYuGbMnCl9eMnQnNf5QPlwpDsH8kszABM6rbvx3iXYkrVpnFPi+jvCqJUl5N7pZtwCdcVPTDX/Q5MWbc2JFq9V0I0NnQgI4qXHlJgHEgUbgVDfN2y0cqdxBVQrZpCkfCGxOAsfrRSARn93m47z8OJ31u2keREUYF0c1KRP9c+jq+NMd4vMV0DZoJy6PijpzhmkvxLhYVD5PW9E7Yca9MsIPGVlt3JpNJw8JAXn7mm++wa+I26v6rldEb3pFRvLkgQm+C1DiGDpOLYPj4N4jyKl+OlAjYz6bk+e9GR kristian.kucerak 
+    uid: 2001
+    gid: 2001
 
   zuul:
     comment: Zuul CICD
@@ -49,6 +55,7 @@ all_users:
 # List of users to install on all hosts
 base_users:
   - gtema
+  - kucerakk
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
