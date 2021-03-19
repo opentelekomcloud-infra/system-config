@@ -87,6 +87,32 @@
         - playbooks/service-apimon-epmon.yaml
     files:
       - tox.ini
-      - playbooks/
-      - roles/
+      - playbooks/templates/apimon
+      - playbooks/zuul/templates/group_vars/apimon
+      - playbooks/zuul/templates/host_vars/epmon
+      - playbooks/service-apimon-epmon.yaml
+      - testinfra/
+
+- job:
+    name: system-config-run-apimon-scheduler
+    parent: system-config-run
+    description: |
+      Run the "apimon-scheduler" playbook on each of the node types
+      currently in use.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: scheduler.f32
+          label: fedora-32
+        - name: scheduler.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-apimon-scheduler.yaml
+    files:
+      - tox.ini
+      - playbooks/templates/apimon
+      - playbooks/zuul/templates/group_vars/apimon
+      - playbooks/service-apimon-scheduler.yaml
       - testinfra/

@@ -1,7 +1,7 @@
 # This file is kept updated by ansible, adapted from
 # https://help.ubuntu.com/lts/serverguide/configuration.html
 
-deb http://archive.ubuntu.com/ubuntu focal main universe
-deb http://archive.ubuntu.com/ubuntu focal-updates main universe
-deb http://archive.ubuntu.com/ubuntu focal-backports main universe
-deb http://archive.ubuntu.com/ubuntu focal-security main universe
+deb http://de.archive.ubuntu.com/ubuntu focal main universe
+deb http://de.archive.ubuntu.com/ubuntu focal-updates main universe
+deb http://de.archive.ubuntu.com/ubuntu focal-backports main universe
+deb http://de.archive.ubuntu.com/ubuntu focal-security main universe
