@@ -112,4 +112,13 @@
     files:
       - inventory/
       - playbooks/service-apimon-epmon.yaml
-      - inventory/service/group_vars/apimon.yaml
+
+- job:
+    name: infra-prod-service-apimon-scheduler
+    parent: infra-prod-service-base
+    description: Run service-apimon-scheduler.yaml playbook.
+    vars:
+      playbook_name: service-apimon-scheduler.yaml
+    files:
+      - inventory/
+      - playbooks/service-apimon-scheduler.yaml

@@ -1,0 +1,9 @@
+apimon_scheduler_config_template: "templates/apimon/scheduler-config.yaml.j2"
+apimon_scheduler_secure_config_template: "templates/apimon/scheduler-secure-config.yaml.j2"
+apimon_scheduler_secure_file_location: "/etc/apimon/apimon-scheduler-secure.yaml"
+scheduler_config_file_name: "apimon-scheduler.yaml"
+scheduler_secure_config_file_name: "apimon-scheduler-secure.yaml"
+apimon_zone: scheduler_zone
+apimon_clouds:
+  - name: target_cloud
+    cloud: otcapimon_probes2

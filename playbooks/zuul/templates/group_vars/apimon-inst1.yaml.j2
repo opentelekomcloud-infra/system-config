@@ -1,6 +1,6 @@
+apimon_statsd_host: {{ ansible_host }}
 apimon_alerta_token: alerta_token
-apimon_epmon_secure_file_location: /etc/apimon/apimon-secure.yaml
-     
+
 apimon_epmon_clouds:
   - target_cloud:
       service_overrride: {{ '"{{' }} [service_a, service_b] | combine {{ '}}"' }}

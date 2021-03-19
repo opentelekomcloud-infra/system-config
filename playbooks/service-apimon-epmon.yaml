@@ -2,6 +2,6 @@
   name: "Configure APImon Endpoint monitoring service"
   roles:
     - role: opentelekomcloud.apimon.epmon
-      epmon_config: "{{ lookup('template', 'templates/apimon/epmon-config.yaml.j2') | from_yaml }}"
-      epmon_secure_config: "{{ lookup('template', 'templates/apimon/epmon-secure-config.yaml.j2') | from_yaml }}"
+      epmon_config: "{{ lookup('template', apimon_epmon_config_template) | from_yaml }}"
+      epmon_secure_config: "{{ lookup('template', apimon_epmon_secure_config_template) | from_yaml }}"
       epmon_image: "{{ apimon_epmon_image }}"

@@ -1,4 +1,4 @@
-secure: {{ apimon_epmon_secure_file_location }}
+secure: {{ apimon_scheduler_secure_file_location }}
 gear:
   - host: 0.0.0.0
     port: 4730
@@ -7,10 +7,9 @@ log:
   config: /etc/apimon/logging.conf
 alerta:
   endpoint: {{ apimon_alerta_endpoint }}
-epmon:
-  socket: /tmp/epmon.socket
-  zone: {{ apimon_zone }}
-  clouds: {{ apimon_epmon_clouds }}
+test_projects: {{ apimon_test_projects }}
+test_environments: {{ apimon_test_environments }}
+test_matrix: {{ apimon_test_matrix }}
 metrics:
   statsd:
     host: {{ apimon_statsd_host }}
