@@ -10,28 +10,23 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['epmon.f32', 'epmon.focal']
+testinfra_hosts = ['scheduler.f32', 'scheduler.focal']
 
 
-def test_epmon_config(host):
-    config = host.file('/etc/apimon/apimon-epmon.yaml')
-    secure_config = host.file('/etc/apimon/apimon-epmon-secure.yaml')
+def test_scheduler_config(host):
+    config = host.file('/etc/apimon/apimon-scheduler.yaml')
+    secure_config = host.file('/etc/apimon/apimon-scheduler-secure.yaml')
     assert config.exists
     assert secure_config.exists
 
     assert b'test_alerta_endpoint' in config.content
     assert b'alerta_token' in secure_config.content
-    hostname = host.ansible.get_variables()['inventory_hostname']
-    if hostname == 'epmon.f32':
-        assert b'zone: zone_f32' in config.content
-    elif hostname == 'epmon.focal':
-        assert b'zone: zone_focal' in config.content
 
-    assert b'a1: None' in config.content
+    assert b'test_projects:' in config.content
 
-    assert b'host: 1.2.3.4' in config.content
+    assert b'test_matrix' in config.content
 
 
-def test_epmon_systemd(host):
-    service = host.service('apimon-epmon')
+def test_scheduler_systemd(host):
+    service = host.service('apimon-scheduler')
     assert service.is_enabled

@@ -3,8 +3,7 @@
 
 results:
 
-  executor1.apimon.eco.tsi-dev.otc-service.com:
-    - statsd
-    - apimon
-    - apimon-executor
-    - apimon-production
+  bridge.eco.tsi-dev.otc-service.com:
+    - apimon-clouds
+    - cloud-launcher
+    - control-plane-clouds

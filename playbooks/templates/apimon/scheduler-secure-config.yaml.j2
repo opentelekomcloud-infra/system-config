@@ -1,0 +1,15 @@
+alerta:
+  token: {{ apimon_alerta_token }}
+clouds:
+{% for cloud in apimon_clouds %}
+{% if cloud is mapping %}
+{% set original_name = cloud.cloud %}
+{% set apimon_name = cloud.name %}
+{% else %}
+{% set original_name = cloud %}
+{% set apimon_name = cloud %}
+{% endif %}
+  - name: {{ apimon_name }}
+    data:
+      {{ apimon_all_clouds[original_name] | to_nice_yaml(indent=2) | indent(6) }}
+{%- endfor %}
