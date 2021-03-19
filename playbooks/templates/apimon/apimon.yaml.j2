@@ -11,6 +11,9 @@ epmon:
   socket: /tmp/epmon.socket
   zone: {{ apimon_zone }}
   clouds: {{ apimon_epmon_clouds }}
+test_projects: {{ apimon_test_projects }}
+test_environments: {{ apimon_test_environments }}
+test_matrix: {{ apimon_test_matrix }}
 metrics:
   statsd:
     host: {{ apimon_statsd_host }}

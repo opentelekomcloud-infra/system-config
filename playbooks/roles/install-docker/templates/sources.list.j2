@@ -1,1 +1,2 @@
-deb https://download.docker.com/linux/debian buster {{ docker_update_channel }}
+deb https://download.docker.com/linux/{{ ansible_facts.distribution|lower }} {{
+ansible_lsb.codename }} {{ docker_update_channel }}
