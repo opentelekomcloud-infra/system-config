@@ -7,7 +7,7 @@ log:
 alerta:
   endpoint: {{ apimon_alerta_endpoint }}
 executor:
-  work_dir: /var/lib/apimon/executor
+  work_dir: /var/lib/apimon
   socket: /tmp/executor.socket
   zone: {{ apimon_zone }}
   logs_cloud: swift
