@@ -1,0 +1,7 @@
+- hosts: apimon-executor:!disabled
+  name: "Configure APImon Executor service"
+  roles:
+    - role: opentelekomcloud.apimon.executor
+      executor_config: "{{ lookup('template', apimon_executor_config_template) | from_yaml }}"
+      executor_secure_config: "{{ lookup('template', apimon_executor_secure_config_template) | from_yaml }}"
+      executor_image: "{{ apimon_executor_image }}"

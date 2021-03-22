@@ -7,6 +7,7 @@
         - system-config-run-statsd
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
+        - system-config-run-apimon-executor
     gate:
       jobs:
         - otc-tox-linters
@@ -14,6 +15,7 @@
         - system-config-run-statsd
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
+        - system-config-run-apimon-executor
     deploy:
       jobs:
         - infra-prod-install-ansible
@@ -22,6 +24,7 @@
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
+        - infra-prod-service-apimon-executor
     periodic:
       # Nightly execution
       jobs:
@@ -31,6 +34,7 @@
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
+        - infra-prod-service-apimon-executor
     periodic-hourly:
       # hourly execution
       jobs:

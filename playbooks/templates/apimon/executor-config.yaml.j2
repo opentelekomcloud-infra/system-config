@@ -1,0 +1,18 @@
+secure: {{ apimon_executor_secure_file_location }}
+gear:
+  - host: {{ apimon_gearman_host }}
+    port: 4730
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: {{ apimon_alerta_endpoint }}
+executor:
+  work_dir: /var/lib/apimon/executor
+  socket: /tmp/executor.socket
+  zone: {{ apimon_zone }}
+  logs_cloud: swift
+  load_multiplier: 2
+metrics:
+  statsd:
+    host: {{ apimon_statsd_host }}
+    port: 8125
