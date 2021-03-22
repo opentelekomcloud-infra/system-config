@@ -10,7 +10,7 @@ clouds:
     profile: otc
     auth: 
       username: {{ clouds.otcdns.auth.username }}
-      password: {{ clouds.otcdns.auth.password }}
+      password: "{{ clouds.otcdns.auth.password }}"
       project_name: {{ clouds.otcdns.auth.project_name }}
       user_domain_name: {{ clouds.otcdns.auth.user_domain_name }}
 
@@ -19,7 +19,7 @@ clouds:
     profile: otc
     auth: 
       username: {{ clouds.otcapimon_pool1.auth.username }}
-      password: {{ clouds.otcapimon_pool1.auth.password }}
+      password: "{{ clouds.otcapimon_pool1.auth.password }}"
       project_name: {{ clouds.otcapimon_pool1.auth.project_name }}
       user_domain_name: {{ clouds.otcapimon_pool1.auth.user_domain_name }}
 
@@ -28,28 +28,28 @@ clouds:
     profile: otc
     auth: 
       username: {{ apimon_all_clouds.otcapimon_probes1.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_probes1.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_probes1.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes1.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes1.auth.user_domain_name }}
   otcapimon-probes2:
     profile: otc
     auth: 
       username: {{ apimon_all_clouds.otcapimon_probes2.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_probes2.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_probes2.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes2.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes2.auth.user_domain_name }}
   otcapimon-probes2:
     profile: otc
     auth: 
       username: {{ apimon_all_clouds.otcapimon_probes2.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_probes2.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_probes2.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes2.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes2.auth.user_domain_name }}
   otcapimon-probes4:
     profile: otc
     auth: 
       username: {{ apimon_all_clouds.otcapimon_probes4.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_probes4.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_probes4.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes4.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes4.auth.user_domain_name }}
   otcapimon-probes5:
@@ -57,7 +57,7 @@ clouds:
     auth: 
       auth_url: {{ apimon_all_clouds.otcapimon_probes5.auth.auth_url }}
       username: {{ apimon_all_clouds.otcapimon_probes5.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_probes5.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_probes5.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes5.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes5.auth.user_domain_name }}
   otcapimon-preprod:
@@ -65,23 +65,24 @@ clouds:
     auth: 
       auth_url: {{ apimon_all_clouds.otcapimon_preprod.auth.auth_url }}
       username: {{ apimon_all_clouds.otcapimon_preprod.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_preprod.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_preprod.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_preprod.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_preprod.auth.user_domain_name }}
   otcapimon-hybrid-eum:
     auth:
       auth_url: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.auth_url }}
       username: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_hybrid_eum.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.user_domain_name }}
     interface: public
     vendor_hook: "otcextensions.sdk:load"
+    volume_api_version: "2"
   otcapimon-hybrid-sbb:
     auth:
       auth_url: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.auth_url }}
       username: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.user_domain_name }}
     interface: public
@@ -90,6 +91,6 @@ clouds:
     profile: otc
     auth: 
       username: {{ apimon_all_clouds.otcapimon_logs.auth.username }}
-      password: {{ apimon_all_clouds.otcapimon_logs.auth.password }}
+      password: "{{ apimon_all_clouds.otcapimon_logs.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_logs.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_logs.auth.user_domain_name }}
