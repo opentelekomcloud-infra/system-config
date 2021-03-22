@@ -26,13 +26,14 @@ executor_secure_config_file_name: "apimon-executor-secure.yaml"
 # (inventory/service/group_vars/apimon-epmon.yaml)
 apimon_epmon_clouds:
   - hybrid_eum:
-      service_overrride: "{{ [epmon_as, epmon_ces, epmon_compute,
+      service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
         epmon_cinder, epmon_keystone, epmon_glance, epmon_network,
-        epmon_swift, epmon_rest ] }}"
+        epmon_swift, epmon_rest | combine] }}"
   - hybrid_sbb:
-      service_overrride: "{{ [epmon_as, epmon_ces, epmon_compute,
+      service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
         epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
-        epmon_network, epmon_swift, epmon_sdrs, epmon_rds, epmon_rest ] }}"
+        epmon_network, epmon_swift, epmon_sdrs, epmon_rds,
+        epmon_rest | combine] }}"
 
 # Test projects
 apimon_test_projects:
