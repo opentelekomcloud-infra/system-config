@@ -2,7 +2,7 @@
 # They get combined into the epmon configuration by selecting dedicated group
 # from here merging it into single dict
 epmon_antiddos:
-  Anti-DDoS:
+  Anti-DDoS: {}
   antiddos:
     service: anti_ddos
     urls:
@@ -19,9 +19,9 @@ epmon_as:
       - "/scaling_group"
       - "/scaling_configuration"
       - "/scaling_policy"
-  asv1:
+  asv1: {}
 epmon_cce:
-  cce:
+  cce: {}
   ccev2.0:
     service: cce
     urls:
@@ -33,7 +33,7 @@ epmon_ces:
       - "/"
       - "/metrics"
       - "/alarms"
-  cesv1:
+  cesv1: {}
 epmon_compute:
   compute:
     urls:
@@ -51,7 +51,7 @@ epmon_css:
       - "/"
       - "/clusters"
 epmon_cts:
-  cts:
+  cts: {}
   ctsv2:
     service: cts
     urls:
@@ -63,7 +63,7 @@ epmon_dcs:
       - "/"
       - "/instances"
       - "/quota"
-  dcsv1:
+  dcsv1: {}
 epmon_dds:
   ddsv3:
     service: dds
@@ -77,14 +77,14 @@ epmon_deh:
       - "/"
       - "/dedicated-hosts"
 epmon_dis:
-  dis:
+  dis: {}
   disv2:
     urls:
       - "/"
       - "/streams"
       - "/stream/tags"
 epmon_skip_dis:
-  dis:
+  dis: {}
   disv2:
 epmon_dms:
   dms:
@@ -93,7 +93,7 @@ epmon_dms:
       - "/queues"
       - "/quotas/dms"
       - "/queue/tags"
-  dmsv2:
+  dmsv2: {}
 epmon_designate:
   dns:
     urls:
@@ -107,7 +107,7 @@ epmon_dws:
       - "/"
       - "/clusters"
       - "/snaphosts"
-  dwsv1:
+  dwsv1: {}
 epmon_keystone:
   identity:
     urls:
@@ -121,7 +121,7 @@ epmon_glance:
     - "/images"
     - "/schemas/images"
 epmon_kms:
-  kms:
+  kms: {}
   kmsv1:
     service: kms
     urls:
@@ -155,7 +155,7 @@ epmon_network:
       - "/security-groups"
       - "/subnetpools"
 epmon_swift:
-  object:
+  object: {}
   object-store:
     service: object_store
     urls:
@@ -169,9 +169,9 @@ epmon_heat:
       - "/software_configs"
       - "/resource_types"
 epmon_rds:
-  database:
-  rds:
-  rdsv1:
+  database: {}
+  rds: {}
+  rdsv1:  {}
   rdsv3:
     service: rds
     urls:
@@ -180,8 +180,8 @@ epmon_rds:
       - "/instances"
       - "/configurations"
 epmon_rest:
-  bms:
-  data-protect:
+  bms: {}
+  data-protect: {}
 epmon_sdrs:
   sdrs:
     urls:
@@ -208,12 +208,12 @@ epmon_smn:
       - "/notifications"
       - "/notifications/subscriptions"
       - "/notifications/message_template"
-  smnv2:
+  smnv2: {}
 epmon_skip_smn:
-  smn:
-  smnv2:
+  smn: {}
+  smnv2: {}
 epmon_cinder:
-  volumev2:
+  volumev2: {}
   volumev3:
     service: block_storage
     urls:
