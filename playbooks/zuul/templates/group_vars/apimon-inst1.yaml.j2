@@ -1,5 +1,7 @@
 apimon_statsd_host: {{ ansible_host }}
+apimon_gearman_host: {{ ansible_host }}
 apimon_alerta_token: alerta_token
+apimon_db_url: "postgresql://dummy:dummy@{{ ansible_host }}:5432/dummy"
 
 apimon_epmon_clouds:
   - target_cloud:

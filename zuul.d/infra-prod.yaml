@@ -122,3 +122,14 @@
     files:
       - inventory/
       - playbooks/service-apimon-scheduler.yaml
+
+- job:
+    name: infra-prod-service-apimon-executor
+    parent: infra-prod-service-base
+    description: Run service-apimon-executor.yaml playbook.
+    vars:
+      playbook_name: service-apimon-executor.yaml
+    files:
+      - inventory/
+      - playbooks/service-apimon-executor.yaml
+
