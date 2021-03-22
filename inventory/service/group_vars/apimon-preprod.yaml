@@ -14,7 +14,12 @@ scheduler_secure_config_file_name: "apimon-secure.yaml"
 
 apimon_epmon_clouds:
   - preprod:
-      service_overrride: "{{ [epmon_antiddos, epmon_as, epmon_cce, epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_cts, epmon_dcs, epmon_dcs, epmon_dds, epmon_deh, epmon_skip_dis, epmon_dms, epmon_designate, epmon_dws, epmon_keystone, epmon_mrs, epmon_nat, epmon_network, epmon_swift, epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn] | combine }}"
+      service_overrride: "{{ [epmon_antiddos, epmon_as, epmon_cce,
+        epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_cts,
+        epmon_dcs, epmon_dcs, epmon_dds, epmon_deh, epmon_skip_dis,
+        epmon_dms, epmon_designate, epmon_dws, epmon_keystone, epmon_mrs,
+        epmon_nat, epmon_network, epmon_swift, epmon_heat, epmon_rds,
+        epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn] | combine }}"
 
 apimon_test_projects:
   - name: apimon

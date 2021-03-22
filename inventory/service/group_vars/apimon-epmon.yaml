@@ -93,7 +93,7 @@ epmon_dms:
       - "/queues"
       - "/quotas/dms"
       - "/queue/tags"
-  dms:
+  dmsv2:
 epmon_designate:
   dns:
     urls:
