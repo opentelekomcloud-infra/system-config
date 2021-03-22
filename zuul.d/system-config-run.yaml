@@ -116,3 +116,27 @@
       - playbooks/zuul/templates/group_vars/apimon
       - playbooks/service-apimon-scheduler.yaml
       - testinfra/
+
+- job:
+    name: system-config-run-apimon-executor
+    parent: system-config-run
+    description: |
+      Run the "apimon-executor" playbook on each of the node types
+      currently in use.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: executor.f32
+          label: fedora-32
+        - name: executor.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-apimon-executor.yaml
+    files:
+      - tox.ini
+      - playbooks/templates/apimon
+      - playbooks/zuul/templates/group_vars/apimon
+      - playbooks/service-apimon-executor.yaml
+      - testinfra/
