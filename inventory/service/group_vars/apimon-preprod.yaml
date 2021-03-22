@@ -13,6 +13,8 @@ apimon_scheduler_secure_file_location: "/etc/apimon/apimon-secure.yaml"
 scheduler_config_file_name: "apimon.yaml"
 scheduler_secure_config_file_name: "apimon-secure.yaml"
 
+apimon_secure_file_location: "/etc/apimon/apimon-secure.yaml"
+
 apimon_executor_config_template: "templates/apimon/apimon-executor.yaml.j2"
 apimon_executor_secure_config_template: "templates/apimon/apimon-executor-secure.yaml.j2"
 apimon_executor_secure_file_location: "/etc/apimon/apimon-executor-secure.yaml"
