@@ -28,12 +28,12 @@ apimon_epmon_clouds:
   - hybrid_eum:
       service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
         epmon_cinder, epmon_keystone, epmon_glance, epmon_network,
-        epmon_swift, epmon_rest | combine] }}"
+        epmon_swift, epmon_rest] | combine }}"
   - hybrid_sbb:
       service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
         epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
         epmon_network, epmon_swift, epmon_sdrs, epmon_rds,
-        epmon_rest | combine] }}"
+        epmon_rest] | combine }}"
 
 # Test projects
 apimon_test_projects:
