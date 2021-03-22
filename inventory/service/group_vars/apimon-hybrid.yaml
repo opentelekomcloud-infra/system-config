@@ -32,7 +32,7 @@ apimon_epmon_clouds:
   - hybrid_sbb:
       service_overrride: "{{ [epmon_as, epmon_ces, epmon_compute,
         epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
-        epmon_network, epmon_sdrs, epmon_rds, epmon_rest ] }}"
+        epmon_network, epmon_swift, epmon_sdrs, epmon_rds, epmon_rest ] }}"
 
 # Test projects
 apimon_test_projects:
