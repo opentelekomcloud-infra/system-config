@@ -42,7 +42,7 @@ groups:
 
   # apimon-epmon is where epmon should be deployed
   apimon-epmon:
-    #    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
     #    - executor2.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
