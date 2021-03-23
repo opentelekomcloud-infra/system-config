@@ -34,6 +34,8 @@ apimon_epmon_clouds:
         epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
         epmon_network, epmon_swift, epmon_sdrs, epmon_rds,
         epmon_rest] | combine }}"
+# Do endpoints check once per minute only
+apimon_epmon_interval: 60
 
 # Test projects
 apimon_test_projects:
