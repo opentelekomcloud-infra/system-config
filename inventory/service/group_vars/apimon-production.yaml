@@ -39,7 +39,7 @@ apimon_epmon_clouds:
         epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
         epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
         epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
-        epmon_kms, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
+        epmon_kms_nl, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
         epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
         epmon_smn] | combine }}"
 
@@ -79,6 +79,6 @@ apimon_clouds:
   - name: production_eu-de
     cloud: otcapimon_probes1
   - name: production_eu-nl
-    cloud: otcapimon_probes5
+    cloud: otcapimon_probes6
   - name: swift
     cloud: otcapimon_logs
