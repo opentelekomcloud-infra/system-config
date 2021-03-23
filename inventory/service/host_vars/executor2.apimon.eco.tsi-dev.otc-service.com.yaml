@@ -5,8 +5,8 @@ apimon_zone: vcloud_muc
 # Test clouds configuration
 apimon_clouds:
   - name: production_eu-de
-    cloud: otcapimon_probes2
+    cloud: otcapimon_probes4
   - name: production_eu-nl
-    cloud: otcapimon_probes6
+    cloud: otcapimon_probes5
   - name: swift
     cloud: otcapimon_logs
