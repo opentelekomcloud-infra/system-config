@@ -28,7 +28,7 @@ groups:
   apimon-executor:
     #- executor1.apimon.eco.tsi-dev.otc-service.com
     #- executor2.apimon.eco.tsi-dev.otc-service.com
-    #- executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
