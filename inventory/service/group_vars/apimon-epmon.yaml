@@ -128,6 +128,13 @@ epmon_kms:
       - "/"
       - "/kms/list-keys"
       - "/kms/user-quotas"
+epmon_kms_nl:
+  kms: {}
+  kmsv1:
+    urls:
+      - "/"
+      - "/kms/list-keys"
+      - "/kms/user-quotas"
 epmon_mrs:
   mrsv1:
     service: mrs
