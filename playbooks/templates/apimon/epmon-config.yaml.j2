@@ -11,7 +11,7 @@ epmon:
   socket: /tmp/epmon.socket
   zone: {{ apimon_zone }}
   clouds: {{ apimon_epmon_clouds }}
-{% if apimon_epmon_interval is defined and apimon_epmon_interval|length %}
+{% if apimon_epmon_interval is defined %}
   interval: {{ apimon_epmon_interval }}
 {% endif %}
 metrics:
