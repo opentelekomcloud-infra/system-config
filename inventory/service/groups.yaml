@@ -35,7 +35,7 @@ groups:
 
   # apimon-scheduler is where scheduler should be deployed
   apimon-scheduler:
-    #- scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
     #- executor2.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
