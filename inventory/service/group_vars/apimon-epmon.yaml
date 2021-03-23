@@ -85,7 +85,7 @@ epmon_dis:
       - "/stream/tags"
 epmon_skip_dis:
   dis: {}
-  disv2:
+  disv2: {}
 epmon_dms:
   dms:
     service: dms
