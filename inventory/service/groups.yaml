@@ -27,7 +27,7 @@ groups:
   # apimon-executor is where executors should be deployed
   apimon-executor:
     - executor1.apimon.eco.tsi-dev.otc-service.com
-    #- executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
@@ -36,14 +36,14 @@ groups:
   # apimon-scheduler is where scheduler should be deployed
   apimon-scheduler:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-    #- executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
   # apimon-epmon is where epmon should be deployed
   apimon-epmon:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-    #    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 

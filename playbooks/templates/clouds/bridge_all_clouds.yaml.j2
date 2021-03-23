@@ -60,6 +60,7 @@ clouds:
       password: "{{ apimon_all_clouds.otcapimon_probes5.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_probes5.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes5.auth.user_domain_name }}
+    region_name: eu-nl
   otcapimon-probes6:
     profile: otc
     auth: 
@@ -77,7 +78,6 @@ clouds:
       password: "{{ apimon_all_clouds.otcapimon_preprod.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_preprod.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_preprod.auth.user_domain_name }}
-    region_name: eu-nl
   otcapimon-hybrid-eum:
     auth:
       auth_url: {{ apimon_all_clouds.otcapimon_hybrid_eum.auth.auth_url }}
