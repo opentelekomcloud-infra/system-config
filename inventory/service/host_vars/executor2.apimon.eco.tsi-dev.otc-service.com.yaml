@@ -1,0 +1,12 @@
+apimon_statsd_host: 192.168.191.55
+apimon_gearman_host: 192.168.2.55
+apimon_zone: vcloud_muc
+
+# Test clouds configuration
+apimon_clouds:
+  - name: production_eu-de
+    cloud: otcapimon_probes2
+  - name: production_eu-nl
+    cloud: otcapimon_probes6
+  - name: swift
+    cloud: otcapimon_logs
