@@ -5,9 +5,9 @@ statsd_graphite_port_pickle: 2004
 statsd_graphite_protocol: "pickle"
 statsd_legacy_namespace: false
 statsd_server: "./servers/udp"
-statsd_delete_timers: false
+statsd_delete_timers: true
 statsd_delete_gauges: false
-statsd_delete_counters: false
+statsd_delete_counters: true
 statsd_delete_sets: false
 statsd_config_location: /etc/statsd
 
