@@ -1,0 +1,7 @@
+[main]
+DESTINATIONS = {{ graphite_relay_destinations }}
+{% if graphite_relay_replication_factor is defined %}
+REPLICATION_FACTOR = {{ graphite_relay_replication_factor }}
+{% else %}
+REPLICATION_FACTOR = 1
+{% endif %}

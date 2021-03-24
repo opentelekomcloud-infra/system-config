@@ -60,6 +60,7 @@
         - group_vars/apimon-inst1.yaml
         - group_vars/letsencrypt.yaml
         - group_vars/statsd.yaml
+        - group_vars/graphite.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
         - host_vars/epmon.f32.yaml
         - host_vars/epmon.focal.yaml
