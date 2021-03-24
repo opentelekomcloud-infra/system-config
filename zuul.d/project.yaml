@@ -8,6 +8,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
+        - system-config-run-graphite
     gate:
       jobs:
         - otc-tox-linters
@@ -16,6 +17,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
+        - system-config-run-graphite
     deploy:
       jobs:
         - infra-prod-install-ansible
@@ -25,6 +27,7 @@
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
         - infra-prod-service-apimon-executor
+        - infra-prod-service-graphite
     periodic:
       # Nightly execution
       jobs:
@@ -35,6 +38,7 @@
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
         - infra-prod-service-apimon-executor
+        - infra-prod-service-graphite
     periodic-hourly:
       # hourly execution
       jobs:

@@ -133,3 +133,14 @@
       - inventory/
       - playbooks/service-apimon-executor.yaml
 
+- job:
+    name: infra-prod-service-graphite
+    parent: infra-prod-service-base
+    description: Run service-graphite.yaml playbook.
+    vars:
+      playbook_name: service-graphite.yaml
+    files:
+      - inventory/
+      - playbooks/service-graphite.yaml
+      - roles/graphite/
+
