@@ -6,4 +6,4 @@ statsd_graphite_protocol: "pickle"
 statsd_legacy_namespace: false
 statsd_server: "./servers/udp"
 
-firewalld_ports_enable: ["8125/udp"]
+firewalld_extra_ports_enable: ["8125/udp"]

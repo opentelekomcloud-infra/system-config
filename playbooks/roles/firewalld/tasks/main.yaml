@@ -10,13 +10,14 @@
   ansible.builtin.package:
     name: '{{ package_name }}'
     state: present
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Enable services
   ansible.posix.firewalld:
     permanent: "yes"
     service: "{{ item }}"
     state: "enabled"
-  loop: "{{ firewalld_all_services_enable }}"
+  loop: "{{ firewalld_services_enable }}"
   notify:
     - Reload firewalld
 

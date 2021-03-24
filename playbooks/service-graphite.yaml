@@ -1,0 +1,28 @@
+- hosts: "graphite:!disabled"
+  name: "Base: configure graphite"
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+  tasks:
+
+    # host/group should have "graphite_instance_group" var with the name of the group
+    # graphite node should become member of (relay will be configired with all
+    # hosts from this group)
+    - set_fact:
+        cluster_hosts: "{{ (cluster_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':8080')] }}"
+        relay_destinations: "{{ (relay_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
+        aggregate_destinations: "{{ (aggregate_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
+      loop: "{{ groups[(graphite_instance_group | default('graphite'))] | list }}"
+
+    - set_fact:
+        graphite_relay_destinations: "{{ relay_destinations|join(', ') }}"
+        graphite_aggregate_destinations: "{{ aggregate_destinations|join(', ') }}"
+        graphite_cluster_servers: "{{ cluster_hosts|join(', ') }}"
+
+    - include_role: name=graphite
+
+    - name: Write carbonate config
+      ansible.builtin.copy:
+        content: "{{ lookup('template', 'templates/graphite/carbonate.conf.j2') }}"
+        dest: "/etc/graphite/carbonate.conf"
+
