@@ -23,7 +23,7 @@
           graphite_cluster_servers: "{{ cluster_hosts|join(', ') }}"
           graphite_relay: true
       when:
-        - "graphite_instance_group is defined and graphite_instance_group|length }}"
+        - "graphite_instance_group is defined and graphite_instance_group|length"
 
     - include_role: name=graphite
 
@@ -35,4 +35,3 @@
     - name: Install carbonate tools
       ansible.builtin.pip:
         name: "carbonate"
-

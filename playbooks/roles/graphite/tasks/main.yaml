@@ -19,11 +19,40 @@
   until: task_result is success
   retries: 5
 
+- name: Create graphite group
+  become: yes
+  ansible.builtin.group:
+    name: "{{ graphite_os_group }}"
+    state: present
+
+- name: Create graphite user
+  become: true
+  ansible.builtin.user:
+    name: "{{ graphite_os_user }}"
+    group: "{{ graphite_os_group }}"
+    state: present
+
+- name: Add graphite user authorized key
+  ansible.posix.authorized_key:
+    user: "{{ graphite_os_user }}"
+    key: "{{ graphite_public_key }}"
+    state: "present"
+
+- name: Write private key
+  ansible.builtin.copy:
+    content: "{{ graphite_private_key }}"
+    dest: "/home/{{ graphite_os_user }}/.ssh/id_rsa"
+    mode: "0400"
+  when:
+    - "graphite_os_user != 'root'"
+
 - name: Ensure directories exist
   become: true
   ansible.builtin.file:
     state: "directory"
     path: "{{ item }}"
+    owner: "{{ graphite_os_user }}"
+    group: "{{ graphite_os_group }}"
   loop:
     - "{{ graphite_config_location }}"
     - "/opt/graphite/storage"

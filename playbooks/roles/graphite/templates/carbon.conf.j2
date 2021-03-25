@@ -409,7 +409,6 @@ REPLICATION_FACTOR = {{ graphite_relay_replication_factor }}
 # does normalization.
 TAG_RELAY_NORMALIZED = {{ graphite_relay_normalize_tag }}
 
-
 # For REPLICATION_FACTOR >=2, set DIVERSE_REPLICAS to True to guarantee replicas
 # across distributed hosts. With this setting disabled, it's possible that replicas
 # may be sent to different caches on the same host. This has been the default
@@ -434,11 +433,7 @@ TAG_RELAY_NORMALIZED = {{ graphite_relay_normalize_tag }}
 #
 # If using RELAY_METHOD = rules, all destinations used in relay-rules.conf
 # must be defined in this list
-{% if graphite_relay_destinations is defined %}
 DESTINATIONS = {{ graphite_relay_destinations }}
-{% else %}
-DESTINATIONS = 127.0.0.1:{{ graphite_relay_destination_port }}
-{% endif %}
 
 # This define the protocol to use to contact the destination. It can be
 # set to one of "line", "pickle", "udp" and "protobuf". This list can be
@@ -616,11 +611,7 @@ FORWARD_ALL = True
 # exactly match the webapp's CARBONLINK_HOSTS setting in terms of
 # instances listed (order matters!).
 #DESTINATIONS = 127.0.0.1:2004
-{% if graphite_aggregate_destinations is defined %}
 DESTINATIONS = {{ graphite_aggregate_destinations }}
-{% else %}
-DESTINATIONS = 127.0.0.1:2004
-{% endif %}
 
 # If you want to add redundancy to your data by replicating every
 # datapoint to more than one machine, increase this.
