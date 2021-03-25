@@ -16,7 +16,7 @@ import logging
 import ssl
 import urllib.request
 
-testinfra_hosts = ['graphite1.focal', 'graphite2.focal']
+testinfra_hosts = ['graphite1.focal', 'graphite2.centos']
 
 
 def test_graphite_container_web_listening(host):
