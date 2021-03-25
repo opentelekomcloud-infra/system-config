@@ -153,8 +153,8 @@
           label: ubuntu-focal
         - name: graphite1.focal
           label: ubuntu-focal
-        - name: graphite2.focal
-          label: ubuntu-focal
+        - name: graphite2.centos
+          label: centos-8
     vars:
       run_playbooks:
         - playbooks/service-graphite.yaml
