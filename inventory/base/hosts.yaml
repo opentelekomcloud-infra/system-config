@@ -32,5 +32,9 @@ all:
         instance: hybrid
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
+    graphite1.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.191.55
+    graphite2.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.14.159
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29
