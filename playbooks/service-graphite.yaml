@@ -8,16 +8,22 @@
     # host/group should have "graphite_instance_group" var with the name of the group
     # graphite node should become member of (relay will be configired with all
     # hosts from this group)
-    - set_fact:
-        cluster_hosts: "{{ (cluster_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':8080')] }}"
-        relay_destinations: "{{ (relay_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
-        aggregate_destinations: "{{ (aggregate_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
-      loop: "{{ groups[(graphite_instance_group | default('graphite'))] | list }}"
+    - block:
+      - name: Construct cluster destination lists
+        ansible.builtin.set_fact:
+          cluster_hosts: "{{ (cluster_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':8080')] }}"
+          relay_destinations: "{{ (relay_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
+          aggregate_destinations: "{{ (aggregate_destinations|default([])) + [(hostvars[item]['ansible_host'] + ':2004')] }}"
+        loop: "{{ groups[(graphite_instance_group | default('graphite'))] | list }}"
 
-    - set_fact:
-        graphite_relay_destinations: "{{ relay_destinations|join(', ') }}"
-        graphite_aggregate_destinations: "{{ aggregate_destinations|join(', ') }}"
-        graphite_cluster_servers: "{{ cluster_hosts|join(', ') }}"
+      - name: Join cluster destination lists
+        ansible.builtin.set_fact:
+          graphite_relay_destinations: "{{ relay_destinations|join(', ') }}"
+          graphite_aggregate_destinations: "{{ aggregate_destinations|join(', ') }}"
+          graphite_cluster_servers: "{{ cluster_hosts|join(', ') }}"
+          graphite_relay: true
+      when:
+        - "graphite_instance_group is defined and graphite_instance_group|length }}"
 
     - include_role: name=graphite
 
@@ -25,4 +31,8 @@
       ansible.builtin.copy:
         content: "{{ lookup('template', 'templates/graphite/carbonate.conf.j2') }}"
         dest: "/etc/graphite/carbonate.conf"
+
+    - name: Install carbonate tools
+      ansible.builtin.pip:
+        name: "carbonate"
 

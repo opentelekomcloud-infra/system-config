@@ -73,6 +73,14 @@ groups:
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
+  graphite:
+    - graphite2.apimon.eco.tsi-dev.otc-service.com
+
+  # Hosts in this group would build a cluster
+  graphite-apimon:
+    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - graphite2.apimon.eco.tsi-dev.otc-service.com
+
   cloud-launcher:
     - bridge.eco.tsi-dev.otc-service.com
   control-plane-clouds:
