@@ -1,0 +1,6 @@
+- hosts: "memcached:!disabled"
+  name: "Base: configure memcached"
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+    - memcached

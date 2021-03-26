@@ -164,3 +164,24 @@
       - playbooks/roles/graphite
       - playbooks/zuul/templates/group_vars/graphite.yaml.j2
       - testinfra/test_graphite.py
+
+- job:
+    name: system-config-run-memcached
+    parent: system-config-run
+    description: |
+      Run the playbook for the memcached servers.
+    timeout: 3600
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: memcached.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-memcached.yaml
+    files:
+      - tox.ini
+      - playbooks/service-memcached.yaml
+      - playbooks/roles/memcached
+      - testinfra/test_memcached.py

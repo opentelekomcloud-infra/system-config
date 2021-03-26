@@ -1,0 +1,16 @@
+[Unit]
+Description=Memcached Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill memcached
+ExecStartPre=-{{ container_runtime }} rm memcached
+
+ExecStart={{ container_runtime }} run \
+    --name memcached \
+    -p 11211:11211 \
+    {{ memcached_image }} -m {{ memcached_size }}
+
+[Install]
+WantedBy=multi-user.target
