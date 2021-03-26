@@ -1,0 +1,4 @@
+memcached_image: "quay.io/opentelekomcloud/memcached:1.6-alpine"
+memcached_size: 64
+
+container_runtime: "/usr/bin/{{ container_command }}"

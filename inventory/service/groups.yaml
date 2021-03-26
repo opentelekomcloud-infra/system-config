@@ -76,6 +76,10 @@ groups:
   graphite:
     - graphite2.apimon.eco.tsi-dev.otc-service.com
 
+  memcached:
+    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - graphite2.apimon.eco.tsi-dev.otc-service.com
+
   # Hosts in this group would build a cluster
   graphite-apimon:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
