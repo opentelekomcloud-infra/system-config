@@ -7,13 +7,35 @@ clusters:
     cluster: 
       server: https://192.168.20.230:5443
       insecure-skip-tls-verify: true
+  - name: otcinfra
+    cluster: 
+      server: {{ otcinfra1_k8s.server }}
+  - name: otcinfra-mirror
+    cluster: 
+      server: {{ otcinfra2_k8s.server }}
 contexts:
   - name: otcci
     context:
       cluster: otcci
       user: otcci-admin
+  - name: otcinfra
+    context:
+      cluster: otcinfra
+      user: otcinfra-admin
+  - name: otcinfra-mirror
+    context:
+      cluster: otcinfra-mirror
+      user: otcinfra-mirror-admin
 users:
   - name: otcci-admin
     user:
       client-certificate-data: {{ otcci_k8s.client_certificate_data }}
       client-key-data: {{ otcci_k8s.client_key_data }}
+  - name: otcinfra-admin
+    user:
+      client-certificate-data: {{ otcinfra1_k8s.client_certificate_data }}
+      client-key-data: {{ otcinfra1_k8s.client_key_data }}
+  - name: otcinfra-mirror-admin
+    user:
+      client-certificate-data: {{ otcinfra2_k8s.client_certificate_data }}
+      client-key-data: {{ otcinfra2_k8s.client_key_data }}
