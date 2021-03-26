@@ -1,5 +1,5 @@
-graphite_os_user: root
-graphite_os_group: root
+graphite_sync_user: graphite
+graphite_sync_group: graphite
 graphite_instance_group: graphite-inst1
 graphite_relay_replication_factor: 2
 
@@ -13,4 +13,4 @@ graphite_private_key: |
 
 firewalld_extra_services_enable: ['http', 'https']
 firewalld_extra_ports_enable: ['2003/tcp', '2004/tcp', '2013/tcp', '2014/tcp',
-  '2023/tcp', '2024/tcp', '8125/udp', '8081/tcp']
+  '2023/tcp', '2024/tcp', '8125/udp']

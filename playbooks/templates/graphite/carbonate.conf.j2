@@ -7,3 +7,7 @@ REPLICATION_FACTOR = {{ graphite_relay_replication_factor }}
 {% else %}
 REPLICATION_FACTOR = 1
 {% endif %}
+RELAY_METHOD=consistent-hashring
+{% if graphite_sync_user is defined %}
+SSH_USER={{ graphite_sync_user }}
+{% endif %}

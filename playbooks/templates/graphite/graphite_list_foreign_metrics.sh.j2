@@ -1,0 +1,8 @@
+#!/bin/sh
+#
+# List metrics from disk that don't belong
+#
+
+LOCAL_IP="$1"
+
+carbon-list | carbon-sieve -I -n $LOCAL_IP
