@@ -62,6 +62,7 @@
     dest: "{{ graphite_config_location }}//{{ item }}"
     mode: "0644"
   loop:
+    - "storage-aggregation.conf"
     - "storage-schemas.conf"
     - "carbon.conf"
     - "go-carbon.conf"
