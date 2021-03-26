@@ -144,3 +144,14 @@
       - playbooks/service-graphite.yaml
       - roles/graphite/
 
+- job:
+    name: infra-prod-service-memcached
+    parent: infra-prod-service-base
+    description: Run service-memcached.yaml playbook.
+    vars:
+      playbook_name: service-memcached.yaml
+    files:
+      - inventory/
+      - playbooks/service-memcached.yaml
+      - roles/memcached/
+

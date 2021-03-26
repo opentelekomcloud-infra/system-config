@@ -1,0 +1,28 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Write systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "memcached.service.j2"
+    dest: "/etc/systemd/system/memcached.service"
+  notify:
+    - Restart memcached

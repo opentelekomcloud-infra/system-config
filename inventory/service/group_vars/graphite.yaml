@@ -2,6 +2,9 @@ graphite_sync_user: graphite
 graphite_sync_group: graphite
 
 graphite_relay_replication_factor: 2
+
+graphite_memcached_host: "{{ ansible_host }}:11211"
+
 firewalld_extra_services_enable: ['http', 'https']
 firewalld_extra_ports_enable: ['2003/tcp', '2004/tcp', '2013/tcp', '2014/tcp',
   '2023/tcp', '2024/tcp', '8125/udp']
