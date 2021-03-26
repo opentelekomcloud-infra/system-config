@@ -67,7 +67,7 @@ groups:
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
-      #- executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com

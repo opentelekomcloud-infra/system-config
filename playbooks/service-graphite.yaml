@@ -27,10 +27,19 @@
 
     - include_role: name=graphite
 
+    - name: Create /opt/graphite/conf
+      ansible.builtin.file:
+        dest: "/opt/graphite/conf"
+        state: "directory"
+        owner: "{{ graphite_os_user | default(omit) }}"
+        group: "{{ graphite_os_group | default(omit) }}"
+
     - name: Write carbonate config
       ansible.builtin.copy:
         content: "{{ lookup('template', 'templates/graphite/carbonate.conf.j2') }}"
-        dest: "/etc/graphite/carbonate.conf"
+        dest: "/opt/graphite/conf/carbonate.conf"
+        owner: "{{ graphite_os_user | default(omit) }}"
+        group: "{{ graphite_os_group | default(omit) }}"
 
     - name: Install carbonate tools
       ansible.builtin.pip:
