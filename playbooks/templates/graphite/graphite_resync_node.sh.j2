@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Resync a node from other nodes in the cluster
+#
+
+LOCAL_IP="$1"
+
+for h in $(carbon-hosts) ; do
+  (
+    ssh {{ graphite_sync_user }}@$h -i "/root/.ssh/id_rsa.graphite" -- carbon-list |
+    carbon-sieve -n $LOCAL_IP |
+    carbon-sync -s $h
+  ) &
+done

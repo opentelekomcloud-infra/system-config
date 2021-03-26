@@ -158,13 +158,6 @@
     vars:
       run_playbooks:
         - playbooks/service-graphite.yaml
-    host-vars:
-      graphite1.focal:
-        graphite_os_user: root
-        graphite_os_group: root
-      graphite2.centos:
-        graphite_os_user: graphite
-        graphite_os_group: graphite
     files:
       - tox.ini
       - playbooks/service-graphite.yaml

@@ -31,15 +31,25 @@
       ansible.builtin.file:
         dest: "/opt/graphite/conf"
         state: "directory"
-        owner: "{{ graphite_os_user | default(omit) }}"
-        group: "{{ graphite_os_group | default(omit) }}"
+
+    - name: Create /root/bin directory
+      ansible.builtin.file:
+        dest: "/root/bin"
+        state: "directory"
 
     - name: Write carbonate config
       ansible.builtin.copy:
         content: "{{ lookup('template', 'templates/graphite/carbonate.conf.j2') }}"
         dest: "/opt/graphite/conf/carbonate.conf"
-        owner: "{{ graphite_os_user | default(omit) }}"
-        group: "{{ graphite_os_group | default(omit) }}"
+
+    - name: Write carbonate tool scrips
+      ansible.builtin.copy:
+        content: "{{ lookup('template', 'templates/graphite/' + item + '.j2') }}"
+        dest: "/root/bin/{{ item }}"
+        mode: "0755"
+      loop:
+        - "graphite_resync_node.sh"
+        - "graphite_list_foreign_metrics.sh"
 
     - name: Install carbonate tools
       ansible.builtin.pip:
