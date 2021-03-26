@@ -61,6 +61,7 @@
         - group_vars/letsencrypt.yaml
         - group_vars/statsd.yaml
         - group_vars/graphite.yaml
+        - group_vars/memcached.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
         - host_vars/epmon.f32.yaml
         - host_vars/epmon.focal.yaml
