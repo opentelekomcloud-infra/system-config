@@ -6,10 +6,6 @@ After=syslog.target network.target
 Restart=always
 ExecStartPre=-{{ container_runtime }} kill graphite
 ExecStartPre=-{{ container_runtime }} rm graphite
-{% if graphite_os_user != 'root' %}
-User={{ graphite_os_user }}
-Group={{ graphite_os_group }}
-{% endif %}
 
 ExecStart={{ container_runtime }} run \
     --name graphite \

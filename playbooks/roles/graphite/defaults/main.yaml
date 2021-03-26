@@ -1,5 +1,5 @@
-graphite_os_user: graphite
-graphite_os_group: graphite
+graphite_sync_user: graphite
+graphite_sync_group: graphite
 
 graphite_config_location: "/etc/graphite"
 graphite_retentions_carbon: "60:90d"
