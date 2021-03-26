@@ -38,10 +38,12 @@
     key: "{{ graphite_public_key }}"
     state: "present"
 
-- name: Write private key
+- name: Write private key when not root
   ansible.builtin.copy:
     content: "{{ graphite_private_key }}"
     dest: "/home/{{ graphite_os_user }}/.ssh/id_rsa"
+    owner: "{{ graphite_os_user }}"
+    group: "{{ graphite_os_group }}"
     mode: "0400"
   when:
     - "graphite_os_user != 'root'"
@@ -53,6 +55,7 @@
     path: "{{ item }}"
     owner: "{{ graphite_os_user }}"
     group: "{{ graphite_os_group }}"
+    mode: "0755"
   loop:
     - "{{ graphite_config_location }}"
     - "/opt/graphite/storage"
@@ -63,6 +66,9 @@
   ansible.builtin.template:
     src: "{{ item }}.j2"
     dest: "{{ graphite_config_location }}//{{ item }}"
+    owner: "{{ graphite_os_user }}"
+    group: "{{ graphite_os_group }}"
+    mode: "0644"
   loop:
     - "storage-schemas.conf"
     - "carbon.conf"

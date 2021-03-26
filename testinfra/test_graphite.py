@@ -20,7 +20,7 @@ testinfra_hosts = ['graphite1.focal', 'graphite2.centos']
 
 
 def test_graphite_container_web_listening(host):
-    graphite_http = host.socket("tcp://0.0.0.0:80")
+    graphite_http = host.socket("tcp://0.0.0.0:8081")
     assert graphite_http.is_listening
 
     #graphite_https = host.socket("tcp://127.0.0.1:443")
@@ -28,8 +28,8 @@ def test_graphite_container_web_listening(host):
 
 def test_graphite(host):
     cmd = host.run('curl --insecure '
-                   '--resolve graphite1.focal:80:127.0.0.1 '
-                   'http://graphite1.focal')
+                   '--resolve graphite1.focal:8081:127.0.0.1 '
+                   'http://graphite1.focal:8081')
     assert '<title>Graphite Browser</title>' in cmd.stdout
 
 def test_graphite_data(host):
@@ -45,7 +45,7 @@ def test_graphite_data(host):
     # multi-node-hosts-file has setup graphite1.focal to
     # resolve from hosts.
     found_value = False
-    with urllib.request.urlopen('http://graphite1.focal/%s' % (url),
+    with urllib.request.urlopen('http://graphite1.focal:8081/%s' % (url),
 #                                context=ssl._create_unverified_context()
                                ) \
                                 as req:
