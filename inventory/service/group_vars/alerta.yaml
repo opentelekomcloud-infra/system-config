@@ -1,0 +1,21 @@
+alerta_smtp_enable: true
+alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
+alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+
+alerta_columns:
+  - severity
+  - status
+  - lastReceiveTime
+  - duplicateCount
+  - environment
+  - service
+  - resource
+  - event
+  - value
+  - text
+
+alerta_plugins:
+  - blackout
+  - zulip
+
+firewalld_extra_ports_enable: ['8080/tcp']
