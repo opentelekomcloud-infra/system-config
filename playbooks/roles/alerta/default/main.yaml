@@ -1,0 +1,16 @@
+alerta_os_user: alerta
+alerta_os_group: alerta
+
+alerta_image: "quay.io/opentelekomcloud/alerta:8.4.1"
+
+alerta_admin_users: "admin,admin2"
+alerta_admin_key: 'some_fake'
+alerta_auth_required: true
+alerta_auth_github_enable: false
+alerta_enable_customer_views: false
+alerta_use_proxyfix: false
+alerta_smtp_from_address: "alerta@example.com"
+alerta_secret_key: "abcdefxgrwCsfvdgSRGg,d.fgS4$fgd"
+alerta_auth_options_str:
+alerta_auth_options_non_str:
+alerta_heartbeat_timeout: 300

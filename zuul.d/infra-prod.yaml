@@ -155,3 +155,13 @@
       - playbooks/service-memcached.yaml
       - roles/memcached/
 
+- job:
+    name: infra-prod-service-alerta
+    parent: infra-prod-service-base
+    description: Run service-alerta.yaml playbook.
+    vars:
+      playbook_name: service-alerta.yaml
+    files:
+      - inventory/
+      - playbooks/service-alerta.yaml
+      - roles/alerta/

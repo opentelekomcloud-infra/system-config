@@ -185,3 +185,23 @@
       - playbooks/service-memcached.yaml
       - playbooks/roles/memcached
       - testinfra/test_memcached.py
+
+- job:
+    name: system-config-run-alerta
+    parent: system-config-run
+    description: |
+      Run the playbook for the alerta servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: alerta.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-alerta.yaml
+    files:
+      - tox.ini
+      - playbooks/service-alerta.yaml
+      - playbooks/roles/alerta
+      - testinfra/test_alerta.py

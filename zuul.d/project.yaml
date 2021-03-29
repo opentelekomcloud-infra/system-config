@@ -10,6 +10,7 @@
         - system-config-run-apimon-executor
         - system-config-run-graphite
         - system-config-run-memcached
+        - system-config-run-alerta
     gate:
       jobs:
         - otc-tox-linters
@@ -20,6 +21,7 @@
         - system-config-run-apimon-executor
         - system-config-run-graphite
         - system-config-run-memcached
+        - system-config-run-alerta
     deploy:
       jobs:
         - infra-prod-install-ansible
@@ -32,6 +34,7 @@
         # memcached should come before graphite
         - infra-prod-service-memcached
         - infra-prod-service-graphite
+        - infra-prod-service-alerta
     periodic:
       # Nightly execution
       jobs:
@@ -44,6 +47,7 @@
         - infra-prod-service-apimon-executor
         - infra-prod-service-memcached
         - infra-prod-service-graphite
+        - infra-prod-service-alerta
     periodic-hourly:
       # hourly execution
       jobs:

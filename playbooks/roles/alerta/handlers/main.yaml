@@ -1,0 +1,6 @@
+- name: Restart alerta
+  ansible.builtin.systemd:
+    name: "alerta"
+    enabled: true
+    state: "restarted"
+    daemon_reload: true
