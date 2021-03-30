@@ -32,7 +32,7 @@
     group: "{{ alerta_os_group }}"
     groups: docker 
     state: present
-  when: "container_command = docker"
+  when: container_command == "docker"
 
 - name: Create alerta user for podman
   become: true
@@ -40,7 +40,7 @@
     name: "{{ alerta_os_user }}"
     group: "{{ alerta_os_group }}"
     state: present
-  when: "container_command = podman"
+  when: container_command == "podman"
 
 - name: Create required directories
   become: true
