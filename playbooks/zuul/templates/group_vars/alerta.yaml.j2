@@ -19,3 +19,10 @@ alerta_plugins:
   - zulip
 
 firewalld_extra_ports_enable: ['8080/tcp']
+
+
+alerta_db_host: "127.0.0.1"
+alerta_db_user: "alerta"
+alerta_db_password: "supersecret"
+alerta_db_name: "alerta"
+alerta_db_url: "postgresql://{{ alerta_db_user }}:{{ alerta_db_password }}@{{ alerta_db_host }}/{{ alerta_db_name }}"
