@@ -1,32 +1,15 @@
-{% include 'annotations.yaml.j2' %}
-{% set id = 10 %}
+{% include '_annotations.yaml.j2' %}
 description: Monotiring of the response times for every endpoint announced in the
   service catalog
-editable: true
-gnetId: null
-graphTooltip: 0
+editable: false
 panels:
-  - type: "text"
-    title: ""
-    gridPos: 
-      x: 0
-      y: 0
-      w: 24
-      h: 2
-    id: {{ id }}
-{% set id = id + 1 %}
-    options:
-      mode: "markdown"
-      content: "A dummy description panel"
-    transparent: true
+{% include '_header.yaml.j2' %}
 
   - datasource: apimon
     fieldConfig:
       defaults:
         color:
           mode: thresholds
-        custom: {}
-        mappings: []
         noValue: '0'
         thresholds:
           mode: percentage
@@ -38,24 +21,18 @@ panels:
             - color: green
               value: 99
         unit: percent
-      overrides: []
     gridPos:
       h: 16
       w: 24
       x: 0
       y: 0
-    id: {{ id }}
-{% set id = id + 1 %}
     options:
       orientation: auto
       reduceOptions:
         calcs:
           - lastNotNull
-        fields: ''
-        values: false
       showThresholdLabels: false
       showThresholdMarkers: true
-      text: {}
     targets:
       - hide: false
         refCount: 0
@@ -69,15 +46,11 @@ panels:
     type: gauge
 
   - datasource: apimon
-    description: ''
     gridPos:
       h: 9
       w: 16
       x: 0
       y: 16
-    id: {{ id }}
-{% set id = id + 1 %}
-    interval: ''
     legend:
       show: true
     lines: true
@@ -165,27 +138,16 @@ panels:
     transparent: true
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - format: ms
-        label: ''
         logBase: 1
-        max: null
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 
   - bars: true
     datasource: apimon
@@ -196,9 +158,6 @@ panels:
       w: 8
       x: 16
       y: 16
-    id: {{ id }}
-{% set id = id + 1 %}
-    interval: ''
     legend:
       hideZero: true
       show: true
@@ -219,28 +178,18 @@ panels:
     transparent: true
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: 0
         format: short
-        label: ''
         logBase: 1
-        max: null
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: false
-    yaxis:
-      align: false
-      alignLevel: null
+
   - bars: true
     datasource: apimon
     fill: 0
@@ -250,8 +199,6 @@ panels:
       w: 24
       x: 0
       y: 25
-    id: {{ id }}
-{% set id = id + 1 %}
     interval: 5m
     legend:
       show: true
@@ -284,36 +231,25 @@ panels:
     transparent: true
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: 0
         format: short
         label: Count
         logBase: 1
-        max: null
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 refresh: false
-schemaVersion: 27
 style: dark
 tags: ['apimon']
 templating:
   list:
-{% include 'template_env.yaml.j2' %}
-{% include 'template_zone.yaml.j2' %}
+{% include '_template_env.yaml.j2' %}
+{% include '_template_zone.yaml.j2' %}
 time:
   from: now-30m
   to: now

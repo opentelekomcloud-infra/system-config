@@ -1,78 +1,11 @@
-{% include 'annotations.yaml.j2' %}
-{% set id = 10 %}
+{% import 'macros.j2' as mcr %}
+{% include '_annotations.yaml.j2' %}
 description: Data for the compute service
 editable: true
 panels:
-  - type: "text"
-    title: ""
-    gridPos: 
-      x: 0
-      y: 0
-      w: 24
-      h: 2
-    id: {{ id }}
-{% set id = id + 1 %}
-    options:
-      mode: "markdown"
-      content: "A dummy description panel"
-    transparent: true
+{% include '_header.yaml.j2' %}
 
-  - datasource: apimon-pg
-    description: Success rate of the scenario in the chosen timeframe
-    fieldConfig:
-      defaults:
-        color:
-          mode: thresholds
-        custom: {}
-        decimals: 2
-        mappings: []
-        noValue: N/A
-        thresholds:
-          mode: absolute
-          steps:
-            - color: red
-              value: null
-            - color: yellow
-              value: 80
-            - color: green
-              value: 99
-        unit: percent
-      overrides: []
-    gridPos:
-      h: 4
-      w: 6
-      x: 0
-      y: 1
-    id: {{ id }}
-{% set id = id + 1 %}
-    options:
-      orientation: auto
-      reduceOptions:
-        calcs:
-          - last
-        fields: ''
-        values: false
-      showThresholdLabels: false
-      showThresholdMarkers: true
-      text: {}
-    repeat: relevant_scenario
-    repeatDirection: h
-    scopedVars:
-      relevant_scenario:
-        selected: false
-        text: scenario2_simple_ecs.yaml
-        value: scenario2_simple_ecs.yaml
-    targets:
-      - format: table
-        metricColumn: none
-        queryType: randomWalk
-        rawQuery: true
-        rawSql: "SELECT\n  sum(case when result = 0 then 1 else 0 end)*100/count(*)\
-          \ as \"rate\"\nFROM result_summary\nWHERE\n  $__timeFilter(\"timestamp\"\
-          ) AND\n  environment = '$environment' AND\n  zone in ($zone) AND\n  name IN ($relevant_scenario)"
-        refId: A
-    title: Success rate of $relevant_scenario
-    type: gauge
+{% include '_service_header.yaml.j2' %}
 
   - datasource: apimon
     fill: 1
@@ -81,8 +14,6 @@ panels:
       w: 12
       x: 0
       y: 5
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       show: true
     lines: true
@@ -136,8 +67,6 @@ panels:
       w: 12
       x: 12
       y: 5
-    id: {{ id }}
-{% set id = id + 1 %}
     options:
       orientation: auto
       reduceOptions:
@@ -163,8 +92,6 @@ panels:
       w: 12
       x: 0
       y: 11
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       show: true
     lines: true
@@ -191,320 +118,10 @@ panels:
         logBase: 1
         show: false
 
-  - datasource: apimon
-    fill: 1
-    gridPos:
-      h: 8
-      w: 24
-      x: 0
-      y: 17
-    id: {{ id }}
-{% set id = id + 1 %}
-
-    legend:
-      alignAsTable: true
-      avg: true
-      max: true
-      min: true
-      rightSide: true
-      show: true
-      sideWidth: 450
-      values: true
-    lines: true
-    linewidth: 1
-    nullPointMode: 'null'
-    options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
-    targets:
-      - refId: A
-        target: sortByName(groupByNodes(removeEmptySeries(stats.timers.openstack.api.$environment.$zone.compute.*.*.*.mean),
-          'sum', 8, 7, 9), true)
-        textEditor: true
-    thresholds:
-      - colorMode: warning
-        fill: true
-        line: true
-        op: gt
-        value: 1000
-        yaxis: left
-    title: API calls duration
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      buckets: null
-      mode: time
-      name: null
-      show: true
-      values: []
-    yaxes:
-      - format: ms
-        logBase: 1
-        show: true
-      - format: short
-        logBase: 1
-        show: true
-
-  - bars: true
-    datasource: apimon
-    fieldConfig:
-      defaults:
-        custom: {}
-        links: []
-        unit: short
-      overrides: []
-    fill: 1
-    fillGradient: 0
-    gridPos:
-      h: 8
-      w: 24
-      x: 0
-      y: 25
-    id: {{ id }}
-{% set id = id + 1 %}
-
-    legend:
-      alignAsTable: true
-      avg: true
-      max: true
-      min: true
-      rightSide: true
-      show: true
-      sideWidth: 450
-      values: true
-    options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
-    targets:
-      - refId: A
-        target: aliasByMetric(consolidateBy(groupByNode(exclude(stats.timers.openstack.api.$environment.$zone.compute.*.*.{4*,5*}.count,
-          '404'), 9, 'sum'), 'sum'))
-    thresholds:
-      - colorMode: warning
-        fill: true
-        line: true
-        op: gt
-        value: 1000
-        yaxis: left
-    title: BAD calls
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      buckets: null
-      mode: time
-      name: null
-      show: true
-      values: []
-    yaxes:
-      - $$hashKey: object:1402
-        decimals: 0
-        format: short
-        label: ''
-        logBase: 1
-        max: null
-        min: '0'
-        show: true
-      - $$hashKey: object:1403
-        format: short
-        label: null
-        logBase: 1
-        max: null
-        min: null
-        show: true
-    yaxis:
-      align: false
-      alignLevel: null
-
-  - datasource: apimon-pg
-    fieldConfig:
-      defaults:
-        color:
-          mode: thresholds
-        custom:
-          align: null
-          filterable: false
-        mappings: []
-        thresholds:
-          mode: absolute
-          steps:
-            - color: green
-              value: null
-            - color: red
-              value: 80
-      overrides:
-        - matcher:
-            id: byName
-            options: result
-          properties:
-            - id: thresholds
-              value:
-                mode: absolute
-                steps:
-                  - color: green
-                    value: null
-                  - color: red
-                    value: 1
-            - id: custom.displayMode
-              value: color-background
-            - id: mappings
-              value:
-                - from: ''
-                  id: 1
-                  text: Passed
-                  to: ''
-                  type: 1
-                  value: '0'
-                - from: ''
-                  id: 2
-                  text: Skipped
-                  to: ''
-                  type: 1
-                  value: '1'
-                - from: ''
-                  id: 3
-                  text: Failed
-                  to: ''
-                  type: 1
-                  value: '3'
-                - from: ''
-                  id: 4
-                  text: Ignored
-                  to: ''
-                  type: 1
-                  value: '2'
-        - matcher:
-            id: byName
-            options: job_id
-          properties:
-            - id: links
-              value:
-                - targetBlank: true
-                  title: ''
-                  url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
-    gridPos:
-      h: 10
-      w: 24
-      x: 0
-      y: 33
-    id: {{ id }}
-{% set id = id + 1 %}
-
-    options:
-      showHeader: true
-    targets:
-      - format: table
-        group: []
-        metricColumn: long_name
-        rawQuery: true
-        rawSql: "SELECT\n  TO_CHAR(\"timestamp\", 'YYYY-MM-DD HH24:MI:SS') AS \"time\"\
-          ,\n  action AS \"Action\",\n  name AS \"Name\",\n  job_id AS \"job_id\"\
-          ,\n  result,\n  anonymized_response\nFROM result_task\nWHERE\n  $__timeFilter(\"\
-          timestamp\") AND\n  environment = '$environment' AND\n  zone in ($zone) AND\n  result\
-          \ = 3 AND\n  long_name similar to 'Scenario 2[a-z]? -%'\nORDER BY 1 DESC"
-        refId: A
-    title: Failures in Tasks
-    type: table
-
-  - datasource: apimon-pg
-    fieldConfig:
-      defaults:
-        color:
-          mode: thresholds
-        custom:
-          align: null
-          filterable: false
-        mappings: []
-        thresholds:
-          mode: absolute
-          steps:
-            - color: green
-              value: null
-            - color: red
-              value: 80
-      overrides:
-        - matcher:
-            id: byName
-            options: result
-          properties:
-            - id: thresholds
-              value:
-                mode: absolute
-                steps:
-                  - color: green
-                    value: null
-                  - color: red
-                    value: 1
-            - id: custom.displayMode
-              value: color-background
-            - id: mappings
-              value:
-                - from: ''
-                  id: 1
-                  text: Passed
-                  to: ''
-                  type: 1
-                  value: '0'
-                - from: ''
-                  id: 2
-                  text: Skipped
-                  to: ''
-                  type: 1
-                  value: '1'
-                - from: ''
-                  id: 3
-                  text: Failed
-                  to: ''
-                  type: 1
-                  value: '3'
-                - from: ''
-                  id: 4
-                  text: Ignored
-                  to: ''
-                  type: 1
-                  value: '2'
-        - matcher:
-            id: byName
-            options: job_id
-          properties:
-            - id: links
-              value:
-                - targetBlank: true
-                  title: ''
-                  url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
-    gridPos:
-      h: 10
-      w: 24
-      x: 0
-      y: 43
-    id: {{ id }}
-{% set id = id + 1 %}
-
-    options:
-      showHeader: true
-      sortBy:
-        - desc: true
-          displayName: time
-    targets:
-      - format: table
-        group: []
-        metricColumn: long_name
-        rawQuery: true
-        rawSql: "SELECT\n  TO_CHAR(\"timestamp\", 'YYYY-MM-DD HH24:MI:SS') AS \"time\"\
-          ,\n  name AS \"Name\",\n  job_id AS \"job_id\",\n  result\nFROM result_summary\n\
-          WHERE\n  $__timeFilter(\"timestamp\") AND\n  environment = '$environment' AND\n\
-          \  zone in ($zone) AND\n  name in ($relevant_scenario)\n  --similar to 'scenario2[a-z]?%'\n\
-          ORDER BY 1 DESC"
-        refId: A
-    title: Scenario results
-    type: table
+{{ mcr.service_api_latency('compute', 17) }}
+{{ mcr.service_bad_calls('compute', 25) }}
+{{ mcr.service_failures(33) }}
+{{ mcr.service_results(43) }}
 
 refresh: false
 style: dark
@@ -513,43 +130,12 @@ tags:
   - apimon
 templating:
   list:
-{% include 'template_env.yaml.j2' %}
-{% include 'template_zone.yaml.j2' %}
+{% include '_template_env.yaml.j2' %}
+{% include '_template_zone.yaml.j2' %}
       multi: true
 
-    - allValue: ''
-      current:
-        selected: false
-        text:
-          - All
-        value:
-          - $__all
-      hide: 2
-      includeAll: true
-      label: Relevant Test Scenarios
-      multi: true
-      name: relevant_scenario
-      options:
-        - selected: true
-          text: All
-          value: $__all
-        - selected: false
-          text: scenario2_simple_ecs.yaml
-          value: scenario2_simple_ecs.yaml
-        - selected: false
-          text: scenario2a_ecs_az.yaml
-          value: scenario2a_ecs_az.yaml
-        - selected: false
-          text: scenario2b_ecs_s3.yaml
-          value: scenario2b_ecs_s3.yaml
-        - selected: false
-          text: scenario2c_coreos_az.yaml
-          value: scenario2c_coreos_az.yaml
-      query: scenario2_simple_ecs.yaml, scenario2a_ecs_az.yaml, scenario2b_ecs_s3.yaml,
-        scenario2c_coreos_az.yaml
-      queryValue: ''
-      skipUrlSync: false
-      type: custom
+{{ mcr.service_scenarios_template(['scenario2_simple_ecs.yaml', 'scenario2a_ecs_az.yaml', 'scenario2b_ecs_s3.yaml', 'scenario2c_coreos_az.yaml']) }}
+
 time:
   from: now-6h
   to: now

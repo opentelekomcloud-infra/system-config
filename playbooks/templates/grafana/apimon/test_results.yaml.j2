@@ -1,23 +1,8 @@
-{% include 'annotations.yaml.j2' %}
-{% set id = 10 %}
+{% include '_annotations.yaml.j2' %}
 description: Testing results of the APImon
 editable: false
-gnetId: null
-graphTooltip: 0
 panels:
-  - type: "text"
-    title: ""
-    gridPos: 
-      x: 0
-      y: 0
-      w: 24
-      h: 2
-    id: {{ id }}
-{% set id = id + 1 %}
-    options:
-      mode: "markdown"
-      content: "A dummy description panel"
-    transparent: true
+{% include '_header.yaml.j2' %}
 
   - datasource: apimon
     description: Count of API requests with no response received during timeout 10s
@@ -28,8 +13,6 @@ panels:
       w: 12
       x: 0
       y: 0
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       show: false
     lines: true
@@ -38,8 +21,6 @@ panels:
       alertThreshold: true
     pointradius: 2
     spaceLength: 10
-    stack: false
-    steppedLine: false
     targets:
       - queryType: randomWalk
         refId: A
@@ -55,28 +36,17 @@ panels:
     title: No response count
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: 0
         format: short
-        label: ''
         logBase: 1
-        max: null
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 
   - datasource: apimon
     decimals: 0
@@ -88,14 +58,11 @@ panels:
       w: 12
       x: 12
       y: 0
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       alignAsTable: true
       current: true
       rightSide: true
       show: true
-      sideWidth: null
       values: true
     options:
       alertThreshold: true
@@ -113,28 +80,17 @@ panels:
       value_type: individual
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: 0
         format: short
-        label: ''
         logBase: 1
-        max: null
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 
   - datasource: apimon-pg
     fill: 1
@@ -144,8 +100,6 @@ panels:
       w: 24
       x: 0
       y: 8
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       alignAsTable: true
       rightSide: true
@@ -198,11 +152,8 @@ panels:
       value_type: individual
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: 0
         format: short
@@ -212,14 +163,8 @@ panels:
         min: '0'
         show: true
       - format: short
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 
   - datasource: apimon-pg
     fill: 1
@@ -229,8 +174,6 @@ panels:
       w: 24
       x: 0
       y: 16
-    id: {{ id }}
-{% set id = id + 1 %}
     legend:
       alignAsTable: true
       max: true
@@ -287,37 +230,24 @@ panels:
       value_type: individual
     type: graph
     xaxis:
-      buckets: null
       mode: time
-      name: null
       show: true
-      values: []
     yaxes:
       - decimals: null
         format: ms
-        label: null
         logBase: 1
         max: '1200000'
-        min: null
         show: true
       - format: ms
-        label: null
         logBase: 1
-        max: null
-        min: null
         show: true
-    yaxis:
-      align: false
-      alignLevel: null
 
   - datasource: apimon-pg
     fieldConfig:
       defaults:
         custom:
-          align: null
           displayMode: auto
           filterable: false
-        mappings: []
         thresholds:
           mode: absolute
           steps:
@@ -373,9 +303,6 @@ panels:
       w: 24
       x: 0
       y: 24
-    id: {{ id }}
-{% set id = id + 1 %}
-    interval: ''
     options:
       showHeader: true
     targets:
@@ -391,14 +318,13 @@ panels:
     title: Test Logs
     type: table
 refresh: false
-# schemaVersion: 27
 style: dark
 tags:
   - apimon
 templating:
   list:
-{% include 'template_env.yaml.j2' %}
-{% include 'template_zone.yaml.j2' %}
+{% include '_template_env.yaml.j2' %}
+{% include '_template_zone.yaml.j2' %}
 time:
   from: now-6h
   to: now
