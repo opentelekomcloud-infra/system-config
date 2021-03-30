@@ -14,3 +14,4 @@ alerta_secret_key: "abcdefxgrwCsfvdgSRGg,d.fgS4$fgd"
 alerta_auth_options_str:
 alerta_auth_options_non_str:
 alerta_heartbeat_timeout: 300
+container_runtime: "/usr/bin/{{ container_command }}"
