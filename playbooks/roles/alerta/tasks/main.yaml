@@ -25,12 +25,22 @@
     name: "{{ alerta_os_group }}"
     state: present
 
-- name: Create alerta user
+- name: Create alerta user for docker
+  become: true
+  ansible.builtin.user:
+    name: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    groups: docker 
+    state: present
+  when: "container_command = docker"
+
+- name: Create alerta user for podman
   become: true
   ansible.builtin.user:
     name: "{{ alerta_os_user }}"
     group: "{{ alerta_os_group }}"
     state: present
+  when: "container_command = podman"
 
 - name: Create required directories
   become: true
