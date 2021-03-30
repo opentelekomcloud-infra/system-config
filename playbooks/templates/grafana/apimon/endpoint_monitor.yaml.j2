@@ -1,0 +1,333 @@
+{% include 'annotations.yaml.j2' %}
+{% set id = 10 %}
+description: Monotiring of the response times for every endpoint announced in the
+  service catalog
+editable: true
+gnetId: null
+graphTooltip: 0
+panels:
+  - type: "text"
+    title: ""
+    gridPos: 
+      x: 0
+      y: 0
+      w: 24
+      h: 2
+    id: {{ id }}
+{% set id = id + 1 %}
+    options:
+      mode: "markdown"
+      content: "A dummy description panel"
+    transparent: true
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 16
+      w: 24
+      x: 0
+      y: 0
+    id: {{ id }}
+{% set id = id + 1 %}
+    options:
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showThresholdLabels: false
+      showThresholdMarkers: true
+      text: {}
+    targets:
+      - hide: false
+        refCount: 0
+        refId: A
+        target: aliasByNode(summarize(applyByNode(stats.timers.openstack.api.$environment.$zone.*.*.*.*.count,
+          6, "asPercent(sumSeries(%.*.*.{2*,3*,404}.count), sumSeries(%.*.*.*.count))",
+          "%.pct"), '1hour', 'avg'), 6)
+        textEditor: true
+    title: Endpoint status
+    transparent: true
+    type: gauge
+
+  - datasource: apimon
+    description: ''
+    gridPos:
+      h: 9
+      w: 16
+      x: 0
+      y: 16
+    id: {{ id }}
+{% set id = id + 1 %}
+    interval: ''
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNode(stats.timers.openstack.api.$environment.$zone.*.*.*.*.upper,
+          6, 'avg')
+    timeShift: null
+    title: Endpoint response times
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    transformations:
+      - id: seriesToColumns
+        options:
+          byField: Time
+      - id: organize
+        options:
+          excludeByName: {}
+          indexByName: {}
+          renameByName:
+            openstack_api.Anti-DDoS: Anti-DDoS
+            openstack_api.antiddos: antiddos
+            openstack_api.as: as
+            openstack_api.asv1: asv1
+            openstack_api.cce: cce
+            openstack_api.ccev2.0: ccev2
+            openstack_api.ces: ces
+            openstack_api.cesv1: cesv1
+            openstack_api.compute: compute
+            openstack_api.css: css
+            openstack_api.cts: cts
+            openstack_api.ctsv2: ctsv2
+            openstack_api.data-protect: data-protect
+            openstack_api.database: database
+            openstack_api.dcaas: dcaas
+            openstack_api.dcs: dcs
+            openstack_api.dcsv1: dcsv1
+            openstack_api.ddsv3: dcsv3
+            openstack_api.deh: deh
+            openstack_api.dis: dis
+            openstack_api.disv2: disv2
+            openstack_api.dms: dms
+            openstack_api.dmsv1: dmsv1
+            openstack_api.dns: dns
+            openstack_api.dws: dws
+            openstack_api.dwsv1: dwsv1
+            openstack_api.ecs: ecs
+            openstack_api.elb: elb
+            openstack_api.elbv1: elbv1
+            openstack_api.evs: evs
+            openstack_api.identity: identity
+            openstack_api.image: image
+            openstack_api.kms: kms
+            openstack_api.kmsv1: kmsv1
+            openstack_api.maas: maas
+            openstack_api.maasv1: maasv1
+            openstack_api.mrs: mrs
+            openstack_api.mrsv1: mrsv1
+            openstack_api.nat: nat
+            openstack_api.network: network
+            openstack_api.object-store: object-store
+            openstack_api.orchestration: orchestration
+            openstack_api.rds: rds
+            openstack_api.rdsv1: rdsv1
+            openstack_api.rdsv3: rdsv3
+            openstack_api.sdrs: sdrs
+            openstack_api.shared-file-system: sfs
+            openstack_api.smnv2: smnv2
+            openstack_api.tms: tms
+            openstack_api.vbs: vbs
+            openstack_api.vbsv2: vbsv2
+            openstack_api.volumev3: volumev3
+            openstack_api.vpc: vpc
+            openstack_api.vpc2.0: vpc2.0
+            openstack_api.waf: waf
+            openstack_api.workspace: workspace
+    transparent: true
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - format: ms
+        label: ''
+        logBase: 1
+        max: null
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+
+  - bars: true
+    datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 8
+      x: 16
+      y: 16
+    id: {{ id }}
+{% set id = id + 1 %}
+    interval: ''
+    legend:
+      hideZero: true
+      show: true
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNode(removeBelowValue(stats.counters.openstack.api.$environment.$zone.*.*.*.failed.count,
+          0.1), 6, 'sum')
+        textEditor: false
+    title: No response
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    transparent: true
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        label: ''
+        logBase: 1
+        max: null
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: false
+    yaxis:
+      align: false
+      alignLevel: null
+  - bars: true
+    datasource: apimon
+    fill: 0
+    fillGradient: 0
+    gridPos:
+      h: 9
+      w: 24
+      x: 0
+      y: 25
+    id: {{ id }}
+{% set id = id + 1 %}
+    interval: 5m
+    legend:
+      show: true
+    options:
+      alertThreshold: true
+    renderer: flot
+    seriesOverrides:
+      - alias: openstack_api.bms
+        bars: false
+        legend: false
+      - alias: openstack_api.smn
+        bars: false
+        legend: false
+      - alias: openstack_api.object
+        bars: false
+        legend: false
+    spaceLength: 10
+    stack: false
+    steppedLine: false
+    targets:
+      - refId: A
+        target: maximumAbove(groupByNodes(exclude(stats.timers.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
+          '404|dns.GET.zone.400'), 'sum', 6, 9), 0)
+        textEditor: true
+    title: Amount of errors
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    transparent: true
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        label: Count
+        logBase: 1
+        max: null
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+refresh: false
+schemaVersion: 27
+style: dark
+tags: ['apimon']
+templating:
+  list:
+{% include 'template_env.yaml.j2' %}
+{% include 'template_zone.yaml.j2' %}
+time:
+  from: now-30m
+  to: now
+timepicker:
+  refresh_intervals:
+    - 10s
+    - 30s
+    - 1m
+    - 5m
+    - 15m
+    - 30m
+    - 1h
+    - 2h
+    - 1d
+timezone: ''
+title: Endpoint monitoring
+uid: 942aCD-gz

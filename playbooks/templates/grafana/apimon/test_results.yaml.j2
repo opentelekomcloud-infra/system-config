@@ -1,0 +1,418 @@
+{% include 'annotations.yaml.j2' %}
+{% set id = 10 %}
+description: Testing results of the APImon
+editable: false
+gnetId: null
+graphTooltip: 0
+panels:
+  - type: "text"
+    title: ""
+    gridPos: 
+      x: 0
+      y: 0
+      w: 24
+      h: 2
+    id: {{ id }}
+{% set id = id + 1 %}
+    options:
+      mode: "markdown"
+      content: "A dummy description panel"
+    transparent: true
+
+  - datasource: apimon
+    description: Count of API requests with no response received during timeout 10s
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 12
+      x: 0
+      y: 0
+    id: {{ id }}
+{% set id = id + 1 %}
+    legend:
+      show: false
+    lines: true
+    linewidth: 1
+    options:
+      alertThreshold: true
+    pointradius: 2
+    spaceLength: 10
+    stack: false
+    steppedLine: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: alias(consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.failed.count,
+          'modelarts')), 'sum'), 'count')
+    thresholds:
+      - colorMode: critical
+        fill: true
+        line: true
+        op: gt
+        value: 0
+        yaxis: left
+    title: No response count
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        label: ''
+        logBase: 1
+        max: null
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+
+  - datasource: apimon
+    decimals: 0
+    description: Bad responses (4*, 5*, excluding 404)
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 12
+      x: 12
+      y: 0
+    id: {{ id }}
+{% set id = id + 1 %}
+    legend:
+      alignAsTable: true
+      current: true
+      rightSide: true
+      show: true
+      sideWidth: null
+      values: true
+    options:
+      alertThreshold: true
+    pointradius: 2
+    points: true
+    renderer: flot
+    targets:
+      - refId: A
+        target: maximumAbove(aliasByMetric(groupByNode(consolidateBy(exclude(stats.timers.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
+          '404|dns.GET.zone.400'), 'sum'), 9, 'sum')), 0)
+    title: Count of API Errors
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        label: ''
+        logBase: 1
+        max: null
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+
+  - datasource: apimon-pg
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 24
+      x: 0
+      y: 8
+    id: {{ id }}
+{% set id = id + 1 %}
+    legend:
+      alignAsTable: true
+      rightSide: true
+      show: true
+      sideWidth: 350
+    lines: true
+    linewidth: 1
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - format: time_series
+        metricColumn: name
+        queryType: randomWalk
+        rawQuery: false
+        rawSql: "SELECT\n  \"timestamp\" AS \"time\",\n  name AS metric,\n  result\n\
+          FROM result_summary\nWHERE\n  $__timeFilter(\"timestamp\") AND\n  environment\
+          \ = '$environment' AND\n  zone = '$zone'\nORDER BY 1,2"
+        refId: A
+        select:
+          - - params:
+                - result
+              type: column
+        table: result_summary
+        timeColumn: '"timestamp"'
+        timeColumnType: timestamp
+        where:
+          - name: $__timeFilter
+            params: []
+            type: macro
+          - datatype: varchar
+            name: ''
+            params:
+              - environment
+              - '='
+              - '''$environment'''
+            type: expression
+          - datatype: varchar
+            name: ''
+            params:
+              - zone
+              - '='
+              - '''$zone'''
+            type: expression
+    title: Test results
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        label: RC
+        logBase: 1
+        max: '3'
+        min: '0'
+        show: true
+      - format: short
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+
+  - datasource: apimon-pg
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 24
+      x: 0
+      y: 16
+    id: {{ id }}
+{% set id = id + 1 %}
+    legend:
+      alignAsTable: true
+      max: true
+      min: true
+      rightSide: true
+      show: true
+      sideWidth: 350
+      values: true
+    lines: true
+    linewidth: 1
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - format: time_series
+        group: []
+        metricColumn: name
+        queryType: randomWalk
+        rawQuery: false
+        rawSql: "SELECT\n  \"timestamp\" AS \"time\",\n  name AS metric,\n  duration\n\
+          FROM result_summary\nWHERE\n  $__timeFilter(\"timestamp\") AND\n  environment\
+          \ = '$environment' AND\n  zone = '$zone'\nORDER BY 1,2"
+        refId: A
+        select:
+          - - params:
+                - duration
+              type: column
+        table: result_summary
+        timeColumn: '"timestamp"'
+        timeColumnType: timestamp
+        where:
+          - name: $__timeFilter
+            params: []
+            type: macro
+          - datatype: varchar
+            name: ''
+            params:
+              - environment
+              - '='
+              - '''$environment'''
+            type: expression
+          - datatype: varchar
+            name: ''
+            params:
+              - zone
+              - '='
+              - '''$zone'''
+            type: expression
+    title: Test duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: null
+        format: ms
+        label: null
+        logBase: 1
+        max: '1200000'
+        min: null
+        show: true
+      - format: ms
+        label: null
+        logBase: 1
+        max: null
+        min: null
+        show: true
+    yaxis:
+      align: false
+      alignLevel: null
+
+  - datasource: apimon-pg
+    fieldConfig:
+      defaults:
+        custom:
+          align: null
+          displayMode: auto
+          filterable: false
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 1
+      overrides:
+        - matcher:
+            id: byName
+            options: job_id
+          properties:
+            - id: links
+              value:
+                - targetBlank: true
+                  url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
+        - matcher:
+            id: byName
+            options: result
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: green
+                    value: null
+                  - color: red
+                    value: 1
+            - id: mappings
+              value:
+                - from: ''
+                  id: 1
+                  text: Success
+                  to: ''
+                  type: 1
+                  value: '0'
+                - from: ''
+                  id: 2
+                  text: Failed
+                  to: ''
+                  type: 1
+                  value: '3'
+            - id: custom.displayMode
+              value: color-background
+        - matcher:
+            id: byName
+            options: duration
+          properties:
+            - id: unit
+              value: ms
+    gridPos:
+      h: 12
+      w: 24
+      x: 0
+      y: 24
+    id: {{ id }}
+{% set id = id + 1 %}
+    interval: ''
+    options:
+      showHeader: true
+    targets:
+      - format: table
+        group: []
+        metricColumn: none
+        rawQuery: true
+        rawSql: "SELECT\n  \"timestamp\" AS \"time\",\n  \"name\",\n  \"job_id\",\n\
+          \  \"result\",\n  \"duration\"\nFROM result_summary\nWHERE\n  $__timeFilter(\"\
+          timestamp\") AND\n  environment = '$environment' AND\n  zone = '$zone' AND\n\
+          \  result = 3\nORDER BY 1 DESC"
+        refId: A
+    title: Test Logs
+    type: table
+refresh: false
+# schemaVersion: 27
+style: dark
+tags:
+  - apimon
+templating:
+  list:
+{% include 'template_env.yaml.j2' %}
+{% include 'template_zone.yaml.j2' %}
+time:
+  from: now-6h
+  to: now
+timepicker:
+  time_options:
+    - 5m
+    - 15m
+    - 1h
+    - 6h
+    - 12h
+    - 24h
+    - 2d
+    - 7d
+    - 30d
+timezone: ''
+title: APImon Test Results
+uid: 3BLTDJAwz
