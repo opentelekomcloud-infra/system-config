@@ -48,6 +48,12 @@ all_users:
     uid: 2001
     gid: 2001
 
+  vhasko:
+    comment: Vladimir Hasko
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvurvAWz7ourNA8rGKFK94qP4qNtSGO28hd5mx76LdbFoNAj0vMj+Uwsxjz00zQjGvWWoL8aRVP/It5P/eAz4C/kzhQcB5s+mOSKcwus5bZMtefyusEN1jr2035bOVpdrV5h8OpNUZ4WJRxfUNb46sz89Y/C49dUPsWY+ZpwDFk4xrYmihPQQyogEJ5PDXvdtNbcW/QA2gj4U+HFWY7vnmiC7tfViX1d3Ne0d4pb1XKiTMiFyQH0jRAF4ydIku4kIG7sqw9HAKoDeOzIbh+LYBO6qbefpH8jF/VVJyc+jmBx49VFAfiNfOg58QwrnKmXWF640O5J1UhDrvoAT8A2y1 vladimir.hasko
+    uid: 2002
+    gid: 2002
+
   zuul:
     comment: Zuul CICD
     key: |
@@ -59,6 +65,7 @@ all_users:
 base_users:
   - gtema
   - kucerakk
+  - vhasko
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
