@@ -1,6 +1,6 @@
 
 [Unit]
-Description=Carbon Service
+Description=Alerta Service
 After=syslog.target network.target
 
 [Service]
@@ -12,6 +12,7 @@ EnvironmentFile=/etc/alerta/env
 
 ExecStartPre=-{{ container_runtime }} kill alerta
 ExecStartPre=-{{ container_runtime }} rm alerta
+ExecStartPre=-{{ container_runtime }} pull ${ALERTA_IMAGE}
 
 ExecStart={{ container_runtime }} run \
   --name alerta \
@@ -24,6 +25,9 @@ ExecStart={{ container_runtime }} run \
   -v /etc/alerta/alerta.conf:/app/alerta.conf:ro,z \
   --tmpfs /tmp:rw,size=787448k \
   ${ALERTA_IMAGE}
+
+ExecStop={{ container_runtime }} stop -t 300 "alerta"
+ExecStop={{ container_runtime }} rm "alerta"
 
 [Install]
 WantedBy=multi-user.target
