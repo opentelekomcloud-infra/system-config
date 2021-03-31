@@ -13,6 +13,9 @@ clusters:
   - name: otcinfra-mirror
     cluster: 
       server: {{ otcinfra2_k8s.server }}
+  - name: otcinfra-stg
+    cluster: 
+      server: {{ otcinfra_stg_k8s.server }}
 contexts:
   - name: otcci
     context:
@@ -26,6 +29,10 @@ contexts:
     context:
       cluster: otcinfra-mirror
       user: otcinfra-mirror-admin
+  - name: otcinfra-stg
+    context:
+      cluster: otcinfra-stg
+      user: otcinfra-stg-admin
 users:
   - name: otcci-admin
     user:
@@ -39,3 +46,8 @@ users:
     user:
       client-certificate-data: {{ otcinfra2_k8s.client_certificate_data }}
       client-key-data: {{ otcinfra2_k8s.client_key_data }}
+  - name: otcinfra-stg-admin
+    user:
+      client-certificate-data: {{ otcinfra_stg_k8s.client_certificate_data }}
+      client-key-data: {{ otcinfra_stg_k8s.client_key_data }}
+
