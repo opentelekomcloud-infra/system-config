@@ -1,0 +1,6 @@
+- hosts: "alerta:!disabled"
+  name: "Base: configure alerta"
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+    - alerta
