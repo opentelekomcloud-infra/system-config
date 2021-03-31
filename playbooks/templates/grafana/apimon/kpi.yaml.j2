@@ -1,0 +1,1623 @@
+{% import 'macros.j2' as mcr %}
+{% include '_annotations.yaml.j2' %}
+description: KPIs of the platform
+editable: true
+panels:
+{% include '_header.yaml.j2' %}
+
+# SLI row
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 0
+    panels: []
+    title: Service Level Indicators
+    type: row
+
+  - datasource: apimon
+    description: 'Percentage of positive responses to total requests'
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 95
+            - color: green
+              value: 99.9
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 0
+      y: 1
+    id: 1
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - mean
+        fields: ''
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
+          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
+          sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,4*,5*,failed}.count,
+          'modelarts|tms|bms')))
+        textEditor: true
+    title: SLI Service API Availability
+    type: stat
+
+  - datasource: apimon
+    description: Highest API request latency
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: '#EAB839'
+              value: 1000
+            - color: red
+              value: 3000
+        unit: ms
+    gridPos:
+      h: 6
+      w: 6
+      x: 6
+      y: 1
+    id: 2
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: maxSeries(stats.timers.openstack.api.$environment.$zone.*.*.*.*.upper)
+        textEditor: false
+    title: SLI Max API latency
+    type: stat
+
+  - datasource: apimon
+    description: 90% of the request mean duration are under
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: '#EAB839'
+              value: 900
+            - color: red
+              value: 1000
+        unit: ms
+    gridPos:
+      h: 6
+      w: 6
+      x: 12
+      y: 1
+    id: 3
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: percentileOfSeries(stats.timers.openstack.api.$environment.$zone.*.*.*.*.mean,
+          90, false)
+        textEditor: false
+    title: SLI 90% of mean API latency
+    type: stat
+
+  - datasource: apimon
+    description: 90% of the request lowest duration are under
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: '#EAB839'
+              value: 900
+            - color: red
+              value: 1000
+        unit: ms
+    gridPos:
+      h: 6
+      w: 6
+      x: 18
+      y: 1
+    id: 4
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: percentileOfSeries(stats.timers.openstack.api.$environment.$zone.*.*.*.*.lower,
+          90, false)
+        textEditor: false
+    title: SLI 90% of lowest API latency
+    type: stat
+
+  - datasource: apimon
+    description: Bad responses (4*, 5*, excluding 404)
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 1
+        unit: short
+    gridPos:
+      h: 6
+      w: 6
+      x: 0
+      y: 7
+    id: 5
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      textMode: auto
+    targets:
+      - refId: A
+        target: consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
+          '404|dns.GET.zone.400|object')), 'sum')
+        textEditor: true
+    title: SLI Count of API Errors
+    type: stat
+
+# SLO row
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 13
+    panels: []
+    title: SLO (WIP)
+    type: row
+
+  - datasource: apimon
+    description: Average of SLI Service availability for 1w
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        thresholds:
+          mode: absolute
+          steps:
+            - color: blue
+              value: null
+            - color: red
+              value: 0
+            - color: '#EAB839'
+              value: 90
+            - color: green
+              value: 99
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 0
+      y: 14
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: movingAverage(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
+          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
+          sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.attempted.count,
+          'modelarts|tms|bms'))), '7d')
+        textEditor: true
+    title: SLO Service Availability
+    type: stat
+
+  - datasource: -- Dashboard --
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 1000
+        unit: ms
+    gridPos:
+      h: 6
+      w: 6
+      x: 6
+      y: 14
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - max
+        values: false
+      textMode: auto
+    targets:
+      - panelId: 2
+        queryType: randomWalk
+        refId: A
+    title: SLO Max Latency
+    transformations:
+      - id: reduce
+    type: stat
+
+  - datasource: -- Dashboard --
+    description: Count of API Error in selected timeframe
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 10
+            - color: red
+              value: 50
+      overrides: []
+    gridPos:
+      h: 6
+      w: 6
+      x: 12
+      y: 14
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - mean
+    targets:
+      - panelId: 5
+        queryType: randomWalk
+        refId: A
+    title: SLO Count Errors
+    transformations:
+      - id: reduce
+        options:
+          reducers:
+            - sum
+    type: stat
+
+# Identity
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 20
+    panels: []
+    title: Identity
+    type: row
+
+{{ mcr.sli_service_row('identity', 'Identity', 21) }}
+
+  - datasource: apimon
+    description: upper_90 for the Token creation
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 150
+            - color: red
+              value: 200
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 0
+      y: 26
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.openstack.api.$environment.$zone.identity.POST.tokens.201.upper_90,
+          5)
+    title: SLI Token creation duration
+    type: stat
+
+# Compute
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 36
+    panels: []
+    title: Compute
+    type: row
+
+{{ mcr.sli_service_row('compute', 'Compute', 37) }}
+
+  - aliasColors: {}
+    bars: true
+    dashLength: 10
+    dashes: false
+    datasource: apimon
+    fieldConfig:
+      defaults:
+        custom: {}
+        unit: short
+      overrides: []
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 12
+      x: 0
+      y: 47
+    legend:
+      show: true
+    options:
+      alertThreshold: true
+    renderer: flot
+    seriesOverrides: []
+    spaceLength: 10
+    stack: false
+    steppedLine: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(transformNull(consolidateBy(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.failed.count,
+          7, 'sum'), '1h', 'sum', false), 'sum'), 0), 0)
+        textEditor: false
+    thresholds:
+      - colorMode: critical
+        fill: true
+        line: true
+        op: gt
+        value: 0
+        yaxis: left
+    title: Server Provisioning failures
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: false
+
+  - datasource: apimon
+    description: This number is not an indicator in the case where we can not even
+      start provisioning server
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 8
+      w: 12
+      x: 12
+      y: 47
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        values: false
+    targets:
+      - hide: false
+        queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: aliasByNode(groupByNode(applyByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.count,
+          7, "asPercent(%.passed.count, %.attempted.count)", "%.pct"),7), 0)
+        textEditor: true
+    title: Server Provisioning Success rate (partly reliable)
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80000
+        unit: clockms
+      overrides: []
+    gridPos:
+      h: 8
+      w: 12
+      x: 0
+      y: 55
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.upper,
+          7, 'sum')
+    title: Boot time duration (F30)
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 2
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80000
+        unit: ms
+    gridPos:
+      h: 8
+      w: 12
+      x: 12
+      y: 55
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper,
+          7, 'sum')
+    title: Boot time duration (CoreOS)
+    type: stat
+
+# Block Storage
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 63
+    panels: []
+    title: Block Storage
+    type: row
+
+{{ mcr.sli_service_row('block-storage', 'Block Storage', 64) }}
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 8
+      x: 0
+      y: 69
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume.{default,eu*}.*.upper_90,
+          7, 'avg')
+    title: 10G Volume creation duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 8
+      x: 8
+      y: 69
+    lines: true
+    linewidth: 1
+    nullPointMode: 'null'
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_snapshot.*.upper_90,
+          7, 'avg')
+    title: 10G Volume Snaphost duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 8
+      x: 16
+      y: 69
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: 'null'
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_backup.*.passed.upper_90,
+          7, 'avg')
+    title: 10G Volume Backup duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 4
+      x: 0
+      y: 77
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.passed.count),
+          stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: false
+    title: Volume creation success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 4
+      x: 4
+      y: 77
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.{failed,attempted}.count,
+          8, 'sum'), '1d', 'sum', false))
+        textEditor: false
+    title: Count of volume creation attempts
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 4
+      x: 8
+      y: 77
+    id: 54
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.passed.count),
+          stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: true
+    title: Volume snapshot success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 4
+      x: 12
+      y: 77
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.{failed,attempted}.count,
+          7, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Count of snapshot creation attempts
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 5
+      w: 4
+      x: 16
+      y: 77
+    id: 46
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: false
+    title: Backup creation success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 4
+      x: 20
+      y: 77
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.default.{failed,attempted}.count,
+          8, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Count of backup attempts
+    type: bargauge
+
+# Network
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 82
+    panels: []
+    title: Network
+    type: row
+
+{{ mcr.sli_service_row('network', 'Network', 83) }}
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 6
+      y: 88
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.networks.201.mean,
+          '1hour'), 5)
+    title: Network creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 800
+            - color: red
+              value: 900
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 12
+      y: 88
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.subnets.201.mean,
+          '10min'), 5)
+    title: Subnet creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        noValue: N/A
+        thresholds:
+          mode: absolute
+          steps:
+            - color: blue
+              value: null
+            - color: green
+              value: 0
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 18
+      y: 88
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.floatingips.201.upper_90,
+          '1hour'), 5)
+        textEditor: true
+    title: FIP creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 0
+      y: 93
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.routers.201.mean,
+          '1hour'), 5)
+    title: Router creation duration
+    type: stat
+
+# Image
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 98
+    panels: []
+    title: Image
+    type: row
+
+{{ mcr.sli_service_row('image', 'Image', 99) }}
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 6
+      y: 104
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.image_upload.passed.upper_90,
+          5)
+        textEditor: false
+    title: SLI Image Upload duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 6
+      x: 12
+      y: 104
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.timers.apimon.metric.$environment.$zone.image_upload.*.count,
+          7, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Image Upload totals
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: '#EAB839'
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 6
+      x: 18
+      y: 104
+    options:
+      colorMode: value
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.openstack.api.$environment.$zone.image.GET.images.200.mean,
+          5, 'avg')
+        textEditor: false
+    title: SLI Image List duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 6
+      x: 0
+      y: 109
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: aliasByNode(asPercent(stats.counters.apimon.metric.$environment.$zone.image_upload.passed.count,
+          stats.counters.apimon.metric.$environment.$zone.image_upload.attempted.count),
+          5)
+        textEditor: false
+    title: SLI Image Upload success rate
+    type: stat
+
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 114
+    panels: []
+    title: CCE
+    type: row
+
+{{ mcr.sli_service_row('ccev2_0', 'CCE', 115) }}
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 6
+      w: 6
+      x: 6
+      y: 120
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    seriesOverrides: []
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.delete_cce_cluster.passed.upper_90,
+          5)
+    title: CCE Cluster deletion duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: false
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.99
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 12
+      y: 120
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.attempted.count))
+        textEditor: true
+    title: CCE Cluster provisioning success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.99
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 18
+      y: 120
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.attempted.count))
+        textEditor: true
+    title: CCE Cluster deletion success rate
+    type: stat
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 6
+      w: 6
+      x: 0
+      y: 125
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.create_cce_cluster.passed.upper_90,
+          5)
+    title: CCE Cluster provisioning duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: false
+
+# DNS
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 131
+    panels: []
+    title: DNS
+    type: row
+
+# TODO: DNS need to exclude 400 error
+{{ mcr.sli_service_row_dns('dns', 'DNS', 132) }}
+
+# DMS
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 142
+    panels: []
+    title: DMS
+    type: row
+
+{{ mcr.sli_service_row('dmsv1', 'DMS', 143) }}
+
+# KMS
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 148
+    panels: []
+    title: KMS
+    type: row
+
+{{ mcr.sli_service_row('kms', 'KMS', 149) }}
+
+# TODO: max latency
+
+# Heat
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 154
+    panels: []
+    title: Orchestration
+    type: row
+
+{{ mcr.sli_service_row('orchestration', 'Orchestration', 155) }}
+
+refresh: false
+style: dark
+tags:
+  - apimon
+templating:
+  list:
+{% include '_template_env.yaml.j2' %}
+{% include '_template_zone.yaml.j2' %}
+      multi: true
+time:
+  from: now-7d
+  to: now
+timezone: ''
+title: OTC KPI
+uid: 8MEKSvagz

@@ -41,6 +41,7 @@
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-grafana-dashboards
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler

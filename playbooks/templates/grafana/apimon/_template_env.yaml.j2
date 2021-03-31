@@ -1,0 +1,19 @@
+    - allValue: null
+      current:
+        selected: false
+        text: production_eu-de
+        value: production_eu-de
+      datasource: apimon
+      definition: stats.counters.openstack.api.*
+      includeAll: false
+      label: Environment
+      multi: false
+      name: environment
+      query: stats.counters.openstack.api.*
+      refresh: 1
+      regex: /^(?!swift)(.*)$/
+      skipUrlSync: false
+      sort: 0
+      tagValuesQuery: ''
+      type: query
+
