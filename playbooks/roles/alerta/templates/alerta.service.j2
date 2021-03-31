@@ -5,6 +5,7 @@ After=syslog.target network.target
 
 [Service]
 Restart=always
+TimeoutSec=30s
 User={{ alerta_os_user }}
 Group={{ alerta_os_group }}
 Environment=ALERTA_IMAGE=alerta/alerta-web
