@@ -1,0 +1,26 @@
+- block:
+  - name: Create temporary file
+    ansible.builtin.tempfile:
+      state: file
+    register: tmp_file
+
+  - name: Write dashboard configuration into file
+    ansible.builtin.copy:
+      content: "{{ grafana_dashboard_content }}"
+      dest: "{{ tmp_file.path }}"
+
+  - name: Create dashboard
+    community.grafana.grafana_dashboard:
+      grafana_url: "{{ grafana_url }}"
+      grafana_api_key: "{{ grafana_api_key }}"
+      state: "present"
+      overwrite: "yes"
+      folder: "{{ grafana_dashboard_folder | default('Testing') }}"
+      path: "{{ tmp_file.path }}"
+  always:
+
+    - name: Use the registered var and the file module to remove the temporary file
+      ansible.builtin.file:
+        path: "{{ tmp_file.path }}"
+        state: absent
+      when: tmp_file.path is defined
