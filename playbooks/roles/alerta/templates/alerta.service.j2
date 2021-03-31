@@ -1,10 +1,11 @@
 
 [Unit]
-Description=Carbon Service
+Description=Alerta Service
 After=syslog.target network.target
 
 [Service]
 Restart=always
+TimeoutSec=30s
 User={{ alerta_os_user }}
 Group={{ alerta_os_group }}
 Environment=ALERTA_IMAGE=alerta/alerta-web
@@ -24,6 +25,9 @@ ExecStart={{ container_runtime }} run \
   -v /etc/alerta/alerta.conf:/app/alerta.conf:ro,z \
   --tmpfs /tmp:rw,size=787448k \
   ${ALERTA_IMAGE}
+
+ExecStop={{ container_runtime }} stop -t 300 "alerta"
+ExecStop={{ container_runtime }} rm "alerta"
 
 [Install]
 WantedBy=multi-user.target
