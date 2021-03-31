@@ -1,0 +1,44 @@
+  - datasource: apimon-pg
+    description: Success rate of the scenario in the chosen timeframe
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        noValue: N/A
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99
+        unit: percent
+    gridPos:
+      h: 4
+      w: 6
+      x: 0
+      y: 1
+    options:
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+      showThresholdMarkers: true
+    repeat: relevant_scenario
+    repeatDirection: h
+    targets:
+      - format: table
+        metricColumn: none
+        queryType: randomWalk
+        rawQuery: true
+        rawSql: "SELECT\n  sum(case when result = 0 then 1 else 0 end)*100/count(*)\
+          \ as \"rate\"\nFROM result_summary\nWHERE\n  $__timeFilter(\"timestamp\"\
+          ) AND\n  environment = '$environment' AND\n  zone in ($zone) AND\n  name IN ($relevant_scenario)"
+        refId: A
+    title: Success rate of $relevant_scenario
+    type: gauge
+
+
