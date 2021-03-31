@@ -1,11 +1,11 @@
-- hosts: localhost
+- hosts: bridge.eco.tsi-dev.otc-service.com
   tasks:
     - include_role:
         name: grafana
         tasks_from: import_dashboard.yaml
       vars:
         grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
-        grafana_dashboard_folder: "{{ grafana_dashboard_folder | default('Testing') }}"
+        grafana_dashboard_folder: "Testing"
       loop:
         - apimon/test_results.yaml
         - apimon/endpoint_monitor.yaml
