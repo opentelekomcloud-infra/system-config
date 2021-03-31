@@ -1,0 +1,541 @@
+{% macro sli_avail(svc, svc_name, ypos, status_codes=[]) %}
+  - datasource: apimon
+    description: Rate of successful requests
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 4
+      x: 0
+      y: {{ ypos }}
+    options:
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - refCount: 0
+        refId: A
+        target: asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
+          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.attempted.count))
+        textEditor: true
+    title: SLI {{ svc_name }} service availability
+    type: stat
+{%- endmacro -%}
+
+{% macro sli_rate_write(svc, svc_name, ypos, status_codes=[]) %}
+  - datasource: apimon
+    description: Rate of successful modification requests
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 4
+      x: 4
+      y: {{ ypos }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
+          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.attempted.count))
+        textEditor: true
+    title: SLI {{ svc_name }} write API Success rate
+    type: stat
+{%- endmacro -%}
+
+{% macro sli_rate_error(svc, svc_name, ypos, exclude='404') %}
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 1
+        unit: short
+    gridPos:
+      h: 5
+      w: 4
+      x: 8
+      y: {{ ypos }}
+    interval: ''
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{4*,5*,failed}.count,
+          '{{ exclude }}')), 'sum')
+        textEditor: false
+    title: SLI {{ svc_name }} API Errors count
+    type: stat
+{%- endmacro -%}
+
+{% macro sli_no_response(svc, svc_name, ypos) %}
+  - datasource: apimon
+    description: Percentage of API requests not received any response
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 0.01
+            - color: red
+              value: 5
+    gridPos:
+      h: 5
+      w: 4
+      x: 12
+      y: {{ ypos }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - refCount: 0
+        refId: A
+        target: asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.failed.count),
+          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.attempted.count))
+        textEditor: false
+    title: SLI {{ svc_name }} no response %
+    type: stat
+{%- endmacro -%}
+
+{% macro sli_latency(svc, svc_name, ypos) %}
+  - datasource: apimon
+    description: Percentage of API requests not received any response
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 1000
+        unit: 'ms'
+    gridPos:
+      h: 5
+      w: 4
+      x: 16
+      y: {{ ypos }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - refCount: 0
+        refId: A
+        target: maxSeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.upper)
+        textEditor: false
+    title: SLI {{ svc_name }} Latency
+    type: stat
+{%- endmacro -%}
+
+{% macro sli_service_row(svc, svc_name, ypos) %}
+{{ sli_avail(svc, svc_name, ypos, ['2*', '3*', '404']) }}
+{{ sli_rate_write(svc, svc_name, ypos, ['2*', '3*', '404']) }}
+{{ sli_rate_error(svc, svc_name, ypos, '404') }}
+{{ sli_no_response(svc, svc_name, ypos) }}
+{{ sli_latency(svc, svc_name, ypos) }}
+{%- endmacro -%}
+
+# Extra hack for DNS service, which returns 400 instead of 404
+{% macro sli_service_row_dns(svc, svc_name, ypos) %}
+{{ sli_avail(svc, svc_name, ypos, ['2*', '3*', '400', '404']) }}
+{{ sli_rate_write(svc, svc_name, ypos, ['2*', '3*', '400', '404']) }}
+{{ sli_rate_error(svc, svc_name, ypos, '400|404') }}
+{{ sli_no_response(svc, svc_name, ypos) }}
+{{ sli_latency(svc, svc_name, ypos) }}
+{%- endmacro -%}
+
+{% macro service_api_latency(svc, ypos) %}
+  - datasource: apimon
+    fill: 1
+    gridPos:
+      h: 8
+      w: 24
+      x: 0
+      y: {{ ypos }}
+    legend:
+      alignAsTable: true
+      avg: true
+      max: true
+      min: true
+      rightSide: true
+      show: true
+      sideWidth: 450
+      values: true
+    lines: true
+    linewidth: 1
+    nullPointMode: 'null'
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: sortByName(groupByNodes(removeEmptySeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.mean),
+          'sum', 8, 7, 9), true)
+        textEditor: true
+    thresholds:
+      - colorMode: warning
+        fill: true
+        line: true
+        op: gt
+        value: 1000
+        yaxis: left
+    title: API calls duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - format: ms
+        logBase: 1
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+{%- endmacro -%}
+
+{% macro service_bad_calls(svc, ypos) %}
+  - bars: true
+    datasource: apimon
+    fieldConfig:
+      defaults:
+        custom: {}
+        links: []
+        unit: short
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 8
+      w: 24
+      x: 0
+      y: {{ ypos }}
+    legend:
+      alignAsTable: true
+      avg: true
+      max: true
+      min: true
+      rightSide: true
+      show: true
+      sideWidth: 450
+      values: true
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: removeEmptySeries(aliasByMetric(consolidateBy(groupByNode(exclude(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.{4*,5*}.count,
+          '404'), 9, 'sum'), 'sum')))
+    thresholds:
+      - colorMode: warning
+        fill: true
+        line: true
+        op: gt
+        value: 1000
+        yaxis: left
+    title: BAD calls
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: short
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+{%- endmacro -%}
+
+{% macro service_results(ypos) %}
+  - datasource: apimon-pg
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom:
+          align: null
+          filterable: false
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+      overrides:
+        - matcher:
+            id: byName
+            options: result
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: green
+                    value: null
+                  - color: red
+                    value: 1
+            - id: custom.displayMode
+              value: color-background
+            - id: mappings
+              value:
+                - from: ''
+                  id: 1
+                  text: Passed
+                  to: ''
+                  type: 1
+                  value: '0'
+                - from: ''
+                  id: 2
+                  text: Skipped
+                  to: ''
+                  type: 1
+                  value: '1'
+                - from: ''
+                  id: 3
+                  text: Failed
+                  to: ''
+                  type: 1
+                  value: '3'
+                - from: ''
+                  id: 4
+                  text: Ignored
+                  to: ''
+                  type: 1
+                  value: '2'
+        - matcher:
+            id: byName
+            options: job_id
+          properties:
+            - id: links
+              value:
+                - targetBlank: true
+                  title: ''
+                  url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
+    gridPos:
+      h: 10
+      w: 24
+      x: 0
+      y: {{ ypos }}
+    options:
+      showHeader: true
+      sortBy:
+        - desc: true
+          displayName: time
+    targets:
+      - format: table
+        group: []
+        metricColumn: long_name
+        rawQuery: true
+        rawSql: "SELECT\n  \"timestamp\" AS \"time\"\
+          ,\n  name AS \"Name\",\n  job_id AS \"job_id\",\n  result\nFROM result_summary\n\
+          WHERE\n  $__timeFilter(\"timestamp\") AND\n  environment = '$environment' AND\n\
+          \  zone in ($zone) AND\n  name in ($relevant_scenario)\n
+          ORDER BY 1 DESC"
+        refId: A
+    title: Scenario results
+    type: table
+{%- endmacro -%}
+
+{% macro service_failures(ypos) %}
+  - datasource: apimon-pg
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom:
+          align: null
+          filterable: false
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+      overrides:
+        - matcher:
+            id: byName
+            options: result
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: green
+                    value: null
+                  - color: red
+                    value: 1
+            - id: custom.displayMode
+              value: color-background
+            - id: mappings
+              value:
+                - from: ''
+                  id: 1
+                  text: Passed
+                  to: ''
+                  type: 1
+                  value: '0'
+                - from: ''
+                  id: 2
+                  text: Skipped
+                  to: ''
+                  type: 1
+                  value: '1'
+                - from: ''
+                  id: 3
+                  text: Failed
+                  to: ''
+                  type: 1
+                  value: '3'
+                - from: ''
+                  id: 4
+                  text: Ignored
+                  to: ''
+                  type: 1
+                  value: '2'
+        - matcher:
+            id: byName
+            options: job_id
+          properties:
+            - id: links
+              value:
+                - targetBlank: true
+                  url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
+    gridPos:
+      h: 10
+      w: 24
+      x: 0
+      y: {{ ypos }}
+    options:
+      showHeader: true
+    targets:
+      - format: table
+        group: []
+        metricColumn: long_name
+        rawQuery: true
+        rawSql: "SELECT\n  result_task.\"timestamp\" AS \"time\",\n  
+          result_task.action AS \"Action\",\n  
+          result_task.name AS \"Name\",\n  
+          result_task.job_id AS \"job_id\",\n  
+          result_task.result,\n  
+          result_task.anonymized_response\n
+          FROM result_summary\n
+          INNER JOIN result_task on result_summary.job_id = 
+          result_task.job_id 
+          AND result_task.environment = result_summary.environment
+          AND result_task.zone = result_summary.zone
+          WHERE\n  $__timeFilter(result_task.\"timestamp\")
+          AND\n  result_task.environment = '$environment'
+          AND\n  result_task.zone in ($zone)
+          AND\n  result_task.result = 3 
+          AND\n  result_summary.result = 3 
+          AND\n  result_summary.name in ($relevant_scenario)\n
+          ORDER BY 1 DESC"
+        refId: A
+    title: Failures in Tasks
+    type: table
+{%- endmacro -%}
+
+{% macro service_scenarios_template(scenarios) %}
+    - allValue: ''
+      current:
+        selected: false
+        text:
+          - All
+        value:
+          - $__all
+      options:
+        - selected: true
+          text: All
+          value: $__all
+{% for sc in scenarios %}
+        - selected: false
+          text: {{ sc }}
+          value: {{ sc }}
+{% endfor %}
+      hide: 2
+      includeAll: true
+      label: Relevant Test Scenarios
+      multi: true
+      name: relevant_scenario
+      query: {{ scenarios | join(',') }}
+      type: custom
+
+{%- endmacro -%}
