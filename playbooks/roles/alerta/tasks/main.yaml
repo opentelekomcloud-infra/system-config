@@ -60,7 +60,7 @@
     dest: "/etc/alerta/{{ item }}"
     owner: "{{ alerta_os_user }}"
     group: "{{ alerta_os_group }}"
-    mode: 0770
+    mode: 0664
   loop:
     - "env"
     - "alerta.conf"
