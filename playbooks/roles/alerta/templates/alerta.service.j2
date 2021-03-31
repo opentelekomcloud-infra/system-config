@@ -13,7 +13,6 @@ EnvironmentFile=/etc/alerta/env
 
 ExecStartPre=-{{ container_runtime }} kill alerta
 ExecStartPre=-{{ container_runtime }} rm alerta
-ExecStartPre=-{{ container_runtime }} pull ${ALERTA_IMAGE}
 
 ExecStart={{ container_runtime }} run \
   --name alerta \
