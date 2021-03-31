@@ -155,3 +155,13 @@
       - playbooks/service-memcached.yaml
       - roles/memcached/
 
+- job:
+    name: infra-prod-service-grafana-dashboards
+    parent: infra-prod-service-base
+    description: Run dashboards.yaml playbook.
+    vars:
+      playbook_name: dashboards.yaml
+    files:
+      - playbooks/dashboards.yaml
+      - playbooks/templates/grafana
+
