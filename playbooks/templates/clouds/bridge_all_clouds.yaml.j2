@@ -97,6 +97,16 @@ clouds:
       user_domain_name: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.user_domain_name }}
     interface: public
     vendor_hook: "otcextensions.sdk:load"
+  otcapimon-csm1:
+    profile: otc
+    auth:
+      auth_url: {{ apimon_all_clouds.otcapimon_csm1.auth.auth_url }}
+      username: {{ apimon_all_clouds.otcapimon_csm1.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_csm1.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_csm1.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_csm1.auth.user_domain_name }}
+    interface: public
+    object_store_endpoint_override: "{{ apimon_all_clouds.otcapimon_csm1.object_store_endpoint_override }}"
   otcapimon-logs:
     profile: otc
     auth: 
