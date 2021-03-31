@@ -1,0 +1,77 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Create alerta group
+  become: yes
+  ansible.builtin.group:
+    name: "{{ alerta_os_group }}"
+    state: present
+
+- name: Create alerta user for docker
+  become: true
+  ansible.builtin.user:
+    name: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    groups: docker 
+    state: present
+  when: container_command == "docker"
+
+- name: Create alerta user for podman
+  become: true
+  ansible.builtin.user:
+    name: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    state: present
+  when: container_command == "podman"
+
+- name: Create required directories
+  become: true
+  file:
+    path: "{{ item.dest }}"
+    state: directory
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: "{{ item.mode | default(omit) }}"
+  loop:
+    - {dest: "/etc/alerta"}
+
+- name: Write Alerta config files
+  become: true
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/alerta/{{ item }}"
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: 0664
+  loop:
+    - "env"
+    - "alerta.conf"
+    - "alertad.conf"
+  notify:
+    - Restart alerta
+
+- name: Write Alerta Systemd unit file
+  become: true
+  template:
+    src: "alerta.service.j2"
+    dest: "/etc/systemd/system/alerta.service"
+  notify:
+    - Restart alerta

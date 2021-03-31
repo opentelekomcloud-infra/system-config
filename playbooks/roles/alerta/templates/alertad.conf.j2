@@ -1,0 +1,43 @@
+DATABASE_URL='{{ alerta_db_url }}'
+AUTH_REQUIRED={{ alerta_auth_required }}
+{% if alerta_user_proxyfix is defined and alerta_user_proxyfix %}
+USE_PROXYFIX = True
+{% endif %}
+CUSTOMER_VIEWS = {{ alerta_enable_customer_views }}
+{% if alerta_allowed_email_domains is defined and alerta_allowed_email_domains|length %}
+ALLOWED_EMAIL_DOMAINS = {{ alerta_allowed_email_domains }}
+{% endif %}
+SECRET_KEY = '{{ alerta_secret_key }}'
+{% if alerta_auth_provider is defined %}
+AUTH_PROVIDER='{{ alerta_auth_provider }}'
+{% for key in alerta_auth_options_str %}
+{{ key }} = '{{alerta_auth_options_str[key] }}'
+{% endfor %}
+{% for key in alerta_auth_options_non_str %}
+{{ key }} = {{alerta_auth_options_non_str[key] }}
+{% endfor %}
+{% endif %}
+{% if alerta_allowed_github_orgs is defined and alerta_allowed_github_orgs|length %}
+ALLOWED_GITHUB_ORGS = {{ alerta_allowed_github_orgs }}
+{% endif %}
+{% if alerta_smtp_enable is defined and alerta_smtp_enable %}
+SMTP_HOST = '{{ alerta_smtp_host }}'
+MAIL_FROM = '{{ alerta_smtp_from_address }}'
+{% endif %}
+{% if alerta_allowed_environments %}
+ALLOWED_ENVIRONMENTS = {{ alerta_allowed_environments }}
+{% endif %}
+{% if alerta_columns %}
+COLUMNS = {{ alerta_columns }}
+{% endif %}
+{% if alerta_heartbeat_timeout is defined and alerta_heartbeat_timeout > 0 %}
+HEARTBEAT_TIMEOUT = {{ alerta_heartbeat_timeout|int }}
+{% endif %}
+{% if alerta_plugins is defined and alerta_plugins|length %}
+PLUGINS = {{ alerta_plugins }}
+{% if alerta_plugins_options is defined and alerta_plugins_options|length %}
+{% for key in alerta_plugins_options %}
+{{ key }} = '{{ alerta_plugins_options[key] }}'
+{% endfor %}
+{% endif %}
+{% endif %}
