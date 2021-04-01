@@ -315,8 +315,8 @@ apimon_instances:
 
     # Test Matrix
     test_matrix:
-      - env: production_eu-de
-        project: apimon
+      #  - env: production_eu-de
+      #    project: apimon
       - env: production_eu-de
         project: csm
         tasks:
