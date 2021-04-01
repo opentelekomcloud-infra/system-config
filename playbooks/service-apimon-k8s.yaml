@@ -1,0 +1,4 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  name: "Configure APImon in K8s"
+  tasks:
+

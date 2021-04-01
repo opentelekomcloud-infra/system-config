@@ -100,7 +100,6 @@ clouds:
   otcapimon-csm1:
     profile: otc
     auth:
-      auth_url: {{ apimon_all_clouds.otcapimon_csm1.auth.auth_url }}
       username: {{ apimon_all_clouds.otcapimon_csm1.auth.username }}
       password: "{{ apimon_all_clouds.otcapimon_csm1.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_csm1.auth.project_name }}
@@ -114,3 +113,11 @@ clouds:
       password: "{{ apimon_all_clouds.otcapimon_logs.auth.password }}"
       project_name: {{ apimon_all_clouds.otcapimon_logs.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_logs.auth.user_domain_name }}
+  otcapimon-logs-stg:
+    profile: otc
+    auth: 
+      username: {{ apimon_all_clouds.otcapimon_logs_stg.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_logs_stg.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_logs_stg.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_logs_stg.auth.user_domain_name }}
+    object_store_endpoint_override: "{{ apimon_all_clouds.otcapimon_logs_stg.object_store_endpoint_override }}"
