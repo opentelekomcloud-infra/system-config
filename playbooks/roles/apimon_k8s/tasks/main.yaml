@@ -13,9 +13,9 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
-        apimon.yaml: "{{ lookup('template', 'templates/apimon/apimon.yaml.j2') | from_yaml | to_yaml }}"
+        apimon.yaml: "{{ lookup('template', 'templates/apimon/apimon.yaml.j2') | from_yaml | to_nice_yaml(indent=2) }}"
         # apimon operator force "_" in the name
-        apimon_executor.yaml: "{{ lookup('template', 'templates/apimon/executor-config.yaml.j2') | from_yaml | to_yaml }}"
+        apimon_executor.yaml: "{{ lookup('template', 'templates/apimon/executor-config.yaml.j2') | from_yaml | to_nice_yaml(indent=2) }}"
         logging.conf: "{{ lookup('template', 'templates/apimon/logging.conf.j2') }}"
 
 - name: Create Secrets
