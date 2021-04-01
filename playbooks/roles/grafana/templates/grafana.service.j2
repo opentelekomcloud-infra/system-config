@@ -31,7 +31,7 @@ ExecStart={{ container_runtime }} run \
 {% if grafana_auth_ldap_enable %}
     -v /etc/grafana/ldap:/etc/grafana/ldap:Z \
 {% endif %}
-    -v /var/lib/grafana:/var/lib/grafana:Z \
+    -v grafana_lib:/var/lib/grafana \
     ${GRAFANA_IMAGE}
 
 ExecReload=-{{ container_runtime }} stop "grafana"

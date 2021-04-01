@@ -1,0 +1,26 @@
+---
+# Firewalld enablement
+
+- name: Enable firewalld
+  become: true
+  systemd:
+    name: firewalld
+    enabled: yes
+    state: started
+
+- name: Enable Firewall port 3000
+  become: true
+  firewalld:
+    port: 3000/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+
+- name: Enable Firewall port 8081
+  become: true
+  firewalld:
+    port: 8081/tcp
+    state: enabled
+    permanent: true
+    immediate: true
+  when: grafana_enable_renderer

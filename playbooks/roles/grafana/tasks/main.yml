@@ -25,29 +25,19 @@
     name: "{{ grafana_os_user }}"
     state: present
 
-- name: Create Grafana user for docker
+- name: Create Grafana user for docker/podman
   become: true
   ansible.builtin.user:
     name: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
-    groups: docker 
+    groups: "{{ 'docker' if container_command == 'docker' else '' }}"
     state: present
-  when: container_command == "docker"
-
-- name: Create alerta user for podman
-  become: true
-  ansible.builtin.user:
-    name: "{{ grafana_os_user }}"
-    group: "{{ grafana_os_group }}"
-    state: present
-  when: container_command == "podman"
 
 - name: Create required directories
   become: true
   file:
     path: "{{ item.dest }}"
     state: directory
-    recurse: yes
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
     mode: "{{ item.mode | default(omit) }}"
@@ -78,8 +68,8 @@
 
 - name: Write Grafana ldap root CA file
   become: true
-  template:
-    src: "ldap-certificate.crt.j2"
+  copy:
+    content: "{{ grafana_auth_ldap_certificate }}"
     dest: "/etc/grafana/ldap/ldap-certificate.crt"
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
@@ -114,20 +104,11 @@
     state: started
     name: "grafana.service"
 
-- name: Install Grafana plugins with podman
+- name: Install Grafana plugins 
   become: true
   become_user: "{{ grafana_os_user }}"
-  command: "podman exec grafana grafana-cli plugins install {{ item }}"
+  command: "{{ container_command }} exec grafana grafana-cli plugins install {{ item }}"
   loop: "{{ grafana_plugins }}"
-  when: container_command == "podman"
   notify:
     - restart grafana
 
-- name: Install Grafana plugins with docker
-  become: true
-  become_user: "{{ grafana_os_user }}"
-  command: "podman exec grafana grafana-cli plugins install {{ item }}"
-  loop: "{{ grafana_plugins }}"
-  when: container_command == "docker"
-  notify:
-    - restart grafana
