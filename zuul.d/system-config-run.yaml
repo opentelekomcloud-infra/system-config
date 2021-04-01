@@ -205,3 +205,22 @@
       - playbooks/service-alerta.yaml
       - playbooks/roles/alerta
       - testinfra/test_alerta.py
+- job:
+    name: system-config-run-grafana
+    parent: system-config-run
+    description: |
+      Run the playbook for the grafana servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: grafana.focal
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/service-grafana.yaml
+    files:
+      - tox.ini
+      - playbooks/service-grafana.yaml
+      - playbooks/roles/grafana
+      - testinfra/test_grafana.py
