@@ -14,8 +14,8 @@ testinfra_hosts = ['epmon.f32', 'epmon.focal']
 
 
 def test_epmon_config(host):
-    config = host.file('/etc/apimon/apimon-epmon.yaml')
-    secure_config = host.file('/etc/apimon/apimon-epmon-secure.yaml')
+    config = host.file('/etc/apimon/apimon.yaml')
+    secure_config = host.file('/etc/apimon/apimon-secure.yaml')
     assert config.exists
     assert secure_config.exists
 
@@ -26,8 +26,6 @@ def test_epmon_config(host):
         assert b'zone: zone_f32' in config.content
     elif hostname == 'epmon.focal':
         assert b'zone: zone_focal' in config.content
-
-    assert b'a1: None' in config.content
 
     assert b'host: 1.2.3.4' in config.content
 
