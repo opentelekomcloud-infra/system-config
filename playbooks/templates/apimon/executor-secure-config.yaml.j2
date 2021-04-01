@@ -1,4 +1,4 @@
 alerta:
-  token: "{{ apimon_alerta_token }}"
+  token: "{{ apimon_alerta_token | default(apimon.alerta_token) }}"
 executor:
-  db_url: "{{ apimon_db_url }}"
+  db_url: "{{ apimon_db_url | default(apimon.db_url) }}"

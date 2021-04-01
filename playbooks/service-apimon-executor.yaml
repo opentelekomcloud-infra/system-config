@@ -1,5 +1,7 @@
 - hosts: apimon-executor:!disabled
   name: "Configure APImon Executor service"
+  vars:
+    apimon: "{{ apimon_instances[apimon_instance] | combine(apimon_instances_secrets[apimon_instance], recursive=True) }}"
   roles:
     - role: opentelekomcloud.apimon.executor
       executor_config: "{{ lookup('template', apimon_executor_config_template) | from_yaml }}"

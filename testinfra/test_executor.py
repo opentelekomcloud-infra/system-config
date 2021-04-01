@@ -22,7 +22,7 @@ def test_executor_config(host):
     assert b'test_alerta_endpoint' in config.content
     assert b'alerta_token' in secure_config.content
 
-    assert b'db_url:' in secure_config.content
+    assert b'db_url: postgresql://dummy' in secure_config.content
 
 
 def test_executor_systemd(host):

@@ -1,5 +1,5 @@
-apimon_executor_image: "quay.io/opentelekomcloud/apimon:dev"
-apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:dev"
-apimon_epmon_image: "quay.io/opentelekomcloud/apimon:dev"
-
-apimon_alerta_endpoint: test_alerta_endpoint
+apimon_instances_secrets:
+  production_stg:
+    alerta_token: alerta_token
+    alerta_endpoint: test_alerta_endpoint
+    db_url: "postgresql://dummy:dummy@{{ ansible_host }}:5432/dummy"
