@@ -45,7 +45,6 @@
     - {dest: "/etc/grafana"}
     - {dest: "/etc/grafana/provisioning"}
     - {dest: "/etc/grafana/ldap"}
-    - {dest: "/var/lib/grafana", mode: "0777"}
 
 - name: Write Grafana config env file
   become: true
