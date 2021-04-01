@@ -1,10 +1,12 @@
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
   name: "Configure APImon in K8s"
   tasks:
-   - include_role:
+    - include_role:
         name: apimon_k8s
       vars:
         apimon: "{{ apimon_instances[item.apimon_instance] | combine(apimon_instances_secrets[item.apimon_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"
+        cr_spec: "{{ item.cr_spec }}"
       loop: "{{ apimon_k8s_instances | list }}"
