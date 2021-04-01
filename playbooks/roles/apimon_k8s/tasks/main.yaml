@@ -39,8 +39,8 @@
 - name: Set partial CR data
   set_fact:
     cr_additional_spec:
-      config_map_name: "{{ apimon-config-{{ instance }}"
-      secret_name: "{{ apimon-secure-{{ instance }}"
+      config_map_name: "apimon-config-{{ instance }}"
+      secret_name: "apimon-secure-{{ instance }}"
 
 - name: Create CR
   community.kubernetes.k8s:

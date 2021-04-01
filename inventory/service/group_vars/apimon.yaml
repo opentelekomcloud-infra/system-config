@@ -333,7 +333,8 @@ apimon_instances:
 
 
 apimon_k8s_instances:
-  - instance: "production_stg"
+  - apimon_instance: "production_stg"
+    instance: "stg"
     context: "otcinfra-stg"
     namespace: "apimon"
     cr_spec:
