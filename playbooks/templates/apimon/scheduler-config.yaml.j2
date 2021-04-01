@@ -1,4 +1,4 @@
-secure: {{ apimon_scheduler_secure_file_location }}
+secure: {{ scheduler_secure_file_location }}
 gear:
   - host: 0.0.0.0
     port: 4730
@@ -6,16 +6,16 @@ gear:
 log:
   config: /etc/apimon/logging.conf
 alerta:
-  endpoint: {{ apimon_alerta_endpoint }}
-test_projects: {{ apimon_test_projects }}
-test_environments: {{ apimon_test_environments }}
-test_matrix: {{ apimon_test_matrix }}
+  endpoint: {{ apimon_alerta_endpoint | default(apimon.alerta_endpoint) }}
+test_projects: {{ apimon.test_projects }}
+test_environments: {{ apimon.test_environments }}
+test_matrix: {{ apimon.test_matrix }}
 scheduler: 
-  zone: {{ apimon_zone }}
+  zone: {{ apimon_zone | default(apimon.zone) }}
   work_dir: /var/lib/apimon
   socket: /tmp/scheduler.socket
   refresh_interval: 10
 metrics:
   statsd:
-    host: {{ apimon_statsd_host }}
+    host: {{ apimon_statsd_host | default(apimon.statsd_host) }}
     port: 8125
