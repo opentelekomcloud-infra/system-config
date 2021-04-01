@@ -1,7 +1,7 @@
 alerta:
-  token: {{ apimon_alerta_token }}
+  token: {{ apimon_alerta_token | default(apimon.alerta_token) }}
 clouds:
-{% for cloud in apimon_clouds %}
+{% for cloud in apimon.clouds %}
 {% if cloud is mapping %}
 {% set original_name = cloud.cloud %}
 {% set apimon_name = cloud.name %}

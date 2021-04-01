@@ -1,4 +1,4 @@
-secure: {{ apimon_epmon_secure_file_location }}
+secure: {{ epmon_secure_file_location }}
 gear:
   - host: 0.0.0.0
     port: 4730
@@ -6,15 +6,15 @@ gear:
 log:
   config: /etc/apimon/logging.conf
 alerta:
-  endpoint: {{ apimon_alerta_endpoint }}
+  endpoint: {{ apimon_alerta_endpoint | default(apimon.alerta_endpoint) }}
 epmon:
   socket: /tmp/epmon.socket
-  zone: {{ apimon_zone }}
-  clouds: {{ apimon_epmon_clouds }}
-{% if apimon_epmon_interval is defined %}
-  interval: {{ apimon_epmon_interval }}
+  zone: {{ apimon_zone | default(apimon.zone) }}
+  clouds: {{ apimon.epmon_clouds }}
+{% if apimon.epmon_interval is defined %}
+  interval: {{ apimon.epmon_interval }}
 {% endif %}
 metrics:
   statsd:
-    host: {{ apimon_statsd_host }}
+    host: {{ apimon_statsd_host | default(apimon.statsd_host) }}
     port: 8125

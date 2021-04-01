@@ -1,9 +1,11 @@
 plugin: yamlgroup
 groups:
+  # NOTE(gtema): bridge is present in most groups to be able to manage k8 deployments of the service
   # APImon groups:
   # general APImon values
   #
   apimon:
+    - bridge.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
@@ -50,7 +52,7 @@ groups:
   # "production" instance of the apimon
   apimon-production:
     - executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+      #    - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
@@ -62,6 +64,9 @@ groups:
   # "preprod" instance of apimon
   apimon-preprod:
     - preprod.apimon.eco.tsi-dev.otc-service.com
+
+  apimon-stg:
+    - bridge.apimon.eco.tsi-dev.tsi-service.com
 
   # Where local statsd should be deployed
   statsd:
