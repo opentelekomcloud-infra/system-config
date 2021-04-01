@@ -14,8 +14,8 @@ testinfra_hosts = ['scheduler.f32', 'scheduler.focal']
 
 
 def test_scheduler_config(host):
-    config = host.file('/etc/apimon/apimon-scheduler.yaml')
-    secure_config = host.file('/etc/apimon/apimon-scheduler-secure.yaml')
+    config = host.file('/etc/apimon/apimon.yaml')
+    secure_config = host.file('/etc/apimon/apimon-secure.yaml')
     assert config.exists
     assert secure_config.exists
 
