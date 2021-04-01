@@ -101,7 +101,7 @@ apimon_instances:
   production_vc:
     statsd_host: 192.168.2.55
     gearman_host: 192.168.2.55
-    zone: vcloud
+    zone: vcloud_muc
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -205,6 +205,12 @@ apimon_instances:
            - scenario2_simple_ecs.yaml
            - scenario3a_evs_az.yaml
            - scenario4_image.yaml
+    clouds:
+      - name: preprod
+        cloud: otcapimon_preprod
+      - name: swift
+        cloud: otcapimon_logs
+
   hybrid:
     statsd_host: 192.168.110.249
     gearman_host: 192.168.110.249
