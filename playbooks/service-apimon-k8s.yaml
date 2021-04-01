@@ -9,4 +9,7 @@
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"
         cr_spec: "{{ item.cr_spec }}"
+        # In k8 we can not mount secret and cm under same path
+        apimon_secure_file_location: "/etc/apimon_secure"
+        executor_secure_file_location: "/etc/apimon_secure"
       loop: "{{ apimon_k8s_instances | list }}"
