@@ -20,6 +20,8 @@ ExecStart={{ container_runtime }} run \
 {% for item in grafana_renderer_hosts_entries %}
     --add-host={{ item }} \
 {% endfor %}
+{% else %}
+   --add-host=grafana:{{ ansible_default_ipv4.address }} \
 {% endif %}
     -p 8081:8081 \
     ${GRAFANA_RENDERER_IMAGE}

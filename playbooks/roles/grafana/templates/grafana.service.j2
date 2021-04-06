@@ -21,8 +21,12 @@ ExecStart={{ container_runtime }} run \
     --add-host={{ grafana_auth_ldap_hosts_entry }} \
 {% endif %}
 {% endif %}
+{% if grafana_enable_renderer %}
 {% if grafana_renderer_hosts_entry is defined %}
     --add-host={{ grafana_renderer_hosts_entry }} \
+{% else %}
+    --add-host=renderer:{{ ansible_default_ipv4.address }} \
+{% endif %}
 {% endif %}
     --env-file /etc/grafana/env \
     -p 3000:3000 \
