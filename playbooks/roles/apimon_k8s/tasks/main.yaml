@@ -1,0 +1,59 @@
+- name: Create ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "apimon-config-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        apimon.yaml: "{{ lookup('template', 'templates/apimon/apimon.yaml.j2') | from_yaml | to_nice_yaml(indent=2) }}"
+        # apimon operator force "_" in the name
+        apimon_executor.yaml: "{{ lookup('template', 'templates/apimon/executor-config.yaml.j2') | from_yaml | to_nice_yaml(indent=2) }}"
+        logging.conf: "{{ lookup('template', 'templates/apimon/logging.conf.j2') }}"
+
+- name: Create Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "apimon-secure-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        apimon-secure.yaml: "{{ lookup('template', 'templates/apimon/apimon-secure.yaml.j2') | from_yaml | to_yaml | string | b64encode }}"
+        apimon-executor-secure.yaml: "{{ lookup('template', 'templates/apimon/executor-secure-config.yaml.j2') | from_yaml | to_yaml | string | b64encode }}"
+
+- name: Set partial CR data
+  set_fact:
+    cr_additional_spec:
+      config_map_name: "apimon-config-{{ instance }}"
+      secret_name: "apimon-secure-{{ instance }}"
+
+- name: Create CR
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ instance }}"
+    api_version: "apimon.otc-service.com/v1alpha1"
+    kind: "Apimon"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec: "{{ cr_spec | combine(cr_additional_spec, recursive=True) }}"

@@ -101,7 +101,7 @@ apimon_instances:
   production_vc:
     statsd_host: 192.168.2.55
     gearman_host: 192.168.2.55
-    zone: vcloud
+    zone: vcloud_muc
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -205,6 +205,12 @@ apimon_instances:
            - scenario2_simple_ecs.yaml
            - scenario3a_evs_az.yaml
            - scenario4_image.yaml
+    clouds:
+      - name: preprod
+        cloud: otcapimon_preprod
+      - name: swift
+        cloud: otcapimon_logs
+
   hybrid:
     statsd_host: 192.168.110.249
     gearman_host: 192.168.110.249
@@ -309,8 +315,8 @@ apimon_instances:
 
     # Test Matrix
     test_matrix:
-      - env: production_eu-de
-        project: apimon
+      #  - env: production_eu-de
+      #    project: apimon
       - env: production_eu-de
         project: csm
         tasks:
@@ -325,15 +331,17 @@ apimon_instances:
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
 
-    k8s:
-      cr_name: stg
-      cr_config:
-        apimon_image_pull_policy: Always
-        epmon_count: 0
-        executor_count: 1
-        namespace: apimon
-        scheduler_count: 1
 
+apimon_k8s_instances:
+  - apimon_instance: "production_stg"
+    instance: "stg"
+    context: "otcinfra-stg"
+    namespace: "apimon"
+    cr_spec:
+      epmon_count: 0
+      scheduler_count: 0
+      executor_count: 0
+      apimon_image_pull_policy: "Always"
 
 # This represents service endpoints to be tested by EPmon process
 # They get combined into the epmon configuration by selecting dedicated group
