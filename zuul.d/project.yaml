@@ -31,6 +31,7 @@
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
         - infra-prod-service-apimon-executor
+        - infra-prod-service-apimon-k8s
         # memcached should come before graphite
         - infra-prod-service-memcached
         - infra-prod-service-graphite
@@ -46,6 +47,7 @@
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
         - infra-prod-service-apimon-executor
+        - infra-prod-service-apimon-k8s
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
