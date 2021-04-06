@@ -1,6 +1,6 @@
-apimon_executor_image: "quay.io/opentelekomcloud/apimon:dev"
-apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:dev"
-apimon_epmon_image: "quay.io/opentelekomcloud/apimon:dev"
+apimon_executor_image: "quay.io/opentelekomcloud/apimon:latest"
+apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:latest"
+apimon_epmon_image: "quay.io/opentelekomcloud/apimon:latest"
 
 # Templates and filenames config
 apimon_epmon_config_template: "templates/apimon/apimon.yaml.j2"
@@ -87,6 +87,10 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+      - env: production_eu-de
+        project: csm
+        tasks:
+          - lb_monitoring.yaml
 
     # Test clouds configuration
     clouds:
@@ -98,6 +102,7 @@ apimon_instances:
         cloud: otcapimon_logs
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
+
   production_vc:
     statsd_host: 192.168.2.55
     gearman_host: 192.168.2.55
