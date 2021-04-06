@@ -164,6 +164,10 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+      - env: production_eu-de
+        project: csm
+        tasks:
+          - lb_monitoring.yaml
 
     # Test clouds configuration
     clouds:
