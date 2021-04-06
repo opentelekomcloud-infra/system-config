@@ -7,6 +7,40 @@ panels:
 
 {% include '_service_header.yaml.j2' %}
 
+  - datasource: apimon
+    fill: 1
+    gridPos:
+      h: 9
+      w: 24
+      x: 0
+      y: 6
+    legend:
+      show: true
+      alignAsTable: true
+      rightSide: true
+      values: true
+      current: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 8, 9)
+    title: LoadBalancer Latency
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - format: ms
+        logBase: 1
+        show: true
+      - show: false
+
 {{ mcr.service_api_latency('network', 17) }}
 {{ mcr.service_bad_calls('network', 25) }}
 {{ mcr.service_failures(33) }}
