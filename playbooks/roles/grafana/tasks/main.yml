@@ -73,9 +73,10 @@
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
     mode: 0664
-  when: grafana_auth_ldap_enable
-
-- include_tasks: firewall.yml
+  when:  
+    - grafana_auth_ldap_enable 
+    - grafana_auth_ldap_certificate is defined 
+    - grafana_auth_ldap_certificate |length > 0
 
 - name: Write Grafana Image Renderer Systemd unit file
   become: true
