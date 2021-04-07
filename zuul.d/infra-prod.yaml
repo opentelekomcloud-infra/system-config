@@ -134,6 +134,17 @@
       - playbooks/service-apimon-executor.yaml
 
 - job:
+    name: infra-prod-service-apimon-k8s
+    parent: infra-prod-service-base
+    description: Run service-apimon-k8s.yaml playbook.
+    vars:
+      playbook_name: service-apimon-k8s.yaml
+    files:
+      - inventory/
+      - playbooks/service-apimon-k8s.yaml
+      - roles/apimon_k8s
+
+- job:
     name: infra-prod-service-graphite
     parent: infra-prod-service-base
     description: Run service-graphite.yaml playbook.
