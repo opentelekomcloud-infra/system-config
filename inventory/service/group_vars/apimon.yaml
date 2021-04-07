@@ -57,6 +57,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/production %s
       - name: csm
         repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
         repo_ref: main
@@ -134,6 +135,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/production %s
       - name: csm
         repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
         repo_ref: main
@@ -246,6 +248,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/hybrid %s
 
     # Test Environments
     test_environments:
@@ -307,6 +310,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: devel
         scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/production %s
       - name: csm
         repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
         repo_ref: devel
@@ -324,8 +328,10 @@ apimon_instances:
 
     # Test Matrix
     test_matrix:
-      #  - env: production_eu-de
-      #    project: apimon
+      - env: production_eu-de
+        project: apimon
+        tasks:
+          - scenario30_domains.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -348,8 +354,8 @@ apimon_k8s_instances:
     namespace: "apimon"
     cr_spec:
       epmon_count: 0
-      scheduler_count: 0
-      executor_count: 0
+      scheduler_count: 1
+      executor_count: 1
       apimon_image_pull_policy: "Always"
 
 # This represents service endpoints to be tested by EPmon process
