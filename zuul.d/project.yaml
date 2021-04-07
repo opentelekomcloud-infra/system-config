@@ -11,6 +11,7 @@
         - system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta
+        - system-config-run-grafana
     gate:
       jobs:
         - otc-tox-linters
@@ -22,6 +23,7 @@
         - system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta
+        - system-config-run-grafana
     deploy:
       jobs:
         - infra-prod-install-ansible
@@ -36,6 +38,7 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
+        - infra-prod-service-grafana
     periodic:
       # Nightly execution
       jobs:
@@ -51,6 +54,7 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
+        - infra-prod-service-grafana
     periodic-hourly:
       # hourly execution
       jobs:

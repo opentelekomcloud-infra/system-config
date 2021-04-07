@@ -1,0 +1,48 @@
+[Unit]
+Description=Grafana container
+Wants=syslog.service
+
+[Service]
+Type=simple
+TimeoutSec=30s
+Restart=always
+User={{ grafana_os_user }}
+Group={{ grafana_os_group }}
+
+EnvironmentFile=/etc/grafana/env
+
+ExecStartPre=-{{ container_runtime }} system migrate
+ExecStartPre=-{{ container_runtime }} rm "grafana"
+
+ExecStart={{ container_runtime }} run \
+    --name "grafana" \
+{% if grafana_auth_ldap_enable %}
+{% if grafana_auth_ldap_hosts_entry is defined %}
+    --add-host={{ grafana_auth_ldap_hosts_entry }} \
+{% endif %}
+{% endif %}
+{% if grafana_enable_renderer %}
+{% if grafana_renderer_hosts_entry is defined %}
+    --add-host={{ grafana_renderer_hosts_entry }} \
+{% else %}
+    --add-host=renderer:{{ ansible_default_ipv4.address }} \
+{% endif %}
+{% endif %}
+    --env-file /etc/grafana/env \
+    -p 3000:3000 \
+    -v /etc/grafana/provisioning:/etc/grafana/provisioning:Z \
+{% if grafana_auth_ldap_enable %}
+    -v /etc/grafana/ldap:/etc/grafana/ldap:Z \
+{% endif %}
+    -v grafana_lib:/var/lib/grafana \
+    ${GRAFANA_IMAGE}
+
+ExecReload=-{{ container_runtime }} stop "grafana"
+ExecReload=-{{ container_runtime }} rm "grafana"
+
+ExecStop={{ container_runtime }} stop "grafana"
+ExecStop={{ container_runtime }} rm "grafana"
+
+[Install]
+WantedBy=multi-user.target
+
