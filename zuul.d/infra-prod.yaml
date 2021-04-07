@@ -187,3 +187,13 @@
       - playbooks/dashboards.yaml
       - playbooks/templates/grafana
 
+- job:
+    name: infra-prod-service-grafana
+    parent: infra-prod-service-base
+    description: Run service-grafana.yaml playbook.
+    vars:
+      playbook_name: service-grafana.yaml
+    files:
+      - inventory/
+      - playbooks/service-grafana.yaml
+      - roles/grafana/

@@ -1,0 +1,6 @@
+- hosts: "grafana:!disabled"
+  name: "Base: configure grafana"
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+    - grafana

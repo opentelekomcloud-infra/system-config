@@ -1,0 +1,12 @@
+firewalld_extra_ports_enable: ['3000/tcp', '8081/tcp']
+grafana_plugins: [ blackmirror1-singlestat-math-panel, snuids-trafficlights-panel ]
+grafana_enable_renderer: true
+
+grafana_auth_github_enable: true
+grafana_auth_github_client_id: grafana
+grafana_auth_github_client_secret: secret
+grafana_auth_github_allowed_orgs: opentelekomcloud-infra
+
+grafana_auth_ldap_enable: true
+grafana_users_login_hint: "OTC LDAP account"
+grafana_users_password_hint: "OTC LDAP password" 
