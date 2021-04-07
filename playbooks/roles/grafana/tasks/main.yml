@@ -104,6 +104,13 @@
     state: started
     name: "grafana.service"
 
+- name: Wait for grafana container to listen 
+  become: true
+  wait_for:
+    host: 0.0.0.0
+    port: 3000
+    timeout: 120
+
 - name: Install Grafana plugins 
   become: true
   become_user: "{{ grafana_os_user }}"
