@@ -47,7 +47,7 @@ panels:
     fill: 1
     gridPos:
       h: 6
-      w: 24
+      w: 12
       x: 0
       y: 15
     legend:
@@ -65,7 +65,7 @@ panels:
     spaceLength: 10
     targets:
       - refId: A
-        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.curl.*.passed.mean, 5, 7)
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.curl.*.{2*,3*}.mean, 5, 7)
     title: Domains curl Latency
     thresholds: 
       - value: 300
@@ -86,8 +86,68 @@ panels:
       show: true
     yaxes:
       - format: ms
-        logBase: 1
+        min: 0
         show: true
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Curl like request errors for the hosts in scenario30_domains.yaml
+    fill: 1
+    gridPos:
+      h: 6
+      w: 6
+      x: 12
+      y: 15
+    legend:
+      show: true
+    points: true
+    pointRadius: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.{4*,5*}.attempted.count, 7, 8)
+    title: Domains curl 4XX, 5XX Errros
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: false
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Curl like request connection errors for the hosts in scenario30_domains.yaml
+    fill: 1
+    gridPos:
+      h: 6
+      w: 6
+      x: 18
+      y: 15
+    legend:
+      show: true
+    points: true
+    pointRadius: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.failed.count, 7)
+    title: Domains curl Connection Errros
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: false
       - show: false
 
 {{ mcr.service_api_latency('network', 17) }}
@@ -106,7 +166,9 @@ templating:
 {% include '_template_zone.yaml.j2' %}
       multi: true
 
-{{ mcr.service_scenarios_template(['scenario2_simple_ecs.yaml', 'scenario2a_ecs_az.yaml', 'scenario19_simple_vpc.yaml']) }}
+{{ mcr.service_scenarios_template(['scenario2_simple_ecs.yaml',
+'scenario2a_ecs_az.yaml', 'scenario19_simple_vpc.yaml',
+'scenario30_domains.yaml', 'lb_monitoring.yaml']) }}
 
 time:
   from: now-6h
