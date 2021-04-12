@@ -1,22 +1,18 @@
-#server {
-#  listen 80 default_server;
-#  listen [::]:80 default_server;
-#  server_name _;
-#
-#  return 301 https://$host$request_uri;
-#}
-
 server {
   listen 80 default_server;
   listen [::]:80 default_server;
   server_name _;
 
-#  listen 443 ssl;
-#  listen [::]:443 ssl;
-#  server_name {{ inventory_hostname }};
-#
-#  ssl_certificate /etc/letsencrypt-certs/{{ inventory_hostname }}/{{ inventory_hostname }}.cer;
-#  ssl_certificate_key /etc/letsencrypt-certs/{{ inventory_hostname }}/{{ inventory_hostname }}.key;
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name {{ inventory_hostname }};
+
+  ssl_certificate /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.crt;
+  ssl_certificate_key /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.pem;
   root /opt/graphite/static;
   index index.html;
 
