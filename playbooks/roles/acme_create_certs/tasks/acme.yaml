@@ -11,4 +11,4 @@
     remaining_days: 60
     data: "{{ acme_challenge[cert.key] }}"
     terms_agreed: true
-  when: acme_challenge[cerk.key] is defined and acme_challenge[cert.key] is changed
+  when: acme_challenge[cert.key] is defined and acme_challenge[cert.key] is changed
