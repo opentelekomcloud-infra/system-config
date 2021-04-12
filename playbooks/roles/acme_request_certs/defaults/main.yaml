@@ -1,0 +1,4 @@
+certs_path: "/etc/ssl/certs"
+acme_directory: "https://acme-staging-v02.api.letsencrypt.org/directory"
+acme_account_contact:
+  - "mailto:DL-PBCOTCDELECOCERT@t-systems.com"
