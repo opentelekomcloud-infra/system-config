@@ -15,8 +15,8 @@
 - name: Create dns rec
   openstack.cloud.recordset:
     cloud: "{{ dns_cloud }}"
-    zone: "{{ dns_zone }}"
-    name: "{{ item.key }}"
+    zone: "{{ item.key | regex_replace('^_acme-challenge\\.([a-z0-9-_]*)\\.(.*)$', '\\2') }}."
+    name: "{{ item.key }}."
     recordset_type: "txt"
     records: "{{ item.value }}"
   loop: "{{ acme_txt_keys | dict2items }}"
