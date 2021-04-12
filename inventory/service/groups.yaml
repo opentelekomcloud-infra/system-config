@@ -105,6 +105,8 @@ groups:
   ssl_certs:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
+    - proxy1.eco.tsi-dev.otc-service.com
+    - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
 
   disabled:

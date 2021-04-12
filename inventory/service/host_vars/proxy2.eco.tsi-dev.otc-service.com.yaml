@@ -1,5 +1,5 @@
 ssl_certs:
-  proxy1:
-    - "proxy1.eco.tsi-dev.otc-service.com"
+  proxy2:
+    - "proxy2.eco.tsi-dev.otc-service.com"
     - "dashboard.tsi-dev.otc-service.com"
     - "alerts.tsi-dev.otc-service.com"
