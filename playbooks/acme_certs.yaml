@@ -1,0 +1,19 @@
+- hosts: ssl_certs:!disabled
+  vars:
+    acme_directory: "https://acme-v02.api.letsencrypt.org/directory"
+  roles:
+    - acme_request_certs
+
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  roles:
+    - acme_install_txt_records
+
+- hosts: ssl_certs:!disabled
+  vars:
+    acme_directory: "https://acme-v02.api.letsencrypt.org/directory"
+  roles:
+    - acme_create_certs
+
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  roles:
+    - acme_drop_txt_records

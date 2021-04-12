@@ -1,1 +1,6 @@
 graphite_instance_group: graphite-apimon
+
+ssl_certificates:
+  graphite-eco:
+    - graphite1.eco.tsi-dev.otc-service.com
+    - graphite.eco.tsi-dev.otc-service.com

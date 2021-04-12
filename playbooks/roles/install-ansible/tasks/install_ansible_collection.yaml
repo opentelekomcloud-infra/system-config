@@ -1,11 +1,11 @@
-- name: 'Ensure {{ item.namespace }} top-level directory'
+- name: "Ensure {{ item.namespace }} top-level directory"
   file:
-    path: '/root/.ansible/collections/ansible_collections/{{ item.namespace }}/'
-    state: directory
-    mode: 0755
+    path: "/root/.ansible/collections/ansible_collections/{{ item.namespace }}/"
+    state: "directory"
+    mode: "0755"
 
-- name: 'Link in {{ item.namespace }}/{{ item.name }} collection'
+- name: "Link in {{ item.namespace }}/{{ item.name }} collection"
   file:
-    src: '/home/zuul/src/github.com/{{ item.repo }}'
-    dest: '/root/.ansible/collections/ansible_collections/{{ item.namespace }}/{{ item.name }}'
-    state: link
+    src: "/home/zuul/src/{{ item.git_provider | default('github.com') }}/{{ item.repo }}"
+    dest: "/root/.ansible/collections/ansible_collections/{{ item.namespace }}/{{ item.name }}"
+    state: "link"
