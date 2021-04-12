@@ -16,20 +16,20 @@ import logging
 import ssl
 import urllib.request
 
-testinfra_hosts = ['graphite1.focal', 'graphite2.centos']
+testinfra_hosts = ['graphite2.apimon.eco.tsi-dev.otc-service.com']
 
 
 def test_graphite_container_web_listening(host):
     graphite_http = host.socket("tcp://0.0.0.0:80")
     assert graphite_http.is_listening
 
-    #graphite_https = host.socket("tcp://127.0.0.1:443")
-    #assert graphite_https.is_listening
+    graphite_https = host.socket("tcp://127.0.0.1:443")
+    assert graphite_https.is_listening
 
 def test_graphite(host):
     cmd = host.run('curl --insecure '
-                   '--resolve graphite1.focal:80:127.0.0.1 '
-                   'http://graphite1.focal:80')
+                   '--resolve graphite2.apimon.eco.tsi-dev.otc-service.com:443:127.0.0.1 '
+                   'https://graphite2.apimon.eco.tsi-dev.otc-service.com:443')
     assert '<title>Graphite Browser</title>' in cmd.stdout
 
 def test_graphite_data(host):
@@ -45,8 +45,9 @@ def test_graphite_data(host):
     # multi-node-hosts-file has setup graphite1.focal to
     # resolve from hosts.
     found_value = False
-    with urllib.request.urlopen('http://graphite1.focal:80/%s' % (url),
-#                                context=ssl._create_unverified_context()
+    with urllib.request.urlopen('https://graphite2.apimon.eco.tsi-dev.otc-service.com'
+                                ':443/%s' % (url),
+                                context=ssl._create_unverified_context()
                                ) \
                                 as req:
         data = json.loads(req.read().decode())

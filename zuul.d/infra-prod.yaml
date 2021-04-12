@@ -199,3 +199,14 @@
       - inventory/
       - playbooks/service-grafana.yaml
       - roles/grafana/
+
+- job:
+    name: infra-prod-service-acme-ssl
+    parent: infra-prod-service-base
+    description: Run acme-certs.yaml playbook.
+    vars:
+      playbook_name: acme-certs.yaml
+    files:
+      - inventory/
+      - playbooks/acme-certs.yaml
+      - roles/grafana/

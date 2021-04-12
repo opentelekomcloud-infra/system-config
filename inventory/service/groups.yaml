@@ -79,6 +79,7 @@ groups:
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
   graphite:
+    - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
 
   memcached:
