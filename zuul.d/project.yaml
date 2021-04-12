@@ -5,6 +5,7 @@
         - otc-tox-linters
         - system-config-run-base
         - system-config-run-statsd
+        - system-config-run-acme-ssl
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
@@ -29,6 +30,7 @@
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-acme-ssl
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
@@ -45,6 +47,7 @@
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-acme-ssl
         - infra-prod-service-grafana-dashboards
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon

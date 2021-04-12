@@ -1,34 +1,43 @@
-- name: generate signing key
+- name: Generate signing key
   community.crypto.openssl_privatekey:
     path: "{{ certs_path }}/{{ cert.key }}.pem"
     size: 4096
 
-- name: generate csr
+- name: Generate csr
   community.crypto.openssl_csr:
     path: "{{ certs_path }}/{{ cert.key }}.csr"
     privatekey_path: "{{ certs_path }}/{{ cert.key }}.pem"
     common_name: "{{ cert.value[0] }}"
     subject_alt_name: "DNS:{{ cert.value | join(',DNS:') }}"
 
-- name: create acme challenge
+- name: Create acme challenge
   community.crypto.acme_certificate:
     acme_version: 2
     acme_directory: "{{ acme_directory }}"
-    terms_agreed: yes
+    terms_agreed: "yes"
     account_key_src: "{{ certs_path }}/account-key.pem"
     src: "{{ certs_path }}/{{ cert.key }}.csr"
     cert: "{{ certs_path }}/{{ cert.key }}.crt"
-    challenge: dns-01
+    challenge: "dns-01"
     remaining_days: 60
   register: challenge
+  when: not ssl_cert_selfsign
+
+- name: Create selfsigned certificate
+  community.crypto.x509_certificate:
+    path: "{{ certs_path }}/{{ cert.key }}.crt"
+    privatekey_path: "{{ certs_path }}/{{ cert.key }}.pem"
+    csr_path: "{{ certs_path }}/{{ cert.key }}.csr"
+    provider: "selfsigned"
+  when: ssl_cert_selfsign
 
 - name: Save acme challenge
   set_fact:
     acme_challenge: "{{ acme_challenge | combine({cert.key: challenge}) }}"
-  when: challenge is changed
+  when: challenge is defined and challenge is changed
 
-- name: construct TXT
+- name: Construct TXT
   set_fact:
     acme_txt_required: "{{ acme_txt_required | combine({item.key: ['\"'+item.value[0]+'\"']}) }}"
   loop: "{{ challenge['challenge_data_dns'] | dict2items }}"
-  when: challenge is changed
+  when: challenge is defined and challenge is changed

@@ -52,10 +52,10 @@
       loop:
         - group_vars/all.yaml
         - group_vars/control-plane-clouds.yaml
+        - group_vars/ssl_certs.yaml
         - group_vars/apimon.yaml
         - group_vars/apimon-clouds.yaml
         - group_vars/apimon-inst1.yaml
-        - group_vars/letsencrypt.yaml
         - group_vars/statsd.yaml
         - group_vars/graphite.yaml
         - group_vars/memcached.yaml
@@ -64,6 +64,7 @@
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
         - host_vars/epmon.f32.yaml
         - host_vars/epmon.focal.yaml
+        - host_vars/le1.yaml
     - name: Display group membership
       command: ansible localhost -m debug -a 'var=groups'
     - name: Run base.yaml
