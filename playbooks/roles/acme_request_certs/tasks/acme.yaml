@@ -1,14 +1,4 @@
-- name: Generate signing key
-  community.crypto.openssl_privatekey:
-    path: "{{ certs_path }}/{{ cert.key }}.pem"
-    size: 4096
-
-- name: Generate csr
-  community.crypto.openssl_csr:
-    path: "{{ certs_path }}/{{ cert.key }}.csr"
-    privatekey_path: "{{ certs_path }}/{{ cert.key }}.pem"
-    common_name: "{{ cert.value[0] }}"
-    subject_alt_name: "DNS:{{ cert.value | join(',DNS:') }}"
+- include_tasks: common.yaml
 
 - name: Create acme challenge
   community.crypto.acme_certificate:
@@ -21,15 +11,6 @@
     challenge: "dns-01"
     remaining_days: 60
   register: challenge
-  when: not ssl_cert_selfsign
-
-- name: Create selfsigned certificate
-  community.crypto.x509_certificate:
-    path: "{{ certs_path }}/{{ cert.key }}.crt"
-    privatekey_path: "{{ certs_path }}/{{ cert.key }}.pem"
-    csr_path: "{{ certs_path }}/{{ cert.key }}.csr"
-    provider: "selfsigned"
-  when: ssl_cert_selfsign
 
 - name: Save acme challenge
   set_fact:

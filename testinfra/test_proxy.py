@@ -9,13 +9,14 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-testinfra_hosts = ['le1']
+
+testinfra_hosts = ['proxy.f32']
+
+def test_proxy_container_listening(host):
+    sock = host.socket("tcp://0.0.0.0:443")
+    assert sock.is_listening
 
 
-def test_cert_exists(host):
-    for f in ['csr', 'pem', 'crt']:
-        crt_file = host.file('/etc/ssl/le1/fake-domain.%s' % f)
-        assert crt_file.exists
-
-    haproxy_cert = host.file('/etc/ssl/le1/haproxy/fake-domain.pem')
-    assert haproxy_cert.exists
+def test_proxy_systemd(host):
+    service = host.service('haproxy')
+    assert service.is_enabled

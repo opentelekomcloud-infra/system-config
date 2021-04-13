@@ -1,0 +1,6 @@
+- name: Restart nginx
+  ansible.builtin.systemd:
+    name: "nginx"
+    enabled: true
+    state: "restarted"
+    daemon_reload: true

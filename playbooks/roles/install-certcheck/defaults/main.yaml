@@ -1,3 +1,0 @@
-cert_check_domain_list: /var/lib/certcheck/domainlist
-cert_check_days: 30
-cert_check_email: root

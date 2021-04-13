@@ -1,0 +1,25 @@
+upstream graphite {
+{% for backend in backends %}
+    server {{ backend.address }};
+{% endfor %}
+}
+
+server {
+  listen 443 ssl;
+  listen [::]:443 ssl;
+  server_name {{ server_name }};
+
+  ssl_certificate /etc/ssl/{{ inventory_hostname }}/{{ ssl_cert }}.crt;
+  ssl_certificate_key /etc/ssl/{{ inventory_hostname }}/{{ ssl_cert }}.pem;
+
+  location / {
+{% for proxy in proxy_pass %}
+    proxy_pass {{ proxy }};
+{% endfor %}
+
+    proxy_set_header Host            $http_host;
+    proxy_set_header X-Real-IP       $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  }
+
+}
