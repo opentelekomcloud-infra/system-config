@@ -52,7 +52,7 @@ proxy_backends:
 
 proxy_frontends:
   - name: "influx"
-    bind: "*:8086 crt /etc/ssl/{{ inventory_hostname }}/haproxy"
+    bind: "*:8086 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
     backend: "influx"
 
 statsd_host: "192.168.14.159"
