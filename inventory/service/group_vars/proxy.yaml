@@ -19,7 +19,7 @@ proxy_backends:
       - "apimon.eco.tsi-dev.otc-service.com"
     servers:
       - name: "web3"
-        address: "192.168.2.52:80"
+        address: "192.168.2.52:3000"
         opts: "check cookie web3"
       - name: "dashboard.apps.osinfra.eco.tsi-dev.otc-service.com"
         address: "dashboard.apps.osinfra.eco.tsi-dev.otc-service.com:443"
@@ -33,7 +33,7 @@ proxy_backends:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
       - name: "web3"
-        address: "192.168.2.52:80"
+        address: "192.168.2.52:8080"
         opts: "check cookie web3"
       - name: "alerta.apps.osinfra.eco.tsi-dev.otc-service.com"
         address: "alerta.apps.osinfra.eco.tsi-dev.otc-service.com:443"
