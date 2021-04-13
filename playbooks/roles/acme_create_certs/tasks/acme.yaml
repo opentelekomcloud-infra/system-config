@@ -1,4 +1,4 @@
-- name: validate acme challenge
+- name: Validate acme challenge
   community.crypto.acme_certificate:
     acme_version: 2
     acme_directory: "{{ acme_directory }}"
@@ -12,3 +12,6 @@
     data: "{{ acme_challenge[cert.key] }}"
     terms_agreed: true
   when: acme_challenge[cert.key] is defined and acme_challenge[cert.key] is changed
+  notify:
+    # Need to restart all known services
+    - Restart graphite

@@ -1,0 +1,18 @@
+[Unit]
+Description=Nginx Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill nginx
+ExecStartPre=-{{ container_runtime }} rm nginx
+
+ExecStart={{ container_runtime }} run \
+    --name nginx \
+    --network host \
+    -v /etc/ssl/{{ inventory_hostname }}:/etc/ssl/{{ inventory_hostname }}:ro,z \
+    -v /etc/nginx:/etc/nginx:ro,z \
+    {{ nginx_image }}
+
+[Install]
+WantedBy=multi-user.target

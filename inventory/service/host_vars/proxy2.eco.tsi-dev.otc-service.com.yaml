@@ -3,3 +3,4 @@ ssl_certs:
     - "proxy2.eco.tsi-dev.otc-service.com"
     - "dashboard.tsi-dev.otc-service.com"
     - "alerts.tsi-dev.otc-service.com"
+    - "graphite.eco.tsi-dev.otc-service.com"
