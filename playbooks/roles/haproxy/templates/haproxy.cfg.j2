@@ -31,7 +31,7 @@ defaults
 
 frontend web
   mode http
-  bind: *:80
+  bind *:80
   bind *:443 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy
 
   http-request set-header X-Forwarded-Proto https if { ssl_fc }
