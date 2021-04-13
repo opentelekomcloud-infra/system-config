@@ -42,6 +42,19 @@ proxy_backends:
         address: "alerta.apps.osinfra-mirror.eco.tsi-dev.otc-service.com:443"
         opts: "ssl verify none cookie osinfra-mirror check sni req.hdr(Host)"
 
+  - name: "influx"
+    domain_names:
+      - "influx1.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "influx1"
+        address: "192.168.110.227:8086"
+        opts: "check"
+
+proxy_frontends:
+  - name: "influx"
+    bind: "*:8086 crt /etc/ssl/{{ inventory_hostname }}/haproxy"
+    backend: "influx"
+
 statsd_host: "192.168.14.159"
 statsd_port: "8125"
 
