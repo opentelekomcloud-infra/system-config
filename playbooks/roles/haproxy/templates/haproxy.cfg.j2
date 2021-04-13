@@ -42,10 +42,23 @@ frontend web
   acl {{ backend.name }}_acl hdr(host) -i {{ domain }}
 {% endfor %}
   use_backend {{ backend.name }} if {{ backend.name }}_acl
+
 {% endfor %}
 
   option httplog
   option http-server-close
+
+{% for frontend in proxy_frontends %}
+frontend {{ frontend.name }}
+  mode http
+  bind {{ frontend.bind }}
+
+  option httplog
+  option http-server-close
+
+  default_backend {{ frontend.backend }}
+
+{% endfor %}
 
 {% for backend in proxy_backends %}
 backend {{ backend.name }}
