@@ -103,6 +103,9 @@ groups:
   grafana:
     - web3.eco.tsi-dev.otc-service.com
 
+  proxy:
+    - proxy2.eco.tsi-dev.otc-service.com
+
   ssl_certs:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com

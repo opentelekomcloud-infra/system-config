@@ -8,3 +8,5 @@ ssl_certs:
   alerts3:
     - "alerts3.eco.tsi-dev.otc-service.com"
     - "alerts.eco.tsi-dev.otc-service.com"
+  graphite:
+    - "graphite.eco.tsi-dev.otc-service.com"

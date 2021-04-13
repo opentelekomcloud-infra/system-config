@@ -210,3 +210,16 @@
       - inventory/
       - playbooks/acme-certs.yaml
       - roles/grafana/
+
+- job:
+    name: infra-prod-service-proxy
+    parent: infra-prod-service-base
+    description: Run service-proxy.yaml playbook.
+    vars:
+      playbook_name: service-proxy.yaml
+    files:
+      - inventory/
+      - playbooks/service-proxy.yaml
+      - roles/haproxy/
+
+

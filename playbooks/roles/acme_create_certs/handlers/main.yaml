@@ -1,0 +1,5 @@
+- name: Restart haproxy
+  include_tasks: roles/acme_create_certs/handlers/restart-haproxy.yaml
+
+- name: Restart graphite
+  include_tasks: roles/acme_create_certs/handlers/restart-graphite.yaml

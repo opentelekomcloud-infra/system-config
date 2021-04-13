@@ -1,0 +1,39 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Ensure directories exist
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ item }}"
+    mode: "0755"
+  loop:
+    - "/etc/nginx/conf.d"
+
+- include_tasks: write_config.yaml
+
+- name: Write systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "nginx.service.j2"
+    dest: "/etc/systemd/system/nginx.service"
+  notify:
+    - Restart nginx

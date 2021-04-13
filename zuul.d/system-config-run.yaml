@@ -248,3 +248,23 @@
       - playbooks/roles/acme_request_certs
       - playbooks/roles/acme_install_txt_records
       - playbooks/roles/acme_drop_txt_records
+
+- job:
+    name: system-config-run-proxy
+    parent: system-config-run
+    description: |
+      Run the playbook for the proxy servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: proxy1.f32
+          label: fedora-32
+    vars:
+      run_playbooks:
+        - playbooks/acme-certs.yaml
+        - playbooks/service-proxy.yaml
+    files:
+      - tox.ini
+      - playbooks/service-proxy.yaml
+      - playbooks/roles/haproxy
