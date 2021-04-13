@@ -6,3 +6,4 @@ ssl_certs:
     - "apimon.eco.tsi-dev.otc-service.com"
     - "alerts.eco.tsi-dev.otc-service.com"
     - "graphite.eco.tsi-dev.otc-service.com"
+    - "influx1.eco.tsi-dev.otc-service.com"
