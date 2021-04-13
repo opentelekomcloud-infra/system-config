@@ -1,0 +1,61 @@
+global
+  uid  1000
+  gid  1000
+  log  /dev/log local0
+  maxconn  4000
+  pidfile  /var/haproxy/run/haproxy.pid
+  stats  socket /var/haproxy/run/stats uid 1000 gid 1000 mode 0600 level admin
+
+  ssl-default-bind-ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384
+  tune.ssl.default-dh-param 4096
+
+defaults
+  log-format  "%ci:%cp [%t] %ft [%bi]:%bp %b/%s %Tw/%Tc/%Tt %B %ts %ac/%fc/%bc/%sc/%rc %sq/%bq"
+  log  global
+  maxconn  8000
+  option  redispatch
+  retries  3
+  stats  enable
+  timeout  http-request 10s
+  timeout  queue 1m
+  timeout  connect 10s
+  timeout  client 2m
+  timeout  server 2m
+  timeout  check 10s
+
+frontend http
+  mode http
+  bind *:80
+
+  http-request add-header X-Forwarded-Proto https
+  redirect scheme https code 301 if !{ ssl_fc }
+
+  option http-server-close
+  option forwardfor
+
+frontend ssl
+  mode http
+  bind *:443 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy
+  http-request add-header X-Forwarded-Proto https
+
+{% for backend in proxy_backends %}
+{% for domain in backend.domain_names %}
+  acl {{ backend.name }}_acl hdr(host) -i {{ domain }}
+{% endfor %}
+  use_backend {{ backend.name }} if {{ backend.name }}_acl
+{% endfor %}
+
+  option httplog
+  option http-server-close
+
+{% for backend in proxy_backends %}
+backend {{ backend.name }}
+  mode http
+  http-send-name-header Host
+  balance roundrobin
+  cookie SERVERID insert indirect nocache
+{% for server in backend.servers %}
+  server {{ server.name }} {{ server.address }} {{ server.opts if server.opts is defined else '' }}
+{% endfor %}
+
+{% endfor %}
