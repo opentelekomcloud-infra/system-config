@@ -36,7 +36,7 @@ def test_graphite_data(host):
     # seed some data; send it over ipv6
     cmd = ('timeout 20 bash -c '
            '\'while true; do echo -n "example:$((RANDOM % 100))|c" '
-           '| nc -6 -w 1 -u localhost 8125; done\'')
+           '| nc -w 1 -u localhost 8125; done\'')
     host.run(cmd)
 
     url='render?from=-10mins&until=now&target=stats.example&format=json'
