@@ -135,7 +135,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
-        exec_cmd: ansible-playbook -i inventory/production %s
+        exec_cmd: ansible-playbook -i inventory/production_external %s
       - name: csm
         repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
         repo_ref: main
