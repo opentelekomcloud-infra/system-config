@@ -1,0 +1,73 @@
+---
+- name: Set resource naming
+  set_fact: 
+   alerta_config_name: "alerta-config-{{ instance }}"
+   alerta_secret_name: "alerta-secret-{{ instance }}" 
+   alerta_deployment_name: "alerta-deployment-{{ instance }}"
+   alerta_service_name: "alerta-service-{{ instance }}"
+   alerta_ingress_name: "alerta-ingress-{{ instance }}"
+   alerta_ssl_cert_name: "alerta-ssl-{{ instance }}"
+
+- name: Create ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_config_name }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "alerta"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        alertad.conf: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
+
+- name: Create Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_secret_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "alerta"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        DATABASE_URL: "{{ alerta.alerta_db_url | default(alerta.default.alerta_db_url) | string | b64encode }}"
+        SECRET_KEY: "{{ alerta.alerta_secret_key | default(alerta.default.alerta_secret_key) | string | b64encode }}"
+        ZULIP_API_KEY: "{{ alerta.alerta_api_key | default(alerta.default.alerta_api_key)  | string | b64encode }}"
+        ADMIN_KEY: "{{ alerta.alerta_admin_key | default(alerta.default.alerta_admin_key) | string | b64encode }}"
+        ALERTA_API_KEY: "{{ alerta.alerta_api_key | default(alerta.default.alerta_api_key)  | string | b64encode }}"
+        ADMIN_USERS: "{{ alerta.alerta_admin_users | default(alerta.default.alerta_admin_users) | string | b64encode }}"
+        LDAP_BIND_PASSWORD: "{{ alerta.alerta_bind_password | default(alerta.default.alerta_bind_password)  | string | b64encode }}"
+
+- name: start Alerta deployment 
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_deployment_name }}"
+    definition: "{{ lookup('template', 'alerta-deployment.yaml.j2') | from_yaml }}"
+
+- name: expose Alerta deployment with service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_service_name }}"
+    definition: "{{ lookup('template', 'alerta-service.yaml.j2') | from_yaml }}"
+
+- name: start Alerta ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_ingress_name }}"
+    definition: "{{ lookup('template', 'alerta-ingress.yaml.j2') | from_yaml }}"

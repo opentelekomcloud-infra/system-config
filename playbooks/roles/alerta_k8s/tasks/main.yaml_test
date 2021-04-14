@@ -1,0 +1,13 @@
+---
+- name: Debug variables
+  debug:
+    msg: "halihoo"
+
+- name: Display all variables/facts known for a host
+  debug:
+    var: hostvars[inventory_hostname]
+  tags: debug_info
+
+- name: Debug variables
+  debug:
+    msg: "{{ alerta.default.alerta_smtp_host }}"
