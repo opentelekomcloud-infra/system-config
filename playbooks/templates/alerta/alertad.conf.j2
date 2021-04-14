@@ -1,0 +1,37 @@
+AUTH_REQUIRED = True
+USE_PROXYFIX = True
+CUSTOMER_VIEWS = False
+
+AUTH_PROVIDER='{{ alerta.alerta_auth_provider | default(alerta.default.alerta_auth_provider) }}'
+{% if alerta.alerta_auth_options_str is defined %}
+{% for key in alerta.alerta_auth_options_str %}
+{{ key }} = '{{alerta.alerta_auth_options_str[key] }}'
+{% endfor %}
+{% for key in alerta.alerta_auth_options_non_str %}
+{{ key }} = {{alerta.alerta_auth_options_non_str[key] }}
+{% endfor %}
+{% else %}
+{% for key in alerta.default.alerta_auth_options_str %}
+{{ key }} = '{{alerta.default.alerta_auth_options_str[key] }}'
+{% endfor %}
+{% for key in alerta.default.alerta_auth_options_non_str %}
+{{ key }} = {{alerta.default.alerta_auth_options_non_str[key] }}
+{% endfor %}
+{% endif%}
+
+
+SMTP_HOST = '{{ alerta.alerta_smtp_host | default(alerta.default.alerta_smtp_host) }}'
+MAIL_FROM = '{{ alerta.alerta_smtp_from_address | default(alerta.default.alerta_smtp_from_address) }}'
+ALLOWED_ENVIRONMENTS = {{ alerta.alerta_allowed_environments | default(alerta.default.alerta_allowed_environments) }}
+COLUMNS = {{ alerta.alerta_columns | default(alerta.default.alerta_columns) }}
+HEARTBEAT_TIMEOUT = {{ (alerta.alerta_heartbeat_timeout | default(alerta.default.alerta_heartbeat_timeout))|int }}
+PLUGINS = {{ alerta.alerta_plugins | default(alerta.default.alerta_plugins) }}
+{% if alerta.alerta_plugins_options is defined %}
+{% for key in alerta.alerta_plugins_options %}
+{{ key }} = '{{ alerta.alerta_plugins_options[key] }}'
+{% endfor %}
+{% else%}
+{% for key in alerta.default.alerta_plugins_options %}
+{{ key }} = '{{ alerta.default.alerta_plugins_options[key] }}'
+{% endfor %}
+{% endif %}
