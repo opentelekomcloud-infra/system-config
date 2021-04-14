@@ -337,6 +337,7 @@ apimon_instances:
         project: apimon
         tasks:
           - scenario30_domains.yaml
+          - scenario31_nslookup.yaml
       - env: production_eu-de
         project: csm
         tasks:
