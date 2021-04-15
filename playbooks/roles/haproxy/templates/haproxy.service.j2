@@ -1,0 +1,19 @@
+[Unit]
+Description=Haproxy Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill haproxy
+ExecStartPre=-{{ container_runtime }} rm haproxy
+
+ExecStart={{ container_runtime }} run \
+    --name haproxy \
+    --network host \
+    -v /etc/ssl/{{ inventory_hostname }}:/etc/ssl/{{ inventory_hostname }}:ro,z \
+    -v /etc/haproxy:/usr/local/etc/haproxy:ro,z \
+    -v haproxy_run_volume:/var/haproxy/run:rw,z \
+    {{ haproxy_image }}
+
+[Install]
+WantedBy=multi-user.target

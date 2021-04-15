@@ -1,0 +1,10 @@
+- name: Check haproxy process
+  command: pgrep -f haproxy
+  ignore_errors: yes
+  register: haproxy_pids
+
+- name: Restart Haproxy
+  ansible.builtin.service:
+    name: "haproxy"
+    state: "restarted"
+  when: haproxy_pids.rc == 0

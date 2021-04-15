@@ -1,8 +1,3 @@
-graphite_sync_user: graphite
-graphite_sync_group: graphite
-graphite_instance_group: graphite-inst1
-graphite_relay_replication_factor: 2
-
 graphite_public_key: |
   ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDW9xL5obur1bEGvMdAEQV+h8uT1fi1SiKz20FPSiYGmL6YeKHN7xrtKr4OQD2GUhyv2jVPculGoaqS+WfQUVL/YfigERGWxErX4pyEW5wU/9TFullPmduGsw03reFvxoJHNm7Uq/Os/Ulthh5J753CuPSAvf1mEPk63/rhyeFcacnzD1tUbzSZrQbC56kXppQyQQFf53MOMTMYrzGOZeBVT7G9OesxTnQrWjrDe5F3VdP5rywMFGG3xvBlvZnvlZiZIkcYtDDm65GsJqCpapBpGXKw0kqXygij3pjRNwMIowR/euwVy9g8EnFV4zGLNNNPq9MeE3/Nujl/W4VNw2UPqgFYrIPi21Moed3PE+CLqUY1mzFVO1ZyPtZoWRt1A1N22fXBgRPI8+42agPU90yKskysWPI27jmHjWuv4XgtuOjyEUJzGg0lOmvlgHeLVtMweyn51K+A7+FsvB+PvEpVlEsm1WTAhTSd/sC536xYA+xfXNtOXjJOe4HGnYZdzD0= fake_keypair
 
@@ -10,7 +5,3 @@ graphite_private_key: |
   -----BEGIN OPENSSH PRIVATE KEY-----
   totally_fake
   -----END OPENSSH PRIVATE KEY-----
-
-firewalld_extra_services_enable: ['http', 'https']
-firewalld_extra_ports_enable: ['2003/tcp', '2004/tcp', '2013/tcp', '2014/tcp',
-  '2023/tcp', '2024/tcp', '8125/udp']

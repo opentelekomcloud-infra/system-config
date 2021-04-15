@@ -1,0 +1,9 @@
+ssl_certs:
+  proxy1:
+    - "proxy1.eco.tsi-dev.otc-service.com"
+    - "dashboard.tsi-dev.otc-service.com"
+    - "apimon.tsi-dev.otc-service.com"
+    - "apimon.eco.tsi-dev.otc-service.com"
+    - "alerts.eco.tsi-dev.otc-service.com"
+    - "graphite.eco.tsi-dev.otc-service.com"
+    - "influx1.eco.tsi-dev.otc-service.com"

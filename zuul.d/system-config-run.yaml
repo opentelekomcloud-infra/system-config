@@ -20,6 +20,8 @@
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-apimon
         override-checkout: main
+      - name: opendev.org/openstack/ansible-collections-openstack
+        override-checkout: master
     host-vars:
       bridge.eco.tsi-dev.otc-service.com:
         host_copy_output:
@@ -151,12 +153,11 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: graphite1.focal
-          label: ubuntu-focal
-        - name: graphite2.centos
+        - name: graphite2.apimon.eco.tsi-dev.otc-service.com
           label: centos-8
     vars:
       run_playbooks:
+        - playbooks/acme-certs.yaml
         - playbooks/service-graphite.yaml
     files:
       - tox.ini
@@ -205,6 +206,7 @@
       - playbooks/service-alerta.yaml
       - playbooks/roles/alerta
       - testinfra/test_alerta.py
+
 - job:
     name: system-config-run-grafana
     parent: system-config-run
@@ -224,3 +226,45 @@
       - playbooks/service-grafana.yaml
       - playbooks/roles/grafana
       - testinfra/test_grafana.py
+
+- job:
+    name: system-config-run-acme-ssl
+    parent: system-config-run
+    description: |
+      Run the playbook for the acme-ssl servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: le1
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        - playbooks/acme-certs.yaml
+    files:
+      - tox.ini
+      - playbooks/acme-ssl.yaml
+      - playbooks/roles/acme_create_certs
+      - playbooks/roles/acme_request_certs
+      - playbooks/roles/acme_install_txt_records
+      - playbooks/roles/acme_drop_txt_records
+
+- job:
+    name: system-config-run-proxy
+    parent: system-config-run
+    description: |
+      Run the playbook for the proxy servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: proxy1.f32
+          label: fedora-32
+    vars:
+      run_playbooks:
+        - playbooks/acme-certs.yaml
+        - playbooks/service-proxy.yaml
+    files:
+      - tox.ini
+      - playbooks/service-proxy.yaml
+      - playbooks/roles/haproxy
