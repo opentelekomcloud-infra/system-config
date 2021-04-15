@@ -1,0 +1,147 @@
+  - collapsed: false
+    {{ mcr.grid_pos(0, 82, 1, 24) }}
+    panels: []
+    title: Network
+    type: row
+
+{{ mcr.sli_service_row('network', 'Network', 83) }}
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    {{ mcr.grid_pos(6, 88, 5, 6) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.networks.201.mean,
+          '1hour'), 5)
+    title: Network creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 800
+            - color: red
+              value: 900
+        unit: ms
+    {{ mcr.grid_pos(12, 88, 5, 6) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.subnets.201.mean,
+          '10min'), 5)
+    title: Subnet creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        noValue: N/A
+        thresholds:
+          mode: absolute
+          steps:
+            - color: blue
+              value: null
+            - color: green
+              value: 0
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    {{ mcr.grid_pos(18, 88, 5, 6) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.floatingips.201.upper_90,
+          '1hour'), 5)
+        textEditor: true
+    title: FIP creation duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+    {{ mcr.grid_pos(0, 93, 5, 6) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(movingAverage(stats.timers.openstack.api.$environment.$zone.network.POST.routers.201.mean,
+          '1hour'), 5)
+    title: Router creation duration
+    type: stat

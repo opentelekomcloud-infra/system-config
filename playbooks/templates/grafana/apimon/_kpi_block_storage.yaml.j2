@@ -1,0 +1,366 @@
+# Block Storage
+  - collapsed: false
+    {{ mcr.grid_pos(0, 63, 1, 24) }}
+    panels: []
+    title: Block Storage
+    type: row
+
+{{ mcr.sli_service_row('block-storage', 'Block Storage', 64) }}
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    {{ mcr.grid_pos(0, 69, 8, 8) }}
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume.{default,eu*}.*.upper_90,
+          7, 'avg')
+    title: 10G Volume creation duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    {{ mcr.grid_pos(8, 69, 8, 8) }}
+    lines: true
+    linewidth: 1
+    nullPointMode: 'null'
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_snapshot.*.upper_90,
+          7, 'avg')
+    title: 10G Volume Snaphost duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    {{ mcr.grid_pos(16, 69, 8, 8) }}
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: 'null'
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_backup.*.passed.upper_90,
+          7, 'avg')
+    title: 10G Volume Backup duration (per AZ)
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    {{ mcr.grid_pos(0, 77, 5, 4) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.passed.count),
+          stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: false
+    title: Volume creation success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    {{ mcr.grid_pos(4, 77, 5, 4) }}
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.{failed,attempted}.count,
+          8, 'sum'), '1d', 'sum', false))
+        textEditor: false
+    title: Count of volume creation attempts
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    {{ mcr.grid_pos(8, 77, 5, 4) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.passed.count),
+          stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: true
+    title: Volume snapshot success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    {{ mcr.grid_pos(12, 77, 5, 4) }}
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.{failed,attempted}.count,
+          7, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Count of snapshot creation attempts
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        noValue: '0'
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+      overrides: []
+    {{ mcr.grid_pos(16, 77, 5, 4) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: alias(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.attempted.count)),
+          'Percentage')
+        textEditor: false
+    title: Backup creation success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    {{ mcr.grid_pos(20, 77, 5, 4) }}
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.default.{failed,attempted}.count,
+          8, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Count of backup attempts
+    type: bargauge
+
