@@ -1,0 +1,23 @@
+- name: Make key list
+  set_fact:
+    acme_txt_keys: {}
+
+- name: Build key list
+  set_fact:
+    acme_txt_keys: "{{ acme_txt_keys | combine(hostvars[item]['acme_txt_required'], list_merge='append') }}"
+  with_inventory_hostnames:
+    - ssl_certs:!disabled
+
+- name: Final list
+  debug:
+    var: acme_txt_keys
+
+- name: Drop dns rec
+  openstack.cloud.recordset:
+    cloud: "{{ dns_cloud }}"
+    state: "absent"
+    zone: "{{ item.key | regex_replace('^_acme-challenge\\.([a-z0-9-_]*)\\.(.*)$', '\\2') }}."
+    name: "{{ item.key }}."
+    recordset_type: "txt"
+    records: "{{ item.value }}"
+  loop: "{{ acme_txt_keys | dict2items }}"

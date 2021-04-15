@@ -17,4 +17,8 @@
         - namespace: opentelekomcloud
           name: apimon
           repo: opentelekomcloud/ansible-collection-apimon
+        - namespace: openstack
+          name: cloud
+          repo: openstack/ansible-collections-openstack
+          git_provider: opendev.org
     - root-keys

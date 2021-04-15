@@ -5,6 +5,7 @@
         - otc-tox-linters
         - system-config-run-base
         - system-config-run-statsd
+        - system-config-run-acme-ssl
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
@@ -12,6 +13,7 @@
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
+        - system-config-run-proxy
     gate:
       jobs:
         - otc-tox-linters
@@ -24,11 +26,13 @@
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
+        - system-config-run-proxy
     deploy:
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-acme-ssl
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-scheduler
@@ -39,12 +43,14 @@
         - infra-prod-service-graphite
         - infra-prod-service-alerta
         - infra-prod-service-grafana
+        - infra-prod-service-proxy
     periodic:
       # Nightly execution
       jobs:
         - infra-prod-install-ansible
         - infra-prod-base
         - infra-prod-service-bridge
+        - infra-prod-service-acme-ssl
         - infra-prod-service-grafana-dashboards
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
@@ -55,6 +61,7 @@
         - infra-prod-service-graphite
         - infra-prod-service-alerta
         - infra-prod-service-grafana
+        - infra-prod-service-proxy
     periodic-hourly:
       # hourly execution
       jobs:
