@@ -39,3 +39,5 @@ grafana_auth_ldap_group_dn_super_admin:  "cn=grafana-super-admins,ou=group,dc=ex
 grafana_auth_ldap_group_dn_admin:  "cn=grafana-admins,ou=group,dc=example,dc=com"
 grafana_auth_ldap_group_dn_editor: "cn=grafana-editors,ou=group,dc=example,dc=com"
 grafana_auth_ldap_group_search_base_dns: [ " {{ grafana_auth_ldap_group_dn_super_admin }} ", " {{ grafana_auth_ldap_group_dn_admin }} ", " {{ grafana_auth_ldap_group_dn_editor }} " ]
+
+grafana_uid_prefix: ""

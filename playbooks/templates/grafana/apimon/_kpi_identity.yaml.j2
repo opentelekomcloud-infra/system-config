@@ -1,0 +1,44 @@
+  - collapsed: false
+    {{ mcr.grid_pos(0, 22, 1, 24) }}
+    title: Identity
+    type: row
+
+{{ mcr.sli_service_row('identity', 'Identity', 23) }}
+
+  - datasource: apimon
+    description: upper_90 for the Token creation
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 150
+            - color: red
+              value: 200
+        unit: ms
+    {{ mcr.grid_pos(0, 28, 5, 6) }}
+    options:
+      colorMode: value
+      graphMode: area
+      justifyMode: auto
+      orientation: auto
+      reduceOptions:
+        calcs:
+          - last
+        values: false
+      textMode: auto
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.openstack.api.$environment.$zone.identity.POST.tokens.201.upper_90,
+          5)
+    title: SLI Token creation duration
+    type: stat

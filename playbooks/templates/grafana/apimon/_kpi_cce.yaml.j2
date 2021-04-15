@@ -1,0 +1,173 @@
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 114
+    panels: []
+    title: CCE
+    type: row
+
+{{ mcr.sli_service_row('ccev2_0', 'CCE', 115) }}
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 6
+      w: 6
+      x: 6
+      y: 120
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    seriesOverrides: []
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.delete_cce_cluster.passed.upper_90,
+          5)
+    title: CCE Cluster deletion duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: false
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.99
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 12
+      y: 120
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.attempted.count))
+        textEditor: true
+    title: CCE Cluster provisioning success rate
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.99
+        unit: percent
+    gridPos:
+      h: 6
+      w: 6
+      x: 18
+      y: 120
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.attempted.count))
+        textEditor: true
+    title: CCE Cluster deletion success rate
+    type: stat
+
+  - datasource: apimon
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 6
+      w: 6
+      x: 0
+      y: 125
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.create_cce_cluster.passed.upper_90,
+          5)
+    title: CCE Cluster provisioning duration
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: false
+
+
