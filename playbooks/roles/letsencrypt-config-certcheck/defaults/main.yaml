@@ -1,1 +1,0 @@
-letsencrypt_certcheck_domain_list: /var/lib/certcheck/ssldomains

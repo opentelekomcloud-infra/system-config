@@ -34,6 +34,8 @@
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-apimon
         override-checkout: main
+      - name: opendev.org/openstack/ansible-collections-openstack
+        override-checkout: master
     files:
       - inventory/
       - roles/
@@ -197,3 +199,27 @@
       - inventory/
       - playbooks/service-grafana.yaml
       - roles/grafana/
+
+- job:
+    name: infra-prod-service-acme-ssl
+    parent: infra-prod-service-base
+    description: Run acme-certs.yaml playbook.
+    vars:
+      playbook_name: acme-certs.yaml
+    files:
+      - inventory/
+      - playbooks/acme-certs.yaml
+      - roles/grafana/
+
+- job:
+    name: infra-prod-service-proxy
+    parent: infra-prod-service-base
+    description: Run service-proxy.yaml playbook.
+    vars:
+      playbook_name: service-proxy.yaml
+    files:
+      - inventory/
+      - playbooks/service-proxy.yaml
+      - roles/haproxy/
+
+

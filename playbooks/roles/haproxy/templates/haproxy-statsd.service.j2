@@ -1,0 +1,19 @@
+[Unit]
+Description=Haproxy StatsD Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill haproxy-statsd
+ExecStartPre=-{{ container_runtime }} rm haproxy-statsd
+
+ExecStart={{ container_runtime }} run \
+    --name haproxy-statsd \
+    --network host \
+    --env STATSD_HOST={{ statsd_host }} \
+    --env STATSD_PORT={{ statsd_port }} \
+    -v haproxy_run_volume:/var/haproxy/run:ro,z \
+    {{ haproxy_statsd_image }}
+
+[Install]
+WantedBy=multi-user.target

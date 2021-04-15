@@ -13,8 +13,6 @@
   unarchive:
     src: /opt/oc.tgz
     dest: /opt/oc
-    extra_opts:
-      - --strip-components=1
 
 - name: Copy files into /usr/local
   copy:
