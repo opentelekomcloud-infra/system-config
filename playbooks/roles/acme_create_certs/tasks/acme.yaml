@@ -1,0 +1,17 @@
+- name: Validate acme challenge
+  community.crypto.acme_certificate:
+    acme_version: 2
+    acme_directory: "{{ acme_directory }}"
+    account_key_src: "{{ certs_path }}/account-key.pem"
+    src: "{{ certs_path }}/{{ cert.key }}.csr"
+    cert: "{{ certs_path }}/{{ cert.key }}.crt"
+    fullchain: "{{ certs_path }}/{{ cert.key }}-fullchain.crt"
+    chain: "{{ certs_path }}/{{ cert.key }}-intermediate.crt"
+    challenge: "dns-01"
+    remaining_days: 60
+    data: "{{ acme_challenge[cert.key] }}"
+    terms_agreed: true
+  when: acme_challenge[cert.key] is defined and acme_challenge[cert.key] is changed
+  notify:
+    # Need to restart all known services
+    - Restart graphite

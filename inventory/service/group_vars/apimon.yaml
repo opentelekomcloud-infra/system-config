@@ -135,7 +135,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
-        exec_cmd: ansible-playbook -i inventory/production %s
+        exec_cmd: ansible-playbook -i inventory/production_external %s
       - name: csm
         repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
         repo_ref: main
@@ -181,6 +181,7 @@ apimon_instances:
         cloud: otcapimon_logs
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
+
   preprod:
     statsd_host: 192.168.110.207
     gearman_host: 192.168.110.207
@@ -200,6 +201,7 @@ apimon_instances:
         repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
         repo_ref: master
         scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/preprod %s
 
     test_environments:
       - name: preprod
@@ -216,6 +218,7 @@ apimon_instances:
            - scenario2_simple_ecs.yaml
            - scenario3a_evs_az.yaml
            - scenario4_image.yaml
+           - scenario30_domains.yaml
     clouds:
       - name: preprod
         cloud: otcapimon_preprod
@@ -271,12 +274,14 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+          - scenario30_domains.yaml
       - env: hybrid_sbb
         project: apimon
         tasks:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+          - scenario30_domains.yaml
 
     # Test clouds configuration
     clouds:
@@ -332,6 +337,7 @@ apimon_instances:
         project: apimon
         tasks:
           - scenario30_domains.yaml
+          - scenario31_nslookup.yaml
       - env: production_eu-de
         project: csm
         tasks:
