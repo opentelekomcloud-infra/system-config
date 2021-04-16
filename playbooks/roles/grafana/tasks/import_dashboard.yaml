@@ -6,10 +6,10 @@
 
   - name: Write dashboard configuration into file
     ansible.builtin.copy:
-      content: "{{ grafana_dashboard_content }}"
+      content: "{{ grafana_dashboard_content | combine({'uid': (grafana_uid_prefix + grafana_dashboard_content.uid)}) }}"
       dest: "{{ tmp_file.path }}"
 
-  - name: Create dashboard
+  - name: "Create dashboard {{ grafana_dashboard_content.title }}"
     community.grafana.grafana_dashboard:
       grafana_url: "{{ grafana_url }}"
       grafana_api_key: "{{ grafana_api_key }}"

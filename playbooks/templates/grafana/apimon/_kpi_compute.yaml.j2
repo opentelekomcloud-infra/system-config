@@ -1,0 +1,143 @@
+  - collapsed: false
+    {{ mcr.grid_pos(0, 33, 1, 24) }}
+    title: Compute
+    type: row
+
+{{ mcr.sli_service_row('compute', 'Compute', 34) }}
+
+  - aliasColors: {}
+    bars: true
+    dashLength: 10
+    dashes: false
+    datasource: apimon
+    fieldConfig:
+      defaults:
+        custom: {}
+        unit: short
+      overrides: []
+    fill: 1
+    fillGradient: 0
+    {{ mcr.grid_pos(0, 39, 8, 12) }}
+    legend:
+      show: true
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(transformNull(consolidateBy(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.failed.count, 7, 'sum'), '1h', 'sum', false), 'sum'), 0), 0)
+        textEditor: false
+    title: Server Provisioning failures
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      buckets: null
+      mode: time
+      name: null
+      show: true
+      values: []
+    yaxes:
+      - decimals: 0
+        format: short
+        min: '0'
+        show: true
+      - show: false
+    yaxis:
+      align: false
+      alignLevel: null
+    linewidth: 1
+
+  - datasource: apimon
+    description: This number is not an indicator in the case where we can not even
+      start provisioning server
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        thresholds:
+          mode: percentage
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    {{ mcr.grid_pos(12, 39, 8, 12) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        values: false
+    targets:
+      - hide: false
+        queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: aliasByNode(groupByNode(applyByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.count,
+          7, "asPercent(%.passed.count, %.attempted.count)", "%.pct"),7), 0)
+        textEditor: true
+    title: Server Provisioning Success rate (partly reliable)
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80000
+        unit: clockms
+    {{ mcr.grid_pos(0, 47, 8, 12) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.upper,
+          7, 'sum')
+    title: Boot time duration (F30)
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 2
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80000
+        unit: ms
+    {{ mcr.grid_pos(12, 47, 8, 12) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - lastNotNull
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper, 7, 'sum')
+    title: Boot time duration (CoreOS)
+    type: stat
