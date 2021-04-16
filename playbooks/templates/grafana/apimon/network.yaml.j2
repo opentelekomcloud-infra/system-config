@@ -1,7 +1,7 @@
 {% import 'macros.j2' as mcr %}
 {% include '_annotations.yaml.j2' %}
 description: Data for the Network service
-editable: true
+editable: false
 panels:
 {% include '_header.yaml.j2' %}
 
@@ -9,11 +9,7 @@ panels:
 
   - datasource: apimon
     fill: 1
-    gridPos:
-      h: 9
-      w: 24
-      x: 0
-      y: 6
+    {{ mcr.grid_pos(0, 6, 6, 12) }}
     legend:
       show: true
       alignAsTable: true
@@ -29,8 +25,38 @@ panels:
     spaceLength: 10
     targets:
       - refId: A
-        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 8, 9)
-    title: LoadBalancer Latency
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 8, 'avg')
+    title: LoadBalancer Latency per type
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - format: ms
+        logBase: 1
+        show: true
+      - show: false
+
+  - datasource: apimon
+    fill: 1
+    {{ mcr.grid_pos(12, 6, 6, 12) }}
+    legend:
+      show: true
+      alignAsTable: true
+      rightSide: true
+      values: true
+      current: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 9, 'avg')
+    title: LoadBalancer Latency per AZ
     type: graph
     xaxis:
       mode: time
@@ -45,11 +71,7 @@ panels:
     description: |
       Curl like request latencies to the hosts in scenario30_domains.yaml
     fill: 1
-    gridPos:
-      h: 6
-      w: 12
-      x: 0
-      y: 15
+    {{ mcr.grid_pos(0, 15, 6, 18) }}
     legend:
       show: true
       alignAsTable: true
@@ -92,15 +114,12 @@ panels:
 
   - datasource: apimon
     description: |
-      Curl like request errors for the hosts in scenario30_domains.yaml
+      Curl like request errors (4*, 5*, failed) for the hosts in scenario30_domains.yaml
     fill: 1
-    gridPos:
-      h: 6
-      w: 6
-      x: 12
-      y: 15
+    {{ mcr.grid_pos(18, 15, 6, 6) }}
     legend:
       show: true
+    lines: false
     points: true
     pointRadius: 1
     nullPointMode: connected
@@ -111,7 +130,9 @@ panels:
     targets:
       - refId: A
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.{4*,5*}.attempted.count, 7, 8)
-    title: Domains curl 4XX, 5XX Errros
+      - refId: B
+        target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.failed.count, 7, 8)
+    title: Domains curl Errors
     type: graph
     xaxis:
       mode: time
@@ -122,17 +143,12 @@ panels:
 
   - datasource: apimon
     description: |
-      Curl like request connection errors for the hosts in scenario30_domains.yaml
+      NS Lookup from specific NS servers
     fill: 1
-    gridPos:
-      h: 6
-      w: 6
-      x: 18
-      y: 15
+    {{ mcr.grid_pos(0, 16, 6, 18) }}
     legend:
       show: true
-    points: true
-    pointRadius: 1
+    lines: true
     nullPointMode: connected
     options:
       alertThreshold: true
@@ -140,8 +156,36 @@ panels:
     spaceLength: 10
     targets:
       - refId: A
-        target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.failed.count, 7)
-    title: Domains curl Connection Errros
+        target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.dns.*.*.mean, 'avg', 7, 8)
+    title: NS Lookup
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: true
+        min: 0
+        format: "ms"
+        decimals: 0
+      - show: false
+
+  - datasource: apimon
+    description: |
+      NS Lookup failures from specific NS servers
+    fill: 1
+    {{ mcr.grid_pos(18, 16, 6, 6) }}
+    legend:
+      show: true
+    lines: true
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.dns.*.*.failed.count, 7, 8)
+    title: NS Lookup Failures
     type: graph
     xaxis:
       mode: time
@@ -150,10 +194,10 @@ panels:
       - show: false
       - show: false
 
-{{ mcr.service_api_latency('network', 17) }}
-{{ mcr.service_bad_calls('network', 25) }}
-{{ mcr.service_failures(33) }}
-{{ mcr.service_results(43) }}
+{{ mcr.service_api_latency('network', 100) }}
+{{ mcr.service_bad_calls('network', 101) }}
+{{ mcr.service_failures(102) }}
+{{ mcr.service_results(103) }}
 
 refresh: false
 style: dark
@@ -168,7 +212,8 @@ templating:
 
 {{ mcr.service_scenarios_template(['scenario2_simple_ecs.yaml',
 'scenario2a_ecs_az.yaml', 'scenario19_simple_vpc.yaml',
-'scenario30_domains.yaml', 'lb_monitoring.yaml']) }}
+'scenario30_domains.yaml', 'scenario31_nslookup.yaml',
+'lb_monitoring.yaml']) }}
 
 time:
   from: now-6h
@@ -186,4 +231,4 @@ timepicker:
     - 1d
 timezone: ''
 title: Network Service statistics
-uid: fWvz58Awk
+uid: APIMonNSS
