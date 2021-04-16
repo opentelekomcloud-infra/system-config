@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: "alerta"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+spec:
+  replicas: {{ (alerta.alerta_deployment_count | default(alerta.default.alerta_deployment_count))|int }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "alerta"
+      app.kubernetes.io/instance: "{{ instance }}"
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: "alerta"
+        app.kubernetes.io/instance: "{{ instance }}"
+    spec:
+      hostAliases:
+      - ip: "{{ alerta.alerta_ldap_server_ip }}"
+        hostnames:
+        - "ldap.otc-service.internal"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: In
+                  values:
+                  - "{{ instance }}"
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - image: "{{ alerta.alerta_image | default(alerta.default.alerta_image) }}"
+        name: alerta
+        ports:
+        - containerPort: 8080
+{% if alerta.alerta_deployment_resources is defined %}
+        resources:
+{% for key, value in alerta.alerta_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% else %}
+        resources:
+{% for key, value in alerta.default.alerta_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+        readinessProbe:
+          httpGet:
+            path: /login
+            scheme: HTTP
+            port: 8080
+        livenessProbe:
+          httpGet:
+            path: /login
+            scheme: HTTP
+            port: 8080
+        envFrom:
+        - secretRef:
+            name: "{{ alerta_secret_name }}"
+        volumeMounts:
+        - name: alerta-config
+          mountPath: /etc/alertad.conf
+          subPath: alertad.conf
+      volumes:
+      - configMap:
+          name: "{{ alerta_config_name }}"
+        name: alerta-config
+status: {}
