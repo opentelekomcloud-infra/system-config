@@ -1,0 +1,197 @@
+  - collapsed: false
+    gridPos:
+      h: 1
+      w: 24
+      x: 0
+      y: 98
+    panels: []
+    title: Image
+    type: row
+
+{{ mcr.sli_service_row('image', 'Image', 99) }}
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: ms
+    gridPos:
+      h: 5
+      w: 6
+      x: 6
+      y: 104
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.image_upload.passed.upper_90,
+          5)
+        textEditor: false
+    title: SLI Image Upload duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: percentage
+          steps:
+            - color: blue
+              value: null
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 6
+      x: 12
+      y: 104
+    options:
+      displayMode: basic
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - lastNotNull
+        fields: ''
+        values: false
+      showUnfilled: true
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(summarize(groupByNode(stats.timers.apimon.metric.$environment.$zone.image_upload.*.count,
+          7, 'sum'), '1d', 'sum', false), 0)
+        textEditor: false
+    title: Image Upload totals
+    type: bargauge
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        decimals: 1
+        mappings: []
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: '#EAB839'
+              value: 500
+            - color: red
+              value: 600
+        unit: ms
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: thresholds
+              value:
+                mode: absolute
+                steps:
+                  - color: red
+                    value: null
+    gridPos:
+      h: 5
+      w: 6
+      x: 18
+      y: 104
+    options:
+      colorMode: value
+      orientation: horizontal
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: groupByNode(stats.timers.openstack.api.$environment.$zone.image.GET.images.200.mean,
+          5, 'avg')
+        textEditor: false
+    title: SLI Image List duration
+    type: stat
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        custom: {}
+        mappings: []
+        max: 100
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: red
+              value: null
+            - color: yellow
+              value: 80
+            - color: green
+              value: 99.999
+        unit: percent
+    gridPos:
+      h: 5
+      w: 6
+      x: 0
+      y: 109
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+        fields: ''
+        values: false
+    targets:
+      - queryType: randomWalk
+        refCount: 0
+        refId: A
+        target: aliasByNode(asPercent(stats.counters.apimon.metric.$environment.$zone.image_upload.passed.count,
+          stats.counters.apimon.metric.$environment.$zone.image_upload.attempted.count),
+          5)
+        textEditor: false
+    title: SLI Image Upload success rate
+    type: stat
+
+
