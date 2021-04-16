@@ -1,3 +1,7 @@
+{% macro grid_pos(x, y, h, w) %}
+gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
+{%- endmacro -%}
+
 {% macro sli_avail(svc, svc_name, ypos, status_codes=[]) %}
   - datasource: apimon
     description: Rate of successful requests
@@ -16,11 +20,7 @@
             - color: green
               value: 99.999
         unit: percent
-    gridPos:
-      h: 5
-      w: 4
-      x: 0
-      y: {{ ypos }}
+    {{ grid_pos(0, ypos, 5, 4) }}
     options:
       reduceOptions:
         calcs:
@@ -55,11 +55,7 @@
             - color: green
               value: 99.999
         unit: percent
-    gridPos:
-      h: 5
-      w: 4
-      x: 4
-      y: {{ ypos }}
+    {{ grid_pos(4, ypos, 5, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -90,11 +86,7 @@
             - color: red
               value: 1
         unit: short
-    gridPos:
-      h: 5
-      w: 4
-      x: 8
-      y: {{ ypos }}
+    {{ grid_pos(8, ypos, 5, 4) }}
     interval: ''
     options:
       colorMode: value
@@ -131,11 +123,7 @@
               value: 0.01
             - color: red
               value: 5
-    gridPos:
-      h: 5
-      w: 4
-      x: 12
-      y: {{ ypos }}
+    {{ grid_pos(12, ypos, 5, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -171,11 +159,7 @@
             - color: red
               value: 1000
         unit: 'ms'
-    gridPos:
-      h: 5
-      w: 4
-      x: 16
-      y: {{ ypos }}
+    {{ grid_pos(16, ypos, 5, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -210,11 +194,7 @@
 {% macro service_api_latency(svc, ypos) %}
   - datasource: apimon
     fill: 1
-    gridPos:
-      h: 8
-      w: 24
-      x: 0
-      y: {{ ypos }}
+    {{ grid_pos(0, ypos, 8, 24) }}
     legend:
       alignAsTable: true
       avg: true
@@ -271,11 +251,7 @@
         unit: short
     fill: 1
     fillGradient: 0
-    gridPos:
-      h: 8
-      w: 24
-      x: 0
-      y: {{ ypos }}
+    {{ grid_pos(0, ypos, 8, 24) }}
     legend:
       alignAsTable: true
       avg: true
@@ -387,11 +363,7 @@
                 - targetBlank: true
                   title: ''
                   url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
-    gridPos:
-      h: 10
-      w: 24
-      x: 0
-      y: {{ ypos }}
+    {{ grid_pos(0, ypos, 10, 24) }}
     options:
       showHeader: true
       sortBy:
@@ -478,11 +450,7 @@
               value:
                 - targetBlank: true
                   url: https://swift.eu-de.otc.t-systems.com/v1/AUTH_7b14dc42aaf44f72985d7bc6ecca031f/job_logs/${__data.fields.job_id}/job-output.txt
-    gridPos:
-      h: 10
-      w: 24
-      x: 0
-      y: {{ ypos }}
+    {{ grid_pos(0, ypos, 10, 24) }}
     options:
       showHeader: true
     targets:
