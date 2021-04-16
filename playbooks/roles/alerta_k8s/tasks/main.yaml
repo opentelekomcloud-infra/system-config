@@ -48,7 +48,7 @@
         ADMIN_USERS: "{{ alerta.alerta_admin_users | default(alerta.default.alerta_admin_users) | string | b64encode }}"
         LDAP_BIND_PASSWORD: "{{ alerta.alerta_bind_password | default(alerta.default.alerta_bind_password)  | string | b64encode }}"
 
-- name: start Alerta deployment 
+- name: Start Alerta deployment 
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -56,7 +56,7 @@
     name: "{{ alerta_deployment_name }}"
     definition: "{{ lookup('template', 'alerta-deployment.yaml.j2') | from_yaml }}"
 
-- name: expose Alerta deployment with service
+- name: Expose Alerta deployment with service
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -64,7 +64,7 @@
     name: "{{ alerta_service_name }}"
     definition: "{{ lookup('template', 'alerta-service.yaml.j2') | from_yaml }}"
 
-- name: start Alerta ingress
+- name: Start Alerta ingress
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
