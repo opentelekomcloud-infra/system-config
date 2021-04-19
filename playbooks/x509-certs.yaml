@@ -9,4 +9,4 @@
         tasks_from: "cert.yaml"
       vars:
         x509_common_name: "{{ item }}"
-      loop: "{{ x509_certs }}"
+      loop: "{{ x509_certificates }}"
