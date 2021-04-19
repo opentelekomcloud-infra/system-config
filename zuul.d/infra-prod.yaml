@@ -106,6 +106,17 @@
       - playbooks/roles/statsd/
 
 - job:
+    name: infra-prod-service-x509-cert
+    parent: infra-prod-service-base
+    description: Run x509-certs.yaml playbook.
+    vars:
+      playbook_name: x509-certs.yaml
+    files:
+      - inventory/
+      - playbooks/x509-certs.yaml
+      - playbooks/roles/x509_cert
+
+- job:
     name: infra-prod-service-apimon-epmon
     parent: infra-prod-service-base
     description: Run service-apimon-epmon.yaml playbook.

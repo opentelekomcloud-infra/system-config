@@ -1,0 +1,12 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  tasks:
+    - include_role:
+        name: "x509_cert"
+        tasks_from: "ca.yaml"
+
+    - include_role:
+        name: "x509_cert"
+        tasks_from: "cert.yaml"
+      vars:
+        x509_common_name: "{{ item }}"
+      loop: "{{ x509_certs }}"
