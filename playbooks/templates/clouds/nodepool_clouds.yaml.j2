@@ -1,10 +1,7 @@
 #
 # Nodepool openstacksdk configuration
 #
-# This file is deployed to nodepool launcher and builder hosts as
-#
-#   {{ openstacksdk_config_dir}}/clouds.yaml
-#
+# This file is deployed to nodepool launcher and builder hosts
 # and is used there to authenticate nodepool operations to clouds.
 # This file only contains projects we are launching test nodes in, and
 # the naming should correspond that used in nodepool configuration
@@ -18,26 +15,26 @@ cache:
     floating-ip: 5
 clouds:
   otcci-pool1:
-    profile: otc
     auth:
-      username: {{ nodepool_pool1_username }}
-      password: {{ nodepool_pool1_password }}
-      project: {{ nodepool_pool1_project }}
-      user_domain_name: {{ nodepool_pool1_user_domain_name }}
+      auth_url: "https://iam.eu-de.otc.t-systems.com/v3"
+      username: "{{ nodepool_pool1_username }}"
+      password: "{{ nodepool_pool1_password }}"
+      project_name: "{{ nodepool_pool1_project }}"
+      user_domain_name: "{{ nodepool_pool1_user_domain_name }}"
     private: true
   otcci-pool2:
-    profile: otc
     auth:
-      username: {{ nodepool_pool2_username }}
-      password: {{ nodepool_pool2_password }}
-      project: {{ nodepool_pool2_project}}
-      user_domain_name: {{ nodepool_pool2_user_domain_name }}
+      auth_url: "https://iam.eu-de.otc.t-systems.com/v3"
+      username: "{{ nodepool_pool2_username }}"
+      password: "{{ nodepool_pool2_password }}"
+      project_name: "{{ nodepool_pool2_project}}"
+      user_domain_name: "{{ nodepool_pool2_user_domain_name }}"
     private: true
   otcci-pool3:
-    profile: otc
     auth:
-      username: {{ nodepool_pool3_username }}
-      password: {{ nodepool_pool3_password }}
-      project: {{ nodepool_pool3_project }}
-      user_domain_name: {{ nodepool_pool3_user_domain_name }}
+      auth_url: "https://iam.eu-de.otc.t-systems.com/v3"
+      username: "{{ nodepool_pool3_username }}"
+      password: "{{ nodepool_pool3_password }}"
+      project_name: "{{ nodepool_pool3_project }}"
+      user_domain_name: "{{ nodepool_pool3_user_domain_name }}"
     private: true

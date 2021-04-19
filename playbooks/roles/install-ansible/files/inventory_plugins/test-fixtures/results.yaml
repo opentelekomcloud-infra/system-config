@@ -9,3 +9,5 @@ results:
     - cloud-launcher
     - control-plane-clouds
     - alerta-k8s
+    - zuul
+    - nodepool
