@@ -1,0 +1,19 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  #- hosts: localhost
+  name: "Configure Zuul in K8s"
+  tasks:
+    - set_fact:
+        x509_certs: {}
+
+    - include_role:
+        name: zuul_k8s
+      vars:
+        zuul: "{{ zuul_instances[item.zuul_instance] | combine(zuul_instances_secrets[item.zuul_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+        cr_spec: "{{ item.cr_spec }}"
+        # In k8 we can not mount secret and cm under same path
+        apimon_secure_file_location: "/etc/apimon_secure/apimon-secure.yaml"
+        executor_secure_file_location: "/etc/apimon_secure/apimon-executor-secure.yaml"
+      loop: "{{ zuul_k8s_instances | list }}"

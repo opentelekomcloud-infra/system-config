@@ -1,0 +1,71 @@
+- include_role:
+    name: "x509_cert"
+    tasks_from: cert.yaml
+  vars:
+    x509_common_name: "{{ item }}"
+  loop:
+    - "zuul-{{ instance }}-zk-client"
+    - "zuul-{{ instance }}-gearman-server"
+    - "zuul-{{ instance }}-gearman-client"
+
+- name: Create zuul-config dir
+  file:
+    path: "{{ zuul_config_dir }}"
+    state: directory
+
+- name: Update from master
+  #when: "{{ zuul.pipeline|default('') in ['periodic', 'periodic-hourly'] }}"
+  delegate_to: bridge.eco.tsi-dev.otc-service.com
+  ansible.builtin.git:
+    repo: "{{ zuul.config_repo }}"
+    dest: "{{ zuul_config_dir }}/{{ instance }}"
+    force: yes
+
+- name: Create Zull Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create Zull SA binding
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ namespace }}-admin-binding"
+    api_version: "rbac.authorization.k8s.io/v1"
+    kind: "ClusterRoleBinding"
+    definition:
+      subjects:
+        - kind: "ServiceAccount"
+          name: "default"
+          apiGroup: ""
+          namespace: "{{ namespace }}"
+      roleRef:
+        kind: "ClusterRole"
+        name: "cluster-admin"
+        apiGroup: ""
+
+- name: Create ZK Certs Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-zk-certs-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        cacert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['ca']) | string | b64encode }}"
+        cert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['cert']) | string | b64encode }}"
+        key.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['key']) | string | b64encode }}"
+
+- include_tasks: nodepool.yaml
+- include_tasks: zuul.yaml

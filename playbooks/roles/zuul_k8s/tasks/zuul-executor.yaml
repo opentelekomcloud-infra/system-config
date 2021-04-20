@@ -1,0 +1,116 @@
+- name: Create Zuul Executor Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-executor-{{ instance }}"
+    api_version: "v1"
+    kind: "Service"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-executor"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        ports:
+        - name: "logs"
+          port: 7900
+          protocol: "TCP"
+          targetPort: "logs"
+        selector:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-executor"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create Zuul Executor SS
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-executor-{{ instance }}"
+    api_version: "v1"
+    kind: "StatefulSet"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-executor"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 2
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "zuul-executor"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "zuul-executor-{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "zuul-executor"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - resources:
+                  limits:
+                    cpu: '2'
+                    memory: 2G
+                  requests:
+                    cpu: 100m
+                    memory: 200Mi
+                name: "zuul-executor"
+                command:
+                  - /bin/sh
+                  - '-c'
+                  - >-
+                    sed  "s/_executor_hostname_/$(hostname -i)/g" /etc/zuul/zuul.conf
+                    > /tmp/zuul.conf; zuul-executor -d -f -c /tmp/zuul.conf
+                    #- "zuul-executor"
+                    #- "-d"
+                    #- "-f"
+                securityContext:
+                  privileged: true
+                ports:
+                  - containerPort: 7900
+                    protocol: "TCP"
+                volumeMounts:
+                  - name: "certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/ssl"
+                  - name: "zuul-ssh-key"
+                    mountPath: "/etc/zuul/.ssh"
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/zk"
+                  - name: "config"
+                    readOnly: true
+                    mountPath: "/etc/zuul/"
+                  - name: "zuul-data-volume"
+                    mountPath: "/var/lib/zuul"
+                  - name: "zuul-var-run"
+                    mountPath: "/var/run/zuul"
+                image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
+            volumes:
+              - name: "config"
+                configMap:
+                  name: "zuul-config-{{ instance }}"
+              - name: "certs"
+                secret:
+                  secretName: "zuul-{{ instance }}"
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+              - name: "zuul-ssh-key"
+                secret:
+                  secretName: "zuul-executor-ssh-{{ instance }}"
+                  defaultMode: 256
+              - name: "zuul-data-volume"
+                emptyDir: {}
+              - name: "zuul-var-run"
+                emptyDir: {}

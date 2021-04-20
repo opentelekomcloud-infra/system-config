@@ -1,0 +1,233 @@
+---
+- name: Create Nodepool config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "nodepool-config-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        nodepool.yaml: "{{ lookup('file', ([zuul_config_dir, instance, 'nodepool', 'nodepool.yaml'] | join('/')) ) }}"
+
+- name: Create Nodepool Clouds config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "nodepool-clouds-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        clouds.yaml: "{{ lookup('template', 'templates/clouds/nodepool_clouds.yaml.j2') | string | b64encode }}"
+
+- name: Create nodepool-launcher deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "nodepool-launcher-{{ instance }}"
+    api_version: "v1"
+    kind: "Deployment"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "nodepool-launcher"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "nodepool-launcher"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "nodepool-launcher"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            restartPolicy: "Always"
+            terminationGracePeriodSeconds: 30
+            containers:
+              - resources:
+                  limits:
+                    cpu: 300m
+                    memory: 500Mi
+                  requests:
+                    cpu: 100m
+                    memory: 200Mi
+                name: "nodepool-launcher"
+                command:
+                  - "nodepool-launcher"
+                  - '-d'
+                  - '-f'
+                volumeMounts:
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/nodepool/ssl/zk"
+                  - name: "nodepool-config"
+                    readOnly: true
+                    mountPath: "/etc/nodepool/"
+                  - name: "nodepool-data-volume"
+                    mountPath: "/var/lib/nodepool"
+                  - name: "nodepool-clouds-volume"
+                    mountPath: "/etc/openstack"
+                image: "quay.io/opentelekomcloud/nodepool-launcher:{{ zuul.nodepool_version_tag }}"
+            volumes:
+              - name: "nodepool-config"
+                configMap:
+                  name: "nodepool-config-{{ instance }}"
+                  defaultMode: 420
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+                  defaultMode: 420
+              - name: "nodepool-clouds-volume"
+                secret:
+                  secretName: "nodepool-clouds-{{ instance }}"
+                  defaultMode: 420
+              - name: "nodepool-data-volume"
+                emptyDir: {}
+        strategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+        revisionHistoryLimit: 10
+        progressDeadlineSeconds: 600
+
+- name: Create nodepool-launcher deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "nodepool-builder-{{ instance }}"
+    api_version: "v1"
+    kind: "StatefulSet"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "nodepool-builder"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 1
+        serviceName: "nodepool-builder"
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "nodepool-builder"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "nodepool-builder"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            initContainers:
+              - name: "git-fetcher"
+                image: "quay.io/opentelekomcloud/nodepool-builder:{{ zuul.nodepool_version_tag }}"
+                command: ["sh", "-c", "cd /data && git clone {{ zuul.config_repo }} ."]
+                volumeMounts:
+                  - name: "zuul-config"
+                    mountPath: "/data"
+            containers:
+              - name: "git-syncer"
+                image: "quay.io/opentelekomcloud/nodepool-builder:{{ zuul.nodepool_version_tag }}"
+                command: ["sh", "-c", "while :; do cd /data/; git pull; sleep 60; done"]
+                volumeMounts:
+                  - name: "zuul-config"
+                    mountPath: "/data"
+              - resources:
+                  limits:
+                    cpu: 1000m
+                    memory: 500Mi
+                  requests:
+                    cpu: 500m
+                    memory: 100Mi
+                name: "nodepool-builder"
+                command:
+                  - "nodepool-builder"
+                  - "-d"
+                  - "-f"
+                securityContext:
+                  privileged: true
+                env:
+                  - name: "OS_CLIENT_CONFIG_FILE"
+                    value: "/etc/openstack/clouds.yaml"
+                volumeMounts:
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/nodepool/ssl/zk"
+                  - name: "nodepool-config"
+                    readOnly: true
+                    mountPath: "/etc/nodepool/"
+                  - name: "nodepool-data-volume"
+                    mountPath: "/var/run/nodepool"
+                  - name: "nodepool-clouds-volume"
+                    mountPath: "/etc/openstack"
+                  - name: "dev"
+                    mountPath: "/dev"
+                  - name: "nodepool-images-dir"
+                    mountPath: "/opt/nodepool/images"
+                  - name: "zuul-config"
+                    mountPath: "/data"
+                  - name: "dib-tmp"
+                    mountPath: "/opt/dib_tmp"
+                  - name: "dib-cache"
+                    mountPath: "/opt/dib_cache"
+                image: "quay.io/opentelekomcloud/nodepool-builder:{{ zuul.nodepool_version_tag }}"
+            volumes:
+              - name: "nodepool-config"
+                configMap:
+                  name: "nodepool-config-{{ instance }}"
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+              - name: "nodepool-clouds-volume"
+                secret:
+                  secretName: "nodepool-clouds-{{ instance }}"
+              - name: "nodepool-data-volume"
+                emptyDir: {}
+              - name: "nodepool-logs"
+                emptyDir: {}
+              - name: "zuul-config"
+                emptyDir: {}
+              - name: "dib-tmp"
+                emptyDir: {}
+              - name: "dib-cache"
+                emptyDir: {}
+              - name: "dev"
+                hostPath:
+                  path: "/dev"
+        volumeClaimTemplates:
+          - metadata:
+              name: "nodepool-images-dir"
+            spec:
+              accessModes:
+                - "ReadWriteOnce"
+              storageClassName: "csi-disk"
+              resources:
+                requests:
+                  storage: "80G"

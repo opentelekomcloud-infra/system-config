@@ -1,0 +1,81 @@
+- name: Create Zuul config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-config-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: yes
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        zuul.conf: "{{ lookup('template', 'zuul.conf.j2') }}"
+        logging.conf: "{{ lookup('file', 'logging.conf') }}"
+
+- name: Create Zuul SSL Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        gearman-ca.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['ca']) | string | b64encode }}"
+        gearman-client.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['cert']) | string | b64encode }}"
+        gearman-client.key: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['key']) | string | b64encode }}"
+        github.key: "{{ zuul.zuul_github_app_key | string | b64encode }}"
+
+- name: Create Zuul Scheduler Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-scheduler-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        gearman-ca.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['ca']) | string | b64encode }}"
+        gearman-server.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['cert']) | string | b64encode }}"
+        gearman-server.key: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['key']) | string | b64encode }}"
+
+- name: Create Zuul Executor Key Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-executor-ssh-{{ instance }}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        nodepool_id_rsa: "{{ zuul.zuul_ssh_private_key_contents | string | b64encode }}"
+
+- include_tasks: zuul-merger.yaml
+- include_tasks: zuul-web.yaml
+- include_tasks: zuul-executor.yaml
