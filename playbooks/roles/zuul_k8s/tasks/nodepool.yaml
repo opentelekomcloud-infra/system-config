@@ -114,7 +114,7 @@
         revisionHistoryLimit: 10
         progressDeadlineSeconds: 600
 
-- name: Create nodepool-launcher deployment
+- name: Create nodepool-builder deployment
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
