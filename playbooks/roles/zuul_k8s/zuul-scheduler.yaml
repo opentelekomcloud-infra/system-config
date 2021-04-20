@@ -3,7 +3,7 @@
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
-    name: "zuul-scheduler-tenant-conig-{{ instance }}"
+    name: "zuul-scheduler-tenant-config-{{ instance }}"
     api_version: "v1"
     kind: "ConfigMap"
     apply: "yes"
@@ -84,10 +84,6 @@
                     cpu: 100m
                     memory: 200Mi
                 name: "zuul-scheduler"
-                command:
-                  - "/bin/sh"
-                  - "-c"
-                  - "while true; do sleep 1; done"
                 securityContext:
                   privileged: true
                 ports:
