@@ -117,6 +117,26 @@ groups:
     - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
 
+  zookeeper:
+    - zk0.zuul.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
+
+  zuul-zookeeper:
+    - zk0.zuul.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
+
+  zuul:
+    - bridge.eco.tsi-dev.otc-service.com
+
+  nodepool:
+    - bridge.eco.tsi-dev.otc-service.com
+
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # ZK are not yet managed by SC
+    - zk0.zuul.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
