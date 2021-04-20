@@ -46,6 +46,7 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
+        - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-proxy
     periodic:
@@ -65,6 +66,7 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
+        - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-proxy
     periodic-hourly:
