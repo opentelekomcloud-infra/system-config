@@ -1,0 +1,155 @@
+- name: Create Zuul Web SS
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-web-{{ instance }}"
+    api_version: "v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "zuul-web"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "zuul-web"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - name: "zuul-web"
+                image: "quay.io/opentelekomcloud/zuul-web:{{ zuul.zuul_version_tag }}"
+                ports:
+                  - containerPort: 9000
+                    protocol: "TCP"
+                resources:
+                  limits:
+                    cpu: 50m
+                    memory: 200Mi
+                  requests:
+                    cpu: 20m
+                    memory: 100Mi
+                volumeMounts:
+                  - name: "certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/ssl"
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/zk"
+                  - name: "config"
+                    readOnly: true
+                    mountPath: "/etc/zuul/"
+            volumes:
+              - name: "config"
+                configMap:
+                  name: "zuul-config-{{ instance }}"
+              - name: "certs"
+                secret:
+                  secretName: "zuul-{{ instance }}"
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+        strategy:
+          type: "RollingUpdate"
+          rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+        revisionHistoryLimit: 10
+        progressDeadlineSeconds: 600
+
+- name: Create Zuul Web Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-web-{{ instance }}"
+    api_version: "v1"
+    kind: "Service"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        ports:
+          - name: "web"
+            protocol: "TCP"
+            port: 80
+            targetPort: 9000
+        selector:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+        type: "ClusterIP"
+
+- name: Create Zuul Web Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-web-{{ instance }}"
+    api_version: "networking.k8s.io/v1beta1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      spec:
+        tls:
+          - hosts:
+              - "zuul.eco.tsi-dev.otc-service.com"
+            secretName: "zuul-ci-cert-main"
+        rules:
+          - host: "zuul.eco.tsi-dev.otc-service.com"
+            http:
+              paths:
+                - path: "/"
+                  backend:
+                    serviceName: "zuul-web-{{ instance }}"
+                    servicePort: 80
+
+- name: Create Zuul Web Autoscaler
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-web-{{ instance }}"
+    api_version: "autoscaling/v2beta2"
+    kind: "HorizontalPodAutoscaler"
+    apply: "yes"
+    definition:
+      spec:
+        scaleTargetRef:
+          kind: "Deployment"
+          name: "zuul-web"
+          apiVersion: "apps/v1"
+        minReplicas: 1
+        maxReplicas: 2
+        metrics:
+          - type: "Resource"
+            resource:
+              name: "cpu"
+              target:
+                type: "Utilization"
+                averageUtilization: 70

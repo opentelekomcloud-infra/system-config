@@ -1,0 +1,85 @@
+[gearman]
+server={{ zuul.gearman_server }}
+check_job_registration=true
+ssl_ca=/etc/zuul/ssl/gearman-ca.pem
+ssl_cert=/etc/zuul/ssl/gearman-client.pem
+ssl_key=/etc/zuul/ssl/gearman-client.key
+
+[gearman_server]
+start=true
+#log_config=/etc/zuul/scheduler/gearman-logging.conf
+ssl_ca=/etc/zuul/ssl/gearman-ca.pem
+ssl_cert=/etc/zuul/ssl/scheduler/gearman-server.pem
+ssl_key=/etc/zuul/ssl/scheduler/gearman-server.key
+
+[scheduler]
+tenant_config=/etc/zuul/main.yaml
+log_config=/etc/zuul/logging.conf
+state_dir=/var/lib/zuul
+relative_priority=true
+
+[fingergw]
+user=zuul
+# ???
+command_socket=/var/tmp
+
+[zookeeper]
+hosts={% for host in groups[zuul.zookeeper_instance_group] %}{{ (hostvars[host].ansible_host) }}:2281{% if not loop.last %},{% endif %}{% endfor %}
+
+tls_cert=/etc/zuul/zk/cert.pem
+tls_key=/etc/zuul/zk/key.pem
+tls_ca=/etc/zuul/zk/cacert.pem
+session_timeout=40
+
+[keystore]
+{% if zuul_keystore_password is defined -%}
+password={{ zuul_keystore_password }}
+{% endif -%}
+
+#[statsd]
+#server=graphite.zuul.eco.tsi-dev.otc-service.com
+
+[merger]
+git_dir=/var/lib/zuul/git
+log_config=/etc/zuul/logging.conf
+git_timeout=600
+git_user_email=zuul@zuul.eco.tsi-dev.otc-service.com
+git_user_name=OpenTelekomCloud Zuul
+
+[executor]
+hostname=_executor_hostname_
+manage_ansible=false
+log_config=/etc/zuul/logging.conf
+#job_dir=/var/lib/zuul/builds
+#variables=/opt/project-config/zuul/site-variables.yaml
+#private_key_file=/var/lib/zuul/ssh/nodepool_id_rsa
+private_key_file=/etc/zuul/.ssh/nodepool_id_rsa
+#trusted_ro_paths=/etc/ssl/certs:/var/lib/zuul/ssh
+#trusted_rw_paths=/afs
+#untrusted_ro_paths=/etc/ssl/certs
+disk_limit_per_job=1000
+max_starting_builds=5
+
+[web]
+log_config=/etc/zuul/logging.conf
+listen_address=0.0.0.0
+#listen_port=9000
+status_url=https://zuul.eco.tsi-dev.otc-service.com
+root=https://zuul.eco.tsi-dev.otc-service.com
+
+{% for connection in zuul.zuul_connections -%}
+[connection "{{ connection['name'] }}"]
+{% for key, value in connection.items() -%}
+{{ key }}={{ value }}
+{% endfor -%}
+{% for connection_secret in zuul.zuul_connection_secrets -%}
+{% if connection_secret['name'] == connection['name'] -%}
+{% for key, value in connection_secret.items() -%}
+{% if key != 'name' -%}
+{{ key }}={{ value }}
+{% endif -%}{# if key #}
+{% endfor -%}{# for key, value in connection_secret #}
+{% endif -%}{# if connection_secret['name'] #}
+{% endfor -%}{# for connection_secret #}
+
+{% endfor -%}{# for connection #}
