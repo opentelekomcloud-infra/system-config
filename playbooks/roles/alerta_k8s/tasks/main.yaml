@@ -42,7 +42,7 @@
       data:
         DATABASE_URL: "{{ alerta.alerta_db_url | default(alerta.default.alerta_db_url) | string | b64encode }}"
         SECRET_KEY: "{{ alerta.alerta_secret_key | default(alerta.default.alerta_secret_key) | string | b64encode }}"
-        ZULIP_API_KEY: "{{ alerta.alerta_api_key | default(alerta.default.alerta_api_key)  | string | b64encode }}"
+        ZULIP_API_KEY: "{{ alerta.alerta_zulip_api_key | default(alerta.default.alerta_zulip_api_key)  | string | b64encode }}"
         ADMIN_KEY: "{{ alerta.alerta_admin_key | default(alerta.default.alerta_admin_key) | string | b64encode }}"
         ALERTA_API_KEY: "{{ alerta.alerta_api_key | default(alerta.default.alerta_api_key)  | string | b64encode }}"
         ADMIN_USERS: "{{ alerta.alerta_admin_users | default(alerta.default.alerta_admin_users) | string | b64encode }}"

@@ -1,0 +1,96 @@
+- name: Create Zuul Merger Deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-merger-{{ instance }}"
+    api_version: "v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-merger"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "zuul-merger"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "zuul-merger"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - name: "zuul-merger"
+                image: "quay.io/opentelekomcloud/zuul-merger:{{ zuul.zuul_version_tag }}"
+                resources:
+                  limits:
+                    cpu: 200m
+                    memory: 400Mi
+                  requests:
+                    cpu: 50m
+                    memory: 200Mi
+                volumeMounts:
+                  - name: "certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/ssl"
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/zk"
+                  - name: "config"
+                    readOnly: true
+                    mountPath: "/etc/zuul/"
+                  - name: "zuul-var-run"
+                    mountPath: "/var/run/zuul"
+            volumes:
+              - name: "config"
+                configMap:
+                  name: "zuul-config-{{ instance }}"
+              - name: "certs"
+                secret:
+                  secretName: "zuul-{{ instance }}"
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+              - name: "zuul-var-run"
+                emptyDir: {}
+        strategy:
+          type: "RollingUpdate"
+          rollingUpdate:
+            maxUnavailable: 25%
+            maxSurge: 25%
+        revisionHistoryLimit: 10
+        progressDeadlineSeconds: 600
+
+- name: Create Zuul Merger Autoscaler
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-merger-{{ instance }}"
+    api_version: "autoscaling/v2beta2"
+    kind: "HorizontalPodAutoscaler"
+    apply: "yes"
+    definition:
+      spec:
+        scaleTargetRef:
+          kind: "Deployment"
+          name: "zuul-merger"
+          apiVersion: "apps/v1"
+        minReplicas: 1
+        maxReplicas: 4
+        metrics:
+          - type: "Resource"
+            resource:
+              name: "cpu"
+              target:
+                type: "Utilization"
+                averageUtilization: 70
