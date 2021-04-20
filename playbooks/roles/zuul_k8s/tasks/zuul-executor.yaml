@@ -19,7 +19,7 @@
         - name: "logs"
           port: 7900
           protocol: "TCP"
-          targetPort: "logs"
+          targetPort: 7900
         selector:
           app.kubernetes.io/app: "zuul"
           app.kubernetes.io/component: "zuul-executor"
@@ -65,15 +65,6 @@
                     cpu: 100m
                     memory: 200Mi
                 name: "zuul-executor"
-                command:
-                  - /bin/sh
-                  - '-c'
-                  - >-
-                    sed  "s/_executor_hostname_/$(hostname -i)/g" /etc/zuul/zuul.conf
-                    > /tmp/zuul.conf; zuul-executor -d -f -c /tmp/zuul.conf
-                    #- "zuul-executor"
-                    #- "-d"
-                    #- "-f"
                 securityContext:
                   privileged: true
                 ports:
