@@ -1,0 +1,150 @@
+- name: Create Zuul tenant config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-scheduler-tenant-conig-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        main.yaml: "{{ lookup('file', ([zuul_config_dir, instance, 'zuul', 'main.yaml'] | join('/')) ) }}"
+  register: zuul_scheduler_tenant_config
+
+- name: Create Zuul Scheduler Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-scheduler-{{ instance }}"
+    api_version: "v1"
+    kind: "Service"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-scheduler"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        ports:
+        - name: "gearman"
+          port: 4730
+          protocol: "TCP"
+          targetPort: 4730
+        selector:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-scheduler"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create Zuul Scheduler SS
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-scheduler-{{ instance }}"
+    api_version: "v1"
+    kind: "StatefulSet"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/component: "zuul-scheduler"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        replicas: 1
+        selector:
+          matchLabels:
+            app.kubernetes.io/app: "zuul"
+            app.kubernetes.io/component: "zuul-scheduler"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "zuul-scheduler-{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/app: "zuul"
+              app.kubernetes.io/component: "zuul-scheduler"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - resources:
+                  limits:
+                    cpu: '2'
+                    memory: 2G
+                  requests:
+                    cpu: 100m
+                    memory: 200Mi
+                name: "zuul-scheduler"
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - "while true; do sleep 1; done"
+                securityContext:
+                  privileged: true
+                ports:
+                  - containerPort: 4730
+                    protocol: "TCP"
+                volumeMounts:
+                  - name: "certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/ssl"
+                  - name: "scheduler-certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/scheduler"
+                  - name: "zuul-ssh-key"
+                    mountPath: "/etc/zuul/.ssh"
+                  - name: "zk-certs"
+                    readOnly: true
+                    mountPath: "/etc/zuul/zk"
+                  - name: "config"
+                    readOnly: true
+                    mountPath: "/etc/zuul/"
+                  - name: "tenant-config"
+                    readOnly: true
+                    mountPath: "/etc/zuul/tenants/"
+                  - name: "zuul-var-run"
+                    mountPath: "/var/run/zuul"
+                  - name: "zuul-scheduler-state-dir"
+                    mountPath: "/var/lib/zuul"
+                image: "quay.io/opentelekomcloud/zuul-scheduler:{{ zuul.zuul_version_tag }}"
+            volumes:
+              - name: "config"
+                configMap:
+                  name: "zuul-config-{{ instance }}"
+              - name: "tenant-config"
+                configMap:
+                  name: "zuul-scheduler-tenant-config-{{ instance }}"
+              - name: "certs"
+                secret:
+                  secretName: "zuul-{{ instance }}"
+              - name: "scheduler-certs"
+                secret:
+                  secretName: "zuul-scheduler-{{ instance }}"
+              - name: "zk-certs"
+                secret:
+                  secretName: "zuul-zk-certs-{{ instance }}"
+              - name: "zuul-ssh-key"
+                secret:
+                  secretName: "zuul-executor-ssh-{{ instance }}"
+                  defaultMode: 256
+              - name: "zuul-var-run"
+                emptyDir: {}
+        volumeClaimTemplates:
+          - metadata:
+              name: "zuul-scheduler-state-dir"
+            spec:
+              accessModes:
+                - "ReadWriteMany"
+              storageClassName: "csi-nas"
+              resources:
+                requests:
+                  storage: "100G"
