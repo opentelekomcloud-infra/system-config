@@ -194,6 +194,111 @@ panels:
       - show: false
       - show: false
 
+  - datasource: apimon
+    description: |
+      Ping latency for hosts inside VPC or through VPC Peering using internal IP addresses
+    fill: 1
+    {{ mcr.grid_pos(0, 24, 8, 18) }}
+    legend:
+      show: true
+    lines: true
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{vpc,peering}.*.*.mean, 'avg', 9)
+    title: Internal VPC/Peering Latency
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: true
+        min: 0
+        format: "ms"
+        decimals: 0
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Ping errors for hosts inside VPC/VPC peering using internal IP addresses
+    fill: 1
+    {{ mcr.grid_pos(18, 24, 8, 6) }}
+    legend:
+      show: true
+    options:
+      alertThreshold: true
+    points: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{peering,vpc}.*.*.failed, 'sum', 7)
+    title: Internal ping errors
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: false
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Ping latency for outside world through NATGW and Shared SNAT
+    fill: 1
+    {{ mcr.grid_pos(0, 32, 8, 18) }}
+    legend:
+      show: true
+    lines: true
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.mean, 'avg', 7)
+    title: Outside NATGW/SNAT ping Latency
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: true
+        min: 0
+        format: "ms"
+        decimals: 0
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Outside ping errors. Single errors are not an problem indicator (pinging hosts in different countries).
+    fill: 1
+    {{ mcr.grid_pos(18, 32, 8, 6) }}
+    legend:
+      show: true
+    options:
+      alertThreshold: true
+    points: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.failed, 'sum', 7)
+    title: Outside ping errors
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: false
+      - show: false
+
+
 {{ mcr.service_api_latency('network', 100) }}
 {{ mcr.service_bad_calls('network', 101) }}
 {{ mcr.service_failures(102) }}
