@@ -362,42 +362,51 @@ panels:
 # TODO: DNS need to exclude 400 error
 {{ mcr.sli_service_row_dns('dns', 'DNS', 132) }}
 
-# DMS
+# DIS
   - collapsed: false
     {{ mcr.grid_pos(0, 142, 1, 24) }}
+    panels: []
+    title: DIS
+    type: row
+
+{{ mcr.sli_service_row('disv2', 'DIS', 143) }}
+
+# DMS
+  - collapsed: false
+    {{ mcr.grid_pos(0, 148, 1, 24) }}
     panels: []
     title: DMS
     type: row
 
-{{ mcr.sli_service_row('dmsv1', 'DMS', 143) }}
+{{ mcr.sli_service_row('dmsv1', 'DMS', 149) }}
 
 # KMS
   - collapsed: false
-    {{ mcr.grid_pos(0, 148, 1, 24) }}
+    {{ mcr.grid_pos(0, 154, 1, 24) }}
     panels: []
     title: KMS
     type: row
 
-{{ mcr.sli_service_row('kms', 'KMS', 149) }}
+{{ mcr.sli_service_row('kms', 'KMS', 155) }}
 
 # TODO: max latency
 
 # Heat
   - collapsed: false
-    {{ mcr.grid_pos(0, 154, 1, 24) }}
+    {{ mcr.grid_pos(0, 180, 1, 24) }}
     panels: []
     title: Orchestration
     type: row
 
-{{ mcr.sli_service_row('orchestration', 'Orchestration', 155) }}
+{{ mcr.sli_service_row('orchestration', 'Orchestration', 181) }}
 
 # WAF
   - collapsed: false
-    {{ mcr.grid_pos(0, 180, 1, 24) }}
+    {{ mcr.grid_pos(0, 187, 1, 24) }}
     title: WAF
     type: row
     panels:  []
-{{ mcr.sli_service_row('waf', 'WAF', 181) }}
+{{ mcr.sli_service_row('waf', 'WAF', 188) }}
 
 
 refresh: false
