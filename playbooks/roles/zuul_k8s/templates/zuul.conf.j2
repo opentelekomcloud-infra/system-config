@@ -8,12 +8,12 @@ ssl_key=/etc/zuul/ssl/gearman-client.key
 [gearman_server]
 start=true
 #log_config=/etc/zuul/scheduler/gearman-logging.conf
-ssl_ca=/etc/zuul/ssl/gearman-ca.pem
-ssl_cert=/etc/zuul/ssl/scheduler/gearman-server.pem
-ssl_key=/etc/zuul/ssl/scheduler/gearman-server.key
+ssl_ca=/etc/zuul/scheduler/gearman-ca.pem
+ssl_cert=/etc/zuul/scheduler/gearman-server.pem
+ssl_key=/etc/zuul/scheduler/gearman-server.key
 
 [scheduler]
-tenant_config=/etc/zuul/main.yaml
+tenant_config=/etc/zuul/tenants/main.yaml
 log_config=/etc/zuul/logging.conf
 state_dir=/var/lib/zuul
 relative_priority=true
@@ -47,7 +47,7 @@ git_user_email=zuul@zuul.eco.tsi-dev.otc-service.com
 git_user_name=OpenTelekomCloud Zuul
 
 [executor]
-hostname=_executor_hostname_
+#hostname=_executor_hostname_
 manage_ansible=false
 log_config=/etc/zuul/logging.conf
 #job_dir=/var/lib/zuul/builds
@@ -64,8 +64,8 @@ max_starting_builds=5
 log_config=/etc/zuul/logging.conf
 listen_address=0.0.0.0
 #listen_port=9000
-status_url=https://zuul.eco.tsi-dev.otc-service.com
-root=https://zuul.eco.tsi-dev.otc-service.com
+status_url={{ zuul.web_domain }}
+root={{ zuul.web_domain }}
 
 {% for connection in zuul.zuul_connections -%}
 [connection "{{ connection['name'] }}"]
