@@ -1,13 +1,6 @@
-DATABASE_URL='{{ alerta_db_url }}'
-AUTH_REQUIRED={{ alerta_auth_required }}
-{% if alerta_user_proxyfix is defined and alerta_user_proxyfix %}
+AUTH_REQUIRED = True
 USE_PROXYFIX = True
-{% endif %}
-CUSTOMER_VIEWS = {{ alerta_enable_customer_views }}
-{% if alerta_allowed_email_domains is defined and alerta_allowed_email_domains|length %}
-ALLOWED_EMAIL_DOMAINS = {{ alerta_allowed_email_domains }}
-{% endif %}
-SECRET_KEY = '{{ alerta_secret_key }}'
+CUSTOMER_VIEWS = False
 {% if alerta_auth_provider is defined %}
 AUTH_PROVIDER='{{ alerta_auth_provider }}'
 {% for key in alerta_auth_options_str %}
