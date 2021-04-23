@@ -1,4 +1,6 @@
+graphite_relay: true
 graphite_cert: "graphite1-infra"
+
 ssl_certs:
   graphite1-infra:
     - "graphite1.eco.tsi-dev.otc-service.com"
