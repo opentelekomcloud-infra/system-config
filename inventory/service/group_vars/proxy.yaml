@@ -57,5 +57,3 @@ proxy_frontends:
 
 statsd_host: "192.168.14.159"
 statsd_port: "8125"
-
-firewalld_extra_services_enable: ['http', 'https']
