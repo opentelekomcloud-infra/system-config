@@ -1,1 +1,3 @@
 apimon_instance: production_vc
+
+firewalld_extra_ports_enable: ["8125/udp"]
