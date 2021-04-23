@@ -3,6 +3,7 @@ zuul_instances:
     zookeeper_instance_group: "zuul-zookeeper"
       #gearman_server: "192.168.20.80"
     gearman_server: "zuul-scheduler-main"
+    statsd_server: 192.168.14.241
     config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
     web_domain: "https://zuul.eco.tsi-dev.otc-service.com"
     nodepool_version_tag: "4.1.0"
