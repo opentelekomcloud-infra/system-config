@@ -95,6 +95,9 @@
                 ports:
                   - containerPort: 8125
                     protocol: "UDP"
+                  - name: "statsd-admin"
+                    containerPort: 8126
+                    protocol: "TCP"
                 resources:
                   limits:
                     cpu: "50m"
