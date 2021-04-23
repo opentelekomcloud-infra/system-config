@@ -67,5 +67,6 @@
         cert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['cert']) | string | b64encode }}"
         key.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['key']) | string | b64encode }}"
 
+- include_tasks: statsd.yaml
 - include_tasks: nodepool.yaml
 - include_tasks: zuul.yaml
