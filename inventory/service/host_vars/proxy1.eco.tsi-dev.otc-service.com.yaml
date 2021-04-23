@@ -7,3 +7,5 @@ ssl_certs:
     - "alerts.eco.tsi-dev.otc-service.com"
     - "graphite.eco.tsi-dev.otc-service.com"
     - "influx1.eco.tsi-dev.otc-service.com"
+
+firewalld_extra_services_enable: ['http', 'https']
