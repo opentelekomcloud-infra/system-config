@@ -17,7 +17,7 @@ graphite_relay_normalize_tag: true
 graphite_aggregator_replication_factor: 1
 graphite_aggregate_destinations: "127.0.0.1:2004"
 
-graphite_cluster_servers: "127.0.0.1:8080"
+# graphite_cluster_servers: "127.0.0.1:8080"
 
 graphite_image: "quay.io/opentelekomcloud/graphite-statsd:1.1.7-9"
 
