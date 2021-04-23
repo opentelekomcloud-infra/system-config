@@ -4,3 +4,5 @@ apimon_clouds:
     cloud: otcapimon_preprod
   - name: swift
     cloud: otcapimon_logs
+
+firewalld_extra_ports_enable: ["8125/udp"]

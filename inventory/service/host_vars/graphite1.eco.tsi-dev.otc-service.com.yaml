@@ -4,3 +4,7 @@ graphite_cert: "graphite1-infra"
 ssl_certs:
   graphite1-infra:
     - "graphite1.eco.tsi-dev.otc-service.com"
+
+firewalld_extra_services_enable: ['http', 'https']
+firewalld_extra_ports_enable: ['2003/tcp', '2004/tcp', '2013/tcp', '2014/tcp',
+  '2023/tcp', '2024/tcp', '8125/udp', '11211/tcp']

@@ -17,5 +17,3 @@ alerta_columns:
 alerta_plugins:
   - blackout
   - zulip
-
-firewalld_extra_ports_enable: ['8080/tcp']
