@@ -1,0 +1,19 @@
+# Base image building jobs
+- job:
+    name: system-config-build-image
+    parent: build-docker-image
+    abstract: true
+    vars:
+      zuul_work_dir: /home/zuul/src/github.com/opentelekomcloud-infra/system-config
+
+- job:
+    name: system-config-upload-image
+    parent: otcinfra-upload-image-quay
+    abstract: true
+    vars:
+      zuul_work_dir: /home/zuul/src/github.com/opentelekomcloud-infra/system-config
+
+        #- job:
+        #    name: system-config-promote-image
+        #    parent: opendev-promote-docker-image
+        #    abstract: true
