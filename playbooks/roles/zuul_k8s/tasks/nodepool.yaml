@@ -79,6 +79,9 @@
                   - "nodepool-launcher"
                   - '-d'
                   - '-f'
+                env:
+                  - name: "STATSD_HOST"
+                    value: "{{ zuul.statsd_host }}"
                 volumeMounts:
                   - name: "zk-certs"
                     readOnly: true
