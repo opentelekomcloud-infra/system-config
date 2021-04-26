@@ -44,18 +44,27 @@
   loop:
     - {dest: "/etc/alerta"}
 
-- name: Write Alerta config files
+- name: Write Alerta env file
   become: true
   template:
-    src: "{{ item }}.j2"
+    src: "env.j2"
     dest: "/etc/alerta/{{ item }}"
     owner: "{{ alerta_os_user }}"
     group: "{{ alerta_os_group }}"
     mode: 0664
-  loop:
-    - "env"
-    - "alerta.conf"
-    - "alertad.conf"
+  notify:
+    - Restart alerta
+
+- name: Write alertad config file
+  become: true
+  ansible.builtin.copy:
+    content: "{{ alertad_config }}"
+    dest: "/etc/alerta/alertad.conf"
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: "0664"
+  when:
+    - "alertad_config is defined and alertad_config|length"
   notify:
     - Restart alerta
 

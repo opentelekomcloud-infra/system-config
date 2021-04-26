@@ -1,4 +1,4 @@
-- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+- hosts: alerta-k8s:!disabled
   name: "Configure Alerta in K8s"
   tasks:
     - include_role:

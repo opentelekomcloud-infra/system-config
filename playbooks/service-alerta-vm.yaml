@@ -1,6 +1,7 @@
-- hosts: "alerta:!disabled"
+- hosts: "alerta-vm:!disabled"
   name: "Base: configure alerta"
   roles:
     # Group should be responsible for defining open ports
     - firewalld
     - alerta
+      alertad_config: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"

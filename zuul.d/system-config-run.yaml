@@ -217,10 +217,10 @@
           label: ubuntu-focal
     vars:
       run_playbooks:
-        - playbooks/service-alerta.yaml
+        - playbooks/service-alerta-vm.yaml
     files:
       - tox.ini
-      - playbooks/service-alerta.yaml
+      - playbooks/service-alerta-vm.yaml
       - playbooks/roles/alerta
       - testinfra/test_alerta.py
 
