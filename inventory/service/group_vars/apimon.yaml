@@ -341,13 +341,13 @@ apimon_instances:
           - scenario9_obs.yaml
       - env: production_eu-de
         project: csm
-        tasks:
-          - lb_monitoring.yaml
+        tasks: []
+          # - lb_monitoring.yaml
 
     # Test clouds configuration
     clouds:
       - name: production_eu-de
-        cloud: otcapimon_stg_probes1
+        cloud: otcapimon_probes14
       - name: swift
         cloud: otcapimon_logs_stg
       - name: production_eu-de-csm
