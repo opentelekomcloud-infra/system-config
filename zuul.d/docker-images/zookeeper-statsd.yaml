@@ -1,0 +1,26 @@
+# zookeeper-statsd jobs
+- job:
+    name: system-config-build-image-zookeeper-statsd
+    description: Build a zookeeper-statsd image.
+    parent: system-config-build-image
+    vars: &zookeeper-statsd_vars
+      docker_images:
+        - context: docker/zookeeper-statsd
+          repository: opentelekomcloud/zookeeper-statsd
+          tags: ['latest']
+    files: &zookeeper-statsd_files
+      - docker/zookeeper-statsd/
+
+- job:
+    name: system-config-upload-image-zookeeper-statsd
+    description: Build and upload a zookeeper-statsd image.
+    parent: system-config-upload-image
+    vars: *zookeeper-statsd_vars
+    files: *zookeeper-statsd_files
+
+      #- job:
+      #    name: system-config-promote-image-zookeeper-statsd
+      #    description: Promote a previously published zookeeper-statsd image to latest.
+      #    parent: system-config-promote-image
+      #    vars: *zookeeper-statsd_vars
+      #    files: *zookeeper-statsd_files
