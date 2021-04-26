@@ -13,6 +13,17 @@ clouds:
       password: "{{ clouds.otcdns.auth.password }}"
       project_name: {{ clouds.otcdns.auth.project_name }}
       user_domain_name: {{ clouds.otcdns.auth.user_domain_name }}
+  # Tests admin
+  otc-tests-admin:
+    auth:
+       auth_url: {{ clouds.otc_tests_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
+       user_domain_name: {{ clouds.otc_tests_admin.auth.user_domain_name }}
+       domain_name: {{ clouds.otc_tests_admin.auth.domain_name }}
+       username: {{ clouds.otc_tests_admin.auth.username }}
+       password: {{ clouds.otc_tests_admin.auth.password }}
+    interface: public
+    identity_api_version: 3
+    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
 
   # APImon projects
   otcapimon-pool1:
@@ -70,6 +81,35 @@ clouds:
       project_name: {{ apimon_all_clouds.otcapimon_probes6.auth.project_name }}
       user_domain_name: {{ apimon_all_clouds.otcapimon_probes6.auth.user_domain_name }}
     region_name: eu-nl
+  otcapimon-probes11:
+    profile: otc
+    auth: 
+      username: {{ apimon_all_clouds.otcapimon_probes11.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_probes11.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_probes11.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_probes11.auth.user_domain_name }}
+  otcapimon-probes12:
+    profile: otc
+    auth: 
+      username: {{ apimon_all_clouds.otcapimon_probes12.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_probes12.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_probes12.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_probes12.auth.user_domain_name }}
+  otcapimon-probes13:
+    profile: otc
+    auth: 
+      username: {{ apimon_all_clouds.otcapimon_probes13.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_probes13.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_probes13.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_probes13.auth.user_domain_name }}
+  otcapimon-probes14:
+    profile: otc
+    auth: 
+      username: {{ apimon_all_clouds.otcapimon_probes14.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_probes14.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_probes14.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_probes14.auth.user_domain_name }}
+
   otcapimon-preprod:
     profile: otc
     auth: 
