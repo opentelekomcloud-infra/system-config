@@ -34,11 +34,11 @@ session_timeout=40
 [keystore]
 {% if zuul_keystore_password is defined -%}
 password={{ zuul_keystore_password }}
-{% endif -%}
+{% endif %}
 
-{% if zuul.statsd_server is defined %}
+{% if zuul.statsd_host is defined %}
 [statsd]
-server={{ zuul.statsd_server }}
+server={{ zuul.statsd_host }}
 {% endif %}
 
 [merger]
