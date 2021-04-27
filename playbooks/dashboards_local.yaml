@@ -6,7 +6,7 @@
       vars:
         grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
         grafana_uid_prefix: "testing"
-        grafana_dashboard_folder: "Testing"
+        grafana_dashboard_folder: "Apimon"
       loop:
         - apimon/test_results.yaml
         - apimon/endpoint_monitor.yaml
