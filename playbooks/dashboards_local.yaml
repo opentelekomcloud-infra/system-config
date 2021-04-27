@@ -4,15 +4,25 @@
         name: grafana
         tasks_from: import_dashboard.yaml
       vars:
-        grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
+        grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item.template + '.j2') | from_yaml }}"
         grafana_uid_prefix: "testing"
-        grafana_dashboard_folder: "Apimon"
+        grafana_dashboard_folder: "testing{{item.folder }}"
       loop:
-        - apimon/test_results.yaml
-        - apimon/endpoint_monitor.yaml
-        - apimon/compute.yaml
-        - apimon/identity.yaml
-        - apimon/block_storage.yaml
-        - apimon/image.yaml
-        - apimon/network.yaml
-        - apimon/kpi.yaml
+        #- template: "apimon/test_results.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/endpoint_monitor.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/compute.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/identity.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/block_storage.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/image.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/network.yaml"
+        #  folder: "Apimon"
+        #- template: "apimon/kpi.yaml"
+        #  folder: "Apimon"
+        - template: "247/main.yaml"
+          folder: "247"
