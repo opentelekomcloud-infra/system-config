@@ -80,7 +80,7 @@ panels:
     repeatDirection: h
     targets:
       - refId: A
-        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.passed.count,
+        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.{create_server,create_server_coreos}.{default,eu*}.passed.count,
           7, 'sum'), '1d', 'sum', false))
     title: SSH Successful Logins
     type: gauge
