@@ -48,7 +48,7 @@
   become: true
   template:
     src: "env.j2"
-    dest: "/etc/alerta/{{ item }}"
+    dest: "/etc/alerta/env"
     owner: "{{ alerta_os_user }}"
     group: "{{ alerta_os_group }}"
     mode: 0664
