@@ -22,6 +22,7 @@ ExecStart={{ container_runtime }} run \
   --env-file /etc/alerta/env \
   -p 8080:8080 \
   -v /etc/alerta/alertad.conf:/etc/alertad.conf:ro,z \
+  -v /etc/alerta/supervisord.conf:/app/supervisord.conf:ro,z \
   --tmpfs /tmp:rw,size=787448k \
   ${ALERTA_IMAGE}
 

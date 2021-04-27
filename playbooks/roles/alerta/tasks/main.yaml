@@ -55,6 +55,17 @@
   notify:
     - Restart alerta
 
+- name: Write Alerta supervisord.conf file
+  become: true
+  template:
+    src: "supervisord.conf.j2"
+    dest: "/etc/alerta/supervisord.conf"
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: 0664
+  notify:
+    - Restart alerta
+
 - name: Write alertad config file
   become: true
   ansible.builtin.copy:
