@@ -26,7 +26,7 @@ panels:
     targets:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.mean_90,
-          7, 'sum')
+          7, 'avg')
     title: Instance Boot duration (Fedora30)
     type: graph
     xaxis:
@@ -80,7 +80,7 @@ panels:
     repeatDirection: h
     targets:
       - refId: A
-        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.passed.count,
+        target: aliasByMetric(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.{create_server,create_server_coreos}.{default,eu*}.passed.count,
           7, 'sum'), '1d', 'sum', false))
     title: SSH Successful Logins
     type: gauge
@@ -104,7 +104,7 @@ panels:
     targets:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.mean_90,
-          7, 'sum')
+          7, 'avg')
     title: Instance Boot duration (coreos)
     type: graph
     xaxis:

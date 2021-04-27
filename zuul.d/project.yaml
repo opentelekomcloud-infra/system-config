@@ -51,6 +51,7 @@
         - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-proxy
+        - infra-prod-dashboards
     periodic:
       # Nightly execution
       jobs:
