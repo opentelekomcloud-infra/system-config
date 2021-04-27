@@ -1,8 +1,11 @@
+default: &default_vars
+  alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
+  alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+  alerta_heartbeat_timeout: 300
+
 alerta_instances:
   production_stg:
-    alerta_smtp_enable: true
-    alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
-    alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+    default: *default_vars
     alerta_columns:
       - severity
       - status
