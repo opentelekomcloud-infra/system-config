@@ -1,9 +1,8 @@
-alerta_instances_secrets:
+alerta_instances:
   production_stg:
     alerta_smtp_enable: true
     alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
     alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
-    
     alerta_columns:
       - severity
       - status
@@ -21,7 +20,9 @@ alerta_instances_secrets:
       - zulip
     
     firewalld_extra_ports_enable: ['8080/tcp']
-    
+  
+alerta_instances_secrets:
+  production_stg:
     alerta_db_url: "postgresql://fake"
     alerta_zulip_api_key: "apikey"
     alerta_admin_key: "adminkey"
