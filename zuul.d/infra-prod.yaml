@@ -244,4 +244,13 @@
       - playbooks/service-proxy.yaml
       - roles/haproxy/
 
-
+- job:
+    name: infra-prod-dashboards
+    parent: infra-prod-service-base
+    description: Run dashboards.yaml playbook.
+    vars:
+      playbook_name: dashboards.yaml
+    files:
+      - inventory/
+      - playbooks/dashboards.yaml
+      - playbooks/templates/grafana
