@@ -111,7 +111,7 @@
       - queryType: randomWalk
         refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.upper,
-          7, 'sum')
+          7, 'avg')
     title: Boot time duration (F30)
     type: stat
 
@@ -138,6 +138,6 @@
     targets:
       - queryType: randomWalk
         refId: A
-        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper, 7, 'sum')
+        target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper, 7, 'avg')
     title: Boot time duration (CoreOS)
     type: stat
