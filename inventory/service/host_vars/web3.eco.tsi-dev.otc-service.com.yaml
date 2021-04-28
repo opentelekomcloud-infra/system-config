@@ -1,3 +1,4 @@
+alerta_instance: production_vc
 ssl_certs:
   web3:
     - "web3.eco.tsi-dev.otc-service.com"

@@ -1,4 +1,3 @@
-
 [Unit]
 Description=Alerta Service
 After=syslog.target network.target
@@ -8,7 +7,6 @@ Restart=always
 TimeoutSec=30s
 User={{ alerta_os_user }}
 Group={{ alerta_os_group }}
-Environment=ALERTA_IMAGE=alerta/alerta-web
 EnvironmentFile=/etc/alerta/env
 
 ExecStartPre=-{{ container_runtime }} kill alerta
@@ -16,13 +14,15 @@ ExecStartPre=-{{ container_runtime }} rm alerta
 
 ExecStart={{ container_runtime }} run \
   --name alerta \
-{% if alerta_add_host is defined %}
-  --add-host={{ alerta_add_host }} \
+{% if alerta.alerta_add_host is defined %}
+  --add-host={{ alerta.alerta_add_host }} \
+{%else%}
+  --add-host={{ alerta.default.alerta_add_host }} \
 {% endif %}
   --env-file /etc/alerta/env \
   -p 8080:8080 \
   -v /etc/alerta/alertad.conf:/etc/alertad.conf:ro,z \
-  -v /etc/alerta/alerta.conf:/app/alerta.conf:ro,z \
+  -v /etc/alerta/supervisord.conf:/app/supervisord.conf:ro,z \
   --tmpfs /tmp:rw,size=787448k \
   ${ALERTA_IMAGE}
 

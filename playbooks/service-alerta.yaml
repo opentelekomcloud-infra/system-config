@@ -1,6 +1,9 @@
-- hosts: "alerta:!disabled"
+- hosts: "alerta-vm:!disabled"
   name: "Base: configure alerta"
+  vars:
+    alerta: "{{ alerta_instances[alerta_instance] | combine(alerta_instances_secrets[alerta_instance], recursive=True) }}"
   roles:
     # Group should be responsible for defining open ports
-    - firewalld
-    - alerta
+    - role: firewalld
+    - role: alerta
+      alertad_config: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
