@@ -8,6 +8,6 @@ results:
     - apimon
     - cloud-launcher
     - control-plane-clouds
-    - alerta-k8s
+    - alerta
     - zuul
     - nodepool

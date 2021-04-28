@@ -101,9 +101,10 @@ groups:
 
   alerta:
     - web3.eco.tsi-dev.otc-service.com
-
-  alerta-k8s:
     - bridge.eco.tsi-dev.otc-service.com
+
+  alerta-vm: []
+  #  - web3.eco.tsi-dev.otc-service.com
 
   grafana:
     - web3.eco.tsi-dev.otc-service.com
