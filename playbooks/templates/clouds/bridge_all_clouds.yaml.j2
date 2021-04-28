@@ -25,6 +25,15 @@ clouds:
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
 
+  # OTC Swift
+  otc-swift:
+    profile: otc
+    auth: 
+      username: {{ clouds.otc_swift.auth.username }}
+      password: "{{ clouds.otc_swift.auth.password }}"
+      project_name: {{ clouds.otc_swift.auth.project_name }}
+      user_domain_name: {{ clouds.otc_swift.auth.user_domain_name }}
+
   # APImon projects
   otcapimon-pool1:
     profile: otc
