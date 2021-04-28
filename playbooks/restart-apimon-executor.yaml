@@ -1,0 +1,8 @@
+- hosts: apimon-executor:!disabled
+  become: true
+  tasks:
+    - name: Restart apimon-executor
+      ansible.builtin.service:
+        name: "apimon-executor"
+        state: "restarted"
+
