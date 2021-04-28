@@ -3,17 +3,6 @@ default: &default_vars
   alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
   alerta_heartbeat_timeout: 300
   alerta_image: "quay.io/opentelekomcloud/alerta:8.4.1"
-  alerta_add_host: "ldap.internal:172.0.0.1"
-  alerta_auth_provider: ldap
-  alerta_auth_options_str:
-    LDAP_URL: "ldaps://ldap.internal:636"
-    LDAP_DEFAULT_DOMAIN: "example.com"
-  alerta_auth_options_non_str:
-    LDAP_ALLOW_SELF_SIGNED_CERT: False
-  alerta_allowed_environments: ['Prod', 'Dev']
-  alerta_plugins_options:
-    ZULIP_SITE: "https://zulip.internal"
-    ZULIP_EMAIL: "apimon@zulip.example.com"
 
 #alerta_instances:
 #  production_stg:
@@ -45,5 +34,16 @@ alerta_instances_secrets:
     alerta_api_key: "apikey"
     alerta_admin_users: "admin"
     alerta_bind_password: "password"
+    alerta_add_host: "ldap.internal:172.0.0.1"
+    alerta_auth_provider: ldap
+    alerta_auth_options_str:
+      LDAP_URL: "ldaps://ldap.internal:636"
+      LDAP_DEFAULT_DOMAIN: "example.com"
+    alerta_auth_options_non_str:
+      LDAP_ALLOW_SELF_SIGNED_CERT: False
+    alerta_allowed_environments: ['Prod', 'Dev']
+    alerta_plugins_options:
+      ZULIP_SITE: "https://zulip.internal"
+      ZULIP_EMAIL: "apimon@zulip.example.com"
 
 alerta_instance: production_stg
