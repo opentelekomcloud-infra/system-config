@@ -15,26 +15,26 @@ default: &default_vars
     ZULIP_SITE: "https://zulip.internal"
     ZULIP_EMAIL: "apimon@zulip.example.com"
 
-alerta_instances:
-  production_stg:
-    default: *default_vars
-    alerta_columns:
-      - severity
-      - status
-      - lastReceiveTime
-      - duplicateCount
-      - environment
-      - service
-      - resource
-      - event
-      - value
-      - text
-    
-    alerta_plugins:
-      - blackout
-      - zulip
-    
-    firewalld_extra_ports_enable: ['8080/tcp']
+#alerta_instances:
+#  production_stg:
+#    default: *default_vars
+#    alerta_columns:
+#      - severity
+#      - status
+#      - lastReceiveTime
+#      - duplicateCount
+#      - environment
+#      - service
+#      - resource
+#      - event
+#      - value
+#      - text
+#    
+#    alerta_plugins:
+#      - blackout
+#      - zulip
+#    
+#    firewalld_extra_ports_enable: ['8080/tcp']
   
 alerta_instances_secrets:
   production_stg:
