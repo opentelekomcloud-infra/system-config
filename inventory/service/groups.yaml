@@ -103,7 +103,7 @@ groups:
     - web3.eco.tsi-dev.otc-service.com
     - bridge.eco.tsi-dev.otc-service.com
 
-  alerta-vm:
+  alerta-vm: []
   #  - web3.eco.tsi-dev.otc-service.com
 
   grafana:
