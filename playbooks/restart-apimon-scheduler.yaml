@@ -1,0 +1,8 @@
+- hosts: apimon-scheduler:!disabled
+  become: true
+  tasks:
+    - name: Restart apimon-scheduler
+      ansible.builtin.service:
+        name: "apimon-scheduler"
+        state: "restarted"
+

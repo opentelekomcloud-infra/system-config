@@ -1,0 +1,8 @@
+- hosts: apimon-epmon:!disabled
+  become: true
+  tasks:
+    - name: Restart apimon-epmon
+      ansible.builtin.service:
+        name: "apimon-epmon"
+        state: "restarted"
+
