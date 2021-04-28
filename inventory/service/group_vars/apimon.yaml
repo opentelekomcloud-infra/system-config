@@ -96,7 +96,7 @@ apimon_instances:
     # Test clouds configuration
     clouds:
       - name: production_eu-de
-        cloud: otcapimon_probes1
+        cloud: otcapimon_probes11
       - name: production_eu-nl
         cloud: otcapimon_probes6
       - name: swift
