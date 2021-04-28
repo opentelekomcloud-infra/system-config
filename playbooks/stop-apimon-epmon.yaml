@@ -1,0 +1,8 @@
+- hosts: apimon-epmon:!disabled
+  become: true
+  tasks:
+    - name: Stop apimon-epmon
+      ansible.builtin.service:
+        name: "apimon-epmon"
+        state: "stopped"
+
