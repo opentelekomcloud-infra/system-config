@@ -55,11 +55,7 @@ cloud_user_group_assignments:
     group: "zuul_functional"
     users:
       - "zuul_functional"
-      - "zuul_acc"
-      - "zuul_otce"
-      - "zuul_go"
       - "zuul_rancher"
-      - "zuul_tf"
   # APImon group user mapiing
   - cloud: "otc-tests-admin"
     group: "apimon"
