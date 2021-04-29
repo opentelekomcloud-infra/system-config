@@ -1,0 +1,7 @@
+- name: Ensure role assignment
+  openstack.cloud.role_assignment:
+    cloud: "{{ ra.cloud }}"
+    role: "{{ ra.role }}"
+    group: "{{ ra.group | default(omit) }}"
+    project: "{{ ra.project | default(omit) }}"
+    state: "{{ ra.state | default('present') }}"

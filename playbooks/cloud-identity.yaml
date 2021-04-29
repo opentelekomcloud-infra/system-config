@@ -1,0 +1,30 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud Identity stuff"
+  tasks:
+    - name: Manage projects
+      openstack.cloud.project:
+        cloud: "{{ item.cloud }}"
+        name: "{{ item.name }}"
+      loop: "{{ cloud_projects }}"
+
+    - name: Manage user groups
+      openstack.cloud.identity_group:
+        cloud: "{{ item.cloud }}"
+        name: "{{ item.name }}"
+      loop: "{{ cloud_user_groups }}"
+
+    - name: Manage user groups assignments
+      cloud_user_group_assignment:
+        cloud: "{{ item.cloud }}"
+        group: "{{ item.group }}"
+        users: "{{ item.users }}"
+      loop: "{{ cloud_user_group_assignments }}"
+
+    - name: Manage role assignments
+      cloud_role_assignment:
+        cloud: "{{ item.cloud }}"
+        role: "{{ item.role }}"
+        projects: "{{ item.projects }}"
+        groups: "{{ item.groups }}"
+        state: "{{ item.state | default('present') }}"
+      loop: "{{ cloud_role_assignments }}"
