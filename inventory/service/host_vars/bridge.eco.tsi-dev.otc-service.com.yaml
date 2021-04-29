@@ -14,3 +14,7 @@ x509_certificates:
   - zk0.eco.tsi-dev.otc-service.com
   - zk1.eco.tsi-dev.otc-service.com
   - zk2.eco.tsi-dev.otc-service.com
+
+ssl_certs:
+  swift-eco:
+    - "swift.eco.tsi-dev.otc-service.com"

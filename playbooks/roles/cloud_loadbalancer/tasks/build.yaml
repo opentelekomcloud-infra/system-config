@@ -1,0 +1,55 @@
+- name: Create Load Balancer
+  opentelekomcloud.cloud.loadbalancer:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ lb.loadbalancer.name }}"
+    vip_subnet: "{{ lb.loadbalancer.vip_subnet | default(omit) }}"
+    vip_address: "{{ lb.loadbalancer.vip_address | default(omit) }}"
+    public_ip_address: "{{ lb.loadbalancer.public_ip_address | default(omit) }}"
+  register: loadbalancer
+
+- name: Find certificates
+  opentelekomcloud.cloud.lb_certificate_info:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.ssl_cert }}"
+  loop: "{{ lb.loadbalancer.listeners }}"
+  when: "item.ssl_cert is defined"
+  register: lb_ssl_certs
+
+- set_fact:
+    lb_certs: "{{ (lb_certs | default({})) | combine({item.elb_certificates[0].name: item.elb_certificates[0].id }) }}"
+  loop: "{{ lb_ssl_certs.results }}"
+
+- name: Create Listeners
+  opentelekomcloud.cloud.lb_listener:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.name }}"
+    loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
+    protocol: "{{ item.protocol }}"
+    protocol_port: "{{ item.protocol_port }}"
+    sni_container_refs: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
+    tls_ciphers_policy: "{{ item.tls_ciphers_policy | default(omit) }}"
+    default_tls_container_ref: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
+  loop: "{{ lb.loadbalancer.listeners }}"
+
+- name: Create Pools
+  opentelekomcloud.cloud.lb_pool:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.name }}"
+    description: "{{ item.description | default(omit) }}"
+    loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
+    listener: "{{ item.listener }}"
+    protocol: "{{ item.protocol }}"
+    lb_algorithm: "{{ item.lb_algorithm }}"
+  loop: "{{ lb.loadbalancer.pools }}"
+
+- name: Register Pool Members
+  opentelekomcloud.cloud.lb_member:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.name }}"
+    pool: "{{ item.pool }}"
+    protocol_port: "{{ item.protocol_port }}"
+    subnet: "{{ item.subnet }}"
+    address: "{{ item.address }}"
+    weight: "{{ item.weight | default(omit) }}"
+  loop: "{{ lb.loadbalancer.members }}"
+

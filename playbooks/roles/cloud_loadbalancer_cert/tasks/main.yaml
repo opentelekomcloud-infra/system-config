@@ -1,0 +1,8 @@
+---
+- name: Install LB SSL Certs
+  include_tasks: build.yaml
+  when: state == "present"
+
+- name: Destroy LB SSL Certs
+  include_tasks: destroy.yaml
+  when: state == "absent"

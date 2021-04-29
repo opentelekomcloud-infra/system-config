@@ -1,0 +1,32 @@
+- name: Unregister Pool Members
+  opentelekomcloud.cloud.lb_member:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.name }}"
+    pool: "{{ item.pool }}"
+    protocol_port: "{{ item.protocol_port }}"
+    subnet: "{{ item.subnet }}"
+    address: "{{ item.address }}"
+    weight: "{{ item.weight | default(omit) }}"
+    state: "absent"
+  loop: "{{ lb.loadbalancer.members }}"
+
+- name: Drop Listeners
+  opentelekomcloud.cloud.lb_listener:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ item.name }}"
+    loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
+    protocol: "{{ item.protocol }}"
+    protocol_port: "{{ item.protocol_port }}"
+    sni_container_refs: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
+    tls_ciphers_policy: "{{ item.tls_ciphers_policy | default(omit) }}"
+    default_tls_container_ref: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
+    state: "absent"
+  loop: "{{ lb.loadbalancer.listeners }}"
+
+- name: Drop Load Balancer
+  opentelekomcloud.cloud.loadbalancer:
+    cloud: "{{ lb.cloud }}"
+    name: "{{ lb.loadbalancer.name }}"
+    state: "absent"
+
+
