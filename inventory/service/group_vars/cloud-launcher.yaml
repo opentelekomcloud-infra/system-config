@@ -1,2 +1,47 @@
 ansible_roles:
   - cloud-launcher
+
+cloud_load_balancers:
+  - cloud: "otc-swift"
+    loadbalancer:
+      name: "elb-swift"
+      vip_subnet: "external_subnet"
+      vip_address: "192.168.81.211"
+        #vip_address: "192.168.81.212"
+      public_ip_address: "80.158.44.22"
+        #public_ip_address: "80.158.57.114"
+      listeners:
+        - name: "listener-https"
+          protocol: "terminated_https"
+          protocol_port: 443
+          ssl_cert: "cert-swift"
+          tls_ciphers_policy: "tls-1-2-strict"
+      pools:
+        - name: "server_group-8080"
+          listener: "listener-https"
+          description: "Main HTTP traffic"
+          lb_algorithm: "round_robin"
+          protocol: "http"
+      members:
+        - name: "proxy_01"
+          address: "192.168.80.190"
+          pool: "server_group-8080"
+          subnet: "management_subnet"
+          protocol_port: 8080
+        - name: "proxy_02"
+          address: "192.168.80.129"
+          pool: "server_group-8080"
+          subnet: "management_subnet"
+          protocol_port: 8080
+        - name: "proxy_03"
+          address: "192.168.80.15"
+          pool: "server_group-8080"
+          subnet: "management_subnet"
+          protocol_port: 8080
+
+cloud_load_balancer_certificates:
+  - cloud: "otc-swift"
+    name: "cert-swift"
+    domain: "swift.eco.tsi-dev.otc-service.com"
+    type: "server"
+    ssl_cert: "swift-eco"
