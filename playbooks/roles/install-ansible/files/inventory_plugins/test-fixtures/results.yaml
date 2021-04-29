@@ -11,3 +11,4 @@ results:
     - alerta
     - zuul
     - nodepool
+    - ssl_certs

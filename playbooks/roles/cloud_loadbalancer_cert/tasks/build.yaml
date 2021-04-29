@@ -1,0 +1,7 @@
+- name: Install SSL Cert
+  opentelekomcloud.cloud.lb_certificate:
+    cloud: "{{ cert.cloud }}"
+    name: "{{ cert.name }}"
+    content: "{{ lookup('file', (['/etc/ssl/', inventory_hostname, cert.ssl_cert + '-fullchain.crt'] | join('/'))) }}"
+    private_key: "{{ lookup('file', (['/etc/ssl/', inventory_hostname, cert.ssl_cert + '.pem'] | join('/'))) }}"
+    domain: "{{ cert.domain }}"
