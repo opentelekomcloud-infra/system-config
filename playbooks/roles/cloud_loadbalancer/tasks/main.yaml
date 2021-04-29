@@ -1,0 +1,8 @@
+---
+- name: Install LB
+  include_tasks: build.yaml
+  when: state == "present"
+
+- name: Destroy LB
+  include_tasks: destroy.yaml
+  when: state == "absent"

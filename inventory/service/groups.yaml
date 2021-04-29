@@ -114,6 +114,7 @@ groups:
     - proxy2.eco.tsi-dev.otc-service.com
 
   ssl_certs:
+    - bridge.eco.tsi-dev.otc-service.com
     - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com

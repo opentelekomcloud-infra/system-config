@@ -1,0 +1,15 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud load balancers"
+  tasks:
+    - include_role:
+        name: cloud_loadbalancer_cert
+      loop: "{{ cloud_load_balancer_certificates }}"
+      loop_control:
+        loop_var: "cert"
+
+    - include_role:
+        name: cloud_loadbalancer
+      loop: "{{ cloud_load_balancers }}"
+      loop_control:
+        loop_var: "lb"
+
