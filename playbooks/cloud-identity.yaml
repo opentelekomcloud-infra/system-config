@@ -13,6 +13,20 @@
         name: "{{ item.name }}"
       loop: "{{ cloud_user_groups }}"
 
+    - name: Create users
+      no_log: true
+      openstack.cloud.identity_user:
+        cloud: "{{ item.cloud }}"
+        domain: "{{ item.domain }}"
+        name: "{{ item.name }}"
+        password: "{{ item.password }}"
+        email: "{{ item.email | default(omit) }}"
+        description: "{{ item.description | default(omit) }}"
+        update_password: "{{ item.update_password | default(omit) }}"
+        default_project: "{{ item.default_project | default(omit) }}"
+        enabled: "{{ item.enabled | default(omit) }}"
+      loop: "{{ cloud_users }}"
+
     - name: Manage user groups assignments
       cloud_user_group_assignment:
         cloud: "{{ item.cloud }}"
