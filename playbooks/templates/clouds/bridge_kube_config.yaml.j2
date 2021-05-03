@@ -10,6 +10,7 @@ clusters:
   - name: otcinfra
     cluster: 
       server: {{ otcinfra1_k8s.server }}
+      insecure-skip-tls-verify: true
   - name: otcinfra-mirror
     cluster: 
       server: {{ otcinfra2_k8s.server }}
