@@ -1,4 +1,8 @@
+{% if k8s_17 == True %}
+apiVersion: networking.k8s.io/v1beta1
+{% else %}
 apiVersion: networking.k8s.io/v1
+{% endif %}
 kind: Ingress
 metadata:
   labels:
@@ -18,9 +22,14 @@ spec:
       paths:
       - backend:
           service:
+{% if k8s_17 == True %}
+            serviceName: "{{ alerta_service_name }}"
+            servicePort: 8080
+{% else %}
             name: "{{ alerta_service_name }}"
             port: 
               number: 8080
+{% endif %}
         path: /
         pathType: Prefix
   tls: 

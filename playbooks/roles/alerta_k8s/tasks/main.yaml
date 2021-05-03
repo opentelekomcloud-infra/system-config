@@ -1,12 +1,19 @@
 ---
 - name: Set resource naming
   set_fact: 
-   alerta_config_name: "alerta-config-{{ instance }}"
-   alerta_secret_name: "alerta-secret-{{ instance }}" 
-   alerta_deployment_name: "alerta-deployment-{{ instance }}"
-   alerta_service_name: "alerta-service-{{ instance }}"
-   alerta_ingress_name: "alerta-ingress-{{ instance }}"
-   alerta_ssl_cert_name: "alerta-ssl-{{ instance }}"
+    alerta_config_name: "alerta-config-{{ instance }}"
+    alerta_secret_name: "alerta-secret-{{ instance }}"
+    alerta_deployment_name: "alerta-deployment-{{ instance }}"
+    alerta_service_name: "alerta-service-{{ instance }}"
+    alerta_ingress_name: "alerta-ingress-{{ instance }}"
+    alerta_ssl_cert_name: "alerta-ssl-{{ instance }}"
+    cluster_version: "{{ lookup('k8s', cluster_info='version') }}"
+    k8s_17: False
+
+- name: set k8s version
+  set_fact:
+    k8s_17: True
+  when: cluster_version.kubernetes.minor[:2] == "17"
 
 - name: Create ConfigMap
   community.kubernetes.k8s:
