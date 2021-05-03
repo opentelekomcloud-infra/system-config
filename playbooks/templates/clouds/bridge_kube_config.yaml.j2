@@ -7,6 +7,10 @@ clusters:
     cluster: 
       server: https://192.168.20.230:5443
       insecure-skip-tls-verify: true
+  - name: otccce
+    cluster: 
+      server: https://192.168.170.162:5443
+      insecure-skip-tls-verify: true
   - name: otcinfra
     cluster: 
       server: {{ otcinfra1_k8s.server }}
@@ -21,6 +25,10 @@ contexts:
     context:
       cluster: otcci
       user: otcci-admin
+  - name: otccce
+    context:
+      cluster: otccce
+      user: otccce-admin
   - name: otcinfra
     context:
       cluster: otcinfra
@@ -38,6 +46,10 @@ users:
     user:
       client-certificate-data: {{ otcci_k8s.client_certificate_data }}
       client-key-data: {{ otcci_k8s.client_key_data }}
+  - name: otccce-admin
+    user:
+      client-certificate-data: {{ otccce_k8s.client_certificate_data }}
+      client-key-data: {{ otccce_k8s.client_key_data }}
   - name: otcinfra-admin
     user:
       client-certificate-data: {{ otcinfra1_k8s.client_certificate_data }}
