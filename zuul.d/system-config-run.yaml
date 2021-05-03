@@ -221,7 +221,7 @@
     files:
       - tox.ini
       - playbooks/service-alerta.yaml
-      - playbooks/roles/alerta
+      - playbooks/roles/alerta/
       - testinfra/test_alerta.py
 
 - job:
@@ -241,7 +241,7 @@
     files:
       - tox.ini
       - playbooks/service-grafana.yaml
-      - playbooks/roles/grafana
+      - playbooks/roles/grafana/
       - testinfra/test_grafana.py
 
 - job:
