@@ -21,11 +21,11 @@ spec:
     http:
       paths:
       - backend:
-          service:
 {% if k8s_17 == True %}
             serviceName: "{{ alerta_service_name }}"
             servicePort: 8080
 {% else %}
+          service:
             name: "{{ alerta_service_name }}"
             port: 
               number: 8080
