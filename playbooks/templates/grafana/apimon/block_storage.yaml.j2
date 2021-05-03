@@ -26,7 +26,7 @@ panels:
     options:
       alertThreshold: true
     targets:
-      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume.{_availability*,default,eu*}.passed.upper_90, 'sum'), 7, 'avg')"
+      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume.{_availability*,default,eu*}.passed.upper_90, 'sum'), 7, 'avg')
 
     title: Volume creation duration
     type: graph
@@ -54,7 +54,7 @@ panels:
     options:
       alertThreshold: true
     targets:
-      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume_snapshot.passed.upper_90, 'sum'), 7, 'avg')"
+      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume_snapshot.passed.upper_90, 'sum'), 7, 'avg')
     title: Volume Snapshot creation duration
     type: graph
     yaxes: 
@@ -81,7 +81,7 @@ panels:
     options:
       alertThreshold: true
     targets:
-      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume_backup.{default}.passed.upper_90, 'sum'), 7, 'avg')"
+      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.create_volume_backup.{default}.passed.upper_90, 'sum'), 7, 'avg')
     title: Volume Backup creation duration
     type: graph
     yaxes: 
@@ -108,7 +108,7 @@ panels:
     options:
       alertThreshold: true
     targets:
-      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.restore_volume_backup.passed.upper_90, 'sum'), 7, 'avg')"
+      - target: groupByNode(consolidateBy(stats.timers.apimon.metric.$environment.$zone.restore_volume_backup.passed.upper_90, 'sum'), 7, 'avg')
     title: Volume Backup Restore duration
     type: graph
     yaxes: 
