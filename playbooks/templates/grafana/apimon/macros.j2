@@ -13,14 +13,16 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
         thresholds:
           mode: absolute
           steps:
-            - color: red
+            - color: blue
               value: null
+            - color: red
+              value: 0
             - color: yellow
               value: 80
             - color: green
               value: 99.999
         unit: percent
-    {{ grid_pos(0, ypos, 5, 4) }}
+    {{ grid_pos(0, ypos, 3, 4) }}
     options:
       reduceOptions:
         calcs:
@@ -48,14 +50,16 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
         thresholds:
           mode: absolute
           steps:
-            - color: red
+            - color: blue
               value: null
+            - color: red
+              value: 0
             - color: yellow
               value: 80
             - color: green
               value: 99.999
         unit: percent
-    {{ grid_pos(4, ypos, 5, 4) }}
+    {{ grid_pos(4, ypos, 3, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -73,6 +77,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 
 {% macro sli_rate_error(svc, svc_name, ypos, exclude='404') %}
   - datasource: apimon
+    description: Count of API Errors (last 10s interval) and overall count of "no connection" cases
     fieldConfig:
       defaults:
         color:
@@ -83,10 +88,12 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
           steps:
             - color: green
               value: null
-            - color: red
+            - color: orange
               value: 1
+            - color: red
+              value: 5
         unit: short
-    {{ grid_pos(8, ypos, 5, 4) }}
+    {{ grid_pos(8, ypos, 3, 4) }}
     interval: ''
     options:
       colorMode: value
@@ -97,8 +104,13 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{4*,5*,failed}.count,
-          '{{ exclude }}')), 'sum')
+        target: alias(consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{4*,5*,failed}.count,
+          '{{ exclude }}')), 'sum'), 'Errors')
+        textEditor: false
+      - queryType: randomWalk
+        refCount: 0
+        refId: B
+        target: alias(aggregateLine(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.failed.count), 'sum'), 'No Response')
         textEditor: false
     title: SLI {{ svc_name }} API Errors count
     type: stat
@@ -123,7 +135,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
               value: 0.01
             - color: red
               value: 5
-    {{ grid_pos(12, ypos, 5, 4) }}
+    {{ grid_pos(12, ypos, 3, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -159,7 +171,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
             - color: red
               value: 1000
         unit: 'ms'
-    {{ grid_pos(16, ypos, 5, 4) }}
+    {{ grid_pos(16, ypos, 3, 4) }}
     options:
       colorMode: value
       reduceOptions:
@@ -174,12 +186,45 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
     type: stat
 {%- endmacro -%}
 
+{% macro sli_total(svc, svc_name, ypos) %}
+  - datasource: apimon
+    description: Total count of API requests
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: blue
+              value: null
+        unit: 'short'
+    {{ grid_pos(20, ypos, 3, 4) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        calcs:
+          - last
+    targets:
+      - refCount: 0
+        refId: A
+        target: aggregateLine(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.*.count), 'sum')
+        textEditor: false
+    title: SLI {{ svc_name }} Count of requests
+    type: stat
+{%- endmacro -%}
+
+
 {% macro sli_service_row(svc, svc_name, ypos) %}
 {{ sli_avail(svc, svc_name, ypos, ['2*', '3*', '404']) }}
 {{ sli_rate_write(svc, svc_name, ypos, ['2*', '3*', '404']) }}
 {{ sli_rate_error(svc, svc_name, ypos, '404') }}
 {{ sli_no_response(svc, svc_name, ypos) }}
 {{ sli_latency(svc, svc_name, ypos) }}
+{{ sli_total(svc, svc_name, ypos) }}
 {%- endmacro -%}
 
 # Extra hack for DNS service, which returns 400 instead of 404
@@ -189,6 +234,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {{ sli_rate_error(svc, svc_name, ypos, '400|404') }}
 {{ sli_no_response(svc, svc_name, ypos) }}
 {{ sli_latency(svc, svc_name, ypos) }}
+{{ sli_total(svc, svc_name, ypos) }}
 {%- endmacro -%}
 
 {% macro service_api_latency(svc, ypos) %}

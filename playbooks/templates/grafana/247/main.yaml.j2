@@ -1,0 +1,336 @@
+{% import 'macros.j2' as mcr %}
+{% include '_annotations.yaml.j2' %}
+description: Main 24/7 monitoring dashboard
+editable: true
+links: 
+  - icon: "external link"
+    title: "Public Health Dashboard"
+    type: "link"
+    url: "https://status.otc-service.com/"
+  - asDropdown: true
+    icon: "external link"
+    tags: [ "apimon" ]
+    targetBlank: true
+    title: "APImon dashboards"
+    type: "dashboards"
+
+panels:
+{% include '_header.yaml.j2' %}
+
+  - collapsed: false
+    {{ mcr.grid_pos(0, 1, 1, 24) }}
+    title: Overview
+    type: row
+    panels:  []
+
+  - datasource: apimon
+    decimals: 0
+    description: Bad responses (4*, 5*, excluding 404)
+    fill: 1
+    fillGradient: 0
+    gridPos:
+      h: 7
+      w: 12
+      x: 0
+      y: 2
+    legend:
+      alignAsTable: true
+      rightSide: true
+      show: true
+      values: true
+      total: true
+    options:
+      alertThreshold: true
+    pointradius: 0.5
+    points: true
+    renderer: flot
+    targets:
+      - refId: A
+        target: maximumAbove(aliasByMetric(groupByNode(consolidateBy(exclude(stats.timers.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
+          '404|dns.GET.zone.400'), 'sum'), 9, 'sum')), 0)
+    title: API Errors
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - decimals: 0
+        format: short
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+  - datasource: apimon
+    gridPos:
+      h: 7
+      w: 12
+      x: 12
+      y: 2
+    legend:
+      show: true
+    lines: true
+    linewidth: 1
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNode(stats.timers.openstack.api.$environment.$zone.*.*.*.*.upper,
+          6, 'avg')
+    timeShift: null
+    title: Endpoint response times
+    tooltip:
+      shared: true
+      sort: 0
+      value_type: individual
+    transformations:
+      - id: seriesToColumns
+        options:
+          byField: Time
+      - id: organize
+        options:
+          excludeByName: {}
+          indexByName: {}
+          renameByName:
+            openstack_api.Anti-DDoS: Anti-DDoS
+            openstack_api.antiddos: antiddos
+            openstack_api.as: as
+            openstack_api.asv1: asv1
+            openstack_api.cce: cce
+            openstack_api.ccev2.0: ccev2
+            openstack_api.ces: ces
+            openstack_api.cesv1: cesv1
+            openstack_api.compute: compute
+            openstack_api.css: css
+            openstack_api.cts: cts
+            openstack_api.ctsv2: ctsv2
+            openstack_api.data-protect: data-protect
+            openstack_api.database: database
+            openstack_api.dcaas: dcaas
+            openstack_api.dcs: dcs
+            openstack_api.dcsv1: dcsv1
+            openstack_api.ddsv3: dcsv3
+            openstack_api.deh: deh
+            openstack_api.dis: dis
+            openstack_api.disv2: disv2
+            openstack_api.dms: dms
+            openstack_api.dmsv1: dmsv1
+            openstack_api.dns: dns
+            openstack_api.dws: dws
+            openstack_api.dwsv1: dwsv1
+            openstack_api.ecs: ecs
+            openstack_api.elb: elb
+            openstack_api.elbv1: elbv1
+            openstack_api.evs: evs
+            openstack_api.identity: identity
+            openstack_api.image: image
+            openstack_api.kms: kms
+            openstack_api.kmsv1: kmsv1
+            openstack_api.maas: maas
+            openstack_api.maasv1: maasv1
+            openstack_api.mrs: mrs
+            openstack_api.mrsv1: mrsv1
+            openstack_api.nat: nat
+            openstack_api.network: network
+            openstack_api.object-store: object-store
+            openstack_api.orchestration: orchestration
+            openstack_api.rds: rds
+            openstack_api.rdsv1: rdsv1
+            openstack_api.rdsv3: rdsv3
+            openstack_api.sdrs: sdrs
+            openstack_api.shared-file-system: sfs
+            openstack_api.smnv2: smnv2
+            openstack_api.tms: tms
+            openstack_api.vbs: vbs
+            openstack_api.vbsv2: vbsv2
+            openstack_api.volumev3: volumev3
+            openstack_api.vpc: vpc
+            openstack_api.vpc2.0: vpc2.0
+            openstack_api.waf: waf
+            openstack_api.workspace: workspace
+    transparent: true
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - format: ms
+        logBase: 1
+        min: '0'
+        show: true
+      - format: short
+        logBase: 1
+        show: true
+
+
+  - datasource: apimon
+    fieldConfig:
+      defaults:
+        thresholds:
+          mode: "absolute"
+          steps:
+            - color: "green"
+              value: null
+            - color: "super-light-green"
+              value: 0
+            - color: "super-light-orange"
+              value: 2
+            - color: "super-light-red"
+              value: 5
+            - color: "dark-red"
+              value: 10
+        color:
+          mode: "thresholds"
+    gridPos:
+      h: 8
+      w: 24
+      x: 0
+      y: 9
+    options:
+      alertThreshold: true
+      textMode: "value_and_name"
+      colorMode: "background"
+      graphMode: "area"
+      justifyMode: "center"
+      text:
+        valueSize: 24
+    targets:
+      - refId: A
+        target: aliasByMetric(aggregateLine(groupByNode(removeEmptySeries(exclude(stats.timers.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count, '404|dns.GET.zone.400')), 6, 'sum'), 'sum'))
+    title: Errors by service
+    transparent: false
+    type: stat
+
+  - datasource: apimon
+    description: |
+      Ping latency for outside world through NATGW and Shared SNAT
+    fill: 1
+    {{ mcr.grid_pos(0, 17, 5, 12) }}
+    legend:
+      show: true
+    lines: true
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.mean, 'avg', 7)
+    title: Outside NATGW/SNAT ping Latency
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: true
+        min: 0
+        format: "ms"
+        decimals: 0
+      - show: false
+
+  - datasource: apimon
+    description: |
+      Ping latency for hosts inside VPC or through VPC Peering using internal IP addresses
+    fill: 1
+    {{ mcr.grid_pos(12, 17, 5, 12) }}
+    legend:
+      show: true
+    lines: true
+    nullPointMode: connected
+    options:
+      alertThreshold: true
+    renderer: flot
+    spaceLength: 10
+    targets:
+      - refId: A
+        target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{vpc,peering}.*.*.mean, 'avg', 9)
+    title: Internal VPC/Peering Latency
+    type: graph
+    xaxis:
+      mode: time
+      show: true
+    yaxes:
+      - show: true
+        min: 0
+        format: "ms"
+        decimals: 0
+      - show: false
+
+  - collapsed: false
+    {{ mcr.grid_pos(0, 100, 1, 24) }}
+    title: Service details
+    type: row
+    panels:  []
+
+{{ mcr.sli_service_row('antiddos', 'AntiDDoS', 101) }}
+{{ mcr.sli_service_row('as', 'Auto Scaling', 102) }}
+{{ mcr.sli_service_row('block-storage', 'Block Storage', 103) }}
+{{ mcr.sli_service_row('cbr', 'CBR', 104) }}
+{{ mcr.sli_service_row('ccev2_0', 'CCE', 105) }}
+{{ mcr.sli_service_row('ces', 'CES', 106) }}
+{{ mcr.sli_service_row('compute', 'Compute', 107) }}
+{{ mcr.sli_service_row('css', 'CSS', 108) }}
+{{ mcr.sli_service_row('cts', 'CTS', 109) }}
+{{ mcr.sli_service_row('dcaas', 'DCaaS', 110) }}
+{{ mcr.sli_service_row('dcs', 'DCS', 111) }}
+{{ mcr.sli_service_row('ddsv3', 'DDS', 112) }}
+{{ mcr.sli_service_row('deh', 'DeH', 113) }}
+{{ mcr.sli_service_row('disv2', 'DiS', 114) }}
+{{ mcr.sli_service_row('dms', 'DMS', 115) }}
+{{ mcr.sli_service_row_dns('dns', 'DNS', 116) }}
+{{ mcr.sli_service_row('dwsv1', 'DWS', 117) }}
+{{ mcr.sli_service_row('ecs', 'ECS', 118) }}
+{{ mcr.sli_service_row('elb', 'ELB', 119) }}
+{{ mcr.sli_service_row('evs', 'EVS', 120) }}
+{{ mcr.sli_service_row('identity', 'IAM', 121) }}
+{{ mcr.sli_service_row('image', 'IMS', 122) }}
+{{ mcr.sli_service_row('kms', 'KMS', 123) }}
+{{ mcr.sli_service_row('maas', 'MaaS', 124) }}
+{{ mcr.sli_service_row('modelartsv1', 'MAv1', 125) }}
+{{ mcr.sli_service_row('modelartsv2', 'MAv2', 126) }}
+{{ mcr.sli_service_row('mrs', 'MRS', 127) }}
+{{ mcr.sli_service_row('nat', 'NAT', 128) }}
+{{ mcr.sli_service_row('network', 'Network', 129) }}
+{{ mcr.sli_service_row('object-store', 'Swift', 130) }}
+{{ mcr.sli_service_row('object', 'OBS', 131) }}
+{{ mcr.sli_service_row('orchestration', 'Heat', 132) }}
+{{ mcr.sli_service_row('rdsv3', 'RDS', 133) }}
+{{ mcr.sli_service_row('sdrs', 'SDRS', 134) }}
+{{ mcr.sli_service_row('sfsturbo', 'SFST', 135) }}
+{{ mcr.sli_service_row('shared-file-system', 'SFS', 136) }}
+{{ mcr.sli_service_row('smn', 'SMN', 137) }}
+{{ mcr.sli_service_row('tms', 'TMS', 138) }}
+{{ mcr.sli_service_row('vbs', 'VBS', 139) }}
+{{ mcr.sli_service_row('vbsv2', 'VBSv2', 140) }}
+{{ mcr.sli_service_row('vpc', 'VPC', 141) }}
+{{ mcr.sli_service_row('vpc2_0', 'VPCv2', 142) }}
+{{ mcr.sli_service_row('waf', 'WAF', 143) }}
+{{ mcr.sli_service_row('wks', 'WKS', 144) }}
+{{ mcr.sli_service_row('workspace', 'Workspace', 145) }}
+
+
+refresh: false
+style: dark
+tags:
+  - apimon
+templating:
+  list:
+{% include '_template_env.yaml.j2' %}
+{% include '_template_zone.yaml.j2' %}
+      multi: true
+time:
+  from: now-7d
+  to: now
+timezone: ''
+title: OTC Monitoring Dashboard
+uid: APImon247
