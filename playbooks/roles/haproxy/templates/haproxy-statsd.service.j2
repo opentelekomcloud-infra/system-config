@@ -10,6 +10,7 @@ ExecStartPre=-{{ container_runtime }} rm haproxy-statsd
 ExecStart={{ container_runtime }} run \
     --name haproxy-statsd \
     --network host \
+    --log-opt=path=/dev/null \
     --env STATSD_HOST={{ statsd_host }} \
     --env STATSD_PORT={{ statsd_port }} \
     -v haproxy_run_volume:/var/haproxy/run:ro,z \
