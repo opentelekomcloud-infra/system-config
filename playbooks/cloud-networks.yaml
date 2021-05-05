@@ -1,0 +1,9 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud networking stuff"
+  tasks:
+    - name: Create Nets
+      include_role:
+        name: cloud_net
+      loop: "{{ cloud_nets }}"
+      loop_control:
+        loop_var: net

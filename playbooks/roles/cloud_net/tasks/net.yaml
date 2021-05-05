@@ -1,0 +1,12 @@
+---
+- name: Create Network
+  openstack.cloud.network:
+    cloud: "{{ net.cloud }}"
+    name: "{{ network.name }}"
+    state: "{{ state }}"
+  register: "cloud_net_network"
+
+- include: "subnet.yaml"
+  loop: "{{ network.subnets }}"
+  loop_control:
+    loop_var: "subnet"
