@@ -9,6 +9,7 @@ ExecStartPre=-{{ container_runtime }} rm memcached
 
 ExecStart={{ container_runtime }} run \
     --name memcached \
+    --log-opt=path=/dev/null \
     -p 11211:11211 \
     {{ memcached_image }} -m {{ memcached_size }}
 

@@ -11,6 +11,7 @@ ExecStart={{ container_runtime }} run \
     --name graphite \
     --network host \
     --env-file /etc/graphite/env \
+    --log-opt=path=/dev/null \
     -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.pem:/etc/ssl/{{
     inventory_hostname }}/{{ graphite_cert }}.pem:ro,z \
     -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.crt:/etc/ssl/{{

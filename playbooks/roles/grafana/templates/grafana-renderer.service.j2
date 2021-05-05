@@ -16,6 +16,7 @@ ExecStartPre=-{{ container_runtime }} rm "grafana-renderer"
 
 ExecStart={{ container_runtime }} run \
     --name "grafana-renderer" \
+    --log-opt=path=/dev/null \
 {% if grafana_renderer_hosts_entries is defined and grafana_renderer_hosts_entries|length %}
 {% for item in grafana_renderer_hosts_entries %}
     --add-host={{ item }} \
