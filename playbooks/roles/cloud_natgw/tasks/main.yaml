@@ -1,0 +1,8 @@
+---
+# Create
+- include: "provision.yaml"
+  when: "state != 'absent'"
+
+# Remove
+- include: "destroy.yaml"
+  when: "state == 'absent'"

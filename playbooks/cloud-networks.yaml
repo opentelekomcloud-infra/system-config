@@ -1,9 +1,16 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud networking stuff"
   tasks:
-    - name: Create Nets
+    - name: Manage Nets
       include_role:
         name: cloud_net
       loop: "{{ cloud_nets }}"
       loop_control:
         loop_var: net
+
+    - name: Manage NAT-GW
+      include_role:
+        name: cloud_natgw
+      loop: "{{ cloud_nat_gws }}"
+      loop_control:
+        loop_var: natgw
