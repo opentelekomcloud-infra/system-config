@@ -11,6 +11,9 @@ ExecStart={{ container_runtime }} run \
     --name graphite \
     --network host \
     --env-file /etc/graphite/env \
+{% if container_command == 'podman' %}
+    --log-opt=path=/dev/null \
+{% endif %}
     -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.pem:/etc/ssl/{{
     inventory_hostname }}/{{ graphite_cert }}.pem:ro,z \
     -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.crt:/etc/ssl/{{
