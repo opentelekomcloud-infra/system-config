@@ -16,9 +16,13 @@ cloud_projects:
   # Infra projects
   - name: "eu-de_eco_infra"
     cloud: "otcinfra-domain3-admin"
+    domain: "{{ clouds.otcinfra_domain3_admin.auth.domain_id }}"
+    parent_project: "eu-de"
     description: "Infrastructure of the Ecosystem Squad"
   - name: "eu-nl_eco_infra"
     cloud: "otcinfra-domain3-admin"
+    parent_project: "eu-nl"
+    domain: "{{ clouds.otcinfra_domain3_admin.auth.domain_id }}"
     description: "Infrastructure of the Ecosystem Squad"
   # APImon projects
   - name: "eu-de_apimon_probes1"

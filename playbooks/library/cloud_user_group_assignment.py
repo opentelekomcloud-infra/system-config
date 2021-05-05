@@ -66,12 +66,12 @@ class CloudUserGroupAssignmentModule(OTCModule):
             if self.params['state'] == 'present':
                 if not is_in:
                     changed=True
-                    if self.ansible.check_mode:
+                    if not self.ansible.check_mode:
                         self.conn.add_user_to_group(usr.id, group.id)
             else:
                 if is_in:
                     changed=True
-                    if self.ansible.check_mode:
+                    if not self.ansible.check_mode:
                         self.conn.remove_user_from_group(usr.id, group.id)
 
         self.exit_json(
