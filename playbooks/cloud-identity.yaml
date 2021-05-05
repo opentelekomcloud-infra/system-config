@@ -5,6 +5,7 @@
       openstack.cloud.project:
         cloud: "{{ item.cloud }}"
         name: "{{ item.name }}"
+        description: "{{ item.description | default(omit) }}"
       loop: "{{ cloud_projects }}"
 
     - name: Manage user groups
