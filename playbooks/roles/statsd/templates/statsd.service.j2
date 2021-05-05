@@ -13,6 +13,9 @@ ExecStartPre=-{{ container_runtime }} rm "statsd"
 ExecStart={{ container_runtime }} run \
   --network host \
   --name "statsd" \
+{% if container_command == 'podman' %}
+  --log-opt=path=/dev/null \
+{% endif %}
   -v {{ statsd_config_location }}/config.js:/usr/src/app/config.js:ro \
   {{ statsd_image }}
 
