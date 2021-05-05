@@ -14,7 +14,9 @@ ExecStartPre=-{{ container_runtime }} rm alerta
 
 ExecStart={{ container_runtime }} run \
   --name alerta \
+{% if container_command == 'podman' %}
   --log-opt=path=/dev/null \
+{% endif %}
 {% if alerta.alerta_add_host is defined %}
   --add-host={{ alerta.alerta_add_host }} \
 {%else%}

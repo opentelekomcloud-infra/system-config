@@ -9,7 +9,9 @@ ExecStartPre=-{{ container_runtime }} rm memcached
 
 ExecStart={{ container_runtime }} run \
     --name memcached \
+{% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
+{% endif %}
     -p 11211:11211 \
     {{ memcached_image }} -m {{ memcached_size }}
 

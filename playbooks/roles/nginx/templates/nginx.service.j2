@@ -10,7 +10,9 @@ ExecStartPre=-{{ container_runtime }} rm nginx
 ExecStart={{ container_runtime }} run \
     --name nginx \
     --network host \
+{% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
+{% endif %}
     -v /etc/ssl/{{ inventory_hostname }}:/etc/ssl/{{ inventory_hostname }}:ro,z \
     -v /etc/nginx:/etc/nginx:ro,z \
     {{ nginx_image }}

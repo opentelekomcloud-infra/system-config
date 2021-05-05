@@ -10,7 +10,9 @@ ExecStartPre=-{{ container_runtime }} rm haproxy-statsd
 ExecStart={{ container_runtime }} run \
     --name haproxy-statsd \
     --network host \
+{% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
+{% endif %}
     --env STATSD_HOST={{ statsd_host }} \
     --env STATSD_PORT={{ statsd_port }} \
     -v haproxy_run_volume:/var/haproxy/run:ro,z \

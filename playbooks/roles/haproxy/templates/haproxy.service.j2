@@ -10,7 +10,9 @@ ExecStartPre=-{{ container_runtime }} rm haproxy
 ExecStart={{ container_runtime }} run \
     --name haproxy \
     --network host \
+{% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
+{% endif %}
     -v /etc/ssl/{{ inventory_hostname }}:/etc/ssl/{{ inventory_hostname }}:ro,z \
     -v /etc/haproxy:/usr/local/etc/haproxy:ro,z \
     -v haproxy_run_volume:/var/haproxy/run:rw,z \
