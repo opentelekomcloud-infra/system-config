@@ -20,7 +20,7 @@ clouds:
        user_domain_name: {{ clouds.otc_tests_admin.auth.user_domain_name }}
        domain_name: {{ clouds.otc_tests_admin.auth.domain_name }}
        username: {{ clouds.otc_tests_admin.auth.username }}
-       password: {{ clouds.otc_tests_admin.auth.password }}
+       password: "{{ clouds.otc_tests_admin.auth.password }}"
     interface: public
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
@@ -31,28 +31,17 @@ clouds:
        user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
        domain_name: {{ clouds.otcinfra_domain3_admin.auth.domain_name }}
        username: {{ clouds.otcinfra_domain3_admin.auth.username }}
-       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
+       password: "{{ clouds.otcinfra_domain3_admin.auth.password }}"
     interface: public
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
-  otcinfra-domain3:
-    auth:
-       auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
-       user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
-       project_name: {{ clouds.otcinfra_domain3_admin.auth.project_name | default('eu-de') }}
-       username: {{ clouds.otcinfra_domain3_admin.auth.username }}
-       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
-    interface: public
-    identity_api_version: 3
-    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
-
   otcinfra-domain3-infra-nl:
     profile: otc
     auth:
        user_domain_name: {{ clouds.otcinfra_domain3.auth.user_domain_name }}
        project_name: eu-nl_eco_infra
        username: {{ clouds.otcinfra_domain3.auth.username }}
-       password: {{ clouds.otcinfra_domain3.auth.password }}
+       password: "{{ clouds.otcinfra_domain3.auth.password }}"
     interface: public
     identity_api_version: 3
     region_name: eu-nl
@@ -62,7 +51,7 @@ clouds:
        user_domain_name: {{ clouds.otcinfra_domain3.auth.user_domain_name }}
        project_name: eu-de_eco_infra
        username: {{ clouds.otcinfra_domain3.auth.username }}
-       password: {{ clouds.otcinfra_domain3.auth.password }}
+       password: "{{ clouds.otcinfra_domain3.auth.password }}"
     interface: public
     identity_api_version: 3
     region_name: eu-de

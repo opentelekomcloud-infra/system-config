@@ -13,6 +13,7 @@
 # under the License.
 import platform
 import pytest
+import yaml
 
 testinfra_hosts = ['bridge.eco.tsi-dev.otc-service.com']
 
@@ -29,6 +30,7 @@ def test_clouds_yaml(host):
     assert clouds_yaml.exists
 
     assert b'password' in clouds_yaml.content
+    yaml.safe_load(clouds_yaml.content)
 
 
 def test_openstacksdk_config(host):
