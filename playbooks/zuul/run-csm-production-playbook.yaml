@@ -1,0 +1,79 @@
+- hosts: localhost
+  tasks:
+    - name: Add bridge to inventory
+      add_host:
+        name: bridge.eco.tsi-dev.otc-service.com
+        ansible_python_interpreter: python3
+        ansible_user: zuul
+        ansible_host: bridge.eco.tsi-dev.otc-service.com
+        ansible_port: 22
+
+- hosts: localhost
+  tasks:
+    - name: Add bridge hostkey to known hosts
+      known_hosts:
+        name: bridge.eco.tsi-dev.otc-service.com
+        key: "bridge.eco.tsi-dev.otc-service.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCihP3c2JSZG6aFFVruAh3TXlygaoVfon3aUwmpmBVwLbmlpHmuIMfG3dpdFfuEVjwRB1FNp3w510gbDZl+K/E/6trnxkZ7iNkVCL1VZoFrpFQU065QaP3uIrwGWdNeatTrI14YlM4CFIyrdsUithy28RaoKDBFOV4DTLuNZvGvogc7fR4nkTDitzeyEkGugD7v9ZNQiW7tyPiUv1nP911vTSA+R1cJkXlXx1FAxC6y1qXJuH4nKoCmPrYBGanljiUvGHt4YLCF0evYnMipuO0uSMvZG1qGjP1GtSOac1BhKnjTUNaXIYPr8WFB7N57VLDHgfa5s/zLS5P6BdC7FogPuFs9+6k9n4uko9ugYx4cXKObYzbrvvWMwEG5dIphde+Tv9uwpY66cKDpaFYapKN3FpGE3Q9wi43JSjXeySSJJIgafIskTpkmBwgEAM8L0NOqIAAjW8Q+gdxMneD3C5QlAXsb5dLPPuVylVObg5VDi4+u278ndko+DfCbGDw/rYU="
+
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  tasks:
+    - name: Should we run from master
+      set_fact:
+        infra_prod_run_from_master: "{{ zuul.pipeline|default('') in ['periodic', 'otc-infra-prod-hourly'] }}"
+
+    - name: Update from master
+      when: infra_prod_run_from_master|bool
+      git:
+        repo: https://github.com/opentelekomcloud-infra/customer-service-monitoring
+        dest: /home/zuul/src/github.com/opentelekomcloud-infra/customer-service-monitoring
+        force: yes
+
+    - name: Run the csm production playbook and capture logs
+      block:
+
+      - name: Log a playbook start header
+        become: yes
+        shell: 'echo "Running {{ ansible_date_time.iso8601 }}: ansible-playbook -v -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/customer-service-monitoring/playbooks/{{ playbook_name }}" > /var/log/ansible/{{ playbook_name }}.log'
+
+      - name: Run specified playbook on bridge and redirect output
+        become: yes
+        shell: 'ansible-playbook -vvv -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/customer-service-monitoring/playbooks/{{ playbook_name }} >> /var/log/ansible/{{ playbook_name }}.log'
+
+      always:
+
+        # Not using normal zuul job roles as bridge.eco.tsi-dev.otc-service.com is not a
+        # test node with all the normal bits in place.
+        - name: Collect log output
+          synchronize:
+            dest: "{{ zuul.executor.log_root }}/{{ playbook_name }}.log"
+            mode: pull
+            src: "/var/log/ansible/{{ playbook_name }}.log"
+            verify_host: true
+          when: infra_prod_playbook_collect_log
+
+        - name: Return playbook log artifact to Zuul
+          when: infra_prod_playbook_collect_log
+          zuul_return:
+            data:
+              zuul:
+                artifacts:
+                  - name: "Playbook Log"
+                    url: "{{ playbook_name }}.log"
+                    metadata:
+                      type: text
+
+        # If we aren't publishing logs through zuul then keep a set on
+        # bridge directly.
+        - name: Rename playbook log on bridge
+          when: not infra_prod_playbook_collect_log
+          become: yes
+          copy:
+            remote_src: yes
+            src: "/var/log/ansible/{{ playbook_name }}.log"
+            dest: "/var/log/ansible/{{ playbook_name }}.log.{{ ansible_date_time.iso8601 }}"
+
+        - name: Cleanup old playbook logs on bridge
+          when: not infra_prod_playbook_collect_log
+          become: yes
+          shell: |
+            find /var/log/ansible -name '{{ playbook_name }}.log.*' -type f -mtime 30 -delete
