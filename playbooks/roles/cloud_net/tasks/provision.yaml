@@ -1,0 +1,14 @@
+---
+# Create
+- include: "net.yaml"
+  loop: "{{ net.nets }}"
+  loop_control:
+    loop_var: "network"
+
+- name: Create router
+  openstack.cloud.router:
+    cloud: "{{ net.cloud }}"
+    name: "{{ net.router }}"
+    network: "{{ net.external_network_name | default(omit) }}"
+    enable_snat: "{{ net.enable_snat | default(omit) }}"
+    interfaces: "{{ cloud_net_interfaces }}"

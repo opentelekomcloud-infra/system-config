@@ -1,0 +1,4 @@
+---
+state: "present"
+
+external_network_name: "admin_external_net"
