@@ -1,0 +1,12 @@
+- name: Create subnet
+  openstack.cloud.subnet:
+    cloud: "{{ net.cloud }}"
+    name: "{{ subnet.name }}"
+    state: "{{ state }}"
+    network_name: "{{ network.name }}"
+    cidr: "{{ subnet.cidr }}"
+    dns_nameservers: "{{ subnet.dns_servers | default(omit) }}"
+  register: "cloud_net_subnet"
+
+- set_fact:
+    cloud_net_interfaces: "{{ (cloud_net_interfacts | default([])) + [{'net': cloud_net_network.id, 'subnet': cloud_net_subnet.id}] }}"

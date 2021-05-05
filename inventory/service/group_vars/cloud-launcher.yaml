@@ -124,6 +124,26 @@ cloud_role_assignments:
     groups:
       - "apimon"
 
+cloud_nets:
+  - cloud: "otcinfra-domain3-infra-de"
+    router: "apimon-infra"
+    enable_snat: true
+    nets:
+      - name: "apimon-infra-net"
+        subnets:
+          - name: "apimon-infra-subnet"
+            cidr: "192.168.150.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcinfra-domain3-infra-nl"
+    router: "apimon-infra"
+    enable_snat: true
+    nets:
+      - name: "apimon-infra-net"
+        subnets:
+          - name: "apimon-infra-subnet"
+            cidr: "192.168.151.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+
 cloud_load_balancers:
   - cloud: "otc-swift"
     loadbalancer:
