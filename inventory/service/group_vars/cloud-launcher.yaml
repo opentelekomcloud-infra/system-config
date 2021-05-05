@@ -13,6 +13,13 @@ cloud_projects:
     cloud: "otc-tests-admin"
   - name: "eu-de_zuul_tf"
     cloud: "otc-tests-admin"
+  # Infra projects
+  - name: "eu-de_eco_infra"
+    cloud: "otcinfra-domain3-admin"
+    description: "Infrastructure of the Ecosystem Squad"
+  - name: "eu-nl_eco_infra"
+    cloud: "otcinfra-domain3-admin"
+    description: "Infrastructure of the Ecosystem Squad"
   # APImon projects
   - name: "eu-de_apimon_probes1"
     cloud: "otc-tests-admin"
@@ -68,7 +75,10 @@ cloud_user_group_assignments:
       - "apimon_probes6"
       - "apimon_probes7"
       - "apimon_probes8"
-
+  - cloud: "otcinfra-domain3-admin"
+    group: "power_user"
+    users:
+      - "eco_infra"
 
 cloud_role_assignments:
   # Zuul role assignments

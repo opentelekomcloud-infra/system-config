@@ -24,6 +24,48 @@ clouds:
     interface: public
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+  # Infra clouds
+  otcinfra-domain3-admin:
+    auth:
+       auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
+       user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
+       domain_name: {{ clouds.otcinfra_domain3_admin.auth.domain_name }}
+       username: {{ clouds.otcinfra_domain3_admin.auth.username }}
+       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
+    interface: public
+    identity_api_version: 3
+    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+  otcinfra-domain3:
+    auth:
+       auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
+       user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_domain3_admin.auth.project_name | default('eu-de') }}
+       username: {{ clouds.otcinfra_domain3_admin.auth.username }}
+       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
+    interface: public
+    identity_api_version: 3
+    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+
+  otcinfra-domain3-infra-nl:
+    auth:
+       auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
+       user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
+       project_name: eu-nl_eco_infra
+       username: {{ clouds.otcinfra_domain3_admin.auth.username }}
+       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
+    interface: public
+    identity_api_version: 3
+    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+  otcinfra-domain3-infra-de:
+    auth:
+       auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
+       user_domain_name: {{ clouds.otcinfra_domain3_admin.auth.user_domain_name }}
+       project_name: eu-de_eco_infra
+       username: {{ clouds.otcinfra_domain3_admin.auth.username }}
+       password: {{ clouds.otcinfra_domain3_admin.auth.password }}
+    interface: public
+    identity_api_version: 3
+    identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
 
   # OTC Swift
   otc-swift:
