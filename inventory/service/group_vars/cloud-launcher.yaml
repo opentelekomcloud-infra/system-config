@@ -144,6 +144,20 @@ cloud_nets:
             cidr: "192.168.151.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
 
+cloud_nat_gws:
+  - cloud: "otcinfra-domain3-infra-de"
+    name: "otcinfra"
+    description: "main NAT GW for the infra"
+    router: "apimon-infra"
+    internal_network: "apimon-infra-net"
+    spec: 1
+  - cloud: "otcinfra-domain3-infra-nl"
+    router: "apimon-infra"
+    name: "otcinfra"
+    description: "main NAT GW for the infra"
+    internal_network: "apimon-infra-net"
+    spec: 1
+
 cloud_load_balancers:
   - cloud: "otc-swift"
     loadbalancer:

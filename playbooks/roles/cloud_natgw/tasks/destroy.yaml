@@ -1,0 +1,19 @@
+- name: Check SNAT rules
+  opentelekomcloud.cloud.nat_snat_rule_info:
+    cloud: "{{ natgw.cloud }}"
+    gateway: "{{ natgw.name }}"
+  register: snat_rules
+
+- name: Drop SNAT rule
+  opentelekomcloud.cloud.nat_snat_rule:
+    cloud: "{{ natgw.cloud }}"
+    state: "absent"
+    nat_gateway: "{{ natgw.name }}"
+    id: "{{ item.id }}"
+  loop: "{{ snat_rules.snat_rules }}"
+
+- name: Drop NATGW
+  opentelekomcloud.cloud.nat_gateway:
+    cloud: "{{ natgw.cloud }}"
+    name: "{{ natgw.name }}"
+    state: "absent"
