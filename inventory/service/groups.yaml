@@ -112,6 +112,7 @@ groups:
   proxy:
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
+    - web3.eco.tsi-dev.otc-service.com
 
   ssl_certs:
     - bridge.eco.tsi-dev.otc-service.com
