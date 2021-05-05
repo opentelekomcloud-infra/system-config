@@ -1,0 +1,11 @@
+---
+- name: Destroy router
+  openstack.cloud.router:
+    cloud: "{{ net.cloud }}"
+    name: "{{ net.router }}"
+    state: "{{ state }}"
+
+- include: "destroy_net.yaml"
+  loop: "{{ net.nets }}"
+  loop_control:
+    loop_var: "network"
