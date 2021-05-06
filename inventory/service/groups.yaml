@@ -1,6 +1,7 @@
 plugin: yamlgroup
 groups:
-  # NOTE(gtema): bridge is present in most groups to be able to manage k8 deployments of the service
+  # NOTE(gtema): bridge is present in most groups to
+  # be able to manage k8 deployments of the service
   # APImon groups:
   # general APImon values
   #
@@ -19,10 +20,10 @@ groups:
   apimon-clouds:
     - bridge.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-      #- executor1.apimon.eco.tsi-dev.otc-service.com
+    # - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
-      #- executor3.apimon.eco.tsi-dev.otc-service.com
-      #- executor4.apimon.eco.tsi-dev.otc-service.com
+    # - executor3.apimon.eco.tsi-dev.otc-service.com
+    # - executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -52,7 +53,7 @@ groups:
   # "production" instance of the apimon
   apimon-production:
     - executor1.apimon.eco.tsi-dev.otc-service.com
-      #    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
@@ -71,10 +72,10 @@ groups:
   # Where local statsd should be deployed
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-      #- executor1.apimon.eco.tsi-dev.otc-service.com
+    # - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
-      #- executor3.apimon.eco.tsi-dev.otc-service.com
-      #- executor4.apimon.eco.tsi-dev.otc-service.com
+    # - executor3.apimon.eco.tsi-dev.otc-service.com
+    # - executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -139,6 +140,11 @@ groups:
   nodepool:
     - bridge.eco.tsi-dev.otc-service.com
 
+  csm_watcher:
+    - watcher-eu-nl-01.apimon.eco.tsi-dev.otc-service.com
+    - watcher-eu-nl-02.apimon.eco.tsi-dev.otc-service.com
+    - watcher-eu-nl-03.apimon.eco.tsi-dev.otc-service.com
+
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com
@@ -146,3 +152,8 @@ groups:
     - zk0.zuul.eco.tsi-dev.otc-service.com
     - zk1.zuul.eco.tsi-dev.otc-service.com
     - zk2.zuul.eco.tsi-dev.otc-service.com
+    # Unless we finalize infra hosts management those
+    # should not be used to provision
+    - watcher-eu-nl-01.apimon.eco.tsi-dev.otc-service.com
+    - watcher-eu-nl-02.apimon.eco.tsi-dev.otc-service.com
+    - watcher-eu-nl-03.apimon.eco.tsi-dev.otc-service.com

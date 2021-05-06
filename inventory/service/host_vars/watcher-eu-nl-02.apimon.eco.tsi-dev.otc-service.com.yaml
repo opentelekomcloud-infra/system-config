@@ -1,0 +1,6 @@
+security_groups: ["watcher-sg"]
+nics:
+  - address: "192.168.204.3"
+    network: "vpc_a_csm_net"
+
+

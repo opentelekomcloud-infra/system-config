@@ -41,6 +41,16 @@ cloud_projects:
     cloud: "otc-tests-admin"
   - name: "eu-nl_apimon_probes4"
     cloud: "otc-tests-admin"
+  - name: "eu-nl_eco_csm"
+    cloud: "otc-domain3-admin"
+    description: "CSM Project"
+    properties:
+      parent_id: "66a5482c6f154f98a426ecb33579772d"
+  - name: "eu-de_eco_csm"
+    cloud: "otc-domain3-admin"
+    description: "CSM Project"
+    properties:
+      parent_id: "9c5d1a97b49a4715b39ccd0a7e08489c"
 
 cloud_user_groups:
   # Zuul groups
@@ -143,6 +153,51 @@ cloud_nets:
           - name: "apimon-infra-subnet"
             cidr: "192.168.151.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcinfra-domain3-csm-nl"
+    router: "VPC_A"
+    nets:
+      - name: "vpc_a_csm_net"
+        subnets:
+          - name: "csm-subnet"
+            cidr: "192.168.204.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcinfra-domain3-csm-nl"
+    router: "VPC_B"
+    nets:
+      - name: "vpc_b_csm_net"
+        subnets:
+          - name: "csm-subnet"
+            cidr: "192.168.205.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcinfra-domain3-csm-nl"
+    router: "VPC_C"
+    nets:
+      - name: "vpc_b_csm_net"
+        subnets:
+          - name: "csm-subnet"
+            cidr: "192.168.206.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+
+cloud_security_groups:
+  - cloud: "otcinfra-domain3-csm-nl"
+    name: "watcher-sg"
+    rules:
+      - protocol: "icmp"
+        port_range_min: -1
+        port_range_max: -1
+        remote_ip_prefix: "0.0.0.0/0"
+      - protocol: "tcp"
+        port_range_min: 22
+        port_range_max: 22
+        remote_ip_prefix: "0.0.0.0/0"
+      - protocol: "tcp"
+        port_range_min: 80
+        port_range_max: 80
+        remote_ip_prefix: "0.0.0.0/0"
+      - protocol: "tcp"
+        port_range_min: 443
+        port_range_max: 443
+        remote_ip_prefix: "0.0.0.0/0"
 
 cloud_nat_gws:
   - cloud: "otcinfra-domain3-infra-de"

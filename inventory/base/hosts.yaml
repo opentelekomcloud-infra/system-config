@@ -52,3 +52,24 @@ all:
       ansible_host: 192.168.20.182
     zk2.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.47
+    watcher-eu-nl-01.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.204.2
+      ansible_user: linux
+      location:
+        cloud: "otcinfra-domain3-csm-nl"
+        region: "eu-nl"
+        az: "eu-de-01"
+    watcher-eu-nl-02.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.204.3
+      ansible_user: linux
+      location:
+        cloud: "otcinfra-domain3-csm-nl"
+        region: "eu-nl"
+        az: "eu-de-02"
+    watcher-eu-nl-03.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.204.4
+      ansible_user: linux
+      location:
+        cloud: "otcinfra-domain3-csm-nl"
+        region: "eu-nl"
+        az: "eu-de-03"

@@ -55,6 +55,26 @@ clouds:
     interface: public
     identity_api_version: 3
     region_name: eu-de
+  otcinfra-domain3-csm-nl:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_domain3.auth.user_domain_name }}
+       project_name: eu-nl_eco_csm
+       username: {{ clouds.otcinfra_domain3.auth.username }}
+       password: "{{ clouds.otcinfra_domain3.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-nl
+  otcinfra-domain3-csm-de:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_domain3.auth.user_domain_name }}
+       project_name: eu-de_eco_csm
+       username: {{ clouds.otcinfra_domain3.auth.username }}
+       password: "{{ clouds.otcinfra_domain3.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
 
   # OTC Swift
   otc-swift:
