@@ -28,7 +28,7 @@
         dest: /home/zuul/src/github.com/opentelekomcloud-infra/customer-service-monitoring
         force: yes
 
-    - name: Run the csm production playbook and capture logs
+    - name: Run the csm playbooks and capture logs
       block:
 
       - name: Log a playbook start header
