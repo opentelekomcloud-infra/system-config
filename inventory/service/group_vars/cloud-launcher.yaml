@@ -14,6 +14,10 @@ cloud_projects:
   - name: "eu-de_zuul_tf"
     cloud: "otc-tests-admin"
   # Infra projects
+  - name: "eu-de_apimon"
+    cloud: "otcinfra-domain2-admin"
+  - name: "eu-de_apimon2"
+    cloud: "otcinfra-domain2-admin"
   - name: "eu-de_eco_infra"
     cloud: "otcinfra-domain3-admin"
     domain: "{{ clouds.otcinfra_domain3_admin.auth.domain_id }}"
@@ -59,8 +63,15 @@ cloud_user_groups:
   # APImon groups
   - name: "apimon"
     cloud: "otc-tests-admin"
+  - name: "apimon"
+    cloud: "otcinfra-domain3-admin"
 
 cloud_user_group_assignments:
+  # Infra
+  - cloud: "otcinfra-domain2-admin"
+    group: "apimon"
+    users:
+      - "apimon"
   # Zuul group user mapping
   - cloud: "otc-tests-admin"
     group: "zuul_functional"
@@ -85,6 +96,21 @@ cloud_user_group_assignments:
       - "eco_infra"
 
 cloud_role_assignments:
+  # Infra
+  - cloud: "otcinfra-domain2-admin"
+    role: "te_admin"
+    projects:
+      - "eu-de_apimon"
+      - "eu-de_apimon2"
+    groups:
+      - "apimon"
+  - cloud: "otcinfra-domain2-admin"
+    role: "server_adm"
+    projects:
+      - "eu-de_apimon"
+      - "eu-de_apimon2"
+    groups:
+      - "apimon"
   # Zuul role assignments
   - cloud: "otc-tests-admin"
     role: "te_admin"
@@ -125,6 +151,15 @@ cloud_role_assignments:
       - "apimon"
 
 cloud_nets:
+  - cloud: "otcapimon-pool2"
+    router: "apimon-infra"
+    enable_snat: true
+    nets:
+      - name: "apimon-infra-net"
+        subnets:
+          - name: "apimon-infra-subnet"
+            cidr: "192.168.111.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
   - cloud: "otcinfra-domain3-infra-de"
     router: "apimon-infra"
     enable_snat: true
@@ -145,6 +180,12 @@ cloud_nets:
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
 
 cloud_nat_gws:
+  - cloud: "otcapimon-pool2"
+    name: "apimoninfra"
+    description: "main NAT GW for the APImon infra"
+    router: "apimon-infra"
+    internal_network: "apimon-infra-net"
+    spec: 1
   - cloud: "otcinfra-domain3-infra-de"
     name: "otcinfra"
     description: "main NAT GW for the infra"
