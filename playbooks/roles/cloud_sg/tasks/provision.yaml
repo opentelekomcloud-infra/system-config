@@ -1,11 +1,13 @@
 - name: Create security group
   openstack.cloud.security_group:
+    cloud: "{{ sg.cloud }}"
     name: "{{ sg.name }}"
     description: "{{ sg.description | default(omit) }}"
   register: secur_group
 
 - name: Add rules
   openstack.cloud.security_group_rule:
+    cloud: "{{ sg.cloud }}"
     security_group: "{{ secur_group.secgroup.id }}"
     description: "{{ sg.description | default(omit) }}"
     protocol: "{{ item.protocol }}"

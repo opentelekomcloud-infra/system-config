@@ -5,7 +5,7 @@
     state: "{{ state }}"
     network_name: "{{ network.name }}"
     cidr: "{{ subnet.cidr }}"
-    dns_nameservers: "{{ subnet.dns_servers | default(omit) }}"
+    dns_nameservers: "{{ subnet.dns_nameservers | default(omit) }}"
   register: "cloud_net_subnet"
 
 - set_fact:
