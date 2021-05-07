@@ -19,6 +19,7 @@ clusters:
   - name: otcapimon1
     cluster: 
       server: {{ otcapimon1_k8s.server }}
+      insecure-skip-tls-verify: true
 contexts:
   - name: otcci
     context:
