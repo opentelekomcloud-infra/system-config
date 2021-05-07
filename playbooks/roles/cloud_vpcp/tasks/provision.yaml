@@ -1,0 +1,22 @@
+---
+# Provision VPC Peerings
+- name: Find local project
+  openstack.cloud.project_info:
+    cloud: "{{ vpcp.cloud }}"
+    name: "{{ vpcp.local_project }}"
+  register: local_project
+
+- name: Find Remote project
+  openstack.cloud.project_info:
+    cloud: "{{ vpcp.cloud }}"
+    name: "{{ vpcp.remote_project }}"
+  register: remote_project
+
+- name: Create VPC Peering
+  opentelekomcloud.cloud.vpc_peering:
+    cloud: "{{ vpcp.cloud }}"
+    name: "{{ vpcp.name }}"
+    local_router: "{{ vpcp.local_router }}"
+    project_id_local: "{{ local_project.openstack_projects[0].id }}"
+    peer_router: "{{ vpcp.remote_router }}"
+    project_id_peer: "{{ remote_project.openstack_projects[0].id }}"
