@@ -199,6 +199,68 @@ cloud_nat_gws:
     internal_network: "apimon-infra-net"
     spec: 1
 
+cloud_peerings:
+  - cloud: "otcapimon-pool1"
+    name: "apimon_pool1-apimon_pool2"
+    # how the heck should this be automated?
+    local_router: "da8641d6-32a4-4195-8fa2-8bba17d526d2"
+    local_project: "{{ clouds.otcapimon_pool1.auth.project_name }}"
+    remote_router: "d12ba0df-17b6-4c1b-a8a4-30083794357b"
+    remote_project: "{{ clouds.otcapimon_pool2.auth.project_name }}"
+
+cloud_security_groups:
+  - cloud: "otcinfra-domain3-infra-nl"
+    name: "common-sg"
+    rules:
+      - protocol: "icmp"
+        port_range_min: -1
+        port_range_max: -1
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 22
+        port_range_max: 22
+        remote_ip_prefix: "192.168.0.0/16"
+  - cloud: "otcinfra-domain3-infra-nl"
+    name: "graphite-sg"
+    rules:
+      - protocol: "icmp"
+        port_range_min: -1
+        port_range_max: -1
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 80
+        port_range_max: 80
+        remote_ip_prefix: "0.0.0.0/0"
+      - protocol: "tcp"
+        port_range_min: 443
+        port_range_max: 443
+        remote_ip_prefix: "0.0.0.0/0"
+      - protocol: "tcp"
+        port_range_min: 2003
+        port_range_max: 2003
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 2004
+        port_range_max: 2004
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 2013
+        port_range_max: 2013
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 2014
+        port_range_max: 2014
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "tcp"
+        port_range_min: 8125
+        port_range_max: 8125
+        remote_ip_prefix: "192.168.0.0/16"
+      - protocol: "udp"
+        port_range_min: 8125
+        port_range_max: 8125
+        remote_ip_prefix: "192.168.0.0/16"
+
+
 cloud_load_balancers:
   - cloud: "otc-swift"
     loadbalancer:

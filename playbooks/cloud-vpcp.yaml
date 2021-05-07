@@ -1,0 +1,9 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud VPC peerings"
+  tasks:
+    - name: Manage OpenStack VPC Peerings
+      include_role:
+        name: cloud_vpcp
+      loop: "{{ cloud_peerings }}"
+      loop_control:
+        loop_var: vpcp
