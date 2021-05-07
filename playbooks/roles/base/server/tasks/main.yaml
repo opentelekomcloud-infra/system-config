@@ -5,7 +5,7 @@
 
 - name: Install fallback packages
   ansible.builtin.package:
-    statue: present
+    status: "present"
     name: "{{ item }}"
   ignore_errors: true
   loop:

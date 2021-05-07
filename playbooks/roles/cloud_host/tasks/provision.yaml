@@ -13,12 +13,11 @@
     flavor: "{{ hostvars[host].flavor }}"
     key_name: "otcinfra-bridge"
     availability_zone: "{{ hostvars[host].location.az }}"
-    region: "{{ hostvars[host].location.region | default(omit) }}"
     security_groups: "{{ hostvars[host].security_groups }}"
     timeout: 600
     nics: "{{ hostvars[host].nics }}"
     boot_from_volume: true
-    volume_size: "{{ hostvars[host].volume_size | default(omit) }}"
+    volume_size: "{{ hostvars[host].root_volume_size | default(omit) }}"
     image: "{{ hostvars[host].image }}"
     terminate_volume: true
     delete_fip: true

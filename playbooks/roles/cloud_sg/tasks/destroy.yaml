@@ -1,4 +1,5 @@
 - name: Destroy security group
   openstack.cloud.security_group:
+    cloud: "{{ sg.cloud }}"
     name: "{{ sg.name }}"
     state: "{{ state }}"
