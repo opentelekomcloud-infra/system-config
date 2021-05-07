@@ -1,0 +1,18 @@
+- name: Create security group
+  openstack.cloud.security_group:
+    name: "{{ sg.name }}"
+    description: "{{ sg.description | default(omit) }}"
+  register: secur_group
+
+- name: Add rules
+  openstack.cloud.security_group_rule:
+    security_group: "{{ secur_group.secgroup.id }}"
+    description: "{{ sg.description | default(omit) }}"
+    protocol: "{{ item.protocol }}"
+    port_range_min: "{{ item.port_range_min | default(omit) }}"
+    port_range_max: "{{ item.port_range_max | default(omit) }}"
+    remote_ip_prefix: "{{ item.remote_ip_prefix | default(omit) }}"
+    remote_group: "{{ item.remote_group | default(omit) }}"
+    direction: "{{ item.direction | default(omit) }}"
+
+  loop: "{{ sg.rules }}"

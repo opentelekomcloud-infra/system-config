@@ -1,0 +1,13 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud hosts"
+  tasks:
+    - name: Manage OpenStack hosts
+      include_role:
+        name: cloud_host
+      loop: "{{ group['all'] }}"
+      loop_control:
+        loop_var: host
+      when:
+        - "hostvars[host].location is defined"
+
+
