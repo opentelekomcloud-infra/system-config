@@ -73,6 +73,14 @@ clouds:
       password: "{{ clouds.otcapimon_pool1.auth.password }}"
       project_name: {{ clouds.otcapimon_pool1.auth.project_name }}
       user_domain_name: {{ clouds.otcapimon_pool1.auth.user_domain_name }}
+  otcapimon-pool2:
+    profile: otc
+    auth: 
+      username: {{ clouds.otcapimon_pool2.auth.username }}
+      password: "{{ clouds.otcapimon_pool2.auth.password }}"
+      project_name: {{ clouds.otcapimon_pool2.auth.project_name }}
+      user_domain_name: {{ clouds.otcapimon_pool2.auth.user_domain_name }}
+
 
   # APImon probe projects
   otcapimon-probes1:

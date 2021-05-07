@@ -14,3 +14,10 @@
       loop: "{{ cloud_nat_gws }}"
       loop_control:
         loop_var: natgw
+
+    - name: Manage Security Groups
+      include_role:
+        name: cloud_sg
+      loop: "{{ cloud_security_groups }}"
+      loop_control:
+        loop_var: sg
