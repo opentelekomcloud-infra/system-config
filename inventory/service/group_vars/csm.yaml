@@ -1,0 +1,371 @@
+csm_instances:
+  production_de:
+    variables:
+      project_name: eu-de_test_dmd
+      vpcs: { VPC_A: "192.168.200.0/24", VPC_B: "192.168.201.0/24", VPC_C: "192.168.202.0/24" }
+      vpns: []
+      vpc_peerings: { VPC_A: "VPC_B" }
+      tmp_dir: /tmp
+      home_dir: /home/linux
+      local_private_key: "{{ tmp_dir }}/{{ key_name }}"
+      key_name: infra-key
+      requirements: requirements.txt
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      container_name: csm
+      telegraf_graphite_url: localhost:2003
+      telegraf_graphite_env: production_eu-de
+      loadbalancer_private_ip: 192.168.200.5
+      watcher_image: Standard_Debian_10_latest
+      watcher_flavor: s2.medium.2
+      watcher_volume_size: 10
+      infra_eips_object: infra_eips
+      object_private_key: machine_key
+      # variables for ping script
+      statsd_host: 192.168.14.159
+      statsd_port: 8125
+      deploy_environment: production_eu-de
+      runner_environment: production_eu-de
+      # vpc a nodes list
+      vpc_a_nodes:
+        watcher_eu-de-01: [
+          {ip: 192.168.200.10, name: eu-de-01_to_eu-de-01},
+          {ip: 192.168.200.13, name: eu-de-01_to_eu-de-02},
+          {ip: 192.168.200.16, name: eu-de-01_to_eu-de-03}]
+        watcher_eu-de-02: [
+          {ip: 192.168.200.11, name: eu-de-02_to_eu-de-01},
+          {ip: 192.168.200.14, name: eu-de-02_to_eu-de-02},
+          {ip: 192.168.200.17, name: eu-de-02_to_eu-de-03}]
+        watcher_eu-de-03: [
+          {ip: 192.168.200.12, name: eu-de-03_to_eu-de-01},
+          {ip: 192.168.200.15, name: eu-de-03_to_eu-de-02},
+          {ip: 192.168.200.18, name: eu-de-03_to_eu-de-03}]
+      # vpc a watchers list
+      vpc_a_watchers: [
+        {ip: 192.168.200.2, name: eu-de-01},
+        {ip: 192.168.200.3, name: eu-de-02},
+        {ip: 192.168.200.4, name: eu-de-03}]
+      # vpc b watchers list
+      vpc_b_watchers: [
+        {ip: 192.168.201.2, name: watcher_eu-de-01-vpc-b}]
+      # vpc c nodes list
+      vpc_c_nodes: [
+        {ip: 192.168.202.2, name: instance_vpc-c}]
+      # sites list
+      snat_dnat: [
+        {ip: 'https://digital.gov.ru/', name: ru},
+        {ip: 'https://www.deutschland.de/', name: eu},
+        {ip: 'https://www.gov.cn/', name: cn},
+        {ip: 'https://www.state.gov/', name: us}]
+    watcher_eu-de-01:
+      ansible_host: 192.168.200.2
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-de-01
+      name: "watcher_eu-de-01"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "2003", "2004", "2023", "2024", "8126"]
+      secgroup_udp_ports: ["8125"]
+    watcher_eu-de-02:
+      ansible_host: 192.168.200.3
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-de-02
+      name: "watcher_eu-de-02"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    watcher_eu-de-03:
+      ansible_host: 192.168.200.4
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-de-03
+      name: "watcher_eu-de-03"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    watcher_eu-de-01-vpc-b:
+      ansible_host: 192.168.201.2
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-de-01
+      name: "watcher_eu-de-01-vpc-b"
+      role: watcher
+      vpc: VPC_B
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    instance_1_eu-de-01:
+      ansible_host: 192.168.200.10
+      az: eu-de-01
+      name: "instance_1_eu-de-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-de-01:
+      ansible_host: 192.168.200.11
+      az: eu-de-01
+      name: "instance_2_eu-de-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-de-01:
+      ansible_host: 192.168.200.12
+      az: eu-de-01
+      name: "instance_3_eu-de-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_1_eu-de-02:
+      ansible_host: 192.168.200.13
+      az: eu-de-02
+      name: "instance_1_eu-de-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-de-02:
+      ansible_host: 192.168.200.14
+      az: eu-de-02
+      name: "instance_2_eu-de-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-de-02:
+      ansible_host: 192.168.200.15
+      az: eu-de-02
+      name: "instance_3_eu-de-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_1_eu-de-03:
+      ansible_host: 192.168.200.16
+      az: eu-de-03
+      name: "instance_1_eu-de-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-de-03:
+      ansible_host: 192.168.200.17
+      az: eu-de-03
+      name: "instance_2_eu-de-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-de-03:
+      ansible_host: 192.168.200.18
+      az: eu-de-03
+      name: "instance_3_eu-de-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_vpc-c:
+      ansible_host: 192.168.202.2
+      az: eu-de-01
+      name: "instance_vpc-c"
+      role: instance
+      vpc: VPC_C
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    disabled:
+      hosts:
+
+  production_nl:
+    variables:
+      project_name: eu-nl_something
+      vpcs: { VPC_A: "192.168.200.0/24", VPC_B: "192.168.201.0/24", VPC_C: "192.168.202.0/24" }
+      vpns: []
+      vpc_peerings: { VPC_A: "VPC_B" }
+      tmp_dir: /tmp
+      home_dir: /home/linux
+      local_private_key: "{{ tmp_dir }}/{{ key_name }}"
+      key_name: infra-key
+      requirements: requirements.txt
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      container_name: csm
+      telegraf_graphite_url: localhost:2003
+      telegraf_graphite_env: production_eu-nl
+      loadbalancer_private_ip: 192.168.200.5
+      watcher_image: Standard_Debian_10_latest
+      watcher_flavor: s2.medium.2
+      watcher_volume_size: 10
+      infra_eips_object: infra_eips
+      object_private_key: machine_key
+      # variables for ping script
+      statsd_host: 192.168.14.159
+      statsd_port: 8125
+      deploy_environment: production_eu-nl
+      runner_environment: production_eu-nl
+      # vpc a nodes list
+      vpc_a_nodes:
+        watcher_eu-nl-01: [
+          {ip: 192.168.200.10, name: eu-nl-01_to_eu-nl-01},
+          {ip: 192.168.200.13, name: eu-nl-01_to_eu-nl-02},
+          {ip: 192.168.200.16, name: eu-nl-01_to_eu-nl-03}]
+        watcher_eu-nl-02: [
+          {ip: 192.168.200.11, name: eu-nl-02_to_eu-nl-01},
+          {ip: 192.168.200.14, name: eu-nl-02_to_eu-nl-02},
+          {ip: 192.168.200.17, name: eu-nl-02_to_eu-nl-03}]
+        watcher_eu-de-03: [
+          {ip: 192.168.200.12, name: eu-nl-03_to_eu-nl-01},
+          {ip: 192.168.200.15, name: eu-nl-03_to_eu-nl-02},
+          {ip: 192.168.200.18, name: eu-nl-03_to_eu-nl-03}]
+      # vpc a watchers list
+      vpc_a_watchers: [
+        {ip: 192.168.200.2, name: eu-nl-01},
+        {ip: 192.168.200.3, name: eu-nl-02},
+        {ip: 192.168.200.4, name: eu-nl-03}]
+      # vpc b watchers list
+      vpc_b_watchers: [
+        {ip: 192.168.201.2, name: watcher_eu-nl-01-vpc-b}]
+      # vpc c nodes list
+      vpc_c_nodes: [
+        {ip: 192.168.202.2, name: instance_vpc-c}]
+      # sites list
+      snat_dnat: [
+        {ip: 'https://digital.gov.ru/', name: ru},
+        {ip: 'https://www.deutschland.de/', name: eu},
+        {ip: 'https://www.gov.cn/', name: cn},
+        {ip: 'https://www.state.gov/', name: us}]
+
+    watcher_eu-nl-01:
+      ansible_host: 192.168.200.2
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-nl-01
+      name: "watcher_eu-nl-01"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "2003", "2004", "2023", "2024", "8126"]
+      secgroup_udp_ports: ["8125"]
+    watcher_eu-nl-02:
+      ansible_host: 192.168.200.3
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-nl-02
+      name: "watcher_eu-nl-02"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    watcher_eu-nl-03:
+      ansible_host: 192.168.200.4
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-nl-03
+      name: "watcher_eu-nl-03"
+      role: watcher
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    watcher_eu-nl-01-vpc-b:
+      ansible_host: 192.168.201.2
+      ansible_ssh_user: linux
+      ansible_ssh_private_key_file: "{{ local_private_key }}"
+      az: eu-nl-01
+      name: "watcher_eu-nl-01-vpc-b"
+      role: watcher
+      vpc: VPC_B
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443"]
+      secgroup_udp_ports: []
+    instance_1_eu-nl-01:
+      ansible_host: 192.168.200.10
+      az: eu-nl-01
+      name: "instance_1_eu-nl-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-nl-01:
+      ansible_host: 192.168.200.11
+      az: eu-nl-01
+      name: "instance_2_eu-nl-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-nl-01:
+      ansible_host: 192.168.200.12
+      az: eu-nl-01
+      name: "instance_3_eu-nl-01"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_1_eu-nl-02:
+      ansible_host: 192.168.200.13
+      az: eu-nl-02
+      name: "instance_1_eu-nl-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-nl-02:
+      ansible_host: 192.168.200.14
+      az: eu-nl-02
+      name: "instance_2_eu-nl-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-nl-02:
+      ansible_host: 192.168.200.15
+      az: eu-nl-02
+      name: "instance_3_eu-nl-02"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_1_eu-nl-03:
+      ansible_host: 192.168.200.16
+      az: eu-nl-03
+      name: "instance_1_eu-nl-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: ["loadbalancer"]
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_2_eu-nl-03:
+      ansible_host: 192.168.200.17
+      az: eu-nl-03
+      name: "instance_2_eu-nl-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_3_eu-nl-03:
+      ansible_host: 192.168.200.18
+      az: eu-nl-03
+      name: "instance_3_eu-nl-03"
+      role: instance
+      vpc: VPC_A
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    instance_vpc-c:
+      ansible_host: 192.168.202.2
+      az: eu-nl-01
+      name: "instance_vpc-c"
+      role: instance
+      vpc: VPC_C
+      scenarios: []
+      secgroup_tcp_ports: ["22", "80", "443", "3333"]
+    disabled:
+      hosts:

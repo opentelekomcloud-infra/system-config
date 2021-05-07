@@ -1,0 +1,7 @@
+volume_size: 10
+security_groups: ["watcher-sg"]
+nics:
+  - fixed_ip: "192.168.204.4"
+    net-name: "vpc_a_csm_net"
+
+

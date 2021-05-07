@@ -1,0 +1,3 @@
+image: Standard_Debian_10_latest
+flavor: s2.medium.2
+volume_size: 10
