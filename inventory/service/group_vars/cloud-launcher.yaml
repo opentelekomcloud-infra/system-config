@@ -200,13 +200,24 @@ cloud_nat_gws:
     spec: 1
 
 cloud_peerings:
-  - cloud: "otcapimon-pool1"
-    name: "apimon_pool1-apimon_pool2"
-    # how the heck should this be automated?
-    local_router: "da8641d6-32a4-4195-8fa2-8bba17d526d2"
-    local_project: "{{ clouds.otcapimon_pool1.auth.project_name }}"
-    remote_router: "d12ba0df-17b6-4c1b-a8a4-30083794357b"
+  #  - cloud: "otcapimon-pool1"
+  #    name: "apimon_pool1-apimon_pool2"
+  #    # how the heck should this be automated?
+  #    local_router: "dashboard-otc-vpc-router"
+  #    local_project: "{{ clouds.otcapimon_pool1.auth.project_name }}"
+  #    remote_cloud: "otcapimon-pool2"
+  #    remote_router: "apimon-infra"
+  #    remote_project: "{{ clouds.otcapimon_pool2.auth.project_name }}"
+  #
+  - cloud: "otcinfra-domain2-database"
+    name: "database-apimon_pool2"
+    local_router: "database_router"
+    local_project: "eu-de_database"
+    local_cidr: "192.168.14.0/24"
+    remote_cloud: "otcapimon-pool2"
+    remote_router: "apimon-infra"
     remote_project: "{{ clouds.otcapimon_pool2.auth.project_name }}"
+    remote_cidr: "192.168.111.0/24"
 
 cloud_security_groups:
   - cloud: "otcinfra-domain3-infra-nl"

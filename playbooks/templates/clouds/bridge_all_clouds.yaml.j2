@@ -35,6 +35,7 @@ clouds:
     interface: public
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+
   otcinfra-domain3-admin:
     auth:
        auth_url: {{ clouds.otcinfra_domain3_admin.auth.auth_url | default('https://iam.eu-de.otc.t-systems.com/v3') }}
@@ -45,6 +46,18 @@ clouds:
     interface: public
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
+
+  otcinfra-domain2-database:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_domain2.auth.user_domain_name }}
+       project_name: eu-de_database
+       username: {{ clouds.otcinfra_domain2.auth.username }}
+       password: "{{ clouds.otcinfra_domain2.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
+
   otcinfra-domain3-infra-nl:
     profile: otc
     auth:
