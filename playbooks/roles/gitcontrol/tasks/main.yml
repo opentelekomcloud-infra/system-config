@@ -1,6 +1,5 @@
 ---
 - name: "Update all the supplied repositories in {{ orgs.keys() | list }}"
-  when: github_repos_state == 'present'
   loop: "{{ orgs | dict2items }}"
   loop_control:
     loop_var: org
