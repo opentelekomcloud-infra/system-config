@@ -52,6 +52,14 @@
         - infra-prod-service-grafana
         - infra-prod-service-proxy
         - infra-prod-dashboards
+        - infra-prod-manage-github:
+            files:
+              - playbooks/manage-github.yaml
+              - playbooks/roles/gitcontrol
+              - playbooks/templates/github/default_zuul.yaml
+            dependencies:
+              - name: infra-prod-install-ansible
+                soft: true
     periodic:
       # Nightly execution
       jobs:

@@ -1,0 +1,30 @@
+---
+- name: Prepare github config
+  hosts: bridge.eco.tsi-dev.otc-service.com
+  tasks:
+    - name: Register root dir
+      set_fact:
+        root_dir: "/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring/orgs"
+
+- name: Prepare github config
+  hosts: bridge.eco.tsi-dev.otc-service.com
+  tasks:
+    - name: Gather orgs info
+      scan_organizations:
+        path: "{{ root_dir }}"
+      register: out
+
+    - name: Register orgs structure
+      set_fact:
+        structure: "{{ out }}"
+
+- name: Manage orgs
+  hosts: bridge.eco.tsi-dev.otc-service.com
+  gather_facts: false
+  roles:
+    - gitcontrol
+  vars:
+    orgs: "{{ structure.data }}"
+    # github_user: "{{ lookup('env', 'GITHUB_USER') }}"
+    # github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
+    github_api: https://api.github.com
