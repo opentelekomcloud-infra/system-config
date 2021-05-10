@@ -361,7 +361,7 @@ apimon_instances:
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
     epmon_clouds:
-      - production_eu-de_2:
+      - production_eu-de:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
             epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
@@ -380,20 +380,20 @@ apimon_instances:
 
     # Test Environments
     test_environments:
-      - name: production_eu-de_2
+      - name: production_eu-de
         env:
-          OS_CLOUD: production_eu-de_2
+          OS_CLOUD: production_eu-de
         clouds:
-          - production_eu-de_2
+          - production_eu-de
 
     # Test Matrix
     test_matrix:
-      - env: production_eu-de_2
+      - env: production_eu-de
         project: apimon
 
     # Test clouds configuration
     clouds:
-      - name: production_eu-de_2
+      - name: production_eu-de
         cloud: otcapimon_probes13
       - name: swift
         cloud: otcapimon_logs
