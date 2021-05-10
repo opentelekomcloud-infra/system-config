@@ -91,7 +91,7 @@
       - playbooks/roles/firewalld/
       - playbooks/roles/configure-kubectl/
       - playbooks/roles/configure-openstacksdk/
-      - playbooks/templates/clouds/bridge_all_clouds.yaml.j2
+      - playbooks/templates/clouds/
 
 - job:
     name: infra-prod-manage-github
