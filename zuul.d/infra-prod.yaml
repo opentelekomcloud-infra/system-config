@@ -101,8 +101,10 @@
       playbook_name: manage-github.yaml
     allowed-projects:
       - github.com/opentelekomcloud-infra/gitstyring
+      - github.com/opentelekomcloud-infra/system-config
     required-projects:
       - github.com/opentelekomcloud-infra/gitstyring
+      - github.com/opentelekomcloud-infra/system-config
 
 - job:
     name: infra-prod-service-statsd
