@@ -17,7 +17,7 @@ bad_statuses = [400, 403, 404, 422]
 
 def read_yaml_file(path, org=None, endpoint=None, repo_name=None):
     if endpoint in ['manage_collaborators', 'branch_protection', 'options']:
-        path += f'/{org}/repositories/{repo_name}.yml'
+        path += f'{org}/repositories/{repo_name}.yml'
     with open(path, 'r') as file:
         data = yaml.safe_load(file)
     return data
@@ -71,7 +71,7 @@ def update_branch_protection(github_api, owner, repo_name, repo):
     rules = repo[repo_name]['protection_rules']
     if isinstance(rules, str):
         rules = {repo[repo_name]['default_branch']:
-                 read_yaml_file(f'/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/templates/github/{rules}.yml')}
+                 read_yaml_file(f'/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/templates/github/{rules}.yaml')}
     branch_name = list(rules)[0]
     if 'who_can_push' in rules[branch_name]:
         rules[branch_name]['restrictions'] = rules[branch_name].pop('who_can_push')
@@ -91,7 +91,7 @@ if __name__ == '__main__':
     args_parser.add_argument('--endpoint', help='Selected github endpoint')
     args_parser.add_argument('--org', help='Repo owner')
     args_parser.add_argument('--repo', help='Repo data')
-    args_parser.add_argument('--root', help='Root directory to fetch files', default='../orgs')
+    args_parser.add_argument('--root', help='Root directory to fetch files', default='/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring/orgs/')
     args = args_parser.parse_args()
     if args.endpoint == 'manage_collaborators':
         manage_collaborators(
