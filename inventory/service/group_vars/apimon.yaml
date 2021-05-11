@@ -417,6 +417,7 @@ apimon_k8s_instances:
       scheduler_count: 1
       executor_count: 2
       apimon_image_pull_policy: "Always"
+      statsd_graphite_host: "192.168.14.159"
 
 # This represents service endpoints to be tested by EPmon process
 # They get combined into the epmon configuration by selecting dedicated group
