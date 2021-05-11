@@ -353,6 +353,50 @@ apimon_instances:
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
 
+  production_2:
+    statsd_host: 127.0.0.1
+    gearman_host: apimon-scheduler-prod-2
+    zone: production_eu-de_2
+
+    # Endpoint monitoring configuration
+    # (inventory/service/group_vars/apimon-epmon.yaml)
+    epmon_clouds:
+      - production_eu-de:
+         service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
+            epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
+            epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
+            epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
+            epmon_kms, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
+            epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
+            epmon_smn] | combine }}"
+
+    # Test projects
+    test_projects:
+      - name: apimon
+        repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+        repo_ref: master
+        scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/production %s
+
+    # Test Environments
+    test_environments:
+      - name: production_eu-de
+        env:
+          OS_CLOUD: production_eu-de
+        clouds:
+          - production_eu-de
+
+    # Test Matrix
+    test_matrix:
+      - env: production_eu-de
+        project: apimon
+
+    # Test clouds configuration
+    clouds:
+      - name: production_eu-de
+        cloud: otcapimon_probes13
+      - name: swift
+        cloud: otcapimon_logs
 
 apimon_k8s_instances:
   - apimon_instance: "production_stg"
@@ -363,6 +407,15 @@ apimon_k8s_instances:
       epmon_count: 0
       scheduler_count: 1
       executor_count: 1
+      apimon_image_pull_policy: "Always"
+  - apimon_instance: "production_2"
+    instance: "prod-2"
+    context: "otcapimon1"
+    namespace: "apimon"
+    cr_spec:
+      epmon_count: 1
+      scheduler_count: 1
+      executor_count: 2
       apimon_image_pull_policy: "Always"
 
 # This represents service endpoints to be tested by EPmon process
