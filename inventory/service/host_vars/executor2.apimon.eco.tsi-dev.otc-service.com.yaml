@@ -1,3 +1,4 @@
 apimon_instance: production_vc
+statsd_graphite_host: "192.168.191.55"
 
 firewalld_extra_ports_enable: ["8125/udp"]
