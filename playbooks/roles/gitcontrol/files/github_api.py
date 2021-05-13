@@ -117,6 +117,50 @@ def update_org_members(github_api, owner, new_people):
 
 def update_teams(github_api, owner, new_teams):
     output = ''
+    res = requests.get(
+        f'{github_api}/orgs/{owner}/teams',
+        headers=headers,
+        timeout=15)
+    teams = json.loads(res.text)
+    for team in teams:
+        members_to_add = new_teams['teams'][team['name']]
+        current_members = []
+        res = requests.get(
+            f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=member',
+            headers=headers,
+            timeout=15)
+        members = json.loads(res.text)
+        for member in members:
+            current_members.append(member['login'])
+
+        current_maintainers = []
+        res = requests.get(
+            f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=maintainer',
+            headers=headers,
+            timeout=15)
+        maintainers = json.loads(res.text)
+        for maintainer in maintainers:
+            current_maintainers.append(maintainer['login'])
+
+        for login in members_to_add['member']:
+            if login not in current_members:
+                res = requests.put(
+                    f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
+                    json={'role': 'member'},
+                    headers=headers,
+                    timeout=15
+                )
+                if res.status_code in bad_statuses:
+                    output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
+        for login in members_to_add['maintainer']:
+            if login not in current_maintainers:
+                res = requests.put(
+                    f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
+                    json={'role': 'maintainer'},
+                    headers=headers,
+                    timeout=15)
+                if res.status_code in bad_statuses:
+                    output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
     return print(output, file=sys.stderr)
 
 
