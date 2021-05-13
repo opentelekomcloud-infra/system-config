@@ -19,7 +19,7 @@ default: &default_vars
     - blackout
     - zulip
   
-  alerta_image: "quay.io/opentelekomcloud/alerta:8.4.1"
+  alerta_image: "quay.io/opentelekomcloud/alerta:8.5.0"
   alerta_deployment_count: 2
   alerta_deployment_resources:
     limits:
