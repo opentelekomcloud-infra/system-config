@@ -4,3 +4,9 @@
   loop_control:
     loop_var: org
   include_tasks: repo-present.yml
+
+- name: "Update teams in {{ orgs.keys() | list }}"
+  loop: "{{ orgs | dict2items }}"
+  loop_control:
+    loop_var: org
+  include_tasks: teams-present.yml
