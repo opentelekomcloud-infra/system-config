@@ -9,6 +9,7 @@ results:
     - cloud-launcher
     - control-plane-clouds
     - alerta
+    - grafana
     - zuul
     - nodepool
     - ssl_certs
