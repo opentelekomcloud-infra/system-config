@@ -21,9 +21,9 @@ def read_yaml_file(path, org=None, endpoint=None, repo_name=None):
     if endpoint in ['manage_collaborators', 'branch_protection', 'options']:
         path += f'{org}/repositories/{repo_name}.yml'
     if endpoint in ['teams']:
-        path += f'/{org}/teams/members.yml'
+        path += f'{org}/teams/members.yml'
     if endpoint in ['members']:
-        path += f'/{org}/people/members.yml'
+        path += f'{org}/people/members.yml'
     with open(path, 'r') as file:
         data = yaml.safe_load(file)
     return data
