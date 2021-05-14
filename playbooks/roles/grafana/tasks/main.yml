@@ -57,33 +57,35 @@
 
 - name: Write Grafana ldap conf file
   become: true
-  template:
-    src: "ldap.toml.j2"
+  ansible.builtin.copy:
+    src: "{{ grafana_ldap_config }}"
     dest: "/etc/grafana/ldap/ldap.toml"
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
     mode: 0664
-  when: grafana_auth_ldap_enable
+  when: 
+    - grafana_ldap_config is defined 
+    - grafana_ldap_config |length > 0
 
 - name: Write Grafana ldap root CA file
   become: true
   copy:
-    content: "{{ grafana_auth_ldap_certificate }}"
+    content: "{{ grafana.grafana_auth_ldap_certificate | default(grafana.default.grafana_auth_ldap_certificate) }}"
     dest: "/etc/grafana/ldap/ldap-certificate.crt"
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
     mode: 0664
   when:  
-    - grafana_auth_ldap_enable 
-    - grafana_auth_ldap_certificate is defined 
-    - grafana_auth_ldap_certificate |length > 0
+    - grafana.grafana_auth_ldap_certificate is defined  or grafana.default.grafana_auth_ldap_certificate is defined
+    - grafana.grafana_auth_ldap_certificate |length > 0 or grafana.default.grafana_auth_ldap_certificate |length > 0
 
 - name: Write Grafana Image Renderer Systemd unit file
   become: true
   template:
     src: "grafana-renderer.service.j2"
     dest: "/etc/systemd/system/grafana-renderer.service"
-  when: grafana_enable_renderer
+  when: 
+    - grafana.grafana_enable_renderer or (grafana.grafana_enable_renderer is undefined and grafana.default.grafana_enable_renderer) 
   notify:
     - restart grafana-renderer
 
@@ -115,7 +117,7 @@
   become: true
   become_user: "{{ grafana_os_user }}"
   command: "{{ container_command }} exec grafana grafana-cli plugins install {{ item }}"
-  loop: "{{ grafana_plugins }}"
+  loop: "{{ grafana.default.grafana_plugins }}"
   notify:
     - restart grafana
 
