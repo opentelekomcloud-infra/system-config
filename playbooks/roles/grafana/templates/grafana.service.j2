@@ -24,7 +24,7 @@ ExecStart={{ container_runtime }} run \
     --add-host={{ grafana.grafana_auth_ldap_hosts_entry | default(grafana.default.grafana_auth_ldap_hosts_entry) }} \
 {% endif %}
 {% endif %}
-{% if grafana.grafana_enable_renderer or grafana.default.grafana_enable_renderer %}
+{% if (grafana.grafana_enable_renderer is defined and grafana.grafana_enable_renderer) or (grafana.default.grafana_enable_renderer is defined and grafana.default.grafana_enable_renderer ) %}
 {% if grafana.grafana_renderer_hosts_entry is defined or grafana.default.grafana_renderer_hosts_entry is defined %}
     --add-host={{ grafana.grafana_renderer_hosts_entry | default(grafana.default.grafana_renderer_hosts_entry) }} \
 {% else %}
