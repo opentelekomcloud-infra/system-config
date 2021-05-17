@@ -19,14 +19,14 @@ ExecStart={{ container_runtime }} run \
 {% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
 {% endif %}
-{% if grafana_auth_ldap_enable %}
-{% if grafana_auth_ldap_hosts_entry is defined %}
-    --add-host={{ grafana_auth_ldap_hosts_entry }} \
+{% if grafana_ldap_config is defined and grafana_ldap_config|length %}
+{% if grafana.grafana_auth_ldap_hosts_entry is defined or grafana.default.grafana_auth_ldap_hosts_entry is defined %}
+    --add-host={{ grafana.grafana_auth_ldap_hosts_entry | default(grafana.default.grafana_auth_ldap_hosts_entry) }} \
 {% endif %}
 {% endif %}
-{% if grafana_enable_renderer %}
-{% if grafana_renderer_hosts_entry is defined %}
-    --add-host={{ grafana_renderer_hosts_entry }} \
+{% if (grafana.grafana_enable_renderer is defined and grafana.grafana_enable_renderer) or (grafana.default.grafana_enable_renderer is defined and grafana.default.grafana_enable_renderer ) %}
+{% if grafana.grafana_renderer_hosts_entry is defined or grafana.default.grafana_renderer_hosts_entry is defined %}
+    --add-host={{ grafana.grafana_renderer_hosts_entry | default(grafana.default.grafana_renderer_hosts_entry) }} \
 {% else %}
     --add-host=renderer:{{ ansible_default_ipv4.address }} \
 {% endif %}
@@ -34,7 +34,7 @@ ExecStart={{ container_runtime }} run \
     --env-file /etc/grafana/env \
     -p 3000:3000 \
     -v /etc/grafana/provisioning:/etc/grafana/provisioning:Z \
-{% if grafana_auth_ldap_enable %}
+{% if grafana_ldap_config is defined and grafana_ldap_config|length %}
     -v /etc/grafana/ldap:/etc/grafana/ldap:Z \
 {% endif %}
     -v grafana_lib:/var/lib/grafana \

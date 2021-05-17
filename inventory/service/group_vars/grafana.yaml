@@ -1,1 +1,15 @@
-grafana_plugins: [ blackmirror1-singlestat-math-panel, snuids-trafficlights-panel ]
+default: &default_vars
+  grafana_plugins: [ ]
+  grafana_enable_renderer: true
+  grafana_users_allow_sign_up: false
+  grafana_renderer_host: "renderer"
+  grafana_grafana_host: "grafana"
+  grafana_image: "quay.io/opentelekomcloud/grafana:7.5.6"
+  grafana_renderer_image: "quay.io/opentelekomcloud/grafana-image-renderer:2.1.0"
+  grafana_users_login_hint: "OTC LDAP account"
+  grafana_users_password_hint: "OTC LDAP password"
+
+
+grafana_instances:
+  production_vc:
+    default: *default_vars

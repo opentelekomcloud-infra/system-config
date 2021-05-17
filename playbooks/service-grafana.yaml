@@ -1,6 +1,9 @@
-- hosts: "grafana:!disabled"
+- hosts: "grafana-vm:!disabled"
   name: "Base: configure grafana"
+  vars:
+    grafana: "{{ grafana_instances[grafana_instance] | combine(grafana_instances_secrets[grafana_instance], recursive=True) }}"
   roles:
     # Group should be responsible for defining open ports
-    - firewalld
-    - grafana
+    - role: firewalld
+    - role: grafana
+      grafana_ldap_config: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
