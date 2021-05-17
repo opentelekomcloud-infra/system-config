@@ -2,42 +2,9 @@
 # defaults file for roles/grafana
 container_runtime: "/usr/bin/{{ container_command }}"
 
-grafana_security_admin_password: "foobar"
-grafana_image: "quay.io/opentelekomcloud/grafana:7.4.3"
-grafana_users_allow_sign_up: false
-
-grafana_enable_renderer: false
-grafana_renderer_hosts_entries: []
-grafana_renderer_image: "quay.io/opentelekomcloud/grafana-image-renderer:2.0.0"
-grafana_renderer_host: renderer
-grafana_grafana_host: grafana
-
-grafana_users_login_hint: username
-grafana_users_password_hint: password
-
 grafana_os_user: grafana
 grafana_os_group: grafana
 
-grafana_auth_github_enable: false
-
-grafana_plugins: []
-
 packages: []
-
-grafana_auth_ldap_enable: false 
-grafana_auth_ldap_certificate: |
-  dummy-ca-cert
-grafana_auth_ldap_host: '"ldap.example.com"'
-grafana_auth_ldap_hosts_entry: "ldap.example.com:1.2.3.4"
-grafana_auth_ldap_bind_dn:  '"cn=proxy,ou=profile,dc=example,dc=com"'
-grafana_auth_ldap_bind_password: 'foobar'
-grafana_auth_ldap_search_filter:  '"(uid=%s)"'
-grafana_auth_ldap_search_base_dns:  '["ou=people,dc=example,dc=com"]'
-grafana_auth_ldap_group_search_filter:  '"(&(objectClass=posixGroup)(memberUid=%s))"'
-grafana_auth_ldap_group_search_filter_user_attribute:  '"uid"'
-grafana_auth_ldap_group_dn_super_admin:  "cn=grafana-super-admins,ou=group,dc=example,dc=com"
-grafana_auth_ldap_group_dn_admin:  "cn=grafana-admins,ou=group,dc=example,dc=com"
-grafana_auth_ldap_group_dn_editor: "cn=grafana-editors,ou=group,dc=example,dc=com"
-grafana_auth_ldap_group_search_base_dns: [ " {{ grafana_auth_ldap_group_dn_super_admin }} ", " {{ grafana_auth_ldap_group_dn_admin }} ", " {{ grafana_auth_ldap_group_dn_editor }} " ]
 
 grafana_uid_prefix: ""
