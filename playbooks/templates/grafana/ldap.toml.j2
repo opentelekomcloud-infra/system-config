@@ -1,5 +1,5 @@
 [[servers]]
-host = {{ grafana.grafana_auth_ldap_host | default(grafana.default.alerta_auth_provider) }}
+host = {{ grafana.grafana_auth_ldap_host | default(grafana.default.grafana_auth_ldap_host) }}
 port = 636
 use_ssl = true
 start_tls = false
