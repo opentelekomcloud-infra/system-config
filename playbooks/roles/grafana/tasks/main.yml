@@ -85,7 +85,7 @@
     src: "grafana-renderer.service.j2"
     dest: "/etc/systemd/system/grafana-renderer.service"
   when: 
-    - grafana.grafana_enable_renderer or (grafana.grafana_enable_renderer is undefined and grafana.default.grafana_enable_renderer) 
+    - (grafana.grafana_enable_renderer is defined and grafana.grafana_enable_renderer) or (grafana.grafana_enable_renderer is undefined and grafana.default.grafana_enable_renderer) 
   notify:
     - restart grafana-renderer
 
