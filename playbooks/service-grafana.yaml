@@ -6,4 +6,4 @@
     # Group should be responsible for defining open ports
     - role: firewalld
     - role: grafana
-      #grafana_ldap_config: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
+      grafana_ldap_config: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
