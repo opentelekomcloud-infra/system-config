@@ -54,6 +54,8 @@
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
     mode: 0664
+  notify:
+    - restart grafana
 
 - name: Write Grafana ldap conf file
   become: true
@@ -66,6 +68,8 @@
   when: 
     - grafana_ldap_config is defined 
     - grafana_ldap_config |length > 0
+  notify:
+    - restart grafana
 
 - name: Write Grafana ldap root CA file
   become: true
@@ -76,8 +80,9 @@
     group: "{{ grafana_os_group }}"
     mode: 0664
   when:  
-    - grafana.grafana_auth_ldap_certificate is defined  or grafana.default.grafana_auth_ldap_certificate is defined
-    - grafana.grafana_auth_ldap_certificate |length > 0 or grafana.default.grafana_auth_ldap_certificate |length > 0
+    - (grafana.grafana_auth_ldap_certificate is defined and grafana.grafana_auth_ldap_certificate |length > 0)  or (grafana.default.grafana_auth_ldap_certificate is defined and grafana.default.grafana_auth_ldap_certificate |length > 0)
+  notify:
+    - restart grafana
 
 - name: Write Grafana Image Renderer Systemd unit file
   become: true
