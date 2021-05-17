@@ -58,7 +58,7 @@
 - name: Write Grafana ldap conf file
   become: true
   ansible.builtin.copy:
-    src: "{{ grafana_ldap_config }}"
+    content: "{{ grafana_ldap_config }}"
     dest: "/etc/grafana/ldap/ldap.toml"
     owner: "{{ grafana_os_user }}"
     group: "{{ grafana_os_group }}"
