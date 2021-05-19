@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/name: "grafana"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+spec:
+  replicas: {{ (grafana.grafana_deployment_count | default(grafana.default.grafana_deployment_count))|int }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "grafana"
+      app.kubernetes.io/instance: "{{ instance }}"
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/name: "grafana"
+        app.kubernetes.io/instance: "{{ instance }}"
+    spec:
+      hostAliases:
+      - ip: "{{ grafana.grafana_ldap_server_ip }}"
+        hostnames:
+        - "ldap.otc-service.internal"
+      - ip: "127.0.0.1"
+        hostnames:
+        - "{{ grafana.fqdn }}"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: In
+                  values:
+                  - "{{ instance }}"
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - image: "{{ grafana.grafana_renderer_image | default(grafana.default.grafana_renderer_image) }}" 
+        name: "grafana-renderer"
+        ports:
+        - containerPort: 8081
+{% if grafana.renderer_deployment_resources is defined and grafana.renderer_deployment_resources|length %}
+        resources:
+{% for key, value in grafana.renderer_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% else %}
+        resources:
+{% for key, value in grafana.default.renderer_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+      - image: "{{ grafana.grafana_image | default(grafana.default.grafana_image) }}"
+        name: grafana
+        ports:
+        - containerPort: 3000
+{% if grafana.grafana_deployment_resources is defined %}
+        resources:
+{% for key, value in grafana.grafana_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% else %}
+        resources:
+{% for key, value in grafana.default.grafana_deployment_resources.items() %}
+          {{ key }}:
+{% for key2, value2 in value.items() %}
+            {{ key2 }}: {{ value2 }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+        readinessProbe:
+          httpGet:
+            path: /login
+            scheme: HTTP
+            port: 3000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            scheme: HTTP
+            port: 3000
+        env:
+          - name: GF_RENDERING_SERVER_URL
+            value: http://localhost:8081/render
+          - name: GF_RENDERING_CALLBACK_URL
+            value: http://{{ grafana.fqdn }}:3000
+          - name: GF_INSTALL_PLUGINS
+            value: "{{ grafana.grafana_plugins | default(grafana.default.grafana_plugins) }}"
+        envFrom:
+        - secretRef:
+            name: "{{ grafana_secret_name }}"
+        volumeMounts:
+        - name: grafana-config
+          mountPath: /etc/grafana/ldap/ldap.toml
+          subPath: ldap.toml
+        - name: grafana-config
+          mountPath: /etc/grafana/ldap/ldap-root-ca-cert.crt
+          subPath: ldap-root-ca-cert.crt
+      volumes:
+      - configMap:
+          name: "{{ grafana_config_name }}"
+        name: grafana-config
+status: {}
