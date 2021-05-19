@@ -31,7 +31,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         ldap.toml: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
-        ldap-root-ca-cert.crt: "{{ grafana.grafana_auth_ldap_certificate | default(grafana.default.grafana_auth_ldap_certificate) }}"
+        ldap-certificate.crt: "{{ grafana.grafana_auth_ldap_certificate | default(grafana.default.grafana_auth_ldap_certificate) }}"
 
 - name: Create Secrets
   community.kubernetes.k8s:
