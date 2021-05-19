@@ -9,7 +9,32 @@ default: &default_vars
   grafana_users_login_hint: "OTC LDAP account"
   grafana_users_password_hint: "OTC LDAP password"
 
+  grafana_deployment_count: 2
+  grafana_deployment_resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+  renderer_deployment_resources:
+    limits:
+      cpu: 500m
+      memory: 500Mi
+    requests:
+      cpu: 100m
+      memory: 100Mi
 
 grafana_instances:
+  production_stg:
+    cluster_issuer: "letsencrypt-staging"
+    fqdn: dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com
+    default: *default_vars
   production_vc:
     default: *default_vars
+
+grafana_k8s_instances:
+  - grafana_instance: "production_stg"
+    instance: "stg"
+    context: "otcinfra-stg"
+    namespace: "apimon"
