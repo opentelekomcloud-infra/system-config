@@ -97,8 +97,12 @@ spec:
             value: http://localhost:8081/render
           - name: GF_RENDERING_CALLBACK_URL
             value: http://{{ grafana.fqdn }}:3000
+{% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) or
+      (grafana.default.grafana_plugins is defined and grafana.default.grafana_plugins|length)
+%}
           - name: GF_INSTALL_PLUGINS
             value: "{{ grafana.grafana_plugins | default(grafana.default.grafana_plugins) }}"
+{% endif %}
         envFrom:
         - secretRef:
             name: "{{ grafana_secret_name }}"
@@ -107,8 +111,8 @@ spec:
           mountPath: /etc/grafana/ldap/ldap.toml
           subPath: ldap.toml
         - name: grafana-config
-          mountPath: /etc/grafana/ldap/ldap-root-ca-cert.crt
-          subPath: ldap-root-ca-cert.crt
+          mountPath: /etc/grafana/ldap/ldap-certificate.crt
+          subPath: ldap-certificate.crt
       volumes:
       - configMap:
           name: "{{ grafana_config_name }}"
