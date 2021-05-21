@@ -33,7 +33,20 @@
                 image: "quay.io/opentelekomcloud/zuul-web:{{ zuul.zuul_version_tag }}"
                 ports:
                   - containerPort: 9000
+                    name: "web"
                     protocol: "TCP"
+                readinessProbe:
+                  http:
+                    port: "web"
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+                    timeoutSeconds: 3
+                livenessProbe:
+                  tcpSocket:
+                    port: "web"
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+                    timeoutSeconds: 3
                 resources:
                   limits:
                     cpu: "50m"
