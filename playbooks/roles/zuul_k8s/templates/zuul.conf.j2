@@ -32,8 +32,8 @@ tls_ca=/etc/zuul/zk/cacert.pem
 session_timeout=40
 
 [keystore]
-{% if zuul_keystore_password is defined -%}
-password={{ zuul_keystore_password }}
+{% if zuul.keystore_password is defined -%}
+password={{ zuul.keystore_password }}
 {% endif %}
 
 {% if zuul.statsd_host is defined %}
