@@ -278,3 +278,14 @@
       - inventory/
       - playbooks/dashboards.yaml
       - playbooks/templates/grafana
+
+- job:
+    name: infra-prod-service-zuul
+    parent: infra-prod-service-base
+    description: Run service-zuul-k8s.yaml playbook.
+    vars:
+      playbook_name: service-zuul-k8s.yaml
+    files:
+      - inventory/group_vars/zuul.yaml
+      - playbooks/service-zuul-k8s.yaml
+      - playbooks/roles/zuul_k8s
