@@ -26,7 +26,7 @@ defaults
   timeout  queue 1m
   timeout  connect 10s
   timeout  client 2m
-  timeout  server 2m
+  timeout  server 20s
   timeout  check 10s
 
 frontend web
@@ -66,6 +66,10 @@ backend {{ backend.name }}
   http-send-name-header Host
   balance roundrobin
   cookie SERVERID insert indirect nocache
+
+  # Enable HTTP healthcheck
+  option httpcheck
+
 {% for server in backend.servers %}
   server {{ server.name }} {{ server.address }} {{ server.opts if server.opts is defined else '' }}
 {% endfor %}
