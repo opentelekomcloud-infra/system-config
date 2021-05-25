@@ -168,7 +168,7 @@
     files:
       - inventory/
       - playbooks/service-apimon-k8s.yaml
-      - roles/apimon_k8s
+      - playbooks/roles/apimon_k8s
 
 - job:
     name: infra-prod-service-graphite
@@ -179,7 +179,7 @@
     files:
       - inventory/
       - playbooks/service-graphite.yaml
-      - roles/graphite/
+      - playbooks/roles/graphite/
 
 - job:
     name: infra-prod-service-memcached
@@ -190,7 +190,7 @@
     files:
       - inventory/
       - playbooks/service-memcached.yaml
-      - roles/memcached/
+      - playbooks/roles/memcached/
 
 - job:
     name: infra-prod-service-alerta
@@ -201,7 +201,7 @@
     files:
       - inventory/
       - playbooks/service-alerta.yaml
-      - roles/alerta/
+      - playbooks/roles/alerta/
 
 - job:
     name: infra-prod-service-alerta-k8s
@@ -212,7 +212,7 @@
     files:
       - inventory/
       - playbooks/service-alerta-k8s.yaml
-      - roles/alerta_k8s
+      - playbooks/roles/alerta_k8s
 
 - job:
     name: infra-prod-service-grafana-dashboards
@@ -233,7 +233,7 @@
     files:
       - inventory/
       - playbooks/service-grafana.yaml
-      - roles/grafana/
+      - playbooks/roles/grafana/
 
 - job:
     name: infra-prod-service-grafana-k8s
@@ -244,7 +244,7 @@
     files:
       - inventory/
       - playbooks/service-grafana-k8s.yaml
-      - roles/grafana_k8s
+      - playbooks/roles/grafana_k8s
 
 - job:
     name: infra-prod-service-acme-ssl
@@ -255,7 +255,7 @@
     files:
       - inventory/
       - playbooks/acme-certs.yaml
-      - roles/grafana/
+      - playbooks/roles/acme
 
 - job:
     name: infra-prod-service-proxy
@@ -266,7 +266,7 @@
     files:
       - inventory/
       - playbooks/service-proxy.yaml
-      - roles/haproxy/
+      - playbooks/roles/haproxy/
 
 - job:
     name: infra-prod-dashboards
