@@ -68,7 +68,7 @@ backend {{ backend.name }}
   cookie SERVERID insert indirect nocache
 
   # Enable HTTP healthcheck
-  option httpcheck
+  option httpchk
 
 {% for server in backend.servers %}
   server {{ server.name }} {{ server.address }} {{ server.opts if server.opts is defined else '' }}
