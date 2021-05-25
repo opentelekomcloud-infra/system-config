@@ -34,7 +34,7 @@ proxy_backends:
 
   - name: "alerta"
     options:
-      - "httpchk"
+      - "httpchk GET /api"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
