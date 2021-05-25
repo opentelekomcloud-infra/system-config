@@ -192,7 +192,7 @@ enabled = true
 
 # http://graphite.readthedocs.io/en/latest/tags.html
 [tags]
-enabled = true
+enabled = {{ 'true' if graphite_carbon_enable_tagging else 'false' }}
 # TagDB url. It should support /tags/tagMultiSeries endpoint
 #tagdb-url = "http://127.0.0.1:8000"
 tagdb-url = "http://127.0.0.1:80"

@@ -16,6 +16,7 @@
         - system-config-run-grafana
         - system-config-run-proxy
         - system-config-build-image-zookeeper-statsd
+        - system-config-build-image-graphite-statsd
     gate:
       jobs:
         - otc-tox-linters
@@ -32,6 +33,7 @@
         - system-config-run-grafana
         - system-config-run-proxy
         - system-config-upload-image-zookeeper-statsd
+        - system-config-upload-image-graphite-statsd
     deploy:
       jobs:
         - infra-prod-install-ansible
