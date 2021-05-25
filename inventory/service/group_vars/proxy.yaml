@@ -1,5 +1,7 @@
 proxy_backends:
   - name: "graphite-apimon"
+    options:
+      - "httpchk"
     domain_names:
       - "graphite.eco.tsi-dev.otc-service.com"
       - "graphite1.eco.tsi-dev.otc-service.com"
@@ -13,6 +15,8 @@ proxy_backends:
         opts: "ssl verify none cookie graphite2 check sni req.hdr(Host)"
 
   - name: "dashboard"
+    options:
+      - "httpchk"
     domain_names:
       - "dashboard.tsi-dev.otc-service.com"
       - "apimon.tsi-dev.otc-service.com"
@@ -29,6 +33,8 @@ proxy_backends:
         opts: "ssl verify none cookie osinfra-mirror check sni req.hdr(Host)"
 
   - name: "alerta"
+    options:
+      - "httpchk"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
