@@ -1,0 +1,26 @@
+# graphite-statsd jobs
+- job:
+    name: system-config-build-image-graphite-statsd
+    description: Build a graphite-statsd image.
+    parent: system-config-build-image
+    vars: &graphite-statsd_vars
+      docker_images:
+        - context: docker/graphite-statsd
+          repository: opentelekomcloud/graphite-statsd
+          tags: ['latest']
+    files: &graphite-statsd_files
+      - docker/graphite-statsd/
+
+- job:
+    name: system-config-upload-image-graphite-statsd
+    description: Build and upload a graphite-statsd image.
+    parent: system-config-upload-image
+    vars: *graphite-statsd_vars
+    files: *graphite-statsd_files
+
+      #- job:
+      #    name: system-config-promote-image-graphite-statsd
+      #    description: Promote a previously published graphite-statsd image to latest.
+      #    parent: system-config-promote-image
+      #    vars: *graphite-statsd_vars
+      #    files: *graphite-statsd_files
