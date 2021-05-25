@@ -67,9 +67,11 @@ backend {{ backend.name }}
   balance roundrobin
   cookie SERVERID insert indirect nocache
 
+{% if backend.options is defined %}
 {% for opt in backend.options %}
   option {{ opt }}
 {% endfor %}
+{% endif %}
 
 {% for server in backend.servers %}
   server {{ server.name }} {{ server.address }} {{ server.opts if server.opts is defined else '' }}
