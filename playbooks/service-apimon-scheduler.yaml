@@ -1,4 +1,5 @@
 - hosts: apimon-scheduler:!disabled
+  become: true
   name: "Configure APImon Scheduler service"
   vars:
     apimon: "{{ apimon_instances[apimon_instance] | combine(apimon_instances_secrets[apimon_instance], recursive=True) }}"

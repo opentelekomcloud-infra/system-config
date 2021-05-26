@@ -1,4 +1,5 @@
 - hosts: "alerta-vm:!disabled"
+  become: true
   name: "Base: configure alerta"
   vars:
     alerta: "{{ alerta_instances[alerta_instance] | combine(alerta_instances_secrets[alerta_instance], recursive=True) }}"
