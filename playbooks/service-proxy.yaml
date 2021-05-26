@@ -1,4 +1,5 @@
 - hosts: "proxy:!disabled"
+  become: true
   name: "Base: configure proxy instances"
   roles:
     # Group should be responsible for defining open ports
