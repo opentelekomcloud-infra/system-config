@@ -153,7 +153,7 @@ cloud_role_assignments:
 cloud_nets:
   - cloud: "otcapimon-pool2"
     router: "apimon-infra"
-    enable_snat: true
+    # enable_snat: true
     nets:
       - name: "apimon-infra-net"
         subnets:
@@ -162,7 +162,7 @@ cloud_nets:
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
   - cloud: "otcinfra-domain3-infra-de"
     router: "apimon-infra"
-    enable_snat: true
+    # enable_snat: true
     nets:
       - name: "apimon-infra-net"
         subnets:
@@ -171,7 +171,7 @@ cloud_nets:
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
   - cloud: "otcinfra-domain3-infra-nl"
     router: "apimon-infra"
-    enable_snat: true
+    # enable_snat: true
     nets:
       - name: "apimon-infra-net"
         subnets:
