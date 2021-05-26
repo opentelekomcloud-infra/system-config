@@ -125,6 +125,7 @@ groups:
     - bridge.eco.tsi-dev.otc-service.com
     - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
+    - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
@@ -148,7 +149,7 @@ groups:
 
   disabled:
     # We can not manage coreos with ansible by default
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     # ZK are not yet managed by SC
     - zk0.zuul.eco.tsi-dev.otc-service.com
     - zk1.zuul.eco.tsi-dev.otc-service.com
