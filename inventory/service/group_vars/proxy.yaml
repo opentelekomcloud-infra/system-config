@@ -1,7 +1,8 @@
 proxy_backends:
   - name: "graphite-apimon"
     options:
-      - "httpchk"
+      # NOTE: try to perform simliest query
+      - "httpchk HEAD /metrics/find?query=*"
     domain_names:
       - "graphite.eco.tsi-dev.otc-service.com"
       - "graphite1.eco.tsi-dev.otc-service.com"
@@ -16,7 +17,7 @@ proxy_backends:
 
   - name: "dashboard"
     options:
-      - "httpchk"
+      - "httpchk HEAD /api/health"
     domain_names:
       - "dashboard.tsi-dev.otc-service.com"
       - "apimon.tsi-dev.otc-service.com"
@@ -34,7 +35,8 @@ proxy_backends:
 
   - name: "alerta"
     options:
-      - "httpchk GET /api"
+      # NOTE: trailing slash avoids redirect
+      - "httpchk GET /api/"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
