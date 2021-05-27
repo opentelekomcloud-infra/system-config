@@ -1,4 +1,4 @@
-image: "Standard_Ubuntu_20.04_latest"
+image: "Standard_CentOS_Stream_latest"
 flavor: "c4.xlarge.4"
 security_groups: ["common-sg", "graphite-sg"]
 nics:

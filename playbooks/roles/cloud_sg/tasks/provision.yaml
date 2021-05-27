@@ -9,7 +9,8 @@
   openstack.cloud.security_group_rule:
     cloud: "{{ sg.cloud }}"
     security_group: "{{ secur_group.secgroup.id }}"
-    description: "{{ sg.description | default(omit) }}"
+      # NOTE(gtema) module currently doesn't support description
+    # description: "{{ sg.description | default(omit) }}"
     protocol: "{{ item.protocol }}"
     port_range_min: "{{ item.port_range_min | default(omit) }}"
     port_range_max: "{{ item.port_range_max | default(omit) }}"
