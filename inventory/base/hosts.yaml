@@ -38,7 +38,7 @@ all:
       ansible_host: 192.168.14.159
     graphite3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.11
-      ansible_user: ubuntu
+      ansible_user: linux
       location:
         cloud: "otcinfra-domain3-infra-nl"
         az: "eu-nl-01"
