@@ -172,6 +172,8 @@
           label: ubuntu-focal
         - name: graphite2.apimon.eco.tsi-dev.otc-service.com
           label: centos-8
+        - name: web3.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
     vars:
       run_playbooks:
         - playbooks/acme-certs.yaml
@@ -180,6 +182,7 @@
       - tox.ini
       - playbooks/service-graphite.yaml
       - playbooks/roles/graphite
+      - playbooks/roles/graphite_web
       - playbooks/zuul/templates/group_vars/graphite.yaml.j2
       - testinfra/test_graphite.py
 

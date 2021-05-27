@@ -1,0 +1,27 @@
+[Unit]
+Description=Graphite Web Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill graphite_web
+ExecStartPre=-{{ container_runtime }} rm graphite_web
+
+ExecStart={{ container_runtime }} run \
+    --name graphite_web \
+    --port 8081:80 \
+    --env-file /etc/graphite/env \
+{% if container_command == 'podman' %}
+    --log-opt=path=/dev/null \
+{% endif %}
+    -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.pem:/etc/ssl/{{
+    inventory_hostname }}/{{ graphite_cert }}.pem:ro,z \
+    -v /etc/ssl/{{ inventory_hostname }}/{{ graphite_cert }}.crt:/etc/ssl/{{
+    inventory_hostname }}/{{ graphite_cert }}.crt:ro,z \
+    -v /etc/graphite/graphite-statsd.conf:/etc/nginx/sites-enabled/graphite-statsd.conf:ro \
+    -v /var/log/graphite:/var/log:rw,z \
+    --tmpfs /tmp:rw,size=2g \
+    {{ graphite_image }}
+
+[Install]
+WantedBy=multi-user.target
