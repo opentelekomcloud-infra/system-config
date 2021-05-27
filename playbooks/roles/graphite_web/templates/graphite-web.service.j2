@@ -9,7 +9,7 @@ ExecStartPre=-{{ container_runtime }} rm graphite_web
 
 ExecStart={{ container_runtime }} run \
     --name graphite_web \
-    --port 8081:80 \
+    -p 18080:80 \
     --env-file /etc/graphite/env \
 {% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
