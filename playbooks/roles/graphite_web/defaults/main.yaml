@@ -2,7 +2,7 @@ graphite_config_location: "/etc/graphite"
 
 # graphite_cluster_servers: "127.0.0.1:8080"
 
-graphite_image: "quay.io/opentelekomcloud/graphite-statsd:1.1.7-9"
+graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"
 
 container_command: "podman"
 container_runtime: "/usr/bin/{{ container_command }}"
