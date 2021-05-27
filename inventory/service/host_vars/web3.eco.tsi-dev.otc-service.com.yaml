@@ -1,5 +1,5 @@
-alerta_instance: production_vc
-grafana_instance: production_vc
+alerta_instance: "production_vc"
+grafana_instance: "production_vc"
 ssl_certs:
   web3:
     - "web3.eco.tsi-dev.otc-service.com"
@@ -12,6 +12,9 @@ ssl_certs:
     - "alerts.eco.tsi-dev.otc-service.com"
   graphite:
     - "graphite.eco.tsi-dev.otc-service.com"
+
+graphite_instance_group: "graphite-apimon"
+graphite_cert: "graphite"
 
 firewalld_extra_services_enable: ['http', 'https']
 firewalld_extra_ports_enable: ['3000/tcp', '8080/tcp', '8081/tcp']
