@@ -1,0 +1,218 @@
+---
+- name: Join cluster destination lists
+  ansible.builtin.set_fact:
+    graphite_cluster_servers: "{{ graphite.cluster_servers | join(', ') }}"
+    graphite_cluster_memcache_host: "{{ (graphite.memcache_host|default([])) | join(', ') }}"
+
+- name: Create Graphite Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create default Graphite Web ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ graphite_web_cm_name }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "graphite-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        graphite-statsd.conf: "{{ lookup('template', 'graphite-statsd.conf.j2') }}"
+
+- name: Create Graphite TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "graphite-web-{{ instance }}-tls"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "graphite-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ graphite.graphite_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ graphite.graphite_cert }}.pem') | string | b64encode }}"
+
+- name: Create graphite-web Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ graphite_web_svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "graphite-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: "graphite-http"
+            port: 80
+            protocol: "TCP"
+            targetPort: 80
+          - name: "graphite-https"
+            port: 443
+            protocol: "TCP"
+            targetPort: 443
+        selector:
+          app.kubernetes.io/name: "graphite"
+          app.kubernetes.io/component: "web"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create graphite-web Deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ graphite_web_ss_name }}"
+    api_version: "apps/v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "graphite"
+          app.kubernetes.io/component: "web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "graphite"
+            app.kubernetes.io/component: "web"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "{{ graphite_web_svc_name }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "graphite"
+              app.kubernetes.io/component: "web"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - resources: "{{ graphite_web_resources | default(omit) }}"
+                readinessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/metrics/find?query=*"
+                    port: "http"
+                  timeoutSeconds: "{{ graphite_web_readiness_timeout }}"
+                livenessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/metrics/find?query=*"
+                    port: "http"
+                  timeoutSeconds: "{{ graphite_web_liveness_timeout }}"
+                name: "graphite-web"
+                env:
+                  - name: "GRAPHITE_TIME_ZONE"
+                    value: "{{ graphite_timezone }}"
+                  - name: "CARBON_DISABLED"
+                    value: "1"
+                  - name: "CARBON_AGGREGATOR_DISABLED"
+                    value: "1"
+                  - name: "STATSD_DISABLED"
+                    value: "1"
+                  - name: "REDIS_DISABLED"
+                    value: "1"
+                  - name: "GRAPHITE_CLUSTER_SERVERS"
+                    value: "{{ graphite_cluster_servers }}"
+                  - name: "MEMCACHE_HOST"
+                    value: "{{ graphite_cluster_memcache_host }}"
+                  - name: "GRAPHITE_LOG_FILE_INFO"
+                    value: "-"
+                  - name: "GRAPHITE_LOG_FILE_EXCEPTION"
+                    value: "-"
+                  - name: "GRAPHITE_LOG_FILE_CACHE"
+                    value: "-"
+                  - name: "GRAPHITE_LOG_FILE_RENDERING"
+                    value: "-"
+                ports:
+                  - name: "http"
+                    containerPort: 80
+                    protocol: "TCP"
+                  - name: "https"
+                    containerPort: 443
+                    protocol: "TCP"
+                volumeMounts:
+                  - name: "graphite-web-configmap"
+                    mountPath: "/etc/nginx/sites-enabled/"
+                image: "{{ graphite_image }}"
+            volumes:
+              - name: "graphite-web-configmap"
+                configMap:
+                  name: "{{ graphite_web_cm_name }}"
+                  defaultMode: 420
+
+- name: Create graphite-web Autoscaler
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "graphite-web-{{ instance }}"
+    api_version: "autoscaling/v2beta2"
+    kind: "HorizontalPodAutoscaler"
+    apply: "yes"
+    definition:
+      spec:
+        scaleTargetRef:
+          kind: "Deployment"
+          name: "{{ graphite_web_ss_name }}"
+          apiVersion: "apps/v1"
+        minReplicas: 1
+        maxReplicas: 4
+        metrics:
+          - type: "Resource"
+            resource:
+              name: "cpu"
+              target:
+                type: "Utilization"
+                averageUtilization: 70
+
+- name: Create Graphite Web Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "graphite-web-{{ instance }}"
+    api_version: "networking.k8s.io/v1beta1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "graphite-web"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        tls:
+          - hosts:
+              - "{{ graphite.domain_name }}"
+            secretName: "graphite-web-{{ instance }}-tls"
+        rules:
+          - host: "{{ graphite.domain_name }}"
+            http:
+              paths:
+                - path: "/"
+                  backend:
+                    serviceName: "graphite-web-{{ instance }}"
+                    servicePort: 80

@@ -1,0 +1,22 @@
+graphite_web_instances:
+  apimon:
+    domain_name: "graphite.apimon.eco.tsi-dev.otc-service.com"
+    graphite_cert: "graphite-apimon"
+    cluster_servers:
+      - 'http://192.168.191.55:8080'
+      - 'http://192.168.14.159:8080'
+      - 'http://192.168.151.11:8080'
+    memcache_host:
+      - '192.168.191.55:11211'
+      - '192.168.14.159:11211'
+      - '192.168.151.11:11211'
+
+graphite_web_k8s_instances:
+  - graphite_web_instance: "apimon"
+    context: "otcinfra"
+    instance: "apimon"
+    namespace: "graphite"
+  - graphite_web_instance: "apimon"
+    context: "otcinfra-mirror"
+    instance: "apimon"
+    namespace: "graphite"
