@@ -96,22 +96,36 @@ def update_org_members(github_api, owner, new_people):
     output = ''
     current_members = []
 
-    res = requests.get(f'{github_api}/orgs/{owner}/members')
+    res = requests.get(
+        f'{github_api}/orgs/{owner}/members',
+        headers=headers,
+        timeout=15)
     org_members = json.loads(res.text)
-    for member in org_members:
-        current_members.append(member['login'])
-    for person in new_people['users']:
-        if person['login'] not in current_members:
-            res = requests.get(f'{github_api}/users/{person["login"]}')
-            user_id = json.loads(res.text)['id']
-            res = requests.post(
-                f'{github_api}/orgs/{owner}/invitations',
-                json={'invitee_id': user_id},
-                headers=headers,
-                timeout=15)
-            if res.status_code in bad_statuses:
-                output += f'invite not send for {person["login"]}' \
-                          f' status code: {res.status_code}, error is: {res.text}\n'
+    if res.status_code not in bad_statuses:
+        for member in org_members:
+            current_members.append(member['login'])
+        for person in new_people['users']:
+            if person['login'] not in current_members:
+                res = requests.get(
+                    f'{github_api}/users/{person["login"]}',
+                    headers=headers,
+                    timeout=15)
+                if res.status_code not in bad_statuses:
+                    user_id = json.loads(res.text)['id']
+                    res = requests.post(
+                        f'{github_api}/orgs/{owner}/invitations',
+                        json={'invitee_id': user_id},
+                        headers=headers,
+                        timeout=15)
+                    if res.status_code in bad_statuses:
+                        output += f'invite not send for {person["login"]}' \
+                                  f' status code: {res.status_code},' \
+                                  f' error is: {res.text}\n'
+                else:
+                    output += f'request not succeeded: {res.status_code},' \
+                              f' error is: {res.text}\n'
+    else:
+        output += f'request not succeeded: {res.status_code}, error is: {res.text}\n'
     return print(output, file=sys.stderr)
 
 
@@ -121,46 +135,56 @@ def update_teams(github_api, owner, new_teams):
         f'{github_api}/orgs/{owner}/teams',
         headers=headers,
         timeout=15)
-    teams = json.loads(res.text)
-    for team in teams:
-        members_to_add = new_teams['teams'][team['name']]
-        current_members = []
-        res = requests.get(
-            f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=member',
-            headers=headers,
-            timeout=15)
-        members = json.loads(res.text)
-        for member in members:
-            current_members.append(member['login'])
+    if res.status_code not in bad_statuses:
+        teams = json.loads(res.text)
+        for team in teams:
+            members_to_add = new_teams['teams'][team['name']]
 
-        current_maintainers = []
-        res = requests.get(
-            f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=maintainer',
-            headers=headers,
-            timeout=15)
-        maintainers = json.loads(res.text)
-        for maintainer in maintainers:
-            current_maintainers.append(maintainer['login'])
+            current_members = []
+            res = requests.get(
+                f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=member',
+                headers=headers,
+                timeout=15)
+            if res.status_code not in bad_statuses:
+                members = json.loads(res.text)
+                for member in members:
+                    current_members.append(member['login'])
+            else:
+                output += f'request not succeeded: {res.status_code}, error is: {res.text}\n'
 
-        for login in members_to_add['member']:
-            if login not in current_members:
-                res = requests.put(
-                    f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
-                    json={'role': 'member'},
-                    headers=headers,
-                    timeout=15
-                )
-                if res.status_code in bad_statuses:
-                    output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
-        for login in members_to_add['maintainer']:
-            if login not in current_maintainers:
-                res = requests.put(
-                    f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
-                    json={'role': 'maintainer'},
-                    headers=headers,
-                    timeout=15)
-                if res.status_code in bad_statuses:
-                    output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
+            current_maintainers = []
+            res = requests.get(
+                f'{github_api}/orgs/{owner}/teams/{team["slug"]}/members?role=maintainer',
+                headers=headers,
+                timeout=15)
+            if res.status_code not in bad_statuses:
+                maintainers = json.loads(res.text)
+                for maintainer in maintainers:
+                    current_maintainers.append(maintainer['login'])
+            else:
+                output += f'request not succeeded: {res.status_code}, error is: {res.text}\n'
+
+            for login in members_to_add['member']:
+                if current_members and login not in current_members:
+                    res = requests.put(
+                        f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
+                        json={'role': 'member'},
+                        headers=headers,
+                        timeout=15
+                    )
+                    if res.status_code in bad_statuses:
+                        output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
+            for login in members_to_add['maintainer']:
+                if current_maintainers and login not in current_maintainers:
+                    res = requests.put(
+                        f'{github_api}/orgs/{owner}/teams/{team["slug"]}/memberships/{login}',
+                        json={'role': 'maintainer'},
+                        headers=headers,
+                        timeout=15)
+                    if res.status_code in bad_statuses:
+                        output += f'membership not updated: {res.status_code}, error is: {res.text}\n'
+    else:
+        output += f'request not succeeded: {res.status_code}, error is: {res.text}\n'
     return print(output, file=sys.stderr)
 
 
