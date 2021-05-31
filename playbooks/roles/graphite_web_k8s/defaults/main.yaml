@@ -1,0 +1,19 @@
+graphite_web_count: 1
+graphite_web_cm_name: "graphite-web-{{ instance }}"
+graphite_web_svc_name: "graphite-web-{{ instance }}"
+graphite_web_ss_name: "graphite-web-{{ instance }}"
+graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"
+
+graphite_web_resources:
+  limits:
+    cpu: 1
+    memory: 2G
+  requests:
+    cpu: 100m
+    memory: 500Mi
+graphite_web_readiness_timeout: 10
+graphite_web_liveness_timeout: 5
+
+state: "present"
+
+graphite_timezone: "Europe/Berlin"

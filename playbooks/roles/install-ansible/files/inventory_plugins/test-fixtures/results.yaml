@@ -8,6 +8,7 @@ results:
     - apimon
     - cloud-launcher
     - control-plane-clouds
+    - k8s-controller
     - alerta
     - grafana
     - zuul

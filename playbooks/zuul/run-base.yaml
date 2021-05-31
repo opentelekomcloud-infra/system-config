@@ -61,6 +61,7 @@
         - group_vars/memcached.yaml
         - group_vars/alerta.yaml
         - group_vars/grafana.yaml
+        - group_vars/k8s-controller.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
         - host_vars/epmon.f32.yaml
         - host_vars/epmon.focal.yaml
