@@ -12,6 +12,7 @@ ssl_certs:
     - "alerts.eco.tsi-dev.otc-service.com"
   graphite:
     - "graphite.eco.tsi-dev.otc-service.com"
+    - "graphite.apimon.eco.tsi-dev.otc-service.com"
 
 graphite_instance_group: "graphite-apimon"
 graphite_cert: "graphite"

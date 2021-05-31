@@ -1,6 +1,5 @@
 graphite_config_location: "/etc/graphite"
-
-# graphite_cluster_servers: "127.0.0.1:8080"
+graphite_tz: "Europe/Berlin"
 
 graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"
 

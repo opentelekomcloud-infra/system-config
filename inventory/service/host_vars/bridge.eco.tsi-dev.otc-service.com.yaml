@@ -18,3 +18,5 @@ x509_certificates:
 ssl_certs:
   swift-eco:
     - "swift.eco.tsi-dev.otc-service.com"
+  graphite-apimon:
+    - "graphite.apimon.eco.tsi-dev.otc-service.com"
