@@ -3,7 +3,7 @@
         selected: false
         text: production_eu-de
         value: production_eu-de
-      datasource: apimon
+      datasource: {{ grafana_ds | default('apimon') }}
       definition: stats.counters.openstack.api.*
       includeAll: false
       label: Environment

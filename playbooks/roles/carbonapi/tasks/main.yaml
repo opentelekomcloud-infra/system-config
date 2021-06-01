@@ -36,15 +36,14 @@
     dest: "{{ graphite_config_location }}//{{ item }}"
     mode: "0644"
   loop:
-    - "graphite-statsd.conf"
-    - "env"
+    - "carbonapi.yaml"
   notify:
-    - Restart graphite-web
+    - Restart carbonapi
 
 - name: Write systemd unit file
   become: true
   ansible.builtin.template:
-    src: "graphite-web.service.j2"
-    dest: "/etc/systemd/system/graphite-web.service"
+    src: "carbonapi.service.j2"
+    dest: "/etc/systemd/system/carbonapi.service"
   notify:
-    - Restart graphite-web
+    - Restart carbonapi

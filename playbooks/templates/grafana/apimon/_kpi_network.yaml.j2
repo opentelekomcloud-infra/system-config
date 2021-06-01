@@ -6,7 +6,7 @@
 
 {{ mcr.sli_service_row('network', 'Network', 83) }}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -40,7 +40,7 @@
     title: Network creation duration
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -74,7 +74,7 @@
     title: Subnet creation duration
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -112,7 +112,7 @@
     title: FIP creation duration
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:

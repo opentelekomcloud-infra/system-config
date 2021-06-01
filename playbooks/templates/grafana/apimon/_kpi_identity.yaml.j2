@@ -5,7 +5,7 @@
 
 {{ mcr.sli_service_row('identity', 'Identity', 23) }}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: upper_90 for the Token creation
     fieldConfig:
       defaults:

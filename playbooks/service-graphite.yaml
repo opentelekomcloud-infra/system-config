@@ -62,7 +62,7 @@
       ansible.builtin.pip:
         name: "carbonate"
 
-- hosts: "graphite-web:!disabled"
+- hosts: "carbonapi:!disabled"
   name: "Base: configure graphite web app"
   become: true
   roles:
@@ -70,39 +70,25 @@
     - firewalld
   tasks:
 
-    # host/group should have "graphite_instance_group" var with the name of the group
-    # graphite node should become member of (relay will be configired with all
-    # hosts from this group)
-    - block:
-      - name: Construct cluster destination lists
-        ansible.builtin.set_fact:
-          cluster_hosts: "{{ (cluster_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':8080')] }}"
-        loop: "{{ groups[(graphite_instance_group | default('graphite'))] | list }}"
+    # TODO: build backend servers group instead of defining it in inventory
 
-      - name: Construct cluster memcache lists
-        ansible.builtin.set_fact:
-          memcache_hosts: "{{ (memcache_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':11211')] }}"
-        loop: "{{ groups['memcached'] | list }}"
+    - name: Construct cluster memcache lists
+      ansible.builtin.set_fact:
+        memcache_hosts: "{{ (memcache_hosts|default([])) + [(hostvars[item]['ansible_host'] + ':11211')] }}"
+      loop: "{{ groups['memcached'] | list }}"
 
-      - name: Join cluster destination lists
-        ansible.builtin.set_fact:
-          graphite_cluster_servers: "{{ cluster_hosts | join(', ') }}"
-          graphite_cluster_memcache_host: "{{ (memcache_hosts|default([])) | join(', ') }}"
-      when:
-        - "graphite_instance_group is defined and graphite_instance_group|length"
+    - include_role: name=carbonapi
 
-    - include_role: name=graphite_web
-
-- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
-  #- hosts: localhost
-  name: "Configure Graphite-web in K8s"
-  tasks:
-    - include_role:
-        name: graphite_web_k8s
-      vars:
-        graphite: "{{ graphite_web_instances[item.graphite_web_instance] }}"
-        instance: "{{ item.instance }}"
-        context: "{{ item.context }}"
-        namespace: "{{ item.namespace }}"
-        cr_spec: "{{ item.cr_spec }}"
-      loop: "{{ graphite_web_k8s_instances | list }}"
+#- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+#  #- hosts: localhost
+#  name: "Configure Graphite-web in K8s"
+#  tasks:
+#    - include_role:
+#        name: graphite_web_k8s
+#      vars:
+#        graphite: "{{ graphite_web_instances[item.graphite_web_instance] }}"
+#        instance: "{{ item.instance }}"
+#        context: "{{ item.context }}"
+#        namespace: "{{ item.namespace }}"
+#        cr_spec: "{{ item.cr_spec }}"
+#      loop: "{{ graphite_web_k8s_instances | list }}"

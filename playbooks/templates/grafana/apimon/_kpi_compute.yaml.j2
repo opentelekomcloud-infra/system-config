@@ -9,7 +9,7 @@
     bars: true
     dashLength: 10
     dashes: false
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         custom: {}
@@ -52,7 +52,7 @@
       alignLevel: null
     linewidth: 1
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: This number is not an indicator in the case where we can not even
       start provisioning server
     fieldConfig:
@@ -87,7 +87,7 @@
     title: Server Provisioning Success rate (partly reliable)
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -115,7 +115,7 @@
     title: Boot time duration (F30)
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:

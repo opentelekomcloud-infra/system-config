@@ -1,4 +1,4 @@
-{% import 'macros.j2' as mcr %}
+{% import 'macros.j2' as mcr with context %}
 {% include '_annotations.yaml.j2' %}
 description: Data for the compute service
 editable: false
@@ -7,7 +7,7 @@ panels:
 
 {% include '_service_header.yaml.j2' %}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 6
@@ -44,7 +44,7 @@ panels:
       alignLevel: null
 
   - cacheTimeout: null
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     description: Count of SSH Logins
     fieldConfig:
       defaults:
@@ -85,7 +85,7 @@ panels:
     title: SSH Successful Logins
     type: gauge
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 6
@@ -118,7 +118,7 @@ panels:
         logBase: 1
         show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 6
@@ -148,7 +148,7 @@ panels:
         show: true
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 6

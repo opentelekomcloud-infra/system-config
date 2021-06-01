@@ -84,7 +84,9 @@ groups:
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
-  graphite-web:
+  carbonapi:
+    - proxy1.eco.tsi-dev.otc-service.com
+    - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
 
   memcached:

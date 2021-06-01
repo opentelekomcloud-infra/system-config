@@ -1,4 +1,4 @@
-{% import 'macros.j2' as mcr %}
+{% import 'macros.j2' as mcr with context %}
 {% include '_annotations.yaml.j2' %}
 description: KPIs of the platform
 editable: false
@@ -11,7 +11,7 @@ panels:
     title: Service Level Indicators
     type: row
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: 'Percentage of positive responses to total requests'
     fieldConfig:
       defaults:
@@ -54,7 +54,7 @@ panels:
     title: SLI Service API Availability
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Highest API request latency
     fieldConfig:
       defaults:
@@ -94,7 +94,7 @@ panels:
     title: SLI Max API latency
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: 90% of the request mean duration are under
     fieldConfig:
       defaults:
@@ -133,7 +133,7 @@ panels:
     title: SLI 90% of mean API latency
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: 90% of the request lowest duration are under
     fieldConfig:
       defaults:
@@ -174,7 +174,7 @@ panels:
     title: SLI 90% of lowest API latency
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Bad responses (4*, 5*, excluding 404)
     fieldConfig:
       defaults:
@@ -217,7 +217,7 @@ panels:
     title: SLO (WIP)
     type: row
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Average of SLI Service availability for 1w
     fieldConfig:
       defaults:

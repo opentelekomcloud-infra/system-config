@@ -5,7 +5,7 @@ editable: false
 panels:
 {% include '_header.yaml.j2' %}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -45,7 +45,7 @@ panels:
     transparent: true
     type: gauge
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     gridPos:
       h: 9
       w: 16
@@ -150,7 +150,7 @@ panels:
         show: true
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     gridPos:
@@ -191,7 +191,7 @@ panels:
         show: false
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 0
     fillGradient: 0
     gridPos:
