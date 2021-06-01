@@ -88,6 +88,13 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+          - scenario21_as.yaml
+          - scenario18_cce_info.yaml
+          - scenario18a_cluster.yaml
+          - scenario20_rds.yaml
+          - scenario19_simple_vpc.yaml
+          - scenario2_simple_ecs.yaml
+          - scenario2a_ecs_az.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -166,6 +173,13 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
+          - scenario21_as.yaml
+          - scenario18_cce_info.yaml
+          - scenario18a_cluster.yaml
+          - scenario20_rds.yaml
+          - scenario19_simple_vpc.yaml
+          - scenario2_simple_ecs.yaml
+          - scenario2a_ecs_az.yaml
       - env: production_eu-de
         project: csm
         tasks:
