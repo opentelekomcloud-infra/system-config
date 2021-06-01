@@ -1,7 +1,7 @@
 graphite_config_location: "/etc/graphite"
 graphite_tz: "Europe/Berlin"
 
-graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"
+carbonapi_image: "gographite/carbonapi:v0.15.3"
 
 container_command: "podman"
 container_runtime: "/usr/bin/{{ container_command }}"

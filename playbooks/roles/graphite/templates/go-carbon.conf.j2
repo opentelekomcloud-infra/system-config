@@ -206,10 +206,10 @@ tagdb-timeout = "1s"
 [carbonserver]
 # Please NOTE: carbonserver is not intended to fully replace graphite-web
 # It acts as a "REMOTE_STORAGE" for graphite-web or carbonzipper/carbonapi
-listen = "127.0.0.1:8080"
+listen = "0.0.0.0:8081"
 # Carbonserver support is still experimental and may contain bugs
 # Or be incompatible with github.com/grobian/carbonserver
-enabled = false
+enabled = {{ 'true' if carbonapi_enable else 'false' }}
 # Buckets to track response times
 buckets = 10
 # carbonserver-specific metrics will be sent as counters

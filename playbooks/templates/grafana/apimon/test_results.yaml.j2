@@ -4,7 +4,7 @@ editable: false
 panels:
 {% include '_header.yaml.j2' %}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Count of API requests with no response received during timeout 10s
     fill: 1
     fillGradient: 0
@@ -48,7 +48,7 @@ panels:
         logBase: 1
         show: true
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     decimals: 0
     description: Bad responses (4*, 5*, excluding 404)
     fill: 1

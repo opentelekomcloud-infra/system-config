@@ -25,3 +25,5 @@ graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"
 
 container_command: "podman"
 container_runtime: "/usr/bin/{{ container_command }}"
+
+carbonapi_enable: true

@@ -1,6 +1,6 @@
-- name: Restart graphite-web
+- name: Restart carbonapi
   ansible.builtin.systemd:
-    name: "graphite-web"
+    name: "carbonapi"
     enabled: true
     state: "restarted"
     daemon_reload: true

@@ -10,7 +10,7 @@
 
 {{ mcr.sli_service_row('ccev2_0', 'CCE', 115) }}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     gridPos:
@@ -50,7 +50,7 @@
         logBase: 1
         show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -90,7 +90,7 @@
     title: CCE Cluster provisioning success rate
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -131,7 +131,7 @@
     title: CCE Cluster deletion success rate
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     gridPos:

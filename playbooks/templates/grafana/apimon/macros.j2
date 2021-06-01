@@ -3,7 +3,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro sli_avail(svc, svc_name, ypos, status_codes=[]) %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Rate of successful requests
     fieldConfig:
       defaults:
@@ -36,7 +36,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro sli_rate_write(svc, svc_name, ypos, status_codes=[]) %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Rate of successful modification requests
     fieldConfig:
       defaults:
@@ -72,7 +72,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro sli_rate_error(svc, svc_name, ypos, exclude='404') %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -105,7 +105,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro sli_no_response(svc, svc_name, ypos) %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Percentage of API requests not received any response
     fieldConfig:
       defaults:
@@ -140,7 +140,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro sli_latency(svc, svc_name, ypos) %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: Percentage of API requests not received any response
     fieldConfig:
       defaults:
@@ -192,7 +192,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {%- endmacro -%}
 
 {% macro service_api_latency(svc, ypos) %}
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     {{ grid_pos(0, ypos, 8, 24) }}
     legend:
@@ -243,7 +243,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 
 {% macro service_bad_calls(svc, ypos) %}
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         custom: {}

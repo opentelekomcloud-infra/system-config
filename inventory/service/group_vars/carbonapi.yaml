@@ -1,0 +1,15 @@
+# TODO: This should be better constructed from existing inventory
+carbonapi_backends:
+  - groupName: "apimon"
+    lbMethod: "any"
+    protocol: "carbonapi_v3_pb"
+    servers:
+      - "http://192.168.191.55:8081"
+      - "http://192.168.14.159.55:8081"
+      - "http://192.168.151.11:8081"
+  - groupName: "zuul"
+    lbMethod: "broadcast"
+    protocol: "carbonapi_v3_pb"
+    servers:
+      - "http://192.168.14.241:8081"
+
