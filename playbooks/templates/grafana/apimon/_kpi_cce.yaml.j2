@@ -84,8 +84,8 @@
     targets:
       - queryType: randomWalk
         refId: A
-        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.passed.count),
-          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.attempted.count))
+        target: consolidateBy(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.create_cce_cluster.attempted.count)), 'avg')
         textEditor: true
     title: CCE Cluster provisioning success rate
     type: stat
@@ -125,8 +125,8 @@
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.passed.count),
-          sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.attempted.count))
+        target: consolidateBy(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.passed.count),
+          sumSeries(stats.counters.apimon.metric.$environment.$zone.delete_cce_cluster.attempted.count)), 'avg')
         textEditor: true
     title: CCE Cluster deletion success rate
     type: stat

@@ -147,9 +147,9 @@
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.passed.count),
+        target: consolidateBy(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.passed.count),
           stats.counters.apimon.metric.$environment.$zone.create_volume.{default,eu*}.attempted.count)),
-          'Percentage')
+          'avg')
         textEditor: false
     title: Volume creation success rate
     type: stat
@@ -229,9 +229,9 @@
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: alias(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.passed.count),
+        target: consolidateBy(asPercent(sumSeries(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.passed.count),
           stats.counters.apimon.metric.$environment.$zone.create_volume_snapshot.{default,eu*}.attempted.count)),
-          'Percentage')
+          'avg')
         textEditor: true
     title: Volume snapshot success rate
     type: stat
@@ -312,9 +312,9 @@
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: alias(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.passed.count),
+        target: consolidateBy(asPercent(sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.passed.count),
           sumSeries(stats.counters.apimon.metric.$environment.$zone.create_volume_backup.{default,eu*}.attempted.count)),
-          'Percentage')
+          'avg')
         textEditor: false
     title: Backup creation success rate
     type: stat
