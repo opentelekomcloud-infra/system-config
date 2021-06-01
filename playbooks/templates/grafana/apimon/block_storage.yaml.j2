@@ -1,4 +1,4 @@
-{% import 'macros.j2' as mcr %}
+{% import 'macros.j2' as mcr with context %}
 {% include '_annotations.yaml.j2' %}
 description: Data for the Block Storage service
 editable: false
@@ -8,7 +8,7 @@ panels:
 {% include '_service_header.yaml.j2' %}
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 8
@@ -36,7 +36,7 @@ panels:
       - show: false
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 8
@@ -63,7 +63,7 @@ panels:
       - show: false
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 8
@@ -90,7 +90,7 @@ panels:
       - show: false
 
   - bars: true
-    datasource: apimon
+    datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
       h: 8

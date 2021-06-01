@@ -1,4 +1,4 @@
-{% import 'macros.j2' as mcr %}
+{% import 'macros.j2' as mcr with context %}
 {% include '_annotations.yaml.j2' %}
 description: Data for the Network service
 editable: false
@@ -7,7 +7,7 @@ panels:
 
 {% include '_service_header.yaml.j2' %}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     {{ mcr.grid_pos(0, 6, 6, 12) }}
     legend:
@@ -37,7 +37,7 @@ panels:
         show: true
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     {{ mcr.grid_pos(12, 6, 6, 12) }}
     legend:
@@ -67,7 +67,7 @@ panels:
         show: true
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Curl like request latencies to the hosts in scenario30_domains.yaml
     fill: 1
@@ -112,7 +112,7 @@ panels:
         show: true
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Curl like request errors (4*, 5*, failed) for the hosts in scenario30_domains.yaml
     fill: 1
@@ -141,7 +141,7 @@ panels:
       - show: false
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       NS Lookup from specific NS servers
     fill: 1
@@ -169,7 +169,7 @@ panels:
         decimals: 0
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       NS Lookup failures from specific NS servers
     fill: 1
@@ -194,7 +194,7 @@ panels:
       - show: false
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping latency for hosts inside VPC or through VPC Peering using internal IP addresses
     fill: 1
@@ -222,7 +222,7 @@ panels:
         decimals: 0
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping errors for hosts inside VPC/VPC peering using internal IP addresses
     fill: 1
@@ -246,7 +246,7 @@ panels:
       - show: false
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping latency for outside world through NATGW and Shared SNAT
     fill: 1
@@ -274,7 +274,7 @@ panels:
         decimals: 0
       - show: false
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Outside ping errors. Single errors are not an problem indicator (pinging hosts in different countries).
     fill: 1

@@ -7,7 +7,7 @@
 
 {{ mcr.sli_service_row('block-storage', 'Block Storage', 64) }}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     {{ mcr.grid_pos(0, 69, 8, 8) }}
@@ -44,7 +44,7 @@
         logBase: 1
         show: true
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     {{ mcr.grid_pos(8, 69, 8, 8) }}
@@ -82,7 +82,7 @@
         logBase: 1
         show: true
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     fillGradient: 0
     {{ mcr.grid_pos(16, 69, 8, 8) }}
@@ -119,7 +119,7 @@
         logBase: 1
         show: true
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -154,7 +154,7 @@
     title: Volume creation success rate
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -199,7 +199,7 @@
     title: Count of volume creation attempts
     type: bargauge
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -236,7 +236,7 @@
     title: Volume snapshot success rate
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -281,7 +281,7 @@
     title: Count of snapshot creation attempts
     type: bargauge
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -319,7 +319,7 @@
     title: Backup creation success rate
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:

@@ -10,7 +10,7 @@
 
 {{ mcr.sli_service_row('image', 'Image', 99) }}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -50,7 +50,7 @@
     title: SLI Image Upload duration
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -99,7 +99,7 @@
     title: Image Upload totals
     type: bargauge
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -151,7 +151,7 @@
     title: SLI Image List duration
     type: stat
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:

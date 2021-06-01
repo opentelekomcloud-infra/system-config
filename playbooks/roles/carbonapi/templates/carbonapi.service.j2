@@ -1,0 +1,21 @@
+[Unit]
+Description=CarbonAPI Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+ExecStartPre=-{{ container_runtime }} kill carbonapi
+ExecStartPre=-{{ container_runtime }} rm carbonapi
+
+ExecStart={{ container_runtime }} run \
+    --name carbonapi \
+    -p 8082:8081 \
+{% if container_command == 'podman' %}
+    --log-opt=path=/dev/null \
+{% endif %}
+    -v /etc/graphite/carbonapi.yaml:/etc/carbonapi.yml:ro \
+    --tmpfs /tmp:rw,size=2g \
+    {{ carbonapi_image }}
+
+[Install]
+WantedBy=multi-user.target

@@ -12,12 +12,29 @@ proxy_backends:
       - name: "graphite1"
         address: "192.168.191.55:80"
         opts: "verify none cookie graphite1 check sni req.hdr(Host)"
-      - name: "graphite2"
-        address: "192.168.14.159:443"
-        opts: "ssl verify none cookie graphite2 check sni req.hdr(Host)"
+          #      - name: "graphite2"
+          #        address: "192.168.14.159:443"
+          #        opts: "ssl verify none cookie graphite2 check sni req.hdr(Host)"
       - name: "graphite3"
         address: "192.168.151.11:443"
         opts: "ssl verify none cookie graphite3 check sni req.hdr(Host)"
+
+  - name: "graphite-apimon2"
+    options:
+      # NOTE: try to perform simliest query
+      - "httpchk HEAD /metrics/find/?query=*"
+    domain_names:
+      - "graphite.apimon.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "graphite-proxy1"
+        address: "192.168.110.160:8082"
+        opts: "verify none cookie graphite1 check sni req.hdr(Host)"
+      - name: "graphite-proxy2"
+        address: "192.168.110.151:8082"
+        opts: "verify none cookie graphite2 check sni req.hdr(Host)"
+      - name: "graphite-web3"
+        address: "192.168.2.52:8082"
+        opts: "verify none cookie graphite3 check sni req.hdr(Host)"
 
   - name: "dashboard"
     options:
