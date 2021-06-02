@@ -7,14 +7,22 @@ from argparse import ArgumentParser
 import requests as requests
 import yaml
 
-github_user = os.getenv('GITHUB_USER')
-github_token = os.getenv('GITHUB_TOKEN')
+args_parser = ArgumentParser(prog='github_api', description='Multi-purpose github api script')
+args_parser.add_argument('--github_api_url', help='Github api base path', default='https://api.github.com')
+args_parser.add_argument('--github_token', help='Github token for auth')
+args_parser.add_argument('--endpoint', help='Selected github endpoint')
+args_parser.add_argument('--org', help='Repo owner')
+args_parser.add_argument('--repo', help='Repo data')
+args_parser.add_argument('--root', help='Root directory to fetch files',
+                         default='/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring/orgs/')
+args = args_parser.parse_args()
+
 template_folder = '/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/templates/github'
 headers = {
-    'Authorization': f'token {github_token}',
+    'Authorization': f'token {args.github_token}',
     'Accept': 'application/vnd.github.luke-cage-preview+json'
 }
-bad_statuses = [400, 403, 404, 422]
+bad_statuses = [400, 401, 403, 404, 422]
 
 
 def read_yaml_file(path, org=None, endpoint=None, repo_name=None):
@@ -189,14 +197,6 @@ def update_teams(github_api, owner, new_teams):
 
 
 if __name__ == '__main__':
-    args_parser = ArgumentParser(prog='github_api', description='Multi-purpose github api script')
-    args_parser.add_argument('--github_api_url', help='Github api base path', default='https://api.github.com')
-    args_parser.add_argument('--endpoint', help='Selected github endpoint')
-    args_parser.add_argument('--org', help='Repo owner')
-    args_parser.add_argument('--repo', help='Repo data')
-    args_parser.add_argument('--root', help='Root directory to fetch files',
-                             default='/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring/orgs/')
-    args = args_parser.parse_args()
     if args.endpoint == 'manage_collaborators':
         manage_collaborators(
             github_api=args.github_api_url,

@@ -20,6 +20,7 @@
       script: >
         github_api.py --endpoint options
         --org "{{ org.key }}" --repo "{{ resp.repo.key }}"
+        --github_token "{{ github_token }}"
       args:
         executable: python3
       loop_control:
@@ -32,6 +33,7 @@
       script: >
         github_api.py --endpoint manage_collaborators
         --org "{{ org.key }}" --repo "{{ resp.repo.key }}"
+        --github_token "{{ github_token }}"
       args:
         executable: python3
       loop_control:
@@ -44,6 +46,7 @@
       script: >
         github_api.py --endpoint branch_protection
         --org "{{ org.key }}" --repo "{{ resp.repo.key }}"
+        --github_token "{{ github_token }}"
       args:
         executable: python3
       loop_control:
