@@ -3,6 +3,7 @@
   script: >
     github_api.py --endpoint members
     --org "{{ org.key }}"
+    --github_token "{{ github_token }}"
   args:
     executable: python3
   register: failed_invitations
@@ -11,6 +12,7 @@
   script: >
     github_api.py --endpoint teams
     --org "{{ org.key }}"
+    --github_token "{{ github_token }}"
   args:
     executable: python3
   register: failed_team_members
