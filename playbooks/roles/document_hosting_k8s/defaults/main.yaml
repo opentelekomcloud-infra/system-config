@@ -1,0 +1,27 @@
+document_hosting:
+  swift_server: swift.example.com:443
+  server_name: docs.example.com
+  default_uri: example
+  swift_projectid: project_id
+  not_found: "The page you are requesting is not available..."
+  image: quay.io/opentelekomcloud/nginx
+  cluster_issuer: "letsencrypt-staging"
+
+document_hosting_cm_name: "document-hosting-{{ instance }}"
+document_hosting_sa_name: "document-hosting-{{ instance }}"
+document_hosting_dep_name: "document-hosting-{{ instance }}"
+document_hosting_hpa_name: "document-hosting-{{ instance }}"
+document_hosting_svc_name: "document-hosting-{{ instance }}"
+document_hosting_ing_name: "document-hosting-{{ instance }}"
+document_hosting_ssl_cert_name: "document-hosting-{{ instance }}"
+
+
+document_hosting_resources:
+  limits:
+    cpu: 1
+    memory: 2G
+  requests:
+    cpu: 100m
+    memory: 500Mi
+
+state: present 

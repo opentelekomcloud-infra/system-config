@@ -20,3 +20,18 @@ graphite_web_k8s_instances:
     context: "otcinfra-mirror"
     instance: "apimon"
     namespace: "graphite"
+
+
+document_hosting_instances:
+  stg:
+    server_name: docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com
+    default_uri: hc2
+    not_found: "The page you are requesting is not available..."
+    image: quay.io/opentelekomcloud/nginx
+    cluster_issuer: "letsencrypt-staging"
+  
+document_hosting_k8s_instances:
+  - document_hosting_instance: "stg"
+    context: "otcinfra-stg"
+    instance: "stg"
+    namespace: "document-hosting"

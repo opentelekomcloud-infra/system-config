@@ -289,3 +289,14 @@
       - inventory/group_vars/zuul.yaml
       - playbooks/service-zuul-k8s.yaml
       - playbooks/roles/zuul_k8s
+
+- job:
+    name: infra-prod-service-document-hosting-k8s
+    parent: infra-prod-service-base
+    description: Run service-document-hosting-k8s.yaml playbook.
+    vars:
+      playbook_name: service-document-hosting-k8s.yaml
+    files:
+      - inventory/
+      - playbooks/service-document-hosting-k8s.yaml
+      - playbooks/roles/document_hosting_k8s

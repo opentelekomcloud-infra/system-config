@@ -54,6 +54,7 @@
         - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-grafana-k8s
+        - infra-prod-service-document-hosting-k8s
         - infra-prod-service-proxy
         - infra-prod-dashboards
         - infra-prod-manage-github:
@@ -84,6 +85,7 @@
         - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-grafana-k8s
+        - infra-prod-service-document-hosting-k8s
         - infra-prod-service-proxy
     periodic-hourly:
       # hourly execution
