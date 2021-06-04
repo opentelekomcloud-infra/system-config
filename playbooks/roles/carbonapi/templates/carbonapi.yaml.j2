@@ -39,17 +39,17 @@ notFoundStatusCode: 200
 concurency: 1000
 cache:
    # Type of caching. Valid: "mem", "memcache", "null"
-   type: {{ "memcache" if memcache_hosts else "mem" }}
+   type: {{ "memcache" if carbonapi.memcache_hosts else "mem" }}
    # Cache limit in megabytes
    size_mb: 32
    # Default cache timeout value. Identical to DEFAULT_CACHE_DURATION in graphite-web.
    defaultTimeoutSec: 60
    # Only used by memcache type of cache. List of memcache servers.
-   memcachedServers: {{ memcache_hosts | list }}
+   memcachedServers: {{ carbonapi.memcache_hosts | list }}
 # Amount of CPUs to use. 0 - unlimited
 cpus: 0
 # Timezone, default - local
-tz: ""
+tz: "{{ carbonapi_tz }}"
 
 #functionsConfig:
 #    graphiteWeb: ./graphiteWeb.example.yaml
@@ -101,7 +101,7 @@ upstreams:
     # It MUST be specified.
     backends: 
     backendsv2:
-      backends: {{ carbonapi_backends }}
+      backends: {{ carbonapi.backends }}
 
     # Enable compatibility with graphite-web 0.9
     # This will affect graphite-web 1.0+ with multiple cluster_servers

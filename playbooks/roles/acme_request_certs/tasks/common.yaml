@@ -9,3 +9,4 @@
     privatekey_path: "{{ certs_path }}/{{ cert.key }}.pem"
     common_name: "{{ cert.value[0] }}"
     subject_alt_name: "DNS:{{ cert.value | join(',DNS:') }}"
+  register: csr_result

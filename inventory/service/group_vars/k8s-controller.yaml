@@ -20,3 +20,14 @@ graphite_web_k8s_instances:
     context: "otcinfra-mirror"
     instance: "apimon"
     namespace: "graphite"
+
+carbonapi_k8s_instances:
+  - carbonapi_instance: "main"
+    context: "otcinfra"
+    instance: "main"
+    namespace: "graphite"
+  - carbonapi_instance: "main"
+    context: "otcinfra-mirror"
+    instance: "main"
+    namespace: "graphite"
+

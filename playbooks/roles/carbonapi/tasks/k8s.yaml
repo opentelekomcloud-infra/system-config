@@ -1,0 +1,183 @@
+---
+- name: Create carbonapi Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create carbonapi ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ carbonapi_cm_name }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        carbonapi.yaml: "{{ lookup('template', 'carbonapi.yaml.j2') }}"
+
+- name: Create carbonapi TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "carbonapi-{{ instance }}-tls"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ carbonapi.carbonapi_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ carbonapi.carbonapi_cert }}.pem') | string | b64encode }}"
+
+- name: Create carbonapi Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ carbonapi_svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: "carbonapi"
+            port: 8081
+            protocol: "TCP"
+            targetPort: 8081
+        selector:
+          app.kubernetes.io/name: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create carbonapi Deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ carbonapi_dpl_name }}"
+    api_version: "apps/v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "carbonapi"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "{{ carbonapi_svc_name }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "carbonapi"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - resources: "{{ carbonapi_resources | default(omit) }}"
+                readinessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/metrics/find/?query=*"
+                    port: "carbonapi"
+                  timeoutSeconds: "{{ carbonapi_readiness_timeout }}"
+                livenessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/metrics/find/?query=*"
+                    port: "carbonapi"
+                  timeoutSeconds: "{{ carbonapi_liveness_timeout }}"
+                name: "carbonapi"
+                ports:
+                  - name: "carbonapi"
+                    containerPort: 8081
+                    protocol: "TCP"
+                volumeMounts:
+                  - name: "carbonapi-configmap"
+                    mountPath: "/etc/carbonapi.yml"
+                    subPath: "carbonapi.yaml"
+                image: "{{ carbonapi_image }}"
+            volumes:
+              - name: "carbonapi-configmap"
+                configMap:
+                  name: "{{ carbonapi_cm_name }}"
+                  defaultMode: 420
+
+- name: Create carbonapi Autoscaler
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "carbonapi-{{ instance }}"
+    api_version: "autoscaling/v2beta2"
+    kind: "HorizontalPodAutoscaler"
+    apply: "yes"
+    definition:
+      spec:
+        scaleTargetRef:
+          kind: "Deployment"
+          name: "{{ carbonapi_dpl_name }}"
+          apiVersion: "apps/v1"
+        minReplicas: 1
+        maxReplicas: 4
+        metrics:
+          - type: "Resource"
+            resource:
+              name: "cpu"
+              target:
+                type: "Utilization"
+                averageUtilization: 70
+
+- name: Create carbonapi Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "carbonapi-{{ instance }}"
+    api_version: "networking.k8s.io/v1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "carbonapi"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        tls:
+          - hosts:
+              - "{{ carbonapi.fqdn }}"
+            secretName: "carbonapi-{{ instance }}-tls"
+        rules:
+          - host: "{{ carbonapi.fqdn }}"
+            http:
+              paths:
+                - path: "/"
+                  pathType: "Prefix"
+                  backend:
+                    service:
+                      name: "carbonapi-{{ instance }}"
+                      port:
+                        number: 8081

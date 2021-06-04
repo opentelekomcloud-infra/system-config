@@ -20,3 +20,5 @@ ssl_certs:
     - "swift.eco.tsi-dev.otc-service.com"
   graphite-apimon:
     - "graphite.apimon.eco.tsi-dev.otc-service.com"
+  graphite:
+    - "graphite-ca.eco.tsi-dev.otc-service.com"
