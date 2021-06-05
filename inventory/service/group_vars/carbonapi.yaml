@@ -5,7 +5,7 @@ carbonapi_backends:
     protocol: "carbonapi_v3_pb"
     servers:
       - "http://192.168.191.55:8081"
-      - "http://192.168.14.159.55:8081"
+      - "http://192.168.14.159:8081"
       - "http://192.168.151.11:8081"
   - groupName: "zuul"
     lbMethod: "broadcast"
