@@ -68,6 +68,15 @@ groups:
   apimon-stg:
     - bridge.apimon.eco.tsi-dev.tsi-service.com
 
+  # Carbonapi
+  carbonapi:
+    # Bridge is here to allow k8 access to vars
+    - bridge.eco.tsi-dev.otc-service.com
+    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - graphite2.apimon.eco.tsi-dev.otc-service.com
+    - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite1.eco.tsi-dev.otc-service.com
+
   # OTC environment specific variables
   otc:
     - executor1.apimon.eco.tsi-dev.otc-service.com
@@ -92,11 +101,6 @@ groups:
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
-
-  carbonapi:
-    - bridge.eco.tsi-dev.otc-service.com
-    - proxy2.eco.tsi-dev.otc-service.com
-    - web3.eco.tsi-dev.otc-service.com
 
   memcached:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
