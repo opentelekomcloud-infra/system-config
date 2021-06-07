@@ -22,6 +22,15 @@
     dest: /etc/resolv.conf
     mode: 0444
 
+- name: Write unbound forward file
+  template:
+    src: "unbound.confd.conf.j2"
+    dest: "/etc/unbound/conf.d/{{ zone.name }}.conf"
+    mode: "0644"
+  loop: "{{ unbound_forward_zones }}"
+  loop_control:
+    loop_var: "zone"
+
 - name: Enable unbound
   service:
     name: unbound
