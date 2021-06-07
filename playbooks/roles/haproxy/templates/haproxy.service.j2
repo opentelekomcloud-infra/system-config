@@ -9,13 +9,16 @@ ExecStartPre=-{{ container_runtime }} rm haproxy
 
 ExecStart={{ container_runtime }} run \
     --name haproxy \
-    --network host \
+{% for port in haproxy_expose_ports %}
+    -p {{ port }}:{{ port }} \
+{% endfor %}
 {% if container_command == 'podman' %}
     --log-opt=path=/dev/null \
 {% endif %}
     -v /etc/ssl/{{ inventory_hostname }}:/etc/ssl/{{ inventory_hostname }}:ro,z \
     -v /etc/haproxy:/usr/local/etc/haproxy:ro,z \
     -v haproxy_run_volume:/var/haproxy/run:rw,z \
+    --sysctl net.ipv4.ip_unprivileged_port_start=0 \
     {{ haproxy_image }}
 
 [Install]

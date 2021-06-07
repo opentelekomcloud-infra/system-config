@@ -10,7 +10,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['proxy.f32']
+testinfra_hosts = ['proxy1.eco.tsi-dev.otc-service.com',
+                   'proxy2.eco.tsi-dev.otc-service.com']
+
 
 def test_proxy_container_listening(host):
     sock = host.socket("tcp://0.0.0.0:443")
@@ -20,3 +22,4 @@ def test_proxy_container_listening(host):
 def test_proxy_systemd(host):
     service = host.service('haproxy')
     assert service.is_enabled
+    assert service.is_running
