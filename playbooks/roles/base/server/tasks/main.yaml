@@ -38,6 +38,14 @@
     line: "compress"
   notify: Restart rsyslog
 
+- name: Limit log size in logrotate
+  ansible.builtin.lineinfile:
+    path: "/etc/logrotate.conf"
+    regexp: "maxsize"
+    line: "maxsize: {{ logrotate_maxsize }}"
+  when: "logrotate_maxsize is defined"
+  notify: Restart rsyslog
+
 - name: Ensure rsyslog is running
   service:
     name: rsyslog
