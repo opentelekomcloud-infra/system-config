@@ -1,0 +1,4 @@
+unbound_forward_zones:
+  - name: "t-systems.com"
+    opts:
+      forward-addr: "100.125.4.25"

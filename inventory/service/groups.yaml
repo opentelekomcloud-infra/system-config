@@ -68,6 +68,15 @@ groups:
   apimon-stg:
     - bridge.apimon.eco.tsi-dev.tsi-service.com
 
+  # OTC environment specific variables
+  otc:
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+
   # Where local statsd should be deployed
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
@@ -85,7 +94,7 @@ groups:
     - graphite1.eco.tsi-dev.otc-service.com
 
   carbonapi:
-    - proxy1.eco.tsi-dev.otc-service.com
+    - bridge.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
 

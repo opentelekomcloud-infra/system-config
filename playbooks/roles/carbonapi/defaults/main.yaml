@@ -1,7 +1,26 @@
 graphite_config_location: "/etc/graphite"
-graphite_tz: "Europe/Berlin"
+carbonapi_tz: ""
+  # "Europe/Berlin"
 
 carbonapi_image: "gographite/carbonapi:v0.15.3"
 
 container_command: "podman"
 container_runtime: "/usr/bin/{{ container_command }}"
+
+state: present
+carbonapi_count: 1
+carbonapi_cm_name: "carbonapi-{{ instance }}"
+carbonapi_svc_name: "carbonapi-{{ instance }}"
+carbonapi_dpl_name: "carbonapi-{{ instance }}"
+
+carbonapi_resources:
+  limits:
+    cpu: 1
+    memory: 2G
+  requests:
+    cpu: 100m
+    memory: 500Mi
+carbonapi_readiness_timeout: 10
+carbonapi_liveness_timeout: 5
+
+
