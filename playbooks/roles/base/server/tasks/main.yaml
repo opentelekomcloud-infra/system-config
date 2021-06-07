@@ -5,7 +5,7 @@
 
 - name: Install fallback packages
   ansible.builtin.package:
-    status: "present"
+    state: "present"
     name: "{{ item }}"
   ignore_errors: true
   loop:
@@ -29,6 +29,13 @@
     content: '$MaxMessageSize 6k'
     dest: /etc/rsyslog.d/99-maxsize.conf
     mode: 0644
+  notify: Restart rsyslog
+
+- name: Enable logs compression in logrotate
+  ansible.builtin.lineinfile:
+    path: "/etc/logrotate.conf"
+    regexp: "^#compress"
+    line: "compress"
   notify: Restart rsyslog
 
 - name: Ensure rsyslog is running
