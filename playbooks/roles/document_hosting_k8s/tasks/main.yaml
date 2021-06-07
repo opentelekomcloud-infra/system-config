@@ -1,0 +1,190 @@
+---
+- name: Create Document Hosting Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+
+- name: Create Document Hosting Config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_cm_name }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        nginx-site.conf: "{{ lookup('template', 'nginx-site.conf.j2') }}"
+        custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
+
+
+- name: Create Document Hosting Deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_dep_name }}"
+    api_version: "apps/v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "document-hosting"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "document-hosting"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - name: "document-hosting"
+                image: "{{ document_hosting.image }}"
+                ports:
+                  - name: http
+                    containerPort: 8080
+                    protocol: TCP
+                livenessProbe:
+                  httpGet:
+                    path: /
+                    port: http
+                readinessProbe:
+                  httpGet:
+                    path: /
+                    port: http
+                resources: "{{ document_hosting_resources | default(omit) }}"
+                volumeMounts:
+                - name: nginx-config
+                  mountPath: /etc/nginx/conf.d/nginx-site.conf
+                  subPath: nginx-site.conf
+                - name: nginx-config
+                  mountPath: /usr/share/nginx/html/custom_404.html
+                  subPath: custom_404.html
+            volumes:
+              - configMap:
+                  name: "{{ document_hosting_cm_name }}"
+                  defaultMode: 420
+                name: nginx-config
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: "app.kubernetes.io/instance"
+                        operator: In
+                        values:
+                        - "{{ instance }}"
+                    topologyKey: kubernetes.io/hostname
+
+
+- name: Create Document Hosting Autoscaler
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_hpa_name }}"
+    api_version: "autoscaling/v2beta2"
+    kind: "HorizontalPodAutoscaler"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        scaleTargetRef:
+          kind: "Deployment"
+          name: "{{ document_hosting_dep_name }}"
+          apiVersion: "apps/v1"
+        minReplicas: 1
+        maxReplicas: 5
+        metrics:
+          - type: "Resource"
+            resource:
+              name: "cpu"
+              target:
+                type: "Utilization"
+                averageUtilization: 70
+
+
+- name: Create Document Hosting Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: http
+            port: 8080
+            protocol: "TCP"
+            targetPort: 8080
+        selector:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+
+- name: Create Document Hosting Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_ing_name }}"
+    api_version: "networking.k8s.io/v1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+        annotations:
+          route.openshift.io/termination: "edge"
+          cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer }}"
+      spec:
+        tls:
+          - hosts:
+              - "{{ document_hosting.server_name }}"
+            secretName: "{{ document_hosting_ssl_cert_name }}"
+        rules:
+          - host: "{{ document_hosting.server_name }}"
+            http:
+              paths:
+                - path: "/"
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: "{{ document_hosting_svc_name }}"
+                      port: 
+                        number: 8080
