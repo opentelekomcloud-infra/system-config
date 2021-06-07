@@ -11,3 +11,6 @@
     src: unbound.default
     dest: /etc/default/unbound
     mode: 0444
+
+- set_fact:
+    unbound_confd_path: "/etc/unbound/unbound.conf.d"
