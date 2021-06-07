@@ -295,7 +295,7 @@
     parent: infra-prod-service-base
     description: Run infra-prod-service-docs.yaml playbook.
     vars:
-      playbook_name: infra-prod-service-docs.yaml
+      playbook_name: service-docs.yaml
     files:
       - inventory/
       - playbooks/service-docs.yaml
