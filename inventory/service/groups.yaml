@@ -77,6 +77,15 @@ groups:
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
+  # OTC environment specific variables
+  otc:
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+
   # Where local statsd should be deployed
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com

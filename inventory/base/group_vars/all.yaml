@@ -33,6 +33,8 @@ iptables_base_public_udp_ports: []
 iptables_extra_public_udp_ports: []
 iptables_public_udp_ports: "{{ iptables_base_public_udp_ports + iptables_extra_public_udp_ports }}"
 
+unbound_forward_zones: []
+
 # When adding new users, always pick a UID larger than the last UID, do not
 # fill in holes in the middle of the range.
 all_users:
