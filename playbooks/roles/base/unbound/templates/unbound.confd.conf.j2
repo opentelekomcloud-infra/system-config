@@ -1,6 +1,6 @@
 forward-zone:
   name: {{ zone.name }}
-{% for k, v in zone.opts.iteritems() %}
+{% for k, v in zone.opts.items() %}
   {{ k }}: {{ v }}
 {% endfor %}
   
