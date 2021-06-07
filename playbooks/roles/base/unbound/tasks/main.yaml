@@ -25,7 +25,7 @@
 - name: Write unbound forward file
   template:
     src: "unbound.confd.conf.j2"
-    dest: "/etc/unbound/conf.d/{{ zone.name }}.conf"
+    dest: "{{ unbound_confd_path | default('/etc/unbound/conf.d') }}/{{ zone.name }}.conf"
     mode: "0644"
   loop: "{{ unbound_forward_zones }}"
   loop_control:
