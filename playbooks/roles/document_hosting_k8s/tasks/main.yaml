@@ -8,22 +8,6 @@
     kind: "Namespace"
 
 
-- name: Create Document Hosting Service Account
-  community.kubernetes.k8s:
-    context: "{{ context }}"
-    state: "{{ state }}"
-    namespace: "{{ namespace }}"
-    name: "{{ document_hosting_sa_name }}"
-    kind: "ServiceAccount"
-    api_version: "v1"
-    definition:
-      metadata:
-        labels:
-          app.kubernetes.io/name: "document-hosting"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
-
-
 - name: Create Document Hosting Config
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -70,13 +54,12 @@
               app.kubernetes.io/name: "document-hosting"
               app.kubernetes.io/instance: "{{ instance }}"
           spec:
-            serviceAccountName: "{{ document_hosting_sa_name }}"
             containers:
               - name: "document-hosting"
                 image: "{{ document_hosting.image }}"
                 ports:
                   - name: http
-                    containerPort: 80
+                    containerPort: 8080
                     protocol: TCP
                 livenessProbe:
                   httpGet:
@@ -163,9 +146,9 @@
         type: "ClusterIP"
         ports:
           - name: http
-            port: 80
+            port: 8080
             protocol: "TCP"
-            targetPort: 80
+            targetPort: 8080
         selector:
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
@@ -204,4 +187,4 @@
                     service:
                       name: "{{ document_hosting_svc_name }}"
                       port: 
-                        number: 80
+                        number: 8080

@@ -3,12 +3,12 @@ upstream backend {
       server {{ document_hosting.swift_server }};
     }
     
-    proxy_temp_path /var/cache/nginx/proxy_temp_dir;
-    proxy_cache_path /var/cache/nginx/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
+    proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
     
     server_names_hash_bucket_size 128;
     server {
       #skip some normal config like listen, log
+      listen 8080;
       server_name {{ document_hosting.server_name }};
       access_log /dev/stdout ;
       error_log /dev/stdout debug;
