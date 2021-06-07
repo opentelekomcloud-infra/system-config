@@ -63,13 +63,13 @@ frontend {{ frontend.name }}
 {% for backend in proxy_backends %}
 backend {{ backend.name }}
   mode http
-  http-send-name-header Host
+  # http-send-name-header Host
   balance roundrobin
   cookie SERVERID insert indirect nocache
 
 {% if backend.options is defined %}
 {% for opt in backend.options %}
-  option {{ opt }}
+  {{ opt }}
 {% endfor %}
 {% endif %}
 
