@@ -19,16 +19,15 @@ proxy_backends:
         address: "192.168.151.11:443"
         opts: "ssl verify none cookie graphite3 check sni req.hdr(Host)"
 
-  - name: "graphite-apimon2"
+  - name: "graphite-ca"
     options:
-      # NOTE: try to perform simliest query
-      - "httpchk HEAD /metrics/find/?query=*"
+      - "httpchk HEAD /metrics/lb_check"
     domain_names:
-      - "graphite.apimon.eco.tsi-dev.otc-service.com"
+      - "graphite-ca.eco.tsi-dev.otc-service.com"
     servers:
-      - name: "graphite-proxy1"
-        address: "192.168.110.160:8082"
-        opts: "verify none cookie graphite1 check sni req.hdr(Host)"
+      - name: "graphite-otcinfra"
+        address: "192.168.170.249:443"
+        opts: "ssl verify none cookie graphite-otcinfra check sni req.hdr(Host)"
       - name: "graphite-proxy2"
         address: "192.168.110.151:8082"
         opts: "verify none cookie graphite2 check sni req.hdr(Host)"
