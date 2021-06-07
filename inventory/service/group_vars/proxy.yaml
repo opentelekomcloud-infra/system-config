@@ -1,8 +1,10 @@
 proxy_backends:
   - name: "graphite-apimon"
     options:
+      - "http-send-name-header Host"
       # NOTE: try to perform simliest query
-      - "httpchk HEAD /metrics/find?query=*"
+      - "option httpchk HEAD /metrics/find?query=*"
+      - "default-server check weight 100"
     domain_names:
       - "graphite.eco.tsi-dev.otc-service.com"
       - "graphite1.eco.tsi-dev.otc-service.com"
@@ -11,39 +13,47 @@ proxy_backends:
     servers:
       - name: "graphite1"
         address: "192.168.191.55:80"
-        opts: "verify none cookie graphite1 check sni req.hdr(Host)"
+        opts: "cookie graphite1"
       - name: "graphite2"
         address: "192.168.14.159:443"
-        opts: "ssl verify none cookie graphite2 check sni req.hdr(Host)"
+        opts: "ssl verify none cookie graphite2"
       - name: "graphite3"
         address: "192.168.151.11:443"
-        opts: "ssl verify none cookie graphite3 check sni req.hdr(Host)"
+        opts: "ssl verify none cookie graphite3"
 
   - name: "graphite-ca"
     options:
-      - "httpchk HEAD /metrics/lb_check"
+      - "option httpchk GET /lb_check"
+      # NOTE: HealthCheck of K8 apps is not working good with http-send-name-header Host option
+      # K8 deployed apps require explicit sending Host header
+      - "http-check send hdr Host graphite-ca.eco.tsi-dev.otc-service.com"
+      # Use all available backup servers instead of first one
+      - "option allbackups"
+      - "default-server check weight 100"
     domain_names:
       - "graphite-ca.eco.tsi-dev.otc-service.com"
     servers:
       - name: "graphite-otcinfra"
         address: "192.168.170.249:443"
-        opts: "ssl verify none cookie graphite-otcinfra check sni req.hdr(Host)"
+        opts: "ssl verify none cookie graphite-otcinfra"
       - name: "graphite1"
         address: "192.168.191.55:8082"
-        opts: "verify none cookie graphite1 check sni req.hdr(Host)"
+        opts: "cookie graphite1 backup"
       - name: "graphite2"
         address: "192.168.14.159:8082"
-        opts: "verify none cookie graphite2 check sni req.hdr(Host)"
+        opts: "cookie graphite2 backup"
       - name: "graphite3"
         address: "192.168.151.11:8082"
-        opts: "verify none cookie graphite3 check sni req.hdr(Host)"
+        opts: "cookie graphite3 backup"
       - name: "graphite4"
         address: "192.168.14.241:8082"
-        opts: "verify none cookie graphite4 check sni req.hdr(Host)"
+        opts: "cookie graphite4 backup"
 
   - name: "dashboard"
     options:
-      - "httpchk HEAD /api/health"
+      - "http-send-name-header Host"
+      - "option httpchk HEAD /api/health"
+      - "default-server check weight 100"
     domain_names:
       - "dashboard.tsi-dev.otc-service.com"
       - "apimon.tsi-dev.otc-service.com"
@@ -51,32 +61,36 @@ proxy_backends:
     servers:
       - name: "web3"
         address: "192.168.2.52:3000"
-        opts: "check cookie web3"
+        opts: "cookie web3"
       - name: "dashboard.infra.eco.tsi-dev.otc-service.com"
         address: "dashboard.infra.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie infra check sni req.hdr(Host)"
+        opts: "ssl verify none cookie infra sni req.hdr(Host)"
       - name: "dashboard.apps.osinfra-mirror.eco.tsi-dev.otc-service.com"
         address: "dashboard.apps.osinfra-mirror.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie osinfra-mirror check sni req.hdr(Host)"
+        opts: "ssl verify none cookie osinfra-mirror sni req.hdr(Host)"
 
   - name: "alerta"
     options:
+      - "http-send-name-header Host"
       # NOTE: trailing slash avoids redirect
       - "httpchk GET /api/"
+      - "default-server check weight 100"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
       - name: "web3"
         address: "192.168.2.52:8080"
-        opts: "check cookie web3"
+        opts: "cookie web3"
       - name: "alerta.infra.eco.tsi-dev.otc-service.com"
         address: "alerta.infra.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie infra check sni req.hdr(Host)"
+        opts: "ssl verify none cookie infra sni req.hdr(Host)"
       - name: "alerta.apps.osinfra-mirror.eco.tsi-dev.otc-service.com"
         address: "alerta.apps.osinfra-mirror.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie osinfra-mirror check sni req.hdr(Host)"
+        opts: "ssl verify none cookie osinfra-mirror sni req.hdr(Host)"
 
   - name: "influx"
+    options:
+      - "http-send-name-header Host"
     domain_names:
       - "influx1.eco.tsi-dev.otc-service.com"
     servers:
