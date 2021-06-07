@@ -95,6 +95,7 @@ apimon_instances:
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
+          - scenario2c_coreos_az.yaml
       - env: production_eu-de
         project: csm
         tasks:
