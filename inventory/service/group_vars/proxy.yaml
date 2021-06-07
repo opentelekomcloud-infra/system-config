@@ -73,7 +73,7 @@ proxy_backends:
     options:
       - "http-send-name-header Host"
       # NOTE: trailing slash avoids redirect
-      - "httpchk GET /api/"
+      - "option httpchk GET /api/"
       - "default-server check weight 100"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
