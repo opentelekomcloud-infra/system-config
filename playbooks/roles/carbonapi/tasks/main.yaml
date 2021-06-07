@@ -29,6 +29,9 @@
     - "{{ graphite_config_location }}"
     - "/var/log/graphite"
 
+- debug:
+    var: carbonapi
+
 - name: Write config files
   become: true
   ansible.builtin.template:
