@@ -278,7 +278,7 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: proxy1.f32
+        - name: proxy1.eco.tsi-dev.otc-service.com
           label: fedora-32
     vars:
       run_playbooks:
@@ -288,3 +288,4 @@
       - tox.ini
       - playbooks/service-proxy.yaml
       - playbooks/roles/haproxy
+      - inventory/service/group_vars/proxy.yaml
