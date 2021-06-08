@@ -5,7 +5,8 @@
 - name: Create directory to store certs
   file:
     path: "{{ certs_path }}"
-    state: directory
+    state: "directory"
+    mode: "0755"
 
 - name: Generate account key
   community.crypto.openssl_privatekey:
