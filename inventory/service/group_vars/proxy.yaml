@@ -105,3 +105,5 @@ proxy_frontends:
 
 statsd_host: "192.168.14.159"
 statsd_port: "8125"
+
+haproxy_expose_ports: ['80', '443', '8086']

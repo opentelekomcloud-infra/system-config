@@ -1,6 +1,9 @@
 ---
-haproxy_image: "quay.io/opentelekomcloud/haproxy:alpine"
+haproxy_image: "quay.io/opentelekomcloud/haproxy:lts-alpine"
 haproxy_statsd_image: "quay.io/opentelekomcloud/haproxy-statsd:latest"
 container_runtime: "/usr/bin/{{ container_command }}"
 
 statsd_port: 8125
+
+# List of exposed ports
+haproxy_expose_ports: ['80', '443']
