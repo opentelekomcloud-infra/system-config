@@ -1,0 +1,18 @@
+---
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud RDS instances"
+  tasks:
+    - name: Manage OpenTelekomCloud RDS instances
+      include_role:
+        name: cloud_rds
+      vars:
+        # jmsepath query= [?name=NAME && cloud==CLOUD] | [0]
+        instance: "{{ rds | combine(
+          ( cloud_rds_secrets | community.general.json_query(
+          '[?name==`'+rds.name+'` && cloud==`'+rds.cloud+'`]|[0]') ),
+          recursive=True)
+        }}"
+
+      loop: "{{ cloud_rds }}"
+      loop_control:
+        loop_var: rds

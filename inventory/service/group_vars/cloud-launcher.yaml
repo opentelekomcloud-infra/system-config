@@ -388,16 +388,32 @@ graphite_sg: &graphite_sg
       remote_ip_prefix: "192.168.0.0/16"
       description: "statsd UDP"
 
+pg_sg: &pg_sg
+  name: "pg_sg"
+  description: "Postgres security group"
+  rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "ping"
+    - protocol: "tcp"
+      port_range_min: 5432
+      port_range_max: 5432
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "pg"
+
 cloud_security_groups:
   - cloud: "otcinfra-domain2-database"
     <<: *common_sg
   - cloud: "otcinfra-domain2-database"
     <<: *graphite_sg
+  - cloud: "otcinfra-domain2-infra-de"
+    <<: *pg_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *common_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *graphite_sg
-
 
 cloud_load_balancers:
   - cloud: "otc-swift"
@@ -441,3 +457,19 @@ cloud_load_balancer_certificates:
     domain: "swift.eco.tsi-dev.otc-service.com"
     type: "server"
     ssl_cert: "swift-eco"
+
+cloud_rds:
+  - cloud: "otcinfra-domain2-infra-de"
+    az: "eu-de-01,eu-de-03"
+    datastore_type: "postgresql"
+    datastore_version: "12"
+    flavor: "rds.pg.c2.xlarge.ha"
+    ha_mode: "async"
+    name: "infra"
+    network: "infra-net"
+    port: 5432
+    region: "eu-de"
+    router: "eco-infra"
+    security_group: "pg_sg"
+    volume_type: "ultrahigh"
+    volume_size: 100
