@@ -13,6 +13,7 @@
   ansible.builtin.file:
     path: "/etc/ssl/{{ inventory_hostname }}/haproxy"
     state: "directory"
+    mode: "0755"
 
 # we only restart haproxy if it's cert files got modified
 - name: Prepare haproxy certs
@@ -20,6 +21,8 @@
     src: "{{ certs_path }}/"
     regexp: ".*{{ cert.key }}(-fullchain.crt|.pem)"
     dest: "{{ certs_path }}/haproxy/{{ cert.key }}.pem"
+    group: "{{ haproxy_group | default('99') }}"
+    owner: "{{ haproxy_user | default('99') }}"
   loop: "{{ query('dict', ssl_certs) }}"
   loop_control:
     loop_var: cert
