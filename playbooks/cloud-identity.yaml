@@ -16,6 +16,7 @@
 
     - name: Create users
       no_log: true
+      ignore_errors: true
       openstack.cloud.identity_user:
         cloud: "{{ item.cloud }}"
         domain: "{{ item.domain }}"
