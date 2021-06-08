@@ -1,5 +1,5 @@
 ---
-haproxy_image: "quay.io/opentelekomcloud/haproxy:lts-alpine"
+haproxy_image: "quay.io/opentelekomcloud/haproxy:2.4-alpine"
 haproxy_statsd_image: "quay.io/opentelekomcloud/haproxy-statsd:latest"
 container_runtime: "/usr/bin/{{ container_command }}"
 
