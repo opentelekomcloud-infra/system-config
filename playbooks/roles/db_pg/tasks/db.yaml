@@ -6,3 +6,7 @@
     login_password: "{{ login.password }}"
     maintenance_db: "{{ login.database }}"
     name: "{{ instance.name }}"
+    lc_ctype: "{{ instance.lc_ctype | default(omit) }}"
+    lc_collate: "{{ instance.lc_collate | default(omit) }}"
+    encoding: "{{ instance.encoding | default(omit) }}"
+    template: "{{ instance.template | default(omit) }}"

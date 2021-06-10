@@ -8,6 +8,8 @@ ssl_certs:
     - "graphite.eco.tsi-dev.otc-service.com"
     - "graphite-ca.eco.tsi-dev.otc-service.com"
     - "influx1.eco.tsi-dev.otc-service.com"
+  matrix:
+    - "matrix.otc-service.com"
 
 firewalld_extra_services_enable: ['http', 'https']
 

@@ -22,3 +22,5 @@ ssl_certs:
     - "graphite.apimon.eco.tsi-dev.otc-service.com"
   graphite:
     - "graphite-ca.eco.tsi-dev.otc-service.com"
+  matrix:
+    - "matrix.otc-service.com"
