@@ -8,4 +8,9 @@ database_instances:
   domain2_infra_matrix:
     dba: "domain2_infra"
     name: "synapse"
+    encoding: "UTF-8"
+    lc_collate: "C"
+    lc_ctype: "C"
+    template: "template0"
+
 
