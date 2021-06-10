@@ -114,6 +114,9 @@ groups:
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
 
+  database-launcher:
+    - bridge.eco.tsi-dev.otc-service.com
+
   cloud-launcher:
     - bridge.eco.tsi-dev.otc-service.com
 

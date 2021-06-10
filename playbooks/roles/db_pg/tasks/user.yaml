@@ -1,0 +1,11 @@
+---
+- name: Provision DB users
+  community.postgresql.postgresql_user:
+    login_host: "{{ login.host }}"
+    login_user: "{{ login.username }}"
+    login_password: "{{ login.password }}"
+    db: "{{ instance.db }}"
+    name: "{{ instance.username }}"
+    password: "{{ instance.password }}"
+    priv: "{{ instance.priv }}"
+    comment: "{{ instance.comment | default(omit) }}"
