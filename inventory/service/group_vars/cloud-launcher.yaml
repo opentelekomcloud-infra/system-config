@@ -297,7 +297,7 @@ cloud_peerings:
     local_cidr: "192.168.14.0/24"
     remote_cloud: "otcinfra-domain2-infra-de"
     remote_router: "eco-infra"
-    remote_project: "eu-de_infra_de"
+    remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.111.0/24"
   - cloud: "otcinfra-domain2-infra-de"
     name: "bridge-domain2_infra_de"

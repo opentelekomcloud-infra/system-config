@@ -34,7 +34,7 @@ proxy_backends:
       - "graphite-ca.eco.tsi-dev.otc-service.com"
     servers:
       - name: "graphite-otcinfra"
-        address: "192.168.170.249:443"
+        address: "192.168.170.6:443"
         opts: "ssl verify none cookie graphite-otcinfra"
       - name: "graphite1"
         address: "192.168.191.55:8082"
