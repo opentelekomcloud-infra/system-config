@@ -1,0 +1,8 @@
+---
+- name: Provision DB instance
+  community.postgresql.postgresql_db:
+    login_host: "{{ login.host }}"
+    login_user: "{{ login.username }}"
+    login_password: "{{ login.password }}"
+    maintenance_db: "{{ login.database }}"
+    name: "{{ instance.name }}"

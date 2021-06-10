@@ -414,6 +414,8 @@ cloud_security_groups:
     <<: *common_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *graphite_sg
+  - cloud: "otcapimon-pool1"
+    <<: *pg_sg
 
 cloud_load_balancers:
   - cloud: "otc-swift"
@@ -465,7 +467,7 @@ cloud_rds:
     datastore_version: "12"
     flavor: "rds.pg.c2.xlarge.ha"
     ha_mode: "async"
-    name: "infra"
+    name: "domain2-infra"
     network: "infra-net"
     port: 5432
     region: "eu-de"
@@ -473,3 +475,19 @@ cloud_rds:
     security_group: "pg_sg"
     volume_type: "ultrahigh"
     volume_size: 100
+    dba: "domain2_infra"
+  - cloud: "otcapimon-pool1"
+    az: "eu-de-01,eu-de-03"
+    datastore_type: "postgresql"
+    datastore_version: "11.5"
+    flavor: "rds.pg.c2.xlarge.ha"
+    ha_mode: "async"
+    name: "domain2-apimon"
+    network: "dashboard-otc-net"
+    port: 5432
+    region: "eu-de"
+    router: "dashboard-otc-vpc-router"
+    security_group: "pg_sg"
+    volume_type: "ultrahigh"
+    volume_size: 40
+    dba: "domain2_apimon"

@@ -1,0 +1,11 @@
+---
+database_instances:
+  # DBA _ db_name
+  domain2_apimon_apimon:
+    dba: "domain2_apimon"
+    name: "apimon"
+
+  domain2_infra_matrix:
+    dba: "domain2_infra"
+    name: "synapse"
+

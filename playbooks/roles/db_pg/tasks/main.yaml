@@ -1,0 +1,12 @@
+---
+- include_tasks: "db.yaml"
+  loop: "{{ databases }}"
+  loop_control:
+    loop_var: "instance"
+    label: "{{ instance.name }}"
+
+- include_tasks: "user.yaml"
+  loop: "{{ users }}"
+  loop_control:
+    loop_var: "instance"
+    label: "{{ instance.username }}"
