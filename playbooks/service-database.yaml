@@ -1,0 +1,36 @@
+---
+- hosts: database-launcher:!disabled
+  name: "Manage Database instances"
+  tasks:
+
+    # Group instances and users by dba
+    - name: Group DB instances by dba
+      set_fact:
+        db_items: "{{ (db_items | default({})) | combine({item.value.dba: {'databases': [item.value]}}, list_merge='append', recursive=True) }}"
+      loop: "{{ database_instances | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+
+    - name: Group DB users by dba
+      set_fact:
+        db_items: "{{ (db_items | default({})) | combine({item.value.dba: {'users': [
+          (item.value | combine(
+           database_user_secrets[([item.value.dba, item.value.db, item.value.username]| join('_'))]
+           )
+          )
+        ]}}, list_merge='append', recursive=True) }}"
+      loop: "{{ database_users | dict2items }}"
+      loop_control:
+        label: "{{ item.key }}"
+
+    - name: Manage DB instances
+      include_role:
+        name: db_pg
+      vars:
+        login: "{{ database_dbas[db_instance.key] }}"
+        databases: "{{ db_instance.value['databases'] }}"
+        users: "{{ db_instance.value['users'] }}"
+      loop: "{{ db_items | dict2items }}"
+      loop_control:
+        loop_var: db_instance
+      when: "database_dbas[db_instance.key]['type'] == 'postgres'"

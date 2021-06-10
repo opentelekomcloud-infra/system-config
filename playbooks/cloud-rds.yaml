@@ -1,0 +1,12 @@
+---
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud RDS instances"
+  tasks:
+    - name: Manage OpenTelekomCloud RDS instances
+      include_role:
+        name: cloud_rds
+      vars:
+        instance: "{{ rds | combine(database_dbas[rds.dba], recursive=True) }}"
+      loop: "{{ cloud_rds }}"
+      loop_control:
+        loop_var: rds

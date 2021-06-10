@@ -1,0 +1,15 @@
+---
+database_users:
+  domain2_apimon_apimon_apimon:
+    dba: "domain2_apimon"
+    username: "apimon"
+    db: "apimon"
+    priv: "ALL"
+    comment: "APImon user"
+
+  domain2_infra_matrix_matrix:
+    dba: "domain2_infra"
+    username: "synapse"
+    db: "synapse"
+    priv: "ALL"
+    comment: "Matrix user"

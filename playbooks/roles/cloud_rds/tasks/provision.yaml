@@ -1,0 +1,21 @@
+---
+- name: Provision RDS instance
+  opentelekomcloud.cloud.rds_instance:
+    state: "present"
+    cloud: "{{ instance.cloud }}"
+    availability_zone: "{{ instance.az | mandatory }}"
+    datastore_type: "{{ instance.datastore_type }}"
+    datastore_version: "{{ instance.datastore_version | mandatory}}"
+    flavor: "{{ instance.flavor | mandatory }}"
+    ha_mode: "{{ instance.ha_mode | default(omit) }}"
+    name: "{{ instance.name | mandatory }}"
+    network: "{{ instance.network | mandatory }}"
+    password: "{{ instance.password | mandatory }}"
+    port: "{{ instance.port | mandatory }}"
+    region: "{{ instance.region | default(omit) }}"
+    router: "{{ instance.router }}"
+    security_group: "{{ instance.security_group }}"
+    volume_type: "{{ instance.volume_type }}"
+    volume_size: "{{ instance.volume_size }}"
+      #    wait: "{{ instance.wait | default(False) }}"
+      #    timeout: "{{ 600 if instance.wait is defined and instance.wait else None }}"

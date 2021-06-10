@@ -1,0 +1,6 @@
+---
+- name: Destroy RDS instance
+  opentelekomcloud.cloud.rds_instance:
+    state: "absent"
+    cloud: "{{ instance.cloud }}"
+    name: "{{ instance.name | mandatory }}"
