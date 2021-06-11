@@ -491,3 +491,24 @@ cloud_rds:
     volume_type: "ultrahigh"
     volume_size: 40
     dba: "domain2_apimon"
+
+cloud_cce:
+  - cloud: "otcinfra-domain2-infra-de"
+    name: "eco-infra"
+    flavor: "cce.s2.small"
+    router: "eco-infra"
+    network: "infra-net"
+    network_mode: "overlay_l2"
+    nodes:
+      - name: "eco-infra-01"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-01"
+        os: "CentOS 7.7"
+      - name: "eco-infra-02"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-02"
+        os: "CentOS 7.7"
+      - name: "eco-infra-03"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-03"
+        os: "CentOS 7.7"
