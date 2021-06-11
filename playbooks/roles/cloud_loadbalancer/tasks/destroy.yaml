@@ -9,6 +9,7 @@
     weight: "{{ item.weight | default(omit) }}"
     state: "absent"
   loop: "{{ lb.loadbalancer.members }}"
+  when: "lb.loadbalancer.members is defined"
 
 - name: Drop Listeners
   opentelekomcloud.cloud.lb_listener:
@@ -22,6 +23,7 @@
     default_tls_container_ref: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
     state: "absent"
   loop: "{{ lb.loadbalancer.listeners }}"
+  when: "lb.loadbalancer.listeners is defined"
 
 - name: Drop Load Balancer
   opentelekomcloud.cloud.loadbalancer:

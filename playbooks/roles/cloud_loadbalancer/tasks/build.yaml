@@ -18,6 +18,7 @@
 - set_fact:
     lb_certs: "{{ (lb_certs | default({})) | combine({item.elb_certificates[0].name: item.elb_certificates[0].id }) }}"
   loop: "{{ lb_ssl_certs.results }}"
+  when: "lb_ssl_certs.results is defined"
 
 - name: Create Listeners
   opentelekomcloud.cloud.lb_listener:
@@ -30,6 +31,7 @@
     tls_ciphers_policy: "{{ item.tls_ciphers_policy | default(omit) }}"
     default_tls_container_ref: "{{ lb_certs[item.ssl_cert] | default(omit) }}"
   loop: "{{ lb.loadbalancer.listeners }}"
+  when: "lb.loadbalancer.listeners is defined"
 
 - name: Create Pools
   opentelekomcloud.cloud.lb_pool:
@@ -41,6 +43,7 @@
     protocol: "{{ item.protocol }}"
     lb_algorithm: "{{ item.lb_algorithm }}"
   loop: "{{ lb.loadbalancer.pools }}"
+  when: "lb.loadbalancer.pools is defined"
 
 - name: Register Pool Members
   opentelekomcloud.cloud.lb_member:
@@ -52,4 +55,5 @@
     address: "{{ item.address }}"
     weight: "{{ item.weight | default(omit) }}"
   loop: "{{ lb.loadbalancer.members }}"
+  when: "lb.loadbalancer.members is defined"
 
