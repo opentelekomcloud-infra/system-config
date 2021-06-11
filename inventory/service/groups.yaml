@@ -77,6 +77,11 @@ groups:
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
+  # Matrix server
+  matrix:
+    # Bridge is here to allow k8 access to vars
+    - bridge.eco.tsi-dev.otc-service.com
+
   # OTC environment specific variables
   otc:
     - executor1.apimon.eco.tsi-dev.otc-service.com

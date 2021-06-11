@@ -1,0 +1,12 @@
+---
+matrix_instances:
+  main:
+    fqdn: "matrix.otc-service.com"
+    matrix_cert: "matrix"
+    image: "quay.io/opentelekomcloud/synapse:v1.35.1"
+    db:
+      # TODO get this from inventory
+      host: "192.168.170.83"
+      database: "synapse"
+      username: "{{ database_user_secrets.domain2_infra_synapse_synapse.username }}"
+      password: "{{ database_user_secrets.domain2_infra_synapse_synapse.password }}"

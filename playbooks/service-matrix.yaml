@@ -1,0 +1,15 @@
+---
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure matrix K8s deployments"
+  tasks:
+
+    - include_role:
+        name: "matrix"
+        tasks_from: "k8s.yaml"
+      vars:
+        matrix: "{{ matrix_instances[item.matrix_instance] | combine(matrix_instances_secrets[item.matrix_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      when: "matrix_instances[item.matrix_instance] is defined"
+      loop: "{{ matrix_k8s_instances | list }}"
