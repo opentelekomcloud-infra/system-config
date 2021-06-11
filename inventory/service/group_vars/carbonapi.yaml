@@ -1,5 +1,5 @@
 # TODO: This should be better constructed from existing inventory
-carbonapi_image: "gographite/carbonapi:v0.15.4"
+carbonapi_image: "quay.io/opentelekomcloud/carbonapi:v0.15.4"
 
 carbonapi_instances:
   main:
