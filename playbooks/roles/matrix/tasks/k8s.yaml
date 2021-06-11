@@ -1,0 +1,178 @@
+---
+- name: Create matrix Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create matrix ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ matrix_cm_name }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        homeserver.yaml: "{{ lookup('template', 'homeserver.yaml.j2') }}"
+        signing.key: "{{ lookup('template', 'signing.key.j2') }}"
+        log.config: "{{ lookup('template', 'log.config.j2') }}"
+
+- name: Create matrix TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "matrix-{{ instance }}-tls"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ matrix.matrix_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ matrix.matrix_cert }}.pem') | string | b64encode }}"
+
+- name: Create matrix Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ matrix_svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: "matrix"
+            port: 8008
+            protocol: "TCP"
+            targetPort: 8008
+        selector:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create matrix StatefulSet
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ matrix_ss_name }}"
+    api_version: "apps/v1"
+    kind: "StatefulSet"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "matrix"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "{{ matrix_svc_name }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "matrix"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - name: "matrix"
+                # resources: "{{ matrix_resources | default(omit) }}"
+                # readinessProbe:
+                #   initialDelaySeconds: 10
+                #   httpGet:
+                #     path: "/metrics/find/?query=*"
+                #     port: "matrix"
+                #   timeoutSeconds: "{{ matrix_readiness_timeout }}"
+                # livenessProbe:
+                #   initialDelaySeconds: 10
+                #   httpGet:
+                #     path: "/metrics/find/?query=*"
+                #     port: "matrix"
+                #   timeoutSeconds: "{{ matrix_liveness_timeout }}"
+                ports:
+                  - name: "matrix"
+                    containerPort: 8008
+                    protocol: "TCP"
+                env:
+                  - name: SYNAPSE_CONFIG_DIR
+                    value: /matrix
+                volumeMounts:
+                  - name: "matrix-config"
+                    mountPath: "/matrix"
+                  - name: "matrix-data"
+                    mountPath: "/data"
+                image: "{{ matrix.image if matrix.image is defined else matrix_image }}"
+            volumes:
+              - name: "matrix-config"
+                configMap:
+                  name: "{{ matrix_cm_name }}"
+                  defaultMode: 420
+        volumeClaimTemplates:
+          - kind: "PersistentVolumeClaim"
+            apiVersion: "v1"
+            metadata:
+              name: "matrix-data"
+            spec:
+              accessModes:
+                - "ReadWriteMany"
+              resources:
+                requests:
+                  storage: "{{ matrix_pvc_size }}"
+              storageClassName: "{{ matrix_pvc_scn }}"
+              volumeMode: "Filesystem"
+
+- name: Create matrix Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "matrix-{{ instance }}"
+    api_version: "networking.k8s.io/v1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        tls:
+          - hosts:
+              - "{{ matrix.fqdn }}"
+            secretName: "matrix-{{ instance }}-tls"
+        rules:
+          - host: "{{ matrix.fqdn }}"
+            http:
+              paths:
+                - path: "/"
+                  pathType: "Prefix"
+                  backend:
+                    service:
+                      name: "{{ matrix_svc_name }}"
+                      port:
+                        number: 8008

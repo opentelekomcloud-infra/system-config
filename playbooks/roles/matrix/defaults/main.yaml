@@ -1,0 +1,11 @@
+---
+state: "present"
+
+matrix_image: "matrixdotorg/synapse:latest"
+matrix_cm_name: "matrix-config"
+matrix_svc_name: "matrix"
+matrix_ss_name: "matrix"
+
+matrix_pvc_size: "100G"
+# StorageClassName for the PVC
+matrix_pvc_scn: "nfs-rw"
