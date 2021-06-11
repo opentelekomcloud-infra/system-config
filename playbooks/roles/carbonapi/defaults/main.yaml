@@ -2,7 +2,7 @@ graphite_config_location: "/etc/graphite"
 carbonapi_tz: ""
   # "Europe/Berlin"
 
-carbonapi_image: "gographite/carbonapi:v0.15.3"
+carbonapi_image: "gographite/carbonapi:v0.15.4"
 
 container_command: "podman"
 container_runtime: "/usr/bin/{{ container_command }}"
