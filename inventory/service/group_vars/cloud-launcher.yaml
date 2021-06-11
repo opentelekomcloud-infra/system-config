@@ -452,6 +452,12 @@ cloud_load_balancers:
           pool: "server_group-8080"
           subnet: "management_subnet"
           protocol_port: 8080
+  - cloud: "otcinfra-domain2-infra-de"
+    loadbalancer:
+      name: "elb-eco-infra"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.170.6"
+      public_ip_address: "80.158.55.110"
 
 cloud_load_balancer_certificates:
   - cloud: "otc-swift"
