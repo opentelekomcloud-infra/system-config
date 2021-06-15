@@ -53,9 +53,12 @@ all:
       ansible_host: 192.168.2.52
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29
-    zk0.zuul.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.20.116
     zk1.zuul.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.20.182
+      ansible_host: 192.168.20.116
+      ansible_user: linux
     zk2.zuul.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.20.182
+      ansible_user: linux
+    zk3.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.47
+      ansible_user: linux
