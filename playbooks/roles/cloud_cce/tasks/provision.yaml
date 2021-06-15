@@ -1,0 +1,39 @@
+- name: Ensure keypair exists
+  openstack.cloud.keypair:
+    state: 'present'
+    cloud: '{{ cce.cloud }}'
+    name: 'otcinfra-bridge'
+    public_key: '{{ bastion_public_key }}'
+
+- name: Create CCE Cluster
+  opentelekomcloud.cloud.cce_cluster:
+    cloud: '{{ cce.cloud }}'
+    state: present
+    wait: true
+    name: '{{ cce.name }}'
+    flavor: '{{ cce.flavor }}'
+    router: '{{ cce.router }}'
+    network: '{{ cce.network }}'
+    container_network_mode: '{{ cce.network_mode }}'
+
+- name: Create CCE Cluster nodes
+  opentelekomcloud.cloud.cce_cluster_node:
+    cloud: '{{ cce.cloud }}'
+    cluster: '{{ cce.name }}'
+    name: '{{ cce_node.name}}'
+    availability_zone: '{{ cce_node.az }}'
+    count: 1
+    data_volumes:
+      - volumetype: SATA
+        size: 100
+    flavor: '{{ cce_node.flavor }}'
+    ssh_key: 'otcinfra-bridge'
+    network: '{{ cce.network }}'
+    os: '{{ cce_node.os }}'
+    root_volume_size: 40
+    root_volume_type: SATA
+    wait: true
+    state: present
+  loop: '{{ cce.nodes }}'
+  loop_control:
+    loop_var: 'cce_node'

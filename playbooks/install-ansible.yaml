@@ -17,6 +17,9 @@
         - namespace: opentelekomcloud
           name: apimon
           repo: opentelekomcloud/ansible-collection-apimon
+        - namespace: opentelekomcloud
+          name: cloud
+          repo: opentelekomcloud/ansible-collection-cloud
         - namespace: openstack
           name: cloud
           repo: openstack/ansible-collections-openstack

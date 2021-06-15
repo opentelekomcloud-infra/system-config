@@ -34,6 +34,8 @@
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-apimon
         override-checkout: main
+      - name: github.com/opentelekomcloud/ansible-collection-cloud
+        override-checkout: master
       - name: opendev.org/openstack/ansible-collections-openstack
         override-checkout: master
     files:

@@ -1,0 +1,9 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud CCE clusters"
+  tasks:
+    - name: Manage CCE cluster
+      include_role:
+        name: cloud_cce
+      loop: "{{ cloud_cce }}"
+      loop_control:
+        loop_var: cce
