@@ -22,17 +22,21 @@
     dest: /etc/resolv.conf
     mode: 0444
 
-- name: Write unbound forward file
-  template:
+- name: Write unbound conf part file
+  ansible.builtin.template:
     src: "unbound.confd.conf.j2"
-    dest: "{{ unbound_confd_path | default('/etc/unbound/conf.d') }}/{{ zone.name }}.conf"
+    dest: "{{ unbound_confd_path | default('/etc/unbound/conf.d') }}/{{ cfg.name }}.conf"
     mode: "0644"
-  loop: "{{ unbound_forward_zones }}"
+  loop: "{{ unbound_conf_parts | default([]) }}"
   loop_control:
-    loop_var: "zone"
+    loop_var: "cfg"
+  notify:
+    - Restart unbound
+
+  register: result
 
 - name: Enable unbound
   service:
-    name: unbound
+    name: "unbound"
     enabled: true
-    state: started
+    state: "started"
