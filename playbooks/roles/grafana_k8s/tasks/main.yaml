@@ -15,14 +15,23 @@
     k8s_17: True
   when: cluster_version.kubernetes.minor[:2] == "17"
 
+- name: Create Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
 - name: Create ConfigMap
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ grafana_config_name }}"
     api_version: "v1"
     kind: "ConfigMap"
+    apply: "yes"
     definition:
       metadata:
         labels:
@@ -36,33 +45,37 @@
 - name: Create Secrets
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ grafana_secret_name }}"
     api_version: "v1"
     kind: "Secret"
+    apply: "yes"
     definition: "{{ lookup('template', 'grafana-secret.yaml.j2') | from_yaml }}"
 
 - name: Start Grafana deployment 
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ grafana_deployment_name }}"
+    apply: "yes"
     definition: "{{ lookup('template', 'grafana-deployment.yaml.j2') | from_yaml }}"
 
 - name: Expose Grafana deployment with service
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ grafana_service_name }}"
+    apply: "yes"
     definition: "{{ lookup('template', 'grafana-service.yaml.j2') | from_yaml }}"
 
 - name: Start Grafana ingress
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ grafana_ingress_name }}"
+    apply: "yes"
     definition: "{{ lookup('template', 'grafana-ingress.yaml.j2') | from_yaml }}"
