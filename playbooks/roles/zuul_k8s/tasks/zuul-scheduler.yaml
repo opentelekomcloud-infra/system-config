@@ -90,18 +90,18 @@
                   - containerPort: 4730
                     name: "gearman"
                     protocol: "TCP"
-                readinessProbe:
-                  tcpSocket:
-                    port: "gearman"
-                    initialDelaySeconds: 5
-                    periodSeconds: 5
-                    timeoutSeconds: 3
-                livenessProbe:
-                  tcpSocket:
-                    port: "gearman"
-                    initialDelaySeconds: 5
-                    periodSeconds: 5
-                    timeoutSeconds: 3
+                      #readinessProbe:
+                      #  tcpSocket:
+                      #    port: "gearman"
+                      #    initialDelaySeconds: 5
+                      #    periodSeconds: 5
+                      #    timeoutSeconds: 3
+                      #livenessProbe:
+                      #  tcpSocket:
+                      #    port: "gearman"
+                      #    initialDelaySeconds: 5
+                      #    periodSeconds: 5
+                      #    timeoutSeconds: 3
                 volumeMounts:
                   - name: "certs"
                     readOnly: true
