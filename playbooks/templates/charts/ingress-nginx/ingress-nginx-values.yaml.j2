@@ -1,0 +1,7 @@
+controller:
+  service:
+    annotations:
+      kubernetes.io/elb.class: union
+      kubernetes.io/elb.id: "{{ chart.elb_id }}"
+    LoadBalancerIP: "{{ chart.elb_eip }}"
+
