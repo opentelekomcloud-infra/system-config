@@ -1,0 +1,16 @@
+---
+zookeeper_image: "quay.io/opentelekomcloud/zookeeper:3.7.0"
+  # zookeeper_statsd_image: "quay.io/opentelekomcloud/zookeeper-statsd:1.0.0"
+container_runtime: "/usr/bin/{{ container_command }}"
+
+zookeeper_os_user: "zookeeper"
+zookeeper_os_group: "zookeeper"
+zookeeper_tick_time: 2000
+zookeeper_init_limit: 10
+zookeeper_sync_limit: 5
+zookeeper_cfg_extra: ""
+
+# Name of the ansible inventory group of ZK hosts building a single cluster
+zookeeper_inventory_group: "zookeeper"
+
+zookeeper_cluster_ports: "2888:3888"

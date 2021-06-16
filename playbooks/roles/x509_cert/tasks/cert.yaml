@@ -15,10 +15,10 @@
 
   community.crypto.openssl_privatekey:
     path: "{{ certs_path }}/keys/{{ x509_common_name }}.pem"
+    format: "{{ x509_private_key_format | default(omit) }}"
     size: 4096
 
 - name: Generate csr {{ x509_common_name }}
-
   community.crypto.openssl_csr:
     path: "{{ certs_path }}/csr/{{ x509_common_name }}.csr"
     privatekey_path: "{{ certs_path }}/keys/{{ x509_common_name }}.pem"

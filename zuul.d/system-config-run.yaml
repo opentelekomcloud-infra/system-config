@@ -291,3 +291,27 @@
       - playbooks/service-proxy.yaml
       - playbooks/roles/haproxy
       - inventory/service/group_vars/proxy.yaml
+
+- job:
+    name: system-config-run-zookeeper
+    parent: system-config-run
+    description: |
+      Run the playbook for the zk servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: zk1.zuul.eco.tsi-dev.otc-service.com
+          label: fedora-32
+        - name: zk2.zuul.eco.tsi-dev.otc-service.com
+          label: fedora-32
+    vars:
+      run_playbooks:
+        # We do not want to create CA part of ZK setup, therefore only invoke additional playbook in the test.
+        - playbooks/x509-certs.yaml
+        - playbooks/service-zookeeper.yaml
+    files:
+      - tox.ini
+      - playbooks/service-zookeeper.yaml
+      - playbooks/roles/zookeeper
+      - inventory/service/groups.yaml
