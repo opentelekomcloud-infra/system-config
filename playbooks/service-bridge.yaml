@@ -10,7 +10,7 @@
     # where we can't mix arm64 and x86 nodes, so need a minimally
     # working bridge to drive the tests for mirrors/nodepool
     # etc. things.
-    - name: Install openshift/kubectl
+    - name: Install openshift/kubectl/helm
       when: ansible_architecture != 'aarch64'
       block:
         - include_role:
@@ -19,6 +19,8 @@
             name: install-kubectl
         - include_role:
             name: configure-kubectl
+        - include_role:
+            name: install-helm
 
     - include_role:
         name: configure-openstacksdk

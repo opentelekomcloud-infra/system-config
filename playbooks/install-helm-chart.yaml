@@ -1,0 +1,8 @@
+- hosts: "k8s-controller:!disabled"
+  name: "Install HELM chart"
+  tasks:
+    - include_role:
+        name: install-helm-chart
+      vars:
+        chart: "{{ helm_chart_instances[item] | combine(helm_chart_instances_secrets[item], recursive=True) }}"
+      loop: "{{ helm_chart_instances | list }}"

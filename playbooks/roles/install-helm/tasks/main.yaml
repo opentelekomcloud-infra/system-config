@@ -1,0 +1,28 @@
+- name: Make /opt/helm directory
+  file:
+    path: /opt/helm
+    state: directory
+
+- name: Download Helm tarball
+  get_url:
+    url: "{{ helm_url }}"
+    checksum: "{{ helm_checksum }}"
+    dest: /opt/helm.tgz
+
+- name: Extract Helm tarball
+  unarchive:
+    src: /opt/helm.tgz
+    dest: /opt/helm
+
+- name: Copy files into /usr/local
+  copy:
+    remote_src: true
+    src: "/opt/helm/linux-amd64/{{ item }}"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: 0755
+  loop:
+    - helm
+
+- name: Try to install Helm diff for better idempotency results
+  command: helm plugin install https://github.com/databus23/helm-diff
+  ignore_errors: yes

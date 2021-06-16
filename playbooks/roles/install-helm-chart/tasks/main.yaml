@@ -1,0 +1,37 @@
+---
+- name: Add HELM chart repo
+  community.kubernetes.helm_repository:
+    state: present
+    repo_url: "{{ chart.repo_url }}"
+    name: "{{ chart.repo_name }}"
+  when: 
+    - "chart.repo_url is defined"
+    - "chart.repo_name is defined"
+
+- set_fact:
+    values: "{{ lookup('template', chart.values_template ) | from_yaml }}"
+  when: "chart.values_template is defined"
+
+- name: Install HELM chart
+  community.kubernetes.helm:
+    state: present
+    wait: yes
+    context: "{{ chart.context }}"
+    name: "{{ chart.name }}"
+    chart_ref: "{{ chart.ref }}"
+    chart_version: "{{ chart.version }}"
+    release_namespace: "{{ chart.namespace }}"
+    create_namespace: true
+    update_repo_cache: yes 
+    values: "{{ values | default(omit) }}"
+
+- name: Apply post-config manifest to the cluster.
+  community.kubernetes.k8s:
+    context: "{{ chart.context }}"
+    namespace: "{{ chart.namespace }}"
+    state: present
+    definition: "{{ lookup('template', chart.post_config_template ) | from_yaml_all | list }}"
+  when: "chart.post_config_template is defined"
+  register: result
+  until: result is not failed
+  retries: 5
