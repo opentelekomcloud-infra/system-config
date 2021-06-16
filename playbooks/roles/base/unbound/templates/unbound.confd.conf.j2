@@ -1,6 +1,12 @@
+{% if cfg.zone_local is defined and cfg.zone_local %}
+server:
+  local-zone: "{{ cfg.name }}" nodefault
+{% endif %}
+
+{% if cfg.zone_forward is defined and cfg.zone_forward %}
 forward-zone:
-  name: {{ zone.name }}
-{% for k, v in zone.opts.items() %}
+  name: {{ cfg.name }}
+{% for k, v in cfg.opts.items() %}
   {{ k }}: {{ v }}
 {% endfor %}
-  
+{% endif %}  

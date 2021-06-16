@@ -1,4 +1,14 @@
-unbound_forward_zones:
+unbound_conf_parts:
   - name: "t-systems.com"
+    zone_forward: true
+    opts:
+      forward-addr: "100.125.4.25"
+  - name: "otc-service.com"
+    zone_forward: true
+    opts:
+      forward-addr: "100.125.4.25"
+  - name: "168.192.in-addr.arpa"
+    zone_local: true
+    zone_forward: true
     opts:
       forward-addr: "100.125.4.25"
