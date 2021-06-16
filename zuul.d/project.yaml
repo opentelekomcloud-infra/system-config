@@ -16,6 +16,7 @@
         - system-config-run-alerta
         - system-config-run-grafana
         - system-config-run-proxy
+        - system-config-run-zookeeper
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
     gate:
@@ -33,6 +34,7 @@
         - system-config-run-alerta
         - system-config-run-grafana
         - system-config-run-proxy
+        - system-config-run-zookeeper
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
     deploy:
@@ -56,6 +58,7 @@
         - infra-prod-service-grafana-k8s
         - infra-prod-service-docs
         - infra-prod-service-proxy
+        - infra-prod-service-zookeeper
         - infra-prod-dashboards
         - infra-prod-manage-github:
             files:
@@ -87,6 +90,7 @@
         - infra-prod-service-grafana-k8s
         - infra-prod-service-docs
         - infra-prod-service-proxy
+        - infra-prod-service-zookeeper
     periodic-hourly:
       # hourly execution
       jobs:

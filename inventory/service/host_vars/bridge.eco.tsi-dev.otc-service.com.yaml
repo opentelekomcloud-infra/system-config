@@ -8,12 +8,9 @@ cloud_launcher_profiles: []
 cloud_launcher_clouds: []
 
 x509_certificates:
-  - zuul-gearman-client
-  - zuul-gearman-server
-  - zuul-zookeeper-client
-  - zk0.eco.tsi-dev.otc-service.com
-  - zk1.eco.tsi-dev.otc-service.com
-  - zk2.eco.tsi-dev.otc-service.com
+  - "zuul-gearman-client"
+  - "zuul-gearman-server"
+  - "zuul-zookeeper-client"
 
 ssl_certs:
   swift-eco:
