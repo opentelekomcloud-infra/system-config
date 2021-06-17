@@ -270,6 +270,12 @@ cloud_nat_gws:
     router: "apimon-infra"
     internal_network: "apimon-infra-net"
     spec: 1
+  - cloud: "otcinfra-domain2-zuul-de"
+    router: "vpc-zuul"
+    name: "zuulinfra"
+    description: "main NAT GW for zuul"
+    internal_network: "zuul_net"
+    spec: 1
 
 cloud_peerings:
   #  - cloud: "otcapimon-pool1"
