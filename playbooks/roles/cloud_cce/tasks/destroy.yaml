@@ -1,6 +1,5 @@
 - name: Destroy CCE instance
-  #opentelekomcloud.cloud.cce_cluster:
-  kucerakk.cloud.cce_cluster:
+  opentelekomcloud.cloud.cce_cluster:
     cloud: '{{ cce.cloud }}'
     name: '{{ cce.name }}'
     state: 'absent'
