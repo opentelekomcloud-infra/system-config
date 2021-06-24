@@ -13,4 +13,6 @@ database_instances:
     lc_ctype: "C"
     template: "template0"
 
-
+  domain2_infra_maubot:
+    dba: "domain2_infra"
+    name: "maubot"
