@@ -7,7 +7,6 @@
     api_version: "v1"
     kind: "Namespace"
 
-
 - name: Create Document Hosting Config
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -27,6 +26,25 @@
         nginx-site.conf: "{{ lookup('template', 'nginx-site.conf.j2') }}"
         custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
 
+- name: Create Document Hosting TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_ssl_cert_name}}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ document_hosting.cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ document_hosting.cert }}.pem') | string | b64encode }}"
+  when: "document_hosting.cert is defined"
 
 - name: Create Document Hosting Deployment
   community.kubernetes.k8s:
@@ -72,8 +90,8 @@
                 resources: "{{ document_hosting_resources | default(omit) }}"
                 volumeMounts:
                 - name: nginx-config
-                  mountPath: /etc/nginx/conf.d/nginx-site.conf
-                  subPath: nginx-site.conf
+                  mountPath: /etc/nginx/conf.d/
+                    #subPath: nginx-site.conf
                 - name: nginx-config
                   mountPath: /usr/share/nginx/html/custom_404.html
                   subPath: custom_404.html
@@ -94,7 +112,6 @@
                         values:
                         - "{{ instance }}"
                     topologyKey: kubernetes.io/hostname
-
 
 - name: Create Document Hosting Autoscaler
   community.kubernetes.k8s:
@@ -126,7 +143,6 @@
                 type: "Utilization"
                 averageUtilization: 70
 
-
 - name: Create Document Hosting Service
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -153,7 +169,6 @@
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
 
-
 - name: Create Document Hosting Ingress
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -166,12 +181,11 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "document-hosting"
+          app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
         annotations:
-          route.openshift.io/termination: "edge"
-          cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer }}"
+          cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer | default(omit) }}"
       spec:
         tls:
           - hosts:
@@ -182,9 +196,9 @@
             http:
               paths:
                 - path: "/"
-                  pathType: Prefix
+                  pathType: "Prefix"
                   backend:
                     service:
                       name: "{{ document_hosting_svc_name }}"
-                      port: 
+                      port:
                         number: 8080

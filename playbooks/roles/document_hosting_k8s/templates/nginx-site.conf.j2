@@ -1,44 +1,44 @@
 upstream backend {
-    #this is one of the swift proxy server
-      server {{ document_hosting.swift_server }};
-    }
+  #this is one of the swift proxy server
+  server {{ document_hosting.swift_server }}:443;
+}
     
-    proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
+proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
     
-    server_names_hash_bucket_size 128;
-    server {
-      #skip some normal config like listen, log
-      listen 8080;
-      server_name {{ document_hosting.server_name }};
-      access_log /dev/stdout ;
-      error_log /dev/stdout debug;
-      #set proxy cache config, you can find all these command in nginx wiki page
-      proxy_set_header Host $host;
-      proxy_set_header Accept "*/*";
-      proxy_cache_valid 200 1d;
-      proxy_read_timeout 120;
-      proxy_send_timeout 120;
-      proxy_cache_key "$host$uri";
-      proxy_cache_methods GET;
-      proxy_intercept_errors on;
-      #set a return http header of cache status, so that you can see the status of file cache
-      add_header X-Cache $upstream_cache_status;
-      
-      error_page 401 404 /custom_404.html;
-        location = /custom_404.html {
-                root /usr/share/nginx/html;
-                internal;
-        }
-      
-      location / {
-        #default subsite 
-        rewrite ^/$ https://$server_name/{{ document_hosting.default_uri }}/index.html redirect;
-        #redirect to index.html with uri ending with /
-        rewrite ^(.+)/$ https://$server_name$1/index.html redirect;
-        #redirect to /index.html with uri ending without slash
-        rewrite ^(.*/[^./]+)$ https://$server_name$1/index.html redirect;
-        index index.html index.htm;
-        proxy_pass https://backend/v1/AUTH_{{ document_hosting.swift_projectid }}/;
-        proxy_cache staticcache;
-      }
+server_names_hash_bucket_size 128;
+server {
+  #skip some normal config like listen, log
+  listen 8080;
+  server_name {{ document_hosting.server_name }};
+  access_log /dev/stdout ;
+  error_log /dev/stdout debug;
+  #set proxy cache config, you can find all these command in nginx wiki page
+  proxy_set_header Host $host;
+  proxy_set_header Accept "*/*";
+  proxy_cache_valid 200 1d;
+  proxy_read_timeout 120;
+  proxy_send_timeout 120;
+  proxy_cache_key "$host$uri";
+  proxy_cache_methods GET;
+  proxy_intercept_errors on;
+  #set a return http header of cache status, so that you can see the status of file cache
+  add_header X-Cache $upstream_cache_status;
+  
+  error_page 401 404 /custom_404.html;
+    location = /custom_404.html {
+      root /usr/share/nginx/html;
+      internal;
     }
+  
+  location / {
+    #default subsite 
+    rewrite ^/$ https://$server_name/{{ document_hosting.default_uri }}/ redirect;
+    # append trailing "/" to be sure we are on a container (only one segment not ending with /)
+    rewrite ^(/[^./]+)$ https://$server_name$1/ redirect;
+    # NOTE(gtema): this seems not really necessary
+    # index index.html index.htm;
+
+    proxy_pass https://backend/v1/AUTH_{{ document_hosting.swift_projectid }}/;
+    proxy_cache staticcache;
+  }
+}
