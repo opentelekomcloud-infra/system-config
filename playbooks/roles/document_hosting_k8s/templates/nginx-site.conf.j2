@@ -32,13 +32,15 @@ server {
   
   location / {
     #default subsite 
-    rewrite ^/$ https://$server_name/{{ document_hosting.default_uri }}/ redirect;
+    rewrite ^/$ https://$server_name/{{ document_hosting.default_uri }}/ break;
     # append trailing "/" to be sure we are on a container (only one segment not ending with /)
-    rewrite ^(/[^./]+)$ https://$server_name$1/ redirect;
+    rewrite ^(/[^./]+)$ https://$server_name$1/ break;
     # NOTE(gtema): this seems not really necessary
     # index index.html index.htm;
 
     proxy_pass https://backend/v1/AUTH_{{ document_hosting.swift_projectid }}/;
+    # If we get 30x back from backend - rewrite it again to something we would understand
+    proxy_redirect ~*/v1/AUTH_{{ document_hosting.swift_projectid }}/(.*)$ https://{{ document_hosting.server_name }}/$1;
     proxy_cache staticcache;
   }
 }
