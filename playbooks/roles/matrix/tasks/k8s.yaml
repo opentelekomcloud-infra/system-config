@@ -151,28 +151,5 @@
     state: "present"
     namespace: "{{ namespace }}"
     name: "matrix-{{ instance }}"
-    api_version: "networking.k8s.io/v1"
-    kind: "Ingress"
     apply: "yes"
-    definition:
-      metadata:
-        labels:
-          app.kubernetes.io/name: "matrix"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
-      spec:
-        tls:
-          - hosts:
-              - "{{ matrix.fqdn }}"
-            secretName: "matrix-{{ instance }}-tls"
-        rules:
-          - host: "{{ matrix.fqdn }}"
-            http:
-              paths:
-                - path: "/"
-                  pathType: "Prefix"
-                  backend:
-                    service:
-                      name: "{{ matrix_svc_name }}"
-                      port:
-                        number: 8008
+    definition: "{{ lookup('template', 'ingress.yaml.j2') }}"

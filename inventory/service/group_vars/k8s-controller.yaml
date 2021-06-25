@@ -51,6 +51,12 @@ matrix_k8s_instances:
     instance: "main"
     namespace: "matrix"
 
+maubot_k8s_instances:
+  - maubot_instance: "main"
+    context: "otcinfra"
+    instance: "main"
+    namespace: "matrix"
+
 helm_chart_instances:
   otcinfra-stg_cert-manager:
     context: otcinfra-stg

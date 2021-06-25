@@ -1,0 +1,31 @@
+---
+state: "present"
+
+namespace: "matrix"
+
+maubot_image: "dock.mau.dev/maubot/maubot:latest"
+maubot_cm_name: "maubot-config"
+maubot_svc_name: "maubot"
+maubot_ss_name: "maubot"
+
+maubot_pvc_size: "1G"
+# StorageClassName for the PVC
+maubot_pvc_scn: "csi-nas"
+
+maubot:
+  database: "sqlite:////data/maubot.db"
+  data_dir: "/data"
+  crypto_db:
+    type: "default"
+    pg_url: "postgres://username:password@hostname/dbname"
+  server:
+    hostname: "0.0.0.0"
+    port: "29316"
+    public_url: "https://example.com"
+    unshared_secret: "generate"
+  registration_secrets:
+    example.com:
+      url: "https://example.com"
+      secret: "synapse_shared_registration_secret"
+  admins: []
+
