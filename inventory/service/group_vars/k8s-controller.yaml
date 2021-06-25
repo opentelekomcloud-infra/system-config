@@ -68,3 +68,61 @@ helm_chart_instances:
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+  otcapimon1_cert-manager:
+    context: otcapimon1
+    repo_url: https://charts.jetstack.io
+    repo_name: jetstack
+    name: cert-manager
+    ref: jetstack/cert-manager
+    version: v1.3.1
+    namespace: cert-manager
+    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
+    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+  otcci_cert-manager:
+    context: otcci
+    repo_url: https://charts.jetstack.io
+    repo_name: jetstack
+    name: cert-manager
+    ref: jetstack/cert-manager
+    version: v1.3.1
+    namespace: cert-manager
+    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
+    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+  otcinfra_cert-manager:
+    context: otcinfra
+    repo_url: https://charts.jetstack.io
+    repo_name: jetstack
+    name: cert-manager
+    ref: jetstack/cert-manager
+    version: v1.3.1
+    namespace: cert-manager
+    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
+    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+  otcinfra-mirror_cert-manager:
+    context: otcinfra-mirror
+    repo_url: https://charts.jetstack.io
+    repo_name: jetstack
+    name: cert-manager
+    ref: jetstack/cert-manager
+    version: v1.3.1
+    namespace: cert-manager
+    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
+    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+  otcinfra_nginx-ingress:
+    context: otcinfra
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    repo_name: ingress-nginx
+    name: ingress-nginx
+    ref: ingress-nginx/ingress-nginx
+    version: 3.33.0
+    namespace: default
+    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+  otcci_nginx-ingress:
+    context: otcci
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    repo_name: ingress-nginx
+    name: ingress-nginx
+    ref: ingress-nginx/ingress-nginx
+    version: 3.33.0
+    namespace: default
+    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"

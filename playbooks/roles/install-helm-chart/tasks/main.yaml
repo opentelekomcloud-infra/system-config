@@ -1,5 +1,5 @@
 ---
-- name: Add HELM chart repo
+- name: Add HELM chart repo {{ chart.repo_name }}
   community.kubernetes.helm_repository:
     state: present
     repo_url: "{{ chart.repo_url }}"
@@ -12,11 +12,11 @@
     values: "{{ lookup('template', chart.values_template ) | from_yaml }}"
   when: "chart.values_template is defined"
 
-- name: Install HELM chart
+- name: Install HELM chart {{ chart.name }} on cluster {{ chart.context }}
   community.kubernetes.helm:
     state: present
     wait: yes
-    context: "{{ chart.context }}"
+    kube_context: "{{ chart.context }}"
     name: "{{ chart.name }}"
     chart_ref: "{{ chart.ref }}"
     chart_version: "{{ chart.version }}"
@@ -25,7 +25,7 @@
     update_repo_cache: yes 
     values: "{{ values | default(omit) }}"
 
-- name: Apply post-config manifest to the cluster.
+- name: Apply post-config manifest on cluster {{ chart.context }}
   community.kubernetes.k8s:
     context: "{{ chart.context }}"
     namespace: "{{ chart.namespace }}"
