@@ -21,3 +21,5 @@ ssl_certs:
     - "graphite-ca.eco.tsi-dev.otc-service.com"
   matrix:
     - "matrix.otc-service.com"
+  docs:
+    - "docs.otc-service.com"

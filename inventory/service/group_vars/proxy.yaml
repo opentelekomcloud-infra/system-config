@@ -108,6 +108,15 @@ proxy_backends:
         address: "192.168.170.6:443"
         opts: "ssl verify none cookie otcinfra"
 
+  - name: "docs"
+    options: []
+    domain_names:
+      - "docs.otc-service.com"
+    servers:
+      - name: "infra"
+        address: "192.168.170.6:443"
+        opts: "ssl verify none cookie otcinfra"
+
 
 proxy_frontends:
   - name: "influx"

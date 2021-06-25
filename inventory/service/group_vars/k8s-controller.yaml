@@ -23,17 +23,27 @@ graphite_web_k8s_instances:
 
 document_hosting_instances:
   stg:
-    server_name: docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com
-    default_uri: hc2
+    server_name: "docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
+    default_uri: "hc2"
     not_found: "The page you are requesting is not available..."
-    image: quay.io/opentelekomcloud/nginx
+    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21-alpine"
     cluster_issuer: "letsencrypt-staging"
+  main:
+    server_name: "docs.otc-service.com"
+    default_uri: "python-otcextensions"
+    not_found: "The page you are requesting is not available..."
+    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21-alpine"
+    cert: "docs"
 
 document_hosting_k8s_instances:
   - document_hosting_instance: "stg"
     context: "otcinfra-stg"
     instance: "stg"
     namespace: "document-hosting"
+  - document_hosting_instance: "main"
+    context: "otcinfra"
+    instance: "main"
+    namespace: "docs"
 
 carbonapi_k8s_instances:
   - carbonapi_instance: "main"

@@ -10,6 +10,8 @@ ssl_certs:
     - "influx1.eco.tsi-dev.otc-service.com"
   matrix:
     - "matrix.otc-service.com"
+  docs:
+    - "docs.otc-service.com"
 
 firewalld_extra_services_enable: ['http', 'https']
 
