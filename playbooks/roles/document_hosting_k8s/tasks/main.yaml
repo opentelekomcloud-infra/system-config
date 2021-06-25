@@ -29,7 +29,7 @@
 - name: Create Document Hosting TLS Certs Secret
   community.kubernetes.k8s:
     context: "{{ context }}"
-    state: "present"
+    state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ document_hosting_ssl_cert_name}}"
     api_version: "v1"
