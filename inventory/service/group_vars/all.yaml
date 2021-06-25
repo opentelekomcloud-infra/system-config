@@ -13,3 +13,10 @@ database_users:
     db: "synapse"
     priv: "ALL"
     comment: "Matrix user"
+
+  domain2_infra_maubot_maubot:
+    dba: "domain2_infra"
+    username: "maubot"
+    db: "maubot"
+    priv: "ALL"
+    comment: "Maubot user"

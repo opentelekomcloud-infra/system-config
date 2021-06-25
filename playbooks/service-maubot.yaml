@@ -1,0 +1,15 @@
+---
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure matrix maubot K8s deployments"
+  tasks:
+
+    - include_role:
+        name: "maubot"
+        tasks_from: "k8s.yaml"
+      vars:
+        maubot: "{{ maubot_instances[item.maubot_instance] | combine(maubot_instances_secrets[item.maubot_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      when: "maubot_instances[item.maubot_instance] is defined"
+      loop: "{{ maubot_k8s_instances | list }}"

@@ -1,0 +1,139 @@
+---
+- name: Create maubot Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create maubot ConfigMap
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ maubot_cm_name }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        config.yaml: "{{ lookup('template', 'config.yaml.j2') }}"
+
+- name: Create maubot Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ maubot_svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: "maubot"
+            port: 29316
+            protocol: "TCP"
+            targetPort: 29316
+        selector:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create maubot StatefulSet
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ maubot_ss_name }}"
+    api_version: "apps/v1"
+    kind: "StatefulSet"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "maubot"
+            app.kubernetes.io/instance: "{{ instance }}"
+        serviceName: "{{ maubot_svc_name }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "maubot"
+              app.kubernetes.io/instance: "{{ instance }}"
+          spec:
+            containers:
+              - name: "maubot"
+                # resources: "{{ maubot_resources | default(omit) }}"
+                ports:
+                  - name: "maubot"
+                    containerPort: 29316
+                    protocol: "TCP"
+                volumeMounts:
+                  - name: "maubot-config"
+                    mountPath: "/data/config.yaml"
+                    subPath: "config.yaml"
+                  - name: "maubot-data"
+                    mountPath: "{{ maubot.data_dir }}"
+                image: "{{ maubot.image if maubot.image is defined else maubot_image }}"
+            volumes:
+              - name: "maubot-config"
+                configMap:
+                  name: "{{ maubot_cm_name }}"
+                  defaultMode: 420
+        volumeClaimTemplates:
+          - kind: "PersistentVolumeClaim"
+            apiVersion: "v1"
+            metadata:
+              name: "maubot-data"
+            spec:
+              accessModes:
+                - "ReadWriteMany"
+              resources:
+                requests:
+                  storage: "{{ maubot_pvc_size }}"
+              storageClassName: "{{ maubot_pvc_scn }}"
+              volumeMode: "Filesystem"
+
+# - name: Create maubot Ingress
+#   community.kubernetes.k8s:
+#     context: "{{ context }}"
+#     state: "present"
+#     namespace: "{{ namespace }}"
+#     name: "maubot-{{ instance }}"
+#     api_version: "networking.k8s.io/v1"
+#     kind: "Ingress"
+#     apply: "yes"
+#     definition:
+#       metadata:
+#         labels:
+#           app.kubernetes.io/name: "maubot"
+#           app.kubernetes.io/instance: "{{ instance }}"
+#           app.kubernetes.io/managed-by: "system-config"
+#       spec:
+#         rules:
+#           - host: "{{ maubot.fqdn }}"
+#             http:
+#               paths:
+#                 - path: "/"
+#                   pathType: "Prefix"
+#                   backend:
+#                     service:
+#                       name: "{{ maubot_svc_name }}"
+#                       port:
+#                         number: 29316
