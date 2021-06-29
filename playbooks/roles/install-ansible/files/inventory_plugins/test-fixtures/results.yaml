@@ -10,6 +10,7 @@ results:
     - database-launcher
     - control-plane-clouds
     - k8s-controller
+    - otc
     - alerta
     - grafana
     - zuul

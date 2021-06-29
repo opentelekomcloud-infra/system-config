@@ -5,7 +5,11 @@ preferences: {}
 clusters:
   - name: otcci
     cluster: 
-      server: https://192.168.20.230:5443
+      server: {{ otcci_k8s.server }}
+      insecure-skip-tls-verify: true
+  - name: otcci-old
+    cluster: 
+      server: {{ otcci_k8s_old.server }}
       insecure-skip-tls-verify: true
   - name: otcinfra
     cluster: 
@@ -26,6 +30,10 @@ contexts:
     context:
       cluster: otcci
       user: otcci-admin
+  - name: otcci-old
+    context:
+      cluster: otcci-old
+      user: otcci-admin-old
   - name: otcinfra
     context:
       cluster: otcinfra
@@ -47,6 +55,10 @@ users:
     user:
       client-certificate-data: {{ otcci_k8s.client_certificate_data }}
       client-key-data: {{ otcci_k8s.client_key_data }}
+  - name: otcci-admin-old
+    user:
+      client-certificate-data: {{ otcci_k8s_old.client_certificate_data }}
+      client-key-data: {{ otcci_k8s_old.client_key_data }}
   - name: otcinfra-admin
     user:
       client-certificate-data: {{ otcinfra1_k8s.client_certificate_data }}

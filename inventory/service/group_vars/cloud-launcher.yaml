@@ -75,6 +75,8 @@ cloud_user_groups:
     cloud: "otc-tests-admin"
   - name: "zuul_tf"
     cloud: "otc-tests-admin"
+  - name: "zuul-ci"
+    cloud: "otcinfra-domain2-admin"
   # APImon groups
   - name: "apimon"
     cloud: "otc-tests-admin"
@@ -96,6 +98,12 @@ cloud_user_group_assignments:
     users:
       - "apimon"
   # Zuul group user mapping
+  - cloud: "otcinfra-domain2-admin"
+    group: "zuul-ci"
+    users: ["zuul-ci"]
+  - cloud: "otcinfra-domain2-admin"
+    group: "zuul_nodepool"
+    users: ["zuul-ci", "zuul_nodepool"]
   - cloud: "otc-tests-admin"
     group: "zuul_functional"
     users:
@@ -120,6 +128,7 @@ cloud_role_assignments:
   - cloud: "otcinfra-domain2-admin"
     role: "te_admin"
     projects:
+      - "eu-de_zuul"
       - "eu-de_eco_infra"
       - "eu-de_database"
     groups:
@@ -127,6 +136,7 @@ cloud_role_assignments:
   - cloud: "otcinfra-domain2-admin"
     role: "server_adm"
     projects:
+      - "eu-de_zuul"
       - "eu-de_eco_infra"
       - "eu-de_database"
     groups:
@@ -162,6 +172,36 @@ cloud_role_assignments:
     groups:
       - "apimon"
   # Zuul role assignments
+  - cloud: "otcinfra-domain2-admin"
+    role: "te_admin"
+    groups: ['zuul-ci']
+    projects:
+      - "eu-de_zuul"
+      - "eu-de_zuul_pool1"
+      - "eu-de_zuul_pool2"
+      - "eu-de_zuul_pool3"
+  - cloud: "otcinfra-domain2-admin"
+    role: "server_adm"
+    groups: ['zuul-ci']
+    projects:
+      - "eu-de_zuul"
+      - "eu-de_zuul_pool1"
+      - "eu-de_zuul_pool2"
+      - "eu-de_zuul_pool3"
+  - cloud: "otcinfra-domain2-admin"
+    role: "te_admin"
+    groups: ['zuul_nodepool']
+    projects:
+      - "eu-de_zuul_pool1"
+      - "eu-de_zuul_pool2"
+      - "eu-de_zuul_pool3"
+  - cloud: "otcinfra-domain2-admin"
+    role: "server_adm"
+    groups: ['zuul_nodepool']
+    projects:
+      - "eu-de_zuul_pool1"
+      - "eu-de_zuul_pool2"
+      - "eu-de_zuul_pool3"
   - cloud: "otc-tests-admin"
     role: "te_admin"
     projects:
@@ -230,6 +270,38 @@ cloud_nets:
           - name: "apimon-infra-subnet"
             cidr: "192.168.151.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcci-main"
+    router: "ci"
+    nets:
+      - name: "ci-net"
+        subnets:
+          - name: "ci-subnet"
+            cidr: "192.168.21.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcci-pool1"
+    router: "vpc-zuul"
+    nets:
+      - name: "zuul_net"
+        subnets:
+          - name: "subnet-zuul"
+            cidr: "192.168.101.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcci-pool2"
+    router: "vpc-zuul"
+    nets:
+      - name: "zuul_net"
+        subnets:
+          - name: "subnet-zuul"
+            cidr: "192.168.102.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otcci-pool3"
+    router: "vpc-zuul"
+    nets:
+      - name: "zuul_net"
+        subnets:
+          - name: "subnet-zuul"
+            cidr: "192.168.103.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.4.4']
   # apimon infra
   - cloud: "otcapimon-pool2"
     router: "apimon-infra"
@@ -262,6 +334,12 @@ cloud_nat_gws:
     name: "otcinfra"
     description: "main NAT GW for the infra"
     internal_network: "apimon-infra-net"
+    spec: 1
+  - cloud: "otcci-main"
+    router: "ci"
+    name: "otcci"
+    description: "main NAT GW for the CI"
+    internal_network: "ci-net"
     spec: 1
   # apimon infra
   - cloud: "otcapimon-pool2"
@@ -308,7 +386,52 @@ cloud_peerings:
     remote_router: "dashboard-otc-vpc-router"
     remote_project: "eu-de_apimon"
     remote_cidr: "192.168.110.0/24"
-
+  # Zuul peerings
+  - cloud: "otcci-main"
+    name: "zuul-bridge"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcapimon-pool1"
+    remote_router: "dashboard-otc-vpc-router"
+    remote_project: "eu-de_apimon"
+    remote_cidr: "192.168.110.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-database"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcinfra-domain2-database"
+    remote_router: "database_router"
+    remote_project: "eu-de_database"
+    remote_cidr: "192.168.14.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-pool1"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcci-pool1"
+    remote_router: "vpc-zuul"
+    remote_project: "eu-de_zuul_pool1"
+    remote_cidr: "192.168.101.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-pool2"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcci-pool2"
+    remote_router: "vpc-zuul"
+    remote_project: "eu-de_zuul_pool2"
+    remote_cidr: "192.168.102.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-pool3"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcci-pool3"
+    remote_router: "vpc-zuul"
+    remote_project: "eu-de_zuul_pool3"
+    remote_cidr: "192.168.103.0/24"
 
 common_sg: &common_sg
   name: "common_sg"
@@ -403,6 +526,26 @@ pg_sg: &pg_sg
       remote_ip_prefix: "192.168.0.0/16"
       description: "pg"
 
+zuul_sg: &zuul_sg
+  name: "default"
+  description: "Default (Zuul enabled) security group"
+  rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "ping"
+    - protocol: "tcp"
+      port_range_min: 22
+      port_range_max: 22
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "SSH"
+    - protocol: "tcp"
+      port_range_min: 19885
+      port_range_max: 19885
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "Zuul logger"
+
 cloud_security_groups:
   - cloud: "otcinfra-domain2-database"
     <<: *common_sg
@@ -414,6 +557,12 @@ cloud_security_groups:
     <<: *common_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *graphite_sg
+  - cloud: "otcci-pool1"
+    <<: *zuul_sg
+  - cloud: "otcci-pool2"
+    <<: *zuul_sg
+  - cloud: "otcci-pool3"
+    <<: *zuul_sg
   - cloud: "otcapimon-pool1"
     <<: *pg_sg
 
@@ -458,6 +607,12 @@ cloud_load_balancers:
       vip_subnet: "infra-subnet"
       vip_address: "192.168.170.6"
       public_ip_address: "80.158.55.110"
+  - cloud: "otcci-main"
+    loadbalancer:
+      name: "elb-zuul"
+      vip_subnet: "ci-subnet"
+      vip_address: "192.168.21.20"
+      public_ip_address: "80.158.57.224"
 
 cloud_load_balancer_certificates:
   - cloud: "otc-swift"
@@ -518,3 +673,27 @@ cloud_cce:
         flavor: "s3.xlarge.4"
         az: "eu-de-03"
         os: "CentOS 7.7"
+  - cloud: "otcci-main"
+    name: "zuul"
+    flavor: "cce.s2.small"
+    router: "ci"
+    network: "ci-net"
+    network_mode: "overlay_l2"
+    nodes:
+      - name: "zuul-01"
+        flavor: "s3.2xlarge.2"
+        az: "eu-de-01"
+        os: "CentOS 7.7"
+      - name: "zuul-02"
+        flavor: "s3.2xlarge.2"
+        az: "eu-de-02"
+        os: "CentOS 7.7"
+      - name: "zuul-03"
+        flavor: "s3.2xlarge.2"
+        az: "eu-de-03"
+        os: "CentOS 7.7"
+      - name: "zuul-04"
+        flavor: "s3.2xlarge.2"
+        az: "eu-de-01"
+        os: "CentOS 7.7"
+
