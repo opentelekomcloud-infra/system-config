@@ -187,9 +187,9 @@
       - queryType: randomWalk
         refCount: 0
         refId: A
-        target: aliasByNode(asPercent(stats.counters.apimon.metric.$environment.$zone.image_upload.passed.count,
+        target: aliasByNode(consolidateBy(asPercent(stats.counters.apimon.metric.$environment.$zone.image_upload.passed.count,
           stats.counters.apimon.metric.$environment.$zone.image_upload.attempted.count),
-          5)
+          'avg'), 5)
         textEditor: false
     title: SLI Image Upload success rate
     type: stat

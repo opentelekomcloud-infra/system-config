@@ -28,8 +28,8 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
     targets:
       - refCount: 0
         refId: A
-        target: asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
-          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.attempted.count))
+        target: consolidateBy(asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
+          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.*.*.attempted.count)), 'average')
         textEditor: true
     title: SLI {{ svc_name }} service availability
     type: stat
@@ -64,8 +64,8 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
     targets:
       - queryType: randomWalk
         refId: A
-        target: asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
-          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.attempted.count))
+        target: consolidateBy(asPercent(sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.{{ '{' }}{{ status_codes | join(',') }}{{ '}' }}.count),
+          sumSeries(stats.counters.openstack.api.$environment.$zone.{{ svc }}.{DELETE,PATCH,POST,PUT}.*.attempted.count)), 'average')
         textEditor: true
     title: SLI {{ svc_name }} write API Success rate
     type: stat

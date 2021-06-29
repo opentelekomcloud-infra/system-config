@@ -37,9 +37,9 @@ panels:
       - hide: false
         refCount: 0
         refId: A
-        target: aliasByNode(summarize(applyByNode(stats.timers.openstack.api.$environment.$zone.*.*.*.*.count,
+        target: aliasByMetric(summarize(groupByNode(applyByNode(stats.timers.openstack.api.$environment.$zone.*.*.*.*.count,
           6, "asPercent(sumSeries(%.*.*.{2*,3*,404}.count), sumSeries(%.*.*.*.count))",
-          "%.pct"), '1hour', 'avg'), 6)
+          "%.pct"), 6, 'avg'), '1hour', 'avg'))
         textEditor: true
     title: Endpoint status
     transparent: true

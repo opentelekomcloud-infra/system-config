@@ -46,10 +46,10 @@ panels:
     targets:
       - queryType: randomWalk
         refId: A
-        target: asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
+        target: consolidateBy(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
           'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
-          sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,4*,5*,failed}.count,
-          'modelarts|tms|bms')))
+          sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.attempted.count,
+          'modelarts|tms|bms'))), 'avg')
         textEditor: true
     title: SLI Service API Availability
     type: stat
@@ -252,10 +252,10 @@ panels:
     targets:
       - queryType: randomWalk
         refId: A
-        target: movingAverage(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
+        target: movingAverage(consolidateBy(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
           'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
           sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.attempted.count,
-          'modelarts|tms|bms'))), '7d')
+          'modelarts|tms|bms'))), 'avg'), '7d')
         textEditor: true
     title: SLO Service Availability
     type: stat
