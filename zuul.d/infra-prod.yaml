@@ -324,3 +324,14 @@
       - inventory/
       - playbooks/install-helm-chart.yaml
       - playbooks/roles/install-helm-chart
+
+- job:
+    name: infra-prod-install-cce
+    parent: infra-prod-service-base
+    description: Install cloud CCE clusters
+    vars:
+      playbook_name: cloud-cce.yaml
+    files:
+      - inventory/
+      - playbooks/cloud-cce.yaml
+      - playbooks/roles/cloud_cce
