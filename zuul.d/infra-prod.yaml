@@ -313,3 +313,14 @@
       - inventory/
       - playbooks/service-zookeeper.yaml
       - playbooks/roles/zookeeper
+
+- job:
+    name: infra-prod-install-helm-chart
+    parent: infra-prod-service-base
+    description: Install HELM instances on k8s clusters
+    vars:
+      playbook_name: install-helm-chart.yaml
+    files:
+      - inventory/
+      - playbooks/install-helm-chart.yaml
+      - playbooks/roles/install-helm-chart
