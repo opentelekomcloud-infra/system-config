@@ -4,12 +4,12 @@
         text: production_eu-de
         value: production_eu-de
       datasource: {{ grafana_ds | default('apimon') }}
-      definition: stats.counters.openstack.api.*
+      definition: stats.counters.apimon.metric.*
       includeAll: false
       label: Environment
       multi: false
       name: environment
-      query: stats.counters.openstack.api.*
+      query: stats.counters.apimon.metric.*
       refresh: 1
       regex: /^(?!swift)(.*)$/
       skipUrlSync: false
