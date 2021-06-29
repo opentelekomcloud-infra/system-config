@@ -332,6 +332,6 @@
     vars:
       playbook_name: cloud-cce.yaml
     files:
-      - inventory/
+      - inventory/service/group_vars/cloud-launcher.yaml
       - playbooks/cloud-cce.yaml
       - playbooks/roles/cloud_cce
