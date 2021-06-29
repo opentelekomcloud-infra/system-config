@@ -131,10 +131,10 @@
       spec:
         tls:
           - hosts:
-              - "zuul.eco.tsi-dev.otc-service.com"
+              - "{{ zuul.web_domain }}"
             secretName: "zuul-ci-cert-main"
         rules:
-          - host: "zuul.eco.tsi-dev.otc-service.com"
+          - host: "{{ zuul.web_domain }}"
             http:
               paths:
                 - path: "/"

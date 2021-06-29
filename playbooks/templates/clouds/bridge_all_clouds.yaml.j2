@@ -47,6 +47,49 @@ clouds:
     identity_api_version: 3
     identity_endpoint_override: https://iam.eu-de.otc.t-systems.com/v3
 
+  # Zuul
+  otcci-main:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcci_main.auth.user_domain_name }}
+       project_name: {{ clouds.otcci_main.auth.project_name }}
+       username: {{ clouds.otcci_main.auth.username }}
+       password: "{{ clouds.otcci_main.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
+  otcci-pool1:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcci_pool1.auth.user_domain_name }}
+       project_name: {{ clouds.otcci_pool1.auth.project_name }}
+       username: {{ clouds.otcci_pool1.auth.username }}
+       password: "{{ clouds.otcci_pool1.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
+  otcci-pool2:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcci_pool2.auth.user_domain_name }}
+       project_name: {{ clouds.otcci_pool2.auth.project_name }}
+       username: {{ clouds.otcci_pool2.auth.username }}
+       password: "{{ clouds.otcci_pool2.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
+  otcci-pool3:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcci_pool3.auth.user_domain_name }}
+       project_name: {{ clouds.otcci_pool3.auth.project_name }}
+       username: {{ clouds.otcci_pool3.auth.username }}
+       password: "{{ clouds.otcci_pool3.auth.password }}"
+    interface: public
+    identity_api_version: 3
+    region_name: eu-de
+
+ # DB
   otcinfra-domain2-database:
     profile: otc
     auth:

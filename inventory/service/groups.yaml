@@ -84,6 +84,7 @@ groups:
 
   # OTC environment specific variables
   otc:
+    - bridge.eco.tsi-dev.otc-service.com
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com

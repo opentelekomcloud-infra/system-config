@@ -66,8 +66,8 @@ max_starting_builds=5
 log_config=/etc/zuul/logging.conf
 listen_address=0.0.0.0
 #listen_port=9000
-status_url={{ zuul.web_domain }}
-root={{ zuul.web_domain }}
+status_url=https://{{ zuul.web_domain }}
+root=https://{{ zuul.web_domain }}
 
 {% for connection in zuul.zuul_connections -%}
 [connection "{{ connection['name'] }}"]
