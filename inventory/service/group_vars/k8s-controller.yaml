@@ -124,7 +124,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 3.33.0
+    version: 3.34.0
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
   otcci_nginx-ingress:
@@ -133,6 +133,6 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 3.33.0
+    version: 3.34.0
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
