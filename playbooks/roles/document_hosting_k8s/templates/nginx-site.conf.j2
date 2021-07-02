@@ -33,12 +33,11 @@ server {
 
   location / {
     set $container 'docsportal';
-    set $account '{{ document_hosting.swift_project_id }}';
+    set $account 'AUTH_{{ document_hosting.swift_projectid }}';
     set $index_uri '/index.html';
 
     if ($request_uri ~* '/releasenotes(/?)$') {
       # overridden releasenotes index from docsportal
-      set $container 'docsportal';
       set $index_uri '/releasenotes/index.html';
       break;
     }
@@ -50,13 +49,11 @@ server {
     }
     if ($request_uri ~* '^/_static') {
       # statics from docportal
-      set $container 'docsportal';
       set $index_uri $request_uri;
       break;
     }
     if ($request_uri ~* '^/([\w\d-_]+)\.(.*)$') {
       # root files from docsportal
-      set $container 'docsportal';
       set $index_uri '/$1.$2';
       break;
     }
@@ -74,13 +71,6 @@ server {
     if ($request_uri = '') {
       set $index_uri '/index.html';
     }
-
-    #default subsite 
-    #rewrite ^/$ https://$server_name/hc2/ break;
-    # append trailing "/" to be sure we are on a container (only one segment not ending with /)
-    #rewrite ^(/[^./]+)$ https://$server_name$1/ break;
-    # NOTE(gtema): this seems not really necessary
-    # index index.html index.htm;
 
     proxy_pass https://backend/v1/$account/$container$index_uri;
     # If we get 30x back from backend - rewrite it again to something we would understand
