@@ -25,22 +25,67 @@ server {
   add_header X-Cache $upstream_cache_status;
   
   error_page 401 404 /custom_404.html;
-    location = /custom_404.html {
-      root /usr/share/nginx/html;
-      internal;
-    }
-  
+
+  location = /custom_404.html {
+    root /usr/share/nginx/html;
+    internal;
+  }
+
   location / {
-    #default subsite 
-    rewrite ^/$ https://$server_name/{{ document_hosting.default_uri }}/ break;
-    # append trailing "/" to be sure we are on a container (only one segment not ending with /)
+    set $container 'docsportal';
+    set $account '{{ document_hosting.swift_project_id }}';
+    set $index_uri '/index.html';
+
+    if ($request_uri ~* '/releasenotes(/?)$') {
+      # overridden releasenotes index from docsportal
+      set $container 'docsportal';
+      set $index_uri '/releasenotes/index.html';
+      break;
+    }
+    if ($request_uri ~* '/releasenotes/(.*)$') {
+      # rn itself
+      set $container 'releasenotes';
+      set $index_uri '/$1';
+      break;
+    }
+    if ($request_uri ~* '^/_static') {
+      # statics from docportal
+      set $container 'docsportal';
+      set $index_uri $request_uri;
+      break;
+    }
+    if ($request_uri ~* '^/([\w\d-_]+)\.(.*)$') {
+      # root files from docsportal
+      set $container 'docsportal';
+      set $index_uri '/$1.$2';
+      break;
+    }
+    if ($request_uri ~* '^/([^\/]+)\/?(.*)$') {
+      # general project docs
+      set $container $1;
+      set $index_uri '/$2';
+    }
+    # append / at the end
     rewrite ^(/[^./]+)$ https://$server_name$1/ break;
+
+    if ($request_uri = '/') {
+      set $index_uri '/index.html';
+    }
+    if ($request_uri = '') {
+      set $index_uri '/index.html';
+    }
+
+    #default subsite 
+    #rewrite ^/$ https://$server_name/hc2/ break;
+    # append trailing "/" to be sure we are on a container (only one segment not ending with /)
+    #rewrite ^(/[^./]+)$ https://$server_name$1/ break;
     # NOTE(gtema): this seems not really necessary
     # index index.html index.htm;
 
-    proxy_pass https://backend/v1/AUTH_{{ document_hosting.swift_projectid }}/;
+    proxy_pass https://backend/v1/$account/$container$index_uri;
     # If we get 30x back from backend - rewrite it again to something we would understand
     proxy_redirect ~*/v1/AUTH_{{ document_hosting.swift_projectid }}/(.*)$ https://{{ document_hosting.server_name }}/$1;
     proxy_cache staticcache;
   }
 }
+  
