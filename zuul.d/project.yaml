@@ -57,7 +57,6 @@
         - infra-prod-service-alerta
         - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
-        - infra-prod-service-grafana-k8s
         - infra-prod-service-docs
         - infra-prod-service-proxy
         - infra-prod-service-zookeeper
@@ -91,7 +90,6 @@
         - infra-prod-service-alerta
         - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
-        - infra-prod-service-grafana-k8s
         - infra-prod-service-docs
         - infra-prod-service-proxy
         - infra-prod-service-zookeeper

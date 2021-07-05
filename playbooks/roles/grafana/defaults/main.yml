@@ -8,3 +8,12 @@ grafana_os_group: grafana
 packages: []
 
 grafana_uid_prefix: ""
+
+state: "present"
+
+grafana_config_name: "grafana-config-{{ instance }}"
+grafana_secret_name: "grafana-secret-{{ instance }}"
+grafana_deployment_name: "grafana-deployment-{{ instance }}"
+grafana_service_name: "grafana-service-{{ instance }}"
+grafana_ingress_name: "grafana-ingress-{{ instance }}"
+grafana_ssl_cert_name: "grafana-ssl-{{ instance }}"
