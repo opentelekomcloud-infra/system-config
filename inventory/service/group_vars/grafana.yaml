@@ -4,7 +4,7 @@ default: &default_vars
   grafana_users_allow_sign_up: false
   grafana_renderer_host: "renderer"
   grafana_grafana_host: "grafana"
-  grafana_image: "quay.io/opentelekomcloud/grafana:8.0.1"
+  grafana_image: "quay.io/opentelekomcloud/grafana:8.0.4"
   grafana_renderer_image: "quay.io/opentelekomcloud/grafana-image-renderer:3.0.1"
   grafana_users_login_hint: "OTC LDAP account"
   grafana_users_password_hint: "OTC LDAP password"
