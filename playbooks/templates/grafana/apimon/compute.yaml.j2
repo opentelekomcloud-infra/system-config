@@ -28,7 +28,7 @@ panels:
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.mean_90,
           7, 'avg')
     title: Instance Boot duration (Fedora33)
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -106,7 +106,7 @@ panels:
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.mean_90,
           7, 'avg')
     title: Instance Boot duration (coreos)
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -138,7 +138,7 @@ panels:
       - refId: A
         target: aliasByNode(removeEmptySeries(stats.timers.apimon.metric.$environment.$zone.metadata.*.*.*.mean), 9, 8)
     title: Metadada Server latencies
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -166,7 +166,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.metadata.*.failed, 'sum', 7)
     title: Metadada Query failures
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
