@@ -1,4 +1,5 @@
-- hosts: "grafana-vm:!disabled"
+# On all hosts in grafan group except those also in k8s-controller
+- hosts: "grafana:!disabled:!k8s-controller"
   become: true
   name: "Base: configure grafana"
   vars:
@@ -8,3 +9,17 @@
     - role: firewalld
     - role: grafana
       grafana_ldap_config: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
+
+# Deploy grafana in K8
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure grafana K8s deployments"
+  tasks:
+    - include_role:
+        name: "grafana"
+        tasks_from: "k8s.yaml"
+      vars:
+        grafana: "{{ grafana_instances[item.grafana_instance] | combine(grafana_instances_secrets[item.grafana_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      loop: "{{ grafana_k8s_instances | list }}"

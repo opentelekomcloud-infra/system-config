@@ -1,8 +1,4 @@
-{% if k8s_17 == True %}
-apiVersion: networking.k8s.io/v1beta1
-{% else %}
 apiVersion: networking.k8s.io/v1
-{% endif %}
 kind: Ingress
 metadata:
   labels:
@@ -11,7 +7,6 @@ metadata:
     app.kubernetes.io/managed-by: "system-config"
   annotations:
     # add an annotation indicating the issuer to use.
-    route.openshift.io/termination: "edge"
 {% if grafana.cluster_issuer is defined %}
     cert-manager.io/cluster-issuer: "{{ grafana.cluster_issuer }}"
 {% endif %}
@@ -21,18 +16,13 @@ spec:
     http:
       paths:
       - backend:
-{% if k8s_17 == True %}
-            serviceName: "{{ grafana_service_name }}"
-            servicePort: 3000
-{% else %}
           service:
             name: "{{ grafana_service_name }}"
             port: 
               number: 3000
-{% endif %}
         path: /
         pathType: Prefix
   tls: 
   - hosts:
     - "{{ grafana.fqdn }}"
-    secretName: "{{ grafana_ssl_cert_name }}"
+    secretName: "grafana-{{ instance }}-tls"

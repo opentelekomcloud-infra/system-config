@@ -238,17 +238,6 @@
       - playbooks/roles/grafana/
 
 - job:
-    name: infra-prod-service-grafana-k8s
-    parent: infra-prod-service-base
-    description: Run service-grafana-k8s.yaml playbook.
-    vars:
-      playbook_name: service-grafana-k8s.yaml
-    files:
-      - inventory/
-      - playbooks/service-grafana-k8s.yaml
-      - playbooks/roles/grafana_k8s
-
-- job:
     name: infra-prod-service-acme-ssl
     parent: infra-prod-service-base
     description: Run acme-certs.yaml playbook.

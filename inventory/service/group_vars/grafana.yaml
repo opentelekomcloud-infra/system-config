@@ -31,8 +31,9 @@ grafana_instances:
     fqdn: dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com
     default: *default_vars
   production_infra:
-    cluster_issuer: "letsencrypt-prod"
-    fqdn: dashboard.infra.eco.tsi-dev.otc-service.com
+    # cluster_issuer: "letsencrypt-prod"
+    fqdn: "dashboard.tsi-dev.otc-service.com"
+    grafana_cert: "grafana"
     default: *default_vars
   production_vc:
     default: *default_vars
