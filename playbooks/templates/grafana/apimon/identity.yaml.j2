@@ -23,7 +23,7 @@ panels:
     targets:
       - target: aliasByNode(consolidateBy(stats.timers.openstack.api.$environment.$zone.identity.POST.tokens.201.upper_90, 'max'), 5)
     title: Token creation duration
-    type: graph
+    type: timeseries
     yaxes: 
       - format: ms
         show: true

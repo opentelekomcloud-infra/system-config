@@ -27,7 +27,7 @@ panels:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 8, 'avg')
     title: LoadBalancer Latency per type
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -57,7 +57,7 @@ panels:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 9, 'avg')
     title: LoadBalancer Latency per AZ
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -102,7 +102,7 @@ panels:
         fill: true
         line: true
         yaxis: "left"
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -133,7 +133,7 @@ panels:
       - refId: B
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.failed.count, 7, 8)
     title: Domains curl Errors
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -158,7 +158,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.dns.*.*.mean, 'avg', 7, 8)
     title: NS Lookup
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -186,7 +186,7 @@ panels:
       - refId: A
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.dns.*.*.failed.count, 7, 8)
     title: NS Lookup Failures
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -211,7 +211,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{vpc,peering}.*.*.mean, 'avg', 9)
     title: Internal VPC/Peering Latency
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -238,7 +238,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{peering,vpc}.*.*.failed, 'sum', 7)
     title: Internal ping errors
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -263,7 +263,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.mean, 'avg', 7)
     title: Outside NATGW/SNAT ping Latency
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
@@ -290,7 +290,7 @@ panels:
       - refId: A
         target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.failed, 'sum', 7)
     title: Outside ping errors
-    type: graph
+    type: timeseries
     xaxis:
       mode: time
       show: true
