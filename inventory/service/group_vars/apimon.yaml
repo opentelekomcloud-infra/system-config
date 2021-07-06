@@ -1,6 +1,7 @@
-apimon_executor_image: "quay.io/opentelekomcloud/apimon:latest"
-apimon_scheduler_image: "quay.io/opentelekomcloud/apimon:latest"
-apimon_epmon_image: "quay.io/opentelekomcloud/apimon:latest"
+apimon_image: "quay.io/opentelekomcloud/apimon"
+apimon_executor_image: "{{ apimon_image }}"
+apimon_scheduler_image: "{{ apimon_image }}"
+apimon_epmon_image: "{{ apimon_image }}"
 
 # Templates and filenames config
 apimon_epmon_config_template: "templates/apimon/apimon.yaml.j2"
@@ -30,6 +31,7 @@ apimon_instances:
     statsd_host: 192.168.110.58
     gearman_host: 192.168.110.58
     zone: production_eu-de
+    image_tag: "change_20_latest"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -116,6 +118,7 @@ apimon_instances:
     statsd_host: 192.168.2.55
     gearman_host: 192.168.2.55
     zone: vcloud_muc
+    image_tag: "change_20_latest"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -201,6 +204,7 @@ apimon_instances:
     statsd_host: 192.168.110.207
     gearman_host: 192.168.110.207
     zone: production_eu-de
+    image_tag: "change_20_latest"
 
     epmon_clouds:
       - preprod:
@@ -244,6 +248,7 @@ apimon_instances:
     statsd_host: 192.168.110.249
     gearman_host: 192.168.110.249
     zone: production_eu-de
+    image_tag: "change_20_latest"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -311,6 +316,7 @@ apimon_instances:
     statsd_host: 127.0.0.1
     gearman_host: apimon-scheduler-stg
     zone: production_eu-de
+    image_tag: "change_24_latest"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -373,6 +379,7 @@ apimon_instances:
     statsd_host: 127.0.0.1
     gearman_host: apimon-scheduler-prod-2
     zone: production_eu-de
+    image_tag: "change_20_latest"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)

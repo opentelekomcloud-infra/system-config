@@ -7,4 +7,4 @@
     - role: opentelekomcloud.apimon.scheduler
       scheduler_config: "{{ lookup('template', apimon_scheduler_config_template) | from_yaml }}"
       scheduler_secure_config: "{{ lookup('template', apimon_scheduler_secure_config_template) | from_yaml }}"
-      scheduler_image: "{{ apimon_scheduler_image }}"
+      scheduler_image: "{{ apimon_image }}:{{ apimon.image_tag }}"

@@ -9,7 +9,7 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/name: "apimon"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
@@ -29,7 +29,7 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/name: "apimon"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
@@ -53,7 +53,7 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "apimon"
+          app.kubernetes.io/name: "apimon"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec: "{{ cr_spec | combine(cr_additional_spec, recursive=True) }}"
