@@ -50,6 +50,7 @@
           app.kubernetes.io/name: "grafana"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
       data:
         tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ grafana.grafana_cert }}-fullchain.crt') | string | b64encode }}"
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ grafana.grafana_cert }}.pem') | string | b64encode }}"
