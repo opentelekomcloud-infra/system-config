@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: "alerta"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+  annotations:
+    # add an annotation indicating the issuer to use.
+{% if alerta.cluster_issuer is defined %}
+    cert-manager.io/cluster-issuer: "{{ alerta.cluster_issuer }}"
+{% endif %}
+spec:
+  rules:
+  - host: "{{ alerta.fqdn }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: "{{ alerta_service_name }}"
+            port: 
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls: 
+  - hosts:
+    - "{{ alerta.fqdn }}"
+    secretName: "{{ alerta_ssl_cert_name }}"
