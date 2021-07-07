@@ -35,6 +35,11 @@ grafana_instances:
     fqdn: "dashboard.tsi-dev.otc-service.com"
     grafana_cert: "grafana"
     default: *default_vars
+  production_infra-mirror:
+    # cluster_issuer: "letsencrypt-prod"
+    fqdn: "dashboard.tsi-dev.otc-service.com"
+    grafana_cert: "grafana"
+    default: *default_vars
   production_vc:
     default: *default_vars
 
@@ -46,4 +51,8 @@ grafana_k8s_instances:
   - grafana_instance: "production_infra"
     instance: "prod"
     context: "otcinfra"
+    namespace: "apimon"
+  - grafana_instance: "production_infra-mirror"
+    instance: "prod-mirror"
+    context: "otcinfra-mirror"
     namespace: "apimon"
