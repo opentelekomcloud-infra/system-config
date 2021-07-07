@@ -206,17 +206,6 @@
       - playbooks/roles/alerta/
 
 - job:
-    name: infra-prod-service-alerta-k8s
-    parent: infra-prod-service-base
-    description: Run service-alerta-k8s.yaml playbook.
-    vars:
-      playbook_name: service-alerta-k8s.yaml
-    files:
-      - inventory/
-      - playbooks/service-alerta-k8s.yaml
-      - playbooks/roles/alerta_k8s
-
-- job:
     name: infra-prod-service-grafana-dashboards
     parent: infra-prod-service-base
     description: Run dashboards.yaml playbook.

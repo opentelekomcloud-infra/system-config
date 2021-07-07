@@ -55,7 +55,6 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
-        - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-docs
         - infra-prod-service-proxy
@@ -88,7 +87,6 @@
         - infra-prod-service-memcached
         - infra-prod-service-graphite
         - infra-prod-service-alerta
-        - infra-prod-service-alerta-k8s
         - infra-prod-service-grafana
         - infra-prod-service-docs
         - infra-prod-service-proxy

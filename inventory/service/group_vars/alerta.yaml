@@ -35,8 +35,14 @@ alerta_instances:
     fqdn: alerta.apps.osinfra-stg.eco.tsi-dev.otc-service.com
     default: *default_vars
   production_infra: 
-    cluster_issuer: "letsencrypt-prod"
-    fqdn: alerta.infra.eco.tsi-dev.otc-service.com
+    # cluster_issuer: "letsencrypt-prod"
+    fqdn: "alerts.eco.tsi-dev.otc-service.com"
+    alerta_cert: "alerta"
+    default: *default_vars
+  production_infra-mirror: 
+    # cluster_issuer: "letsencrypt-prod"
+    fqdn: "alerts.eco.tsi-dev.otc-service.com"
+    alerta_cert: "alerta"
     default: *default_vars
   production_vc:
     default: *default_vars
@@ -49,4 +55,8 @@ alerta_k8s_instances:
   - alerta_instance: "production_infra"
     instance: "prod"
     context: "otcinfra"
+    namespace: "apimon"
+  - alerta_instance: "production_infra-mirror"
+    instance: "prod-mirror"
+    context: "otcinfra-mirror"
     namespace: "apimon"
