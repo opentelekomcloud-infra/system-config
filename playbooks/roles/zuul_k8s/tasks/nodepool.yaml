@@ -16,6 +16,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         nodepool.yaml: "{{ lookup('file', ([zuul_config_dir, instance, 'nodepool', 'nodepool.yaml'] | join('/')) ) }}"
+  tags: ["config"]
 
 - name: Create Nodepool Clouds config
   community.kubernetes.k8s:
@@ -34,6 +35,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         clouds.yaml: "{{ lookup('template', 'templates/clouds/nodepool_clouds.yaml.j2') | string | b64encode }}"
+  tags: ["config"]
 
 - name: Create nodepool-launcher deployment
   community.kubernetes.k8s:
