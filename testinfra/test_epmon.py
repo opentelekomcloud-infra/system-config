@@ -33,3 +33,4 @@ def test_epmon_config(host):
 def test_epmon_systemd(host):
     service = host.service('apimon-epmon')
     assert service.is_enabled
+    assert service.is_running
