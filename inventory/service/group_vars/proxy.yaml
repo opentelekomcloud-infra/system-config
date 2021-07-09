@@ -75,22 +75,24 @@ proxy_backends:
 
   - name: "alerta"
     options:
-      - "http-send-name-header Host"
       # NOTE: trailing slash avoids redirect
       - "option httpchk GET /api/"
+      # K8 deployed apps require explicit sending Host header
+      - "http-check send hdr Host alerts.eco.tsi-dev.otc-service.com"
+      - "option allbackups"
       - "default-server check weight 100"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
     servers:
+      - name: "alerta-infra"
+        address: "192.168.170.6:443"
+        opts: "ssl verify none cookie infra" 
+      - name: "alerta-infra-mirror"
+        address: "192.168.189.7:443"
+        opts: "ssl verify none cookie infra-mirror"
       - name: "web3"
         address: "192.168.2.52:8080"
-        opts: "cookie web3"
-      - name: "alerta.infra.eco.tsi-dev.otc-service.com"
-        address: "alerta.infra.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie infra sni req.hdr(Host)"
-      - name: "alerta.apps.osinfra-mirror.eco.tsi-dev.otc-service.com"
-        address: "alerta.apps.osinfra-mirror.eco.tsi-dev.otc-service.com:443"
-        opts: "ssl verify none cookie osinfra-mirror sni req.hdr(Host)"
+        opts: "cookie web3 backup"
 
   - name: "influx"
     options:
