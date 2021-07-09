@@ -1,4 +1,4 @@
-- name: Create ConfigMap
+- name: Create {{ instance }} ConfigMap
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -18,7 +18,7 @@
         apimon_executor.yaml: "{{ lookup('template', 'templates/apimon/executor-config.yaml.j2') | from_yaml | to_nice_yaml(indent=2) }}"
         logging.conf: "{{ lookup('template', 'templates/apimon/logging.conf.j2') }}"
 
-- name: Create Secrets
+- name: Create {{ instance }} Secrets
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -36,13 +36,13 @@
         apimon-secure.yaml: "{{ lookup('template', 'templates/apimon/apimon-secure.yaml.j2') | from_yaml | to_yaml | string | b64encode }}"
         apimon-executor-secure.yaml: "{{ lookup('template', 'templates/apimon/executor-secure-config.yaml.j2') | from_yaml | to_yaml | string | b64encode }}"
 
-- name: Set partial CR data
+- name: Set {{ instance }} partial CR data
   set_fact:
     cr_additional_spec:
       config_map_name: "apimon-config-{{ instance }}"
       secret_name: "apimon-secure-{{ instance }}"
 
-- name: Create CR
+- name: Create {{ instance }} CR
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
