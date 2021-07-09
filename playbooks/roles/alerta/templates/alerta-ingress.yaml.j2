@@ -1,8 +1,4 @@
-{% if k8s_17 == True %}
-apiVersion: networking.k8s.io/v1beta1
-{% else %}
 apiVersion: networking.k8s.io/v1
-{% endif %}
 kind: Ingress
 metadata:
   labels:
@@ -11,7 +7,6 @@ metadata:
     app.kubernetes.io/managed-by: "system-config"
   annotations:
     # add an annotation indicating the issuer to use.
-    route.openshift.io/termination: "edge"
 {% if alerta.cluster_issuer is defined %}
     cert-manager.io/cluster-issuer: "{{ alerta.cluster_issuer }}"
 {% endif %}
@@ -21,15 +16,10 @@ spec:
     http:
       paths:
       - backend:
-{% if k8s_17 == True %}
-            serviceName: "{{ alerta_service_name }}"
-            servicePort: 8080
-{% else %}
           service:
             name: "{{ alerta_service_name }}"
             port: 
               number: 8080
-{% endif %}
         path: /
         pathType: Prefix
   tls: 

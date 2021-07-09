@@ -1,21 +1,5 @@
 ---
-- name: Set resource naming
-  set_fact: 
-    alerta_config_name: "alerta-config-{{ instance }}"
-    alerta_secret_name: "alerta-secret-{{ instance }}"
-    alerta_deployment_name: "alerta-deployment-{{ instance }}"
-    alerta_service_name: "alerta-service-{{ instance }}"
-    alerta_ingress_name: "alerta-ingress-{{ instance }}"
-    alerta_ssl_cert_name: "alerta-ssl-{{ instance }}"
-    cluster_version: "{{ lookup('k8s', cluster_info='version') }}"
-    k8s_17: False
-
-- name: set k8s version
-  set_fact:
-    k8s_17: True
-  when: cluster_version.kubernetes.minor[:2] == "17"
-
-- name: Create Namespace
+- name: Create {{ instance }} Namespace
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -23,7 +7,7 @@
     api_version: "v1"
     kind: "Namespace"
 
-- name: Create ConfigMap
+- name: Create {{ instance }} ConfigMap
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -35,13 +19,13 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "alerta"
+          app.kubernetes.io/name: "alerta"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
         alertad.conf: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
 
-- name: Create Secrets
+- name: Create  {{ instance }} Secrets
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -53,7 +37,7 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "alerta"
+          app.kubernetes.io/name: "alerta"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
@@ -65,7 +49,27 @@
         ADMIN_USERS: "{{ alerta.alerta_admin_users | default(alerta.default.alerta_admin_users) | string | b64encode }}"
         LDAP_BIND_PASSWORD: "{{ alerta.alerta_bind_password | default(alerta.default.alerta_bind_password)  | string | b64encode }}"
 
-- name: Start Alerta deployment 
+- name: Create {{ instance }} TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_ssl_cert_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "alerta"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ alerta.alerta_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ alerta.alerta_cert }}.pem') | string | b64encode }}"
+  when: "alerta.alerta_cert is defined"
+
+- name: Start {{ instance }} Alerta deployment 
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -74,7 +78,7 @@
     apply: "yes"
     definition: "{{ lookup('template', 'alerta-deployment.yaml.j2') | from_yaml }}"
 
-- name: Expose Alerta deployment with service
+- name: Expose {{ instance }} Alerta deployment with service
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -83,7 +87,7 @@
     apply: "yes"
     definition: "{{ lookup('template', 'alerta-service.yaml.j2') | from_yaml }}"
 
-- name: Start Alerta ingress
+- name: Start {{ instance }} Alerta ingress
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"

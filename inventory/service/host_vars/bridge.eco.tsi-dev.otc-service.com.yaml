@@ -21,6 +21,8 @@ ssl_certs:
     - "graphite-ca.eco.tsi-dev.otc-service.com"
   grafana:
     - "dashboard.tsi-dev.otc-service.com"
+  alerta:
+    - "alerts.eco.tsi-dev.otc-service.com"
   matrix:
     - "matrix.otc-service.com"
   docs:
