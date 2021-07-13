@@ -16,6 +16,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         config.js: "{{ lookup('template', 'statsd-config.js.j2') }}"
+  tags: ["config"]
 
 - name: Create Statsd Service
   community.kubernetes.k8s:

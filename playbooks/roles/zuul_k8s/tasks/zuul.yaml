@@ -16,6 +16,7 @@
       data:
         zuul.conf: "{{ lookup('template', 'zuul.conf.j2') }}"
         logging.conf: "{{ lookup('file', 'logging.conf') }}"
+  tags: ["config"]
 
 - name: Create Zuul SSL Secrets
   community.kubernetes.k8s:
@@ -37,6 +38,7 @@
         gearman-client.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['cert']) | string | b64encode }}"
         gearman-client.key: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['key']) | string | b64encode }}"
         github.key: "{{ zuul.github_app_key | string | b64encode }}"
+  tags: ["config"]
 
 - name: Create Zuul Scheduler Secrets
   community.kubernetes.k8s:
@@ -57,6 +59,7 @@
         gearman-ca.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['ca']) | string | b64encode }}"
         gearman-server.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['cert']) | string | b64encode }}"
         gearman-server.key: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-server')]['key']) | string | b64encode }}"
+  tags: ["config"]
 
 - name: Create Zuul Executor Key Secret
   community.kubernetes.k8s:
@@ -75,8 +78,13 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         nodepool_id_rsa: "{{ zuul.zuul_ssh_private_key_contents | string | b64encode }}"
+  tags: ["config"]
 
 - include_tasks: zuul-merger.yaml
+  tags: ["config"]
 - include_tasks: zuul-scheduler.yaml
+  tags: ["config"]
 - include_tasks: zuul-web.yaml
+  tags: ["config"]
 - include_tasks: zuul-executor.yaml
+  tags: ["config"]
