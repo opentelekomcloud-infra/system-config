@@ -16,6 +16,7 @@
       data:
         main.yaml: "{{ lookup('file', ([zuul_config_dir, instance, 'zuul', 'main.yaml'] | join('/')) ) }}"
   register: zuul_scheduler_tenant_config
+  tags: ["config"]
 
 - name: Create Zuul Scheduler Service
   community.kubernetes.k8s:

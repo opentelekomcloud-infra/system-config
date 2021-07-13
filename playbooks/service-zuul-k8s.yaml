@@ -4,9 +4,10 @@
   tasks:
     - set_fact:
         x509_certs: {}
+      tags: ["config"]
 
     - include_role:
-        name: zuul_k8s
+        name: "zuul_k8s"
       vars:
         zuul: "{{ zuul_instances[item.zuul_instance] | combine(zuul_instances_secrets[item.zuul_instance], recursive=True) }}"
         instance: "{{ item.instance }}"
@@ -16,4 +17,5 @@
         # In k8 we can not mount secret and cm under same path
         apimon_secure_file_location: "/etc/apimon_secure/apimon-secure.yaml"
         executor_secure_file_location: "/etc/apimon_secure/apimon-executor-secure.yaml"
+      tags: ["config"]
       loop: "{{ zuul_k8s_instances | list }}"

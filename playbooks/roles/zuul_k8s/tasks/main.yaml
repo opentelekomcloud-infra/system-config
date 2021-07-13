@@ -1,17 +1,23 @@
 - include_role:
     name: "x509_cert"
     tasks_from: cert.yaml
+    apply:
+      tags: ["config"]
   vars:
-    x509_common_name: "{{ item }}"
+    x509_common_name: "{{ zj_cert_item }}"
+  tags: ["config"]
   loop:
     - "zuul-{{ instance }}-zk-client"
     - "zuul-{{ instance }}-gearman-server"
     - "zuul-{{ instance }}-gearman-client"
+  loop_control:
+    loop_var: zj_cert_item
 
 - name: Create zuul-config dir
   file:
     path: "{{ zuul_config_dir }}"
     state: directory
+  tags: ["config"]
 
 - name: Update from master
   #when: "{{ zuul.pipeline|default('') in ['periodic', 'periodic-hourly'] }}"
@@ -20,6 +26,7 @@
     repo: "{{ zuul.config_repo }}"
     dest: "{{ zuul_config_dir }}/{{ instance }}"
     force: yes
+  tags: ["config"]
 
 - name: Create Zull Namespace
   community.kubernetes.k8s:
@@ -66,7 +73,11 @@
         cacert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['ca']) | string | b64encode }}"
         cert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['cert']) | string | b64encode }}"
         key.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['key']) | string | b64encode }}"
+  tags: ["config"]
 
 - include_tasks: statsd.yaml
+  tags: ["config"]
 - include_tasks: nodepool.yaml
+  tags: ["config"]
 - include_tasks: zuul.yaml
+  tags: ["config"]
