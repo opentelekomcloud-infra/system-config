@@ -17,7 +17,7 @@
       overrides: []
     fill: 1
     fillGradient: 0
-    {{ mcr.grid_pos(0, 39, 8, 12) }}
+    {{ mcr.grid_pos(4, 39, 8, 12) }}
     legend:
       show: true
     options:
@@ -52,40 +52,40 @@
       alignLevel: null
     linewidth: 1
 
-  - datasource: {{ grafana_ds | default('apimon') }}
-    description: This number is not an indicator in the case where we can not even
-      start provisioning server
-    fieldConfig:
-      defaults:
-        color:
-          mode: thresholds
-        thresholds:
-          mode: percentage
-          steps:
-            - color: red
-              value: null
-            - color: yellow
-              value: 80
-            - color: green
-              value: 99.999
-        unit: percent
-    {{ mcr.grid_pos(12, 39, 8, 12) }}
-    options:
-      colorMode: value
-      reduceOptions:
-        calcs:
-          - last
-        values: false
-    targets:
-      - hide: false
-        queryType: randomWalk
-        refCount: 0
-        refId: A
-        target: aliasByNode(groupByNode(applyByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.count,
-          7, "asPercent(%.passed.count, %.attempted.count)", "%.pct"),7), 0)
-        textEditor: true
-    title: Server Provisioning Success rate (partly reliable)
-    type: stat
+#  - datasource: {{ grafana_ds | default('apimon') }}
+#    description: This number is not an indicator in the case where we can not even
+#      start provisioning server
+#    fieldConfig:
+#      defaults:
+#        color:
+#          mode: thresholds
+#        thresholds:
+#          mode: percentage
+#          steps:
+#            - color: red
+#              value: null
+#            - color: yellow
+#              value: 80
+#            - color: green
+#              value: 99.999
+#        unit: percent
+#    {{ mcr.grid_pos(12, 39, 8, 12) }}
+#    options:
+#      colorMode: value
+#      reduceOptions:
+#        calcs:
+#          - last
+#        values: false
+#    targets:
+#      - hide: false
+#        queryType: randomWalk
+#        refCount: 0
+#        refId: A
+#        target: aliasByNode(groupByNode(applyByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.count,
+#          7, "asPercent(%.passed.count, %.attempted.count)", "%.pct"),7), 0)
+#        textEditor: true
+#    title: Server Provisioning Success rate (partly reliable)
+#    type: stat
 
   - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
