@@ -362,6 +362,14 @@ panels:
 # TODO: DNS need to exclude 400 error
 {{ mcr.sli_service_row_dns('dns', 'DNS', 132) }}
 
+# CES
+  - collapsed: false
+    {{ mcr.grid_pos(0, 140, 1, 24) }}
+    panels: []
+    title: CES
+    type: row
+{{ mcr.sli_service_row('ces', 'CES', 141) }}
+
 # DIS
   - collapsed: false
     {{ mcr.grid_pos(0, 142, 1, 24) }}
