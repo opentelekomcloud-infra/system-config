@@ -36,6 +36,11 @@ frontend web
 
   http-request set-header X-Forwarded-Proto https if { ssl_fc }
   http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
+  http-request redirect scheme https code 301 unless { ssl_fc }
+
+  # max-age is mandatory
+  # 16000000 seconds is a bit more than 6 months
+  http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
 
 {% for backend in proxy_backends %}
 {% for domain in backend.domain_names %}
