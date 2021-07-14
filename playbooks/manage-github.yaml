@@ -2,29 +2,22 @@
 - name: Prepare github config
   hosts: bridge.eco.tsi-dev.otc-service.com
   tasks:
+    # We set root dir here rather then in the job vars to be able to trigger it locally
     - name: Register root dir
       set_fact:
-        root_dir: "/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring/orgs"
+        gitstyring_root_dir: "/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring"
 
-- name: Prepare github config
-  hosts: bridge.eco.tsi-dev.otc-service.com
-  tasks:
-    - name: Gather orgs info
-      scan_organizations:
-        path: "{{ root_dir }}"
-      register: out
+    - name: manage people
+      opentelekomcloud.gitcontrol.members:
+        root: "{{ gitstyring_root_dir }}"
+        token: "{{ github_token }}"
 
-    - name: Register orgs structure
-      set_fact:
-        structure: "{{ out }}"
+    - name: manage teams
+      opentelekomcloud.gitcontrol.teams:
+        root: "{{ gitstyring_root_dir }}"
+        token: "{{ github_token }}"
 
-- name: Manage orgs
-  hosts: bridge.eco.tsi-dev.otc-service.com
-  gather_facts: false
-  roles:
-    - gitcontrol
-  vars:
-    orgs: "{{ structure.data }}"
-    # github_user: "{{ lookup('env', 'GITHUB_USER') }}"
-    # github_token: "{{ lookup('env', 'GITHUB_TOKEN') }}"
-    github_api: https://api.github.com
+    - name: manage repositories
+      opentelekomcloud.gitcontrol.repositories:
+        root: "{{ gitstyring_root_dir }}"
+        token: "{{ github_token }}"
