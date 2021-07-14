@@ -83,7 +83,7 @@ Hardening
 ---------
 
 All configuration files for the hosts part of this repository. Every VM is managed by the System
-Config project applying the same hardening rules to evenry host according to
+Config project applying the same hardening rules to every host according to
 the configuration
 
 * :git_file:`inventory/service/host_vars/proxy1.eco.tsi-dev.otc-service.com.yaml`
