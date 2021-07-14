@@ -20,6 +20,9 @@
         - namespace: opentelekomcloud
           name: cloud
           repo: opentelekomcloud/ansible-collection-cloud
+        - namespace: opentelekomcloud
+          name: gitcontrol
+          repo: opentelekomcloud/ansible-collection-gitcontrol
         - namespace: openstack
           name: cloud
           repo: openstack/ansible-collections-openstack

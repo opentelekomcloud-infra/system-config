@@ -11,3 +11,4 @@ Major Systems
    docsportal
    matrix
    proxy
+   gitcontrol
