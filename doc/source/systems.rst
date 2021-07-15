@@ -11,3 +11,5 @@ Major Systems
    docsportal
    matrix
    swift
+   proxy
+   gitcontrol
