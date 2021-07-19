@@ -15,13 +15,13 @@ proxy_backends:
     servers:
       - name: "graphite1"
         address: "192.168.191.55:80"
-        opts: "cookie graphite1"
+        opts: "cookie graphite1 check inter 5s fall 5 rise 1"
       - name: "graphite2"
         address: "192.168.14.159:443"
-        opts: "ssl verify none cookie graphite2"
+        opts: "ssl verify none cookie graphite2 check inter 5s fall 5 rise 1"
       - name: "graphite3"
         address: "192.168.151.11:443"
-        opts: "ssl verify none cookie graphite3"
+        opts: "ssl verify none cookie graphite3 check inter 5s fall 5 rise 1"
 
   - name: "graphite-ca"
     options:
@@ -37,19 +37,19 @@ proxy_backends:
     servers:
       - name: "graphite-otcinfra"
         address: "192.168.170.6:443"
-        opts: "ssl verify none cookie graphite-otcinfra"
+        opts: "ssl verify none cookie graphite-otcinfra check inter 5s fall 5 rise 1"
       - name: "graphite1"
         address: "192.168.191.55:8082"
-        opts: "cookie graphite1 backup"
+        opts: "cookie graphite1 backup check inter 5s fall 5 rise 1"
       - name: "graphite2"
         address: "192.168.14.159:8082"
-        opts: "cookie graphite2 backup"
+        opts: "cookie graphite2 backup check inter 5s fall 5 rise 1"
       - name: "graphite3"
         address: "192.168.151.11:8082"
-        opts: "cookie graphite3 backup"
+        opts: "cookie graphite3 backup check inter 5s fall 5 rise 1"
       - name: "graphite4"
         address: "192.168.14.241:8082"
-        opts: "cookie graphite4 backup"
+        opts: "cookie graphite4 backup check inter 5s fall 5 rise 1"
 
   - name: "dashboard"
     options:
@@ -65,13 +65,13 @@ proxy_backends:
     servers:
       - name: "dashboard-infra"
         address: "192.168.170.6:443"
-        opts: "ssl verify none cookie infra"
+        opts: "ssl verify none cookie infra check inter 5s fall 5 rise 1"
       - name: "dashboard-infra-mirror"
         address: "192.168.189.7:443"
-        opts: "ssl verify none cookie infra-mirror"
+        opts: "ssl verify none cookie infra-mirror check inter 5s fall 5 rise 1"
       - name: "web3"
         address: "192.168.2.52:3000"
-        opts: "cookie web3 backup"
+        opts: "cookie web3 backup check inter 5s fall 5 rise 1"
 
   - name: "alerta"
     options:
@@ -86,13 +86,13 @@ proxy_backends:
     servers:
       - name: "alerta-infra"
         address: "192.168.170.6:443"
-        opts: "ssl verify none cookie infra" 
+        opts: "ssl verify none cookie infra check inter 5s fall 5 rise 1" 
       - name: "alerta-infra-mirror"
         address: "192.168.189.7:443"
-        opts: "ssl verify none cookie infra-mirror"
+        opts: "ssl verify none cookie infra-mirror check inter 5s fall 5 rise 1"
       - name: "web3"
         address: "192.168.2.52:8080"
-        opts: "cookie web3 backup"
+        opts: "cookie web3 backup check inter 5s fall 5 rise 1"
 
   - name: "influx"
     options:
@@ -102,7 +102,7 @@ proxy_backends:
     servers:
       - name: "influx1"
         address: "192.168.110.227:8086"
-        opts: "check"
+        opts: "check inter 5s fall 5 rise 1"
 
   - name: "matrix"
     options: []
@@ -112,7 +112,7 @@ proxy_backends:
     servers:
       - name: "infra"
         address: "192.168.170.6:443"
-        opts: "ssl verify none cookie otcinfra"
+        opts: "ssl verify none cookie otcinfra check inter 5s fall 5 rise 1"
 
   - name: "docs"
     options: []
@@ -121,7 +121,7 @@ proxy_backends:
     servers:
       - name: "infra"
         address: "192.168.170.6:443"
-        opts: "ssl verify none cookie otcinfra"
+        opts: "ssl verify none cookie otcinfra check inter 5s fall 5 rise 1"
 
 
 proxy_frontends:
