@@ -134,3 +134,31 @@ helm_chart_instances:
     version: 3.34.0
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+
+octavia_proxy_instances:
+  eu-de:
+    fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_32_latest"
+    cert: "octavia_de"
+    enabled_drivers:
+      - driver: "elbv3"
+        description: "The Open Telekom Cloud AZ aware LB driver"
+    default_provider_driver: "elbv3"
+  eu-nl:
+    fqdn: "octavia-nl.eco.tsi-dev.otc-service.com"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_32_latest"
+    cert: "octavia_nl"
+    enabled_drivers:
+      - driver: "elbv2"
+        description: "The Open Telekom Cloud AZ Shared LB driver"
+    default_provider_driver: "elbv2"
+
+octavia_proxy_k8s_instances:
+  - octavia_proxy_instance: "eu-de"
+    context: "otcinfra"
+    instance: "eu-de"
+    namespace: "octavia"
+  - octavia_proxy_instance: "eu-nl"
+    context: "otcinfra"
+    instance: "eu-nl"
+    namespace: "octavia"

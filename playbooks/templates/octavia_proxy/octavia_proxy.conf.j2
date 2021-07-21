@@ -1,0 +1,38 @@
+[DEFAULT]
+# Print debugging output (set logging level to DEBUG instead of default WARNING level).
+# debug = False
+log_level = INFO
+
+[validatetoken]
+auth_url=https://iam.eu-de.otc.t-systems.com
+log_name='token_validate'
+
+[api_settings]
+bind_host = 0.0.0.0
+bind_port = 9876
+
+# How should authentication be handled (keystone, noauth, validatetoken)
+auth_strategy = validatetoken
+
+# Dictionary of enabled provider driver names and descriptions
+# A comma separated list of dictionaries of the enabled provider driver names
+# and descriptions.
+enabled_provider_drivers = {{ enabled_drivers }}
+
+# Default provider driver
+default_provider_driver = {{ octavia_proxy.default_provider_driver }}
+
+[keystone_authtoken]
+# This group of config options are imported from keystone middleware. Thus the
+# option names should match the names declared in the middleware.
+# The www_authenticate_uri is the public endpoint and is returned in headers on a 401
+# www_authenticate_uri = https://localhost:5000/v3
+# The auth_url is the admin endpoint actually used for validating tokens
+# auth_url = https://localhost:5000/v3
+# username = octavia
+# password = password
+# project_name = service
+
+# Domain names must be set, these are *not* default but work for most clouds
+# project_domain_name = Default
+# user_domain_name = Default
