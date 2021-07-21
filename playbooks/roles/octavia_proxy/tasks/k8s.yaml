@@ -1,0 +1,80 @@
+---
+- name: Create {{ instance }} Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Construct enabled_drivers
+  set_fact:
+    _enabled_drivers: "{{ (_enabled_drivers | default([])) + [item.driver + ':' + item.description] }}"
+  loop: "{{ octavia_proxy.enabled_drivers }}"
+
+- name: Create {{ instance }} ConfigMap
+  vars:
+    enabled_drivers: "{{ _enabled_drivers | join(',') }}"
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ octavia_proxy_config_name }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "octavia-proxy"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        octavia_proxy.conf: "{{ lookup('template', 'templates/octavia_proxy/octavia_proxy.conf.j2') }}"
+
+- name: Create {{ instance }} TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ octavia_proxy_ssl_cert_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "octavia-proxy"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ octavia_proxy.cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ octavia_proxy.cert }}.pem') | string | b64encode }}"
+  when: "octavia_proxy.cert is defined"
+
+- name: Start {{ instance }} Octavia Proxy deployment
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ octavia_proxy_deployment_name }}"
+    apply: "yes"
+    definition: "{{ lookup('template', 'octavia-deployment.yaml.j2') | from_yaml }}"
+
+- name: Expose {{ instance }} Octavia Proxy deployment with service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ octavia_proxy_service_name }}"
+    apply: "yes"
+    definition: "{{ lookup('template', 'octavia-service.yaml.j2') | from_yaml }}"
+
+- name: Start {{ instance }} Octavia Proxyingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ octavia_proxy_ingress_name }}"
+    apply: "yes"
+    definition: "{{ lookup('template', 'octavia-ingress.yaml.j2') | from_yaml }}"

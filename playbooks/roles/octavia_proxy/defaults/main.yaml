@@ -1,0 +1,8 @@
+state: "present"
+
+octavia_proxy_config_name: "octavia-proxy-config-{{ instance }}"
+octavia_proxy_secret_name: "octavia-proxy-secret-{{ instance }}"
+octavia_proxy_deployment_name: "octavia-proxy-deployment-{{ instance }}"
+octavia_proxy_service_name: "octavia-proxy-service-{{ instance }}"
+octavia_proxy_ingress_name: "octavia-proxy-ingress-{{ instance }}"
+octavia_proxy_ssl_cert_name: "octavia-proxy-ssl-{{ instance }}"
