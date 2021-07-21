@@ -22,6 +22,10 @@ enabled_provider_drivers = {{ enabled_drivers }}
 # Default provider driver
 default_provider_driver = {{ octavia_proxy.default_provider_driver }}
 
+{% if octavia_proxy.region_name is defined %}
+region = {{ octavia_proxy.region_name }}
+{% endif %}
+
 [keystone_authtoken]
 # This group of config options are imported from keystone middleware. Thus the
 # option names should match the names declared in the middleware.
