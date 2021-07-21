@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: "octavia_proxy"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+spec:
+  replicas: {{ (octavia_proxy.octavia_proxy_deployment_count | default(1))|int }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "octavia-proxy"
+      app.kubernetes.io/instance: "{{ instance }}"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "octavia-proxy"
+        app.kubernetes.io/instance: "{{ instance }}"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: In
+                  values:
+                  - "{{ instance }}"
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - image: "{{ octavia_proxy.image }}"
+        name: octavia-proxy
+        ports:
+        - containerPort: 9876
+{% if octavia_proxy.deployment_resources is defined %}
+        resources: {{ octavia_proxy.deployment_resources }}
+{% endif %}
+        readinessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: 9876
+        livenessProbe:
+          httpGet:
+            path: /
+            scheme: HTTP
+            port: 9876
+        volumeMounts:
+        - name: octavia-proxy-config
+          mountPath: /etc/octavia_proxy/
+      volumes:
+      - configMap:
+          name: "{{ octavia_proxy_config_name }}"
+        name: octavia-proxy-config

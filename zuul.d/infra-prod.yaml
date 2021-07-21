@@ -315,3 +315,14 @@
       - inventory/service/group_vars/cloud-launcher.yaml
       - playbooks/cloud-cce.yaml
       - playbooks/roles/cloud_cce
+
+- job:
+    name: infra-prod-service-octavia-proxy
+    parent: infra-prod-service-base
+    description: Deploy Octavia Proxy
+    vars:
+      playbook_name: service-octavia-proxy.yaml
+    files:
+      - inventory/service/group_vars/k8s-controller.yaml
+      - playbooks/service-octavia-proxy.yaml
+      - playbooks/roles/octavia_proxy

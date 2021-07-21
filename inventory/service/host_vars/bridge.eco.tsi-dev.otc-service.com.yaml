@@ -27,3 +27,7 @@ ssl_certs:
     - "matrix.otc-service.com"
   docs:
     - "docs.otc-service.com"
+  octavia_de:
+    - "octavia-de.eco.tsi-dev.otc-service.com"
+  octavia_nl:
+    - "octavia-nl.eco.tsi-dev.otc-service.com"

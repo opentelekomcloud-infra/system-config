@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: "octavia-proxy"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+  annotations:
+    # add an annotation indicating the issuer to use.
+{% if octavia_proxy.cluster_issuer is defined %}
+    cert-manager.io/cluster-issuer: "{{ octavia_proxy.cluster_issuer }}"
+{% endif %}
+spec:
+  rules:
+  - host: "{{ octavia_proxy.fqdn }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: "{{ octavia_proxy_service_name }}"
+            port: 
+              number: 9876
+        path: /
+        pathType: Prefix
+  tls: 
+  - hosts:
+    - "{{ octavia_proxy.fqdn }}"
+    secretName: "{{ octavia_proxy_ssl_cert_name }}"
