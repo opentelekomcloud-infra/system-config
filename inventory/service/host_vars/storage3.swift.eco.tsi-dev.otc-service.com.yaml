@@ -15,6 +15,6 @@ swift_services:
 # 873/tcp - rsync
 firewalld_extra_ports_enable:
   - "873/tcp"
-  - "{{ object_server_port }}/tcp"
-  - "{{ container_server_port }}/tcp"
-  - "{{ account_server_port/tcp"
+  - "{{ swift_object_server_port }}/tcp"
+  - "{{ swift_container_server_port }}/tcp"
+  - "{{ swift_account_server_port/tcp"
