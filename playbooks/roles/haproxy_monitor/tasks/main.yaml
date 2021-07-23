@@ -1,0 +1,21 @@
+---
+- set_fact:
+    frontends: "{{ (frontends|default({})) | combine({item.name: item}) }}"
+  loop: "{{ proxy_frontends }}"
+
+- block:
+    - include_tasks: "backend.yaml"
+      loop: "{{ proxy_backends }}"
+      loop_control:
+        loop_var: "backend"
+
+    - include_tasks: "frontend.yaml"
+      loop: "{{ proxy_frontends }}"
+      loop_control:
+        loop_var: "frontend"
+
+  rescue:
+    - name: Reload Haproxy
+      ansible.builtin.service:
+        name: "haproxy"
+        state: "reloaded"

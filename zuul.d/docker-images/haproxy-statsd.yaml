@@ -1,0 +1,26 @@
+# haproxy-statsd jobs
+- job:
+    name: system-config-build-image-haproxy-statsd
+    description: Build a haproxy-statsd image.
+    parent: system-config-build-image
+    vars: &haproxy-statsd_vars
+      docker_images:
+        - context: docker/haproxy-statsd
+          repository: opentelekomcloud/haproxy-statsd
+          tags: ['latest']
+    files: &haproxy-statsd_files
+      - docker/haproxy-statsd/
+
+- job:
+    name: system-config-upload-image-haproxy-statsd
+    description: Build and upload a haproxy-statsd image.
+    parent: system-config-upload-image
+    vars: *haproxy-statsd_vars
+    files: *haproxy-statsd_files
+
+      #- job:
+      #    name: system-config-promote-image-haproxy-statsd
+      #    description: Promote a previously published haproxy-statsd image to latest.
+      #    parent: system-config-promote-image
+      #    vars: *haproxy-statsd_vars
+      #    files: *haproxy-statsd_files

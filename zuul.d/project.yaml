@@ -21,6 +21,7 @@
         - system-config-run-zookeeper
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
+        - system-config-build-image-haproxy-statsd
     gate:
       jobs:
         - otc-tox-linters
@@ -39,6 +40,7 @@
         - system-config-run-zookeeper
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
+        - system-config-upload-image-haproxy-statsd
     deploy:
       jobs:
         - infra-prod-install-ansible
