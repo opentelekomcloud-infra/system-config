@@ -1,0 +1,6 @@
+---
+# This playbook loops through all proxy instances and trigger reload when some backend/frontend is not reachable. This tries to address an issue in the haproxy that it does not recover when backend goes DOWN (even backend servers are up - backend stays DOWN forever). This is occuring once a network between machines is reset.
+# The playbook should be executed on a cron basis.
+- hosts: proxy
+  roles:
+    - haproxy_monitor

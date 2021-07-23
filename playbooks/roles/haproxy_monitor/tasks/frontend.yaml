@@ -1,0 +1,6 @@
+---
+- name: Check frontend {{ frontend.name }}
+  wait_for:
+    port: "{{ frontend.bind | regex_replace('^.*:([0-9]+).*$', '\\1') }}"
+    timeout: 5
+  when: "frontend.bind is defined"

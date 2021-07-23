@@ -30,6 +30,8 @@ GAUGES = [
     # reports the number queued without a server assigned.
     'scur',
     # 4. scur [LFBS]: current sessions
+    'status',
+    # 18. status
     'act',
     # 19. act [..BS]: number of active servers (backend), server is
     # active (server)
@@ -88,6 +90,18 @@ COUNTERS = [
     # another server. The server value counts the number of times that
     # server was switched away from.
 ]
+
+
+def _to_int(val):
+    if isinstance(val, int):
+        return val
+    elif isinstance(val, str):
+        if val in ['UP', 'OPEN']:
+            return 1
+        else:
+            return 0
+    else:
+        return int(val)
 
 
 class Socket(object):
@@ -151,13 +165,13 @@ class HAProxy(object):
             for key in GAUGES:
                 value = row[key]
                 if value != '':
-                    pipe.gauge(base + key, int(value))
+                    pipe.gauge(base + key, _to_int(value))
             for key in COUNTERS:
                 metric = base + key
                 newvalue = row[key]
                 if newvalue == '':
                     continue
-                newvalue = int(newvalue)
+                newvalue = _to_int(newvalue)
                 oldvalue = self.prevdata.get(metric)
                 if oldvalue is not None:
                     value = newvalue - oldvalue
