@@ -17,4 +17,4 @@ firewalld_extra_ports_enable:
   - "873/tcp"
   - "{{ swift_object_server_port }}/tcp"
   - "{{ swift_container_server_port }}/tcp"
-  - "{{ swift_account_server_port/tcp"
+  - "{{ swift_account_server_port }}/tcp"
