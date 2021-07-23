@@ -104,6 +104,7 @@ groups:
       #- executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
+    - controller.swift.eco.tsi-dev.otc-service.com
 
   graphite:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
@@ -173,6 +174,14 @@ groups:
 
   k8s-controller:
     - bridge.eco.tsi-dev.otc-service.com
+
+  swift:
+    - proxy1.swift.eco.tsi-dev.otc-service.com
+    - proxy2.swift.eco.tsi-dev.otc-service.com
+    - proxy3.swift.eco.tsi-dev.otc-service.com
+    - storage1.swift.eco.tsi-dev.otc-service.com
+    - storage2.swift.eco.tsi-dev.otc-service.com
+    - storage3.swift.eco.tsi-dev.otc-service.com
 
   disabled:
     # We can not manage coreos with ansible by default

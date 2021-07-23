@@ -62,26 +62,24 @@ all:
     zk3.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.47
       ansible_user: linux
+    controller.swift.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.80.181
+      ansible_user: linux
     proxy1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.190
       ansible_user: linux
-
     proxy2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.129
       ansible_user: linux
-
     proxy3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.15
       ansible_user: linux
-
-    storage.swift.eco.tsi-dev.otc-service.com:
+    storage1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.86
       ansible_user: linux
-
     storage2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.2
       ansible_user: linux
-
     storage3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.158
       ansible_user: linux

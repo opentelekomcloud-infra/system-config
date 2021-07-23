@@ -1,0 +1,6 @@
+---
+# Install and configure Swift
+- hosts: swift
+  become: true
+  roles:
+    - swift

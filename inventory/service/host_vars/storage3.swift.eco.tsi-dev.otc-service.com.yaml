@@ -1,0 +1,20 @@
+---
+swift_storage_ip: "192.168.82.48"
+swift_replication_ip: "192.168.83.72"
+swift_drives:
+  - name: "vdb"
+swift_region: 1
+swift_zone: 3
+
+swift_services:
+  - "account"
+  - "container"
+  - "object"
+  - "rest"
+
+# 873/tcp - rsync
+firewalld_extra_ports_enable:
+  - "873/tcp"
+  - "{{ object_server_port }}/tcp"
+  - "{{ container_server_port }}/tcp"
+  - "{{ account_server_port/tcp"

@@ -1,0 +1,10 @@
+---
+- name: Restart rsync
+  ansible.builtin.service:
+    name: "rsync"
+    state: "restarted"
+
+- name: Restart rsyslog
+  ansible.builtin.service:
+    name: "rsyslog"
+    state: "restarted"

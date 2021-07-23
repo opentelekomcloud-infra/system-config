@@ -2,7 +2,7 @@ deb http://ftp.de.debian.org/debian/ sid main contrib non-free
 deb-src http://ftp.de.debian.org/debian/ sid main contrib non-free
 
 # Updates
-# deb http://ftp.de.debian.org/debian/ sidi-updates main contrib non-free
+# deb http://ftp.de.debian.org/debian/ sid-updates main contrib non-free
 # deb-src http://ftp.de.debian.org/debian/ sid-updates main contrib non-free
 
 # Security Updates  http://www.debian.org/security/
