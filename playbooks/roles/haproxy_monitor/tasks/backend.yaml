@@ -1,0 +1,4 @@
+---
+- name: Get backend {{ backend.name }}
+  ansible.builtin.command: "curl https://{{ backend.domain_names[0] }} --resolve {{ backend.domain_names[0] }}:443:localhost --connect-timeout 5"
+  when: "backend.name not in frontends"
