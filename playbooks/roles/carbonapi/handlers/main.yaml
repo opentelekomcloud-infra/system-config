@@ -4,3 +4,10 @@
     enabled: true
     state: "restarted"
     daemon_reload: true
+
+- name: Restart carbonapi-healthcheck
+  ansible.builtin.systemd:
+    name: "carbonapi-healthcheck"
+    enabled: true
+    state: "restarted"
+    daemon_reload: true
