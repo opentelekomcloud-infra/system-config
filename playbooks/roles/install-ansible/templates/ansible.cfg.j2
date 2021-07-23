@@ -11,7 +11,7 @@ fact_caching=jsonfile
 fact_caching_connection=/var/cache/ansible/facts
 # Squash warning about ansible auto-transforming group names with -'s in them
 force_valid_group_names=ignore
-callback_whitelist=profile_tasks, timer
+callback_enabled=profile_tasks, timer
 {% if install_ansible_ara_enable %}
 callback_plugins=/etc/ansible/callback_plugins:{{ install_ansible_ara_callback_plugins.stdout }}
 {% else %}
