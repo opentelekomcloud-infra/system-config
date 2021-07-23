@@ -136,21 +136,23 @@ helm_chart_instances:
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
 
 octavia_proxy_instances:
-  eu-de:
-    fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_32_latest"
-    cert: "octavia_de"
-    enabled_drivers:
-      - driver: "elbv3"
-        description: "The Open Telekom Cloud AZ aware LB driver"
-    default_provider_driver: "elbv3"
   eu-nl:
     fqdn: "octavia-nl.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_32_latest"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_33_latest"
     cert: "octavia_nl"
+    region_name: "eu-nl"
+    enabled_drivers:
+      - driver: "elbv3"
+        description: "The Open Telekom Cloud Dedicated LB driver"
+    default_provider_driver: "elbv3"
+  eu-de:
+    fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_33_latest"
+    cert: "octavia_de"
+    region_name: "eu-de"
     enabled_drivers:
       - driver: "elbv2"
-        description: "The Open Telekom Cloud AZ Shared LB driver"
+        description: "The Open Telekom Cloud Shared LB driver"
     default_provider_driver: "elbv2"
 
 octavia_proxy_k8s_instances:
