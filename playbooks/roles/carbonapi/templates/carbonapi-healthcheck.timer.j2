@@ -1,0 +1,12 @@
+[Unit]
+Description=Runs graphite healthcheck every 1 minutes
+Requires=graphite-healthcheck.service
+
+[Timer]
+Unit=graphite-healthcheck.service
+OnUnitInactiveSec=1m
+AccuracySec=1s
+
+[Install]
+WantedBy=timers.target
+
