@@ -31,23 +31,14 @@
     mode: 0644
   notify: Restart rsyslog
 
-- name: Enable logs compression in logrotate
-  ansible.builtin.lineinfile:
-    path: "/etc/logrotate.conf"
-    regexp: "^#compress"
-    line: "compress"
-  notify: Restart rsyslog
-
-- name: Limit log size in logrotate
-  ansible.builtin.lineinfile:
-    path: "/etc/logrotate.conf"
-    regexp: "maxsize"
-    line: "maxsize: {{ logrotate_maxsize }}"
-  when: "logrotate_maxsize is defined"
+- name: Deploy SystemConfig logrotate config
+  ansible.builtin.template:
+    dest: "/etc/logrotate.d/system-config"
+    src: "logrotate.j2"
   notify: Restart rsyslog
 
 - name: Ensure rsyslog is running
-  service:
+  ansible.builtin.service:
     name: rsyslog
     enabled: yes
     state: started
