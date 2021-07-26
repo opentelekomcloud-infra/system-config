@@ -15,7 +15,7 @@
         loop_var: "frontend"
 
   rescue:
-    - name: Reload Haproxy
+    - name: Restart Haproxy
       ansible.builtin.service:
         name: "haproxy"
-        state: "reloaded"
+        state: "restarted"
