@@ -1,9 +1,9 @@
 [Unit]
-Description=Runs graphite healthcheck every 1 minutes
-Requires=graphite-healthcheck.service
+Description=Runs carbonapi healthcheck every 1 minutes
+Requires=carbonapi-healthcheck.service
 
 [Timer]
-Unit=graphite-healthcheck.service
+Unit=carbonapi-healthcheck.service
 OnUnitInactiveSec=1m
 AccuracySec=1s
 
