@@ -1,1 +1,2 @@
+memcached_image: "quay.io/opentelekomcloud/memcached:1.6.10-alpine"
 memcached_size: 128
