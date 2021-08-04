@@ -35,7 +35,7 @@
   ansible.builtin.template:
     dest: "/etc/logrotate.d/system-config"
     src: "logrotate.j2"
-  notify: Restart rsyslog
+  notify: Restart logrotate
 
 - name: Ensure rsyslog is running
   ansible.builtin.service:

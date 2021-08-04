@@ -3,6 +3,12 @@
     name: rsyslog
     state: restarted
 
+- name: Restart logrotate
+  service:
+    name: logrotate
+    enabled: yes
+    state: restarted
+
 - name: Restart ssh
   service:
     name: '{{ ssh_service_name }}'
