@@ -1,3 +1,4 @@
+---
 - project:
     merge-mode: squash-merge
     default-branch: main
@@ -96,6 +97,14 @@
         - infra-prod-service-docs
         - infra-prod-service-proxy
         - infra-prod-service-zookeeper
+        - infra-prod-manage-github:
+            files:
+              - playbooks/manage-github.yaml
+              - playbooks/roles/gitcontrol
+              - playbooks/templates/github/default_zuul.yaml
+            dependencies:
+              - name: infra-prod-install-ansible
+                soft: true
     periodic-hourly:
       # hourly execution
       jobs:
