@@ -33,7 +33,7 @@
 
 - name: Deploy SystemConfig logrotate config
   ansible.builtin.template:
-    dest: "/etc/logrotate.d/system-config"
+    dest: "/etc/logrotate.d/1system-config"
     src: "logrotate.j2"
   notify: Restart logrotate
 
