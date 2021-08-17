@@ -38,6 +38,7 @@
         gearman-client.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['cert']) | string | b64encode }}"
         gearman-client.key: "{{ lookup('file', x509_certs[('zuul-' + instance + '-gearman-client')]['key']) | string | b64encode }}"
         github.key: "{{ zuul.github_app_key | string | b64encode }}"
+        gitlab.key: "{{ zuul.gitlab_ssh_private_key_content | string | b64encode }}"
   tags: ["config"]
 
 - name: Create Zuul Scheduler Secrets
@@ -77,7 +78,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
-        nodepool_id_rsa: "{{ zuul.zuul_ssh_private_key_contents | string | b64encode }}"
+        nodepool_id_rsa: "{{ zuul.zuul_ssh_private_key_content | string | b64encode }}"
   tags: ["config"]
 
 - include_tasks: zuul-merger.yaml

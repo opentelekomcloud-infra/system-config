@@ -14,6 +14,10 @@ zuul_instances:
         driver: "github"
         app_id: 11628
         app_key: "/etc/zuul/ssl/github.key"
+      - name: "gitlab"
+        driver: "gitlab"
+        sshkey: "/etc/zuul/ssl/gitlab.key"
+        canonical_hostname: "gitlab"
       - name: "opendev"
         driver: "git"
         baseurl: "https://opendev.org"
