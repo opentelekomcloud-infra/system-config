@@ -57,9 +57,11 @@
               - name: "certs"
                 secret:
                   secretName: "zuul-{{ instance }}"
+                  defaultMode: 256
               - name: "zk-certs"
                 secret:
                   secretName: "zuul-zk-certs-{{ instance }}"
+                  defaultMode: 256
               - name: "zuul-var-run"
                 emptyDir: {}
         strategy:

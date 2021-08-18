@@ -97,6 +97,7 @@
               - name: "zk-certs"
                 secret:
                   secretName: "zuul-zk-certs-{{ instance }}"
+                  defaultMode: 256
               - name: "zuul-ssh-key"
                 secret:
                   secretName: "zuul-executor-ssh-{{ instance }}"
