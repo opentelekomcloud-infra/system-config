@@ -141,7 +141,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 
 {% macro sli_latency(svc, svc_name, ypos) %}
   - datasource: {{ grafana_ds | default('apimon') }}
-    description: Percentage of API requests not received any response
+    description: Max latency in the last measurement interval
     fieldConfig:
       defaults:
         color:
@@ -174,12 +174,51 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
     type: stat
 {%- endmacro -%}
 
+{% macro sli_max_latency(svc, svc_name, ypos) %}
+  - datasource: {{ grafana_ds | default('apimon') }}
+    description: Highest service latency in the selected timeframce
+    fieldConfig:
+      defaults:
+        color:
+          mode: thresholds
+        decimals: 1
+        min: 0
+        noValue: '0'
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: yellow
+              value: 500
+            - color: red
+              value: 1000
+        unit: 'ms'
+    {{ grid_pos(20, ypos, 5, 4) }}
+    options:
+      colorMode: value
+      reduceOptions:
+        values: false
+        calcs:
+          - max
+    targets:
+      - refCount: 0
+        refId: A
+        target: aggregateLine(maxSeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.upper), 'max', false)
+        textEditor: false
+    title: SLI {{ svc_name }} Max Latency
+    type: stat
+    transformations:
+      - id: "reduce"
+{%- endmacro -%}
+
 {% macro sli_service_row(svc, svc_name, ypos) %}
 {{ sli_avail(svc, svc_name, ypos, ['2*', '3*', '404']) }}
 {{ sli_rate_write(svc, svc_name, ypos, ['2*', '3*', '404']) }}
 {{ sli_rate_error(svc, svc_name, ypos, '404') }}
 {{ sli_no_response(svc, svc_name, ypos) }}
 {{ sli_latency(svc, svc_name, ypos) }}
+{{ sli_max_latency(svc, svc_name, ypos) }}
 {%- endmacro -%}
 
 # Extra hack for DNS service, which returns 400 instead of 404
@@ -189,111 +228,109 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
 {{ sli_rate_error(svc, svc_name, ypos, '400|404') }}
 {{ sli_no_response(svc, svc_name, ypos) }}
 {{ sli_latency(svc, svc_name, ypos) }}
+{{ sli_max_latency(svc, svc_name, ypos) }}
 {%- endmacro -%}
 
 {% macro service_api_latency(svc, ypos) %}
   - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     {{ grid_pos(0, ypos, 8, 24) }}
-    legend:
-      alignAsTable: true
-      avg: true
-      max: true
-      min: true
-      rightSide: true
-      show: true
-      sideWidth: 450
-      values: true
-    lines: true
-    linewidth: 1
-    nullPointMode: 'null'
+    fieldConfig:
+      defaults:
+        custom:
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - min
+          - mean
+          - max
     targets:
       - refId: A
-        target: sortByName(groupByNodes(removeEmptySeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.mean),
+        target: sortByName(groupByNodes(removeEmptySeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.mean, 0.01),
           'sum', 8, 7, 9), true)
         textEditor: true
-    thresholds:
-      - colorMode: warning
-        fill: true
-        line: true
-        op: gt
-        value: 1000
-        yaxis: left
     title: API calls duration
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - format: ms
-        logBase: 1
-        show: true
-      - format: short
-        logBase: 1
-        show: true
+    type: timeseries
 {%- endmacro -%}
+
+{% macro service_max_api_latency(svc, ypos) %}
+  - datasource: {{ grafana_ds | default('apimon') }}
+    description: API calls which has occurences longer then 10s.
+    {{ grid_pos(0, ypos, 8, 24) }}
+    fieldConfig:
+      defaults:
+        custom:
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
+    options:
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - min
+          - mean
+          - max
+    targets:
+      - refId: A
+        target: maximumAbove(groupByNodes(removeEmptySeries(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.*.upper),
+          'sum', 8, 7, 9), 10000)
+        textEditor: true
+    title: Highest API calls duration
+    type: timeseries
+{%- endmacro -%}
+
 
 {% macro service_bad_calls(svc, ypos) %}
   - bars: true
     datasource: {{ grafana_ds | default('apimon') }}
+    description: API calls received error HTTP response code
     fieldConfig:
       defaults:
-        custom: {}
-        links: []
-        unit: short
-    fill: 1
-    fillGradient: 0
-    {{ grid_pos(0, ypos, 8, 24) }}
-    legend:
-      alignAsTable: true
-      avg: true
-      max: true
-      min: true
-      rightSide: true
-      show: true
-      sideWidth: 450
-      values: true
+        custom:
+          drawStyle: "bars"
+          lineInterpolation: "linear"
+          barAlignment: 0
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "short"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - count
+    {{ grid_pos(0, ypos, 8, 24) }}
     targets:
       - refId: A
         target: removeEmptySeries(aliasByMetric(consolidateBy(groupByNode(exclude(stats.timers.openstack.api.$environment.$zone.{{ svc }}.*.*.{4*,5*}.count,
-          '404'), 9, 'sum'), 'sum')))
-    thresholds:
-      - colorMode: warning
-        fill: true
-        line: true
-        op: gt
-        value: 1000
-        yaxis: left
+          '404'), 9, 'sum'), 'sum')), 0.001)
     title: BAD calls
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - decimals: 0
-        format: short
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: true
+    type: timeseries
 {%- endmacro -%}
 
 {% macro service_results(ypos) %}
@@ -469,6 +506,7 @@ gridPos: {x: {{ x }}, y: {{ y }}, h: {{ h }}, w: {{ w }} }
           result_task.job_id 
           AND result_task.environment = result_summary.environment
           AND result_task.zone = result_summary.zone
+          AND $__timeFilter(result_summary.\"timestamp\")
           WHERE\n  $__timeFilter(result_task.\"timestamp\")
           AND\n  result_task.environment = '$environment'
           AND\n  result_task.zone in ($zone)

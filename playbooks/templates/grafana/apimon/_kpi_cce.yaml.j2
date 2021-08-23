@@ -11,44 +11,63 @@
 {{ mcr.sli_service_row('ccev2_0', 'CCE', 115) }}
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
-    fillGradient: 0
+    {{ mcr.grid_pos(0, 125, 6, 6) }}
     gridPos:
       h: 6
       w: 6
-      x: 6
-      y: 120
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
+      x: 0
+      y: 125
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: false
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    seriesOverrides: []
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
+    targets:
+      - queryType: randomWalk
+        refId: A
+        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.create_cce_cluster.passed.upper_90,
+          5)
+    title: CCE Cluster provisioning duration
+    type: timeseries
+
+  - datasource: {{ grafana_ds | default('apimon') }}
+    {{ mcr.grid_pos(6, 125, 6, 6) }}
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: false
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
+    options:
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - queryType: randomWalk
         refId: A
         target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.delete_cce_cluster.passed.upper_90,
           5)
     title: CCE Cluster deletion duration
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - decimals: 0
-        format: ms
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
@@ -69,11 +88,7 @@
             - color: green
               value: 99.99
         unit: percent
-    gridPos:
-      h: 6
-      w: 6
-      x: 12
-      y: 120
+    {{ mcr.grid_pos(12, 125, 6, 6) }}
     options:
       colorMode: value
       reduceOptions:
@@ -109,11 +124,7 @@
             - color: green
               value: 99.99
         unit: percent
-    gridPos:
-      h: 6
-      w: 6
-      x: 18
-      y: 120
+    {{ mcr.grid_pos(18, 125, 6, 6) }}
     options:
       colorMode: value
       reduceOptions:
@@ -130,44 +141,5 @@
         textEditor: true
     title: CCE Cluster deletion success rate
     type: stat
-
-  - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
-    fillGradient: 0
-    gridPos:
-      h: 6
-      w: 6
-      x: 0
-      y: 125
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
-    options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
-    targets:
-      - queryType: randomWalk
-        refId: A
-        target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.create_cce_cluster.passed.upper_90,
-          5)
-    title: CCE Cluster provisioning duration
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - decimals: 0
-        format: ms
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: false
 
 
