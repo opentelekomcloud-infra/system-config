@@ -8,116 +8,85 @@
 {{ mcr.sli_service_row('block-storage', 'Block Storage', 64) }}
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
-    fillGradient: 0
     {{ mcr.grid_pos(0, 69, 8, 8) }}
-    legend:
-      show: true
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: false
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - queryType: randomWalk
         refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume.{default,eu*}.*.upper_90,
           7, 'avg')
     title: 10G Volume creation duration (per AZ)
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - decimals: 0
-        format: ms
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: true
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
-    fillGradient: 0
     {{ mcr.grid_pos(8, 69, 8, 8) }}
-    lines: true
-    linewidth: 1
-    nullPointMode: 'null'
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: false
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - queryType: randomWalk
         refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_snapshot.*.upper_90,
           7, 'avg')
     title: 10G Volume Snaphost duration (per AZ)
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      buckets: null
-      mode: time
-      name: null
-      show: true
-      values: []
-    yaxes:
-      - decimals: 0
-        format: ms
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: true
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
-    fillGradient: 0
     {{ mcr.grid_pos(16, 69, 8, 8) }}
-    legend:
-      show: true
-    lines: true
-    linewidth: 1
-    nullPointMode: 'null'
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: false
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - queryType: randomWalk
         refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_volume_backup.*.passed.upper_90,
           7, 'avg')
     title: 10G Volume Backup duration (per AZ)
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - decimals: 0
-        format: ms
-        logBase: 1
-        min: '0'
-        show: true
-      - format: short
-        logBase: 1
-        show: true
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:

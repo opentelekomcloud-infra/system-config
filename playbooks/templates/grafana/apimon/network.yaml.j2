@@ -300,9 +300,10 @@ panels:
 
 
 {{ mcr.service_api_latency('network', 100) }}
-{{ mcr.service_bad_calls('network', 101) }}
-{{ mcr.service_failures(102) }}
-{{ mcr.service_results(103) }}
+{{ mcr.service_max_api_latency('network', 102) }}
+{{ mcr.service_bad_calls('network', 104) }}
+{{ mcr.service_failures(106) }}
+{{ mcr.service_results(108) }}
 
 refresh: false
 style: dark

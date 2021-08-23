@@ -117,9 +117,10 @@ panels:
       - show: false
 
 {{ mcr.service_api_latency('block-storage', 38) }}
-{{ mcr.service_bad_calls('block-storage', 39) }}
-{{ mcr.service_failures(40) }}
-{{ mcr.service_results(41) }}
+{{ mcr.service_max_api_latency('block-storage', 40) }}
+{{ mcr.service_bad_calls('block-storage', 42) }}
+{{ mcr.service_failures(44) }}
+{{ mcr.service_results(46) }}
 
 refresh: false
 style: dark
