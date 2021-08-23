@@ -175,9 +175,10 @@ panels:
       - show: false
 
 {{ mcr.service_api_latency('compute', 40) }}
-{{ mcr.service_bad_calls('compute', 41) }}
-{{ mcr.service_failures(42) }}
-{{ mcr.service_results(43) }}
+{{ mcr.service_max_api_latency('compute', 41) }}
+{{ mcr.service_bad_calls('compute', 42) }}
+{{ mcr.service_failures(43) }}
+{{ mcr.service_results(44) }}
 
 refresh: false
 style: dark

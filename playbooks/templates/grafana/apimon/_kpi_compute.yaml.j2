@@ -12,8 +12,12 @@
     datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
-        custom: {}
+        custom: 
+          drawStyle: "bars"
+          spanNulls: true
         unit: short
+        decimals: 0
+        min: 0
       overrides: []
     fill: 1
     fillGradient: 0
@@ -22,6 +26,8 @@
       show: true
     options:
       alertThreshold: true
+      tooltip:
+        mode: single
     renderer: flot
     spaceLength: 10
     targets:
@@ -30,27 +36,7 @@
         target: aliasByNode(transformNull(consolidateBy(summarize(groupByNode(stats.counters.apimon.metric.$environment.$zone.create_server.{default,eu*}.failed.count, 7, 'sum'), '1h', 'sum', false), 'sum'), 0), 0)
         textEditor: false
     title: Server Provisioning failures
-    tooltip:
-      shared: true
-      sort: 0
-      value_type: individual
-    type: graph
-    xaxis:
-      buckets: null
-      mode: time
-      name: null
-      show: true
-      values: []
-    yaxes:
-      - decimals: 0
-        format: short
-        min: '0'
-        show: true
-      - show: false
-    yaxis:
-      align: false
-      alignLevel: null
-    linewidth: 1
+    type: timeseries
 
 #  - datasource: {{ grafana_ds | default('apimon') }}
 #    description: This number is not an indicator in the case where we can not even
@@ -141,3 +127,4 @@
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper, 7, 'avg')
     title: Boot time duration (CoreOS)
     type: stat
+
