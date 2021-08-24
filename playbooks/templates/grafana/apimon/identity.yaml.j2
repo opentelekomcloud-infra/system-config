@@ -30,7 +30,7 @@ panels:
       - show: false
 
 {{ mcr.service_api_latency('identity', 17) }}
-{{ mcr.service_api_latency('identity', 20) }}
+{{ mcr.service_max_api_latency('identity', 20) }}
 {{ mcr.service_bad_calls('identity', 25) }}
 {{ mcr.service_failures(33) }}
 {{ mcr.service_results(43) }}
