@@ -8,296 +8,281 @@ panels:
 {% include '_service_header.yaml.j2' %}
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
     {{ mcr.grid_pos(0, 6, 6, 12) }}
-    legend:
-      show: true
-      alignAsTable: true
-      rightSide: true
-      values: true
-      current: true
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - "lastNotNull"
     targets:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 8, 'avg')
     title: LoadBalancer Latency per type
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - format: ms
-        logBase: 1
-        show: true
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
-    fill: 1
     {{ mcr.grid_pos(12, 6, 6, 12) }}
-    legend:
-      show: true
-      alignAsTable: true
-      rightSide: true
-      values: true
-      current: true
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - "lastNotNull"
     targets:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.csm_lb_timings.public.*.*.mean, 9, 'avg')
     title: LoadBalancer Latency per AZ
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - format: ms
-        logBase: 1
-        show: true
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Curl like request latencies to the hosts in scenario30_domains.yaml
-    fill: 1
     {{ mcr.grid_pos(0, 15, 6, 18) }}
-    legend:
-      show: true
-      alignAsTable: true
-      rightSide: true
-      values: true
-      current: true
-    lines: true
-    linewidth: 1
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+          thresholdsStyle:
+            mode: "line+area"
+        unit: "ms"
+        decimals: 0
+        min: 0
+        thresholds:
+          mode: "absolute"
+          steps:
+            - color: "transparent"
+              value: null
+            - color: "orange"
+              value: 300
+            - color: "red"
+              value: 500
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - "lastNotNull"
     targets:
       - refId: A
         target: aliasByNode(stats.timers.apimon.metric.$environment.$zone.curl.*.{2*,3*}.mean, 5, 7)
     title: Domains curl Latency
-    thresholds: 
-      - value: 300
-        colorMode: "warning"
-        op: "gt"
-        fill: true
-        line: true
-        yaxis: "left"
-      - value: 500
-        colorMode: "critical"
-        op: "gt"
-        fill: true
-        line: true
-        yaxis: "left"
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - format: ms
-        min: 0
-        show: true
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Curl like request errors (4*, 5*, failed) for the hosts in scenario30_domains.yaml
-    fill: 1
     {{ mcr.grid_pos(18, 15, 6, 6) }}
-    legend:
-      show: true
-    lines: false
-    points: true
-    pointRadius: 1
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "points"
+          lineInterpolation: "linear"
+          pointSize: 6
+          gradientMode: "none"
+          spanNulls: true
+          axisPlacement: "hidden"
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - refId: A
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.{4*,5*}.attempted.count, 7, 8)
       - refId: B
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.curl.*.failed.count, 7, 8)
     title: Domains curl Errors
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: false
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       NS Lookup from specific NS servers
-    fill: 1
     {{ mcr.grid_pos(0, 16, 6, 18) }}
-    legend:
-      show: true
-    lines: true
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - "mean"
+          - "last"
+          - "max"
     targets:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.dns.*.*.mean, 'avg', 7, 8)
     title: NS Lookup
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: true
-        min: 0
-        format: "ms"
-        decimals: 0
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       NS Lookup failures from specific NS servers
-    fill: 1
     {{ mcr.grid_pos(18, 16, 6, 6) }}
-    legend:
-      show: true
-    lines: true
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "points"
+          lineInterpolation: "linear"
+          pointSize: 6
+          gradientMode: "none"
+          spanNulls: true
+          axisPlacement: "hidden"
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - refId: A
         target: aliasByNode(stats.counters.apimon.metric.$environment.$zone.dns.*.*.failed.count, 7, 8)
     title: NS Lookup Failures
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: false
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping latency for hosts inside VPC or through VPC Peering using internal IP addresses
-    fill: 1
     {{ mcr.grid_pos(0, 24, 8, 18) }}
-    legend:
-      show: true
-    lines: true
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 1
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "table"
+        placement: "right"
+        calcs:
+          - "lastNotNull"
     targets:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{vpc,peering}.*.*.mean, 'avg', 9)
     title: Internal VPC/Peering Latency
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: true
-        min: 0
-        format: "ms"
-        decimals: 0
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping errors for hosts inside VPC/VPC peering using internal IP addresses
-    fill: 1
     {{ mcr.grid_pos(18, 24, 8, 6) }}
-    legend:
-      show: true
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "points"
+          lineInterpolation: "linear"
+          pointSize: 6
+          gradientMode: "none"
+          showPoints: "never"
+          axisPlacement: "hidden"
     options:
-      alertThreshold: true
-    points: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - refId: A
         target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{peering,vpc}.*.*.failed, 'sum', 7)
     title: Internal ping errors
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: false
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Ping latency for outside world through NATGW and Shared SNAT
-    fill: 1
     {{ mcr.grid_pos(0, 32, 8, 18) }}
-    legend:
-      show: true
-    lines: true
-    nullPointMode: connected
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "line"
+          lineInterpolation: "linear"
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: "none"
+          spanNulls: true
+          showPoints: "never"
+        unit: "ms"
+        decimals: 0
+        min: 0
     options:
-      alertThreshold: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
+        calcs:
+          - "lastNotNull"
     targets:
       - refId: A
         target: groupByNodes(stats.timers.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.mean, 'avg', 7)
     title: Outside NATGW/SNAT ping Latency
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: true
-        min: 0
-        format: "ms"
-        decimals: 0
-      - show: false
+    type: timeseries
 
   - datasource: {{ grafana_ds | default('apimon') }}
     description: |
       Outside ping errors. Single errors are not an problem indicator (pinging hosts in different countries).
-    fill: 1
     {{ mcr.grid_pos(18, 32, 8, 6) }}
-    legend:
-      show: true
+    fieldConfig:
+      defaults: 
+        custom: 
+          drawStyle: "points"
+          lineInterpolation: "linear"
+          pointSize: 6
+          gradientMode: "none"
+          spanNulls: true
+          axisPlacement: "hidden"
     options:
-      alertThreshold: true
-    points: true
-    renderer: flot
-    spaceLength: 10
+      legend:
+        displayMode: "list"
+        placement: "bottom"
     targets:
       - refId: A
         target: groupByNodes(stats.counters.apimon.metric.$environment.$zone.ping.{natgw,snat}.*.failed, 'sum', 7)
     title: Outside ping errors
-    type: graph
-    xaxis:
-      mode: time
-      show: true
-    yaxes:
-      - show: false
-      - show: false
-
+    type: timeseries
 
 {{ mcr.service_api_latency('network', 100) }}
 {{ mcr.service_max_api_latency('network', 102) }}
