@@ -72,6 +72,20 @@ proxy_backends:
       - name: "web3"
         address: "192.168.2.52:3000"
         opts: "cookie web3 backup"
+  
+  - name: "dashboard-eco"
+    options:
+      - "option httpchk HEAD /api/health"
+      # K8 deployed apps require explicit sending Host header
+      - "http-check send hdr Host dashboard.eco.tsi-dev.otc-service.com"
+      - "option allbackups"
+      - "default-server check weight 100 inter 5s fall 5 rise 1"
+    domain_names:
+      - "dashboard.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "dashboard-eco-infra"
+        address: "192.168.170.6:443"
+        opts: "ssl verify none cookie infra"
 
   - name: "alerta"
     options:
