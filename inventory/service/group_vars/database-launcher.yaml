@@ -16,3 +16,7 @@ database_instances:
   domain2_infra_maubot:
     dba: "domain2_infra"
     name: "maubot"
+  
+  domain2_database_grafana-eco:
+    dba: "domain2_database"
+    name: "grafana-eco"
