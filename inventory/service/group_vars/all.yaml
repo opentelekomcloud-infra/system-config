@@ -20,3 +20,10 @@ database_users:
     db: "maubot"
     priv: "ALL"
     comment: "Maubot user"
+  
+  domain2_database_grafana-eco_grafana-eco:
+    dba: "domain2_database"
+    username: "grafana-eco"
+    db: "grafana-eco"
+    priv: "ALL"
+    comment: "Grafana-eco user"
