@@ -46,8 +46,8 @@ grafana_instances:
     default: *default_vars
     fqdn: "dashboard.eco.tsi-dev.otc-service.com"
     grafana_cert: "grafana-eco"
-    grafana_users_login_hint: "Github username"
-    grafana_users_password_hint: "Github password"
+    grafana_users_login_hint: "Username"
+    grafana_users_password_hint: "Password"
 
 grafana_k8s_instances:
   - grafana_instance: "production_stg"
