@@ -21,9 +21,11 @@ spec:
         app.kubernetes.io/instance: "{{ instance }}"
     spec:
       hostAliases:
+{% if grafana.grafana_ldap_server_ip is defined and grafana.grafana_ldap_server_ip|length %}
       - ip: "{{ grafana.grafana_ldap_server_ip }}"
         hostnames:
         - "ldap.otc-service.internal"
+{% endif %}
       - ip: "127.0.0.1"
         hostnames:
         - "{{ grafana.fqdn }}"
@@ -106,6 +108,9 @@ spec:
         envFrom:
         - secretRef:
             name: "{{ grafana_secret_name }}"
+{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) or
+      (grafana.grafana_ldap_enable is undefined and grafana.default.grafana_ldap_enable)
+%}
         volumeMounts:
         - name: grafana-config
           mountPath: /etc/grafana/ldap/ldap.toml
@@ -117,4 +122,5 @@ spec:
       - configMap:
           name: "{{ grafana_config_name }}"
         name: grafana-config
+{% endif %}
 status: {}
