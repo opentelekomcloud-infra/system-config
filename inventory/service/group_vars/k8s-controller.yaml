@@ -134,6 +134,15 @@ helm_chart_instances:
     version: 3.34.0
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+  otcinfra_loki:
+    context: otcinfra
+    repo_url: https://grafana.github.io/helm-charts
+    repo_name: grafana
+    name: loki
+    ref: grafana/loki
+    version: 2.6.0
+    namespace: loki
+    values_template: "templates/charts/loki/loki-values.yaml.j2"
   otcinfra_promtail:
     context: otcinfra
     repo_url: https://grafana.github.io/helm-charts

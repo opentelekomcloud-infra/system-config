@@ -1,0 +1,9 @@
+state: "present"
+
+loki_basic_auth_secret_name: "loki-basic-auth-{{ instance }}"
+loki_tls_name: "loki-tls-{{ instance }}"
+loki_ingress_name: "loki-ingress-{{ instance }}"
+
+# Service is managed by Helm chart
+loki_service_name: "loki"
+
