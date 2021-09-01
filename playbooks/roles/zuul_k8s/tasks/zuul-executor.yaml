@@ -60,10 +60,10 @@
               - resources:
                   limits:
                     cpu: '2'
-                    memory: 2G
+                    memory: '8G'
                   requests:
-                    cpu: 100m
-                    memory: 200Mi
+                    cpu: '2'
+                    memory: '8G'
                 name: "zuul-executor"
                 securityContext:
                   privileged: true
