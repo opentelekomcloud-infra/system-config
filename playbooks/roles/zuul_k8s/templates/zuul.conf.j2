@@ -85,3 +85,15 @@ root=https://{{ zuul.web_domain }}
 {% endfor -%}{# for connection_secret #}
 
 {% endfor -%}{# for connection #}
+
+{% if 'zuul_auth_secrets' in zuul %}
+{% for auth in zuul.zuul_auth_secrets -%}
+[auth "{{ auth['name'] }}"]
+{% for key, value in auth.items() -%}
+{% if key != 'name' -%}
+{{ key }}={{ value }}
+{% endif -%}{# if key #}
+{% endfor -%}{# for key, value in auth_secret #}
+
+{% endfor -%}{# for auth #}
+{% endif %}{# if zuul_auth_secrets #}
