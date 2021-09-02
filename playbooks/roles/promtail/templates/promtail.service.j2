@@ -15,6 +15,7 @@ ExecStart=/usr/bin/podman run \
           --cidfile /%t/%n-cid \
           --cgroups=no-conmon -d \
           --name promtail \
+          --log-opt=path=/dev/null \
           -v /etc/promtail/config.yml:/etc/promtail/config.yml:ro \
           -v /var/log/journal:/var/log/journal:ro,z \
           -v promtail-run:/run/promtail:rw,z \
