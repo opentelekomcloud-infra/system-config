@@ -182,3 +182,14 @@ octavia_proxy_k8s_instances:
     context: "otcinfra"
     instance: "eu-nl"
     namespace: "octavia"
+
+loki_instances:
+  prod:
+    loki_cert: "loki"
+    fqdn: "loki.infra.eco.tsi-dev.otc-service.com"
+
+loki_k8s_instances:
+  - loki_instance: "prod"
+    context: "otcinfra"
+    instance: "prod"
+    namespace: "loki"
