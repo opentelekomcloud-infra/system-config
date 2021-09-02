@@ -183,7 +183,10 @@ groups:
     - storage2.swift.eco.tsi-dev.otc-service.com
     - storage3.swift.eco.tsi-dev.otc-service.com
 
-  promtail: []
+  promtail:
+    - web3.eco.tsi-dev.otc-service.com
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
 
   disabled:
     # We can not manage coreos with ansible by default
