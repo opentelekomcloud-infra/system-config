@@ -1,0 +1,25 @@
+server:
+  log_level: info
+  http_listen_port: 3101
+
+client:
+  url: {{ promtail_loki_url }}
+  basic_auth:
+    username: {{ promtail_loki_username }}
+    password: {{ promtail_loki_password }}
+
+positions:
+  filename: /run/promtail/positions.yaml
+
+scrape_configs:
+  - job_name: journal
+    journal:
+      path: /var/log/journal
+      max_age: 12h
+      labels:
+        job: systemd-journal
+    relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'unit'
+      - source_labels: ['__journal__hostname']
+        target_label: 'hostname'

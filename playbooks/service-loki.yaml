@@ -1,0 +1,12 @@
+# Deploy loki networking - ingress/tls/auth in K8
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure Loki K8s networking - ingress/tls/auth"
+  tasks:
+    - include_role:
+        name: "loki"
+      vars:
+        loki: "{{ loki_instances[item.loki_instance] | combine(loki_instances_secrets[item.loki_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      loop: "{{ loki_k8s_instances | list }}"

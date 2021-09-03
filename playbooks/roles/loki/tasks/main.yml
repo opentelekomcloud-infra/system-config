@@ -1,0 +1,42 @@
+# These role tasks are to expose the Loki service with 
+# basic auth ingress using TLS
+# The Loki deployment is managed with Helm chart
+- name: Create {{ instance }} Secrets
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ loki_basic_auth_secret_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    apply: "yes"
+    definition: "{{ lookup('template', 'loki-basic-auth-secret.yaml.j2') | from_yaml }}"
+
+- name: Create {{ instance }} TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ loki_tls_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "loki"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ loki.loki_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ loki.loki_cert }}.pem') | string | b64encode }}"
+  when: "loki.loki_cert is defined"
+
+- name: Start {{ instance }} Loki ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ loki_ingress_name }}"
+    apply: "yes"
+    definition: "{{ lookup('template', 'loki-ingress.yaml.j2') | from_yaml }}"
