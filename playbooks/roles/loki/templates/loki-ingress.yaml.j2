@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: "loki"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+  annotations:
+    # add an annotation indicating the issuer to use.
+{% if loki.cluster_issuer is defined %}
+    cert-manager.io/cluster-issuer: "{{ loki.cluster_issuer }}"
+{% endif %}
+    nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+    nginx.ingress.kubernetes.io/auth-secret: {{ loki_basic_auth_secret_name }}
+    nginx.ingress.kubernetes.io/auth-type: basic
+spec:
+  rules:
+  - host: "{{ loki.fqdn }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: "{{ loki_service_name }}"
+            port: 
+              number: 3100
+        path: /
+        pathType: Prefix
+  tls: 
+  - hosts:
+    - "{{ loki.fqdn }}"
+    secretName: "{{ loki_tls_name }}"

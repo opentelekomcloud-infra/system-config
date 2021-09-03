@@ -1,0 +1,10 @@
+---
+# handlers file for promtail
+
+- name: restart promtail
+  become: true
+  systemd:
+    name: "{{ promtail_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

@@ -1,0 +1,8 @@
+config:
+  lokiAddress: {{ chart.promtail_loki_url }}
+  snippets:
+    extraClientConfigs: |
+      basic_auth:
+        username: {{ chart.promtail_loki_username }}
+        password: {{ chart.promtail_loki_password }}
+
