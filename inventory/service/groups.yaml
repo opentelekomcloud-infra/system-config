@@ -184,8 +184,12 @@ groups:
     - storage3.swift.eco.tsi-dev.otc-service.com
 
   promtail:
+    - proxy1.eco.tsi-dev.otc-service.com
+    - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
     - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
 
   disabled:
