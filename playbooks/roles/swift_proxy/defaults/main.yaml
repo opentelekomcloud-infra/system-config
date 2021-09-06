@@ -1,0 +1,16 @@
+state: "present"
+instance: "main"
+dpl_name: "swift-proxy-{{ instance }}-dpl"
+svc_name: "swift-proxy-{{ instance }}-svc"
+hpa_name: "swift-proxy-{{ instance }}-hpa"
+config_secret_name: "swift-proxy-secret-{{ instance }}"
+node_port: 30081
+image: "quay.io/opentelekomcloud/zuul-storage-proxy:latest"
+resources:
+  limits:
+    cpu: "1"
+    memory: "1G"
+  requests:
+    cpu: "100m"
+    memory: "500Mi"
+

@@ -202,3 +202,12 @@ loki_k8s_instances:
     context: "otcinfra"
     instance: "prod"
     namespace: "loki"
+
+swift_proxy_instances:
+  zuul: {}
+
+swift_proxy_k8s_instances:
+  - sp_instance: "zuul"
+    context: "otcinfra"
+    instance: "zuul"
+    namespace: "default"
