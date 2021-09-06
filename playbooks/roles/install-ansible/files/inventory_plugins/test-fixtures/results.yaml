@@ -18,3 +18,4 @@ results:
     - ssl_certs
     - carbonapi
     - matrix
+    - promtail
