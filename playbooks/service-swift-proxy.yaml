@@ -1,0 +1,14 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+  name: "Configure Storage Proxy in K8s"
+  tasks:
+    - include_role:
+        name: "swift_proxy"
+        tasks_from: "k8s.yaml"
+      vars:
+        sp: "{{ swift_proxy_instances[item.sp_instance] | combine(swift_proxy_instances_secrets[item.sp_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+        cr_spec: "{{ item.cr_spec }}"
+      tags: ["config"]
+      loop: "{{ swift_proxy_k8s_instances | list }}"
