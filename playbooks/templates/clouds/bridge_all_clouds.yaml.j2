@@ -97,7 +97,40 @@ clouds:
     interface: public
     identity_api_version: 3
     region_name: eu-de
+  otcci-logs:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcci_logs.auth.user_domain_name }}
+       project_name: {{ clouds.otcci_logs.auth.project_name }}
+       username: {{ clouds.otcci_logs.auth.username }}
+       password: "{{ clouds.otcci_logs.auth.password }}"
+    #interface: public
+    #identity_api_version: 3
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcci_logs.object_store_endpoint_override }}"
 
+  otcinfra-docs:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_docs.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_docs.auth.project_name }}
+       username: {{ clouds.otcinfra_docs.auth.username }}
+       password: "{{ clouds.otcinfra_docs.auth.password }}"
+    #interface: public
+    #identity_api_version: 3
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcinfra_docs.object_store_endpoint_override }}"
+  otcinfra-docs-int:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_docs_int.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_docs_int.auth.project_name }}
+       username: {{ clouds.otcinfra_docs_int.auth.username }}
+       password: "{{ clouds.otcinfra_docs_int.auth.password }}"
+    #interface: public
+    #identity_api_version: 3
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcinfra_docs_int.object_store_endpoint_override }}"
  # DB
   otcinfra-domain2-database:
     profile: otc
