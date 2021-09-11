@@ -614,6 +614,38 @@ cloud_load_balancers:
       vip_address: "192.168.21.20"
       public_ip_address: "80.158.57.224"
 
+  - cloud: "otcinfra-domain2-infra-de"
+    loadbalancer:
+      name: "elb-swift-proxy"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.170.56"
+      listeners:
+        - name: "listener-30081"
+          protocol: "http"
+          protocol_port: 30081
+      pools:
+        - name: "server_group-30081"
+          listener: "listener-30081"
+          description: "Main HTTP traffic"
+          lb_algorithm: "round_robin"
+          protocol: "http"
+      members:
+        - name: "eco-infra-01"
+          address: "192.168.170.49"
+          pool: "server_group-30081"
+          subnet: "infra-subnet"
+          protocol_port: 30081
+        - name: "eco-infra-02"
+          address: "192.168.170.202"
+          pool: "server_group-30081"
+          subnet: "infra-subnet"
+          protocol_port: 30081
+        - name: "eco-infra-03"
+          address: "192.168.170.61"
+          pool: "server_group-30081"
+          subnet: "infra-subnet"
+          protocol_port: 30081
+
 cloud_load_balancer_certificates:
   - cloud: "otc-swift"
     name: "cert-swift"

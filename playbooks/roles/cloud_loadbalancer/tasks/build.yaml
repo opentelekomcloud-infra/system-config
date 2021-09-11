@@ -1,3 +1,7 @@
+- set_fact:
+    lb_ssl_certs:
+    lb_certs:
+
 - name: Create Load Balancer
   opentelekomcloud.cloud.loadbalancer:
     cloud: "{{ lb.cloud }}"
@@ -18,7 +22,9 @@
 - set_fact:
     lb_certs: "{{ (lb_certs | default({})) | combine({item.elb_certificates[0].name: item.elb_certificates[0].id }) }}"
   loop: "{{ lb_ssl_certs.results }}"
-  when: "lb_ssl_certs.results is defined"
+  when:
+    - "lb_ssl_certs.results is defined and lb_ssl_certs"
+    - "item.elb_certificates is defined and item.elb_certificates"
 
 - name: Create Listeners
   opentelekomcloud.cloud.lb_listener:
