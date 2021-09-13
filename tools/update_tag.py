@@ -5,10 +5,10 @@ import yaml
 
 
 def main():
-    parser = argparse.ArgumentParser(prog="propose-pr", description="Propose PR to a GitHub")
-    parser.add_argument("--path", type=str, help="Vars file path", required=True)
-    parser.add_argument("--key", type=str, help="Key to change", required=True)
-    parser.add_argument("--value", type=str, help="New value of the key", required=True)
+    parser = argparse.ArgumentParser(prog="update-tag", description="Simple script for updating a tag in YAML")
+    parser.add_argument("--path", type=str, help="Path to yaml file", required=True)
+    parser.add_argument("--key", type=str, help="Which key should be updated", required=True)
+    parser.add_argument("--value", type=str, help="New tag value", required=True)
     args = parser.parse_args()
 
     with open(args.path) as f:
