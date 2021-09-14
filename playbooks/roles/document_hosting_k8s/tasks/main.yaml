@@ -1,5 +1,5 @@
 ---
-- name: Create Document Hosting Namespace
+- name: Create Document Hosting {{ instance }} Namespace
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -7,7 +7,7 @@
     api_version: "v1"
     kind: "Namespace"
 
-- name: Create Document Hosting Config
+- name: Create Document Hosting {{ instance }} Config
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -23,10 +23,10 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
-        nginx-site.conf: "{{ lookup('template', 'nginx-site.conf.j2') }}"
+        nginx-site.conf: "{{ lookup('template', (document_hosting.nginx_template | default('nginx-site.conf.j2'))) }}"
         custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
 
-- name: Create Document Hosting TLS Certs Secret
+- name: Create Document Hosting {{ instance }} TLS Certs Secret
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -38,7 +38,7 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "matrix"
+          app.kubernetes.io/app: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
@@ -46,7 +46,7 @@
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ document_hosting.cert }}.pem') | string | b64encode }}"
   when: "document_hosting.cert is defined"
 
-- name: Create Document Hosting Deployment
+- name: Create Document Hosting {{ instance }} Deployment
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -113,7 +113,7 @@
                         - "{{ instance }}"
                     topologyKey: kubernetes.io/hostname
 
-- name: Create Document Hosting Autoscaler
+- name: Create Document Hosting {{ instance }} Autoscaler
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -143,7 +143,7 @@
                 type: "Utilization"
                 averageUtilization: 70
 
-- name: Create Document Hosting Service
+- name: Create Document Hosting {{ instance }} Service
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -169,7 +169,7 @@
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
 
-- name: Create Document Hosting Ingress
+- name: Create Document Hosting {{ instance }} Ingress
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -187,6 +187,7 @@
         annotations:
           cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer | default(omit) }}"
       spec:
+        ingressClassName: "{{ document_hosting.ingress_class | default(omit) }}"
         tls:
           - hosts:
               - "{{ document_hosting.server_name }}"

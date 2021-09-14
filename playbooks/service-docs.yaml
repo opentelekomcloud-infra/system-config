@@ -4,7 +4,7 @@
     - include_role:
         name: document_hosting_k8s
       vars:
-        document_hosting: "{{ document_hosting_instances[item.document_hosting_instance] | combine(document_hosting_instances_secrets[item.document_hosting_instance], recursive=True) }}"
+        document_hosting: "{{ document_hosting_instances[item.document_hosting_instance] | combine((document_hosting_instances_secrets[item.document_hosting_instance] | default({})), recursive=True) }}"
         instance: "{{ item.instance }}"
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"

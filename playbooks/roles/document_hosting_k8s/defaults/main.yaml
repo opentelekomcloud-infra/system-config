@@ -13,7 +13,6 @@ document_hosting_svc_name: "document-hosting-{{ instance }}"
 document_hosting_ing_name: "document-hosting-{{ instance }}"
 document_hosting_ssl_cert_name: "document-hosting-{{ instance }}"
 
-
 document_hosting_resources:
   limits:
     cpu: 1
@@ -22,4 +21,4 @@ document_hosting_resources:
     cpu: 100m
     memory: 500Mi
 
-state: present 
+state: present

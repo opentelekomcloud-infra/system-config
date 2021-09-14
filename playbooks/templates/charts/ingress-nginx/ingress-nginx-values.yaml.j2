@@ -1,7 +1,20 @@
 controller:
+{% if chart.is_default is defined and not chart.is_default %}
+  watchIngressWithoutClass: false
+{% elfse %}
+  watchIngressWithoutClass: true
+{% endif %}
+  ingressClassResource:
+    default: "{{ chart.is_default | default('true') }}"
+{% if chart.class_name is defined %}
+    name: "{{ chart.class_name }}"
+    controllerValue: "k8s.io/{{ chart.class_name }}"
+{% endif %}
   service:
     annotations:
       kubernetes.io/elb.class: union
       kubernetes.io/elb.id: "{{ chart.elb_id }}"
+{% if chart.elb_ip is defined %}
     LoadBalancerIP: "{{ chart.elb_eip }}"
+{% endif %}
 

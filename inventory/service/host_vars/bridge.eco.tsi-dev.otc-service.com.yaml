@@ -31,6 +31,10 @@ ssl_certs:
     - "matrix.otc-service.com"
   docs:
     - "docs.otc-service.com"
+  docs-int:
+    - "docs-int.otc-service.com"
+  artifacts:
+    - "artifacts.eco.tsi-dev.otc-service.com"
   octavia_de:
     - "octavia-de.eco.tsi-dev.otc-service.com"
   octavia_nl:

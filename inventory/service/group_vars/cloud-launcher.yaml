@@ -463,6 +463,15 @@ cloud_peerings:
     remote_router: "vpc-zuul"
     remote_project: "eu-de_zuul_pool3"
     remote_cidr: "192.168.103.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-infra"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcinfra-domain2-infra-de"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra"
+    remote_cidr: "192.168.170.0/24"
 
 common_sg: &common_sg
   name: "common_sg"
@@ -645,6 +654,11 @@ cloud_load_balancers:
       vip_address: "192.168.21.20"
       public_ip_address: "80.158.57.224"
 
+  - cloud: "otcinfra-domain2-infra-de"
+    loadbalancer:
+      name: "elb-intern"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.170.129"
   - cloud: "otcinfra-domain2-infra-de"
     loadbalancer:
       name: "elb-swift-proxy"
