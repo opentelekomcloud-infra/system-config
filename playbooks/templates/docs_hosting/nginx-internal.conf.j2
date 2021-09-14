@@ -1,0 +1,35 @@
+upstream backend {
+  #this is one of the swift proxy server
+  server {{ document_hosting.server }};
+}
+    
+server_names_hash_bucket_size 128;
+server {
+  #skip some normal config like listen, log
+  listen 8080;
+  server_name {{ document_hosting.server_name }};
+  access_log /dev/stdout ;
+  error_log /dev/stdout debug;
+  #set proxy cache config, you can find all these command in nginx wiki page
+  proxy_set_header Host $host;
+  proxy_set_header Accept "*/*";
+  # proxy_cache_valid 200 1d;
+  proxy_read_timeout 120;
+  proxy_send_timeout 120;
+  # proxy_cache_key "$host$uri";
+  # proxy_cache_methods GET;
+  proxy_intercept_errors on;
+  #set a return http header of cache status, so that you can see the status of file cache
+  # add_header X-Cache $upstream_cache_status;
+  
+  error_page 401 404 /custom_404.html;
+
+  location = /custom_404.html {
+    root /usr/share/nginx/html;
+    internal;
+  }
+
+  location / {
+    proxy_pass http://backend/docs/;
+  }
+}

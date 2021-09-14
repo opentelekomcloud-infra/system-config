@@ -1,4 +1,13 @@
-- name: Create swift-proxy Config
+---
+- name: Create Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create swift-proxy {{ instance }} Secrets Config
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -10,21 +19,21 @@
     definition:
       metadata:
         labels:
-          app.kubernetes.io/app: "swift-proxy"
+          app.kubernetes.io/name: "swift-proxy"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
         clouds.yaml: "{{ sp['clouds.yaml'] | to_yaml | b64encode }}"
   tags: ["config"]
 
-- name: Create swift-proxy Service
+- name: Create swift-proxy {{ instance }} TLS Certs Secret
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
-    name: "{{ svc_name }}"
-    kind: "Service"
+    name: "{{ ssl_cert_name }}"
     api_version: "v1"
+    kind: "Secret"
     apply: "yes"
     definition:
       metadata:
@@ -32,18 +41,12 @@
           app.kubernetes.io/name: "swift-proxy"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
-      spec:
-        type: "NodePort"
-        ports:
-          - port: 8000
-            nodePort: "{{ node_port }}"
-            protocol: "TCP"
-            targetPort: 8000
-        selector:
-          app.kubernetes.io/name: "swift-proxy"
-          app.kubernetes.io/instance: "{{ instance }}"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ sp.cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ sp.cert }}.pem') | string | b64encode }}"
+  when: "sp.cert is defined"
 
-- name: Create swift-proxy Deployment
+- name: Create swift-proxy {{ instance }} Deployment
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
@@ -90,7 +93,7 @@
                   secretName: "{{ config_secret_name }}"
                   defaultMode: 420
 
-- name: Create swift-proxy Autoscaler
+- name: Create swift-proxy {{ instance }} Autoscaler
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
@@ -120,3 +123,63 @@
               target:
                 type: "Utilization"
                 averageUtilization: 70
+
+- name: Create swift-proxy {{ instance }} Service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ svc_name }}"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "swift-proxy"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: "http"
+            port: 8000
+            protocol: "TCP"
+            targetPort: 8000
+        selector:
+          app.kubernetes.io/name: "swift-proxy"
+          app.kubernetes.io/instance: "{{ instance }}"
+
+- name: Create swift-proxy Ingress
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ ingress_name }}"
+    api_version: "networking.k8s.io/v1"
+    kind: "Ingress"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "swift-proxy"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        ingressClassName: "{{ sp.ingress_class | default(omit) }}"
+        tls:
+          - hosts:
+              - "{{ sp.fqdn }}"
+            secretName: "{{ ssl_cert_name }}"
+        rules:
+          - host: "{{ sp.fqdn }}"
+            http:
+              paths:
+                - path: "/"
+                  pathType: "Prefix"
+                  backend:
+                    service:
+                      name: "{{ svc_name }}"
+                      port:
+                        number: 8000
+  when: "sp.fqdn is defined"

@@ -3,7 +3,9 @@ instance: "main"
 dpl_name: "swift-proxy-{{ instance }}-dpl"
 svc_name: "swift-proxy-{{ instance }}-svc"
 hpa_name: "swift-proxy-{{ instance }}-hpa"
-config_secret_name: "swift-proxy-secret-{{ instance }}"
+ssl_cert_name: "swift-proxy-{{ instance }}-tls"
+ingress_name: "swift-proxy-{{ instance }}-ingress"
+config_secret_name: "swift-proxy-{{ instance }}-secret"
 node_port: 30081
 image: "quay.io/opentelekomcloud/zuul-storage-proxy:latest"
 resources:
