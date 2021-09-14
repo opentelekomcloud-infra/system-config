@@ -38,6 +38,22 @@ cloud_projects:
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Database cluster project"
+  # Docs and logs
+  - name: "eu-de_docs"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Documentation portal"
+  - name: "eu-de_docs_int"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Internal Documentation portal project"
+  - name: "eu-de_logs"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Logs and artifacts (Zuul) project"
   # APImon projects
   - name: "eu-de_apimon_probes1"
     cloud: "otc-tests-admin"
@@ -62,6 +78,9 @@ cloud_user_groups:
     cloud: "otcinfra-domain2-admin"
   - name: "eco_infra"
     cloud: "otcinfra-domain3-admin"
+  # Logs
+  - name: "log_writer"
+    cloud: "otcinfra-domain2-admin"
   # Zuul groups
   - name: "zuul_functional"
     cloud: "otc-tests-admin"
@@ -97,6 +116,10 @@ cloud_user_group_assignments:
     group: "apimon"
     users:
       - "apimon"
+  - cloud: "otcinfra-domain2-admin"
+    group: "log_writer"
+    users:
+      - "log_writer"
   # Zuul group user mapping
   - cloud: "otcinfra-domain2-admin"
     group: "zuul-ci"
@@ -141,6 +164,14 @@ cloud_role_assignments:
       - "eu-de_database"
     groups:
       - "eco_infra"
+  - cloud: "otcinfra-domain2-admin"
+    role: "te_admin"
+    projects:
+      - "eu-de_logs"
+      - "eu-de_docs"
+      - "eu-de_docs_int"
+    groups:
+      - "log_writer"
   # domain3 group/role/projects
   - cloud: "otcinfra-domain3-admin"
     role: "te_admin"
@@ -432,6 +463,15 @@ cloud_peerings:
     remote_router: "vpc-zuul"
     remote_project: "eu-de_zuul_pool3"
     remote_cidr: "192.168.103.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-infra"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcinfra-domain2-infra-de"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra"
+    remote_cidr: "192.168.170.0/24"
 
 common_sg: &common_sg
   name: "common_sg"
@@ -614,6 +654,11 @@ cloud_load_balancers:
       vip_address: "192.168.21.20"
       public_ip_address: "80.158.57.224"
 
+  - cloud: "otcinfra-domain2-infra-de"
+    loadbalancer:
+      name: "elb-intern"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.170.129"
   - cloud: "otcinfra-domain2-infra-de"
     loadbalancer:
       name: "elb-swift-proxy"

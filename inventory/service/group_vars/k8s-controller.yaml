@@ -25,13 +25,22 @@ document_hosting_instances:
   stg:
     server_name: "docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
     not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21-alpine"
+    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
     cluster_issuer: "letsencrypt-staging"
+    nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
   main:
     server_name: "docs.otc-service.com"
     not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21-alpine"
+    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
     cert: "docs"
+    nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
+  int:
+    server_name: "docs-int.otc-service.com"
+    not_found: "The page you are requesting is not available..."
+    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
+    cert: "docs-int"
+    nginx_template: "templates/docs_hosting/nginx-internal.conf.j2"
+    ingress_class: "ingress-intern"
 
 document_hosting_k8s_instances:
   - document_hosting_instance: "stg"
@@ -41,6 +50,10 @@ document_hosting_k8s_instances:
   - document_hosting_instance: "main"
     context: "otcinfra"
     instance: "main"
+    namespace: "docs"
+  - document_hosting_instance: "int"
+    context: "otcinfra"
+    instance: "int"
     namespace: "docs"
 
 carbonapi_k8s_instances:
@@ -122,18 +135,31 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 3.34.0
+    version: 4.0.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+    is_default: true
+  otcinfra_nginx-ingress-intern:
+    context: otcinfra
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    repo_name: ingress-nginx
+    name: ingress-intern
+    ref: ingress-nginx/ingress-nginx
+    version: 4.0.1
+    namespace: default
+    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+    class_name: "ingress-intern"
+    is_default: false
   otcci_nginx-ingress:
     context: otcci
     repo_url: https://kubernetes.github.io/ingress-nginx
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 3.34.0
+    version: 4.0.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
+    is_default: true
   otcinfra_loki:
     context: otcinfra
     repo_url: https://grafana.github.io/helm-charts
@@ -204,10 +230,18 @@ loki_k8s_instances:
     namespace: "loki"
 
 swift_proxy_instances:
-  zuul: {}
+  artifacts:
+    fqdn: "artifacts.eco.tsi-dev.otc-service.com"
+    ingress_class: "ingress-intern"
+    cert: "artifacts"
+  docs-int: {}
 
 swift_proxy_k8s_instances:
-  - sp_instance: "zuul"
+  - sp_instance: "artifacts"
     context: "otcinfra"
-    instance: "zuul"
-    namespace: "default"
+    instance: "artifacts"
+    namespace: "swift-proxy"
+  - sp_instance: "docs-int"
+    context: "otcinfra"
+    instance: "docs-int"
+    namespace: "swift-proxy"

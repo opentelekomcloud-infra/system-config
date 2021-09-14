@@ -6,6 +6,7 @@
         cloud: "{{ item.cloud }}"
         name: "{{ item.name }}"
         description: "{{ item.description | default(omit) }}"
+        domain_id: "{{ item.domain | default(omit) }}"
       loop: "{{ cloud_projects }}"
 
     - name: Manage user groups
@@ -18,9 +19,9 @@
       #no_log: true
       ignore_errors: true
       openstack.cloud.identity_user:
-        cloud: "{{ item.value.cloud }}"
+        cloud: "{{ item.value.cloud | mandatory }}"
         domain: "{{ item.value.domain }}"
-        name: "{{ item.value.name }}"
+        name: "{{ item.value.username }}"
         password: "{{ item.value.password }}"
         email: "{{ item.value.email | default(omit) }}"
         description: "{{ item.value.description | default(omit) }}"
@@ -28,6 +29,7 @@
         default_project: "{{ item.value.default_project | default(omit) }}"
         enabled: "{{ item.value.enabled | default(omit) }}"
       loop: "{{ cloud_users | dict2items }}"
+      when: "item.value.cloud is defined and item.value.cloud"
 
     - name: Manage user groups assignments
       cloud_user_group_assignment:
