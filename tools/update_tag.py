@@ -23,6 +23,12 @@ def main():
     parser.add_argument("--token",
                         type=str,
                         help="Auth token")
+    parser.add_argument("--username",
+                        type=str,
+                        help="Username of a git user to commit")
+    parser.add_argument("--email",
+                        type=str,
+                        help="Email of a git user to commit")
     args = parser.parse_args()
 
     with open(args.path) as f:
@@ -33,9 +39,10 @@ def main():
     with open(args.path, "w") as f:
         yaml.safe_dump(yaml_data, f)
 
-    if args.token is not None:
+    if all(v is not None for v in (args.username, args.email)):
         proposal_branch = get_proposal_branch_name(args.key, args.value)
-        commit_changes(proposal_branch, args.path)
+        repo = get_repo_and_set_config(args.username, args.email)
+        commit_changes(repo, proposal_branch, args.path)
 
 
 def get_proposal_branch_name(key: str, value: str):
@@ -70,7 +77,7 @@ def update_yaml_value(yaml_data, key: str, tag_value: str):
         key_to_change = key_to_change[k]
     # Now we need to understand if we have only new tag version
     # or we have full image url with tag in format `url:new_tag`
-    if len(tag_value.split(":")) == 2:
+    if len(tag_value.split(":")) == 1:
         url = key_to_change[keys[-1]].split(":")[0]
         new_value = f"{url}:{tag_value}"
     else:
@@ -79,18 +86,33 @@ def update_yaml_value(yaml_data, key: str, tag_value: str):
     key_to_change[keys[-1]] = new_value
 
 
-def commit_changes(branch_name: str, path: str):
+def commit_changes(repo: Repo, branch_name: str, path: str):
     """
     Commit a changed file in a new branch
 
+    :param repo: Repository to make a commit
     :param branch_name: Proposal branch
     :param path: Path to a changed file
     :return: None
     """
-    repo = Repo(os.getcwd())
     repo.git.checkout("-b", branch_name)
     repo.index.add([path])
     repo.index.commit(f"Update {branch_name} version in `{path}`")
+
+
+def get_repo_and_set_config(username: str, email: str):
+    """
+    Get repository in current directory
+    and fill up .gitconfig with required variables
+
+    :param username: Git username
+    :param email: Git email
+    :return: repository
+    """
+    repo = Repo(os.getcwd())
+    repo.config_writer().set_value("user", "name", username).release()
+    repo.config_writer().set_value("user", "email", email).release()
+    return repo
 
 
 if __name__ == "__main__":
