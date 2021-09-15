@@ -64,10 +64,15 @@ def update_yaml_value(yaml_data, key: str, tag_value: str):
     # we need to go inside in order to get it.
     for k in keys[:-1]:
         key_to_change = key_to_change[k]
-    # Image value are represented in format `quay.io/opentelekomcloud/carbonapi:3.1.5`
-    # and we need to change only version
-    url_tag = key_to_change[keys[-1]].split(":")
-    key_to_change[keys[-1]] = "{url}:{tag}".format(url=url_tag[0], tag=tag_value)
+    # Now we need to understand if we have only new tag version
+    # or we have full image url with tag in format `url:new_tag`
+    if len(tag_value.split(":")) == 0:
+        url = key_to_change[keys[-1]].split(":")[0]
+        new_value = f"{url}:{tag_value}"
+    else:
+        new_value = tag_value
+
+    key_to_change[keys[-1]] = new_value
 
 
 def commit_changes(branch_name: str, path: str):
