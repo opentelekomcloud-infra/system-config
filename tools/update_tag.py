@@ -33,7 +33,7 @@ def main():
     with open(args.path, "w") as f:
         yaml.safe_dump(yaml_data, f)
 
-    if args.token != "":
+    if args.token is not None:
         proposal_branch = get_proposal_branch_name(args.key, args.value)
         commit_changes(proposal_branch, args.path)
 
@@ -43,10 +43,14 @@ def get_proposal_branch_name(key: str, value: str):
     Get proposal branch name in format `key_to_change-new version`
 
     :param key: Key in YAML file
-    :param value: New tag version
+    :param value: New value of the key
     :return: Proposal branch
     """
-    return f"{key.split('.')[-1]}-{value}"
+    new_value = value.split(":")
+    if new_value == 0:
+        return f"{key.split('.')[-1]}-{value}"
+    else:
+        return f"{key.split('.')[-1]}-{new_value[-1]}"
 
 
 def update_yaml_value(yaml_data, key: str, tag_value: str):
@@ -66,7 +70,7 @@ def update_yaml_value(yaml_data, key: str, tag_value: str):
         key_to_change = key_to_change[k]
     # Now we need to understand if we have only new tag version
     # or we have full image url with tag in format `url:new_tag`
-    if len(tag_value.split(":")) == 0:
+    if len(tag_value.split(":")) == 2:
         url = key_to_change[keys[-1]].split(":")[0]
         new_value = f"{url}:{tag_value}"
     else:
