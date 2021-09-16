@@ -1,23 +1,20 @@
----
 matrix_instances:
   main:
-    fqdn: "matrix.otc-service.com"
-    matrix_cert: "matrix"
-    image: "quay.io/opentelekomcloud/synapse:v1.41.0"
     db:
-      # TODO get this from inventory
-      host: "192.168.170.83"
-      database: "synapse"
-      username: "{{ database_user_secrets.domain2_infra_synapse_synapse.username }}"
-      password: "{{ database_user_secrets.domain2_infra_synapse_synapse.password }}"
+      database: synapse
+      host: 192.168.170.83
+      password: '{{ database_user_secrets.domain2_infra_synapse_synapse.password }}'
+      username: '{{ database_user_secrets.domain2_infra_synapse_synapse.username }}'
     enable_maubot: true
-    maubot_svc_name: "maubot"
-
+    fqdn: matrix.otc-service.com
+    image: quay.io/opentelekomcloud/synapse:v1.41.0
+    matrix_cert: matrix
+    maubot_svc_name: maubot
 maubot_instances:
   main:
-    image: "dock.mau.dev/maubot/maubot:latest"
-    data_dir: "/maubot_data"
+    data_dir: /maubot_data
+    image: dock.mau.dev/maubot/maubot:latest
     server:
-      hostname: "0.0.0.0"
-      port: "29316"
-      public_url: "https://matrix.otc-service.com"
+      hostname: 0.0.0.0
+      port: '29316'
+      public_url: https://matrix.otc-service.com

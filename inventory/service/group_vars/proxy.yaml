@@ -1,156 +1,138 @@
-haproxy_image: "quay.io/opentelekomcloud/haproxy:2.4.1-alpine"
-
+haproxy_expose_ports:
+- '80'
+- '443'
+- '8086'
+- '8448'
+haproxy_image: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
 proxy_backends:
-  - name: "graphite-apimon"
-    options:
-      - "http-send-name-header Host"
-      # NOTE: try to perform simliest query
-      - "option httpchk HEAD /metrics/find?query=*"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "graphite.eco.tsi-dev.otc-service.com"
-      - "graphite1.eco.tsi-dev.otc-service.com"
-      - "graphite2.eco.tsi-dev.otc-service.com"
-      - "graphite3.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "graphite1"
-        address: "192.168.191.55:80"
-        opts: "cookie graphite1"
-      - name: "graphite2"
-        address: "192.168.14.159:443"
-        opts: "ssl verify none cookie graphite2"
-      - name: "graphite3"
-        address: "192.168.151.11:443"
-        opts: "ssl verify none cookie graphite3"
-
-  - name: "graphite-ca"
-    options:
-      - "option httpchk GET /lb_check"
-      # NOTE: HealthCheck of K8 apps is not working good with http-send-name-header Host option
-      # K8 deployed apps require explicit sending Host header
-      - "http-check send hdr Host graphite-ca.eco.tsi-dev.otc-service.com"
-      # Use all available backup servers instead of first one
-      - "option allbackups"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "graphite-ca.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "graphite-otcinfra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie graphite-otcinfra"
-      - name: "graphite1"
-        address: "192.168.191.55:8082"
-        opts: "cookie graphite1 backup"
-      - name: "graphite2"
-        address: "192.168.14.159:8082"
-        opts: "cookie graphite2 backup"
-      - name: "graphite3"
-        address: "192.168.151.11:8082"
-        opts: "cookie graphite3 backup"
-      - name: "graphite4"
-        address: "192.168.14.241:8082"
-        opts: "cookie graphite4 backup"
-
-  - name: "dashboard"
-    options:
-      - "option httpchk HEAD /api/health"
-      # K8 deployed apps require explicit sending Host header
-      - "http-check send hdr Host dashboard.tsi-dev.otc-service.com"
-      - "option allbackups"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "dashboard.tsi-dev.otc-service.com"
-      - "apimon.tsi-dev.otc-service.com"
-      - "apimon.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "dashboard-infra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie infra"
-      - name: "dashboard-infra-mirror"
-        address: "192.168.189.7:443"
-        opts: "ssl verify none cookie infra-mirror"
-      - name: "web3"
-        address: "192.168.2.52:3000"
-        opts: "cookie web3 backup"
-
-  - name: "dashboard-eco"
-    options:
-      - "option httpchk HEAD /api/health"
-      # K8 deployed apps require explicit sending Host header
-      - "http-check send hdr Host dashboard.eco.tsi-dev.otc-service.com"
-      - "option allbackups"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "dashboard.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "dashboard-eco-infra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie infra"
-
-  - name: "alerta"
-    options:
-      # NOTE: trailing slash avoids redirect
-      - "option httpchk GET /api/"
-      # K8 deployed apps require explicit sending Host header
-      - "http-check send hdr Host alerts.eco.tsi-dev.otc-service.com"
-      - "option allbackups"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "alerts.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "alerta-infra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie infra"
-      - name: "alerta-infra-mirror"
-        address: "192.168.189.7:443"
-        opts: "ssl verify none cookie infra-mirror"
-      - name: "web3"
-        address: "192.168.2.52:8080"
-        opts: "cookie web3 backup"
-
-  - name: "influx"
-    options:
-      - "http-send-name-header Host"
-      - "default-server check inter 5s fall 5 rise 1"
-    domain_names:
-      - "influx1.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "influx1"
-        address: "192.168.110.227:8086"
-        opts: ""
-
-  - name: "matrix"
-    options:
-      #      - "http-send-name-header Host"
-      - "default-server check inter 5s fall 5 rise 1"
-    domain_names:
-      - "matrix.otc-service.com"
-    servers:
-      - name: "infra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie otcinfra"
-
-  - name: "docs"
-    options:
-      - "default-server check inter 5s fall 5 rise 1"
-    domain_names:
-      - "docs.otc-service.com"
-    servers:
-      - name: "infra"
-        address: "192.168.170.6:443"
-        opts: "ssl verify none cookie otcinfra"
-
-
+- domain_names:
+  - graphite.eco.tsi-dev.otc-service.com
+  - graphite1.eco.tsi-dev.otc-service.com
+  - graphite2.eco.tsi-dev.otc-service.com
+  - graphite3.eco.tsi-dev.otc-service.com
+  name: graphite-apimon
+  options:
+  - http-send-name-header Host
+  - option httpchk HEAD /metrics/find?query=*
+  - default-server check weight 100 inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.191.55:80
+    name: graphite1
+    opts: cookie graphite1
+  - address: 192.168.14.159:443
+    name: graphite2
+    opts: ssl verify none cookie graphite2
+  - address: 192.168.151.11:443
+    name: graphite3
+    opts: ssl verify none cookie graphite3
+- domain_names:
+  - graphite-ca.eco.tsi-dev.otc-service.com
+  name: graphite-ca
+  options:
+  - option httpchk GET /lb_check
+  - http-check send hdr Host graphite-ca.eco.tsi-dev.otc-service.com
+  - option allbackups
+  - default-server check weight 100 inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: graphite-otcinfra
+    opts: ssl verify none cookie graphite-otcinfra
+  - address: 192.168.191.55:8082
+    name: graphite1
+    opts: cookie graphite1 backup
+  - address: 192.168.14.159:8082
+    name: graphite2
+    opts: cookie graphite2 backup
+  - address: 192.168.151.11:8082
+    name: graphite3
+    opts: cookie graphite3 backup
+  - address: 192.168.14.241:8082
+    name: graphite4
+    opts: cookie graphite4 backup
+- domain_names:
+  - dashboard.tsi-dev.otc-service.com
+  - apimon.tsi-dev.otc-service.com
+  - apimon.eco.tsi-dev.otc-service.com
+  name: dashboard
+  options:
+  - option httpchk HEAD /api/health
+  - http-check send hdr Host dashboard.tsi-dev.otc-service.com
+  - option allbackups
+  - default-server check weight 100 inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: dashboard-infra
+    opts: ssl verify none cookie infra
+  - address: 192.168.189.7:443
+    name: dashboard-infra-mirror
+    opts: ssl verify none cookie infra-mirror
+  - address: 192.168.2.52:3000
+    name: web3
+    opts: cookie web3 backup
+- domain_names:
+  - dashboard.eco.tsi-dev.otc-service.com
+  name: dashboard-eco
+  options:
+  - option httpchk HEAD /api/health
+  - http-check send hdr Host dashboard.eco.tsi-dev.otc-service.com
+  - option allbackups
+  - default-server check weight 100 inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: dashboard-eco-infra
+    opts: ssl verify none cookie infra
+- domain_names:
+  - alerts.eco.tsi-dev.otc-service.com
+  name: alerta
+  options:
+  - option httpchk GET /api/
+  - http-check send hdr Host alerts.eco.tsi-dev.otc-service.com
+  - option allbackups
+  - default-server check weight 100 inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: alerta-infra
+    opts: ssl verify none cookie infra
+  - address: 192.168.189.7:443
+    name: alerta-infra-mirror
+    opts: ssl verify none cookie infra-mirror
+  - address: 192.168.2.52:8080
+    name: web3
+    opts: cookie web3 backup
+- domain_names:
+  - influx1.eco.tsi-dev.otc-service.com
+  name: influx
+  options:
+  - http-send-name-header Host
+  - default-server check inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.110.227:8086
+    name: influx1
+    opts: ''
+- domain_names:
+  - matrix.otc-service.com
+  name: matrix
+  options:
+  - default-server check inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: infra
+    opts: ssl verify none cookie otcinfra
+- domain_names:
+  - docs.otc-service.com
+  name: docs
+  options:
+  - default-server check inter 5s fall 5 rise 1
+  servers:
+  - address: 192.168.170.6:443
+    name: infra
+    opts: ssl verify none cookie otcinfra
 proxy_frontends:
-  - name: "influx"
-    bind: "*:8086 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
-    backend: "influx"
-
-  - name: "matrix"
-    bind: "*:8448 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
-    backend: "matrix"
-
-statsd_host: "192.168.14.159"
-statsd_port: "8125"
-
-haproxy_expose_ports: ['80', '443', '8086', '8448']
+- backend: influx
+  bind: '*:8086 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy'
+  name: influx
+- backend: matrix
+  bind: '*:8448 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy'
+  name: matrix
+statsd_host: 192.168.14.159
+statsd_port: '8125'

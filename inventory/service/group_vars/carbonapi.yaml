@@ -1,24 +1,22 @@
-# TODO: This should be better constructed from existing inventory
-carbonapi_image: "quay.io/opentelekomcloud/carbonapi:v0.15.4"
-
+carbonapi_image: quay.io/opentelekomcloud/carbonapi:v0.15.4
 carbonapi_instances:
   main:
-    fqdn: "graphite-ca.eco.tsi-dev.otc-service.com"
-    carbonapi_cert: "graphite"
     backends:
-      - groupName: "apimon"
-        lbMethod: "any"
-        protocol: "carbonapi_v3_pb"
-        servers:
-          - "http://192.168.191.55:8081"
-          - "http://192.168.14.159:8081"
-          - "http://192.168.151.11:8081"
-      - groupName: "zuul"
-        lbMethod: "broadcast"
-        protocol: "carbonapi_v3_pb"
-        servers:
-          - "http://192.168.14.241:8081"
+    - groupName: apimon
+      lbMethod: any
+      protocol: carbonapi_v3_pb
+      servers:
+      - http://192.168.191.55:8081
+      - http://192.168.14.159:8081
+      - http://192.168.151.11:8081
+    - groupName: zuul
+      lbMethod: broadcast
+      protocol: carbonapi_v3_pb
+      servers:
+      - http://192.168.14.241:8081
+    carbonapi_cert: graphite
+    fqdn: graphite-ca.eco.tsi-dev.otc-service.com
     memcache_hosts:
-      - "192.168.191.55:11211"
-      - "192.168.14.159:11211"
-      - "192.168.151.11:11211"
+    - 192.168.191.55:11211
+    - 192.168.14.159:11211
+    - 192.168.151.11:11211

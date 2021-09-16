@@ -1,62 +1,55 @@
-default: &default_vars
-  alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
-  alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
-  alerta_heartbeat_timeout: 300
-  
-  alerta_columns:
-    - severity
-    - status
-    - lastReceiveTime
-    - duplicateCount
-    - environment
-    - service
-    - resource
-    - event
-    - value
-    - text
-  
-  alerta_plugins:
-    - blackout
-    - zulip
-  
-  alerta_image: "quay.io/opentelekomcloud/alerta:8.5.0"
-  alerta_deployment_count: 2
-  alerta_deployment_resources:
-    limits:
-      cpu: 500m
-      memory: 500Mi
-    requests:
-      cpu: 100m
-      memory: 100Mi
-
 alerta_instances:
-  production_stg: 
-    cluster_issuer: "letsencrypt-staging"
+  production_infra:
+    alerta_cert: alerta
+    default: &id001
+      alerta_columns:
+      - severity
+      - status
+      - lastReceiveTime
+      - duplicateCount
+      - environment
+      - service
+      - resource
+      - event
+      - value
+      - text
+      alerta_deployment_count: 2
+      alerta_deployment_resources:
+        limits:
+          cpu: 500m
+          memory: 500Mi
+        requests:
+          cpu: 100m
+          memory: 100Mi
+      alerta_heartbeat_timeout: 300
+      alerta_image: quay.io/opentelekomcloud/alerta:8.5.0
+      alerta_plugins:
+      - blackout
+      - zulip
+      alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+      alerta_smtp_host: out-cloud.mms.t-systems-service.com:25
+    fqdn: alerts.eco.tsi-dev.otc-service.com
+  production_infra-mirror:
+    alerta_cert: alerta
+    default: *id001
+    fqdn: alerts.eco.tsi-dev.otc-service.com
+  production_stg:
+    cluster_issuer: letsencrypt-staging
+    default: *id001
     fqdn: alerta.apps.osinfra-stg.eco.tsi-dev.otc-service.com
-    default: *default_vars
-  production_infra: 
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "alerts.eco.tsi-dev.otc-service.com"
-    alerta_cert: "alerta"
-    default: *default_vars
-  production_infra-mirror: 
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "alerts.eco.tsi-dev.otc-service.com"
-    alerta_cert: "alerta"
-    default: *default_vars
   production_vc:
-    default: *default_vars
-  
+    default: *id001
 alerta_k8s_instances:
-  - alerta_instance: "production_stg"
-    instance: "stg"
-    context: "otcinfra-stg"
-    namespace: "apimon"
-  - alerta_instance: "production_infra"
-    instance: "prod"
-    context: "otcinfra"
-    namespace: "apimon"
-  - alerta_instance: "production_infra-mirror"
-    instance: "prod-mirror"
-    context: "otcinfra-mirror"
-    namespace: "apimon"
+- alerta_instance: production_stg
+  context: otcinfra-stg
+  instance: stg
+  namespace: apimon
+- alerta_instance: production_infra
+  context: otcinfra
+  instance: prod
+  namespace: apimon
+- alerta_instance: production_infra-mirror
+  context: otcinfra-mirror
+  instance: prod-mirror
+  namespace: apimon
+default: *id001

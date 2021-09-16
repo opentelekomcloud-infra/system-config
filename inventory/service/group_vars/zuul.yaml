@@ -1,31 +1,29 @@
 zuul_instances:
   main:
-    zookeeper_instance_group: "zuul-zookeeper"
-      #gearman_server: "192.168.20.80"
-    gearman_server: "zuul-scheduler-main"
-    graphite_host: "192.168.14.241"
-    statsd_host: "zuul-statsd-main"
-    config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
-    web_domain: "zuul.otc-service.com"
-    nodepool_version_tag: "4.3.0"
-    zuul_version_tag: "4.9.0"
+    config_repo: https://github.com/opentelekomcloud-infra/zuul-config.git
+    gearman_server: zuul-scheduler-main
+    graphite_host: 192.168.14.241
+    nodepool_version_tag: 4.3.0:4.3.0
+    statsd_host: zuul-statsd-main
+    web_domain: zuul.otc-service.com
+    zookeeper_instance_group: zuul-zookeeper
     zuul_connections:
-      - name: "github"
-        driver: "github"
-        app_id: 11628
-        app_key: "/etc/zuul/ssl/github.key"
-      - name: "gitlab"
-        driver: "gitlab"
-        sshkey: "/etc/zuul/ssl/gitlab.key"
-        canonical_hostname: "gitlab"
-      - name: "opendev"
-        driver: "git"
-        baseurl: "https://opendev.org"
-      - name: "zuul_db"
-        driver: "sql"
-
+    - app_id: 11628
+      app_key: /etc/zuul/ssl/github.key
+      driver: github
+      name: github
+    - canonical_hostname: gitlab
+      driver: gitlab
+      name: gitlab
+      sshkey: /etc/zuul/ssl/gitlab.key
+    - baseurl: https://opendev.org
+      driver: git
+      name: opendev
+    - driver: sql
+      name: zuul_db
+    zuul_version_tag: 4.9.0
 zuul_k8s_instances:
-  - zuul_instance: "main"
-    context: "otcci"
-    instance: "main"
-    namespace: "zuul-ci"
+- context: otcci
+  instance: main
+  namespace: zuul-ci
+  zuul_instance: main

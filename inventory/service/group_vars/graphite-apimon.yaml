@@ -1,2 +1,2 @@
+graphite_image: quay.io/opentelekomcloud/graphite-statsd:latest
 graphite_relay_replication_factor: 3
-graphite_image: "quay.io/opentelekomcloud/graphite-statsd:latest"

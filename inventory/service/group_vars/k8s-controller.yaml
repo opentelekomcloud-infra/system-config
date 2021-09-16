@@ -1,247 +1,234 @@
+carbonapi_k8s_instances:
+- carbonapi_instance: main
+  context: otcinfra
+  instance: main
+  namespace: graphite
+- carbonapi_instance: main
+  context: otcinfra-mirror
+  instance: main
+  namespace: graphite
+document_hosting_instances:
+  int:
+    cert: docs-int
+    image: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
+    ingress_class: ingress-intern
+    nginx_template: templates/docs_hosting/nginx-internal.conf.j2
+    not_found: The page you are requesting is not available...
+    server_name: docs-int.otc-service.com
+  main:
+    cert: docs
+    image: quay.io/opentelekomcloud/nginx-unprivileged:1.21-alpine
+    nginx_template: templates/docs_hosting/nginx-public.conf.j2
+    not_found: The page you are requesting is not available...
+    server_name: docs.otc-service.com
+  stg:
+    cluster_issuer: letsencrypt-staging
+    image: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
+    nginx_template: templates/docs_hosting/nginx-public.conf.j2
+    not_found: The page you are requesting is not available...
+    server_name: docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com
+document_hosting_k8s_instances:
+- context: otcinfra-stg
+  document_hosting_instance: stg
+  instance: stg
+  namespace: document-hosting
+- context: otcinfra
+  document_hosting_instance: main
+  instance: main
+  namespace: docs
+- context: otcinfra
+  document_hosting_instance: int
+  instance: int
+  namespace: docs
 graphite_web_instances:
   apimon:
-    domain_name: "graphite.apimon.eco.tsi-dev.otc-service.com"
-    graphite_cert: "graphite-apimon"
     cluster_servers:
-      - 'http://192.168.191.55:8080'
-      - 'http://192.168.14.159:8080'
-      - 'http://192.168.151.11:8080'
+    - http://192.168.191.55:8080
+    - http://192.168.14.159:8080
+    - http://192.168.151.11:8080
+    domain_name: graphite.apimon.eco.tsi-dev.otc-service.com
+    graphite_cert: graphite-apimon
     memcache_host:
-      - '192.168.191.55:11211'
-      - '192.168.14.159:11211'
-      - '192.168.151.11:11211'
-
+    - 192.168.191.55:11211
+    - 192.168.14.159:11211
+    - 192.168.151.11:11211
 graphite_web_k8s_instances:
-  - graphite_web_instance: "apimon"
-    context: "otcinfra"
-    instance: "apimon"
-    namespace: "graphite"
-  - graphite_web_instance: "apimon"
-    context: "otcinfra-mirror"
-    instance: "apimon"
-    namespace: "graphite"
-
-document_hosting_instances:
-  stg:
-    server_name: "docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
-    not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
-    cluster_issuer: "letsencrypt-staging"
-    nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
-  main:
-    server_name: "docs.otc-service.com"
-    not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
-    cert: "docs"
-    nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
-  int:
-    server_name: "docs-int.otc-service.com"
-    not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
-    cert: "docs-int"
-    nginx_template: "templates/docs_hosting/nginx-internal.conf.j2"
-    ingress_class: "ingress-intern"
-
-document_hosting_k8s_instances:
-  - document_hosting_instance: "stg"
-    context: "otcinfra-stg"
-    instance: "stg"
-    namespace: "document-hosting"
-  - document_hosting_instance: "main"
-    context: "otcinfra"
-    instance: "main"
-    namespace: "docs"
-  - document_hosting_instance: "int"
-    context: "otcinfra"
-    instance: "int"
-    namespace: "docs"
-
-carbonapi_k8s_instances:
-  - carbonapi_instance: "main"
-    context: "otcinfra"
-    instance: "main"
-    namespace: "graphite"
-  - carbonapi_instance: "main"
-    context: "otcinfra-mirror"
-    instance: "main"
-    namespace: "graphite"
-
-matrix_k8s_instances:
-  - matrix_instance: "main"
-    context: "otcinfra"
-    instance: "main"
-    namespace: "matrix"
-
-maubot_k8s_instances:
-  - maubot_instance: "main"
-    context: "otcinfra"
-    instance: "main"
-    namespace: "matrix"
-
+- context: otcinfra
+  graphite_web_instance: apimon
+  instance: apimon
+  namespace: graphite
+- context: otcinfra-mirror
+  graphite_web_instance: apimon
+  instance: apimon
+  namespace: graphite
 helm_chart_instances:
-  otcinfra-stg_cert-manager:
-    context: otcinfra-stg
-    repo_url: https://charts.jetstack.io
-    repo_name: jetstack
-    name: cert-manager
-    ref: jetstack/cert-manager
-    version: v1.3.1
-    namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
   otcapimon1_cert-manager:
     context: otcapimon1
-    repo_url: https://charts.jetstack.io
-    repo_name: jetstack
     name: cert-manager
-    ref: jetstack/cert-manager
-    version: v1.3.1
     namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
+    post_config_template: templates/charts/cert-manager/cert-manager-post-config.yaml.j2
+    ref: jetstack/cert-manager
+    repo_name: jetstack
+    repo_url: https://charts.jetstack.io
+    values_template: templates/charts/cert-manager/cert-manager-values.yaml.j2
+    version: v1.3.1
   otcci_cert-manager:
     context: otcci
-    repo_url: https://charts.jetstack.io
-    repo_name: jetstack
     name: cert-manager
-    ref: jetstack/cert-manager
-    version: v1.3.1
     namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
-  otcinfra_cert-manager:
-    context: otcinfra
-    repo_url: https://charts.jetstack.io
+    post_config_template: templates/charts/cert-manager/cert-manager-post-config.yaml.j2
+    ref: jetstack/cert-manager
     repo_name: jetstack
-    name: cert-manager
-    ref: jetstack/cert-manager
-    version: v1.3.1
-    namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
-  otcinfra-mirror_cert-manager:
-    context: otcinfra-mirror
     repo_url: https://charts.jetstack.io
-    repo_name: jetstack
-    name: cert-manager
-    ref: jetstack/cert-manager
+    values_template: templates/charts/cert-manager/cert-manager-values.yaml.j2
     version: v1.3.1
-    namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
-  otcinfra_nginx-ingress:
-    context: otcinfra
-    repo_url: https://kubernetes.github.io/ingress-nginx
-    repo_name: ingress-nginx
-    name: ingress-nginx
-    ref: ingress-nginx/ingress-nginx
-    version: 4.0.1
-    namespace: default
-    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
-    is_default: true
-  otcinfra_nginx-ingress-intern:
-    context: otcinfra
-    repo_url: https://kubernetes.github.io/ingress-nginx
-    repo_name: ingress-nginx
-    name: ingress-intern
-    ref: ingress-nginx/ingress-nginx
-    version: 4.0.1
-    namespace: default
-    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
-    class_name: "ingress-intern"
-    is_default: false
   otcci_nginx-ingress:
     context: otcci
-    repo_url: https://kubernetes.github.io/ingress-nginx
-    repo_name: ingress-nginx
-    name: ingress-nginx
-    ref: ingress-nginx/ingress-nginx
-    version: 4.0.1
-    namespace: default
-    values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
-  otcinfra_loki:
-    context: otcinfra
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: loki
-    ref: grafana/loki
-    version: 2.6.0
-    namespace: loki
-    values_template: "templates/charts/loki/loki-values.yaml.j2"
-  otcinfra_promtail:
-    context: otcinfra
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 3.8.1
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-values.yaml.j2"
+    name: ingress-nginx
+    namespace: default
+    ref: ingress-nginx/ingress-nginx
+    repo_name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    values_template: templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2
+    version: 4.0.1
   otcci_promtail:
     context: otcci
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
     name: promtail
-    ref: grafana/promtail
-    version: 3.8.1
     namespace: promtail
-    values_template: "templates/charts/promtail/promtail-values.yaml.j2"
-
-octavia_proxy_instances:
-  eu-nl:
-    fqdn: "octavia-nl.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_65_latest"
-    cert: "octavia_nl"
-    region_name: "eu-nl"
-    enabled_drivers:
-      - driver: "elbv3"
-        description: "The Open Telekom Cloud Dedicated LB driver"
-    default_provider_driver: "elbv3"
-  eu-de:
-    fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_65_latest"
-    cert: "octavia_de"
-    region_name: "eu-de"
-    enabled_drivers:
-      - driver: "elbv2"
-        description: "The Open Telekom Cloud Shared LB driver"
-    default_provider_driver: "elbv2"
-
-octavia_proxy_k8s_instances:
-  - octavia_proxy_instance: "eu-de"
-    context: "otcinfra"
-    instance: "eu-de"
-    namespace: "octavia"
-  - octavia_proxy_instance: "eu-nl"
-    context: "otcinfra"
-    instance: "eu-nl"
-    namespace: "octavia"
-
+    ref: grafana/promtail
+    repo_name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+    values_template: templates/charts/promtail/promtail-values.yaml.j2
+    version: 3.8.1
+  otcinfra-mirror_cert-manager:
+    context: otcinfra-mirror
+    name: cert-manager
+    namespace: cert-manager
+    post_config_template: templates/charts/cert-manager/cert-manager-post-config.yaml.j2
+    ref: jetstack/cert-manager
+    repo_name: jetstack
+    repo_url: https://charts.jetstack.io
+    values_template: templates/charts/cert-manager/cert-manager-values.yaml.j2
+    version: v1.3.1
+  otcinfra-stg_cert-manager:
+    context: otcinfra-stg
+    name: cert-manager
+    namespace: cert-manager
+    post_config_template: templates/charts/cert-manager/cert-manager-post-config.yaml.j2
+    ref: jetstack/cert-manager
+    repo_name: jetstack
+    repo_url: https://charts.jetstack.io
+    values_template: templates/charts/cert-manager/cert-manager-values.yaml.j2
+    version: v1.3.1
+  otcinfra_cert-manager:
+    context: otcinfra
+    name: cert-manager
+    namespace: cert-manager
+    post_config_template: templates/charts/cert-manager/cert-manager-post-config.yaml.j2
+    ref: jetstack/cert-manager
+    repo_name: jetstack
+    repo_url: https://charts.jetstack.io
+    values_template: templates/charts/cert-manager/cert-manager-values.yaml.j2
+    version: v1.3.1
+  otcinfra_loki:
+    context: otcinfra
+    name: loki
+    namespace: loki
+    ref: grafana/loki
+    repo_name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+    values_template: templates/charts/loki/loki-values.yaml.j2
+    version: 2.6.0
+  otcinfra_nginx-ingress:
+    context: otcinfra
+    is_default: true
+    name: ingress-nginx
+    namespace: default
+    ref: ingress-nginx/ingress-nginx
+    repo_name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    values_template: templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2
+    version: 4.0.1
+  otcinfra_nginx-ingress-intern:
+    class_name: ingress-intern
+    context: otcinfra
+    is_default: false
+    name: ingress-intern
+    namespace: default
+    ref: ingress-nginx/ingress-nginx
+    repo_name: ingress-nginx
+    repo_url: https://kubernetes.github.io/ingress-nginx
+    values_template: templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2
+    version: 4.0.1
+  otcinfra_promtail:
+    context: otcinfra
+    name: promtail
+    namespace: promtail
+    ref: grafana/promtail
+    repo_name: grafana
+    repo_url: https://grafana.github.io/helm-charts
+    values_template: templates/charts/promtail/promtail-values.yaml.j2
+    version: 3.8.1
 loki_instances:
   prod:
-    loki_cert: "loki"
-    fqdn: "loki.eco.tsi-dev.otc-service.com"
-
+    fqdn: loki.eco.tsi-dev.otc-service.com
+    loki_cert: loki
 loki_k8s_instances:
-  - loki_instance: "prod"
-    context: "otcinfra"
-    instance: "prod"
-    namespace: "loki"
-
+- context: otcinfra
+  instance: prod
+  loki_instance: prod
+  namespace: loki
+matrix_k8s_instances:
+- context: otcinfra
+  instance: main
+  matrix_instance: main
+  namespace: matrix
+maubot_k8s_instances:
+- context: otcinfra
+  instance: main
+  maubot_instance: main
+  namespace: matrix
+octavia_proxy_instances:
+  eu-de:
+    cert: octavia_de
+    default_provider_driver: elbv2
+    enabled_drivers:
+    - description: The Open Telekom Cloud Shared LB driver
+      driver: elbv2
+    fqdn: octavia-de.eco.tsi-dev.otc-service.com
+    image: quay.io/opentelekomcloud/octavia-proxy:change_65_latest
+    region_name: eu-de
+  eu-nl:
+    cert: octavia_nl
+    default_provider_driver: elbv3
+    enabled_drivers:
+    - description: The Open Telekom Cloud Dedicated LB driver
+      driver: elbv3
+    fqdn: octavia-nl.eco.tsi-dev.otc-service.com
+    image: quay.io/opentelekomcloud/octavia-proxy:change_65_latest
+    region_name: eu-nl
+octavia_proxy_k8s_instances:
+- context: otcinfra
+  instance: eu-de
+  namespace: octavia
+  octavia_proxy_instance: eu-de
+- context: otcinfra
+  instance: eu-nl
+  namespace: octavia
+  octavia_proxy_instance: eu-nl
 swift_proxy_instances:
   artifacts:
-    fqdn: "artifacts.eco.tsi-dev.otc-service.com"
-    ingress_class: "ingress-intern"
-    cert: "artifacts"
+    cert: artifacts
+    fqdn: artifacts.eco.tsi-dev.otc-service.com
+    ingress_class: ingress-intern
   docs-int: {}
-
 swift_proxy_k8s_instances:
-  - sp_instance: "artifacts"
-    context: "otcinfra"
-    instance: "artifacts"
-    namespace: "swift-proxy"
-  - sp_instance: "docs-int"
-    context: "otcinfra"
-    instance: "docs-int"
-    namespace: "swift-proxy"
+- context: otcinfra
+  instance: artifacts
+  namespace: swift-proxy
+  sp_instance: artifacts
+- context: otcinfra
+  instance: docs-int
+  namespace: swift-proxy
+  sp_instance: docs-int
