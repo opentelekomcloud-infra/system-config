@@ -37,7 +37,7 @@ def main():
     update_yaml_value(yaml_data, args.key, args.value)
 
     with open(args.path, "w") as f:
-        yaml.safe_dump(yaml_data, f)
+        yaml.safe_dump(yaml_data, f, sort_keys=False)
 
     if all(v is not None for v in (args.username, args.email)):
         proposal_branch = get_proposal_branch_name(args.key, args.value)
