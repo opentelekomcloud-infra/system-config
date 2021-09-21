@@ -191,7 +191,7 @@ helm_chart_instances:
 octavia_proxy_instances:
   eu-nl:
     fqdn: "octavia-nl.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_67_latest"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
     cert: "octavia_nl"
     region_name: "eu-nl"
     enabled_drivers:
@@ -200,7 +200,7 @@ octavia_proxy_instances:
     default_provider_driver: "elbv3"
   eu-de:
     fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_67_latest"
+    image: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
     cert: "octavia_de"
     region_name: "eu-de"
     enabled_drivers:
