@@ -1,4 +1,4 @@
-haproxy_image: "quay.io/opentelekomcloud/haproxy:2.4.1-alpine"
+haproxy_image: "{{ haproxy_image_stable }}"
 
 proxy_backends:
   - name: "graphite-apimon"
