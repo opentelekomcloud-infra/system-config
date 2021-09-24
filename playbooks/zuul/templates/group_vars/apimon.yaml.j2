@@ -2,10 +2,10 @@ apimon_instances_secrets:
   production_stg:
     alerta_token: alerta_token
     alerta_endpoint: test_alerta_endpoint
-    image_tag: "latest"
+    image: "quay.io/opentelekomcloud/apimon:latest"
     db_url: "postgresql://dummy:dummy@{{ ansible_host }}:5432/dummy"
   production_2:
     alerta_token: alerta_token
     alerta_endpoint: test_alerta_endpoint
-    image_tag: "latest"
+    image: "quay.io/opentelekomcloud/apimon:latest"
     db_url: "postgresql://dummy:dummy@{{ ansible_host }}:5432/dummy"

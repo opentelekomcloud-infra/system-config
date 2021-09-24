@@ -25,19 +25,19 @@ document_hosting_instances:
   stg:
     server_name: "docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
     not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
+    image: "{{ document_hosting_image_latest }}"
     cluster_issuer: "letsencrypt-staging"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
   main:
     server_name: "docs.otc-service.com"
     not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
+    image: "{{ document_hosting_image_stable }}"
     cert: "docs"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
   int:
     server_name: "docs-int.otc-service.com"
     not_found: "The page you are requesting is not available..."
-    image: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
+    image: "{{ document_hosting_image_stable }}"
     cert: "docs-int"
     nginx_template: "templates/docs_hosting/nginx-internal.conf.j2"
     ingress_class: "ingress-intern"
@@ -191,7 +191,7 @@ helm_chart_instances:
 octavia_proxy_instances:
   eu-nl:
     fqdn: "octavia-nl.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
+    image: "{{ octavia_proxy_image_stable }}"
     cert: "octavia_nl"
     region_name: "eu-nl"
     enabled_drivers:
@@ -200,7 +200,7 @@ octavia_proxy_instances:
     default_provider_driver: "elbv3"
   eu-de:
     fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
-    image: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
+    image: "{{ octavia_proxy_image_stable }}"
     cert: "octavia_de"
     region_name: "eu-de"
     enabled_drivers:

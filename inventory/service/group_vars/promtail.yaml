@@ -1,1 +1,1 @@
-promtail_image: "grafana/promtail:2.3.0"
+promtail_image: "{{ promtail_image_stable }}"

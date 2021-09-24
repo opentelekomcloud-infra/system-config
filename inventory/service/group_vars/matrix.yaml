@@ -3,7 +3,7 @@ matrix_instances:
   main:
     fqdn: "matrix.otc-service.com"
     matrix_cert: "matrix"
-    image: "quay.io/opentelekomcloud/synapse:v1.41.0"
+    image: "{{ matrix_image_stable }}"
     db:
       # TODO get this from inventory
       host: "192.168.170.83"
@@ -15,7 +15,7 @@ matrix_instances:
 
 maubot_instances:
   main:
-    image: "dock.mau.dev/maubot/maubot:latest"
+    image: "{{ maubot_image_stable }}"
     data_dir: "/maubot_data"
     server:
       hostname: "0.0.0.0"

@@ -1,4 +1,4 @@
-apimon_image: "quay.io/opentelekomcloud/apimon"
+apimon_image: "{{ apimon_image_stable }}"
 apimon_executor_image: "{{ apimon_image }}"
 apimon_scheduler_image: "{{ apimon_image }}"
 apimon_epmon_image: "{{ apimon_image }}"
@@ -31,7 +31,7 @@ apimon_instances:
     statsd_host: 192.168.110.58
     gearman_host: 192.168.110.58
     zone: production_eu-de
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_stable }}"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -118,7 +118,7 @@ apimon_instances:
     statsd_host: 192.168.2.55
     gearman_host: 192.168.2.55
     zone: vcloud_muc
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_stable }}"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -204,7 +204,7 @@ apimon_instances:
     statsd_host: 192.168.110.207
     gearman_host: 192.168.110.207
     zone: production_eu-de
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_stable }}"
 
     epmon_clouds:
       - preprod:
@@ -248,7 +248,7 @@ apimon_instances:
     statsd_host: 192.168.110.249
     gearman_host: 192.168.110.249
     zone: production_eu-de
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_stable }}"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -316,7 +316,7 @@ apimon_instances:
     statsd_host: 127.0.0.1
     gearman_host: apimon-scheduler-stg
     zone: production_eu-de
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_latest }}"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -379,7 +379,7 @@ apimon_instances:
     statsd_host: 127.0.0.1
     gearman_host: apimon-scheduler-prod-2
     zone: production_eu-de
-    image_tag: "change_25_latest"
+    image: "{{ apimon_image_stable }}"
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -427,7 +427,7 @@ apimon_k8s_instances:
     context: "otcinfra-stg"
     namespace: "apimon"
     cr_spec:
-      apimon_image: "quay.io/opentelekomcloud/apimon:change_25_latest"
+      apimon_image: "{{ apimon_image_latest }}"
       epmon_count: 0
       scheduler_count: 1
       executor_count: 1
@@ -437,7 +437,7 @@ apimon_k8s_instances:
     context: "otcapimon1"
     namespace: "apimon"
     cr_spec:
-      apimon_image: "quay.io/opentelekomcloud/apimon:change_25_latest"
+      apimon_image: "{{ apimon_image_stable }}"
       epmon_count: 1
       scheduler_count: 0
       executor_count: 0
