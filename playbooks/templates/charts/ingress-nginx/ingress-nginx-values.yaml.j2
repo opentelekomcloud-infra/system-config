@@ -1,7 +1,7 @@
 controller:
 {% if chart.is_default is defined and not chart.is_default %}
   watchIngressWithoutClass: false
-{% elfse %}
+{% else %}
   watchIngressWithoutClass: true
 {% endif %}
   ingressClassResource:
