@@ -1,4 +1,5 @@
 bastion_key_exclusive: false
+bridge_ansible_version: "4.6.0"
 
 kube_config_template: clouds/bridge_kube_config.yaml.j2
 extra_users:
