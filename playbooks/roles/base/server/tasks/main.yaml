@@ -37,6 +37,13 @@
     src: "logrotate.j2"
   notify: Restart logrotate
 
+- name: Ensure logrotate.timer is running
+  ansible.builtin.service:
+    name: logrotate.timer
+    enabled: yes
+    state: started
+  ignore_errors: true
+
 - name: Ensure rsyslog is running
   ansible.builtin.service:
     name: rsyslog
