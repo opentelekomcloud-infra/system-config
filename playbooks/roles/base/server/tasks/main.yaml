@@ -42,6 +42,7 @@
     name: logrotate.timer
     enabled: yes
     state: started
+  ignore_errors: true
 
 - name: Ensure rsyslog is running
   ansible.builtin.service:
