@@ -1,0 +1,43 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Make sure Telegraf Conf dir exists
+  become: true
+  file:
+    path: "/etc/telegraf"
+    state: directory
+    recurse: yes
+
+- name: Write Telegraf Conf
+  become: true
+  template:
+    src: "telegraf.conf.j2"
+    dest: "/etc/telegraf/telegraf.conf"
+  notify:
+    - restart telegraf
+
+- name: Write telegraf systemd unit file
+  become: true
+  template:
+    src: "telegraf.service.j2"
+    dest: "{{ telegraf_systemd_unit_path }}"
+  notify:
+    - restart telegraf

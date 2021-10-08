@@ -1,0 +1,13 @@
+---
+# defaults file for telegraf
+telegraf_systemd_service_name: "telegraf.service"
+telegraf_systemd_unit_path: "{{ '/etc/systemd/system/' + telegraf_systemd_service_name }}"
+telegraf_image: quay.io/opentelekomcloud/telegraf:1.20.0
+
+telegraf_output_graphite_host: 127.0.0.1
+telegraf_output_graphite_port: 2003
+telegraf_output_graphite_prefix: stats.telegraf
+
+telegraf_input_cpu_enable: true
+telegraf_input_mem_enable: true
+telegraf_input_disk_enable: true
