@@ -1,0 +1,10 @@
+---
+# handlers file for telegraf
+
+- name: restart telegraf
+  become: true
+  systemd:
+    name: "{{ telegraf_systemd_service_name }}"
+    enabled: yes
+    state: restarted
+    daemon-reload: yes

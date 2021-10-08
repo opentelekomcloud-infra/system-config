@@ -210,6 +210,33 @@ groups:
     - storage2.swift.eco.tsi-dev.otc-service.com
     - storage3.swift.eco.tsi-dev.otc-service.com
 
+  telegraf:
+    - proxy1.eco.tsi-dev.otc-service.com
+    - proxy2.eco.tsi-dev.otc-service.com
+    - web3.eco.tsi-dev.otc-service.com
+    - executor1.apimon.eco.tsi-dev.otc-service.com
+    - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor3.apimon.eco.tsi-dev.otc-service.com
+    - executor4.apimon.eco.tsi-dev.otc-service.com
+    - hybrid.apimon.eco.tsi-dev.otc-service.com
+    - preprod.apimon.eco.tsi-dev.otc-service.com
+    - scheduler1.apimon.eco.tsi-dev.otc-service.com
+    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - graphite2.apimon.eco.tsi-dev.otc-service.com
+    - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite1.eco.tsi-dev.otc-service.com
+    - bridge.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
+    - zk3.zuul.eco.tsi-dev.otc-service.com
+    - controller.swift.eco.tsi-dev.otc-service.com
+    - proxy1.swift.eco.tsi-dev.otc-service.com
+    - proxy2.swift.eco.tsi-dev.otc-service.com
+    - proxy3.swift.eco.tsi-dev.otc-service.com
+    - storage1.swift.eco.tsi-dev.otc-service.com
+    - storage2.swift.eco.tsi-dev.otc-service.com
+    - storage3.swift.eco.tsi-dev.otc-service.com
+
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com

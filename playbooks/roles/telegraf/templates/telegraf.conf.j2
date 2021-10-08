@@ -1,0 +1,130 @@
+# Telegraf Configuration
+#
+
+# Global tags can be specified here in key="value" format.
+[global_tags]
+  # dc = "us-east-1" # will tag all metrics with dc=us-east-1
+  # rack = "1a"
+  ## Environment variables can be used as tags, and throughout the config file
+  # user = "$USER"
+
+# Configuration for telegraf agent
+[agent]
+  ## Default data collection interval for all inputs
+  interval = "5s"
+  ## Rounds collection interval to 'interval'
+  ## ie, if interval="10s" then always collect on :00, :10, :20, etc.
+  round_interval = true
+
+  ## Telegraf will send metrics to outputs in batches of at most
+  ## metric_batch_size metrics.
+  ## This controls the size of writes that Telegraf sends to output plugins.
+  metric_batch_size = 1000
+
+  ## For failed writes, telegraf will cache metric_buffer_limit metrics for each
+  ## output, and will flush this buffer on a successful write. Oldest metrics
+  ## are dropped first when this buffer fills.
+  ## This buffer only fills when writes fail to output plugin(s).
+  metric_buffer_limit = 10000
+
+  ## Collection jitter is used to jitter the collection by a random amount.
+  ## Each plugin will sleep for a random time within jitter before collecting.
+  ## This can be used to avoid many plugins querying things like sysfs at the
+  ## same time, which can have a measurable effect on the system.
+  collection_jitter = "0s"
+
+  ## Default flushing interval for all outputs. Maximum flush_interval will be
+  ## flush_interval + flush_jitter
+  flush_interval = "1s"
+  ## Jitter the flush interval by a random amount. This is primarily to avoid
+  ## large write spikes for users running a large number of telegraf instances.
+  ## ie, a jitter of 5s and interval 10s means flushes will happen every 10-15s
+  flush_jitter = "0s"
+
+  ## By default or when set to "0s", precision will be set to the same
+  ## timestamp order as the collection interval, with the maximum being 1s.
+  ##   ie, when interval = "10s", precision will be "1s"
+  ##       when interval = "250ms", precision will be "1ms"
+  ## Precision will NOT be used for service inputs. It is up to each individual
+  ## service input to set the timestamp at the appropriate precision.
+  ## Valid time units are "ns", "us" (or "µs"), "ms", "s".
+  precision = ""
+
+  ## Logging configuration:
+  ## Run telegraf with debug log messages.
+  debug = false
+  ## Run telegraf in quiet mode (error log messages only).
+  quiet = true
+  ## Specify the log file name. The empty string means to log to stderr.
+  logfile = ""
+
+  ## Override default hostname, if empty use os.Hostname()
+  hostname = "{{ telegraf_hostname | default(inventory_hostname) }}"
+  ## If set to true, do no set the "host" tag in the telegraf agent.
+  omit_hostname = false
+
+
+###############################################################################
+#                            OUTPUT PLUGINS                                   #
+###############################################################################
+[[outputs.graphite]]
+  ## TCP endpoint for your graphite instance.
+  ## If multiple endpoints are configured, the output will be load balanced.
+  ## Only one of the endpoints will be written to with each iteration.
+  servers = ["{{ telegraf_output_graphite_host }}:{{ telegraf_output_graphite_port }}"]
+  ## Prefix metrics name
+  prefix = "{{ telegraf_output_graphite_prefix }}"
+  ## Graphite output template
+  ## see https://github.com/influxdata/telegraf/blob/master/docs/DATA_FORMATS_OUTPUT.md
+  #template = "host.measurement.tags.field"
+
+  ## Graphite templates patterns
+  ## 1. Template for cpu
+  ## 2. Template for disk*
+  ## 3. Default template
+  templates = [
+    "disk host.measurement.device.field",
+    "host.measurement.tags.field"
+  ]
+
+  ## Enable Graphite tags support
+  # graphite_tag_support = false
+
+  ## Character for separating metric name and field for Graphite tags
+  # graphite_separator = "."
+
+  ## timeout in seconds for the write connection to graphite
+  timeout = 2
+
+  ## Optional TLS Config
+  # tls_ca = "/etc/telegraf/ca.pem"
+  # tls_cert = "/etc/telegraf/cert.pem"
+  # tls_key = "/etc/telegraf/key.pem"
+  ## Use TLS but skip chain & host verification
+  # insecure_skip_verify = false
+
+###############################################################################
+#                            SERVICE INPUT PLUGINS                            #
+###############################################################################
+
+{% if telegraf_input_cpu_enable %}
+[[inputs.cpu]]
+  ## Whether to report per-cpu stats or not
+  percpu = false
+  ## Whether to report total system cpu stats or not
+  totalcpu = true
+  ## If true, collect raw CPU time metrics.
+  collect_cpu_time = false
+  ## If true, compute and report the sum of all non-idle CPU states.
+  report_active = false
+{% endif %}
+
+{% if telegraf_input_mem_enable %}
+[[inputs.mem]]
+  # No configuration
+{% endif %} 
+
+{% if telegraf_input_disk_enable %}
+[[inputs.disk]]
+  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs", "fuse-overlayfs", "fuse.fuse-overlayfs"]
+{% endif %} 
