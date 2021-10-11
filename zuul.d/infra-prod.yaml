@@ -19,13 +19,6 @@
     run: playbooks/zuul/run-production-playbook.yaml
     required-projects:
       - opentelekomcloud-infra/system-config
-    files:
-      - playbooks/manage-github.yaml
-      - playbooks/roles/gitcontrol
-      - playbooks/templates/github/default_zuul.yaml
-    dependencies:
-      - name: infra-prod-install-ansible
-        soft: true
     vars:
       infra_prod_ansible_forks: 5
       infra_prod_playbook_collect_log: false
@@ -113,6 +106,15 @@
     allowed-projects:
       - github.com/opentelekomcloud-infra/gitstyring
       - github.com/opentelekomcloud-infra/system-config
+    files:
+      - playbooks/manage-github.yaml
+      - playbooks/roles/gitcontrol
+      - playbooks/templates/github/default_zuul.yaml
+      - orgs
+      - templates
+    dependencies:
+      - name: infra-prod-install-ansible
+        soft: true
     required-projects:
       - github.com/opentelekomcloud-infra/gitstyring
       - github.com/opentelekomcloud-infra/system-config
@@ -333,3 +335,14 @@
       - inventory/service/group_vars/k8s-controller.yaml
       - playbooks/service-octavia-proxy.yaml
       - playbooks/roles/octavia_proxy
+
+- job:
+    name: infra-prod-service-telegraf
+    parent: infra-prod-service-base
+    description: Deploy Telegraf
+    vars:
+      playbook_name: service-telegraf.yaml
+    files:
+      - inventory/service/groups.yaml
+      - playbooks/service-telegraf.yaml
+      - playbooks/roles/telegraf
