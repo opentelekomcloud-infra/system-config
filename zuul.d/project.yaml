@@ -63,6 +63,7 @@
         - infra-prod-service-grafana
         - infra-prod-service-docs
         - infra-prod-service-proxy
+        - infra-prod-service-telegraf
         - infra-prod-service-zookeeper
         - infra-prod-service-octavia-proxy
         - infra-prod-dashboards
@@ -89,6 +90,7 @@
         - infra-prod-service-grafana
         - infra-prod-service-docs
         - infra-prod-service-proxy
+        - infra-prod-service-telegraf
         - infra-prod-service-zookeeper
         - infra-prod-manage-github
     periodic-hourly:
