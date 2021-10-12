@@ -1,74 +1,55 @@
----
 database_users:
   domain2_apimon_apimon_apimon:
-    dba: "domain2_apimon"
-    username: "apimon"
-    db: "apimon"
-    priv: "ALL"
-    comment: "APImon user"
-
+    dba: domain2_apimon
+    username: apimon
+    db: apimon
+    priv: ALL
+    comment: APImon user
   domain2_infra_matrix_matrix:
-    dba: "domain2_infra"
-    username: "synapse"
-    db: "synapse"
-    priv: "ALL"
-    comment: "Matrix user"
-
+    dba: domain2_infra
+    username: synapse
+    db: synapse
+    priv: ALL
+    comment: Matrix user
   domain2_infra_maubot_maubot:
-    dba: "domain2_infra"
-    username: "maubot"
-    db: "maubot"
-    priv: "ALL"
-    comment: "Maubot user"
-  
+    dba: domain2_infra
+    username: maubot
+    db: maubot
+    priv: ALL
+    comment: Maubot user
   domain2_database_grafana-eco_grafana-eco:
-    dba: "domain2_database"
-    username: "grafana-eco"
-    db: "grafana-eco"
-    priv: "ALL"
-    comment: "Grafana-eco user"
-
-haproxy_image_stable: "quay.io/opentelekomcloud/haproxy:2.4.1-alpine"
-haproxy_image_latest: "quay.io/opentelekomcloud/haproxy:2.4.1-alpine"
-
-alerta_image_stable: "quay.io/opentelekomcloud/alerta:8.5.0"
-alerta_image_latest: "quay.io/opentelekomcloud/alerta:8.5.0"
-
-statsd_image_stable: "quay.io/opentelekomcloud/statsd:v0.9.0"
-statsd_image_latest: "quay.io/opentelekomcloud/statsd:v0.9.0"
-
-carbonapi_image_stable: "quay.io/opentelekomcloud/carbonapi:v0.15.4"
-carbonapi_image_latest: "quay.io/opentelekomcloud/carbonapi:v0.15.4"
-
-promtail_image_stable: "quay.io/opentelekomcloud/promtail:2.3.0"
-promtail_image_latest: "quay.io/opentelekomcloud/promtail:2.3.0"
-
-graphite_image_stable: "quay.io/opentelekomcloud/graphite-statsd:latest"
-graphite_image_latest: "quay.io/opentelekomcloud/graphite-statsd:latest"
-
-grafana_image_stable: "quay.io/opentelekomcloud/grafana:8.1.2"
-grafana_image_latest: "quay.io/opentelekomcloud/grafana:8.1.2"
-
-grafana_renderer_image_stable: "quay.io/opentelekomcloud/grafana-image-renderer:3.0.1"
-grafana_renderer_image_latest: "quay.io/opentelekomcloud/grafana-image-renderer:3.0.1"
-
-apimon_image_stable: "quay.io/opentelekomcloud/apimon:change_25_latest"
-apimon_image_latest: "quay.io/opentelekomcloud/apimon:change_25_latest"
-
-memcached_image_stable: "quay.io/opentelekomcloud/memcached:1.6.10-alpine"
-memcached_image_latest: "quay.io/opentelekomcloud/memcached:1.6.10-alpine"
-
-matrix_image_stable: "quay.io/opentelekomcloud/synapse:v1.41.0"
-matrix_image_latest: "quay.io/opentelekomcloud/synapse:v1.41.0"
-
-maubot_image_stable: "dock.mau.dev/maubot/maubot:latest"
-maubot_image_latest: "dock.mau.dev/maubot/maubot:latest"
-
-octavia_proxy_image_stable: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
-octavia_proxy_image_latest: "quay.io/opentelekomcloud/octavia-proxy:change_68_latest"
-
-document_hosting_image_stable: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
-document_hosting_image_latest: "quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine"
-
-telegraf_image_stable: "quay.io/opentelekomcloud/telegraf:1.20.0"
-telegraf_image_latest: "quay.io/opentelekomcloud/telegraf:1.20.0"
+    dba: domain2_database
+    username: grafana-eco
+    db: grafana-eco
+    priv: ALL
+    comment: Grafana-eco user
+haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
+haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
+alerta_image_stable: quay.io/opentelekomcloud/alerta:8.5.0
+alerta_image_latest: quay.io/opentelekomcloud/alerta:8.5.0
+statsd_image_stable: quay.io/opentelekomcloud/statsd:v0.9.0
+statsd_image_latest: quay.io/opentelekomcloud/statsd:v0.9.0
+carbonapi_image_stable: quay.io/opentelekomcloud/carbonapi:v0.15.4
+carbonapi_image_latest: quay.io/opentelekomcloud/carbonapi:v0.15.4
+promtail_image_stable: quay.io/opentelekomcloud/promtail:2.3.0
+promtail_image_latest: quay.io/opentelekomcloud/promtail:2.3.0
+graphite_image_stable: quay.io/opentelekomcloud/graphite-statsd:latest
+graphite_image_latest: quay.io/opentelekomcloud/graphite-statsd:latest
+grafana_image_stable: quay.io/opentelekomcloud/grafana:8.1.2
+grafana_image_latest: quay.io/opentelekomcloud/grafana:8.1.2
+grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.0.1
+grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.0.1
+apimon_image_stable: quay.io/opentelekomcloud/apimon:change_25_latest
+apimon_image_latest: quay.io/opentelekomcloud/apimon:change_25_latest
+memcached_image_stable: quay.io/opentelekomcloud/memcached:1.6.10-alpine
+memcached_image_latest: quay.io/opentelekomcloud/memcached:1.6.10-alpine
+matrix_image_stable: quay.io/opentelekomcloud/synapse:v1.41.0
+matrix_image_latest: quay.io/opentelekomcloud/synapse:v1.41.0
+maubot_image_stable: dock.mau.dev/maubot/maubot:latest
+maubot_image_latest: dock.mau.dev/maubot/maubot:latest
+octavia_proxy_image_stable: quay.io/opentelekomcloud/octavia-proxy:change_68_latest
+octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_68_latest
+document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
+document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
+telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.20.0
+telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.20.0
