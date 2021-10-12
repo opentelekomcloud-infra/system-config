@@ -31,13 +31,17 @@
     - name: Run the production playbook and capture logs
       block:
 
+      - name: Construct execution command
+        set_fact:
+          ansible_command: "ansible-playbook -v -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/{{ playbook_name }} -e '{{ ((extra_job_vars | default({})) | to_json }}'"
+
       - name: Log a playbook start header
         become: yes
-        shell: 'echo "Running {{ ansible_date_time.iso8601 }}: ansible-playbook -v -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/{{ playbook_name }}" > /var/log/ansible/{{ playbook_name }}.log'
+        shell: 'echo "Running {{ ansible_date_time.iso8601 }}: {{ ansible_command }}" > /var/log/ansible/{{ playbook_name }}.log'
 
       - name: Run specified playbook on bridge and redirect output
         become: yes
-        shell: 'ansible-playbook -vvv -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/{{ playbook_name }} >> /var/log/ansible/{{ playbook_name }}.log'
+        shell: "{{ ansible_command } >> /var/log/ansible/{{ playbook_name }}.log}"
 
       always:
 
