@@ -69,7 +69,8 @@ class ProposeModule():
             return f"{key.split('.')[-1]}-{new_value[-1]}"
 
     def commit_changes(
-        self, repo_location, branch_name: str, path: str, key: str,
+        self, repo_location, branch_name: str, path: str,
+        key: str, value: str,
         token: str
     ):
         """
@@ -96,7 +97,8 @@ class ProposeModule():
                     'title': f"[Automatic]: Update {key}",
                     'head': branch_name,
                     'base': 'main',
-                    'maintainer_can_modify': True
+                    'maintainer_can_modify': True,
+                    'body': f"Update {key} to {value}"
                 }
             )
             if response.status_code >= 400:
@@ -137,8 +139,9 @@ class ProposeModule():
         if all(v is not None for v in (username, email)):
             proposal_branch = self.get_proposal_branch_name(key, value)
             repo = self.get_repo_and_set_config(username, email)
-            self.commit_changes(repo_location, proposal_branch, path, key,
-                                token)
+            self.commit_changes(
+                repo_location, proposal_branch, path,
+                key, value, token)
 
         self.ansible.exit_json(changed=True)
 
