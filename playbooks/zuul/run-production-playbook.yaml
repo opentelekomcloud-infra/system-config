@@ -41,7 +41,7 @@
 
       - name: Run specified playbook on bridge and redirect output
         become: yes
-        shell: "{{ ansible_command } >> /var/log/ansible/{{ playbook_name }}.log}"
+        shell: "{{ ansible_command }} >> /var/log/ansible/{{ playbook_name }}.log"
 
       always:
 
