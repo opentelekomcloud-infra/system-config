@@ -346,3 +346,26 @@
       - inventory/service/groups.yaml
       - playbooks/service-telegraf.yaml
       - playbooks/roles/telegraf
+
+- job:
+    name: infra-prod-propose-update
+    parent: infra-prod-service-base
+    description: Propose inventory change
+    vars:
+      playbook_name: propose-update.yaml
+
+- job:
+    name: infra-prod-propose-octavia-proxy-image-stable
+    parent: infra-prod-propose-update
+    description: Propose new Octavia-proxy image
+    vars:
+      playbook_name: propose-update.yaml
+      key: "octavia_proxy_image_stable"
+
+- job:
+    name: infra-prod-propose-octavia-proxy-image-latest
+    parent: infra-prod-propose-update
+    description: Propose new Octavia-proxy image
+    vars:
+      playbook_name: propose-update.yaml
+      key: "octavia_proxy_image_latest"

@@ -1,0 +1,30 @@
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  tasks:
+    - name: Create temporary build directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: git
+      register: tmp_dir
+
+    - block:
+        - name: Checkout repo
+          ansible.builtin.git:
+            repo: "git@github.com:opentelekomcloud-infra/system-config.git"
+            dest: "{{ tmp_dir.path }}"
+
+        - name: Execute propose script
+          update_tag:
+            repo_location: "{{ tmp_dir.path }}"
+            path: "inventory/service/group_vars/all.yaml"
+            key: "{{ key }}"
+            value: "{{ value }}"
+            email: "otcbot@eco.tsi-dev.otc-service.com"
+            username: "{{ github_user }}"
+            token: "{{ github_token }}"
+
+      always:
+        - name: Drop repository
+          ansible.builtin.file:
+            path: "{{ tmp_dir.path }}"
+            state: absent
+          when: tmp_dir.path is defined
