@@ -353,6 +353,11 @@
     description: Propose inventory change
     vars:
       playbook_name: propose-update.yaml
+    dependencies:
+      - name: infra-prod-install-ansible
+        soft: true
+    required-projects:
+      - github.com/opentelekomcloud-infra/system-config
 
 - job:
     name: infra-prod-propose-octavia-proxy-image-stable
