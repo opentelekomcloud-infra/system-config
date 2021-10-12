@@ -353,6 +353,9 @@
     description: Propose inventory change
     vars:
       playbook_name: propose-update.yaml
+      extra_job_vars:
+        propose_key: "{{ propose_key }}"
+        propose_value: "{{ value }}"
     dependencies:
       - name: infra-prod-install-ansible
         soft: true
@@ -364,13 +367,11 @@
     parent: infra-prod-propose-update
     description: Propose new Octavia-proxy image
     vars:
-      playbook_name: propose-update.yaml
-      key: "octavia_proxy_image_stable"
+      propose_key: "octavia_proxy_image_stable"
 
 - job:
     name: infra-prod-propose-octavia-proxy-image-latest
     parent: infra-prod-propose-update
     description: Propose new Octavia-proxy image
     vars:
-      playbook_name: propose-update.yaml
-      key: "octavia_proxy_image_latest"
+      propose_key: "octavia_proxy_image_latest"
