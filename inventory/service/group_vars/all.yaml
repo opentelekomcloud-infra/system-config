@@ -35,10 +35,10 @@ promtail_image_stable: quay.io/opentelekomcloud/promtail:2.3.0
 promtail_image_latest: quay.io/opentelekomcloud/promtail:2.3.0
 graphite_image_stable: quay.io/opentelekomcloud/graphite-statsd:latest
 graphite_image_latest: quay.io/opentelekomcloud/graphite-statsd:latest
-grafana_image_stable: quay.io/opentelekomcloud/grafana:8.1.2
 grafana_image_latest: quay.io/opentelekomcloud/grafana:8.2.1
+grafana_image_stable: quay.io/opentelekomcloud/grafana:8.2.1
 grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.0.1
-grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.0.1
+grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.2.1
 apimon_image_stable: quay.io/opentelekomcloud/apimon:change_25_latest
 apimon_image_latest: quay.io/opentelekomcloud/apimon:change_25_latest
 memcached_image_stable: quay.io/opentelekomcloud/memcached:1.6.10-alpine
@@ -48,7 +48,7 @@ matrix_image_latest: quay.io/opentelekomcloud/synapse:v1.41.0
 maubot_image_stable: dock.mau.dev/maubot/maubot:latest
 maubot_image_latest: dock.mau.dev/maubot/maubot:latest
 octavia_proxy_image_stable: quay.io/opentelekomcloud/octavia-proxy:change_68_latest
-octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_68_latest
+octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_85_latest
 document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.20.0

@@ -16,8 +16,8 @@
           update_tag:
             repo_location: "{{ tmp_dir.path }}"
             path: "inventory/service/group_vars/all.yaml"
-            key: "{{ key }}"
-            value: "{{ value }}"
+            key: "{{ propose_key }}"
+            value: "{{ propose_value }}"
             email: "otcbot@eco.tsi-dev.otc-service.com"
             username: "{{ github_user }}"
             token: "{{ github_token }}"
