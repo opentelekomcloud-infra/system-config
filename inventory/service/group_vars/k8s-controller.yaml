@@ -187,6 +187,15 @@ helm_chart_instances:
     version: 3.8.1
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-values.yaml.j2"
+  otcinfra_telegraf:
+    context: otcinfra
+    repo_url: https://helm.influxdata.com/
+    repo_name: influxdata
+    name: telegraf
+    ref: influxdata/telegraf-ds
+    version: 1.0.22
+    namespace: telegraf
+    values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
 
 octavia_proxy_instances:
   eu-nl:

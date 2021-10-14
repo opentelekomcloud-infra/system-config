@@ -1,0 +1,11 @@
+config:
+  outputs:
+    - graphite:
+        servers:
+          - 192.168.14.159:2013
+        prefix: "stats.telegraf.otcinfra"
+        templates:
+          - "disk host.measurement.device.field"
+          - "host.measurement.tags.field"
+        timeout: 2
+
