@@ -14,7 +14,7 @@ def zuul_data():
     zuul_extra_data_file = os.environ.get('TESTINFRA_EXTRA_DATA')
     if os.path.exists(zuul_extra_data_file):
         with open(zuul_extra_data_file, 'r') as f:
-            extra = yaml.load(f)
+            extra = yaml.safe_load(f)
             data['extra'] = extra
 
     return data
