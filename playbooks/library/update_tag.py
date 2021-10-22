@@ -70,8 +70,7 @@ class ProposeModule():
 
     def commit_changes(
         self, repo_location, branch_name: str, path: str,
-        key: str, value: str,
-        token: str
+        key: str, value: str, token: str
     ):
         """
         Commit a changed file in a new branch
@@ -80,6 +79,8 @@ class ProposeModule():
         :param branch_name: Proposal branch
         :param path: Path to a changed file
         :param key: Key name (to include in the commit message)
+        :param value: Value (to include in the commit message)
+        :param token: API Token to open PR
         :return: None
         """
         os.chdir(repo_location)
@@ -94,7 +95,7 @@ class ProposeModule():
                     'Authorization': f"token {token}"
                 },
                 json={
-                    'title': f"[Automatic]: Update {key}",
+                    'title': f"[Automatic]: Update {key} to {value}",
                     'head': branch_name,
                     'base': 'main',
                     'maintainer_can_modify': True,
@@ -140,8 +141,7 @@ class ProposeModule():
             proposal_branch = self.get_proposal_branch_name(key, value)
             repo = self.get_repo_and_set_config(username, email)
             self.commit_changes(
-                repo_location, proposal_branch, path,
-                key, value, token)
+                repo_location, proposal_branch, path, key, value, token)
 
         self.ansible.exit_json(changed=True)
 
