@@ -3,9 +3,9 @@ upstream backend {
   server {{ document_hosting.swift_server }}:443;
 }
     
-proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
+#proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
     
-server_names_hash_bucket_size 128;
+#server_names_hash_bucket_size 128;
 server {
   #skip some normal config like listen, log
   listen 8080;
@@ -15,11 +15,11 @@ server {
   #set proxy cache config, you can find all these command in nginx wiki page
   proxy_set_header Host $host;
   proxy_set_header Accept "*/*";
-  proxy_cache_valid 200 1d;
+  #proxy_cache_valid 200 1d;
   proxy_read_timeout 120;
   proxy_send_timeout 120;
-  proxy_cache_key "$host$uri";
-  proxy_cache_methods GET;
+  #proxy_cache_key "$host$uri";
+  #proxy_cache_methods GET;
   proxy_intercept_errors on;
   #set a return http header of cache status, so that you can see the status of file cache
   add_header X-Cache $upstream_cache_status;
@@ -47,7 +47,7 @@ server {
       set $index_uri '/$1';
       break;
     }
-    if ($request_uri ~* '^/_static') {
+    if ($request_uri ~* '(^/_static)|(^/_images)') {
       # statics from docportal
       set $index_uri $request_uri;
       break;
