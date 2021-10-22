@@ -8,7 +8,7 @@ zuul_instances:
     config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
     web_domain: "zuul.otc-service.com"
     nodepool_version_tag: "4.3.0"
-    zuul_version_tag: "4.10.2"
+    zuul_version_tag: "4.10.3"
     zuul_connections:
       - name: "github"
         driver: "github"
