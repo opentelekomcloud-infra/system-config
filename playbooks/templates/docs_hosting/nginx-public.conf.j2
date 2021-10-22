@@ -47,7 +47,7 @@ server {
       set $index_uri '/$1';
       break;
     }
-    if ($request_uri ~* '^/_static') {
+    if ($request_uri ~* '(^/_static)|(^/_images)') {
       # statics from docportal
       set $index_uri $request_uri;
       break;
