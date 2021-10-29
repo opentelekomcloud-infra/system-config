@@ -13,8 +13,9 @@ packages:
   - liberasurecode1
 
 python_packages:
-  - swift
-  - validatetoken
+  - swift>=2.28.0
+  - validatetoken>=0.1.0
+  - python-memcached
 
 # order matters
 swift_proxy_pipeline:
