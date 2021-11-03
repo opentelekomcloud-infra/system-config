@@ -1,0 +1,310 @@
+---
+annotations:
+  list:
+  - builtIn: 1
+    datasource: "-- Grafana --"
+    enable: true
+    hide: true
+    iconColor: rgba(0, 211, 255, 1)
+    name: Annotations & Alerts
+    target:
+      limit: 100
+      matchAny: false
+      tags: []
+      type: dashboard
+    type: dashboard
+editable: false
+panels:
+{% include '_header.yaml.j2' %}
+
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 7
+      w: 24
+      x: 0
+      y: 0
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - refId: A
+      target: aliasByNode(stats.telegraf.otcinfra.*.cpu.cpu-total.usage_idle, 3)
+    title: Infra K8S nodes - CPU Idle
+    type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 7
+      w: 24
+      x: 0
+      y: 7
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - refId: A
+      target: aliasByNode(stats.telegraf.otcinfra.*.mem.used_percent, 3)
+    title: Infra K8S nodes - Memory Usage
+    type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 9
+      w: 24
+      x: 0
+      y: 14
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - queryType: randomWalk
+      refId: A
+      target: aliasByNode(stats.telegraf.*.disk.*.used_percent, 2, 4)
+    title: Disk Usage
+    type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 9
+      w: 24
+      x: 0
+      y: 23
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - queryType: randomWalk
+      refId: A
+      target: aliasByNode(stats.telegraf.*.mem.used_percent, 2)
+    title: Memory Usage
+    type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 9
+      w: 24
+      x: 0
+      y: 32
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - queryType: randomWalk
+      refId: A
+      target: aliasByNode(stats.telegraf.*.cpu.cpu-total.usage_idle, 2)
+    title: CPU Idle
+    type: timeseries
+refresh: false
+style: dark
+tags: 
+  - monitoring
+templating:
+  list: []
+time:
+  from: now-7d
+  to: now
+timepicker: {}
+timezone: ''
+title: Infra VM monitoring
+uid: InfraVMmon

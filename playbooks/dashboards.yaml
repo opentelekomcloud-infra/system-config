@@ -17,3 +17,12 @@
         - apimon/network.yaml
         - apimon/storage.yaml
         - apimon/kpi.yaml
+    - include_role:
+        name: grafana
+        tasks_from: import_dashboard.yaml
+      vars:
+        grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
+        grafana_dashboard_folder: "Internal monitoring"
+        grafana_ds: "apimon-carbonapi"
+      loop:
+        - monitoring/internal_monitoring.yaml
