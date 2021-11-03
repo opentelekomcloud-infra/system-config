@@ -6,15 +6,16 @@
     - name: Register root dir
       set_fact:
         gitstyring_root_dir: "/home/zuul/src/github.com/opentelekomcloud-infra/gitstyring"
+        gitstyring2_root_dir: "/home/zuul/src/gitlab/ecosystem/gitstyring"
 
     - name: manage people
       opentelekomcloud.gitcontrol.members:
-        root: "{{ gitstyring_root_dir }}"
+        root: "{{ gitstyring2_root_dir }}"
         token: "{{ github_token }}"
 
     - name: manage teams
       opentelekomcloud.gitcontrol.teams:
-        root: "{{ gitstyring_root_dir }}"
+        root: "{{ gitstyring2_root_dir }}"
         token: "{{ github_token }}"
 
     - name: manage repositories
