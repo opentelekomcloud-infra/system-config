@@ -14,6 +14,7 @@ At a Glance
   * `Gitstyring`_
 :Configuration:
     * https://github.com/opentelekomcloud-infra/gitstyring/tree/main/orgs
+    * supplementary closed source project (gitlab/ecosystem/gitstyring)
 :Bugs:
 :Resources:
 
@@ -63,7 +64,6 @@ O&M Access Control
 Only users enabled in the :git_file:`inventory/base/group_vars/all.yaml` are
 able to login to the underlaying infrastructure.
 
-
 Logging and Monitoring
 ----------------------
 
@@ -74,7 +74,6 @@ O&M Access Control
 
 Only users enabled in the :git_file:`inventory/base/group_vars/all.yaml` are
 able to login to the underlaying infrastructure.
-
 
 Logging and Monitoring
 ----------------------
@@ -105,6 +104,11 @@ User and Account management
 ---------------------------
 
 User mapping is configured by `Gitstyring`_. No password/token management is implemented.
+
+In order to address data privacy concerns overall configuration data is split between 2 repositories:
+
+- public one (https://github.com/opentelekomcloud-infra/gitstyring/) with the project configuration
+- private one with the users and teams configuration
 
 Communication Matrix
 --------------------
