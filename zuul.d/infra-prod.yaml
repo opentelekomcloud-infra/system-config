@@ -105,6 +105,7 @@
       playbook_name: manage-github.yaml
     allowed-projects:
       - github.com/opentelekomcloud-infra/gitstyring
+      - gitlab/ecosystem/gitstyring
       - github.com/opentelekomcloud-infra/system-config
     files:
       - playbooks/manage-github.yaml
@@ -117,6 +118,7 @@
         soft: true
     required-projects:
       - github.com/opentelekomcloud-infra/gitstyring
+      - gitlab/ecosystem/gitstyring
       - github.com/opentelekomcloud-infra/system-config
 
 - job:
