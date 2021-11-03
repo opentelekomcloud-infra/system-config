@@ -335,6 +335,7 @@
       playbook_name: service-octavia-proxy.yaml
     files:
       - inventory/service/group_vars/k8s-controller.yaml
+      - inventory/service/group_vars/all.yaml
       - playbooks/service-octavia-proxy.yaml
       - playbooks/roles/octavia_proxy
 
