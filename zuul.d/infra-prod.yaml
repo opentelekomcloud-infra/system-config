@@ -346,6 +346,8 @@
     vars:
       playbook_name: service-telegraf.yaml
     files:
+      - inventory/service/group_vars/telegraf.yaml
+      - inventory/service/group_vars/all.yaml
       - inventory/service/groups.yaml
       - playbooks/service-telegraf.yaml
       - playbooks/roles/telegraf
