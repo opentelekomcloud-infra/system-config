@@ -39,3 +39,5 @@ ssl_certs:
     - "octavia-de.eco.tsi-dev.otc-service.com"
   octavia_nl:
     - "octavia-nl.eco.tsi-dev.otc-service.com"
+  vault:
+    - "a.vault.eco.tsi-dev.otc-service.com"
