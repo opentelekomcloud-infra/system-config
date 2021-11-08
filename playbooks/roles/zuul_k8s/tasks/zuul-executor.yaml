@@ -67,6 +67,9 @@
                 name: "zuul-executor"
                 securityContext:
                   privileged: true
+                env:
+                  - name: "ANSIBLE_29_EXTRA_PACKAGES"
+                    value: "hvac pyjwt psycopg2-binary"
                 ports:
                   - containerPort: 7900
                     protocol: "TCP"
