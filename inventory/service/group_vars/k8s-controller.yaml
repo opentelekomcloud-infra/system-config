@@ -196,6 +196,24 @@ helm_chart_instances:
     version: 1.0.22
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
+  otcinfra_opensearch:
+    context: otcinfra
+    repo_url: https://opensearch-project.github.io/helm-charts/
+    repo_name: opensearch
+    name: opensearch
+    ref: opensearch/opensearch
+    version: 1.2.5
+    namespace: opensearch
+    values_template: "templates/charts/opensearch/opensearch-otcinfra-values.yaml.j2"
+  otcinfra_opensearch-dashboard:
+    context: otcinfra
+    repo_url: https://opensearch-project.github.io/helm-charts/
+    repo_name: opensearch
+    name: opensearch-dashboard
+    ref: opensearch/opensearch-dashboards
+    version: 1.0.6
+    namespace: opensearch
+    values_template: "templates/charts/opensearch/opensearch-dashboard-otcinfra-values.yaml.j2"
 
 octavia_proxy_instances:
   eu-nl:
