@@ -21,7 +21,7 @@
   when: install_ansible_version == 'latest'
 
 # Since Ansible 2.10 (~2020-08) the devel core package is split into
-# "ansible-base".  The PyPi the package "ansible" has everything in it
+# "ansible-core".  The PyPi the package "ansible" has everything in it
 # (the so called Ansible Community Distribution) but we specifically
 # want to test against devel.  However, ARA still depends on the
 # "ansible" package -- but we like ARA, because we can see the nested
@@ -31,23 +31,6 @@
   set_fact:
     _install_ansible_from_devel: true
   when: '"github.com/ansible/ansible" in install_ansible_name'
-
-# Since ~2020-11 ansible renamed "ansible-base" to "ansible-core".
-# Unfortunately, ansible-base and ansible-core can not live happily
-# together.  For testinfra, our tox role pre-installs the requirements
-# from tox.ini (ansible-base) but then tries to install siblings (the
-# checked out ansible tree, now trying to install the "ansible-core"
-# package).  There is no working "ansible-core" package on PyPi, so
-# for now we have to switch this out in the tox.ini for the -devel job
-# to work.  We can remove this when "ansible-core" is published at an
-# appropriate version on PyPi; at that point the checked-out tree can
-# override the package in the testing tox venv.
-- name: Override ansible-base tox install
-  when: '"github.com/ansible/ansible" in install_ansible_name'
-  lineinfile:
-    path: /home/zuul/src/github.com/opentelekomcloud-infra/system-config/tox.ini
-    regexp: '^  ansible-base # see install-ansible/tasks/main\.yaml$'
-    line:   '  ansible-core'
 
 - name: Setup Ansible stub for post 2.10 compat
   include_tasks: install_ansible_stub.yaml
