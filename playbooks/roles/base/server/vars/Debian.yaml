@@ -8,5 +8,6 @@ distro_packages:
   - mailutils
   - gnupg
   - systemd-timesyncd
+  - auditd
 sftp_path: /usr/lib/openssh/sftp-server
 ssh_service_name: ssh
