@@ -39,7 +39,8 @@ Security Architecture
 * HTTP/HTTPS traffic is reaching the service through Cloud Load Balancer
 
 .. raw:: html
-   :file: images/reverse_proxy.svg
+
+   <object data="_static/reverse_proxy.svg" type="image/svg+xml"></object>
 
 Separation
 ----------

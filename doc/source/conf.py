@@ -53,6 +53,7 @@ exclude_patterns = ['_build']
 # -- Options for HTML output ----------------------------------------------
 
 html_theme = 'alabaster'
+html_static_path = ['_svg']
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass
