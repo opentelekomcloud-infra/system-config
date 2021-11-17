@@ -3,3 +3,6 @@
 
 - name: Restart graphite
   include_tasks: roles/acme_create_certs/handlers/restart-graphite.yaml
+
+- name: Reload vault
+  include_tasks: roles/acme_create_certs/handlers/reload-vault.yaml

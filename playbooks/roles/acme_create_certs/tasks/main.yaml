@@ -15,6 +15,31 @@
     state: "directory"
     mode: "0755"
 
+- name: Create vault certs directory
+  ansible.builtin.file:
+    path: "/etc/ssl/{{ inventory_hostname }}/vault"
+    state: "directory"
+    mode: "0755"
+    owner: "{{ vault_user | default('997') }}"
+    group: "{{ vault_group | default('997') }}"
+  when: "'vault' in {{ group_names }}"
+
+- name: Copy vault certs
+  ansible.builtin.copy:
+    src: "{{ certs_path }}/{{ cert }}"
+    dest: "{{ certs_path }}/vault/{{ cert }}"
+    mode: "0440"
+    owner: "{{ vault_user | default('997') }}"
+    group: "{{ vault_group | default('997') }}"
+  loop:
+    - "{{ vault_cert }}.pem"
+    - "{{ vault_cert }}-fullchain.crt"
+  loop_control:
+    loop_var: "cert"
+  when:
+    - "'vault' in {{ group_names }}"
+    - "vault_cert is defined"
+
 # we only restart haproxy if it's cert files got modified
 - name: Prepare haproxy certs
   ansible.builtin.assemble:
@@ -26,5 +51,6 @@
   loop: "{{ query('dict', ssl_certs) }}"
   loop_control:
     loop_var: cert
+  when: "'proxy' in {{ group_names }}"
   notify:
     - Restart haproxy

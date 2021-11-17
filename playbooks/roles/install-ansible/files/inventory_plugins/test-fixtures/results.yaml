@@ -20,3 +20,4 @@ results:
     - matrix
     - promtail
     - telegraf
+    - vault
