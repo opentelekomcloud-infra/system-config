@@ -295,6 +295,17 @@
       - playbooks/roles/document_hosting_k8s
 
 - job:
+    name: infra-prod-service-vault
+    parent: infra-prod-service-base
+    description: Run service-vault.yaml playbook.
+    vars:
+      playbook_name: service-vault.yaml
+    files:
+      - inventory/
+      - playbooks/service-vault.yaml
+      - playbooks/roles/hashivault
+
+- job:
     name: infra-prod-service-zookeeper
     parent: infra-prod-service-base
     description: Run service-zookeeper.yaml playbook.

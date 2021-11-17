@@ -19,6 +19,7 @@
         - system-config-run-alerta
         - system-config-run-grafana
         - system-config-run-proxy
+        - system-config-run-vault
         - system-config-run-zookeeper
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
@@ -38,6 +39,7 @@
         - system-config-run-alerta
         - system-config-run-grafana
         - system-config-run-proxy
+        - system-config-run-vault
         - system-config-run-zookeeper
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
@@ -64,6 +66,7 @@
         - infra-prod-service-docs
         - infra-prod-service-proxy
         - infra-prod-service-telegraf
+        - infra-prod-service-vault
         - infra-prod-service-zookeeper
         - infra-prod-service-octavia-proxy
         - infra-prod-dashboards

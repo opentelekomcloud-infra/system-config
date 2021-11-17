@@ -1,0 +1,8 @@
+ssl_certs:
+  vault:
+    - "vault.eco.tsi-dev.otc-service.com"
+
+# Name of the vault cert (used by acme-create-cert role to deploy it)
+vault_cert: "vault"
+
+firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']

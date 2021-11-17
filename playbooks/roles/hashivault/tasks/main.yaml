@@ -1,0 +1,43 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Include OS-specific tasks
+  include_tasks: "{{ lookup('first_found', file_list) }}"
+  vars:
+    file_list: "{{ distro_lookup_path }}"
+- name: Add PPA GPG key
+  become: yes
+  apt_key:
+    data: "{{ hashicorp_gpg_key }}"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Create storage
+  file:
+    state: directory
+    path: "{{ vault_storage_path }}"
+    owner: "{{ vault_owner }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Enable vault service
+  ansible.builtin.service:
+    name: "vault"
+    enabled: "true"
+    state: "started"
