@@ -19,5 +19,3 @@
     name: vault
     state: present
     update_cache: yes
-
-

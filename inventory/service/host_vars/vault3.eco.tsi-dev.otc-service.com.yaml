@@ -6,3 +6,10 @@ nics:
     net-name: "apimon-infra-net"
 root_volume_size: 20
 auto_ip: false
+
+ssl_certs:
+  vault:
+    - "vault3.eco.tsi-dev.otc-service.com"
+vault_cert: "vault"
+
+firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']
