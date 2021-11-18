@@ -1,0 +1,8 @@
+image: "Standard_Debian_11_latest"
+flavor: "c4.xlarge.4"
+security_groups: ["common_sg", "vault_sg"]
+nics:
+  - fixed_ip: "192.168.151.123"
+    net-name: "apimon-infra-net"
+root_volume_size: 20
+auto_ip: false

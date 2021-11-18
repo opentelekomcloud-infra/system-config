@@ -274,22 +274,22 @@ cloud_role_assignments:
 cloud_nets:
   # main infra
   # domain2
-  - cloud: "otcinfra-domain2-infra-de"
-    router: "eco-infra"
-    nets:
-      - name: "infra-net"
-        subnets:
-          - name: "infra-subnet"
-            cidr: "192.168.170.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  #  - cloud: "otcinfra-domain2-infra-de"
+  #    router: "eco-infra"
+  #    nets:
+  #      - name: "infra-net"
+  #        subnets:
+  #          - name: "infra-subnet"
+  #            cidr: "192.168.170.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
   # domain3
   - cloud: "otcinfra-domain3-infra-de"
-    router: "apimon-infra"
+    router: "eco-infra"
     # enable_snat: true
     nets:
-      - name: "apimon-infra-net"
+      - name: "eco-infra-net"
         subnets:
-          - name: "apimon-infra-subnet"
+          - name: "eco-infra-subnet"
             cidr: "192.168.150.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
   - cloud: "otcinfra-domain3-infra-nl"
@@ -357,8 +357,8 @@ cloud_nat_gws:
   - cloud: "otcinfra-domain3-infra-de"
     name: "otcinfra"
     description: "main NAT GW for the infra"
-    router: "apimon-infra"
-    internal_network: "apimon-infra-net"
+    router: "eco-infra"
+    internal_network: "eco-infra-net"
     spec: 1
   - cloud: "otcinfra-domain3-infra-nl"
     router: "apimon-infra"
@@ -408,11 +408,22 @@ cloud_peerings:
     remote_router: "eco-infra"
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.111.0/24"
+  # domain2-infra-de<=>bridge
   - cloud: "otcinfra-domain2-infra-de"
     name: "bridge-domain2_infra_de"
     local_router: "eco-infra"
     local_project: "eu-de_eco_infra"
     local_cidr: "192.168.170.0/24"
+    remote_cloud: "otcapimon-pool1"
+    remote_router: "dashboard-otc-vpc-router"
+    remote_project: "eu-de_apimon"
+    remote_cidr: "192.168.110.0/24"
+  # domain3-infra-de<=>bridge
+  - cloud: "otcinfra-domain3-infra-de"
+    name: "bridge-domain3_infra_de"
+    local_router: "eco-infra"
+    local_project: "eu-de_eco_infra"
+    local_cidr: "192.168.150.0/24"
     remote_cloud: "otcapimon-pool1"
     remote_router: "dashboard-otc-vpc-router"
     remote_project: "eu-de_apimon"
@@ -472,6 +483,16 @@ cloud_peerings:
     remote_router: "eco-infra"
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.170.0/24"
+  - cloud: "otcci-main"
+    name: "zuul-domain3-infra"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otcinfra-domain3-infra-de"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra"
+    remote_cidr: "192.168.150.0/24"
+
 
 common_sg: &common_sg
   name: "common_sg"
@@ -567,7 +588,7 @@ pg_sg: &pg_sg
       description: "pg"
 
 zuul_sg: &zuul_sg
-  name: "default"
+  name: "Zuul"
   description: "Default (Zuul enabled) security group"
   rules:
     - protocol: "icmp"
@@ -586,23 +607,55 @@ zuul_sg: &zuul_sg
       remote_ip_prefix: "192.168.0.0/16"
       description: "Zuul logger"
 
+vault_sg: &vault_sg
+  name: "vault_sg"
+  description: "HashiCorp Vault security group"
+  rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "ping"
+    - protocol: "tcp"
+      port_range_min: 8200
+      port_range_max: 8200
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "Vault API"
+    - protocol: "tcp"
+      port_range_min: 8201
+      port_range_max: 8201
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "Vault Server-2-Server"
+
 cloud_security_groups:
   - cloud: "otcinfra-domain2-database"
     <<: *common_sg
   - cloud: "otcinfra-domain2-database"
     <<: *graphite_sg
   - cloud: "otcinfra-domain2-infra-de"
+    <<: *common_sg
+  - cloud: "otcinfra-domain2-infra-de"
     <<: *pg_sg
+  - cloud: "otcinfra-domain2-infra-de"
+    <<: *vault_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *common_sg
   - cloud: "otcinfra-domain3-infra-nl"
     <<: *graphite_sg
+  - cloud: "otcinfra-domain3-infra-nl"
+    <<: *vault_sg
+  - cloud: "otcinfra-domain3-infra-de"
+    <<: *common_sg
+  - cloud: "otcinfra-domain3-infra-de"
+    <<: *vault_sg
   - cloud: "otcci-pool1"
     <<: *zuul_sg
   - cloud: "otcci-pool2"
     <<: *zuul_sg
   - cloud: "otcci-pool3"
     <<: *zuul_sg
+  - cloud: "otcapimon-pool1"
+    <<: *common_sg
   - cloud: "otcapimon-pool1"
     <<: *pg_sg
 
