@@ -29,6 +29,7 @@ INSERT INTO public.alerta_environments (id, name) VALUES (8, 'prod_nl');
 INSERT INTO public.alerta_environments (id, name) VALUES (2, 'production_eu-de');
 INSERT INTO public.alerta_environments (id, name) VALUES (7, 'hybrid_sbb');
 INSERT INTO public.alerta_environments (id, name) VALUES (9, 'hybrid_eum');
+INSERT INTO public.alerta_environments (id, name) VALUES (10, 'hybrid_swiss');
 
 
 --
