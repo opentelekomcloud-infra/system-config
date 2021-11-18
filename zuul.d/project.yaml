@@ -52,6 +52,7 @@
         - infra-prod-install-cce
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
+        - infra-prod-service-loki
         # - infra-prod-service-x509-cert
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
@@ -80,6 +81,7 @@
         - infra-prod-install-cce
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
+        - infra-prod-service-loki
         # - infra-prod-service-x509-cert
         - infra-prod-service-grafana-dashboards
         - infra-prod-service-statsd
