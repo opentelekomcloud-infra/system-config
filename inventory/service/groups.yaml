@@ -155,6 +155,9 @@ groups:
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
     - web3.eco.tsi-dev.otc-service.com
+    - vault1.eco.tsi-dev.otc-service.com
+    - vault2.eco.tsi-dev.otc-service.com
+    - vault3.eco.tsi-dev.otc-service.com
 
   zookeeper:
     - zk1.zuul.eco.tsi-dev.otc-service.com
@@ -238,7 +241,10 @@ groups:
     - storage3.swift.eco.tsi-dev.otc-service.com
 
   vault:
-    - bridge.eco.tsi-dev.otc-service.com
+    # - bridge.eco.tsi-dev.otc-service.com
+    - vault1.eco.tsi-dev.otc-service.com
+    - vault2.eco.tsi-dev.otc-service.com
+    - vault3.eco.tsi-dev.otc-service.com
 
   disabled:
     # We can not manage coreos with ansible by default
