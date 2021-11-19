@@ -8,6 +8,7 @@
     name: logrotate
     enabled: yes
     state: restarted
+  ignore_errors: true
 
 - name: Restart ssh
   service:
