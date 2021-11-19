@@ -753,6 +753,32 @@ cloud_load_balancers:
           pool: "server_group-30081"
           subnet: "infra-subnet"
           protocol_port: 30081
+  - cloud: "otcapimon-pool1"
+    loadbalancer:
+      name: "elb-haproxy-vault"
+      vip_subnet: "dashboard-default-subnet"
+      vip_address: "192.168.110.100"
+      listeners:
+        - name: "listener-8200"
+          protocol: "tcp"
+          protocol_port: 8200
+      pools:
+        - name: "pool-8200"
+          listener: "listener-8200"
+          description: "Vault Trafic to haproxy"
+          lb_algorithm: "round_robin"
+          protocol: "tcp"
+      members:
+        - name: "proxy1.dashboard.tsi-dev.otc-service.com"
+          address: "192.168.110.160"
+          pool: "pool-8200"
+          subnet: "dashboard-default-subnet"
+          protocol_port: 8200
+        - name: "proxy2.dashboard.tsi-dev.otc-service.com"
+          address: "192.168.110.151"
+          pool: "pool-8200"
+          subnet: "dashboard-default-subnet"
+          protocol_port: 8200
 
 cloud_load_balancer_certificates:
   - cloud: "otc-swift"
