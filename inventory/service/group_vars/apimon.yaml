@@ -262,6 +262,11 @@ apimon_instances:
             epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
             epmon_network, epmon_swift, epmon_sdrs, epmon_rds,
             epmon_rest] | combine }}"
+      - hybrid_swiss:
+          service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
+            epmon_cinder, epmon_keystone, epmon_glance,
+            epmon_network, epmon_sdrs, epmon_rds, epmon_smn,
+            epmon_rest] | combine }}"
     # Do endpoints check once per minute only
     epmon_interval: 60
 
@@ -285,6 +290,11 @@ apimon_instances:
           OS_CLOUD: hybrid_sbb
         clouds:
           - hybrid_sbb
+      - name: hybrid_swiss
+        env:
+          OS_CLOUD: hybrid_swiss
+        clouds:
+          - hybrid_swiss
 
     # Test Matrix
     test_matrix:
@@ -302,6 +312,10 @@ apimon_instances:
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
           - scenario30_domains.yaml
+      - env: hybrid_swiss
+        project: apimon
+        tasks:
+          - scenario1_token.yaml
 
     # Test clouds configuration
     clouds:
@@ -309,6 +323,8 @@ apimon_instances:
         cloud: otcapimon_hybrid_eum
       - name: hybrid_sbb
         cloud: otcapimon_hybrid_sbb
+      - name: hybrid_swiss
+        cloud: otcapimon_hybrid_swiss
       - name: swift
         cloud: otcapimon_logs
 
