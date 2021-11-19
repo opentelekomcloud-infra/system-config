@@ -428,6 +428,16 @@ cloud_peerings:
     remote_router: "dashboard-otc-vpc-router"
     remote_project: "eu-de_apimon"
     remote_cidr: "192.168.110.0/24"
+  # domain2-infra-de<=>domain3-infra-de
+  - cloud: "otcinfra-domain2-infra-de"
+    name: "domain2_infra_de-domain3_infra_de"
+    local_router: "eco-infra"
+    local_project: "eu-de_eco_infra"
+    local_cidr: "192.168.170.0/24"
+    remote_cloud: "otcinfra-domain3-infra-de"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra"
+    remote_cidr: "192.168.150.0/24"
   # Zuul peerings
   - cloud: "otcci-main"
     name: "zuul-bridge"

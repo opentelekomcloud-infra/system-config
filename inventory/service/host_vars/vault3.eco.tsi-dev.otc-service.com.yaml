@@ -12,4 +12,6 @@ ssl_certs:
     - "vault3.eco.tsi-dev.otc-service.com"
 vault_cert: "vault"
 
+vault_seal_transit_address: "https://vault.eco.tsi-dev.otc-service.com:8200"
+
 firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']

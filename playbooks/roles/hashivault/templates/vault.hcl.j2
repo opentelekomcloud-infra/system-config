@@ -8,7 +8,8 @@ disable_mlock = true
 
 storage "raft" {
   path = "{{ vault_storage_path }}"
-  node_id = "node{{ vault_id | default((inventory_hostname | regex_replace('vault(\\d+)\..*$', '\\1')| int )) }}"
+  node_id = "vault{{ vault_id | default((inventory_hostname | regex_replace('vault(\\d+)\..*$', '\\1')| int )) }}"
+# TODO: autojoin
 }
 
 # HTTPS listener
@@ -18,3 +19,13 @@ listener "tcp" {
   tls_key_file  = "/etc/ssl/{{ inventory_hostname }}/vault/vault.pem"
 }
 
+{% if vault_seal_transit_address is defined %}
+seal "transit" {
+  address = "{{ vault_seal_transit_address }}"
+  token   = "{{ vault_seal_transit_token }}"
+  disable_renewal    = "false"
+  // Key configuration
+  key_name           = "unseal_key"
+  mount_path         = "transit/"
+}
+{% endif %}
