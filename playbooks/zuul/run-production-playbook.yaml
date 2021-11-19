@@ -12,17 +12,6 @@
 
 - hosts: bridge.eco.tsi-dev.otc-service.com
   tasks:
-    - name: Should we run from master
-      set_fact:
-        infra_prod_run_from_master: "{{ zuul.pipeline|default('') in ['periodic', 'otc-infra-prod-hourly'] }}"
-
-    - name: Update from master
-      when: infra_prod_run_from_master|bool
-      git:
-        repo: https://github.com/opentelekomcloud-infra/system-config
-        dest: /home/zuul/src/github.com/opentelekomcloud-infra/system-config
-        force: yes
-
     - name: Run the production playbook and capture logs
       block:
 
