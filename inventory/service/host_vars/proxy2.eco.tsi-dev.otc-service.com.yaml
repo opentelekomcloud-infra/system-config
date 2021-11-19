@@ -13,7 +13,10 @@ ssl_certs:
     - "matrix.otc-service.com"
   docs:
     - "docs.otc-service.com"
+  vault:
+    - "vault-lb.eco.tsi-dev.otc-service.com"
 
 firewalld_extra_services_enable: ['http', 'https']
+firewalld_extra_ports_enable: ['8200/tcp']
 
 carbonapi_instance: "main"
