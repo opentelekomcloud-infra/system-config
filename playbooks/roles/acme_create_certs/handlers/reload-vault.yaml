@@ -5,6 +5,6 @@
 
 - name: Reload Vault
   ansible.builtin.service:
-    name: "haproxy"
+    name: "vault"
     state: "reloaded"
   when: vault_pids.rc == 0
