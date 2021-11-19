@@ -15,13 +15,19 @@
     state: "directory"
     mode: "0755"
 
+- name: Check vault user
+  ansible.builtin.user:
+    name: "vault"
+  register: "vault_user"
+  when: "'vault' in group_names"
+
 - name: Create vault certs directory
   ansible.builtin.file:
     path: "/etc/ssl/{{ inventory_hostname }}/vault"
     state: "directory"
     mode: "0755"
-    owner: "{{ vault_user | default('vault') }}"
-    group: "{{ vault_group | default('vault') }}"
+    owner: "{{ vault_user.name | default(omit) }}"
+    group: "{{ vault_user.group | default(omit) }}"
   when: "'vault' in group_names"
 
 - name: Copy vault certs
@@ -29,8 +35,8 @@
     src: "{{ certs_path }}/{{ cert }}"
     dest: "{{ certs_path }}/vault/{{ cert }}"
     mode: "0440"
-    owner: "{{ vault_user | default('vault') }}"
-    group: "{{ vault_group | default('vault') }}"
+    owner: "{{ vault_user.name | default(omit) }}"
+    group: "{{ vault_user.group | default(omit) }}"
     remote_src: true
   loop:
     - "{{ vault_cert }}.pem"

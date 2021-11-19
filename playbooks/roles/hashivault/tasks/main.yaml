@@ -30,7 +30,7 @@
   retries: 5
 
 - name: Create storage
-  file:
+  ansible.builtin.file:
     state: directory
     path: "{{ vault_storage_path }}"
     owner: "{{ vault_owner }}"
@@ -38,7 +38,7 @@
     mode: 0755
 
 - name: Write config
-  template:
+  ansible.builtin.template:
     dest: /etc/vault.d/vault.hcl
     src: vault.hcl.j2
     mode: 0644
@@ -46,6 +46,14 @@
     group: "{{ vault_group }}"
   notify:
     - Restart Vault
+
+- name: Correct certs ownership
+  ansible.builtin.file:
+    path: "/etc/ssl/{{ inventory_hostname }}/vault"
+    state: "directory"
+    owner: "{{ vault_owner }}"
+    group: "{{ vault_group }}"
+    recurse: true
 
 - name: Enable vault service
   ansible.builtin.service:
