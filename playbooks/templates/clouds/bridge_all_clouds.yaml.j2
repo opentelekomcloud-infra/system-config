@@ -335,6 +335,15 @@ clouds:
       user_domain_name: {{ apimon_all_clouds.otcapimon_hybrid_sbb.auth.user_domain_name }}
     interface: public
     vendor_hook: "otcextensions.sdk:load"
+  otcapimon-hybrid-swiss:
+    auth:
+      auth_url: {{ apimon_all_clouds.otcapimon_hybrid_swiss.auth.auth_url }}
+      username: {{ apimon_all_clouds.otcapimon_hybrid_swiss.auth.username }}
+      password: "{{ apimon_all_clouds.otcapimon_hybrid_swiss.auth.password }}"
+      project_name: {{ apimon_all_clouds.otcapimon_hybrid_swiss.auth.project_name }}
+      user_domain_name: {{ apimon_all_clouds.otcapimon_hybrid_swiss.auth.user_domain_name }}
+    interface: public
+    vendor_hook: "otcextensions.sdk:load"
   otcapimon-csm1:
     profile: otc
     auth:
