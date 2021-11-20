@@ -1,11 +1,11 @@
-- name: Ensure keypair exists
+- name: "Ensure keypair exists for {{ host }}"
   openstack.cloud.keypair:
     state: "present"
     cloud: "{{ hostvars[host].location.cloud }}"
     name: "otcinfra-bridge"
     public_key: "{{ bastion_public_key }}"
 
-- name: Create a new instance
+- name: "Provision server {{ hostvars[host].inventory_hostname }}"
   openstack.cloud.server:
     state: "present"
     cloud: "{{ hostvars[host].location.cloud }}"
