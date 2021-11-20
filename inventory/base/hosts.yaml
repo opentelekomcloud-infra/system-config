@@ -1,5 +1,12 @@
 all:
   hosts:
+    bastion.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.10
+      ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     scheduler1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.58
       apimon:
