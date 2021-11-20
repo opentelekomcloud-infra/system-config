@@ -1,0 +1,10 @@
+image: "Standard_Debian_11_latest"
+flavor: "s3.medium.2"
+security_groups: ["bastion_sg"]
+nics:
+  - fixed_ip: "192.168.110.10"
+    net-name: "dashboard-otc-net"
+root_volume_size: 20
+auto_ip: false
+
+firewalld_extra_ports_enable: []

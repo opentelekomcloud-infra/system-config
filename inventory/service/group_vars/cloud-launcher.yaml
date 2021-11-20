@@ -503,6 +503,18 @@ cloud_peerings:
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.150.0/24"
 
+bastion_sg: &bastion_sg
+  name: "bastion_sg"
+  description: "Bastion security group"
+  rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "192.168.0.0/16"
+    - protocol: "tcp"
+      port_range_min: 22
+      port_range_max: 22
+      remote_ip_prefix: "0.0.0.0/0"
 
 common_sg: &common_sg
   name: "common_sg"
@@ -638,6 +650,8 @@ vault_sg: &vault_sg
       description: "Vault Server-2-Server"
 
 cloud_security_groups:
+  - cloud: "otcapimon-pool1"
+    <<: *bastion_sg
   - cloud: "otcinfra-domain2-database"
     <<: *common_sg
   - cloud: "otcinfra-domain2-database"
