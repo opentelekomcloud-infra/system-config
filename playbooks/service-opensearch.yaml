@@ -1,0 +1,13 @@
+# Deploy Opensearch certificates/secrets/ingress
+# Opensearch cluster is managed by HELM
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure Opensearch K8S networking - ingress/tls/secrets"
+  tasks:
+    - include_role:
+        name: "opensearch"
+      vars:
+        opensearch: "{{ opensearch_instances[item.opensearch_instance] | combine(opensearch_instances_secrets[item.opensearch_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      loop: "{{ opensearch_k8s_instances | list }}"

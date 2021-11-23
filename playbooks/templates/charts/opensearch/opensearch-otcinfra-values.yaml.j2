@@ -1,20 +1,40 @@
 ingress:
   enabled: true
   annotations:
-    "cert-manager.io/cluster-issuer" : "letsencrypt-prod"
     "kubernetes.io/ingress.class" : "nginx"
   path: /
   hosts:
-    - {{ chart.opensearch_host }}
+    - "{{ chart.opensearch_fqdn }}"
   tls:
-    - secretName: opensearch-tls-secret
+    - secretName: "{{ chart.opensearch_tls_name }}"
       hosts:
-        - {{ chart.opensearch_host }}
+        - "{{ chart.opensearch_fqdn }}"
 persistence:
   storageClass: csi-disk
   size: 100Gi
   annotations:
     everest.io/disk-volume-type: sas
+secretMounts:
+  - name: "node-pem"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/node.pem"
+    subPath: "tls.crt"
+  - name: "node-key-pem"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/node-key.pem"
+    subPath: "tls.key"
+  - name: "root-cacert"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/root-cacert.pem"
+    subPath: "tls.crt"
+  - name: "admin-pem"
+    secretName: "{{ chart.opensearch_admin_tls_name }}"
+    path: "/usr/share/opensearch/config/admin.pem"
+    subPath: "tls.crt"
+  - name: "admin-key-pem"
+    secretName: "{{ chart.opensearch_admin_tls_name }}"
+    path: "/usr/share/opensearch/config/admin-key.pem"
+    subPath: "tls.key"
 config:
   opensearch.yml:
     cluster.name: opensearch-cluster
@@ -22,38 +42,30 @@ config:
     # Bind to all interfaces because we don't know what IP address Docker will assign to us.
     network.host: 0.0.0.0
 
-    # # minimum_master_nodes need to be explicitly set when bound on a public IP
-    # # set to 1 to allow single node clusters
-    # discovery.zen.minimum_master_nodes: 1
-
-    # Setting network.host to a non-loopback address enables the annoying bootstrap checks. "Single-node" mode disables them again.
-    # discovery.type: single-node
-
-    # Start OpenSearch Security Demo Configuration
-    # WARNING: revise all the lines below before you go into production
     plugins:
       security:
         ssl:
           transport:
-            pemcert_filepath: esnode.pem
-            pemkey_filepath: esnode-key.pem
-            pemtrustedcas_filepath: root-ca.pem
+            pemcert_filepath: node.pem
+            pemkey_filepath: node-key.pem
+            pemtrustedcas_filepath: root-cacert.pem
             enforce_hostname_verification: false
           http:
             enabled: false
-            pemcert_filepath: esnode.pem
-            pemkey_filepath: esnode-key.pem
-            pemtrustedcas_filepath: root-ca.pem
         allow_unsafe_democertificates: true
         allow_default_init_securityindex: true
+        nodes_dn:
+          - CN={{ chart.opensearch_node_fqdn }}
         authcz:
           admin_dn:
-            - CN=kirk,OU=client,O=client,L=test, C=de
+            - CN={{ chart.opensearch_admin_fqdn }}
         audit.type: internal_opensearch
         enable_snapshot_restore_privilege: true
         check_snapshot_restore_write_privileges: true
         restapi:
           roles_enabled: ["all_access", "security_rest_api_access"]
+          password_validation_regex: '(?=.*[A-Z])(?=.*[^a-zA-Z\d])(?=.*[0-9])(?=.*[a-z]).{8,}'
+          password_validation_error_message: "Password must be minimum 8 characters long and must contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
         system_indices:
           enabled: true
           indices:
@@ -71,40 +83,4 @@ config:
             ]
 
 securityConfig:
-  config:
-    data:
-      internal_users.yml: |-
-        ---
-        # This is the internal user database
-        # The hash value is a bcrypt hash and can be generated with plugin/tools/hash.sh
-        _meta:
-          type: "internalusers"
-          config_version: 2
-
-        # Define your internal users here
-
-        admin:
-          hash: "{{ chart.opensearch_admin_hash }}"
-          reserved: true
-          backend_roles:
-          - "admin"
-          description: "Admin user"
-
-        kibanaserver:
-          hash: "{{ chart.opensearch_kibanaserver_hash }}"
-          reserved: true
-          description: "OpenSearch Dashboards user"
-
-        readall:
-          hash: "{{ chart.opensearch_readall_hash }}"
-          reserved: false
-          backend_roles:
-          - "readall"
-          description: "Readall user"
-
-        writeall:
-          hash: "{{ chart.opensearch_writeall_hash }}"
-          reserved: false
-          backend_roles:
-          - "admin"
-          description: "Writeall user"
+  internalUsersSecret: "{{ chart.opensearch_internal_users_name }}"

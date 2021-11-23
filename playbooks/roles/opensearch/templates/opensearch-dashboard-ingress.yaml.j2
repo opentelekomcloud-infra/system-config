@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: "opensearch-dashboard"
+    app.kubernetes.io/instance: "{{ instance }}"
+    app.kubernetes.io/managed-by: "system-config"
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # add an annotation indicating the issuer to use.
+{% if opensearch.cluster_issuer is defined %}
+    cert-manager.io/cluster-issuer: "{{ loki.cluster_issuer }}"
+{% endif %}
+spec:
+  rules:
+  - host: "{{ opensearch.opensearch_dashboard_fqdn }}"
+    http:
+      paths:
+      - backend:
+          service:
+            name: "{{  opensearch_dashboard_service_name }}"
+            port: 
+              number: 5601
+        path: /
+        pathType: Prefix
+  tls: 
+  - hosts:
+    - "{{ opensearch.opensearch_dashboard_fqdn }}"
+    secretName: "{{ opensearch_dashboard_tls_name }}"

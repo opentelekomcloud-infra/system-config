@@ -1,0 +1,34 @@
+---
+# This is the internal user database
+# The hash value is a bcrypt hash and can be generated with plugin/tools/hash.sh
+_meta:
+  type: "internalusers"
+  config_version: 2
+
+# Define your internal users here
+
+admin:
+  hash: "{{ opensearch.opensearch_admin_hash }}"
+  reserved: true
+  backend_roles:
+  - "admin"
+  description: "Admin user"
+
+kibanaserver:
+  hash: "{{ opensearch.opensearch_kibanaserver_hash }}"
+  reserved: true
+  description: "OpenSearch Dashboards user"
+
+readall:
+  hash: "{{ opensearch.opensearch_readall_hash }}"
+  reserved: false
+  backend_roles:
+  - "readall"
+  description: "Readall user"
+
+writeall:
+  hash: "{{ opensearch.opensearch_writeall_hash }}"
+  reserved: false
+  backend_roles:
+  - "admin"
+  description: "Writeall user"
