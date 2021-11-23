@@ -48,6 +48,7 @@
         - infra-prod-base
         - infra-prod-service-bridge
         - infra-prod-install-cce
+        - infra-prod-service-opensearch
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
         # - infra-prod-service-x509-cert
@@ -75,6 +76,7 @@
         - infra-prod-base
         - infra-prod-service-bridge
         - infra-prod-install-cce
+        - infra-prod-service-opensearch
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
         # - infra-prod-service-x509-cert

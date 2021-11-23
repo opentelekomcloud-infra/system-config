@@ -353,6 +353,17 @@
       - playbooks/roles/telegraf
 
 - job:
+    name: infra-prod-service-opensearch
+    parent: infra-prod-service-base
+    description: Run service-opensearch.yaml playbook.
+    vars:
+      playbook_name: service-opensearch.yaml
+    files:
+      - inventory/
+      - playbooks/service-opensearch.yaml
+      - playbooks/roles/opensearch
+
+- job:
     name: infra-prod-propose-update
     parent: infra-prod-service-base
     description: Propose inventory change
