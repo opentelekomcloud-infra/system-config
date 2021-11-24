@@ -48,7 +48,7 @@ matrix_image_latest: quay.io/opentelekomcloud/synapse:v1.41.0
 maubot_image_stable: dock.mau.dev/maubot/maubot:latest
 maubot_image_latest: dock.mau.dev/maubot/maubot:latest
 octavia_proxy_image_stable: quay.io/opentelekomcloud/octavia-proxy:change_74_latest
-octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_92_latest
+octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_74_latest
 document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.20.0
