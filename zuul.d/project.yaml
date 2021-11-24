@@ -21,6 +21,7 @@
         - system-config-run-proxy
         - system-config-run-vault
         - system-config-run-zookeeper
+        - system-config-run-promtail
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
         - system-config-build-image-haproxy-statsd
@@ -41,6 +42,7 @@
         - system-config-run-proxy
         - system-config-run-vault
         - system-config-run-zookeeper
+        - system-config-run-promtail
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
         - system-config-upload-image-haproxy-statsd
@@ -53,6 +55,7 @@
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
         - infra-prod-service-loki
+        - infra-prod-service-promtail
         # - infra-prod-service-x509-cert
         - infra-prod-service-statsd
         - infra-prod-service-apimon-epmon
@@ -82,6 +85,7 @@
         - infra-prod-install-helm-chart
         - infra-prod-service-acme-ssl
         - infra-prod-service-loki
+        - infra-prod-service-promtail
         # - infra-prod-service-x509-cert
         - infra-prod-service-grafana-dashboards
         - infra-prod-service-statsd
