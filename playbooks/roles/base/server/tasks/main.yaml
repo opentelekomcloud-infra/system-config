@@ -50,6 +50,12 @@
     enabled: yes
     state: started
 
+- name: Ensure auditd is running
+  ansible.builtin.service:
+    name: auditd
+    enabled: yes
+    state: started
+
 - name: Set ssh key for management
   authorized_key:
     state: present

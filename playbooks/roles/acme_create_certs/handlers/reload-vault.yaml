@@ -1,0 +1,10 @@
+- name: Check vault process
+  command: pgrep -f vault
+  ignore_errors: yes
+  register: vault_pids
+
+- name: Reload Vault
+  ansible.builtin.service:
+    name: "vault"
+    state: "reloaded"
+  when: vault_pids.rc == 0

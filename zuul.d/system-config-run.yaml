@@ -295,6 +295,28 @@
       - inventory/service/group_vars/proxy.yaml
 
 - job:
+    name: system-config-run-vault
+    parent: system-config-run
+    description: |
+      Run the playbook for the vault servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: vault1.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+    vars:
+      run_playbooks:
+        # We do not want to create CA part of ZK setup, therefore only invoke additional playbook in the test.
+        - playbooks/acme-certs.yaml
+        - playbooks/service-vault.yaml
+    files:
+      - tox.ini
+      - playbooks/service-vault.yaml
+      - playbooks/roles/hashivault
+      - inventory/service/groups.yaml
+
+- job:
     name: system-config-run-zookeeper
     parent: system-config-run
     description: |

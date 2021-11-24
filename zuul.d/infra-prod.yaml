@@ -295,6 +295,17 @@
       - playbooks/roles/document_hosting_k8s
 
 - job:
+    name: infra-prod-service-vault
+    parent: infra-prod-service-base
+    description: Run service-vault.yaml playbook.
+    vars:
+      playbook_name: service-vault.yaml
+    files:
+      - inventory/
+      - playbooks/service-vault.yaml
+      - playbooks/roles/hashivault
+
+- job:
     name: infra-prod-service-zookeeper
     parent: infra-prod-service-base
     description: Run service-zookeeper.yaml playbook.
@@ -362,6 +373,17 @@
       - inventory/
       - playbooks/service-opensearch.yaml
       - playbooks/roles/opensearch
+
+- job:
+    name: infra-prod-service-loki
+    parent: infra-prod-service-base
+    description: Deploy Loki cert + Ingress
+    vars:
+      playbook_name: service-loki.yaml
+    files:
+      - inventory/service/group_vars/k8s-controller.yaml
+      - playbooks/service-loki.yaml
+      - playbooks/roles/loki
 
 - job:
     name: infra-prod-propose-update
