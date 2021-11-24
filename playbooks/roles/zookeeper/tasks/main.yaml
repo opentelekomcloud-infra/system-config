@@ -78,7 +78,7 @@
   ansible.builtin.assemble:
     src: "/etc/zookeeper/ssl/"
     dest: "/etc/zookeeper/ssl/cert_combined.pem"
-    regexp: "[cert|key].pem"
+    regexp: "(cert|key).pem"
     mode: "0444"
     group: "{{ zookeeper_os_group }}"
     owner: "{{ zookeeper_os_user }}"
