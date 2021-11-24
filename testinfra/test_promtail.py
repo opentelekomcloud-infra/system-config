@@ -12,11 +12,11 @@
 
 testinfra_hosts = ['promtail.focal']
 
-def test_grafana_container_listening(host):
+def test_promtail_container_listening(host):
     sock = host.socket("tcp://0.0.0.0:3101")
     assert sock.is_listening
 
 
-def test_grafana_systemd(host):
+def test_promtail_systemd(host):
     service = host.service('promtail')
     assert service.is_enabled
