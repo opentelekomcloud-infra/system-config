@@ -71,7 +71,6 @@
         - infra-prod-service-zookeeper
         - infra-prod-service-octavia-proxy
         - infra-prod-dashboards
-        - infra-prod-manage-github
     periodic:
       # Nightly execution
       jobs:
@@ -97,7 +96,6 @@
         - infra-prod-service-proxy
         - infra-prod-service-telegraf
         - infra-prod-service-zookeeper
-        - infra-prod-manage-github
     periodic-hourly:
       # hourly execution
       jobs:
