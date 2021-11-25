@@ -98,30 +98,6 @@
       - playbooks/templates/clouds/
 
 - job:
-    name: infra-prod-manage-github
-    parent: infra-prod-service-base
-    description: Run manage-github.yaml playbook.
-    vars:
-      playbook_name: manage-github.yaml
-    allowed-projects:
-      - github.com/opentelekomcloud-infra/gitstyring
-      - gitlab/ecosystem/gitstyring
-      - github.com/opentelekomcloud-infra/system-config
-    files:
-      - playbooks/manage-github.yaml
-      - playbooks/roles/gitcontrol
-      - playbooks/templates/github/default_zuul.yaml
-      - orgs
-      - templates
-    dependencies:
-      - name: infra-prod-install-ansible
-        soft: true
-    required-projects:
-      - github.com/opentelekomcloud-infra/gitstyring
-      - gitlab/ecosystem/gitstyring
-      - github.com/opentelekomcloud-infra/system-config
-
-- job:
     name: infra-prod-service-statsd
     parent: infra-prod-service-base
     description: Run service-statsd.yaml playbook.
