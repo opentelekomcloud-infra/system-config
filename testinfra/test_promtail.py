@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['bridge.eco.tsi-dev.otc-service.com']
+testinfra_hosts = ['promtail.focal']
 
 def test_promtail_container_listening(host):
     sock = host.socket("tcp://0.0.0.0:3101")
