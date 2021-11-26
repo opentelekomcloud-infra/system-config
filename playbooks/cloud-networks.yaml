@@ -1,5 +1,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud networking stuff"
+  become: true
   tasks:
     - name: Manage Nets
       include_role:

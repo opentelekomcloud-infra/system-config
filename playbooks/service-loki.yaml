@@ -1,6 +1,7 @@
 # Deploy loki networking - ingress/tls/auth in K8
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure Loki K8s networking - ingress/tls/auth"
+  become: true
   tasks:
     - include_role:
         name: "loki"
