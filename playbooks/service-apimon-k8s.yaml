@@ -1,5 +1,6 @@
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
   name: "Configure APImon in K8s"
+  become: true
   tasks:
     - include_role:
         name: apimon_k8s

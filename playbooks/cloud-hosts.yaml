@@ -1,5 +1,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud hosts"
+  become: true
   tasks:
     - name: Manage OpenStack hosts
       include_role:

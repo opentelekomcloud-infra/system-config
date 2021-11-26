@@ -1,6 +1,7 @@
 ---
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud RDS instances"
+  become: true
   tasks:
     - name: Manage OpenTelekomCloud RDS instances
       include_role:

@@ -1,5 +1,6 @@
 # Ensure x509 certificates exists on the bridge
 - hosts: "bridge.eco.tsi-dev.otc-service.com:!disabled"
+  become: true
   tasks:
     - include_role:
         name: "x509_cert"

@@ -1,5 +1,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud Identity stuff"
+  become: true
   tasks:
     - name: Manage projects
       openstack.cloud.project:

@@ -1,6 +1,6 @@
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
-  #- hosts: localhost
   name: "Configure Zuul in K8s"
+  become: true
   tasks:
     - set_fact:
         x509_certs: {}
