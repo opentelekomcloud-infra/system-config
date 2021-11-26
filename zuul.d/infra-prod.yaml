@@ -351,6 +351,17 @@
       - playbooks/roles/loki
 
 - job:
+    name: infra-prod-service-promtail
+    parent: infra-prod-service-base
+    description: Deploy Promtail on VMs
+    vars:
+      playbook_name: service-promtail.yaml
+    files:
+      - inventory/
+      - playbooks/service-promtail.yaml
+      - playbooks/roles/promtail
+
+- job:
     name: infra-prod-propose-update
     parent: infra-prod-service-base
     description: Propose inventory change

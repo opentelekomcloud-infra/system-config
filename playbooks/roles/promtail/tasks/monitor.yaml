@@ -1,0 +1,17 @@
+---
+- name: Query promtail healthcheck API /ready
+  ansible.builtin.uri:
+    url: "http://localhost:3101/ready"
+    timeout: 10
+  ignore_errors: true
+  register: res
+
+- name: Restart promtail in case healthcheck API fails
+  become: true
+  systemd:
+    name: "{{ promtail_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  when: "res.status != 200"
+
