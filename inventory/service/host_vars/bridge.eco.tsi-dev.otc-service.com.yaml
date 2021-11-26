@@ -7,6 +7,8 @@ extra_users:
 cloud_launcher_profiles: []
 cloud_launcher_clouds: []
 
+use_upstream_docker: False
+
 x509_certificates:
   - "zuul-gearman-client"
   - "zuul-gearman-server"
