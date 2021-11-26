@@ -264,8 +264,8 @@ apimon_instances:
             epmon_rest] | combine }}"
       - hybrid_swiss:
           service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
-            epmon_cinder, epmon_keystone, epmon_glance,
-            epmon_network, epmon_sdrs, epmon_rds, epmon_smn,
+            epmon_cinder, epmon_keystone, epmon_glance, epmon_network,
+            epmon_swift, epmon_sdrs, epmon_rds, epmon_smn,
             epmon_rest] | combine }}"
     # Do endpoints check once per minute only
     epmon_interval: 60
