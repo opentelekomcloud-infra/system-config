@@ -1,5 +1,6 @@
 - hosts: "k8s-controller:!disabled"
   name: "Install HELM chart"
+  become: true
   tasks:
     - include_role:
         name: install-helm-chart

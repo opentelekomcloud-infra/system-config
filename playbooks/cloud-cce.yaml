@@ -1,5 +1,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud CCE clusters"
+  become: true
   tasks:
     - name: Manage CCE cluster
       include_role:

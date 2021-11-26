@@ -1,5 +1,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud VPC peerings"
+  become: true
   tasks:
     - name: Manage OpenStack VPC Peerings
       include_role:

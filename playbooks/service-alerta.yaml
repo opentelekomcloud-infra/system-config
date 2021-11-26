@@ -13,6 +13,7 @@
 # Deploy alerta on K8S
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure Alerta K8s deployments"
+  become: true
   tasks:
     - include_role:
         name: "alerta"

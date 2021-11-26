@@ -1,5 +1,6 @@
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
   name: "Configure Storage Proxy in K8s"
+  become: true
   tasks:
     - include_role:
         name: "swift_proxy"

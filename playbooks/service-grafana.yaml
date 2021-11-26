@@ -13,6 +13,7 @@
 # Deploy grafana in K8
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure grafana K8s deployments"
+  become: true
   tasks:
     - include_role:
         name: "grafana"
