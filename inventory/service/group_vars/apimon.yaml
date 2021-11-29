@@ -316,9 +316,14 @@ apimon_instances:
         project: apimon
         tasks:
           - scenario1_token.yaml
+          - scenario2a_ecs_az.yaml
+          - scenario19_simple_vpc.yaml
+          - scenario20_rds.yaml
+          - scenario23_ces.yaml
+          - scenario2_simple_ecs.yaml
+          - scenario30_domains.yaml
           - scenario3a_evs_az.yaml
           - scenario4_image.yaml
-          - scenario30_domains.yaml
 
     # Test clouds configuration
     clouds:
