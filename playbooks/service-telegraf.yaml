@@ -1,7 +1,0 @@
-- hosts: "telegraf:!disabled"
-  become: true
-  name: "Base: configure telegraf instances"
-  roles:
-    # Group should be responsible for defining open ports
-    - firewalld
-    - telegraf
