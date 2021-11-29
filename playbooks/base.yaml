@@ -12,12 +12,3 @@
       when:
         # K8 cluster
         - "ansible_connection != 'kubectl'"
-        # CoreOS
-        - "ansible_facts.pkg_mgr != 'atomic_container'"
-    - block:
-        - include_role: name=firewalld
-      when:
-        # K8 cluster
-        - "ansible_connection != 'kubectl'"
-        # CoreOS
-        - "ansible_facts.pkg_mgr == 'atomic_container'"
