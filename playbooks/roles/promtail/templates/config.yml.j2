@@ -37,5 +37,5 @@ scrape_configs:
           - localhost
         labels:
           job: audit
-          hostname: {{ ansible_hostname }}
+          hostname: {{ ansible_fqdn }}
           __path__: /var/log/audit/audit.log
