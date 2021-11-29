@@ -40,7 +40,9 @@ unbound_forward_zones: []
 all_users:
   gtema:
     comment: Artem Goncharov
-    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBBVL8LJ14SfFPK2zNeuO8rglURUJ32LFQXn0IzinZ7Y3ic8vtmF+UBvg+h8th56GZ3/DR9b+zcXfbA+0cdfTr+BWlDCYwcLab2vgU/S9FyQBzYr7ZWxtEFOmb5ztVp2b5wFt/DD7YBfyJNzM9SpVQDO4furwNZDq5af0+D67KOsV2BPLXL4/zMGkLR3TSFNzdJCSLrWML96NWK1FvpEjDroyKXFTVVcLBTgtBnFtpjpUzmlJSntaUxTQq1htiWLTGQL3ApLqx7YYctxDDkeBrWGSQPZgFppqhk5U8sWE9ieGztGuVyYzAhvz8YO9nm8M26izVebjwe+9u1hqa3Pk9 artem.goncharov
+    key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBBVL8LJ14SfFPK2zNeuO8rglURUJ32LFQXn0IzinZ7Y3ic8vtmF+UBvg+h8th56GZ3/DR9b+zcXfbA+0cdfTr+BWlDCYwcLab2vgU/S9FyQBzYr7ZWxtEFOmb5ztVp2b5wFt/DD7YBfyJNzM9SpVQDO4furwNZDq5af0+D67KOsV2BPLXL4/zMGkLR3TSFNzdJCSLrWML96NWK1FvpEjDroyKXFTVVcLBTgtBnFtpjpUzmlJSntaUxTQq1htiWLTGQL3ApLqx7YYctxDDkeBrWGSQPZgFppqhk5U8sWE9ieGztGuVyYzAhvz8YO9nm8M26izVebjwe+9u1hqa3Pk9 artem.goncharov
+      sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFhfujbhx20AzKf2okw9WnduPe2keIWkFDhsSLNlvMd6AAAABHNzaDo= gtema@yubikey
     uid: 2000
     gid: 2000
 
