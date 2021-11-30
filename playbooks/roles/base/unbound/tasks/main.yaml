@@ -9,6 +9,7 @@
   package:
     state: present
     name: unbound
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Write dhclient config files
   include_tasks: dhclient.yaml
