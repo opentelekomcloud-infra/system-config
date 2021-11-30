@@ -17,9 +17,11 @@
     section: "commands"
     option: "apply_updates"
     value: "yes"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Ensure dnf-automatic service is running
   ansible.builtin.service:
     name: dnf-automatic
     enabled: yes
     state: started
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
