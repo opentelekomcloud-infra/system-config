@@ -1,7 +1,0 @@
-- hosts: "promtail:!disabled"
-  become: true
-  name: "Base: configure promtail instances"
-  roles:
-    # Group should be responsible for defining open ports
-    - firewalld
-    - promtail
