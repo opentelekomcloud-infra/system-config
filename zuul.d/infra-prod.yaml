@@ -327,19 +327,6 @@
       - playbooks/roles/octavia_proxy
 
 - job:
-    name: infra-prod-service-telegraf
-    parent: infra-prod-service-base
-    description: Deploy Telegraf
-    vars:
-      playbook_name: service-telegraf.yaml
-    files:
-      - inventory/service/group_vars/telegraf.yaml
-      - inventory/service/group_vars/all.yaml
-      - inventory/service/groups.yaml
-      - playbooks/service-telegraf.yaml
-      - playbooks/roles/telegraf
-
-- job:
     name: infra-prod-service-loki
     parent: infra-prod-service-base
     description: Deploy Loki cert + Ingress
@@ -349,17 +336,6 @@
       - inventory/service/group_vars/k8s-controller.yaml
       - playbooks/service-loki.yaml
       - playbooks/roles/loki
-
-- job:
-    name: infra-prod-service-promtail
-    parent: infra-prod-service-base
-    description: Deploy Promtail on VMs
-    vars:
-      playbook_name: service-promtail.yaml
-    files:
-      - inventory/
-      - playbooks/service-promtail.yaml
-      - playbooks/roles/promtail
 
 - job:
     name: infra-prod-propose-update

@@ -75,3 +75,10 @@ base_users:
 extra_users: []
 # Users who should be removed
 disabled_users: []
+# telegraf
+telegraf_image: "{{ telegraf_image_stable }}"
+telegraf_output_graphite_host: 192.168.14.159
+telegraf_output_graphite_port: 2013
+telegraf_output_graphite_prefix: "stats.telegraf"
+# promtail
+promtail_image: "{{ promtail_image_stable }}"

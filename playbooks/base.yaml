@@ -9,6 +9,8 @@
         - include_role: name=base/timezone
         - include_role: name=base/unbound
         - include_role: name=firewalld
+        - include_role: name=telegraf
+        - include_role: name=promtail
       when:
         # K8 cluster
         - "ansible_connection != 'kubectl'"
