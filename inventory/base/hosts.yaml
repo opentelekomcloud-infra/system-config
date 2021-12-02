@@ -14,7 +14,7 @@ all:
       ansible_host: 192.168.110.225
       ansible_user: automation
     executor2.apimon.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.2.55
+      ansible_host: 192.168.2.60
       ansible_user: automation
     executor3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.145
