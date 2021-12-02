@@ -102,6 +102,21 @@
   # tls_key = "/etc/telegraf/key.pem"
   ## Use TLS but skip chain & host verification
   # insecure_skip_verify = false
+  namedrop = ["internal_agent", "internal_memstats", "internal_gather"]
+
+# Output health plugin
+[[outputs.health]]
+  namepass = ["internal_write"]
+  tagpass = { output = ["graphite"] }
+  service_address = "http://:8888"
+
+  # Report failure 503 status_code when buffer_size fills to 50%
+  [[outputs.health.compares]]
+    field = "buffer_size"
+    lt = 5000.0
+
+  [[outputs.health.contains]]
+    field = "buffer_size"
 
 ###############################################################################
 #                            SERVICE INPUT PLUGINS                            #
@@ -128,3 +143,6 @@
 [[inputs.disk]]
   ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs", "fuse-overlayfs", "fuse.fuse-overlayfs"]
 {% endif %} 
+
+[[inputs.internal]]
+  collect_memstats = false

@@ -1,0 +1,17 @@
+---
+- name: Query Telegraf healthcheck API 
+  ansible.builtin.uri:
+    url: "http://localhost:8888"
+    timeout: 10
+  ignore_errors: true
+  register: res
+
+- name: Restart Telegraf in case healthcheck API fails
+  become: true
+  systemd:
+    name: "{{ telegraf_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes
+  when: "res.status != 200"
+
