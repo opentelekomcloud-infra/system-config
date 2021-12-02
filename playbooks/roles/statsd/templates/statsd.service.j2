@@ -7,7 +7,6 @@ Type=simple
 Restart=always
 TimeoutSec=30s
 
-ExecStartPre=-{{ container_runtime }} system migrate
 ExecStartPre=-{{ container_runtime }} rm "statsd"
 
 ExecStart={{ container_runtime }} run \
@@ -16,7 +15,7 @@ ExecStart={{ container_runtime }} run \
 {% if container_command == 'podman' %}
   --log-opt=path=/dev/null \
 {% endif %}
-  -v {{ statsd_config_location }}/config.js:/usr/src/app/config.js:ro \
+  -v {{ statsd_config_location }}/config.js:/usr/src/app/config.js:ro,Z \
   {{ statsd_image }}
 
 ExecReload=-{{ container_runtime }} stop "statsd"
