@@ -115,8 +115,8 @@ apimon_instances:
         cloud: otcapimon_csm1
 
   production_vc:
-    statsd_host: 192.168.2.55
-    gearman_host: 192.168.2.55
+    statsd_host: 192.168.2.60
+    gearman_host: 192.168.2.60
     zone: vcloud_muc
     image: "{{ apimon_image_stable }}"
 
