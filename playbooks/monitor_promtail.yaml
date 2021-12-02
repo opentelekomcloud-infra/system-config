@@ -1,4 +1,4 @@
-- hosts: "promtail:!disabled"
+- hosts: "!disabled"
   name: "Base: check availability of promtail and restart on failure"
   tasks:
     - include_role:
