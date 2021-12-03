@@ -50,10 +50,11 @@ ssh_hostkey_algorithm:
   - ecdsa-sha2-nistp521-cert-v01@openssh.com
   - ssh-ed25519
   - ssh-ed25519-cert-v01@openssh.com
-  - sk-ssh-ed25519@openssh.com
-  - sk-ssh-ed25519-cert-v01@openssh.com
-  - sk-ecdsa-sha2-nistp256@openssh.com
-  - sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
+  # SKs are not supported by all OSs, disable them for now
+  # - sk-ssh-ed25519@openssh.com
+  # - sk-ssh-ed25519-cert-v01@openssh.com
+  # - sk-ecdsa-sha2-nistp256@openssh.com
+  # - sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
 
 ssh_disable_forwarding: true
 ssh_allow_tcp_forwarding: false
