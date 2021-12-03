@@ -9,5 +9,6 @@ distro_packages:
   - gnupg
   - systemd-timesyncd
   - auditd
+  - apparmor-utils
 sftp_path: /usr/lib/openssh/sftp-server
 ssh_service_name: ssh
