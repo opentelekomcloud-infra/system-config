@@ -8,3 +8,7 @@ root_volume_size: 20
 auto_ip: false
 
 firewalld_extra_ports_enable: []
+
+# Allow tcp and agent forwarding on the jump host. Aligned with DT 3.04-19/20
+ssh_allow_tcp_forwarding: true
+ssh_allow_agent_forwarding: true

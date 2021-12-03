@@ -61,14 +61,26 @@
     enabled: yes
     state: started
 
+# TODO: remove this once we are sure automation user is properly deployed
+# everywhere
 - name: Set ssh key for management
-  authorized_key:
+  ansible.builtin.authorized_key:
     state: present
     user: root
     exclusive: "{{ bastion_key_exclusive }}"
     key: "{{ bastion_public_key }}"
     key_options: |
       from="{{ bastion_ipv4 }},{{ bastion_ipv6 }},localhost"
+
+- name: Set ssh key for management
+  ansible.builtin.authorized_key:
+    state: present
+    user: "{{ ansible_user }}"
+    exclusive: "{{ bastion_key_exclusive }}"
+    key: "{{ bastion_public_key }}"
+    key_options: |
+      from="{{ bastion_ipv4 }},{{ bastion_ipv6 }},localhost"
+  when: "ansible_user is defined"
 
 # - name: Check presence of /etc/ssh/sshd_config.d directory
 #   ansible.builtin.stat:

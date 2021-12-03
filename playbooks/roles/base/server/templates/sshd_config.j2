@@ -4,68 +4,107 @@
 # What ports, IPs and protocols we listen for
 Port 22
 # Use these options to restrict which interfaces/protocols sshd will bind to
-#ListenAddress ::
-#ListenAddress 0.0.0.0
+# DT 3.04-1
 Protocol 2
 # HostKeys for protocol version 2
 HostKey /etc/ssh/ssh_host_rsa_key
-HostKey /etc/ssh/ssh_host_dsa_key
+# HostKey /etc/ssh/ssh_host_dsa_key
 HostKey /etc/ssh/ssh_host_ecdsa_key
 HostKey /etc/ssh/ssh_host_ed25519_key
 #Privilege Separation is turned on for security
 #UsePrivilegeSeparation yes
 
+# DT 3.04-3
+{% if ssh_key_ex is defined %}
+# Key Exchange Algorithms
+KexAlgorithms {{ ssh_key_ex | join(',') }}
+{% endif %}
+# DT 3.04-4
+{% if ssh_ciphers %}
+# Ciphers
+Ciphers {{ ssh_ciphers | join(',') }}
+{% endif %}
+# DT 3.04-5
+{% if ssh_macs %}
+# MACs
+MACs {{ ssh_macs | join(',') }}
+{% endif %}
+# DT 3.04-6
+{% if ssh_hostkey_algorithm %}
+# Host Key Algorithms
+HostKeyAlgorithms {{ ssh_hostkey_algorithm | join(',') }}
+{% endif %}
+
 # Logging
+# DT 3.04-7
 SyslogFacility AUTH
 LogLevel INFO
 
 # Authentication:
-LoginGraceTime 120
+# DT 3.04-8
+LoginGraceTime 60
+# DT 3.04-9
+MaxAuthTries 5
+# DT 3.04-10
 PermitRootLogin no
+# DT 3.04-11
 StrictModes yes
-
+# DT 3.04-12
 PubkeyAuthentication yes
 #AuthorizedKeysFile	%h/.ssh/authorized_keys
+# DT 3.04-13
+# Change to no to disable tunnelled clear text passwords
+PasswordAuthentication no
 
+# DT 3.04-14
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes
+# DT 3.04-15
 # similar for protocol version 2
 HostbasedAuthentication no
 # Uncomment if you don't trust ~/.ssh/known_hosts for RhostsRSAAuthentication
 #IgnoreUserKnownHosts yes
 
-# To enable empty passwords, change to yes (NOT RECOMMENDED)
+# DT 3.04-17
+# DT recommends 60, but it is too low
+ClientAliveInterval 300
+ClientAliveCountMax 10
+TCPKeepAlive yes
+
+# DT 3.04-18
+PermitTunnel no
+
+# DT 3.04-19
+AllowTcpForwarding {{ ssh_allow_tcp_forwarding | ternary('yes', 'no') }}
+
+# DT 3.04-20
+AllowAgentForwarding {{ ssh_allow_agent_forwarding | ternary('yes', 'no') }}
+
+# DT 3.04-21
+GatewayPorts no
+
+# DT 3.04-22
+X11Forwarding no
+
+# DT 3.04-23
+PermitUserEnvironment no
+
+# DT 3.04-24
 PermitEmptyPasswords no
 
 # Change to yes to enable challenge-response passwords (beware issues with
 # some PAM modules and threads)
 ChallengeResponseAuthentication no
 
-# Change to no to disable tunnelled clear text passwords
-PasswordAuthentication no
-
-# Kerberos options
-#KerberosAuthentication no
-#KerberosGetAFSToken no
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-
-# GSSAPI options
-#GSSAPIAuthentication no
-#GSSAPICleanupCredentials yes
-
-X11Forwarding yes
-X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes
-TCPKeepAlive yes
 #UseLogin no
 
 #MaxStartups 10:30:60
 #Banner /etc/issue.net
 
 # Allow client to pass locale environment variables
-AcceptEnv LANG LC_*
+# AcceptEnv LANG LC_*
 
 Subsystem sftp {{ sftp_path }}
 
