@@ -1,0 +1,123 @@
+---
+- name: Process certificates
+  include_tasks: k8_certificates.yaml
+
+- name: Create {{ namespace }} Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Manage Zookeeper ServiceAccount
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ zookeeper_service_account }}"
+    api_version: "v1"
+    kind: "ServiceAccount"
+    apply: "yes"
+
+- name: Manage Zookeeper ServiceAccount RoleBinding
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ zookeeper_service_account }}-tokenreview-binding"
+    api_version: "rbac.authorization.k8s.io/v1"
+    kind: "ClusterRoleBinding"
+    apply: "yes"
+    definition:
+      roleRef:
+        apiGroup: "rbac.authorization.k8s.io"
+        kind: "ClusterRole"
+        name: "system:auth-delegator"
+      subjects:
+      - kind: "ServiceAccount"
+        name: "{{ zookeeper_service_account }}"
+        namespace: "{{ namespace }}"
+
+- name: Manage configuration
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    apply: "yes"
+    definition: "{{ lookup('template', 'k8s_config.yaml.j2') | from_yaml }}"
+
+- name: Manage headless service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: present
+    name: "{{ zookeeper_headless_svc_name }}"
+    namespace: "{{ namespace }}"
+    api_version: v1
+    kind: Service
+    apply: "yes"
+    definition:
+      spec:
+        # Not exposing in the cluster
+        clusterIP: None
+        # Important to start up
+        publishNotReadyAddresses: true
+        selector:
+          app: zookeeper
+        ports:
+        - port: 2281
+          name: client
+          targetPort: client
+          protocol: TCP
+        - port: 2888
+          name: server
+          targetPort: server
+          protocol: TCP
+        - port: 3888
+          name: election
+          targetPort: election
+          protocol: TCP
+
+- name: Manage public service
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: present
+    name: "zookeeper"
+    namespace: "{{ namespace }}"
+    api_version: v1
+    kind: Service
+    apply: "yes"
+    definition:
+      spec:
+        ports:
+        - port: 2281
+          name: client
+          targetPort: client
+          protocol: TCP
+        clusterIP: None
+        selector:
+          app: zookeeper
+
+- name: Manage PodDisruptionBudget
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: present
+    name: "zookeeper-pdb"
+    namespace: "{{ namespace }}"
+    api_version: policy/v1beta1
+    kind: PodDisruptionBudget
+    apply: "yes"
+    definition:
+      spec:
+        selector:
+          mathLabels:
+            app: zookeeper
+      maxUnavailable: 1
+
+- name: Manage StatefulSet
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "zookeeper"
+    namespace: "{{ namespace }}"
+    apply: "yes"
+    definition: "{{ lookup('template', 'statefulset.yaml.j2') | from_yaml }}"

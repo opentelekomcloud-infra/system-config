@@ -14,3 +14,14 @@ zookeeper_cfg_extra: ""
 zookeeper_inventory_group: "zookeeper"
 
 zookeeper_cluster_ports: "2888:3888"
+
+zookeeper_service_account: "zookeeper"
+vault_image: "vault:1.9.0"
+vault_role_name: "zuul_zk"
+vault_zookeeper_ca_secret_name: "tls/zuul/ca"
+vault_zookeeper_server_cert_secret_name: "tls/zuul/zk_server"
+vault_zookeeper_client_cert_secret_name: "tls/zuul/zk_client"
+zookeeper_headless_svc_name: "zookeeper-headless"
+zookeeper_pvc_scn: "csi-disk"
+zookeeper_pvc_size: "5Gi"
+
