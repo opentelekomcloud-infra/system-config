@@ -28,3 +28,18 @@
     # Group should be responsible for defining open ports
     - firewalld
     - zookeeper
+
+# Deploy zookeeper on K8S
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure Zookeeper K8s deployments"
+  become: true
+  tasks:
+    - include_role:
+        name: "zookeeper"
+        tasks_from: "k8s.yaml"
+      vars:
+        zookeeper: "{{ zookeeper_instances[item.zookeeper_instance] | combine(zookeeper_instances_secrets[item.zookeeper_instance], recursive=True) }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      loop: "{{ zookeeper_k8s_instances | list }}"

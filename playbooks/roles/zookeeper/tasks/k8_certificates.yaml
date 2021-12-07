@@ -1,0 +1,71 @@
+---
+- name: Verify Required certificates in Vault
+  block:
+    - name: Get vault token
+      ansible.builtin.set_fact:
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+      when: "ansible_hashi_vault_token is not defined"
+
+    - name: Set vault token
+      ansible.builtin.set_fact:
+        ansible_hashi_vault_token: "{{ vault_token.id }}"
+        ansible_hashi_vault_auth_method: "token"
+      when: "vault_token is defined"
+
+    - name: Check ZK CA certificate in Vault
+      ansible.builtin.set_fact:
+        vault_certs: "{{ lookup('community.hashi_vault.hashi_vault', 'secret/data/{{ zj_item }}') }}"
+      register: vault_certs
+      loop:
+        - "{{ vault_zookeeper_server_cert_secret_name }}"
+        - "{{ vault_zookeeper_client_cert_secret_name }}"
+      loop_control:
+        loop_var: "zj_item"
+
+  rescue:
+    - name: Generate Server certificates
+      ansible.builtin.uri:
+        url: "{{ ansible_hashi_vault_addr }}/v1/pki_int_zuul/issue/zk-svc-cluster-local"
+        method: "POST"
+        headers:
+          X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+        body:
+          common_name: "server.{{ namespace }}.svc.cluster.local"
+          alt_names: "zookeeper-0.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local,zookeeper-1.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local,zookeeper-2.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local,zookeeper-3.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+        body_format: json
+      register: vault_server_certs
+
+    - name: Save server certs in proper place
+      ansible.builtin.uri:
+        url: "{{ ansible_hashi_vault_addr }}/v1/secret/data/{{ vault_zookeeper_server_cert_secret_name }}"
+        method: "POST"
+        headers:
+          X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+        body:
+          data:
+            certificate: "{{ vault_server_certs.json.data.certificate }}"
+            private_key: "{{ vault_server_certs.json.data.private_key }}"
+        body_format: json
+
+    - name: Generate client certificates
+      ansible.builtin.uri:
+        url: "{{ ansible_hashi_vault_addr }}/v1/pki_int_zuul/issue/zk-svc-cluster-local"
+        method: "POST"
+        headers:
+          X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+        body:
+          common_name: "client.{{ namespace }}.svc.cluster.local"
+        body_format: json
+      register: vault_client_certs
+
+    - name: Save client certs in proper place
+      ansible.builtin.uri:
+        url: "{{ ansible_hashi_vault_addr }}/v1/secret/data/{{ vault_zookeeper_client_cert_secret_name }}"
+        method: "PUT"
+        headers:
+          X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+        body:
+          data:
+            certificate: "{{ vault_client_certs.json.data.certificate }}"
+            private_key: "{{ vault_client_certs.json.data.private_key }}"
+        body_format: json
