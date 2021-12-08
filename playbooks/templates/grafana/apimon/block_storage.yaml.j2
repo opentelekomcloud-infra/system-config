@@ -133,7 +133,7 @@ templating:
 {% include '_template_zone.yaml.j2' %}
       multi: true
 
-{{ mcr.service_scenarios_template(['scenario3_simple_evs.yaml', 'scenario3a_evs_az.yaml']) }}
+{{ mcr.service_scenarios_template(['scenario3_simple_evs.yaml', 'scenario3a_evs_az.yaml', 'scenario3b_evs_backup.yaml']) }}
 
 time:
   from: now-6h
