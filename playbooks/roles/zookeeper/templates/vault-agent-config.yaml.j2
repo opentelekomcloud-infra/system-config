@@ -132,7 +132,7 @@ data:
 
   vault-agent-config.hcl: |
     # Comment this out if running as sidecar instead of initContainer
-    exit_after_auth = true
+    # exit_after_auth = true
     pid_file = "/home/vault/pidfile"
     auto_auth {
         method "kubernetes" {
@@ -151,31 +151,33 @@ data:
     template {
       destination = "/tls/ca.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_ca_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/' }}{{ vault_zookeeper_ca_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
+
     template {
       destination = "/tls/server/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/server/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
+
     template {
       destination = "/tls/client/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
 
     template {
       destination = "/tls/client/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
