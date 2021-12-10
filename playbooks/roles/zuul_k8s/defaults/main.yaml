@@ -8,3 +8,26 @@ statsd_readiness_timeout: 5
 statsd_liveness_timeout: 2
 statsd_image: "quay.io/opentelekomcloud/statsd:v0.9.0"
 graphite_pickle_port: 2014
+
+zuul_service_account_name: "zuul"
+vault_zk_client_cert_secret_name: "tls/zuul_zk_client"
+
+vault_agent_templates_nodepool:
+  - destination: "/secrets/openstack/clouds.yaml"
+    source: "clouds.yaml.hcl"
+    perms: "0644"
+
+# Beware of escaping the escaping the escaping in templates.
+# We use jinja to construct hcl. Passing such content as variables makes ansible crazy if you do not do things right.
+vault_agent_templates_zuul_scheduler:
+  - destination: "/secrets/zuul/zuul.conf"
+    source: "zuul.conf.hcl"
+    perms: "0644"
+vault_agent_templates_zuul_executor:
+  - destination: "/secret/zuul/zuul.conf"
+    source: "zuul.conf.hcl"
+    perms: "0644"
+vault_agent_templates_zuul_web:
+  - destination: "/secrets/zuul/zuul.conf"
+    source: "zuul.conf.hcl"
+    perms: "0664"

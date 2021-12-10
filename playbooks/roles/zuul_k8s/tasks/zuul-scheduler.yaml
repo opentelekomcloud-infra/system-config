@@ -75,34 +75,42 @@
               app.kubernetes.io/app: "zuul"
               app.kubernetes.io/component: "zuul-scheduler"
               app.kubernetes.io/instance: "{{ instance }}"
+            annotations:
+              vaultConfVersion: "{{ zuul_vault_cm_version | default(omit) }}"
+              zkClientCertValidity: "{{ zk_client_cert_info.not_after }}"
           spec:
+            serviceAccountName: "{{ zuul_service_account_name }}"
+            initContainers:
+              - name: "vault-agent"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "vault agent -config=/etc/vault/vault-agent-config-zuul-scheduler.hcl -exit-after-auth=true && mkdir -p /etc/zuul && cp -ruvT /secrets/zuul /etc/zuul"
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/secrets"
+                    name: "secrets"
+
             containers:
-              - resources:
+              - name: "zuul-scheduler"
+                resources:
                   limits:
                     cpu: '2'
                     memory: 2G
                   requests:
                     cpu: 100m
                     memory: 200Mi
-                name: "zuul-scheduler"
                 securityContext:
                   privileged: true
                 ports:
                   - containerPort: 4730
                     name: "gearman"
                     protocol: "TCP"
-                      #readinessProbe:
-                      #  tcpSocket:
-                      #    port: "gearman"
-                      #    initialDelaySeconds: 5
-                      #    periodSeconds: 5
-                      #    timeoutSeconds: 3
-                      #livenessProbe:
-                      #  tcpSocket:
-                      #    port: "gearman"
-                      #    initialDelaySeconds: 5
-                      #    periodSeconds: 5
-                      #    timeoutSeconds: 3
                 volumeMounts:
                   - name: "certs"
                     readOnly: true
@@ -110,26 +118,60 @@
                   - name: "scheduler-certs"
                     readOnly: true
                     mountPath: "/etc/zuul/scheduler"
-                  - name: "zuul-ssh-key"
-                    mountPath: "/etc/zuul/.ssh"
                   - name: "zk-certs"
                     readOnly: true
                     mountPath: "/etc/zuul/zk"
-                  - name: "config"
-                    readOnly: true
-                    mountPath: "/etc/zuul/"
+                  - name: "cert-data"
+                    mountPath: "/tls"
+                  - name: "zuul-config"
+                    mountPath: "/etc/zuul"
+                    # Make ro after moving tenants away
+                    # readOnly: true
                   - name: "tenant-config"
                     readOnly: true
                     mountPath: "/etc/zuul/tenants/"
+                  - name: "zuul-config-data"
+                    mountPath: "/etc/zuul-config"
+                    readOnly: true
                   - name: "zuul-var-run"
                     mountPath: "/var/run/zuul"
                   - name: "zuul-scheduler-state-dir"
                     mountPath: "/var/lib/zuul"
                 image: "quay.io/opentelekomcloud/zuul-scheduler:{{ zuul.zuul_version_tag }}"
+
+              # Vault agent produces files as vault user. We need to ensure
+              # those have correct ownership and privs, therefore permanently
+              # try to copy/fix  what vault produces
+              - name: "conf-priv-fixer"
+                image: "busybox:1.34.1-musl"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "while :; do cp -v /secrets/tls/* /tls/; cp -ruvT /secrets/zuul /etc/zuul; chown -R 10001:10001 /etc/zuul /tls; sleep 60; done"
+                volumeMounts:
+                  - name: "cert-data"
+                    mountPath: "/tls"
+                  - name: "zuul-config"
+                    mountPath: "/etc/zuul"
+                  - name: "secrets"
+                    mountPath: "/secrets"
+
+              - name: "vault-agent-sidecar"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "vault agent -config=/etc/vault/vault-agent-config-zuul-scheduler.hcl"
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/secrets"
+                    name: "secrets"
+
             volumes:
-              - name: "config"
-                configMap:
-                  name: "zuul-config-{{ instance }}"
               - name: "tenant-config"
                 configMap:
                   name: "zuul-scheduler-tenant-config-{{ instance }}"
@@ -146,8 +188,22 @@
                 secret:
                   secretName: "zuul-executor-ssh-{{ instance }}"
                   defaultMode: 256
+              - name: "vault-agent-config"
+                configMap:
+                  name: "vault-agent-config-{{ instance }}"
+              - name: "zuul-config-data"
+                persistentVolumeClaim:
+                  claimName: "zuul-config-{{ instance }}"
+
+              - name: "cert-data"
+                emptyDir: {}
               - name: "zuul-var-run"
                 emptyDir: {}
+              - name: "zuul-config"
+                emptyDir: {}
+              - name: "secrets"
+                emptyDir: {}
+
         volumeClaimTemplates:
           - metadata:
               name: "zuul-scheduler-state-dir"

@@ -13,6 +13,43 @@
   loop_control:
     loop_var: zj_cert_item
 
+- include_role:
+    name: "x509_vault"
+    tasks_from: cert.yaml
+    apply:
+      tags: ["config"]
+  vars:
+    vault_pki_path: "pki_int_zuul"
+    vault_pki_role: "svc-cluster-local"
+    vault_secret_name: "{{ zj_cert_item.vault_secret_name }}"
+    common_name: "{{ zj_cert_item.common_name }}"
+    alt_names: "{{ zj_cert_item.alt_names | default(omit) }}"
+    private_key_format: "{{ zj_cert_item.private_key_format }}"
+  tags: ["config"]
+  loop:
+    - vault_secret_name: "{{ zuul.vault_zk_client_cert_secret_name }}"
+      common_name: "zuul-zk-client.{{ namespace }}.svc.cluster.local"
+      private_key_format: "pkcs8"
+  loop_control:
+    loop_var: zj_cert_item
+
+- name: Check zk client certificate in Vault
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "secret/data/{{ zuul.vault_zk_client_cert_secret_name }}"
+  register: cert_in_vault
+  failed_when: false
+
+- name: Check certificate validity
+  community.crypto.x509_certificate_info:
+    content: "{{ cert_in_vault.data.data.data.certificate }}"
+  register: zk_client_cert_info
+  when: "cert_in_vault.data is defined"
+
+- include_tasks: zuul-config.yaml
+
+# We want to have control over the state when we deploy
 - name: Create zuul-config dir
   file:
     path: "{{ zuul_config_dir }}"
@@ -36,6 +73,16 @@
     api_version: "v1"
     kind: "Namespace"
 
+- name: Manage Zuul ServiceAccount
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "{{ zuul_service_account_name }}"
+    api_version: "v1"
+    kind: "ServiceAccount"
+    apply: "yes"
+
 - name: Create Zull SA binding
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -47,7 +94,7 @@
     definition:
       subjects:
         - kind: "ServiceAccount"
-          name: "default"
+          name: "{{ zuul_service_account_name }}"
           apiGroup: ""
           namespace: "{{ namespace }}"
       roleRef:
@@ -55,24 +102,112 @@
         name: "cluster-admin"
         apiGroup: ""
 
-- name: Create ZK Certs Secrets
+- name: Create Zuul tokenreview ServiceAccount RoleBinding
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
-    name: "zuul-zk-certs-{{ instance }}"
+    name: "{{ namespace }}-tokenreview-binding"
+    api_version: "rbac.authorization.k8s.io/v1"
+    kind: "ClusterRoleBinding"
+    apply: "yes"
+    definition:
+      roleRef:
+        apiGroup: "rbac.authorization.k8s.io"
+        kind: "ClusterRole"
+        name: "system:auth-delegator"
+      subjects:
+      - kind: "ServiceAccount"
+        name: "{{ zuul_service_account_name }}"
+        namespace: "{{ namespace }}"
+
+- name: Create vault-agent-config
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "vault-agent-config-{{ instance }}"
+    namespace: "{{ namespace }}"
     api_version: "v1"
-    kind: "Secret"
+    kind: "ConfigMap"
     definition:
       metadata:
-        labels:
-          app.kubernetes.io/app: "zuul"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
+        annotations:
+          zkClientCertValidity: "{{ zk_client_cert_info.not_after }}"
       data:
-        cacert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['ca']) | string | b64encode }}"
-        cert.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['cert']) | string | b64encode }}"
-        key.pem: "{{ lookup('file', x509_certs[('zuul-' + instance + '-zk-client')]['key']) | string | b64encode }}"
+        clouds.yaml.hcl: "{{ lookup(
+          'ansible.builtin.template',
+          'templates/clouds/nodepool_clouds.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={'zuul': zuul}
+          )
+        }}"
+        zuul.conf.hcl: "{{ lookup(
+          'ansible.builtin.template',
+          'zuul.conf.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={'zuul': zuul}
+          )
+        }}"
+        vault-agent-config.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': []
+          }
+          )
+        }}"
+        vault-agent-config-nodepool.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_nodepool
+          }
+          )
+        }}"
+        vault-agent-config-zuul-scheduler.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_zuul_scheduler
+          }
+          )
+        }}"
+        vault-agent-config-zuul-executor.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_zuul_executor
+          }
+          )
+        }}"
+        vault-agent-config-zuul-merger.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_zuul_merger
+          }
+          )
+        }}"
+        vault-agent-config-zuul-web.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          variable_start_string='[%', variable_end_string='%]',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_zuul_web
+          }
+          )
+        }}"
+  tags: ["config"]
+  register: zuul_vault_cm
+
+- name: Remember CM version
+  ansible.builtin.set_fact:
+    zuul_vault_cm_version: "{{ zuul_vault_cm.result.metadata.resourceVersion }}"
   tags: ["config"]
 
 - include_tasks: statsd.yaml
