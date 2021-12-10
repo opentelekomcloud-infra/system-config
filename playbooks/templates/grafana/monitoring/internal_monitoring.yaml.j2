@@ -62,6 +62,7 @@ panels:
       w: 24
       x: 0
       y: 0
+    id: 2
     options:
       legend:
         calcs: []
@@ -119,6 +120,7 @@ panels:
       w: 24
       x: 0
       y: 7
+    id: 3
     options:
       legend:
         calcs: []
@@ -131,7 +133,33 @@ panels:
       target: aliasByNode(stats.telegraf.otcinfra.*.mem.used_percent, 3)
     title: Infra K8S nodes - Memory Usage
     type: timeseries
-  - datasource: {{ grafana_ds | default('apimon') }}
+  - alert:
+      alertRuleTags: {}
+      conditions:
+      - evaluator:
+          params:
+          - 85
+          type: gt
+        operator:
+          type: and
+        query:
+          params:
+          - A
+          - 5m
+          - now
+        reducer:
+          params: []
+          type: avg
+        type: query
+      executionErrorState: alerting
+      for: 5m
+      frequency: 1m
+      handler: 1
+      name: Disk Usage alert
+      noDataState: alerting
+      notifications:
+      - uid: xpk1wTcZz
+    datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
@@ -176,6 +204,7 @@ panels:
       w: 24
       x: 0
       y: 14
+    id: 4
     options:
       legend:
         calcs: []
@@ -187,6 +216,11 @@ panels:
     - queryType: randomWalk
       refId: A
       target: aliasByNode(stats.telegraf.*.disk.*.used_percent, 2, 4)
+    thresholds:
+    - colorMode: critical
+      op: gt
+      value: 85
+      visible: true
     title: Disk Usage
     type: timeseries
   - datasource: {{ grafana_ds | default('apimon') }}
@@ -234,6 +268,7 @@ panels:
       w: 24
       x: 0
       y: 23
+    id: 5
     options:
       legend:
         calcs: []
@@ -292,6 +327,7 @@ panels:
       w: 24
       x: 0
       y: 32
+    id: 6
     options:
       legend:
         calcs: []
