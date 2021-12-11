@@ -14,7 +14,10 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-graphite
+        - system-config-run-graphite: &system-config-run-graphite
+            dependencies:
+              - name: system-config-run-memcached
+                soft: true
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
@@ -34,7 +37,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-graphite
+        - system-config-run-graphite: *system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
