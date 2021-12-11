@@ -34,6 +34,20 @@
   name: "Base: configure Zookeeper K8s deployments"
   become: true
   tasks:
+    - name: Get vault token
+      ansible.builtin.set_fact:
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+      when:
+        - "zookeeper_k8s_instances is defined "
+        - "zookeeper_k8s_instances | length > 0"
+        - "ansible_hashi_vault_token is not defined"
+
+    - name: Set vault token
+      ansible.builtin.set_fact:
+        ansible_hashi_vault_token: "{{ vault_token.id }}"
+        ansible_hashi_vault_auth_method: "token"
+      when: "vault_token is defined"
+
     - include_role:
         name: "zookeeper"
         tasks_from: "k8s.yaml"

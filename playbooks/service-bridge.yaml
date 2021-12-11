@@ -31,3 +31,10 @@
       file:
         state: absent
         path: '/etc/openstack/all-clouds.yaml'
+
+    - name: Install additional python packages
+      ansible.builtin.pip:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - hvac
