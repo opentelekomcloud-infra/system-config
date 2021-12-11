@@ -4,8 +4,21 @@
     max: 1
 
 - job:
+    name: infra-prod-setup-src
+    parent: otc-infra-prod-setup-src
+    description: |
+      Replicate Zuul source repos to bridge
+      This replicates the Zuul source state to the bridge node.  This
+      should be run once per buildset.
+    semaphores: infra-prod-playbook
+    # The action actually happens in otc-infra-prod-setup-src because it's a
+    # trusted playbook.  But this might be a handy place to hook in things
+    # such as writing out secrets from Zuul in the future?
+    run: playbooks/zuul/setup-production-workspace.yaml
+
+- job:
     name: infra-prod-playbook
-    parent: otc-infra-prod-base
+    parent: otc-infra-prod-setup-keys
     description: |
       Run specified playbook against productions hosts.
 
