@@ -10,7 +10,6 @@ statsd_image: "quay.io/opentelekomcloud/statsd:v0.9.0"
 graphite_pickle_port: 2014
 
 zuul_service_account_name: "zuul"
-vault_zk_client_cert_secret_name: "tls/zuul_zk_client"
 
 vault_agent_templates_nodepool:
   - destination: "/secrets/openstack/clouds.yaml"

@@ -68,14 +68,6 @@ data:
     mkdir -p $ZK_DATA_LOG_DIR
     echo $MY_ID >> $ID_FILE
 
-    # if [[ -f /tls/server/tls.crt ]]; then
-    #   cp /tls/ca.crt /data/server-ca.pem
-    #   cat /tls/server/tls.crt /tls/server/tls.key > /data/server.pem
-    # fi
-    # if [[ -f /tls/client/tls.crt ]]; then
-    #   cp /tls/ca.crt /data/client-ca.pem
-    #   cat /tls/client/tls.crt /tls/client/tls.key > /data/client.pem
-    # fi
     echo "dataDir=$ZK_DATA_DIR" >> $ZK_CONFIG_FILE
     echo "dataLogDir=$ZK_DATA_LOG_DIR" >> $ZK_CONFIG_FILE
     echo "tickTime=$ZK_TICK_TIME" >> $ZK_CONFIG_FILE
@@ -136,9 +128,9 @@ data:
     pid_file = "/home/vault/pidfile"
     auto_auth {
         method "kubernetes" {
-            mount_path = "auth/kubernetes_otcci"
+            mount_path = "{{ zookeeper.vault_k8_auth_mount_path }}"
             config = {
-                role = "{{ vault_role_name }}"
+                role = "{{ zookeeper.vault_role_name }}"
             }
         }
         sink "file" {
@@ -148,50 +140,54 @@ data:
         }
     }
 
+    cache {
+        use_auto_auth_token = true
+    }
+
     # ZK is neat-picky on cert file extensions
     template {
       destination = "/tls/ca.pem"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_ca_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_ca_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
 
     template {
       destination = "/tls/server/server.pem"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.certificate }}
     {{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/server/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/server/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
 
     template {
       destination = "/tls/client/client.pem"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.certificate }}
     {{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/client/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/client/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }

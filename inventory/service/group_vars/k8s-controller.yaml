@@ -259,7 +259,7 @@ zookeeper_instances:
   zuul: {}
 
 zookeeper_k8s_instances:
-  - zk_instance: "zuul"
+  - zookeeper_instance: "zuul"
     context: "otcci"
     instance: "zuul"
     namespace: "zookeeper"

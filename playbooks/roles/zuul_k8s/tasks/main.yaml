@@ -19,15 +19,15 @@
     apply:
       tags: ["config"]
   vars:
-    vault_pki_path: "pki_int_zuul"
-    vault_pki_role: "svc-cluster-local"
-    vault_secret_name: "{{ zj_cert_item.vault_secret_name }}"
+    vault_pki_path: "{{ zuul.vault_pki_path }}"
+    vault_pki_role: "{{ zuul.vault_pki_role }}"
+    vault_secret_path: "{{ zj_cert_item.vault_secret_path }}"
     common_name: "{{ zj_cert_item.common_name }}"
     alt_names: "{{ zj_cert_item.alt_names | default(omit) }}"
     private_key_format: "{{ zj_cert_item.private_key_format }}"
   tags: ["config"]
   loop:
-    - vault_secret_name: "{{ zuul.vault_zk_client_cert_secret_name }}"
+    - vault_secret_path: "{{ zuul.vault_zk_client_cert_path }}"
       common_name: "zuul-zk-client.{{ namespace }}.svc.cluster.local"
       private_key_format: "pkcs8"
   loop_control:
@@ -37,7 +37,7 @@
   community.hashi_vault.vault_read:
     url: "{{ ansible_hashi_vault_addr }}"
     token: "{{ ansible_hashi_vault_token }}"
-    path: "secret/data/{{ zuul.vault_zk_client_cert_secret_name }}"
+    path: "secret/data/{{ zuul.vault_zk_client_cert_path }}"
   register: cert_in_vault
   failed_when: false
 

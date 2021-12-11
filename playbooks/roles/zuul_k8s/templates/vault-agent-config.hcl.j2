@@ -3,7 +3,7 @@
 pid_file = "/home/vault/pidfile"
 auto_auth {
     method "kubernetes" {
-        mount_path = "auth/kubernetes_otcci"
+        mount_path = "[% zuul.vault_k8_auth_mount_path %]"
         config = {
             role = "[% zuul.vault_role_name %]"
         }
@@ -22,7 +22,7 @@ cache {
 template {
   destination = "/secrets/tls/ca.pem"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_ca_cert_secret_name %]" }}{{ .Data.data.certificate }}{{ end }}
+{{- with secret "secret/data/[% zuul.vault_ca_cert_path %]" }}{{ .Data.data.certificate }}{{ end }}
 EOT
   perms = "0664"
 }
@@ -30,7 +30,7 @@ EOT
 template {
   destination = "/secrets/tls/zk.pem"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_zk_client_cert_secret_name %]" }}{{ .Data.data.certificate }}{{ end }}
+{{- with secret "secret/data/[% zuul.vault_zk_client_cert_path %]" }}{{ .Data.data.certificate }}{{ end }}
 EOT
   perms = "0664"
 }
@@ -38,7 +38,7 @@ EOT
 template {
   destination = "/secrets/tls/zk.key"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_zk_client_cert_secret_name %]" }}{{ .Data.data.private_key }}{{ end }}
+{{- with secret "secret/data/[% zuul.vault_zk_client_cert_path %]" }}{{ .Data.data.private_key }}{{ end }}
 EOT
   perms = "0640"
 }
