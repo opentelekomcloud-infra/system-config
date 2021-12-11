@@ -46,7 +46,10 @@
         - system-config-upload-image-haproxy-statsd
     deploy:
       jobs:
-        - infra-prod-install-ansible
+        - infra-prod-setup-src
+
+        - infra-prod-install-ansible:
+            dependencies: infra-prod-setup-src
 
         # From now on, all jobs should depend on base
         - infra-prod-base: &infra-prod-base

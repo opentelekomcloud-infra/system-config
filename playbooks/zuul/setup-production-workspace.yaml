@@ -1,0 +1,7 @@
+---
+- hosts: bridge.eco.tsi-dev.otc-service.com
+  become: true
+  tasks:
+    - name: Placeholder
+      debug:
+        msg: 'Setup production workspace tasks running'
