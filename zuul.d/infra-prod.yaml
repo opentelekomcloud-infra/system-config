@@ -26,9 +26,18 @@
       nodes: []
 
 - job:
-    name: infra-prod-install-ansible
+    name: infra-prod-bootstrap-bridge
     parent: infra-prod-playbook
-    description: Install ansible on bridge.
+    description: |
+        Configure the bastion host (bridge)
+        This job does minimal configuration on the bastion host
+        (bridge.openstack.org) to allow it to run system-config
+        playbooks against our production hosts.  It sets up Ansible on
+        the host.
+        Note that this is separate to infra-prod-service-bridge;
+        bridge in it's role as the bastion host actaully runs that
+        against itself; it includes things not strictly needed to make
+        the host able to deploy system-config.
     vars:
       playbook_name: install-ansible.yaml
     required-projects:
@@ -45,7 +54,7 @@
       - roles/
       - install_modules.sh
       - modules.env
-      - playbooks/install-ansible.yaml
+      - playbooks/boostrap-bridge.yaml
       - playbooks/roles/pip3/
       - playbooks/roles/install-ansible/
       - playbooks/roles/logrotate/

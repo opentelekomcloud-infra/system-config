@@ -1,4 +1,4 @@
-- import_playbook: ../install-ansible.yaml
+- import_playbook: ../bootstrap-bridge.yaml
   vars:
     root_rsa_key: "{{ lookup('file', zuul.executor.work_root + '/' + zuul.build + '_id_rsa', rstrip=False) }}"
     ansible_cron_disable_job: true
