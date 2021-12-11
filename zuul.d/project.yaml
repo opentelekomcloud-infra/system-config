@@ -46,12 +46,15 @@
         - system-config-upload-image-haproxy-statsd
     deploy:
       jobs:
-        - infra-prod-install-ansible
+        # This installs the ansible on bridge that all the infra-prod
+        # jobs will run with.  Note the jobs use this ansible to then
+        # run against zuul's checkout of system-config.
+        - infra-prod-bootstrap-bridge
 
         # From now on, all jobs should depend on base
         - infra-prod-base: &infra-prod-base
             dependencies:
-              - name: infra-prod-install-ansible
+              - name: infra-prod-bootstrap-bridge
                 soft: true
 
         - infra-prod-service-bridge: &infra-prod-service-bridge
@@ -158,7 +161,8 @@
     periodic:
       # Nightly execution
       jobs:
-        - infra-prod-install-ansible
+        - infra-prod-bootstrap-bridge
+
         - infra-prod-base: *infra-prod-base
         - infra-prod-service-bridge: *infra-prod-service-bridge
 
@@ -186,5 +190,6 @@
     periodic-hourly:
       # hourly execution
       jobs:
-        - infra-prod-install-ansible
+        - infra-prod-bootstrap-bridge
+
         - infra-prod-service-bridge: *infra-prod-service-bridge
