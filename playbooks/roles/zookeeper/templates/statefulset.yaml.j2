@@ -25,6 +25,8 @@ spec:
       labels:
         app: "zookeeper"
         component: "server"
+      annotations:
+        serverCertValidity: "{{ server_cert_info.not_after }}"
     spec:
       terminationGracePeriodSeconds: 1800
       serviceAccountName: "{{ zookeeper_service_account }}"
@@ -33,6 +35,7 @@ spec:
             - agent
             - -config=/etc/vault/vault-agent-config.hcl
             - -log-level=debug
+            - -exit-after-auth=true
           env:
             - name: "VAULT_ADDR"
               value: "{{ ansible_hashi_vault_addr }}"
@@ -44,6 +47,21 @@ spec:
             - mountPath: "/tls"
               name: "cert-data"
       containers:
+        - args:
+            - agent
+            - -config=/etc/vault/vault-agent-config.hcl
+            - -log-level=debug
+            - -exit-after-auth=false
+          env:
+            - name: "VAULT_ADDR"
+              value: "{{ ansible_hashi_vault_addr }}"
+          image: "{{ vault_image }}"
+          name: "vault-agent-sidecar"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: "/tls"
+              name: "cert-data"
         - name: "zookeeper"
           securityContext:
             fsGroup: 1000

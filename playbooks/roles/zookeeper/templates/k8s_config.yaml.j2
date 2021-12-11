@@ -11,16 +11,17 @@ metadata:
 data:
   ok: |
     #!/bin/sh
-    if [ -f /tls/ca.crt ]; then
-      echo "srvr" | openssl s_client -CAfile /tls/ca.crt -cert /tls/client/tls.crt -key /tls/client/tls.key -connect 127.0.0.1:${1:-2281} -quiet -ign_eof 2>/dev/null | grep Mode
+    if [ -f /tls/ca.pem ]; then
+      echo "srvr" | openssl s_client -CAfile /tls/ca.pem -cert /tls/client/tls.crt -key /tls/client/tls.key -connect 127.0.0.1:${1:-2281} -quiet -ign_eof 2>/dev/null | grep Mode
+
     else
       zkServer.sh status
     fi
 
   ready: |
     #!/bin/sh
-    if [ -f /tls/ca.crt ]; then
-      echo "ruok" | openssl s_client -CAfile /tls/ca.crt -cert /tls/client/tls.crt -key /tls/client/tls.key -connect 127.0.0.1:${1:-2281} -quiet -ign_eof 2>/dev/null
+    if [ -f /tls/ca.pem ]; then
+      echo "ruok" | openssl s_client -CAfile /tls/ca.pem -cert /tls/client/tls.crt -key /tls/client/tls.key -connect 127.0.0.1:${1:-2281} -quiet -ign_eof 2>/dev/null
     else
       echo ruok | nc 127.0.0.1 ${1:-2181}
     fi
@@ -67,16 +68,6 @@ data:
     mkdir -p $ZK_DATA_LOG_DIR
     echo $MY_ID >> $ID_FILE
 
-    if [[ -f /tls/server/tls.crt ]]; then
-      openssl pkcs8 -topk8 -inform PEM -outform PEM -in /tls/server/tls.key -out /data/server.pkcs8.key -nocrypt
-      cp /tls/ca.crt /data/server-ca.pem
-      cat /tls/server/tls.crt /data/server.pkcs8.key > /data/server.pem
-    fi
-    if [[ -f /tls/client/tls.crt ]]; then
-      openssl pkcs8 -topk8 -inform PEM -outform PEM -in /tls/client/tls.key -out /data/client.pkcs8.key -nocrypt
-      cp /tls/ca.crt /data/client-ca.pem
-      cat /tls/client/tls.crt /data/client.pkcs8.key > /data/client.pem
-    fi
     echo "dataDir=$ZK_DATA_DIR" >> $ZK_CONFIG_FILE
     echo "dataLogDir=$ZK_DATA_LOG_DIR" >> $ZK_CONFIG_FILE
     echo "tickTime=$ZK_TICK_TIME" >> $ZK_CONFIG_FILE
@@ -89,19 +80,19 @@ data:
     echo "autopurge.purgeInterval=$ZK_PURGE_INTERVAL" >> $ZK_CONFIG_FILE
     echo "4lw.commands.whitelist=*" >> $ZK_CONFIG_FILE
     # Client TLS configuration
-    if [[ -f /tls/ca.crt ]]; then
+    if [[ -f /tls/ca.pem ]]; then
       echo "secureClientPort=$ZK_SSL_CLIENT_PORT" >> $ZK_CONFIG_FILE
-      echo "ssl.keyStore.location=/data/client.pem" >> $ZK_CONFIG_FILE
-      echo "ssl.trustStore.location=/data/client-ca.pem" >> $ZK_CONFIG_FILE
+      echo "ssl.keyStore.location=/tls/client/client.pem" >> $ZK_CONFIG_FILE
+      echo "ssl.trustStore.location=/tls/ca.pem" >> $ZK_CONFIG_FILE
     else
       echo "clientPort=$ZK_CLIENT_PORT" >> $ZK_CONFIG_FILE
     fi
     # Server TLS configuration
-    if [[ -f /tls/ca.crt ]]; then
+    if [[ -f /tls/ca.pem ]]; then
       echo "serverCnxnFactory=org.apache.zookeeper.server.NettyServerCnxnFactory" >> $ZK_CONFIG_FILE
       echo "sslQuorum=true" >> $ZK_CONFIG_FILE
-      echo "ssl.quorum.keyStore.location=/data/server.pem" >> $ZK_CONFIG_FILE
-      echo "ssl.quorum.trustStore.location=/data/server-ca.pem" >> $ZK_CONFIG_FILE
+      echo "ssl.quorum.keyStore.location=/tls/server/server.pem" >> $ZK_CONFIG_FILE
+      echo "ssl.quorum.trustStore.location=/tls/ca.pem" >> $ZK_CONFIG_FILE
     fi
     for (( i=1; i<=$ZK_REPLICAS; i++ ))
     do
@@ -137,9 +128,9 @@ data:
     pid_file = "/home/vault/pidfile"
     auto_auth {
         method "kubernetes" {
-            mount_path = "auth/kubernetes_otcci"
+            mount_path = "{{ zookeeper.vault_k8_auth_mount_path }}"
             config = {
-                role = "{{ vault_role_name }}"
+                role = "{{ zookeeper.vault_role_name }}"
             }
         }
         sink "file" {
@@ -149,34 +140,54 @@ data:
         }
     }
 
+    cache {
+        use_auto_auth_token = true
+    }
+
+    # ZK is neat-picky on cert file extensions
     template {
-      destination = "/tls/ca.crt"
+      destination = "/tls/ca.pem"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_ca_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_ca_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    EOT
+    }
+
+    template {
+      destination = "/tls/server/server.pem"
+      contents = <<EOT
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.certificate }}
+    {{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/server/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/server/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_server_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_server_cert_path }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    EOT
+    }
+
+    template {
+      destination = "/tls/client/client.pem"
+      contents = <<EOT
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.certificate }}
+    {{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }
     template {
       destination = "/tls/client/tls.crt"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.certificate }}{{ end }}'}}
     EOT
     }
-
     template {
       destination = "/tls/client/tls.key"
       contents = <<EOT
-    {{ '{{- with secret "secret/data/' }}{{ vault_zookeeper_client_cert_secret_name }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
+    {{ '{{- with secret "secret/data/' }}{{ zookeeper.vault_client_cert_path }}{{ '" }}{{ .Data.data.private_key }}{{ end }}'}}
     EOT
     }

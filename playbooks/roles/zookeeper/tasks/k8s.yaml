@@ -1,6 +1,45 @@
 ---
-- name: Process certificates
-  include_tasks: k8_certificates.yaml
+- include_role:
+    name: "x509_vault"
+    tasks_from: cert.yaml
+    apply:
+      tags: ["config"]
+  vars:
+    vault_pki_path: "{{ zookeeper.vault_pki_path }}"
+    vault_pki_role: "{{ zookeeper.vault_pki_role }}"
+    vault_secret_path: "{{ zj_cert_item.vault_secret_path }}"
+    common_name: "{{ zj_cert_item.common_name }}"
+    alt_names: "{{ zj_cert_item.alt_names | default(omit) }}"
+    private_key_format: "{{ zj_cert_item.private_key_format }}"
+  tags: ["config"]
+  loop:
+    - vault_secret_path: "{{ zookeeper.vault_server_cert_path }}"
+      common_name: "server.{{ namespace }}.svc.cluster.local"
+      alt_names:
+        - "zookeeper-0.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+        - "zookeeper-1.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+        - "zookeeper-2.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+        - "zookeeper-3.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+        - "zookeeper-4.{{ zookeeper_headless_svc_name }}.{{ namespace }}.svc.cluster.local"
+      private_key_format: "pkcs8"
+    - vault_secret_path: "{{ zookeeper.vault_client_cert_path }}"
+      common_name: "client.{{ namespace }}.svc.cluster.local"
+      private_key_format: "pkcs8"
+  loop_control:
+    loop_var: zj_cert_item
+
+- name: Check server certificate in Vault
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "secret/data/{{ zookeeper.vault_server_cert_path }}"
+  register: server_cert_in_vault
+
+- name: Check server certificate validity
+  community.crypto.x509_certificate_info:
+    content: "{{ server_cert_in_vault.data.data.data.certificate }}"
+  register: server_cert_info
+  when: "server_cert_in_vault.data is defined"
 
 - name: Create {{ namespace }} Namespace
   community.kubernetes.k8s:
