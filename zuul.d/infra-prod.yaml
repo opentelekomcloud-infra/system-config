@@ -39,7 +39,7 @@
         against itself; it includes things not strictly needed to make
         the host able to deploy system-config.
     vars:
-      playbook_name: install-ansible.yaml
+      playbook_name: bootstrap-bridge.yaml
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-apimon
         override-checkout: main
