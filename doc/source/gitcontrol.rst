@@ -10,7 +10,7 @@ At a Glance
 
 :Hosts:
 :Projects:
-  * https://github.com/opentelekomcloud/ansible-collection-gitcontrol
+  * `Ansible Collection Gitcontrol`_
   * `Gitstyring`_
 :Configuration:
     * https://github.com/opentelekomcloud-infra/gitstyring/tree/main/orgs
@@ -21,7 +21,8 @@ At a Glance
 Overview
 ========
 
-This project combination is taking care of automating management of the Open Telekom Cloud GitHub organizations. It currently takes care of following:
+This project combination is taking care of automating management of the Open
+Telekom Cloud GitHub organizations. It currently takes care of following:
 
 * project settings in the organizations
 * branch protection for the projects
@@ -32,7 +33,27 @@ This project combination is taking care of automating management of the Open Tel
 Software Architecture
 =====================
 
-Ansible collection (`opentelekomcloud.gitcontrol`) is implementing modules for the managing GitHub organizations, projects, users. `Gitstyring`_ project defines the configuration to be applied.
+Ansible collection (`opentelekomcloud.gitcontrol`) is implementing modules for
+the managing GitHub organizations, projects, users. `Gitstyring`_ projects
+defines the configuration to be applied.
+
+:ref:`Zuul` jobs defined in the `Gitstyring`_ projects are responsible for
+applying of the target configuration. The workflow is implemented as following:
+
+- A temporary VM is prepared
+- `Ansible Collection Gitcontrol`_ collection is installed together with Ansible
+- Loop over target managed organizations:
+
+  - Temporary GitHub token is retrieved according to `gh_auth`_ for the OTCBot
+    GitHub application for the organization. Private key for token signing is
+    retrieved from Vault.
+  - Configured state of the organizaiton members is applied using temporary
+    token.
+  - Configured state of the organizaiton teams is applied using temporary
+    token.
+  - Configured state of the organizaiton projects is applied using temporary
+    token.
+  - Temporary token is revoked.
 
 Security Design
 ===============
@@ -41,49 +62,57 @@ Security Design
 Security Architecture
 ---------------------
 
-Managing GitHub object requires a OAuth token with admin privileges. This token is being kept in a secret inventory which is available to the :ref:`bridge` host. Ansible playbook (invoking finally the REST API of the GitHub) is then using this token.
+GitHub organizations are managed using OTCBot `GitHub application
+<https://docs.github.com/en/developers/apps/building-github-apps>`_. This allows
+avoiding necessity to use pre-created tokens with administration privileges.
+Private key of the GitHub application is stored in the Vault and a special
+Vault policy is defined to allow access to it. Required configuration projects
+are using dedicated `AppRole <https://www.vaultproject.io/docs/auth/approle>`_
+in combination with the mentioned policy to restrict which projects are able to
+access the key. Using the application private key a JWT token is generated
+which is used to get application installation token with the required scope to
+be able to apply the configuration to the organization.
+After using the installation token is forcibly revoked by sending DELETE call
+to the GitHub API.
+
+As a next step step for improving security a special Vault plugin is going to
+be created that takes organization name and desired permission set and returns
+dedicated installation token. this will allow avoiding private key to ever
+leave Vault.
+
+Every change proposed to the target configuration will be applied in the
+dry-run mode using token with read-only privileges to verify configuration.
 
 Separation
 ----------
 
-Not applicable
+Not applicable.
 
 Interface Description
 ---------------------
 
-Not available
+Not available.
 
 Tenant Security
 ---------------
 
-Not applicable
+Not applicable.
 
 O&M Access Control
 ------------------
 
-Only users enabled in the :git_file:`inventory/base/group_vars/all.yaml` are
-able to login to the underlaying infrastructure.
+Not applicable.
 
 Logging and Monitoring
 ----------------------
 
-Logs for the execution can be found on the :ref:`bridge` host.
-
-O&M Access Control
-------------------
-
-Only users enabled in the :git_file:`inventory/base/group_vars/all.yaml` are
-able to login to the underlaying infrastructure.
-
-Logging and Monitoring
-----------------------
-
-Logs are available on the :ref:`bridge` host.
+Logs for the execution can be found in the corresponding Zuul job execution
+logs.
 
 Patch Management
 ----------------
 
-This is not a real service not requiring any standalone system.
+Not applicable.
 
 Hardening
 ---------
@@ -95,6 +124,10 @@ Certificate Handling
 
 Not required.
 
+Private key of the GitHub application is kept in the Vault. It can be rotated
+by generating new key by the administrators of the GitHub
+opentelekomcloud-infra members and overwriting it in the Vault.
+
 Backup and Restore
 ------------------
 
@@ -105,11 +138,6 @@ User and Account management
 
 User mapping is configured by `Gitstyring`_. No password/token management is implemented.
 
-In order to address data privacy concerns overall configuration data is split between 2 repositories:
-
-- public one (https://github.com/opentelekomcloud-infra/gitstyring/) with the project configuration
-- private one with the users and teams configuration
-
 Communication Matrix
 --------------------
 
@@ -118,7 +146,8 @@ Not applicable.
 Deployment
 ==========
 
-* :git_file:`playbooks/manage-github.yaml` is a playbook for the service configuration
-* Zuul job ``infra-prod-manage-github`` is executed periodically and upon merged changes in the `Gitstyring`_ project got merged.
+Not applicable.
 
 .. _Gitstyring: https://github.com/opentelekomcloud-infra/gitstyring
+.. _`Ansible Collection Gitcontrol`: https://github.com/opentelekomcloud/ansible-collection-gitcontrol
+.. _gh_auth: https://docs.github.com/en/developers/apps/building-github-apps/authenticating-with-github-apps#authenticating-as-a-github-app>

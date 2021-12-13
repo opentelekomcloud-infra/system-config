@@ -1,6 +1,6 @@
 image: "Standard_CentOS_Stream_latest"
 flavor: "c4.xlarge.4"
-security_groups: ["common-sg", "graphite-sg"]
+security_groups: ["common_sg", "graphite_sg"]
 nics:
   - fixed_ip: "192.168.151.11"
     net-name: "apimon-infra-net"

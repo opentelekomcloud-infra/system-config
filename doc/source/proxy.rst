@@ -38,6 +38,10 @@ Security Architecture
   :ref:`bridge`
 * HTTP/HTTPS traffic is reaching the service through Cloud Load Balancer
 
+.. raw:: html
+
+   <object data="_static/reverse_proxy.svg" type="image/svg+xml"></object>
+
 Separation
 ----------
 

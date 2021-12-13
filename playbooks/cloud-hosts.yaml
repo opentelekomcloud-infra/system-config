@@ -9,5 +9,4 @@
         loop_var: host
       when:
         - "hostvars[host].location is defined"
-
-
+        - "hostvars[host]['location']['cloud'] is defined"

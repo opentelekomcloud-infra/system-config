@@ -1,5 +1,7 @@
 :title: Zuul
 
+.. _Zuul:
+
 Zuul
 ####
 

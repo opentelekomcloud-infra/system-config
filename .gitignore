@@ -16,3 +16,4 @@ Vagrantfile
 .vagrant/
 *.retry
 test_inventory
+doc/source/_svg
