@@ -75,7 +75,7 @@
               - name: infra-prod-base
                 soft: true
          
-         - infra-prod-service-opensearch: &infra-prod-service-opensearch
+        - infra-prod-service-opensearch: &infra-prod-service-opensearch
             dependencies:
               - name: infra-prod-base
                 soft: true
