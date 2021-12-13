@@ -36,7 +36,7 @@ secretMounts:
     path: "/usr/share/opensearch/config/admin-key.pem"
     subPath: "tls.key"
 config:
-  opensearch.yml:
+  opensearch.yml: |
     cluster.name: opensearch-cluster
 
     # Bind to all interfaces because we don't know what IP address Docker will assign to us.
