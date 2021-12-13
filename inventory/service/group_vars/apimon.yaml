@@ -98,7 +98,6 @@ apimon_instances:
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
           - scenario2c_coreos_az.yaml
-          - scenario22a_simple_dns_private.yaml
           - scenario3_simple_evs.yaml
       - env: production_eu-de
         project: csm
@@ -186,7 +185,6 @@ apimon_instances:
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
-          - scenario22a_simple_dns_private.yaml
           - scenario3_simple_evs.yaml
       - env: production_eu-de
         project: csm
@@ -330,7 +328,6 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario3_simple_evs.yaml
-          - scenario22a_simple_dns_private.yaml
 
     # Test clouds configuration
     clouds:
