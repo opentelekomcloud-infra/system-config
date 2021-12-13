@@ -1,6 +1,7 @@
 # Deploy octavia-proxy on K8S
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure Octavia-Proxy K8s deployments"
+  become: true
   tasks:
     - include_role:
         name: "octavia_proxy"

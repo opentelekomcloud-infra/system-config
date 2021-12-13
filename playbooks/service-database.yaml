@@ -1,6 +1,7 @@
 ---
 - hosts: database-launcher:!disabled
   name: "Manage Database instances"
+  become: true
   tasks:
 
     # Group instances and users by dba

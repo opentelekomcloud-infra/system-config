@@ -1,4 +1,4 @@
-bastion_ipv4: 192.168.110.239
+bastion_ipv4: 192.168.0.239
 bastion_ipv6: fe80::3709:495b:66ac:8875
 bastion_public_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYnt1MAAdWM8xW3Y5SeUhk+5cMZbpsz+juSUrbTsKDFx32BhsXtKR1sk8pCoKXTkvU+tD4PF3rI+7R8M/gI9MB8VM7l9BweZ1EDwVrDuiSxtl0HtYV+E+a7Fd0jDytGrzUloQtBqYqfPTOegU8APIOKOygrrQurBnZaCJfQoRtPEfoyuzL0maLAQ5AWATAwwbCJsQsgxVEL8flW2lt2r+JiQfXx8OGb/uUUzlDpwGdhZHa5l2VY+huShL7ij2LHxVuw3OExAzRdgPduqQG/xJGZZJsj5Vyorvkd0K78J2a+mEvNCIl0BjCfPhOJYk9FGB5Ne9XLCcwUVHImqPZpJIFTWW/Ic7/m73lqHNGGi9dem7aXCMQlltAvegL8H6JY6LhcIODB8zTDQ81mk1kmO0PTotujKWYLb9ptw1AuScvPAxcRHjKsSnlkUOK/oy3oE/J6LO/fUTay7DH34DqaqLNKGLXvYfmzkrqTi5IrCb0JE1HAcbelmRh/s5+CMxuOVk= root@bastion1.eco.tsi-dev.otc-service.com
 bastion_key_exclusive: true
@@ -15,3 +15,47 @@ base_packages:
   - tcpdump
   - wget
 logrotate_maxsize: "300M"
+
+# DT 3.04-3
+ssh_key_ex:
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group-exchange-sha256
+  - ecdh-sha2-nistp521
+  - ecdh-sha2-nistp384
+  - ecdh-sha2-nistp256
+
+# DT 3.04-4
+ssh_ciphers:
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+  - aes256-ctr
+  - aes192-ctr
+  - aes128-ctr
+
+# DT 3.04-5
+ssh_macs:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+  - hmac-sha2-512
+  - hmac-sha2-256
+
+# DT 3.04-6
+ssh_hostkey_algorithm:
+  - ecdsa-sha2-nistp256
+  - ecdsa-sha2-nistp256-cert-v01@openssh.com
+  - ecdsa-sha2-nistp384
+  - ecdsa-sha2-nistp384-cert-v01@openssh.com
+  - ecdsa-sha2-nistp521
+  - ecdsa-sha2-nistp521-cert-v01@openssh.com
+  - ssh-ed25519
+  - ssh-ed25519-cert-v01@openssh.com
+  # SKs are not supported by all OSs, disable them for now
+  # - sk-ssh-ed25519@openssh.com
+  # - sk-ssh-ed25519-cert-v01@openssh.com
+  # - sk-ecdsa-sha2-nistp256@openssh.com
+  # - sk-ecdsa-sha2-nistp256-cert-v01@openssh.com
+
+ssh_disable_forwarding: true
+ssh_allow_tcp_forwarding: false
+ssh_allow_agent_forwarding: false

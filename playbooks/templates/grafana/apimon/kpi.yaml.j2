@@ -47,7 +47,7 @@ panels:
       - queryType: randomWalk
         refId: A
         target: consolidateBy(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
-          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
+          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count, stats.counters.openstack.api.$environment.$zone.dns.GET.zone_recordset.400.count)),
           sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.attempted.count,
           'modelarts|tms|bms'))), 'avg')
         textEditor: true
@@ -206,7 +206,7 @@ panels:
     targets:
       - refId: A
         target: consolidateBy(sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
-          '404|dns.GET.zone.400|object')), 'sum')
+          '404|dns.GET.zone.400|dns.GET.zone_recordset.400|object')), 'sum')
         textEditor: true
     title: SLI Count of API Errors
     type: stat
@@ -253,7 +253,7 @@ panels:
       - queryType: randomWalk
         refId: A
         target: movingAverage(consolidateBy(asPercent(sumSeries(group(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.{2*,3*,404}.count,
-          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count)),
+          'modelarts|tms|bms'), stats.counters.openstack.api.$environment.$zone.dns.GET.zone.400.count, stats.counters.openstack.api.$environment.$zone.dns.GET.zone_recordset.400.count)),
           sumSeries(exclude(stats.counters.openstack.api.$environment.$zone.*.*.*.attempted.count,
           'modelarts|tms|bms'))), 'avg'), '7d')
         textEditor: true

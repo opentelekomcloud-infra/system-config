@@ -1,0 +1,7 @@
+- hosts: "!disabled"
+  name: "Base: check availability of telegraf and restart on failure"
+  tasks:
+    - include_role:
+        name: "telegraf"
+        tasks_from: "monitor.yaml"
+

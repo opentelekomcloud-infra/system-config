@@ -9,93 +9,89 @@ all:
         region: "eu-de"
     scheduler1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.58
-      apimon:
-        zone: production_eu-de
-        instance: production
+      ansible_user: automation
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
-      apimon:
-        zone: production_eu-de
-        instance: production
+      ansible_user: automation
     executor2.apimon.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.2.55
-      apimon:
-        zone: vcloud
-        instance: production
+      ansible_host: 192.168.2.60
+      ansible_user: automation
     executor3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.145
-      apimon:
-        zone: production_eu-de
-        instance: production
+      ansible_user: automation
     executor4.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.164
-      apimon:
-        zone: production_eu-de
-        instance: production
+      ansible_user: automation
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
-      apimon:
-        zone: production_eu-de
-        instance: hybrid
+      ansible_user: automation
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
+      ansible_user: automation
     graphite1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.191.55
+      ansible_user: automation
     graphite2.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.159
+      ansible_user: automation
     graphite3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.11
-      ansible_user: linux
+      ansible_user: automation
         #location:
         #  cloud: "otcinfra-domain3-infra-nl"
         #  az: "eu-nl-01"
         #  region: "eu-nl"
     graphite1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.241
+      ansible_user: automation
     proxy1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.160
+      ansible_user: automation
       location:
         provider: "otc"
     proxy2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.151
+      ansible_user: automation
       location:
         provider: "otc"
     web3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.2.52
+      ansible_user: automation
       location:
         provider: vcloud
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29
+      ansible_user: automation
     zk1.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.116
-      ansible_user: linux
+      ansible_user: automation
     zk2.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.182
-      ansible_user: linux
+      ansible_user: automation
     zk3.zuul.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.20.47
-      ansible_user: linux
+      ansible_user: automation
     controller.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.181
-      ansible_user: linux
+      ansible_user: automation
     proxy1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.190
-      ansible_user: linux
+      ansible_user: automation
     proxy2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.129
-      ansible_user: linux
+      ansible_user: automation
     proxy3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.15
-      ansible_user: linux
+      ansible_user: automation
     storage1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.86
-      ansible_user: linux
+      ansible_user: automation
     storage2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.2
-      ansible_user: linux
+      ansible_user: automation
     storage3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.158
-      ansible_user: linux
+      ansible_user: automation
     vault1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.123
       ansible_user: automation

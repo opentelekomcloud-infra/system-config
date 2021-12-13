@@ -2,6 +2,7 @@
   ansible.builtin.package:
     state: present
     name: "{{ base_packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Install fallback packages
   ansible.builtin.package:
@@ -10,6 +11,7 @@
   ignore_errors: true
   loop:
     - redhat-lsb-core
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Include OS-specific variables
   include_vars: "{{ lookup('first_found', params) }}"
@@ -23,12 +25,14 @@
   ansible.builtin.package:
     state: present
     name: "{{ distro_packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Increase syslog message size in order to capture python tracebacks
   copy:
     content: '$MaxMessageSize 6k'
     dest: /etc/rsyslog.d/99-maxsize.conf
     mode: 0644
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
   notify: Restart rsyslog
 
 - name: Deploy SystemConfig logrotate config
@@ -49,6 +53,7 @@
     name: rsyslog
     enabled: yes
     state: started
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Ensure auditd is running
   ansible.builtin.service:
@@ -56,14 +61,26 @@
     enabled: yes
     state: started
 
+# TODO: remove this once we are sure automation user is properly deployed
+# everywhere
 - name: Set ssh key for management
-  authorized_key:
+  ansible.builtin.authorized_key:
     state: present
     user: root
     exclusive: "{{ bastion_key_exclusive }}"
     key: "{{ bastion_public_key }}"
     key_options: |
       from="{{ bastion_ipv4 }},{{ bastion_ipv6 }},localhost"
+
+- name: Set ssh key for management
+  ansible.builtin.authorized_key:
+    state: present
+    user: "{{ ansible_user }}"
+    exclusive: "{{ bastion_key_exclusive }}"
+    key: "{{ bastion_public_key }}"
+    key_options: |
+      from="{{ bastion_ipv4 }},{{ bastion_ipv6 }},localhost"
+  when: "ansible_user is defined"
 
 # - name: Check presence of /etc/ssh/sshd_config.d directory
 #   ansible.builtin.stat:

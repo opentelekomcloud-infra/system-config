@@ -1,6 +1,7 @@
 ---
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure matrix maubot K8s deployments"
+  become: true
   tasks:
 
     - include_role:

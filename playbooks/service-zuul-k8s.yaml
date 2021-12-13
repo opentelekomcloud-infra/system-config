@@ -1,9 +1,22 @@
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
-  #- hosts: localhost
   name: "Configure Zuul in K8s"
+  become: true
   tasks:
     - set_fact:
         x509_certs: {}
+      tags: ["config"]
+
+    - name: Get vault token
+      ansible.builtin.set_fact:
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+      when: "ansible_hashi_vault_token is not defined"
+      tags: ["config"]
+
+    - name: Set vault token
+      ansible.builtin.set_fact:
+        ansible_hashi_vault_token: "{{ vault_token.id }}"
+        ansible_hashi_vault_auth_method: "token"
+      when: "vault_token is defined"
       tags: ["config"]
 
     - include_role:

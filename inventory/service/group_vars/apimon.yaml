@@ -98,6 +98,7 @@ apimon_instances:
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
           - scenario2c_coreos_az.yaml
+          - scenario3_simple_evs.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -115,8 +116,8 @@ apimon_instances:
         cloud: otcapimon_csm1
 
   production_vc:
-    statsd_host: 192.168.2.55
-    gearman_host: 192.168.2.55
+    statsd_host: 192.168.2.60
+    gearman_host: 192.168.2.60
     zone: vcloud_muc
     image: "{{ apimon_image_stable }}"
 
@@ -184,6 +185,7 @@ apimon_instances:
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
+          - scenario3_simple_evs.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -264,8 +266,8 @@ apimon_instances:
             epmon_rest] | combine }}"
       - hybrid_swiss:
           service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
-            epmon_cinder, epmon_keystone, epmon_glance,
-            epmon_network, epmon_sdrs, epmon_rds, epmon_smn,
+            epmon_cinder, epmon_keystone, epmon_glance, epmon_network,
+            epmon_swift, epmon_sdrs, epmon_rds, epmon_smn,
             epmon_rest] | combine }}"
     # Do endpoints check once per minute only
     epmon_interval: 60
@@ -316,6 +318,16 @@ apimon_instances:
         project: apimon
         tasks:
           - scenario1_token.yaml
+          - scenario2a_ecs_az.yaml
+          - scenario19_simple_vpc.yaml
+          - scenario20_rds.yaml
+          - scenario23_ces.yaml
+          - scenario2_simple_ecs.yaml
+          - scenario30_domains.yaml
+          - scenario3a_evs_az.yaml
+          - scenario4_image.yaml
+          - scenario21_as.yaml
+          - scenario3_simple_evs.yaml
 
     # Test clouds configuration
     clouds:

@@ -4,6 +4,7 @@
     - acme_request_certs
 
 - hosts: bridge.eco.tsi-dev.otc-service.com
+  become: true
   roles:
     - acme_install_txt_records
 
@@ -13,5 +14,6 @@
     - acme_create_certs
 
 - hosts: bridge.eco.tsi-dev.otc-service.com
+  become: true
   roles:
     - acme_drop_txt_records

@@ -301,3 +301,12 @@ swift_proxy_k8s_instances:
     context: "otcinfra"
     instance: "docs-int"
     namespace: "swift-proxy"
+
+zookeeper_instances:
+  zuul: {}
+
+zookeeper_k8s_instances:
+  - zookeeper_instance: "zuul"
+    context: "otcci"
+    instance: "zuul"
+    namespace: "zookeeper"

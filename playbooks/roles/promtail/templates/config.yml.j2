@@ -23,3 +23,19 @@ scrape_configs:
         target_label: 'unit'
       - source_labels: ['__journal__hostname']
         target_label: 'hostname'
+  - job_name: audit
+    pipeline_stages:
+    - match:
+        selector: '{job="audit"}'
+        stages:
+        - regex:
+            expression: '^type=(?P<type>[A-Z_]+)'
+        - labels:
+            type:
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: audit
+          hostname: {{ ansible_fqdn }}
+          __path__: /var/log/audit/audit.log

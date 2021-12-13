@@ -72,7 +72,7 @@ panels:
     targets:
       - refId: A
         target: maximumAbove(aliasByMetric(groupByNode(consolidateBy(exclude(stats.timers.openstack.api.$environment.$zone.*.*.*.{4*,5*}.count,
-          '404|dns.GET.zone.400'), 'sum'), 9, 'sum')), 0)
+          '404|dns.GET.zone.400|dns.GET.zone_recordset.400'), 'sum'), 9, 'sum')), 0)
     title: Count of API Errors
     tooltip:
       shared: true

@@ -26,11 +26,20 @@
       nodes: []
 
 - job:
-    name: infra-prod-install-ansible
+    name: infra-prod-bootstrap-bridge
     parent: infra-prod-playbook
-    description: Install ansible on bridge.
+    description: |
+        Configure the bastion host (bridge)
+        This job does minimal configuration on the bastion host
+        (bridge.openstack.org) to allow it to run system-config
+        playbooks against our production hosts.  It sets up Ansible on
+        the host.
+        Note that this is separate to infra-prod-service-bridge;
+        bridge in it's role as the bastion host actaully runs that
+        against itself; it includes things not strictly needed to make
+        the host able to deploy system-config.
     vars:
-      playbook_name: install-ansible.yaml
+      playbook_name: bootstrap-bridge.yaml
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-apimon
         override-checkout: main
@@ -45,7 +54,7 @@
       - roles/
       - install_modules.sh
       - modules.env
-      - playbooks/install-ansible.yaml
+      - playbooks/boostrap-bridge.yaml
       - playbooks/roles/pip3/
       - playbooks/roles/install-ansible/
       - playbooks/roles/logrotate/
@@ -57,9 +66,6 @@
     name: infra-prod-base
     parent: infra-prod-playbook
     description: Run the base playbook everywhere.
-    dependencies:
-      - name: infra-prod-install-ansible
-        soft: true
     vars:
       playbook_name: base.yaml
       infra_prod_ansible_forks: 50
@@ -75,9 +81,6 @@
     parent: infra-prod-playbook
     description: Base job for most service playbooks.
     abstract: true
-    dependencies:
-      - name: infra-prod-install-ansible
-        soft: true
 
 - job:
     name: infra-prod-service-bridge
@@ -96,30 +99,6 @@
       - playbooks/roles/configure-kubectl/
       - playbooks/roles/configure-openstacksdk/
       - playbooks/templates/clouds/
-
-- job:
-    name: infra-prod-manage-github
-    parent: infra-prod-service-base
-    description: Run manage-github.yaml playbook.
-    vars:
-      playbook_name: manage-github.yaml
-    allowed-projects:
-      - github.com/opentelekomcloud-infra/gitstyring
-      - gitlab/ecosystem/gitstyring
-      - github.com/opentelekomcloud-infra/system-config
-    files:
-      - playbooks/manage-github.yaml
-      - playbooks/roles/gitcontrol
-      - playbooks/templates/github/default_zuul.yaml
-      - orgs
-      - templates
-    dependencies:
-      - name: infra-prod-install-ansible
-        soft: true
-    required-projects:
-      - github.com/opentelekomcloud-infra/gitstyring
-      - gitlab/ecosystem/gitstyring
-      - github.com/opentelekomcloud-infra/system-config
 
 - job:
     name: infra-prod-service-statsd
@@ -219,7 +198,7 @@
       - playbooks/roles/alerta/
 
 - job:
-    name: infra-prod-service-grafana-dashboards
+    name: infra-prod-grafana-dashboards
     parent: infra-prod-service-base
     description: Run dashboards.yaml playbook.
     vars:
@@ -260,17 +239,6 @@
       - inventory/
       - playbooks/service-proxy.yaml
       - playbooks/roles/haproxy/
-
-- job:
-    name: infra-prod-dashboards
-    parent: infra-prod-service-base
-    description: Run dashboards.yaml playbook.
-    vars:
-      playbook_name: dashboards.yaml
-    files:
-      - inventory/
-      - playbooks/dashboards.yaml
-      - playbooks/templates/grafana
 
 - job:
     name: infra-prod-service-zuul

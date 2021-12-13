@@ -14,7 +14,10 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-graphite
+        - system-config-run-graphite: &system-config-run-graphite
+            dependencies:
+              - name: system-config-run-memcached
+                soft: true
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
@@ -34,7 +37,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-graphite
+        - system-config-run-graphite: *system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta
         - system-config-run-grafana
@@ -46,65 +49,156 @@
         - system-config-upload-image-haproxy-statsd
     deploy:
       jobs:
-        - infra-prod-install-ansible
-        - infra-prod-base
-        - infra-prod-service-bridge
-        - infra-prod-install-cce
-        - infra-prod-service-opensearch
-        - infra-prod-install-helm-chart
-        - infra-prod-service-acme-ssl
-        - infra-prod-service-loki
-        # - infra-prod-service-x509-cert
-        - infra-prod-service-statsd
-        - infra-prod-service-apimon-epmon
-        - infra-prod-service-apimon-scheduler
-        - infra-prod-service-apimon-executor
-        - infra-prod-service-apimon-k8s
-        # memcached should come before graphite
-        - infra-prod-service-memcached
-        - infra-prod-service-graphite
-        - infra-prod-service-alerta
-        - infra-prod-service-grafana
-        - infra-prod-service-docs
-        - infra-prod-service-proxy
-        - infra-prod-service-telegraf
-        - infra-prod-service-vault
-        - infra-prod-service-zookeeper
-        - infra-prod-service-octavia-proxy
-        - infra-prod-dashboards
-        - infra-prod-manage-github
+        # This installs the ansible on bridge that all the infra-prod
+        # jobs will run with.  Note the jobs use this ansible to then
+        # run against zuul's checkout of system-config.
+        - infra-prod-bootstrap-bridge
+
+        # From now on, all jobs should depend on base
+        - infra-prod-base: &infra-prod-base
+            dependencies:
+              - name: infra-prod-bootstrap-bridge
+                soft: true
+
+        - infra-prod-service-bridge: &infra-prod-service-bridge
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-install-cce: &infra-prod-install-cce
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+         
+         - infra-prod-service-opensearch: &infra-prod-service-opensearch
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-install-helm-chart: &infra-prod-install-helm-chart
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+        - infra-prod-service-acme-ssl: &infra-prod-service-acme-ssl
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-alerta: &infra-prod-service-alerta
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-apimon-epmon: &infra-prod-service-apimon-epmon
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-apimon-executor: &infra-prod-service-apimon-executor
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-docs: &infra-prod-service-docs
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-grafana: &infra-prod-service-grafana
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-graphite: &infra-prod-service-graphite
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+              - name: infra-prod-service-memcached
+                soft: true
+
+        - infra-prod-service-loki: &infra-prod-service-loki
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-memcached: &infra-prod-service-memcached
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-octavia-proxy: &infra-prod-service-octavia-proxy
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-statsd: &infra-prod-service-statsd
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-proxy: &infra-prod-service-proxy
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-vault: &infra-prod-service-vault
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-zookeeper: &infra-prod-service-zookeeper
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
     periodic:
       # Nightly execution
       jobs:
-        - infra-prod-install-ansible
-        - infra-prod-base
-        - infra-prod-service-bridge
-        - infra-prod-install-cce
-        - infra-prod-service-opensearch
-        - infra-prod-install-helm-chart
-        - infra-prod-service-acme-ssl
-        - infra-prod-service-loki
-        # - infra-prod-service-x509-cert
-        - infra-prod-service-grafana-dashboards
-        - infra-prod-service-statsd
-        - infra-prod-service-apimon-epmon
-        - infra-prod-service-apimon-scheduler
-        - infra-prod-service-apimon-executor
-        - infra-prod-service-apimon-k8s
-        - infra-prod-service-memcached
-        - infra-prod-service-graphite
-        - infra-prod-service-alerta
-        - infra-prod-service-grafana
-        - infra-prod-service-docs
-        - infra-prod-service-proxy
-        - infra-prod-service-telegraf
-        - infra-prod-service-zookeeper
-        - infra-prod-manage-github
+        - infra-prod-bootstrap-bridge
+
+        - infra-prod-base: *infra-prod-base
+        - infra-prod-service-bridge: *infra-prod-service-bridge
+
+        - infra-prod-install-cce: *infra-prod-install-cce
+        - infra-prod-service-opensearch: *infra-prod-service-opensearch
+        - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
+
+        - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
+
+        - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
+        - infra-prod-service-alerta: *infra-prod-service-alerta
+        - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
+        - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
+        - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
+        - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
+        - infra-prod-service-docs: *infra-prod-service-docs
+        - infra-prod-service-grafana: *infra-prod-service-grafana
+        - infra-prod-service-graphite: *infra-prod-service-graphite
+        - infra-prod-service-loki: *infra-prod-service-loki
+        - infra-prod-service-memcached: *infra-prod-service-memcached
+        - infra-prod-service-statsd: *infra-prod-service-statsd
+        - infra-prod-service-proxy: *infra-prod-service-proxy
+        - infra-prod-service-vault: *infra-prod-service-vault
+        - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
+
     periodic-hourly:
       # hourly execution
       jobs:
-        - infra-prod-install-ansible
-        - infra-prod-service-bridge:
-            dependencies:
-              - name: infra-prod-install-ansible
-                soft: true
+        - infra-prod-bootstrap-bridge
+
+        - infra-prod-service-bridge: *infra-prod-service-bridge

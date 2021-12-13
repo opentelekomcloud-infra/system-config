@@ -5,7 +5,7 @@
     namespace: "{{ namespace }}"
     name: "zuul-merger-{{ instance }}"
     api_version: "v1"
-    kind: "Deployment"
+    kind: "StatefulSet"
     apply: "yes"
     definition:
       metadata:
@@ -16,6 +16,8 @@
           app.kubernetes.io/managed-by: "system-config"
       spec:
         replicas: 1
+        podManagementPolicy: "Parallel"
+        serviceName: "zuul-merger"
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
@@ -27,10 +29,35 @@
               app.kubernetes.io/app: "zuul"
               app.kubernetes.io/component: "zuul-merger"
               app.kubernetes.io/instance: "{{ instance }}"
+            annotations:
+              vaultConfVersion: "{{ zuul_vault_cm_version | default(omit) }}"
+              zkClientCertValidity: "{{ zk_client_cert_info.not_after }}"
           spec:
+            serviceAccountName: "{{ zuul_service_account_name }}"
+            initContainers:
+              - name: "vault-agent"
+                args:
+                  - agent
+                  - -config=/etc/vault/vault-agent-config-zuul-merger.hcl
+                  - -log-level=debug
+                  - -exit-after-auth=true
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/secrets"
+                    name: "secrets"
+
             containers:
               - name: "zuul-merger"
                 image: "quay.io/opentelekomcloud/zuul-merger:{{ zuul.zuul_version_tag }}"
+                args:
+                  - "/usr/local/bin/zuul-merger"
+                  - "-f"
+                  - "-d"
                 resources:
                   limits:
                     cpu: 200m
@@ -38,6 +65,10 @@
                   requests:
                     cpu: 50m
                     memory: 200Mi
+                securityContext:
+                  runAsUser: 10001
+                  runAsGroup: 10001
+                terminationGracePeriodSeconds: 3600
                 volumeMounts:
                   - name: "certs"
                     readOnly: true
@@ -45,15 +76,47 @@
                   - name: "zk-certs"
                     readOnly: true
                     mountPath: "/etc/zuul/zk"
-                  - name: "config"
+                  - name: "cert-data"
                     readOnly: true
-                    mountPath: "/etc/zuul/"
+                    mountPath: "/tls"
                   - name: "zuul-var-run"
                     mountPath: "/var/run/zuul"
+                  - name: "zuul-config"
+                    mountPath: "/etc/zuul"
+
+              # Vault agent produces files as vault user. We need to ensure
+              # those have correct ownership and privs, therefore permanently
+              # try to copy/fix  what vault produces
+              - name: "conf-priv-fixer"
+                image: "busybox:1.34.1-musl"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "while :; do cp -v /secrets/tls/* /tls/; cp -ruvT /secrets/zuul /etc/zuul; chown -R 10001:10001 /etc/zuul /tls; sleep 60; done"
+                volumeMounts:
+                  - name: "cert-data"
+                    mountPath: "/tls"
+                  - name: "zuul-config"
+                    mountPath: "/etc/zuul"
+                  - name: "secrets"
+                    mountPath: "/secrets"
+
+              - name: "vault-agent-sidecar"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "vault agent -config=/etc/vault/vault-agent-config-zuul-merger.hcl"
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/secrets"
+                    name: "secrets"
+
             volumes:
-              - name: "config"
-                configMap:
-                  name: "zuul-config-{{ instance }}"
               - name: "certs"
                 secret:
                   secretName: "zuul-{{ instance }}"
@@ -61,8 +124,16 @@
               - name: "zk-certs"
                 secret:
                   secretName: "zuul-zk-certs-{{ instance }}"
-                  defaultMode: 256
+              - name: "vault-agent-config"
+                configMap:
+                  name: "vault-agent-config-{{ instance }}"
               - name: "zuul-var-run"
+                emptyDir: {}
+              - name: "cert-data"
+                emptyDir: {}
+              - name: "zuul-config"
+                emptyDir: {}
+              - name: "secrets"
                 emptyDir: {}
         strategy:
           type: "RollingUpdate"

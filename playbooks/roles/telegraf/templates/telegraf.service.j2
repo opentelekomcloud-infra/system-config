@@ -23,6 +23,7 @@ ExecStart=/usr/bin/podman run \
           --cgroups=no-conmon \
           -d \
           --name telegraf \
+          -p 8888:8888 \
           --log-opt=path=/dev/null \
           -v /etc/telegraf:/etc/telegraf:ro \
           -v /:/rootfs:ro -e HOST_MOUNT_PREFIX=/rootfs -e HOST_PROC=/rootfs/proc \
@@ -52,6 +53,7 @@ TimeoutStopSec=70
 
 ExecStart=/usr/bin/docker run  \
           --name telegraf \
+          -p 8888:8888 \
           -v /etc/telegraf:/etc/telegraf:ro \
           -v /:/rootfs:ro -e HOST_MOUNT_PREFIX=/rootfs -e HOST_PROC=/rootfs/proc \
           {{ telegraf_image }}
