@@ -319,19 +319,6 @@
       - playbooks/roles/octavia_proxy
 
 - job:
-    name: infra-prod-service-telegraf
-    parent: infra-prod-service-base
-    description: Deploy Telegraf
-    vars:
-      playbook_name: service-telegraf.yaml
-    files:
-      - inventory/service/group_vars/telegraf.yaml
-      - inventory/service/group_vars/all.yaml
-      - inventory/service/groups.yaml
-      - playbooks/service-telegraf.yaml
-      - playbooks/roles/telegraf
-
-- job:
     name: infra-prod-service-opensearch
     parent: infra-prod-service-base
     description: Run service-opensearch.yaml playbook.
