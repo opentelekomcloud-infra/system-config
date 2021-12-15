@@ -197,7 +197,7 @@ Zuul internal logging is done completely independently and is produced on the sy
 In addition to the Zuul components logging, it also supports metric emitting. It supports StatsD metrics pushing and Prometheus metric fetching. More details `Zuul Monitoring`_.
 
 Patch Management
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Zuul administrators are responsible for updating Zuul software and taking care of the platform where those components are running.
 
