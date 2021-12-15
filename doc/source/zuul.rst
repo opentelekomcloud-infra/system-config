@@ -91,11 +91,23 @@ Separation
 Zuul consists of the following major components:
 
 * nodepool-launcher
+
+  * The main nodepool component is named nodepool-launcher and is responsible for managing cloud instances launched from the images created and uploaded by nodepool-builder.
 * nodepool-builder
+
+  * The nodepool-builder builds and uploads images to providers.
 * zuul-executor
+
+  * Executors are responsible for running jobs. At the start of each job, an executor prepares an environment in which to run Ansible which contains all of the git repositories specified by the job with all dependent changes merged into their appropriate branches. 
 * zuul-scheduler
+
+  * The scheduler is the primary component of Zuul. It receives events from any connections to remote systems which have been configured, enqueues items into pipelines, distributes jobs to executors, and reports results.
 * zuul-merger
+
+  * Zull performs log of git operations, often needs to perform a speculative merge in order to determine whether it needs to perform any further actions Standalone merger reduces the load from executors.
 * zuul-web
+
+  * The Zuul web server serves as the single process handling all HTTP interactions with Zuul. This includes the websocket interface for live log streaming, the REST API and the html/javascript dashboard.
 
 In addition to the components of Zuul itself following external components
 are used:
