@@ -1,6 +1,6 @@
 :title: Zuul CI/CD
 
-.. _Zuul: https://zuul-ci.org/docs/zuul
+.. _Zuul:
 
 Zuul CI/CD
 ##########
