@@ -1,6 +1,6 @@
 :title: Zuul CI/CD
 
-.. _Zuul:
+.. _Zuul: https://zuul-ci.org/docs/zuul
 
 Zuul CI/CD
 ##########
@@ -64,7 +64,7 @@ many changes may be tested in parallel while continuing to assure that
 each commit is correctly tested.
 
 Zuul's current status may be viewed at
-`<https://zuul.opendev.org/>`_.
+`<https://zuul.otc-service.com>`_.
 
 Software Architecture
 =====================
@@ -104,7 +104,7 @@ are used:
 * SQL database
 * cloud resources (for spinning VMs or containers for job executions)
 
-All components of Zuul are not communicating directly with each other and
+None of the components of Zuul are communicating directly with each other and
 instead rely on external Zookeeper with TLS encryption for exchanging
 information. Components are using TLS certificates to authorize to Zookeeper.
 
@@ -145,8 +145,8 @@ In addition to that Zuul accesses following systems:
   * protected according to the requirements of the particular cloud provider
     (username/password, token, client certificate). In general TLS is used for
     API invocation (for provisioning resources) and afterwards SSH with private
-    key to further execute Ansible on the resource. After the use API request
-    to decommision used resource is again sent to the cloud provider using TLS.
+    key to further execute Ansible on the resource. Once the resource is not 
+    used anymore, API request is sent to the cloud provider via TLS to decommission it.
 
 Further details can be found `Zuul Admin Reference`_.
 
@@ -186,17 +186,17 @@ Logging and Monitoring
 ~~~~~~~~~~~~~~~~~~~~~~
 
 Zuul is logging all jobs being performed. This information is made public so
-that pull request initiators are able to know status of the test. In must be
+that pull request initiators are able to know status of the test. It must be
 noted, however, that every Zuul tenant is reponsible for defining base jobs
 which are either making logs publicly available or not. In general those jobs
 are themselves responsible for maintaining the log files (whether to put them
 on some external log hosting or discard them immediately).
 
-Zuul internal logging is done completely independently and is produced on the systems running Zuul components themselves. This logs are maintained corresponsing to the requirements of the Zuul installation.
+Zuul internal logging is done completely independently and is produced on the systems running Zuul components themselves. These logs are maintained corresponsing to the requirements of the Zuul installation.
 
-In addition to the logging Zuul components are also supporting metric emiting. It supports StatsD metrics pushing and Prometheus metric fetching. More details `Zuul Monitoring`_.
+In addition to the Zuul components logging, it also supports metric emitting. It supports StatsD metrics pushing and Prometheus metric fetching. More details `Zuul Monitoring`_.
 
-Path Management
+Patch Management
 ~~~~~~~~~~~~~~~
 
 Zuul administrators are responsible for updating Zuul software and taking care of the platform where those components are running.
@@ -206,7 +206,7 @@ Hardening
 
 As a means of hardening of the Zuul installation following can be mentioned:
 
-* Zuul is deployed in a dedicated Kubernetes cluster as every component is
+* Zuul is deployed in a dedicated Kubernetes cluster and every component is
   running as a container.
 
 * Access to the Zuul UI and REST API is implemented through the Cloud Load
@@ -250,7 +250,7 @@ There are few types of certificates used in Zuul:
 
 Those certificates must be maintained according to the security
 requirements and deployment specifics. In general it is preferred to use
-short living self-signed certificates for the Zookeeper cluster as well as
+short-lived self-signed certificates for the Zookeeper cluster as well as
 LetsEncrypt certificates for Web access.
 
 User and account Management
@@ -322,29 +322,29 @@ Communication Matrix (external)
      - Git hosting
      - Cloud
    * - nodepool-builder
-     - N
-     - N
+     - N/A
+     - N/A
      - [CLOUD_TLS]_
    * - nodepool-launcher
-     - N
-     - N
+     - N/A
+     - N/A
      - [CLOUD_TLS]_
    * - zuul-web
      - [DB_TLS]_
      - [TLS]_
-     - N
+     - N/A
    * - zuul-merger
-     - N
+     - N/A
      - [SSH]_
-     - N
+     - N/A
    * - zuul-executor
-     - N
+     - N/A
      - [SSH]_
      - [SSH]_
    * - zuul-scheduler
-     - N
-     - N
-     - N
+     - N/A
+     - N/A
+     - N/A
 
 .. [TLS] HTTPS encrypted (TLS) on port 443
 .. [SSH] SSH encrypted on custom port (depends on the git provider)
@@ -375,7 +375,7 @@ Secrets required for Zuul operation are fetched by the components from the
 
   * Vault agent is deployed as a sidecar container for Zuul components which
     is reponsible for fetching required secrets from Vault and rendering them
-    into the corresponding configu files.
+    into the corresponding config files.
 
 * Vault instance is not accessible publicly (has no public IP address)
 
