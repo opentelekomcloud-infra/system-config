@@ -1,18 +1,10 @@
-#- name: Include OS-specific variables
-#  include_vars: "{{ lookup('first_found', params) }}"
-#  vars:
-#    params:
-#      files: "{{ distro_lookup_path }}"
-#      paths:
-#        - 'vars'
-#
-- name: Include RedHat variables
-  include_vars: 'RedHat.yaml'
-  when: "ansible_distribution == 'Fedora'"
-
-- name: Include Ubuntu variables
-  include_vars: 'Debian.yaml'
-  when: "ansible_distribution == 'Ubuntu'"
+- name: Include OS-specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - 'vars'
 
 - name: Install distro specific audit package
   ansible.builtin.package:
