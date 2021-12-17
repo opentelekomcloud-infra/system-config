@@ -1,0 +1,117 @@
+#- name: Include OS-specific variables
+#  include_vars: "{{ lookup('first_found', params) }}"
+#  vars:
+#    params:
+#      files: "{{ distro_lookup_path }}"
+#      paths:
+#        - 'vars'
+#
+- name: Include RedHat variables
+  include_vars: 'RedHat.yaml'
+  when: "ansible_distribution == 'Fedora'"
+
+- name: Include Ubuntu variables
+  include_vars: 'Debian.yaml'
+  when: "ansible_distribution == 'Ubuntu'"
+
+- name: Install distro specific audit package
+  ansible.builtin.package:
+    state: present
+    name: "{{ distro_packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+
+- name: Check if GRUB_CMDLINE_LINUX exists
+  shell: grep -c "^GRUB_CMDLINE_LINUX=" /etc/default/grub || true
+  register: check_grub_config
+  changed_when: false
+  check_mode: no
+  when: enable_audit_in_grub | default(true)
+
+- name: Add GRUB_CMDLINE_LINUX line if not existing
+  lineinfile:
+    path: "/etc/default/grub"
+    line: 'GRUB_CMDLINE_LINUX="audit=1"'
+  notify: update grub
+  when: 
+    - enable_audit_in_grub | default(true)
+    - check_grub_config.stdout == "0"
+
+- name: Enable audit in config for grub
+  lineinfile:
+    path: "/etc/default/grub"
+    regexp: '^({{ item }}=(?!.*audit)\"[^\"]*)(\".*)'
+    line: '\1 audit=1\2'
+    backrefs: yes
+  notify: update grub
+  with_items:
+    - GRUB_CMDLINE_LINUX
+    - GRUB_CMDLINE_LINUX_DEFAULT
+  when: enable_audit_in_grub | default(true)
+
+- name: Configure max size for log rotate in auditd.conf
+  lineinfile:
+    path: '/etc/audit/auditd.conf'
+    regexp: '^max_log_file ='
+    line: 'max_log_file = {{ auditd_file_size }}'
+    state: present
+  when: configure_audit | default(true)
+
+- name: Configure num_logs for log rotate for auditd
+  lineinfile:
+    path: '/etc/audit/auditd.conf'
+    regexp: '^num_logs ='
+    line: 'num_logs = {{ auditd_num_logs }}'
+    state: present
+  notify: restart auditd
+  when: configure_audit | default(true)
+
+- name: Configure num_logs for logrotate for auditd
+  lineinfile:
+    path: '/etc/audit/auditd.conf'
+    regexp: '^max_log_file_action ='
+    line: 'max_log_file_action = {{ auditd_rotate_action }}'
+    state: present
+  notify: restart auditd
+  when: configure_audit | default(true)
+
+- name: Configure logging events
+  template:
+    src: 'audit-rules.j2'
+    dest: "{{ os_audit_rules_file }}"
+    owner: root
+    group: root
+    mode: 0640
+  notify: restart auditd
+  when: 
+    - configure_audit_rules | default(true)
+
+- name: Search for privileged commands
+  shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
+  register: priv_commands
+  changed_when: false
+  check_mode: no
+  when: 
+    - configure_privileged_commands | default(true)
+
+- name: Configure logging for priviledged commands
+  lineinfile:
+    path: "{{ os_audit_rules_file }}"
+    line: '-a always,exit -F path={{ item }} -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged'
+    state: present
+  with_items: '{{ priv_commands.stdout_lines }}'
+  notify: restart auditd
+  when: 
+    - configure_privileged_commands | default(true)
+
+- name: Make audit configuration immutable
+  lineinfile:
+    path: "{{ os_audit_rules_file }}"
+    line: '-e 2'
+    state: present
+  when: configure_audit_immutable | default(true)
+
+- name: Ensure auditd is running
+  ansible.builtin.service:
+    name: auditd
+    enabled: yes
+    state: started

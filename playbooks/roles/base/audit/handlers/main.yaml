@@ -1,0 +1,11 @@
+- name: restart auditd 
+  command: 
+    cmd: service auditd restart
+    warn: no
+  listen: restart auditd
+  when: not ansible_check_mode
+
+- name: update grub
+  command: "{{ os_grub_config_update }}"
+  changed_when: false
+  when: not ansible_check_mode

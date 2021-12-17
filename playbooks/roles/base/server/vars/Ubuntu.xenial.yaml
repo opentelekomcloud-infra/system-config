@@ -11,6 +11,5 @@ distro_packages:
   # to python3
   - python2.7
   - python
-  - auditd
 sftp_path: /usr/lib/openssh/sftp-server
 ssh_service_name: ssh
