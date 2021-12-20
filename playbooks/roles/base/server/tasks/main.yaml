@@ -55,12 +55,6 @@
     state: started
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
-- name: Ensure auditd is running
-  ansible.builtin.service:
-    name: auditd
-    enabled: yes
-    state: started
-
 # TODO: remove this once we are sure automation user is properly deployed
 # everywhere
 - name: Set ssh key for management

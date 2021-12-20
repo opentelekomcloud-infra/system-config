@@ -104,6 +104,6 @@
 
 - name: Ensure auditd is running
   ansible.builtin.service:
-    name: auditd
+    name: "{{ os_audit_deamon }}"
     enabled: yes
     state: started
