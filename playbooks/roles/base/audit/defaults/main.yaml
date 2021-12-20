@@ -2,6 +2,8 @@ auditd_file_size: 10
 auditd_num_logs: 5
 auditd_rotate_action: "ROTATE"
 
+os_audit_deamon: "auditd"
+
 os_audit_rules_file: "/etc/audit/rules.d/audit.rules"
 
 config_system_events: true

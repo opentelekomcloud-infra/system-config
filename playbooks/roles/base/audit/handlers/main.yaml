@@ -1,11 +1,9 @@
 - name: restart auditd 
-  command: 
-    cmd: service auditd restart
-    warn: no
+  ansible.builtin.command: "service {{ os_audit_deamon }} restart"
   listen: restart auditd
   when: not ansible_check_mode
 
 - name: update grub
-  command: "{{ os_grub_config_update }}"
+  ansible.builtin.command: "{{ os_grub_config_update }}"
   changed_when: false
   when: not ansible_check_mode

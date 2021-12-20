@@ -13,14 +13,14 @@
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Check if GRUB_CMDLINE_LINUX exists
-  shell: grep -c "^GRUB_CMDLINE_LINUX=" /etc/default/grub || true
+  ansible.builtin.shell: grep -c "^GRUB_CMDLINE_LINUX=" /etc/default/grub || true
   register: check_grub_config
   changed_when: false
   check_mode: no
   when: enable_audit_in_grub | default(true)
 
 - name: Add GRUB_CMDLINE_LINUX line if not existing
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/default/grub"
     line: 'GRUB_CMDLINE_LINUX="audit=1"'
   notify: update grub
@@ -29,7 +29,7 @@
     - check_grub_config.stdout == "0"
 
 - name: Enable audit in config for grub
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/default/grub"
     regexp: '^({{ item }}=(?!.*audit)\"[^\"]*)(\".*)'
     line: '\1 audit=1\2'
@@ -41,7 +41,7 @@
   when: enable_audit_in_grub | default(true)
 
 - name: Configure max size for log rotate in auditd.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: '/etc/audit/auditd.conf'
     regexp: '^max_log_file ='
     line: 'max_log_file = {{ auditd_file_size }}'
@@ -49,7 +49,7 @@
   when: configure_audit | default(true)
 
 - name: Configure num_logs for log rotate for auditd
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: '/etc/audit/auditd.conf'
     regexp: '^num_logs ='
     line: 'num_logs = {{ auditd_num_logs }}'
@@ -58,7 +58,7 @@
   when: configure_audit | default(true)
 
 - name: Configure num_logs for logrotate for auditd
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: '/etc/audit/auditd.conf'
     regexp: '^max_log_file_action ='
     line: 'max_log_file_action = {{ auditd_rotate_action }}'
@@ -67,7 +67,7 @@
   when: configure_audit | default(true)
 
 - name: Configure logging events
-  template:
+  ansible.builtin.template:
     src: 'audit-rules.j2'
     dest: "{{ os_audit_rules_file }}"
     owner: root
@@ -78,7 +78,7 @@
     - configure_audit_rules | default(true)
 
 - name: Search for privileged commands
-  shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
+  ansible.builtin.shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
   register: priv_commands
   changed_when: false
   check_mode: no
@@ -86,7 +86,7 @@
     - configure_privileged_commands | default(true)
 
 - name: Configure logging for priviledged commands
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ os_audit_rules_file }}"
     line: '-a always,exit -F path={{ item }} -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged'
     state: present
@@ -96,7 +96,7 @@
     - configure_privileged_commands | default(true)
 
 - name: Make audit configuration immutable
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ os_audit_rules_file }}"
     line: '-e 2'
     state: present
