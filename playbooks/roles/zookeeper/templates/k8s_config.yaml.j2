@@ -131,7 +131,7 @@ data:
             mount_path = "{{ zookeeper.vault_k8_auth_mount_path }}"
             config = {
                 role = "{{ zookeeper.vault_role_name }}"
-                paht = "/run/secrets/tokens/vault-token"
+                path = "/run/secrets/tokens/vault-token"
             }
         }
         sink "file" {
