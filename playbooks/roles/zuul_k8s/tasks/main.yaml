@@ -40,12 +40,14 @@
     path: "secret/data/{{ zuul.vault_zk_client_cert_path }}"
   register: cert_in_vault
   failed_when: false
+  tags: ["config"]
 
 - name: Check certificate validity
   community.crypto.x509_certificate_info:
     content: "{{ cert_in_vault.data.data.data.certificate }}"
   register: zk_client_cert_info
   when: "cert_in_vault.data is defined"
+  tags: ["config"]
 
 - include_tasks: zuul-config.yaml
 
