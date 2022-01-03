@@ -100,11 +100,11 @@
               - name: "zuul-scheduler"
                 resources:
                   limits:
-                    cpu: '2'
-                    memory: 2G
+                    cpu: "2"
+                    memory: "2G"
                   requests:
-                    cpu: 100m
-                    memory: 200Mi
+                    cpu: "100m"
+                    memory: "200Mi"
                 securityContext:
                   privileged: true
                 ports:

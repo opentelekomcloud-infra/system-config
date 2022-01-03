@@ -147,6 +147,10 @@
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
 
+              - name: "zuul-config-data"
+                persistentVolumeClaim:
+                  claimName: "zuul-config-{{ instance }}"
+
               - name: "nodepool-data-volume"
                 emptyDir: {}
               - name: "cert-data"

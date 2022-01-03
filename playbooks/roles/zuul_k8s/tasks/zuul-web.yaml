@@ -53,20 +53,20 @@
                 image: "quay.io/opentelekomcloud/zuul-web:{{ zuul.zuul_version_tag }}"
                 ports:
                   - containerPort: 9000
-                    name: "web"
+                    name: "zuul-web"
                     protocol: "TCP"
                 readinessProbe:
                   tcpSocket:
-                    port: "web"
-                    initialDelaySeconds: 30
-                    periodSeconds: 5
-                    timeoutSeconds: 5
+                    port: "zuul-web"
+                  initialDelaySeconds: 120
+                  periodSeconds: 5
+                  timeoutSeconds: 5
                 livenessProbe:
                   tcpSocket:
-                    port: "web"
-                    initialDelaySeconds: 30
-                    periodSeconds: 5
-                    timeoutSeconds: 5
+                    port: "zuul-web"
+                  initialDelaySeconds: 120
+                  periodSeconds: 5
+                  timeoutSeconds: 5
                 resources:
                   limits:
                     cpu: "50m"
@@ -171,7 +171,7 @@
           - name: "web"
             protocol: "TCP"
             port: 80
-            targetPort: 9000
+            targetPort: "zuul-web"
         selector:
           app.kubernetes.io/app: "zuul"
           app.kubernetes.io/component: "zuul-web"
