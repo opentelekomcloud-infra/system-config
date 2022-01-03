@@ -50,3 +50,5 @@
   tags: ["config"]
 - include_tasks: zuul-executor.yaml
   tags: ["config"]
+- include_tasks: zuul-client.yaml
+  tags: ["config"]
