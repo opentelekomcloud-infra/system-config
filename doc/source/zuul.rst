@@ -92,22 +92,38 @@ Zuul consists of the following major components:
 
 * nodepool-launcher
 
-  * The main nodepool component is named nodepool-launcher and is responsible for managing cloud instances launched from the images created and uploaded by nodepool-builder.
+  * The main nodepool component is named nodepool-launcher and is responsible
+    for managing cloud instances launched from the images created and uploaded
+    by nodepool-builder.
+
 * nodepool-builder
 
   * The nodepool-builder builds and uploads images to providers.
+
 * zuul-executor
 
-  * Executors are responsible for running jobs. At the start of each job, an executor prepares an environment in which to run Ansible which contains all of the git repositories specified by the job with all dependent changes merged into their appropriate branches. 
+  * Executors are responsible for running jobs. At the start of each job, an
+    executor prepares an environment in which to run Ansible which contains all
+    of the git repositories specified by the job with all dependent changes
+    merged into their appropriate branches.
+
 * zuul-scheduler
 
-  * The scheduler is the primary component of Zuul. It receives events from any connections to remote systems which have been configured, enqueues items into pipelines, distributes jobs to executors, and reports results.
+  * The scheduler is the primary component of Zuul. It receives events from any
+    connections to remote systems which have been configured, enqueues items
+    into pipelines, distributes jobs to executors, and reports results.
+
 * zuul-merger
 
-  * Zull performs log of git operations, often needs to perform a speculative merge in order to determine whether it needs to perform any further actions Standalone merger reduces the load from executors.
+  * Zull performs log of git operations, often needs to perform a speculative
+    merge in order to determine whether it needs to perform any further
+    actions Standalone merger reduces the load from executors.
+
 * zuul-web
 
-  * The Zuul web server serves as the single process handling all HTTP interactions with Zuul. This includes the websocket interface for live log streaming, the REST API and the html/javascript dashboard.
+  * The Zuul web server serves as the single process handling all HTTP
+    interactions with Zuul. This includes the websocket interface for live log
+    streaming, the REST API and the html/javascript dashboard.
 
 In addition to the components of Zuul itself following external components
 are used:
@@ -157,8 +173,9 @@ In addition to that Zuul accesses following systems:
   * protected according to the requirements of the particular cloud provider
     (username/password, token, client certificate). In general TLS is used for
     API invocation (for provisioning resources) and afterwards SSH with private
-    key to further execute Ansible on the resource. Once the resource is not 
-    used anymore, API request is sent to the cloud provider via TLS to decommission it.
+    key to further execute Ansible on the resource. Once the resource is not
+    used anymore, API request is sent to the cloud provider via TLS to
+    decommission it.
 
 Further details can be found `Zuul Admin Reference`_.
 
@@ -204,14 +221,19 @@ which are either making logs publicly available or not. In general those jobs
 are themselves responsible for maintaining the log files (whether to put them
 on some external log hosting or discard them immediately).
 
-Zuul internal logging is done completely independently and is produced on the systems running Zuul components themselves. These logs are maintained corresponsing to the requirements of the Zuul installation.
+Zuul internal logging is done completely independently and is produced on the
+systems running Zuul components themselves. These logs are maintained
+corresponsing to the requirements of the Zuul installation.
 
-In addition to the Zuul components logging, it also supports metric emitting. It supports StatsD metrics pushing and Prometheus metric fetching. More details `Zuul Monitoring`_.
+In addition to the Zuul components logging, it also supports metric emitting.
+It supports StatsD metrics pushing and Prometheus metric fetching. More details
+`Zuul Monitoring`_.
 
 Patch Management
 ~~~~~~~~~~~~~~~~
 
-Zuul administrators are responsible for updating Zuul software and taking care of the platform where those components are running.
+Zuul administrators are responsible for updating Zuul software and taking care
+of the platform where those components are running.
 
 Hardening
 ~~~~~~~~~
@@ -231,7 +253,8 @@ As a means of hardening of the Zuul installation following can be mentioned:
   connection is implemented by the means of internal VPC peering connections
   with no direct access using public IP addresses.
 
-* Zookeeper instance used by Zuul is a dedicated instance with no external access.
+* Zookeeper instance used by Zuul is a dedicated instance with no external
+  access.
 
 * SQL DB used by Zuul is a dedicated instance with no public IP address.
 
@@ -247,9 +270,11 @@ project, as well as what is the Zuul configuration. This makes Backup more or
 less obsolete. Of course there are some parts of the installation that
 require backups:
 
-* private/public keys for the project secrets (private keys are in addition protected by password).
+* private/public keys for the project secrets (private keys are in addition
+  protected by password).
 
-Details on the methods can be found `here <https://zuul-ci.org/docs/zuul/reference/client.html>`_.
+Details on the methods can be found `here
+<https://zuul-ci.org/docs/zuul/reference/client.html>`_.
 
 Certificate Handling
 ~~~~~~~~~~~~~~~~~~~~~
@@ -279,7 +304,8 @@ this is currently not enabled in the current installation.
 Operational accounts
 ^^^^^^^^^^^^^^^^^^^^
 
-There are not granular operator accounts in Zuul installation. There is only one account allowing operate the system.
+There are not granular operator accounts in Zuul installation. There is only
+one account allowing operate the system.
 
 Technical and M2M accounts
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -292,8 +318,8 @@ Communication Matrix (internal)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As mentioned above Zuul components communicate with each other only through
-Zookeeper. In order to keep communication simple those missing connections are
-not mentioned explicitly.
+Zookeeper. When one component need to communicate with another one it places
+the request in Zookeeper.
 
 .. list-table::
 
@@ -322,7 +348,8 @@ not mentioned explicitly.
      - TLS(2888,3888)
      - TLS(8200)
 
-Zookeeper protocol details can be found at `Zookeeper Internals <https://zookeeper.apache.org/doc/r3.6.0/zookeeperInternals.html>`_.
+Zookeeper protocol details can be found at `Zookeeper Internals
+<https://zookeeper.apache.org/doc/r3.6.0/zookeeperInternals.html>`_.
 
 Communication Matrix (external)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
