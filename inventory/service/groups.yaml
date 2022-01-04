@@ -162,15 +162,15 @@ groups:
     - vault2.eco.tsi-dev.otc-service.com
     - vault3.eco.tsi-dev.otc-service.com
 
-  zookeeper:
-    - zk1.zuul.eco.tsi-dev.otc-service.com
-    - zk2.zuul.eco.tsi-dev.otc-service.com
-    - zk3.zuul.eco.tsi-dev.otc-service.com
+  zookeeper: []
+    # - zk1.zuul.eco.tsi-dev.otc-service.com
+    # - zk2.zuul.eco.tsi-dev.otc-service.com
+    # - zk3.zuul.eco.tsi-dev.otc-service.com
 
-  zuul-zookeeper:
-    - zk1.zuul.eco.tsi-dev.otc-service.com
-    - zk2.zuul.eco.tsi-dev.otc-service.com
-    - zk3.zuul.eco.tsi-dev.otc-service.com
+  #  zuul-zookeeper:
+  #    - zk1.zuul.eco.tsi-dev.otc-service.com
+  #    - zk2.zuul.eco.tsi-dev.otc-service.com
+  #    - zk3.zuul.eco.tsi-dev.otc-service.com
 
   zuul:
     - bridge.eco.tsi-dev.otc-service.com
@@ -198,3 +198,6 @@ groups:
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
+    - zk3.zuul.eco.tsi-dev.otc-service.com
