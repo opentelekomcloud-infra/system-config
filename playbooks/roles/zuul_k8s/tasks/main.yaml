@@ -37,7 +37,7 @@
   community.hashi_vault.vault_read:
     url: "{{ ansible_hashi_vault_addr }}"
     token: "{{ ansible_hashi_vault_token }}"
-    path: "secret/data/{{ zuul.vault_zk_client_cert_path }}"
+    path: "{{ zuul.vault_zk_client_cert_path }}"
   register: cert_in_vault
   failed_when: false
   tags: ["config"]
@@ -139,20 +139,17 @@
         clouds.yaml.hcl: "{{ lookup(
           'ansible.builtin.template',
           'templates/clouds/nodepool_clouds.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={'zuul': zuul}
           )
         }}"
         zuul.conf.hcl: "{{ lookup(
           'ansible.builtin.template',
           'zuul.conf.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={'zuul': zuul}
           )
         }}"
         vault-agent-config.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': []
@@ -161,7 +158,6 @@
         }}"
         vault-agent-config-nodepool.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': vault_agent_templates_nodepool
@@ -170,7 +166,6 @@
         }}"
         vault-agent-config-zuul-scheduler.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': vault_agent_templates_zuul_scheduler
@@ -179,7 +174,6 @@
         }}"
         vault-agent-config-zuul-executor.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': vault_agent_templates_zuul_executor
@@ -188,7 +182,6 @@
         }}"
         vault-agent-config-zuul-merger.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': vault_agent_templates_zuul_merger
@@ -197,7 +190,6 @@
         }}"
         vault-agent-config-zuul-web.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
-          variable_start_string='[%', variable_end_string='%]',
           template_vars={
             'zuul': zuul,
             'vault_agent_templates': vault_agent_templates_zuul_web

@@ -63,7 +63,7 @@
 
               - name: "git-fetcher"
                 image: "quay.io/opentelekomcloud/nodepool-builder:{{ zuul.nodepool_version_tag }}"
-                command: ["sh", "-c", "cd /data && git clone {{ zuul.config_repo }} ."]
+                command: ["sh", "-c", "cd /data && git clone {{ zuul.config_repo }} . || true"]
                 volumeMounts:
                   - name: "zuul-config-data"
                     mountPath: "/data"
