@@ -2,7 +2,7 @@
   community.hashi_vault.vault_read:
     url: "{{ ansible_hashi_vault_addr }}"
     token: "{{ ansible_hashi_vault_token }}"
-    path: "secret/data/{{ vault_secret_path }}"
+    path: "{{ vault_secret_path }}"
   register: cert_in_vault
   failed_when: false
 
@@ -30,7 +30,7 @@
 
 - name: Save certificate in Vault
   ansible.builtin.uri:
-    url: "{{ ansible_hashi_vault_addr }}/v1/secret/data/{{ vault_secret_path }}"
+    url: "{{ ansible_hashi_vault_addr }}/v1/{{ vault_secret_path }}"
     method: "POST"
     headers:
       X-Vault-Token: "{{ ansible_hashi_vault_token }}"
