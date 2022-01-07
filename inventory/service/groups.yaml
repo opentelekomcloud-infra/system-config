@@ -141,6 +141,9 @@ groups:
     - web3.eco.tsi-dev.otc-service.com
     - bridge.eco.tsi-dev.otc-service.com
 
+  grafana-controller:
+    - bridge.eco.tsi-dev.otc-service.com
+
   proxy:
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com

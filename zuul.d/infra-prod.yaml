@@ -208,6 +208,16 @@
       - playbooks/templates/grafana
 
 - job:
+    name: infra-prod-grafana-datasources
+    parent: infra-prod-service-base
+    description: Run grafana-datasources.yaml playbook.
+    vars:
+      playbook_name: grafana-datasources.yaml
+    files:
+      - playbooks/grafana-datasources.yaml
+      - playbooks/roles/grafana
+
+- job:
     name: infra-prod-service-grafana
     parent: infra-prod-service-base
     description: Run service-grafana.yaml playbook.
