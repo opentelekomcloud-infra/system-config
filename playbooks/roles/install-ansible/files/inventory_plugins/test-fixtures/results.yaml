@@ -9,6 +9,7 @@ results:
     - cloud-launcher
     - database-launcher
     - control-plane-clouds
+    - grafana-controller
     - k8s-controller
     - otc
     - alerta
