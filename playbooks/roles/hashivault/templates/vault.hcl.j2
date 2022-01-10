@@ -1,10 +1,12 @@
 # Full configuration options can be found at https://www.vaultproject.io/docs/configuration
 
 ui = {{ vault_enable_ui | ternary('true', 'false') }}
-api_addr = "http://{{ ansible_host }}:8200"
-cluster_addr = "https://{{ ansible_host }}:8201"
+api_addr = "https://{{ inventory_hostname }}:8200"
+cluster_addr = "https://{{ inventory_hostname }}:8201"
 
 disable_mlock = true
+
+plugin_directory = "{{ vault_plugin_path }}"
 
 storage "raft" {
   path = "{{ vault_storage_path }}"

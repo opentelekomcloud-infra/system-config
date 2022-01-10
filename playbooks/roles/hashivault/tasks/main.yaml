@@ -31,11 +31,31 @@
 
 - name: Create storage
   ansible.builtin.file:
-    state: directory
+    state: "directory"
     path: "{{ vault_storage_path }}"
     owner: "{{ vault_owner }}"
     group: "{{ vault_group }}"
     mode: 0755
+
+- name: Create plugins dir
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ vault_plugin_path }}"
+    owner: "{{ vault_owner }}"
+    group: "{{ vault_group }}"
+    mode: 0755
+
+- name: Install plugins
+  ansible.builtin.unarchive:
+    src: "{{ zj_plugin.url }}"
+    dest: "{{ vault_plugin_path }}"
+    owner: "{{ vault_owner }}"
+    group: "{{ vault_group }}"
+    remote_src: "yes"
+  loop:
+    "{{ vault_plugins }}"
+  loop_control:
+    loop_var: "zj_plugin"
 
 - name: Write config
   ansible.builtin.template:
