@@ -75,10 +75,14 @@
                     name: "vault-agent-config"
                   - mountPath: "/secrets"
                     name: "secrets"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
             containers:
 
               - name: "zuul-executor"
+                image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
                 resources:
                   limits:
                     cpu: '2'
@@ -118,7 +122,9 @@
                     mountPath: "/var/lib/zuul"
                   - name: "zuul-var-run"
                     mountPath: "/var/run/zuul"
-                image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
               # Vault agent produces files as vault user. We need to ensure
               # those have correct ownership and privs, therefore permanently
@@ -151,6 +157,9 @@
                     name: "vault-agent-config"
                   - mountPath: "/secrets"
                     name: "secrets"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
             volumes:
               - name: "certs"
@@ -173,3 +182,10 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
