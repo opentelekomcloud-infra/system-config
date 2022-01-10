@@ -325,9 +325,7 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: zk1.zuul.eco.tsi-dev.otc-service.com
-          label: fedora-32
-        - name: zk2.zuul.eco.tsi-dev.otc-service.com
+        - name: zk.fedora
           label: fedora-32
     vars:
       run_playbooks:
