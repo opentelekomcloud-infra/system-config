@@ -28,3 +28,20 @@
           repo: openstack/ansible-collections-openstack
           git_provider: opendev.org
     - root-keys
+
+  tasks:
+    - name: Ensure sc2 folders
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: "directory"
+      loop:
+        - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/base"
+        - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/service"
+
+    - name: Ensure sc2 files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: "touch"
+      loop:
+        - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/base/hosts.yaml"
+        - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/service/groups.yaml"
