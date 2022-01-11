@@ -34,6 +34,7 @@ document_hosting_instances:
     image: "{{ document_hosting_image_stable }}"
     cluster_issuer: "letsencrypt-prod"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
+    ingress_class: "nginx"
   main:
     server_name: "docs.otc-service.com"
     not_found: "The page you are requesting is not available..."
