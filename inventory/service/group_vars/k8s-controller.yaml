@@ -203,9 +203,18 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.0.22
+    version: 1.0.24
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
+  otcci_telegraf:
+    context: otcci
+    repo_url: https://helm.influxdata.com/
+    repo_name: influxdata
+    name: telegraf
+    ref: influxdata/telegraf-ds
+    version: 1.0.24
+    namespace: telegraf
+    values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
 
 octavia_proxy_instances:
   eu-nl:
