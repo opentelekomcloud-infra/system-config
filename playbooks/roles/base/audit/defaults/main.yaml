@@ -11,7 +11,7 @@ system_events:
   # System reboot
   - "-a always,exit -F arch=b64 -S execve -F path=/sbin/reboot -k reboot"
   - "-a always,exit -F arch=b64 -S execve -F path=/sbin/poweroff -k reboot"
-  - "-a always,exit -F arch=b64 -S execve -F path=/sbin/shutdow -k reboot"
+  - "-a always,exit -F arch=b64 -S execve -F path=/sbin/shutdown -k reboot"
   # Change of scheduled jobs
   - "-w /etc/at.allow"
   - "-w /etc/at.deny"
