@@ -28,6 +28,12 @@ document_hosting_instances:
     image: "{{ document_hosting_image_latest }}"
     cluster_issuer: "letsencrypt-staging"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
+  helpcenter:
+    server_name: "docs-beta.otc.t-systems.com"
+    not_found: "The page you are requesting is not available..."
+    image: "{{ document_hosting_image_stable }}"
+    cluster_issuer: "letsencrypt-prod"
+    nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
   main:
     server_name: "docs.otc-service.com"
     not_found: "The page you are requesting is not available..."
@@ -47,6 +53,10 @@ document_hosting_k8s_instances:
     context: "otcinfra-stg"
     instance: "stg"
     namespace: "document-hosting"
+  - document_hosting_instance: "helpcenter"
+    context: "otcinfra"
+    instance: "helpcenter"
+    namespace: "docs"
   - document_hosting_instance: "main"
     context: "otcinfra"
     instance: "main"
