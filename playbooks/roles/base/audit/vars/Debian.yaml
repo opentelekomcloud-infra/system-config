@@ -1,0 +1,26 @@
+distro_packages:
+  - auditd
+os_grub_config_update: "update-grub"
+
+os_specific_system_events:
+  # (Un)Installation of software
+  - "-w /usr/bin/dpkg -p x -k software_mgmt"
+  - "-w /usr/bin/apt-add-repository -p x -k software_mgmt"
+  - "-w /usr/bin/apt-get -p x -k software_mgmt"
+  - "-w /usr/bin/aptitude -p x -k software_mgmt"
+
+os_specific_access_events:
+  # Logon and Logoff
+  - "-w /var/log/faillog -p wa -k logins"
+  - "-w /var/log/tallylog -p wa -k logins"
+  # AppArmor events
+  - "-w /etc/apparmor/ -p wa -k MAC-policy"
+  - "-w /etc/apparmor.d/ -p wa -k MAC-policy"
+
+os_specific_change_events:
+  # Modification of logs
+  - "-w /var/log/auth.log"
+  - "-w /var/log/system.log"
+  # Network configuration change
+  - "-w /etc/network/interfaces -p wa -k system-locale"
+
