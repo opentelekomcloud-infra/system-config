@@ -1,0 +1,17 @@
+- include_tasks: policy.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr }}"
+    vault_token: "{{ vault.vault_token }}"
+  loop: "{{ vault.policies }}"
+  loop_control:
+    loop_var: "policy"
+  when: "vault.policies is defined"
+
+- include_tasks: approle.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr }}"
+    vault_token: "{{ vault.vault_token }}"
+  loop: "{{ vault.approles }}"
+  loop_control:
+    loop_var: "approle"
+  when: "vault.approles is defined"
