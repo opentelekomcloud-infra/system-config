@@ -18,3 +18,8 @@ firewalld_extra_ports_enable:
   - "{{ swift_object_server_port }}/tcp"
   - "{{ swift_container_server_port }}/tcp"
   - "{{ swift_account_server_port }}/tcp"
+
+# exclude mountpoints to search for SUID/GUID files
+# for audit rules
+find_exclude_mountpoint:
+  - "/srv/node/vdb"

@@ -1,0 +1,8 @@
+df --local -P | awk {'if (NR!=1) print $6'}  \
+{% if find_exclude_mountpoint is defined and find_exclude_mountpoint|length %}
+| grep -v \
+{% for dir in find_exclude_mountpoint %}
+-e {{ dir }} \
+{% endfor %}
+{% endif %}
+| xargs -I '{}' find '{}' -xdev -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
