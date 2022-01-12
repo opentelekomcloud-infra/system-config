@@ -1,0 +1,9 @@
+- hosts: vault-controller:!disabled
+  name: "Configure Vault instances"
+  tasks:
+    - name: Configure vault instance
+      include_role:
+        name: "configure_vault"
+      loop: "{{ vault_instances }}"
+      loop_control:
+        loop_var: vault

@@ -19,4 +19,5 @@ results:
     - ssl_certs
     - carbonapi
     - matrix
+    - vault-controller
     # - vault  # This is temporary
