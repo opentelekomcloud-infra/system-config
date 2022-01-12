@@ -1,0 +1,15 @@
+name: Write K8 Auth {{ k8auth.path }} to vault
+  ansible.builtin.uri:
+    url: "{{ vault_addr }}/v1/auth/{{ k8auth.path }}/config"
+    headers:
+      X-Vault-Token: "{{ vault_token }}"
+    method: "PUT"
+    body_format: "json"
+    body:
+      kubernetes_host: "{{ k8auth.kubernetes_host }}"
+      kubernetes_ca_cert: "{{ k8auth.kubernetes_ca_cert | default(omit) }}"
+      token_reviewer_jwt: "{{ k8auth.token_reviewer_jwt | default(omit) }}"
+      pem_keys: "{{ k8auth.pem_keys | default(omit) }}"
+      disable_local_ca_jwt: "{{ k8auth.disable_local_ca_jwt | default(omit) }}"
+
+    status_code: [200, 201, 202, 204]
