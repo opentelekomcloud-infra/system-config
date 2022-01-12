@@ -97,5 +97,5 @@ change_events:
   - "-w /etc/telegraf/"
   - "-w /etc/systemd/system/telegraf.service"
 
-find_exclude_mountpoint: []
+find_exclude_mountpoints: []
 

@@ -21,5 +21,5 @@ firewalld_extra_ports_enable:
 
 # exclude mountpoints to search for SUID/GUID files
 # for audit rules
-find_exclude_mountpoint:
+find_exclude_mountpoints:
   - "/srv/node/vdb"
