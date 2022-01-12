@@ -15,3 +15,12 @@
   loop_control:
     loop_var: "approle"
   when: "vault.approles is defined"
+
+- include_tasks: k8role.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr }}"
+    vault_token: "{{ vault.vault_token }}"
+  loop: "{{ vault.k8roles }}"
+  loop_control:
+    loop_var: "role"
+  when: "vault.k8roles is defined"
