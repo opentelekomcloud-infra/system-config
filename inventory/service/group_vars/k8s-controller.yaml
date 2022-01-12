@@ -96,7 +96,7 @@ helm_chart_instances:
     repo_name: jetstack
     name: cert-manager
     ref: jetstack/cert-manager
-    version: v1.3.1
+    version: v1.6.1
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
@@ -106,7 +106,7 @@ helm_chart_instances:
     repo_name: jetstack
     name: cert-manager
     ref: jetstack/cert-manager
-    version: v1.3.1
+    version: v1.6.1
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
@@ -116,7 +116,7 @@ helm_chart_instances:
     repo_name: jetstack
     name: cert-manager
     ref: jetstack/cert-manager
-    version: v1.3.1
+    version: v1.6.1
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
@@ -126,7 +126,7 @@ helm_chart_instances:
     repo_name: jetstack
     name: cert-manager
     ref: jetstack/cert-manager
-    version: v1.3.1
+    version: v1.6.1
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
@@ -136,7 +136,7 @@ helm_chart_instances:
     repo_name: jetstack
     name: cert-manager
     ref: jetstack/cert-manager
-    version: v1.3.1
+    version: v1.6.1
     namespace: cert-manager
     values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
     post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
