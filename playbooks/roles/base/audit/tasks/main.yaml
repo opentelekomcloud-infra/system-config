@@ -77,8 +77,14 @@
   when: 
     - configure_audit_rules | default(true)
 
+- name: Build find command with excluding mountpoints
+  set_fact:
+    find_command: "{{ lookup('template', 'find_command.j2') }}"
+  when:
+    - configure_privileged_commands | default(true)
+
 - name: Search for privileged commands
-  ansible.builtin.shell: df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type f \( -perm -4000 -o -perm -2000 \) -print 2>/dev/null
+  ansible.builtin.shell: "{{ find_command }}"
   register: priv_commands
   changed_when: false
   check_mode: no
