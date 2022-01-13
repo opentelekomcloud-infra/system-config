@@ -1,4 +1,4 @@
- name: Write K8Role {{ role.name }} to vault
+- name: Write K8Role {{ role.name }} to vault
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/auth/{{ role.auth_path }}/role/{{ role.name }}"
     headers:
@@ -12,7 +12,7 @@
       alias_name_source: "{{ role.alias_name_source | default(omit) }}"
       token_ttl: "{{ role.token_ttl | default(omit) }}"
       token_max_ttl: "{{ role.token_max_ttl | default(omit) }}"
-      token_policies: "{{ role.token_policies | list }}"
+      token_policies: "{{ role.policies | list }}"
       token_bound_cidrs: "{{ role.token_bound_cidrs | default(omit) }}"
       token_explicit_max_ttl: "{{ role.token_explicit_max_ttl | default(omit) }}"
       token_no_default_policy: "{{ role.token_no_default_policy | default(omit) }}"
