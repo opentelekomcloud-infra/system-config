@@ -5,6 +5,7 @@
   loop: "{{ vault.policies }}"
   loop_control:
     loop_var: "policy"
+    label: "{{ policy.name }}"
   when: "vault.policies is defined"
 
 - include_tasks: secret_engine.yaml
@@ -14,6 +15,7 @@
   loop: "{{ vault.secret_engines }}"
   loop_control:
     loop_var: "engine"
+    label: "{{ engine.path }}"
   when: "vault.secret_engines is defined"
 
 - include_tasks: auth.yaml
@@ -23,6 +25,7 @@
   loop: "{{ vault.auths }}"
   loop_control:
     loop_var: "auth"
+    label: "{{ auth.path }}"
   when: "vault.auths is defined"
 
 - include_tasks: approle.yaml
@@ -32,6 +35,7 @@
   loop: "{{ vault.approle.roles }}"
   loop_control:
     loop_var: "approle"
+    label: "{{ approle.name }}"
   when:
     - "vault.approle is defined"
     - "vault.approle.roles is defined"
