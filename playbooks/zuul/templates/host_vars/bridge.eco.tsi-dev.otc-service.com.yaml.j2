@@ -6,30 +6,30 @@ extra_users: []
 
 otcci_k8s:
   server: https://abc
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
-
-otcci_k8s_old:
-  server: https://abc
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
+  secrets:
+    client.crt: fake_cert_key
+    client.key: fake_key_data
 
 otcinfra1_k8s:
   server: https://fake_server
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
+  secrets:
+    client.crt: fake_cert_key
+    client.key: fake_key_data
 
 otcinfra2_k8s:
   server: https://fake_server
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
+  secrets:
+    client.crt: fake_cert_key
+    client.key: fake_key_data
 
 otcinfra_stg_k8s:
   server: https://fake_server
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
+  secrets:
+    client.crt: fake_cert_key
+    client.key: fake_key_data
 
 otcapimon1_k8s:
   server: https://fake_server
-  client_certificate_data: fake_cert_key
-  client_key_data: fake_key_data
+  secrets:
+    client.crt: fake_cert_key
+    client.key: fake_key_data
