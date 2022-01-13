@@ -6,6 +6,6 @@
     - name: Bootstrap vault instance
       include_role:
         name: "configure_vault"
-        tasks_from: "main.yaml"
+        tasks_from: "main_bootstrap.yaml"
       vars:
         vault: "{{ vault_instances[vault_instance] }}"
