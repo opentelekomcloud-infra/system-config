@@ -1,7 +1,7 @@
 - name: Read Auth {{ auth.type }} at {{ auth.path }}
   check_mode: "no"
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/sys/auth/{{ auth.path }}/tune"
+    url: "{{ vault_addr }}/v1/sys/mounts/auth/{{ auth.path }}/tune"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "GET"
@@ -33,7 +33,7 @@
 
 - name: Tune auth {{ auth.type }} at {{ auth.path }}
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/sys/auth/{{ auth.path }}/tune"
+    url: "{{ vault_addr }}/v1/sys/mounts/auth/{{ auth.path }}/tune"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "POST"
