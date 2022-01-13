@@ -1,26 +1,43 @@
 - include_tasks: policy.yaml
   vars:
-    vault_addr: "{{ vault.vault_addr }}"
-    vault_token: "{{ vault.vault_token }}"
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
   loop: "{{ vault.policies }}"
   loop_control:
     loop_var: "policy"
   when: "vault.policies is defined"
 
+- include_tasks: secret_engine.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.secret_engines }}"
+  loop_control:
+    loop_var: "engine"
+  when: "vault.secret_engines is defined"
+
+- include_tasks: auth.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.auths }}"
+  loop_control:
+    loop_var: "auth"
+  when: "vault.auths is defined"
+
 - include_tasks: approle.yaml
   vars:
-    vault_addr: "{{ vault.vault_addr }}"
-    vault_token: "{{ vault.vault_token }}"
-  loop: "{{ vault.approles }}"
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.approle.roles }}"
   loop_control:
     loop_var: "approle"
-  when: "vault.approles is defined"
+  when:
+    - "vault.approle is defined"
+    - "vault.approle.roles is defined"
 
-- include_tasks: k8role.yaml
+- include_tasks: kubernetes.yaml
   vars:
-    vault_addr: "{{ vault.vault_addr }}"
-    vault_token: "{{ vault.vault_token }}"
-  loop: "{{ vault.k8roles }}"
-  loop_control:
-    loop_var: "role"
-  when: "vault.k8roles is defined"
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+    kubernetes: "{{ vault.kubernetes }}"
