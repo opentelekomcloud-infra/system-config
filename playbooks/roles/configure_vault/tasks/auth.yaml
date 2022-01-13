@@ -7,6 +7,7 @@
     method: "GET"
     return_content: "yes"
   register: current_auth
+  failed_when: false
 
 - name: Mount auth {{ auth.type }} at {{ auth.path }}
   ansible.builtin.uri:
@@ -29,7 +30,9 @@
       options: "{{ auth.options | default(omit) }}"
 
     status_code: [200, 201, 202, 204]
-  when: "current_auth is not defined or current_auth.status == 404"
+  when:
+    - "current_auth is not defined or current_auth.status != 200"
+    - "vault_auth_create is defined and vault_auth_create|bool"
 
 - name: Tune auth {{ auth.type }} at {{ auth.path }}
   ansible.builtin.uri:
@@ -51,6 +54,7 @@
       options: "{{ auth.options | default(omit) }}"
     status_code: [200, 201, 202, 204]
   when:
+    - "current_auth.status == 200"
     - "current_auth is defined and current_auth.json is defined"
     - "auth.description is defined and current_auth.json.description != auth.description"
     # - "current_auth.json.default_lease_ttl != auth.default_lease_ttl"

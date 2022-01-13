@@ -1,4 +1,4 @@
-name: Write K8 Auth {{ auth.path }} to vault
+- name: Write K8 Auth {{ auth.path }} to vault
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/auth/{{ auth.path }}/config"
     headers:
