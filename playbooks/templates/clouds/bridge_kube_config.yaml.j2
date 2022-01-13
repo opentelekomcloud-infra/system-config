@@ -7,10 +7,6 @@ clusters:
     cluster: 
       server: {{ otcci_k8s.server }}
       insecure-skip-tls-verify: true
-  - name: otcci-old
-    cluster: 
-      server: {{ otcci_k8s_old.server }}
-      insecure-skip-tls-verify: true
   - name: otcinfra
     cluster: 
       server: {{ otcinfra1_k8s.server }}
@@ -30,10 +26,6 @@ contexts:
     context:
       cluster: otcci
       user: otcci-admin
-  - name: otcci-old
-    context:
-      cluster: otcci-old
-      user: otcci-admin-old
   - name: otcinfra
     context:
       cluster: otcinfra
@@ -53,25 +45,21 @@ contexts:
 users:
   - name: otcci-admin
     user:
-      client-certificate-data: {{ otcci_k8s.client_certificate_data }}
-      client-key-data: {{ otcci_k8s.client_key_data }}
-  - name: otcci-admin-old
-    user:
-      client-certificate-data: {{ otcci_k8s_old.client_certificate_data }}
-      client-key-data: {{ otcci_k8s_old.client_key_data }}
+      client-certificate-data: {{ otcci_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcci_k8s.secrets['client.key'] | b64encode }}
   - name: otcinfra-admin
     user:
-      client-certificate-data: {{ otcinfra1_k8s.client_certificate_data }}
-      client-key-data: {{ otcinfra1_k8s.client_key_data }}
+      client-certificate-data: {{ otcinfra1_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcinfra1_k8s.secrets['client.key'] | b64encode }}
   - name: otcinfra-mirror-admin
     user:
-      client-certificate-data: {{ otcinfra2_k8s.client_certificate_data }}
-      client-key-data: {{ otcinfra2_k8s.client_key_data }}
+      client-certificate-data: {{ otcinfra2_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcinfra2_k8s.secrets['client.key'] | b64encode }}
   - name: otcinfra-stg-admin
     user:
-      client-certificate-data: {{ otcinfra_stg_k8s.client_certificate_data }}
-      client-key-data: {{ otcinfra_stg_k8s.client_key_data }}
+      client-certificate-data: {{ otcinfra_stg_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcinfra_stg_k8s.secrets['client.key'] | b64encode }}
   - name: otcapimon1-admin
     user:
-      client-certificate-data: {{ otcapimon1_k8s.client_certificate_data }}
-      client-key-data: {{ otcapimon1_k8s.client_key_data }}
+      client-certificate-data: {{ otcapimon1_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcapimon1_k8s.secrets['client.key'] | b64encode }}
