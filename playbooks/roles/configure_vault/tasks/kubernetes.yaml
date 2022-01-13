@@ -5,7 +5,8 @@
   loop: "{{ k8.auths }}"
   loop_control:
     loop_var: "auth"
-  when: "k8.auth is defined"
+    label: "{{ auth.path }}"
+  when: "k8.auths is defined"
 
 - include_tasks: k8role.yaml
   vars:
@@ -14,4 +15,5 @@
   loop: "{{ k8.roles }}"
   loop_control:
     loop_var: "role"
+    label: "{{ role.name }}"
   when: "k8.roles is defined"
