@@ -51,6 +51,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
               - name: "zuul-merger"
                 image: "quay.io/opentelekomcloud/zuul-merger:{{ zuul.zuul_version_tag }}"
@@ -84,6 +88,10 @@
                   - name: "zuul-config"
                     mountPath: "/etc/zuul"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
               # Vault agent produces files as vault user. We need to ensure
               # those have correct ownership and privs, therefore permanently
               # try to copy/fix  what vault produces
@@ -116,6 +124,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "certs"
                 secret:
@@ -135,6 +147,14 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
+
         strategy:
           type: "RollingUpdate"
           rollingUpdate:

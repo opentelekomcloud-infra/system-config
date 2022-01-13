@@ -71,6 +71,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
 
               - name: "nodepool-launcher"
@@ -103,6 +107,10 @@
                   - name: "openstack-config"
                     mountPath: "/etc/openstack"
                     readOnly: true
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
                 image: "quay.io/opentelekomcloud/nodepool-launcher:{{ zuul.nodepool_version_tag }}"
 
               - name: "conf-priv-fixer"
@@ -134,6 +142,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "nodepool-config"
                 configMap:
@@ -159,7 +171,13 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
-
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
         strategy:
           type: RollingUpdate
           rollingUpdate:
@@ -219,6 +237,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
 
               - name: "nodepool-builder"
@@ -263,6 +285,10 @@
                     mountPath: "/opt/dib_tmp"
                   - name: "dib-cache"
                     mountPath: "/opt/dib_cache"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
                 image: "quay.io/opentelekomcloud/nodepool-builder:{{ zuul.nodepool_version_tag }}"
 
               - name: "conf-priv-fixer"
@@ -293,6 +319,10 @@
                     name: "vault-agent-config"
                   - name: "secrets"
                     mountPath: "/secrets"
+
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
             volumes:
               - name: "nodepool-config"
@@ -328,6 +358,13 @@
               - name: "dev"
                 hostPath:
                   path: "/dev"
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
 
         volumeClaimTemplates:
           - metadata:

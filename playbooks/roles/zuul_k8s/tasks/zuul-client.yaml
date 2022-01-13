@@ -48,6 +48,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
               # Zuul-client is a regular zuul-web image doing nothing.
               # We use it only to have completely independent pod serving as
@@ -77,6 +81,9 @@
                     mountPath: "/etc/zuul/zk"
                   - mountPath: "/etc/zuul"
                     name: "zuul-config"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
               # Vault agent produces files as vault user. We need to ensure
               # those have correct ownership and privs, therefore permanently
@@ -110,6 +117,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "config"
                 configMap:
@@ -129,7 +140,13 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
-
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
         strategy:
           type: "RollingUpdate"
           rollingUpdate:

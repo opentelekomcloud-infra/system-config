@@ -96,6 +96,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
               - name: "zuul-scheduler"
                 resources:
@@ -137,6 +141,10 @@
                     mountPath: "/var/run/zuul"
                   - name: "zuul-scheduler-state-dir"
                     mountPath: "/var/lib/zuul"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
                 image: "quay.io/opentelekomcloud/zuul-scheduler:{{ zuul.zuul_version_tag }}"
 
               # Vault agent produces files as vault user. We need to ensure
@@ -171,6 +179,10 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "tenant-config"
                 configMap:
@@ -203,6 +215,13 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
 
         volumeClaimTemplates:
           - metadata:
