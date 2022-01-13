@@ -186,7 +186,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 3.8.1
+    version: 3.9.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-values.yaml.j2"
   otcci_promtail:
@@ -195,7 +195,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 3.8.1
+    version: 3.9.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-values.yaml.j2"
   otcinfra_telegraf:
