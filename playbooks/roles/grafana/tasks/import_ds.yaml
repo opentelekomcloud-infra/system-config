@@ -3,8 +3,8 @@
     state: "present"
     name: "{{ grafana_datasource_name }}"
 
-    grafana_url: "{{ grafana_datasource_content.url }}"
-    grafana_api_key: "{{ grafana_datasource_content.api_key }}"
+    grafana_url: "{{ grafana_datasource_content.grafana_url }}"
+    grafana_api_key: "{{ grafana_datasource_content.grafana_api_key }}"
 
     ds_type: "{{ grafana_datasource_content.ds_type }}"
     ds_url: "{{ grafana_datasource_content.ds_url }}"

@@ -20,13 +20,13 @@ ExecStart={{ container_runtime }} run \
     --log-opt=path=/dev/null \
 {% endif %}
 {% if grafana_ldap_config is defined and grafana_ldap_config|length %}
-{% if grafana.grafana_auth_ldap_hosts_entry is defined or grafana.default.grafana_auth_ldap_hosts_entry is defined %}
-    --add-host={{ grafana.grafana_auth_ldap_hosts_entry | default(grafana.default.grafana_auth_ldap_hosts_entry) }} \
+{% if grafana.grafana_auth_ldap_hosts_entry is defined %}
+    --add-host={{ grafana.grafana_auth_ldap_hosts_entry }} \
 {% endif %}
 {% endif %}
-{% if (grafana.grafana_enable_renderer is defined and grafana.grafana_enable_renderer) or (grafana.default.grafana_enable_renderer is defined and grafana.default.grafana_enable_renderer ) %}
-{% if grafana.grafana_renderer_hosts_entry is defined or grafana.default.grafana_renderer_hosts_entry is defined %}
-    --add-host={{ grafana.grafana_renderer_hosts_entry | default(grafana.default.grafana_renderer_hosts_entry) }} \
+{% if (grafana.grafana_enable_renderer is defined and grafana.grafana_enable_renderer) %}
+{% if grafana.grafana_renderer_hosts_entry is defined  %}
+    --add-host={{ grafana.grafana_renderer_hosts_entry}} \
 {% else %}
     --add-host=renderer:{{ ansible_default_ipv4.address }} \
 {% endif %}
