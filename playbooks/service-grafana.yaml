@@ -26,7 +26,7 @@
         grafana: "{{ grafana_instances[item.grafana_instance]
             | combine((grafana_instances_secrets[item.grafana_instance]|default({})), recursive=True)
             | combine((item.extra_vars|default({})), recursive=True)
-            | combine((grafana_instances_extra_secret_vars[item.instance]|default({})), recursive=True)
+            | combine((grafana_k8s_instances_extra_secret_vars[item.instance]|default({})), recursive=True)
           }}"
         instance: "{{ item.instance }}"
         context: "{{ item.context }}"
