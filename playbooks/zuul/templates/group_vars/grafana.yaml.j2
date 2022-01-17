@@ -1,6 +1,6 @@
 firewalld_extra_ports_enable: ['3000/tcp', '8081/tcp']
 grafana_instances_secrets:
-  production_vc:
+  dashboard:
     grafana_security_admin_password: foobar
     grafana_auth_github_enable: true
     grafana_auth_github_client_id: grafana
@@ -21,6 +21,6 @@ grafana_instances_secrets:
     grafana_auth_ldap_group_dn_editor: "cn=grafana-editors,ou=group,dc=example,dc=com"
     grafana_auth_ldap_group_search_base_dns: [ "cn=grafana-super-admins,ou=group,dc=example,dc=com", "cn=grafana-admins,ou=group,dc=example,dc=com", "cn=grafana-editors,ou=group,dc=example,dc=com" ]
 
-grafana_instance: production_vc
+grafana_instance: dashboard
 # disable k8 in tests
 grafana_k8s_instances: []

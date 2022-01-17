@@ -23,9 +23,9 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         ldap.toml: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
-        ldap-certificate.crt: "{{ grafana.grafana_auth_ldap_certificate | default(grafana.default.grafana_auth_ldap_certificate) }}"
+        ldap-certificate.crt: "{{ grafana.grafana_auth_ldap_certificate }}"
   when:
-    - (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) or (grafana.grafana_ldap_enable is undefined and grafana.default.grafana_ldap_enable)
+    - (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable)
 
 - name: Create {{ instance }} Secrets
   community.kubernetes.k8s:

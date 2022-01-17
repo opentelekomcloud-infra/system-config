@@ -23,10 +23,6 @@ ExecStart={{ container_runtime }} run \
 {% for item in grafana.grafana_renderer_hosts_entries %}
     --add-host={{ item }} \
 {% endfor %}
-{% elif grafana.default.grafana_renderer_hosts_entries is defined and grafana.default.grafana_renderer_hosts_entries|length %}
-{% for item in grafana.default.grafana_renderer_hosts_entries %}
-    --add-host={{ item }} \
-{% endfor %}
 {% else %}
    --add-host=grafana:{{ ansible_default_ipv4.address }} \
 {% endif %}
