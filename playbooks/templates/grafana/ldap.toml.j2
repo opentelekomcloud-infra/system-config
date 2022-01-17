@@ -1,20 +1,20 @@
 [[servers]]
-host = {{ grafana.grafana_auth_ldap_host | default(grafana.default.grafana_auth_ldap_host) }}
+host = {{ grafana.grafana_auth_ldap_host }}
 port = 636
 use_ssl = true
 start_tls = false
 ssl_skip_verify = false
 root_ca_cert = "/etc/grafana/ldap/ldap-certificate.crt"
 
-bind_dn = {{ grafana.grafana_auth_ldap_bind_dn | default(grafana.default.grafana_auth_ldap_bind_dn) }}
-bind_password = "{{ grafana.grafana_auth_ldap_bind_password | default(grafana.default.grafana_auth_ldap_bind_password) }}"
+bind_dn = {{ grafana.grafana_auth_ldap_bind_dn }}
+bind_password = "{{ grafana.grafana_auth_ldap_bind_password }}"
 
-search_filter = {{ grafana.grafana_auth_ldap_search_filter | default(grafana.default.grafana_auth_ldap_search_filter) }}
-search_base_dns = {{ grafana.grafana_auth_ldap_search_base_dns | default(grafana.default.grafana_auth_ldap_search_base_dns) }}
+search_filter = {{ grafana.grafana_auth_ldap_search_filter }}
+search_base_dns = {{ grafana.grafana_auth_ldap_search_base_dns }}
 
-group_search_filter = {{ grafana.grafana_auth_ldap_group_search_filter | default(grafana.default.grafana_auth_ldap_group_search_filter) }}
-group_search_filter_user_attribute = {{ grafana.grafana_auth_ldap_group_search_filter_user_attribute | default(grafana.default.grafana_auth_ldap_group_search_filter_user_attribute) }}
-group_search_base_dns = {{ grafana.grafana_auth_ldap_group_search_base_dns | default(grafana.default.grafana_auth_ldap_group_search_base_dns) }}
+group_search_filter = {{ grafana.grafana_auth_ldap_group_search_filter }}
+group_search_filter_user_attribute = {{ grafana.grafana_auth_ldap_group_search_filter_user_attribute }}
+group_search_base_dns = {{ grafana.grafana_auth_ldap_group_search_base_dns }}
 
 # Specify names of the ldap attributes your ldap uses
 [servers.attributes]
@@ -24,18 +24,18 @@ username = "uid"
 email =  "mail"
 
 [[servers.group_mappings]]
-group_dn = {{ grafana.grafana_auth_ldap_group_dn_super_admin |default(grafana.default.grafana_auth_ldap_group_dn_super_admin) }}
+group_dn = {{ grafana.grafana_auth_ldap_group_dn_super_admin }}
 org_role = "Admin"
 grafana_admin = true
 org_id = 1
 
 [[servers.group_mappings]]
-group_dn = {{ grafana.grafana_auth_ldap_group_dn_admin | default(grafana.default.grafana_auth_ldap_group_dn_admin) }}
+group_dn = {{ grafana.grafana_auth_ldap_group_dn_admin }}
 org_role = "Admin"
 org_id = 1
 
 [[servers.group_mappings]]
-group_dn = {{ grafana.grafana_auth_ldap_group_dn_editor | default(grafana.default.grafana_auth_ldap_group_dn_editor) }}
+group_dn = {{ grafana.grafana_auth_ldap_group_dn_editor }}
 org_role = "Editor"
 org_id = 1
 
@@ -43,4 +43,3 @@ org_id = 1
 group_dn = "*"
 org_role = "Viewer"
 org_id = 1
-

@@ -7,8 +7,8 @@
         grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
         grafana_dashboard_folder: "Apimon"
         grafana_ds: "apimon-carbonapi"
-        grafana_url: "{{ grafana_api_instance_dashboard.url }}"
-        grafana_api_token: "{{ grafana_api_instance_dashboard.api_token }}"
+        grafana_url: "{{ grafana_instances.dashboard.grafana_url }}"
+        grafana_api_token: "{{ grafana_instance_dashboard_api_token }}"
       loop:
         - apimon/test_results.yaml
         - apimon/endpoint_monitor.yaml
@@ -26,5 +26,7 @@
         grafana_dashboard_content: "{{ lookup('template', 'templates/grafana/' + item + '.j2') | from_yaml }}"
         grafana_dashboard_folder: "Internal monitoring"
         grafana_ds: "apimon-carbonapi"
+        grafana_url: "{{ grafana_instances.dashboard.grafana_url }}"
+        grafana_api_token: "{{ grafana_instance_dashboard_api_token }}"
       loop:
         - monitoring/internal_monitoring.yaml

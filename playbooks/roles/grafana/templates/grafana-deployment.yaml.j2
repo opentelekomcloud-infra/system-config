@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: "{{ instance }}"
     app.kubernetes.io/managed-by: "system-config"
 spec:
-  replicas: {{ (grafana.grafana_deployment_count | default(grafana.default.grafana_deployment_count))|int }}
+  replicas: {{ grafana.grafana_deployment_count | int }}
   selector:
     matchLabels:
       app.kubernetes.io/name: "grafana"
@@ -42,7 +42,7 @@ spec:
                   - "{{ instance }}"
               topologyKey: kubernetes.io/hostname
       containers:
-      - image: "{{ grafana.grafana_renderer_image | default(grafana.default.grafana_renderer_image) }}" 
+      - image: "{{ grafana.grafana_renderer_image }}" 
         name: "grafana-renderer"
         ports:
         - containerPort: 8081
@@ -54,30 +54,14 @@ spec:
             {{ key2 }}: {{ value2 }}
 {% endfor %}
 {% endfor %}
-{% else %}
-        resources:
-{% for key, value in grafana.default.renderer_deployment_resources.items() %}
-          {{ key }}:
-{% for key2, value2 in value.items() %}
-            {{ key2 }}: {{ value2 }}
-{% endfor %}
-{% endfor %}
 {% endif %}
-      - image: "{{ grafana.grafana_image | default(grafana.default.grafana_image) }}"
+      - image: "{{ grafana.grafana_image }}"
         name: grafana
         ports:
         - containerPort: 3000
 {% if grafana.grafana_deployment_resources is defined %}
         resources:
 {% for key, value in grafana.grafana_deployment_resources.items() %}
-          {{ key }}:
-{% for key2, value2 in value.items() %}
-            {{ key2 }}: {{ value2 }}
-{% endfor %}
-{% endfor %}
-{% else %}
-        resources:
-{% for key, value in grafana.default.grafana_deployment_resources.items() %}
           {{ key }}:
 {% for key2, value2 in value.items() %}
             {{ key2 }}: {{ value2 }}
@@ -99,18 +83,14 @@ spec:
             value: http://localhost:8081/render
           - name: GF_RENDERING_CALLBACK_URL
             value: http://{{ grafana.fqdn }}:3000
-{% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) or
-      (grafana.default.grafana_plugins is defined and grafana.default.grafana_plugins|length)
-%}
+{% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) %}
           - name: GF_INSTALL_PLUGINS
-            value: "{{ grafana.grafana_plugins | default(grafana.default.grafana_plugins) }}"
+            value: "{{ grafana.grafana_plugins }}"
 {% endif %}
         envFrom:
         - secretRef:
             name: "{{ grafana_secret_name }}"
-{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) or
-      (grafana.grafana_ldap_enable is undefined and grafana.default.grafana_ldap_enable)
-%}
+{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) %}
         volumeMounts:
         - name: grafana-config
           mountPath: /etc/grafana/ldap/ldap.toml
