@@ -1,25 +1,66 @@
-default: &default_vars
-  alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
-  alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
-  alerta_heartbeat_timeout: 300
+alerta_instances:
+  monitoring:
+    fqdn: "alerts.eco.tsi-dev.otc-service.com"
+    alerta_cert: "alerta"
+    alerta_image: "{{ alerta_image_stable }}"
+    alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
+    alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+    alerta_heartbeat_timeout: 300
+    alerta_columns:
+      - severity
+      - status
+      - lastReceiveTime
+      - duplicateCount
+      - environment
+      - service
+      - resource
+      - event
+      - value
+      - text
+    alerta_plugins:
+      - blackout
+      - zulip
+  monitoring_stg:
+    cluster_issuer: "letsencrypt-staging"
+    fqdn: alerta.apps.osinfra-stg.eco.tsi-dev.otc-service.com
+    alerta_image: "{{ alerta_image_stable }}"
+    alerta_smtp_host: 'out-cloud.mms.t-systems-service.com:25'
+    alerta_smtp_from_address: alerts@alerts.eco.tsi-dev.otc-service.com
+    alerta_heartbeat_timeout: 300
+    alerta_columns:
+      - severity
+      - status
+      - lastReceiveTime
+      - duplicateCount
+      - environment
+      - service
+      - resource
+      - event
+      - value
+      - text
+    alerta_plugins:
+      - blackout
+      - zulip
   
-  alerta_columns:
-    - severity
-    - status
-    - lastReceiveTime
-    - duplicateCount
-    - environment
-    - service
-    - resource
-    - event
-    - value
-    - text
-  
-  alerta_plugins:
-    - blackout
-    - zulip
-  
-  alerta_image: "{{ alerta_image_stable }}"
+alerta_k8s_instances:
+  - alerta_instance: "monitoring"
+    instance: "prod"
+    context: "otcinfra"
+    namespace: "apimon"
+    extra_vars: "{{ alerta_k8s_extra_vars }}"
+  - alerta_instance: "monitoring"
+    instance: "prod-mirror"
+    context: "otcinfra-mirror"
+    namespace: "apimon"
+    extra_vars: "{{ alerta_k8s_extra_vars }}"
+  - alerta_instance: "monitoring_stg"
+    instance: "stg"
+    context: "otcinfra-stg"
+    namespace: "apimon"
+    extra_vars: "{{ alerta_k8s_extra_vars }}"
+
+# Extra vars for k8 deployment
+alerta_k8s_extra_vars:
   alerta_deployment_count: 2
   alerta_deployment_resources:
     limits:
@@ -28,35 +69,3 @@ default: &default_vars
     requests:
       cpu: 100m
       memory: 100Mi
-
-alerta_instances:
-  production_stg: 
-    cluster_issuer: "letsencrypt-staging"
-    fqdn: alerta.apps.osinfra-stg.eco.tsi-dev.otc-service.com
-    default: *default_vars
-  production_infra: 
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "alerts.eco.tsi-dev.otc-service.com"
-    alerta_cert: "alerta"
-    default: *default_vars
-  production_infra-mirror: 
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "alerts.eco.tsi-dev.otc-service.com"
-    alerta_cert: "alerta"
-    default: *default_vars
-  production_vc:
-    default: *default_vars
-  
-alerta_k8s_instances:
-  - alerta_instance: "production_stg"
-    instance: "stg"
-    context: "otcinfra-stg"
-    namespace: "apimon"
-  - alerta_instance: "production_infra"
-    instance: "prod"
-    context: "otcinfra"
-    namespace: "apimon"
-  - alerta_instance: "production_infra-mirror"
-    instance: "prod-mirror"
-    context: "otcinfra-mirror"
-    namespace: "apimon"

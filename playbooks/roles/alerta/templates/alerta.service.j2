@@ -19,8 +19,6 @@ ExecStart={{ container_runtime }} run \
 {% endif %}
 {% if alerta.alerta_add_host is defined %}
   --add-host={{ alerta.alerta_add_host }} \
-{%else%}
-  --add-host={{ alerta.default.alerta_add_host }} \
 {% endif %}
   --env-file /etc/alerta/env \
   -p 8080:8080 \

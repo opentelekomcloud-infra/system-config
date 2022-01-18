@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: "{{ instance }}"
     app.kubernetes.io/managed-by: "system-config"
 spec:
-  replicas: {{ (alerta.alerta_deployment_count | default(alerta.default.alerta_deployment_count))|int }}
+  replicas: {{ alerta.alerta_deployment_count |int }}
   selector:
     matchLabels:
       app.kubernetes.io/name: "alerta"
@@ -37,21 +37,13 @@ spec:
                   - "{{ instance }}"
               topologyKey: kubernetes.io/hostname
       containers:
-      - image: "{{ alerta.alerta_image | default(alerta.default.alerta_image) }}"
+      - image: "{{ alerta.alerta_image }}"
         name: alerta
         ports:
         - containerPort: 8080
 {% if alerta.alerta_deployment_resources is defined %}
         resources:
 {% for key, value in alerta.alerta_deployment_resources.items() %}
-          {{ key }}:
-{% for key2, value2 in value.items() %}
-            {{ key2 }}: {{ value2 }}
-{% endfor %}
-{% endfor %}
-{% else %}
-        resources:
-{% for key, value in alerta.default.alerta_deployment_resources.items() %}
           {{ key }}:
 {% for key2, value2 in value.items() %}
             {{ key2 }}: {{ value2 }}
