@@ -157,6 +157,11 @@
     state: directory
     path: /etc/ansible/inventory_plugins
 
+- name: Ensure /etc/ansible/plugins/lookup
+  file:
+    state: directory
+    path: /etc/ansible/plugins/lookup
+
 - name: Ensure /var/cache/ansible
   file:
     state: directory
@@ -203,6 +208,11 @@
   copy:
     src: inventory_plugins/yamlgroup.py
     dest: /etc/ansible/inventory_plugins/yamlgroup.py
+
+- name: Copy vault_cloud_config plugin in place
+  copy:
+    src: lookup_plugins/vault_cloud_config.py
+    dest: /etc/ansible/plugins/lookup/vault_cloud_config.py
 
 - name: Setup log rotation
   include_role:
