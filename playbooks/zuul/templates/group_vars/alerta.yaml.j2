@@ -1,5 +1,5 @@
 alerta_instances_secrets:
-  production_stg:
+  monitoring:
     alerta_db_url: "postgresql://fake"
     alerta_zulip_api_key: "apikey"
     alerta_admin_key: "adminkey"
@@ -19,6 +19,6 @@ alerta_instances_secrets:
       ZULIP_SITE: "https://zulip.internal"
       ZULIP_EMAIL: "apimon@zulip.example.com"
 
-alerta_instance: production_stg
+alerta_instance: monitoring
 # disable k8 in tests
 alerta_k8s_instances: []
