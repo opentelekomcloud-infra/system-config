@@ -17,7 +17,7 @@ SMTP_HOST = '{{ alerta.alerta_smtp_host }}'
 MAIL_FROM = '{{ alerta.alerta_smtp_from_address }}'
 ALLOWED_ENVIRONMENTS = {{ alerta.alerta_allowed_environments }}
 COLUMNS = {{ alerta.alerta_columns }}
-HEARTBEAT_TIMEOUT = {{ (alerta.alerta_heartbeat_timeout |int }}
+HEARTBEAT_TIMEOUT = {{ alerta.alerta_heartbeat_timeout |int }}
 PLUGINS = {{ alerta.alerta_plugins }}
 {% if alerta.alerta_plugins_options is defined %}
 {% for key in alerta.alerta_plugins_options %}
