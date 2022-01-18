@@ -1,4 +1,5 @@
-alerta_instance: "production_vc"
+alerta_instance: "monitoring"
+alerta_instance_extra_vars: {}
 grafana_instance: "dashboard"
 grafana_instance_extra_vars: {}
 

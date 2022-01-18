@@ -41,13 +41,13 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
-        DATABASE_URL: "{{ alerta.alerta_db_url | default(alerta.default.alerta_db_url) | string | b64encode }}"
-        SECRET_KEY: "{{ alerta.alerta_secret_key | default(alerta.default.alerta_secret_key) | string | b64encode }}"
-        ZULIP_API_KEY: "{{ alerta.alerta_zulip_api_key | default(alerta.default.alerta_zulip_api_key)  | string | b64encode }}"
-        ADMIN_KEY: "{{ alerta.alerta_admin_key | default(alerta.default.alerta_admin_key) | string | b64encode }}"
-        ALERTA_API_KEY: "{{ alerta.alerta_api_key | default(alerta.default.alerta_api_key)  | string | b64encode }}"
-        ADMIN_USERS: "{{ alerta.alerta_admin_users | default(alerta.default.alerta_admin_users) | string | b64encode }}"
-        LDAP_BIND_PASSWORD: "{{ alerta.alerta_bind_password | default(alerta.default.alerta_bind_password)  | string | b64encode }}"
+        DATABASE_URL: "{{ alerta.alerta_db_url | string | b64encode }}"
+        SECRET_KEY: "{{ alerta.alerta_secret_key | string | b64encode }}"
+        ZULIP_API_KEY: "{{ alerta.alerta_zulip_api_key | string | b64encode }}"
+        ADMIN_KEY: "{{ alerta.alerta_admin_key | string | b64encode }}"
+        ALERTA_API_KEY: "{{ alerta.alerta_api_key | string | b64encode }}"
+        ADMIN_USERS: "{{ alerta.alerta_admin_users | string | b64encode }}"
+        LDAP_BIND_PASSWORD: "{{ alerta.alerta_bind_password | string | b64encode }}"
 
 - name: Create {{ instance }} TLS Certs Secret
   community.kubernetes.k8s:
