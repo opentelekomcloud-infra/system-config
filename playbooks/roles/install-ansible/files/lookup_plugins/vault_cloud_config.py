@@ -73,6 +73,10 @@ class LookupModule(HashiVaultLookupBase):
         try:
             data = client.read(user_path)
             try:
+                if not data:
+                    raise AnsibleError(
+                        f"No data at path '{user_path}'.")
+
                 # sentinel field checks
                 check_dd = data['data']['data']
                 check_md = data['data']['metadata']
@@ -89,8 +93,7 @@ class LookupModule(HashiVaultLookupBase):
                 pass
         except hvac.exceptions.Forbidden:
            raise AnsibleError(
-               "Forbidden: Permission Denied to path '%s'."
-               % user_path)
+               f"Forbidden: Permission Denied to path '{user_path}'.")
 
         # We allow asking for specific project/domain
         for opt in ['domain_id', 'domain_name', 'project_name', 'project_id']:
@@ -101,7 +104,8 @@ class LookupModule(HashiVaultLookupBase):
         for term in terms:
             try:
                 dt = term.split('=')
-                cloud_config[dt[0]] = dt[1]
+                val = dt[1]
+                cloud_config[dt[0]] = val if not val.isnumeric() else int(val)
             except IndexError:
                 pass
 
