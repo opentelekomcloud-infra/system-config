@@ -1,5 +1,7 @@
 :title: Git Control
 
+.. _git_control:
+
 Git Control
 ###########
 

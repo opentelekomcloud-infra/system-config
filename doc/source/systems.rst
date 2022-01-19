@@ -10,6 +10,7 @@ Major Systems
    zuul
    docsportal
    matrix
+   helpcenter
    swift
    proxy
    gitcontrol

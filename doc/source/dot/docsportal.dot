@@ -1,0 +1,13 @@
+digraph HelpCenter {
+	graph [bgcolor=transparent compound=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=10 rankdir=LR]
+	node [fixedsize=false]
+	user [label=Clients fixedsize=true fontsize=10 height=1.4 image="../_images/users.png" imagescale=true labelloc=b shape=none width=1]
+	web [label=WebServer fixedsize=true fontsize=10 height=1.4 image="../_images/nginx.png" imagescale=true labelloc=b shape=none width=1]
+	github [label="GitHub Projects" fixedsize=true fontsize=10 height=1.4 href="https://github.com/opentelekomcloud-docs" image="../_images/github.png" imagescale=true labelloc=b shape=none width=1]
+	zuul [label="Zuul CI/CD" fixedsize=true fontsize=10 height=1.4 href="https://docs.otc-service.com/system-config/zuul.html" image="../_images/zuulci.png" imagescale=true labelloc=b shape=none width=1]
+	swift [label="Swift Object Store" fixedsize=true fontsize=10 height=1.4 image="../_images/swift.png" imagescale=true labelloc=b shape=none width=1]
+	user -> web [label=Pull color=black fontsize=8]
+	web -> swift [label=Pull color=black fontsize=8]
+	github -> zuul [label=Push color=red fontsize=8]
+	zuul -> swift [label=Push color=red fontsize=8]
+}

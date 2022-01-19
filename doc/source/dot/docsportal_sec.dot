@@ -1,0 +1,30 @@
+graph "Documentation Portal Security diagram" {
+	graph [bgcolor=transparent compound=true fontcolor="#2D3436" fontname="Sans-Serif" fontsize=10 rankdir=LR]
+	node [fixedsize=false]
+	edge [fontsize=8]
+	user [label=Clients fixedsize=true fontsize=10 height=1.4 image="../_images/users.png" imagescale=true labelloc=b shape=none width=1]
+	web [label=WebServer fixedsize=true fontsize=10 height=1.4 image="../_images/nginx.png" imagescale=true labelloc=b shape=none width=1]
+	subgraph cluster_storage {
+		graph [bgcolor="#E5F5FD" shape=box style=rounded]
+		label=Storage
+	    swift [label="Swift Object Store" fixedsize=true fontsize=10 height=1.4 image="../_images/swift.png" imagescale=true labelloc=b shape=none width=1]
+	}
+	
+	subgraph cluster_git {
+		graph [bgcolor="#E5F5FD" shape=box style=rounded]
+		label="Git Hosting"
+		github1 [label="Project 1"]
+		github2 [label="Project 2"]
+		github3 [label="Project XX"]
+	}
+	
+	zuul [label="Zuul CI/CD" fixedsize=true fontsize=10 height=1.4 href="https://docs.otc-service.com/system-config/zuul.html" image="../_images/zuulci.png" imagescale=true labelloc=b shape=none width=1]
+
+  	github1 -- zuul [label=HTTPS dir=forward]
+	github2 -- zuul [label=HTTPS dir=forward]
+	github3 -- zuul [label=HTTPS dir=forward]
+	zuul -- swift [label=HTTPS dir=forward]
+	web -- swift [label=HTTPS dir=back]
+    user -- web [label=HTTPS dir=back]
+}
+
