@@ -196,6 +196,13 @@
           }
           )
         }}"
+        vault-agent-config-zuul-executor-base.hcl: "{{ lookup(
+          'ansible.builtin.template', 'zuul-base-vault-agent-config.hcl.j2',
+          template_vars={
+            'zuul': zuul,
+          }
+          )
+        }}"
   tags: ["config"]
   register: zuul_vault_cm
 
