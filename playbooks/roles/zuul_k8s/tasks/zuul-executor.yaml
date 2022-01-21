@@ -101,6 +101,10 @@
             containers:
 
               - name: "zuul-executor"
+                command:
+                  - "zuul-executor"
+                  - "-f"
+                  - "-d"
                 image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
                 resources:
                   limits:
