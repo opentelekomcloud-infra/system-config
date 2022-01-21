@@ -1,11 +1,10 @@
-# Comment this out if running as sidecar instead of initContainer
-# exit_after_auth = true
 pid_file = "/home/vault/pidfile"
 auto_auth {
     method "kubernetes" {
         mount_path = "{{ zuul.vault_k8_auth_mount_path }}"
         config = {
             role = "{{ zuul.vault_role_name }}"
+            token_path = "/var/run/secrets/tokens/vault-token"
         }
     }
     sink "file" {

@@ -1,3 +1,22 @@
+- name: Create Zuul Vars CM
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-executor-vars-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        site-vars.yaml: "{{ (zuul.executor_vars | default({})) | to_nice_yaml }}"
+  tags: ["config"]
+
 - name: Create Zuul Executor Service
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -122,6 +141,11 @@
                     mountPath: "/var/lib/zuul"
                   - name: "zuul-var-run"
                     mountPath: "/var/run/zuul"
+                  - name: "zuul-vars"
+                    mountPath: "/var/run/zuul/vars"
+                  - name: "zuul-trusted-ro"
+                    mountPath: "/var/run/zuul/trusted-ro"
+                    readOnly: true
                   - mountPath: "/var/run/secrets/tokens"
                     name: "k8-tokens"
                     readOnly: true
@@ -157,6 +181,28 @@
                     name: "vault-agent-config"
                   - mountPath: "/secrets"
                     name: "secrets"
+                  - mountPath: "/var/run/zuul/trusted-ro"
+                    # since we want to populate it - no readonly
+                    name: "zuul-trusted-ro"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
+              - name: "zuul-base-vault-agent"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "vault agent -config=/etc/vault/vault-agent-config-zuul-executor-base.hcl"
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/var/run/zuul/trusted-ro"
+                    # since we want to populate it - no readonly
+                    name: "zuul-trusted-ro"
                   - mountPath: "/var/run/secrets/tokens"
                     name: "k8-tokens"
                     readOnly: true
@@ -172,9 +218,14 @@
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
+              - name: "zuul-vars"
+                configMap:
+                  name: "zuul-executor-vars-{{ instance }}"
               - name: "zuul-data-volume"
                 emptyDir: {}
               - name: "zuul-var-run"
+                emptyDir: {}
+              - name: "zuul-trusted-ro"
                 emptyDir: {}
               - name: "cert-data"
                 emptyDir: {}
