@@ -109,6 +109,7 @@ clouds:
     region_name: eu-de
     object_store_endpoint_override: "{{ clouds.otcci_logs.object_store_endpoint_override }}"
 
+  # Documentation portals
   otcinfra-docs:
     profile: otc
     auth:
@@ -116,8 +117,6 @@ clouds:
        project_name: {{ clouds.otcinfra_docs.auth.project_name }}
        username: {{ clouds.otcinfra_docs.auth.username }}
        password: "{{ clouds.otcinfra_docs.auth.password }}"
-    #interface: public
-    #identity_api_version: 3
     region_name: eu-de
     object_store_endpoint_override: "{{ clouds.otcinfra_docs.object_store_endpoint_override }}"
   otcinfra-docs-int:
@@ -127,11 +126,18 @@ clouds:
        project_name: {{ clouds.otcinfra_docs_int.auth.project_name }}
        username: {{ clouds.otcinfra_docs_int.auth.username }}
        password: "{{ clouds.otcinfra_docs_int.auth.password }}"
-    #interface: public
-    #identity_api_version: 3
     region_name: eu-de
     object_store_endpoint_override: "{{ clouds.otcinfra_docs_int.object_store_endpoint_override }}"
- # DB
+  otcinfra-docs-hc:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_docs_hc.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_docs_hc.auth.project_name }}
+       username: {{ clouds.otcinfra_docs_hc.auth.username }}
+       password: "{{ clouds.otcinfra_docs_hc.auth.password }}"
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcinfra_docs_hc.object_store_endpoint_override }}"
+  # DB
   otcinfra-domain2-database:
     profile: otc
     auth:
