@@ -13,6 +13,7 @@ grafana_instances:
     grafana_url: "https://dashboard.tsi-dev.otc-service.com"
     grafana_users_login_hint: "OTC LDAP account"
     grafana_users_password_hint: "OTC LDAP password"
+    vault_image: "vault:1.9.2"
 
   # Staging env
   dashboard_stg:
@@ -27,6 +28,7 @@ grafana_instances:
     grafana_url: "https://dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
     grafana_users_login_hint: "OTC LDAP account"
     grafana_users_password_hint: "OTC LDAP password"
+    vault_image: "vault:1.9.2"
 
   # Infra dashboard
   dashboard_infra:
@@ -41,6 +43,7 @@ grafana_instances:
     grafana_url: "https://dashboard.eco.tsi-dev.otc-service.com"
     grafana_users_login_hint: "Username"
     grafana_users_password_hint: "Password"
+    vault_image: "vault:1.9.2"
 
 # Extra vars for k8 deployment
 grafana_k8s_extra_vars:

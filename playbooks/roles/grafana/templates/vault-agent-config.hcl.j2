@@ -1,0 +1,39 @@
+# Comment this out if running as sidecar instead of initContainer
+exit_after_auth = true
+pid_file = "/vault-run/pidfile"
+auto_auth {
+    method "kubernetes" {
+        mount_path = "{{ grafana.vault_k8_auth_mount_path }}"
+        config = {
+            role = "{{ grafana.vault_role_name }}"
+            token_path = "/run/secrets/tokens/vault-token"
+        }
+    }
+    sink "file" {
+        config = {
+            path = "/vault-run/.vault-token"
+        }
+    }
+}
+
+cache {
+    use_auto_auth_token = true
+}
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/database_username"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.username %][% end %]
+  EOT
+    }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/database_password"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.password %][% end %]
+  EOT
+    }
