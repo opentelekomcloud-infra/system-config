@@ -22,4 +22,4 @@ grafana_service_name: "grafana-service-{{ instance }}"
 grafana_ingress_name: "grafana-ingress-{{ instance }}"
 grafana_ssl_cert_name: "grafana-ssl-{{ instance }}"
 
-
+vault_image: "vault:1.9.2"

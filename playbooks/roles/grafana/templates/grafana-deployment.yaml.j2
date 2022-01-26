@@ -64,8 +64,6 @@ spec:
               name: k8-tokens
             - mountPath: "/vault-data"
               name: "vault-data"
-            - mountPath: "/vault-run"
-              name: "vault-run"
       containers:
       - args:
           - agent
@@ -88,8 +86,6 @@ spec:
             name: k8-tokens
           - mountPath: "/vault-data"
             name: "vault-data"
-          - mountPath: "/vault-run"
-            name: "vault-run"
       - image: "{{ grafana.grafana_renderer_image }}" 
         name: "grafana-renderer"
         ports:
@@ -171,6 +167,4 @@ spec:
               path: vault-token
       - emptyDir: {}
         name: vault-data
-      - emptyDir: {}
-        name: vault-run
 status: {}
