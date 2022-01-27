@@ -53,3 +53,5 @@ document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.
 document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.20.0
 telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.20.0
+vault_image_stable: quay.io/opentelekomcloud/vault:1.9.2
+vault_image_latest: quay.io/opentelekomcloud/vault:1.9.2
