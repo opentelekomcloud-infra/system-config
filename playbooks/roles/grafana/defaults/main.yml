@@ -5,6 +5,8 @@ container_runtime: "/usr/bin/{{ container_command }}"
 grafana_os_user: grafana
 grafana_os_group: grafana
 
+grafana_service_account_name: grafana
+
 packages: []
 
 grafana_uid_prefix: ""
@@ -20,4 +22,4 @@ grafana_service_name: "grafana-service-{{ instance }}"
 grafana_ingress_name: "grafana-ingress-{{ instance }}"
 grafana_ssl_cert_name: "grafana-ssl-{{ instance }}"
 
-
+vault_image: "vault:1.9.2"
