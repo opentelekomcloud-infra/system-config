@@ -5,7 +5,7 @@ editable: false
 panels:
 {% include '_header.yaml.j2' %}
 
-  - datasource: apimon
+  - datasource: {{ grafana_ds | default('apimon') }}
     fieldConfig:
       defaults:
         color:
