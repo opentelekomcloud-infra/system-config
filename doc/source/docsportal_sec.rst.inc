@@ -85,9 +85,10 @@ forwarding from HTTP).
 Tenant Security
 ---------------
 
-Documentation Portal is not providing any tenant support. All documents that are hosted
-on the Help Center are placed in a dedicated storage (as public content). User
-management is also not supported.
+Documentation Portal does not support tenants concept. All documents that are hosted
+on the Help Center are placed in a dedicated storage (as public content).
+Instead a dedicated instance of the documentation portal is deployed for
+isolating particular documentation areas.
 
 O&M Access Control
 ------------------
@@ -125,9 +126,8 @@ Hardening
 All configuration files for the hosts, Cloud Load Balancer configuration and K8
 configuration is part of this repository. Every VM is managed by the System
 Config project applying the same hardening rules to evenry host according to
-the configuration.
-
-Web server is deployed as a Kubernetes pod in a dedicated namespace and receives an Ingress.
+the configuration. As such system hardenings are dictated by Deutsche Telekom
+Hardening policies.
 
 Certificate Handling
 --------------------
@@ -135,7 +135,7 @@ Certificate Handling
 SSL Certificates are obtained using Let's Encrypt Certificate authority.
 Following is important:
 
-* Certificate for the K8 deployment can managed by the
+* Certificate for the K8 deployment can be managed by the
   `CertManager <https://cert-manager.io/>`_ deployed in
   the Kubernetes cluster. This is achieved by placing
   Kubernetes annotation on the deployment.
@@ -148,10 +148,15 @@ Following is important:
 Backup and Restore
 ------------------
 
-No backup/restore procedure exists besides Swift backup/restore. In general
-the best approach is a regeneration of the documentation. This is also used
-when i.e. applying updated styling is required on all documents without
-triggering changes in each project independently.
+No backup/restore procedure exists besides Swift backup/restore. Sources for
+the documents are stored in GitHub in a raw form with all modification history.
+Whenever it is required to restore document to the particular point in time a
+pull request can be created restoring current version to a particular state in
+history.
+From a disaster recovery point of view a fresh generation of the documents from
+sources can be used. The same approach can be applied periodically to ensure
+generated documents are always up-to-date and matching current document
+stylizations.
 
 User and Account management
 ---------------------------
