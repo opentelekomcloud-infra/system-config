@@ -6,7 +6,6 @@ container_runtime: "/usr/bin/{{ container_command }}"
 state: "present"
 
 alerta_config_name: "alerta-config-{{ instance }}"
-alerta_secret_name: "alerta-secret-{{ instance }}"
 alerta_deployment_name: "alerta-deployment-{{ instance }}"
 alerta_service_name: "alerta-service-{{ instance }}"
 alerta_ingress_name: "alerta-ingress-{{ instance }}"

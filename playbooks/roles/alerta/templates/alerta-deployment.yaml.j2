@@ -60,9 +60,6 @@ spec:
             path: /login
             scheme: HTTP
             port: 8080
-        envFrom:
-        - secretRef:
-            name: "{{ alerta_secret_name }}"
         volumeMounts:
         - name: alerta-config
           mountPath: /etc/alertad.conf
