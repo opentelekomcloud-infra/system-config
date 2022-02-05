@@ -74,12 +74,6 @@
                   runAsGroup: 10001
                 terminationGracePeriodSeconds: 3600
                 volumeMounts:
-                  - name: "certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/ssl"
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/zk"
                   - name: "cert-data"
                     readOnly: true
                     mountPath: "/tls"
@@ -129,13 +123,6 @@
                     readOnly: true
 
             volumes:
-              - name: "certs"
-                secret:
-                  secretName: "zuul-{{ instance }}"
-                  defaultMode: 256
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"

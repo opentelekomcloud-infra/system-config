@@ -1,17 +1,3 @@
-[gearman]
-server={{ zuul.gearman_server }}
-check_job_registration=true
-ssl_ca=/etc/zuul/ssl/gearman-ca.pem
-ssl_cert=/etc/zuul/ssl/gearman-client.pem
-ssl_key=/etc/zuul/ssl/gearman-client.key
-
-[gearman_server]
-start=true
-# log_config=/etc/zuul/scheduler/gearman-logging.conf
-ssl_ca=/etc/zuul/scheduler/gearman-ca.pem
-ssl_cert=/etc/zuul/scheduler/gearman-server.pem
-ssl_key=/etc/zuul/scheduler/gearman-server.key
-
 [scheduler]
 tenant_config=/etc/zuul-config/zuul/main.yaml
 # log_config=/etc/zuul/logging.conf
@@ -60,6 +46,21 @@ listen_address=0.0.0.0
 #listen_port=9000
 status_url=https://{{ zuul.web_domain }}
 root=https://{{ zuul.web_domain }}
+
+[database]
+{% for key, value in zuul.database_secrets.items() -%}
+{% if value is not mapping %}
+{{ key }}={{ value }}
+{% else %}
+[%- with secret "{{ value.vault_path }}" %]
+{% if value.vault_attr is defined and value.vault_attr|length-%}
+{{ key }}=[% .Data.data.{{ value.vault_attr }} %]
+{%- elif value.data is defined and value.data|length -%}
+{{ key }}={{ value.data }}
+{% endif %}{# if value.data is defined #}
+[%- end %]
+{% endif %}{# if value is not mapping #}
+{% endfor -%}{# for key, value in connection_secret #}
 
 {% for connection in zuul.zuul_connections -%}
 [connection "{{ connection['name'] }}"]
