@@ -1,19 +1,4 @@
 - include_role:
-    name: "x509_cert"
-    tasks_from: cert.yaml
-    apply:
-      tags: ["config"]
-  vars:
-    x509_common_name: "{{ zj_cert_item }}"
-  tags: ["config"]
-  loop:
-    - "zuul-{{ instance }}-zk-client"
-    - "zuul-{{ instance }}-gearman-server"
-    - "zuul-{{ instance }}-gearman-client"
-  loop_control:
-    loop_var: zj_cert_item
-
-- include_role:
     name: "x509_vault"
     tasks_from: cert.yaml
     apply:

@@ -70,9 +70,6 @@
                     cpu: "20m"
                     memory: "100Mi"
                 volumeMounts:
-                  - name: "certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/ssl"
                   - name: "cert-data"
                     mountPath: "/tls"
                     readOnly: true
@@ -125,9 +122,6 @@
               - name: "config"
                 configMap:
                   name: "zuul-config-{{ instance }}"
-              - name: "certs"
-                secret:
-                  secretName: "zuul-{{ instance }}"
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
