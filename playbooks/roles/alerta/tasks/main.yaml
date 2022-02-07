@@ -79,6 +79,19 @@
   notify:
     - Restart alerta
 
+- name: Write alerta config file
+  become: true
+  ansible.builtin.copy:
+    content: "{{ alerta_config }}"
+    dest: "/etc/alerta/alerta.conf"
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: "0664"
+  when:
+    - "alerta_config is defined and alerta_config|length"
+  notify:
+    - Restart alerta
+
 - name: Write Alerta Systemd unit file
   become: true
   template:
