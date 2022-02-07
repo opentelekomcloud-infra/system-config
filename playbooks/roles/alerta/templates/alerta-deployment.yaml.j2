@@ -38,6 +38,11 @@ spec:
               topologyKey: kubernetes.io/hostname
       containers:
       - image: "{{ alerta.alerta_image }}"
+        env:
+        - name: ALERTA_CONF_FILE
+          value: /etc/alerta.conf
+        - name: ALERTA_SVR_CONF_FILE
+          value: /etc/alertad.conf
         name: alerta
         ports:
         - containerPort: 8080
@@ -64,6 +69,9 @@ spec:
         - name: alerta-config
           mountPath: /etc/alertad.conf
           subPath: alertad.conf
+        - name: alerta-config
+          mountPath: /etc/alerta.conf
+          subPath: alerta.conf
       volumes:
       - configMap:
           name: "{{ alerta_config_name }}"

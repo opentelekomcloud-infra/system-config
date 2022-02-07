@@ -24,6 +24,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         alertad.conf: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
+        alerta.conf: "{{ lookup('template', 'templates/alerta/alerta.conf.j2') }}"
 
 - name: Create {{ instance }} TLS Certs Secret
   community.kubernetes.k8s:

@@ -20,7 +20,7 @@
   retries: 5
 
 - name: Create alerta group
-  become: yes
+  become: true
   ansible.builtin.group:
     name: "{{ alerta_os_group }}"
     state: present
