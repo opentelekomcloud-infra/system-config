@@ -20,6 +20,7 @@ alerta_instances:
     alerta_plugins:
       - blackout
       - zulip
+    vault_image: "{{ vault_image_stable }}"
   monitoring_stg:
     cluster_issuer: "letsencrypt-staging"
     fqdn: alerta.apps.osinfra-stg.eco.tsi-dev.otc-service.com
@@ -41,6 +42,7 @@ alerta_instances:
     alerta_plugins:
       - blackout
       - zulip
+    vault_image: "{{ vault_image_stable }}"
   
 alerta_k8s_instances:
   - alerta_instance: "monitoring"

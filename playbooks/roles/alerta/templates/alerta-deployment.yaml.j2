@@ -36,13 +36,61 @@ spec:
                   values:
                   - "{{ instance }}"
               topologyKey: kubernetes.io/hostname
+      serviceAccountName: "{{ alerta_service_account_name }}"
+      initContainers:
+        - args:
+            - agent
+            - -config=/etc/vault/vault-agent-config.hcl
+            - -log-level=debug
+            - -exit-after-auth=true
+          env:
+            - name: "VAULT_ADDR"
+              value: "{{ ansible_hashi_vault_addr }}"
+{% if alerta.vault_skip_setcap is defined and alerta.vault_skip_setcap %}
+            - name: "SKIP_SETCAP"
+              value: "true"
+{% endif %}
+          image: "{{ alerta.vault_image }}"
+          name: "vault-agent"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: /var/run/secrets/tokens
+              name: k8-tokens
+            - mountPath: "/vault-data"
+              name: "vault-data"
+            - mountPath: "/vault-data/template"
+              name: alerta-config-template
       containers:
+      - args:
+          - agent
+          - -config=/etc/vault/vault-agent-config.hcl
+          - -log-level=debug
+          - -exit-after-auth=false
+        env:
+          - name: "VAULT_ADDR"
+            value: "{{ ansible_hashi_vault_addr }}"
+{% if alerta.vault_skip_setcap is defined and alerta.vault_skip_setcap %}
+          - name: "SKIP_SETCAP"
+            value: "true"
+{% endif %}
+        image: "{{ alerta.vault_image }}"
+        name: "vault-agent-sidecar"
+        volumeMounts:
+          - mountPath: "/etc/vault"
+            name: "vault-agent-config"
+          - mountPath: /var/run/secrets/tokens
+            name: k8-tokens
+          - mountPath: "/vault-data"
+            name: "vault-data"
+          - mountPath: "/vault-data/template"
+            name: alerta-config-template
       - image: "{{ alerta.alerta_image }}"
         env:
         - name: ALERTA_CONF_FILE
-          value: /etc/alerta.conf
+          value: /vault-data/alerta.conf
         - name: ALERTA_SVR_CONF_FILE
-          value: /etc/alertad.conf
+          value: /vault-data/alertad.conf
         name: alerta
         ports:
         - containerPort: 8080
@@ -66,14 +114,32 @@ spec:
             scheme: HTTP
             port: 8080
         volumeMounts:
-        - name: alerta-config
-          mountPath: /etc/alertad.conf
-          subPath: alertad.conf
-        - name: alerta-config
-          mountPath: /etc/alerta.conf
-          subPath: alerta.conf
+        - mountPath: "/vault-data"
+          name: "vault-data"
+        - mountPath: "/vault-data/template"
+          name: alerta-config-template
       volumes:
       - configMap:
           name: "{{ alerta_config_name }}"
-        name: alerta-config
+          items:
+            - key: vault-agent-config.hcl
+              path: vault-agent-config.hcl
+        name: vault-agent-config
+      - name: k8-tokens
+        projected:
+          defaultMode: 420
+          sources:
+          - serviceAccountToken:
+              expirationSeconds: 7200
+              path: vault-token
+      - configMap:
+          name: "{{ alerta_config_name }}"
+          items:
+            - key: alertad.conf.hcl
+              path: alertad.conf.hcl
+            - key: alerta.conf.hcl
+              path: alerta.conf.hcl
+        name: alerta-config-template
+      - emptyDir: {}
+        name: vault-data
 status: {}

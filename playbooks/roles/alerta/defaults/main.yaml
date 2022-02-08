@@ -1,6 +1,8 @@
 alerta_os_user: alerta
 alerta_os_group: alerta
 
+alerta_service_account_name: alerta
+
 container_runtime: "/usr/bin/{{ container_command }}"
 
 state: "present"
