@@ -48,25 +48,29 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
               - name: "zuul-web"
                 image: "quay.io/opentelekomcloud/zuul-web:{{ zuul.zuul_version_tag }}"
                 ports:
                   - containerPort: 9000
-                    name: "web"
+                    name: "zuul-web"
                     protocol: "TCP"
                 readinessProbe:
                   tcpSocket:
-                    port: "web"
-                    initialDelaySeconds: 30
-                    periodSeconds: 5
-                    timeoutSeconds: 5
+                    port: "zuul-web"
+                  initialDelaySeconds: 120
+                  periodSeconds: 5
+                  timeoutSeconds: 5
                 livenessProbe:
                   tcpSocket:
-                    port: "web"
-                    initialDelaySeconds: 30
-                    periodSeconds: 5
-                    timeoutSeconds: 5
+                    port: "zuul-web"
+                  initialDelaySeconds: 120
+                  periodSeconds: 5
+                  timeoutSeconds: 5
                 resources:
                   limits:
                     cpu: "50m"
@@ -75,20 +79,18 @@
                     cpu: "20m"
                     memory: "100Mi"
                 volumeMounts:
-                  - name: "certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/ssl"
                   - name: "cert-data"
                     mountPath: "/tls"
                     readOnly: true
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/zk"
                   - mountPath: "/etc/zuul"
                     name: "zuul-config"
                     # TODO: readonly is not possible while we mount underneath it
                     # other dirs
                     # readOnly: true
+
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
               # Vault agent produces files as vault user. We need to ensure
               # those have correct ownership and privs, therefore permanently
@@ -122,25 +124,30 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "config"
                 configMap:
                   name: "zuul-config-{{ instance }}"
-              - name: "certs"
-                secret:
-                  secretName: "zuul-{{ instance }}"
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
               - name: "cert-data"
                 emptyDir: {}
               - name: "zuul-config"
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
 
         strategy:
           type: "RollingUpdate"
@@ -171,7 +178,7 @@
           - name: "web"
             protocol: "TCP"
             port: 80
-            targetPort: 9000
+            targetPort: "zuul-web"
         selector:
           app.kubernetes.io/app: "zuul"
           app.kubernetes.io/component: "zuul-web"

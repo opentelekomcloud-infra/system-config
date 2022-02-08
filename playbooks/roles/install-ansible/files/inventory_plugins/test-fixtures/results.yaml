@@ -9,6 +9,7 @@ results:
     - cloud-launcher
     - database-launcher
     - control-plane-clouds
+    - grafana-controller
     - k8s-controller
     - otc
     - alerta
@@ -18,4 +19,5 @@ results:
     - ssl_certs
     - carbonapi
     - matrix
+    - vault-controller
     # - vault  # This is temporary

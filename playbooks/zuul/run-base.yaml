@@ -67,6 +67,7 @@
         - host_vars/epmon.focal.yaml
         - host_vars/le1.yaml
         - host_vars/proxy1.f32.yaml
+        - host_vars/zk.fedora.yaml
     - name: Display group membership
       command: ansible localhost -m debug -a 'var=groups'
     - name: Run base.yaml

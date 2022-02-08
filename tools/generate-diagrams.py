@@ -3,21 +3,6 @@
 import argparse
 import logging
 
-#from diagrams import Cluster, Diagram, Edge, getdiagram
-#from diagrams.generic.blank import Blank
-#from diagrams.generic.virtualization import Vmware
-#from diagrams.onprem.ci import ZuulCI
-#from diagrams.onprem.client import Client
-#from diagrams.onprem.compute import Server
-#from diagrams.onprem.database import Postgresql
-#from diagrams.onprem.monitoring import Grafana
-#from diagrams.onprem.network import HAProxy
-#from diagrams.openstack import _OpenStack
-#from diagrams.openstack.compute import Nova
-#from diagrams.openstack.networking import Neutron
-#from diagrams.openstack.networking import Octavia
-#from diagrams.openstack.storage import Swift
-
 import graphviz
 
 from ansible.parsing.dataloader import DataLoader
@@ -60,6 +45,7 @@ graphviz_cluster_attrs = {
 graphviz_icon_node_attrs = {
     'imagescale': 'true',
     'fixedsize': 'true',
+    'fontsize': '10',
     'width': '1',
     'height': '1.4',
     'shape':'none',
@@ -77,6 +63,238 @@ class InventoryManager(_InventoryManager):
             if plugin:
                 plugins.append(plugin)
         return plugins
+
+
+def zuul(path, inventory, variable_manager):
+    """General Zuul software diagram"""
+    g = graphviz.Digraph(
+        'Zuul CI/CD',
+        graph_attr=graphviz_graph_attr,
+        node_attr={'fixedsize': 'false'}
+    )
+    user = g.node(
+        'user', 'Clients',
+        image='../_images/users.png',
+        **graphviz_icon_node_attrs
+    )
+    # NOTE: adding elb and user<=>git communication make graph overloaded and
+    # and badly placed
+    #elb = g.node(
+    #    'elb', 'Elastic Load Balancer',
+    #    image='../_images/elb-network-load-balancer.png',
+    #    **graphviz_icon_node_attrs
+    #)
+    git = g.node(
+        'git', 'Git Provider',
+        image='../_images/git.png',
+        **graphviz_icon_node_attrs
+    )
+    #g.edge('user', 'elb')
+    #g.edge('git', 'elb')
+    #g.edge('user', 'git')
+
+    # NOTE: cluster name must start with "cluster_" for graphviz
+    with g.subgraph(
+        name='cluster_zuul',
+        graph_attr=graphviz_cluster_attrs,
+        node_attr={
+            'fontsize': '8'
+        }
+    ) as zuul:
+        zuul.attr(label='Zuul CI/CD')
+
+        zuul.node('zuul-web', 'Zuul Web')
+        zuul.node('zuul-merger', 'Zuul Merger')
+        zuul.node('zuul-executor', 'Zuul Executor')
+        zuul.node('zuul-scheduler', 'Zuul Scheduler')
+        zuul.node('nodepool-launcher', 'Nodepool Launcher')
+        zuul.node('nodepool-builder', 'Nodepool Builder')
+
+    g.node(
+        'zookeeper', label='Zookeeper',
+        image='../_images/zookeeper.png',
+        **graphviz_icon_node_attrs)
+
+    g.edge('zuul-web', 'zookeeper')
+    g.edge('zuul-merger', 'zookeeper')
+    g.edge('zuul-executor', 'zookeeper')
+    g.edge('zuul-scheduler', 'zookeeper')
+    g.edge('nodepool-launcher', 'zookeeper')
+    g.edge('nodepool-builder', 'zookeeper')
+    db = g.node(
+        'db', 'SQL Database',
+        image='../_images/postgresql.png',
+        **graphviz_icon_node_attrs)
+    cloud = g.node(
+        'cloud', 'Clouds resources',
+        image='../_images/openstack.png',
+        **graphviz_icon_node_attrs)
+
+    g.edge('user', 'zuul-web')
+    g.edge('zuul-merger', 'git')
+    g.edge('zuul-executor', 'git')
+    g.edge('zuul-web', 'db')
+    g.edge('nodepool-launcher', 'cloud')
+    g.edge('nodepool-builder', 'cloud')
+    g.edge('zuul-executor', 'cloud')
+
+    g.render(f'{path}/zuul', format='svg', view=False)
+
+    zuul_sec(path, inventory, variable_manager)
+    zuul_dpl(path, inventory, variable_manager)
+
+
+def zuul_sec(path, inventory, variable_manager):
+    """Zuul security deployment diagram"""
+    edge_attrs = {'fontsize': '8'}
+    edge_attrs_zk = {'color': 'red', 'label': 'TLS', 'fontsize': '8'}
+    edge_attrs_ssh = {'color': 'blue', 'label': 'SSH', 'fontsize': '8'}
+    edge_attrs_https = {'color': 'green', 'label': 'HTTPS', 'fontsize': '8'}
+
+    g = graphviz.Digraph(
+        'Zuul CI/CD Security Design',
+        graph_attr=graphviz_graph_attr,
+        node_attr={'fixedsize': 'false'}
+    )
+    git = g.node(
+        'git', 'Git Provider',
+        image='../_images/git.png',
+        **graphviz_icon_node_attrs
+    )
+    db = g.node(
+        'db', 'SQL Database',
+        image='../_images/postgresql.png',
+        **graphviz_icon_node_attrs)
+    cloud = g.node(
+        'cloud', 'Clouds resources',
+        image='../_images/openstack.png',
+        **graphviz_icon_node_attrs)
+
+    with g.subgraph(
+        name='cluster_k8',
+        graph_attr=graphviz_cluster_attrs,
+        node_attr={
+            'fontsize': '8'
+        }
+    ) as k8:
+        k8.attr(label='Kubernetes Cluster')
+
+        with k8.subgraph(
+           name='cluster_zuul',
+           #graph_attr=graphviz_cluster_attrs
+           node_attr={
+               'fontsize': '8'
+           }
+       ) as zuul:
+            zuul.attr(label='Zuul Namespace')
+
+            zuul.node('zuul-web', 'Zuul Web')
+            zuul.node('zuul-merger', 'Zuul Merger')
+            zuul.node('zuul-executor', 'Zuul Executor')
+            zuul.node('zuul-scheduler', 'Zuul Scheduler')
+            zuul.node('nodepool-launcher', 'Nodepool Launcher')
+            zuul.node('nodepool-builder', 'Nodepool Builder')
+
+        with k8.subgraph(
+           name='cluster_zk',
+           node_attr={
+               'fontsize': '8'
+           }
+        ) as zk:
+            zk.attr(label='Zuul Namespace')
+
+            zk.node(
+                'zookeeper', label='Zookeeper',
+                image='../_images/zookeeper.png',
+                **graphviz_icon_node_attrs)
+
+        g.edge('zuul-web', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-merger', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-executor', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-scheduler', 'zookeeper', **edge_attrs_zk)
+        g.edge('nodepool-launcher', 'zookeeper', **edge_attrs_zk)
+        g.edge('nodepool-builder', 'zookeeper', **edge_attrs_zk)
+
+    g.edge('zuul-merger', 'git', **edge_attrs_ssh)
+    g.edge('zuul-executor', 'git', **edge_attrs_ssh)
+    g.edge('zuul-web', 'db', label='TLS', **edge_attrs)
+    g.edge('nodepool-launcher', 'cloud', **edge_attrs_https)
+    g.edge('nodepool-builder', 'cloud', **edge_attrs_https)
+    g.edge('zuul-executor', 'cloud', **edge_attrs_ssh)
+
+    g.render(f'{path}/zuul_sec', format='svg', view=False)
+
+
+def zuul_dpl(path, inventory, variable_manager):
+    """ Zuul deployment diagram"""
+    edge_attrs_zk = {'color': 'red', 'label': 'TLS', 'fontsize': '8'}
+    edge_attrs_vault = {'color': 'blue', 'label': 'TLS', 'fontsize': '8'}
+
+    g = graphviz.Digraph(
+        'Zuul CI/CD Deployment Design',
+        graph_attr=graphviz_graph_attr,
+        node_attr={'fixedsize': 'false'}
+    )
+
+    g.node(
+        'vault', 'Vault',
+        image='../_images/vault.png',
+        **graphviz_icon_node_attrs)
+
+    with g.subgraph(
+        name='cluster_k8',
+        graph_attr=graphviz_cluster_attrs,
+        node_attr={
+            'fontsize': '8'
+        }
+    ) as k8:
+        k8.attr(label='Kubernetes Cluster')
+
+        with k8.subgraph(
+           name='cluster_zuul',
+           #graph_attr=graphviz_cluster_attrs
+           node_attr={
+               'fontsize': '8'
+           }
+       ) as zuul:
+            zuul.attr(label='Zuul Namespace')
+
+            zuul.node('zuul-web', 'Zuul Web')
+            zuul.node('zuul-merger', 'Zuul Merger')
+            zuul.node('zuul-executor', 'Zuul Executor')
+            zuul.node('zuul-scheduler', 'Zuul Scheduler')
+            zuul.node('nodepool-launcher', 'Nodepool Launcher')
+            zuul.node('nodepool-builder', 'Nodepool Builder')
+
+            g.edge('zuul-web', 'vault', **edge_attrs_vault)
+            g.edge('zuul-merger', 'vault', **edge_attrs_vault)
+            g.edge('zuul-executor', 'vault', **edge_attrs_vault)
+            g.edge('zuul-scheduler', 'vault', **edge_attrs_vault)
+            g.edge('nodepool-launcher', 'vault', **edge_attrs_vault)
+            g.edge('nodepool-builder', 'vault', **edge_attrs_vault)
+
+        with k8.subgraph(
+           name='cluster_zk',
+           node_attr={
+               'fontsize': '8'
+           }
+        ) as zk:
+            zk.attr(label='Zuul Namespace')
+
+            zk.node(
+                'zookeeper', label='Zookeeper',
+                image='../_images/zookeeper.png',
+                **graphviz_icon_node_attrs)
+            g.edge('zookeeper', 'vault', **edge_attrs_vault)
+
+        g.edge('zuul-web', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-merger', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-executor', 'zookeeper', **edge_attrs_zk)
+        g.edge('zuul-scheduler', 'zookeeper', **edge_attrs_zk)
+        g.edge('nodepool-launcher', 'zookeeper', **edge_attrs_zk)
+        g.edge('nodepool-builder', 'zookeeper', **edge_attrs_zk)
+
+    g.render(f'{path}/zuul_dpl', format='svg', view=False)
 
 
 def proxy(path, inventory, variable_manager):
@@ -140,49 +358,8 @@ def proxy(path, inventory, variable_manager):
                 edge_from, _app,
                 ltail='cluster_proxy')
 
-    #print(dot.source)
     dot.render(f'{path}/reverse_proxy', view=False)
 
-    #with Diagram(
-    #    "Reverse Proxy", show=False, outformat='svg',
-#   #     direction="TB",
-    #    filename=f'{path}/reverse_proxy2',
-    #    graph_attr=graph_attr,
-    #    node_attr=node_attr
-    #) as dia:
-    #    client = Client("User", **node_attr)
-    #    lb = Octavia("Load Balancer", **node_attr)
-    #    gw = Vmware("Vcloud Gateway", **node_attr)
-    #    client >> lb
-    #    client >> gw
-    #    proxies = []
-    #    host_vars = None
-    #    with Cluster("ReverseProxy") as prox:
-    #        for host in inventory.groups['proxy'].get_hosts():
-    #            host_vars = variable_manager.get_vars(
-    #                host=host)
-    #            host = HAProxy(
-    #                    host_vars['inventory_hostname_short'],
-    #                    tooltip=host_vars['inventory_hostname']
-    #            )
-    #            proxies.append(host)
-    #            provider = host_vars.get('location', {}).get('provider', {})
-    #            if provider == 'otc':
-    #                lb >> host
-    #            elif provider == 'vcloud':
-    #                gw >> host
-
-    #    with Cluster("Apps") as apps:
-    #        # host_vars still points to the last proxy host
-    #        app_node_attr = {
-    #            'shape': 'box',
-    #            'height': '0.5',
-    #        }
-    #        for _app in host_vars['proxy_backends']:
-    #            app = Blank(_app['name'], **app_node_attr)
-    #            proxies[len(proxies) // 2] - Edge(lhead=prox.name, ltail=apps.name) - app
-
-    #    print(dia.dot.source)
 
 def main():
     logging.basicConfig(level=logging.DEBUG)
@@ -211,6 +388,7 @@ def main():
 
     path = args.path
     proxy(path, inventory, variable_manager)
+    zuul(path, inventory, variable_manager)
 
 
 if __name__ == '__main__':

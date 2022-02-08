@@ -44,6 +44,11 @@ cloud_projects:
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Documentation portal"
+  - name: "eu-de_docs_hc"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Help Center 3.0"
   - name: "eu-de_docs_int"
     cloud: "otcinfra-domain2-admin"
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
@@ -169,6 +174,7 @@ cloud_role_assignments:
     projects:
       - "eu-de_logs"
       - "eu-de_docs"
+      - "eu-de_docs_hc"
       - "eu-de_docs_int"
     groups:
       - "log_writer"

@@ -1,0 +1,24 @@
+distro_packages:
+  - audit
+os_grub_config_update: "grub2-mkconfig -o /boot/grub2/grub.cfg"
+
+
+os_specific_system_events:
+  # (Un)Installation of software
+  - "-w /usr/bin/rpm -p x -k software_mgmt"
+  - "-w /usr/bin/yum -p x -k software_mgmt"
+  - "-w /usr/bin/dnf -p x -k software_mgmt"
+
+os_specific_access_events:
+  # Logon and Logoff
+  - "-w /var/run/faillock/ -p wa -k logins"
+  # SELinux events
+  - "-w /etc/selinux/ -p wa -k MAC-policy"
+
+os_specific_change_events:
+  # Modification of logs
+  - "-w /var/log/messages"
+  # Network configuration change
+  - "-w /etc/sysconfig/network -p wa -k system-locale"
+  - "-w /etc/sysconfig/network-scripts/ -p wa -k system-locale"
+

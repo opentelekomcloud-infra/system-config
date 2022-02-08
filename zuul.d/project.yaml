@@ -70,6 +70,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-grafana-datasources: &infra-prod-grafana-datasources
+            dependencies:
+              - name: infra-prod-bootstrap-bridge
+                soft: true
+
         - infra-prod-install-cce: &infra-prod-install-cce
             dependencies:
               - name: infra-prod-base
@@ -179,6 +184,7 @@
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
+        - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
         - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
         - infra-prod-service-alerta: *infra-prod-service-alerta

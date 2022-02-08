@@ -10,8 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['zk1.zuul.eco.tsi-dev.otc-service.com',
-                   'zk2.zuul.eco.tsi-dev.otc-service.com']
+testinfra_hosts = ['zk.fedora']
 
 
 def test_zk_container_listening(host):

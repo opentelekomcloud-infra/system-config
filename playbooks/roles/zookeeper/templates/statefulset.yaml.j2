@@ -46,6 +46,9 @@ spec:
               name: "vault-agent-config"
             - mountPath: "/tls"
               name: "cert-data"
+            - mountPath: /var/run/secrets/tokens
+              name: k8-tokens
+
       containers:
         - args:
             - agent
@@ -62,6 +65,9 @@ spec:
               name: "vault-agent-config"
             - mountPath: "/tls"
               name: "cert-data"
+            - mountPath: /var/run/secrets/tokens
+              name: k8-tokens
+
         - name: "zookeeper"
           securityContext:
             fsGroup: 1000
@@ -148,6 +154,13 @@ spec:
             defaultMode: 0555
         - emptyDir: {}
           name: cert-data
+        - name: k8-tokens
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: vault-token
   volumeClaimTemplates:
     - metadata:
         name: datadir

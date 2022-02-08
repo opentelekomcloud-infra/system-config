@@ -1,11 +1,10 @@
-# Comment this out if running as sidecar instead of initContainer
-# exit_after_auth = true
 pid_file = "/home/vault/pidfile"
 auto_auth {
     method "kubernetes" {
-        mount_path = "[% zuul.vault_k8_auth_mount_path %]"
+        mount_path = "{{ zuul.vault_k8_auth_mount_path }}"
         config = {
-            role = "[% zuul.vault_role_name %]"
+            role = "{{ zuul.vault_role_name }}"
+            token_path = "/var/run/secrets/tokens/vault-token"
         }
     }
     sink "file" {
@@ -21,43 +20,51 @@ cache {
 
 template {
   destination = "/secrets/tls/ca.pem"
+  left_delimiter = "[%"
+  right_delimiter = "%]"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_ca_cert_path %]" }}{{ .Data.data.certificate }}{{ end }}
+[%- with secret "{{ zuul.vault_ca_cert_path }}" %][% .Data.data.certificate %][% end %]
 EOT
   perms = "0664"
 }
 
 template {
   destination = "/secrets/tls/zk.pem"
+  left_delimiter = "[%"
+  right_delimiter = "%]"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_zk_client_cert_path %]" }}{{ .Data.data.certificate }}{{ end }}
+[%- with secret "{{ zuul.vault_zk_client_cert_path }}" %][% .Data.data.certificate %][% end %]
 EOT
   perms = "0664"
 }
 
 template {
   destination = "/secrets/tls/zk.key"
+  left_delimiter = "[%"
+  right_delimiter = "%]"
   contents = <<EOT
-{{- with secret "secret/data/[% zuul.vault_zk_client_cert_path %]" }}{{ .Data.data.private_key }}{{ end }}
+[%- with secret "{{ zuul.vault_zk_client_cert_path }}" %][% .Data.data.private_key %][% end %]
 EOT
   perms = "0640"
 }
 
 {% for tmpl in vault_agent_templates %}
 template {
-  destination = "[% tmpl.destination %]"
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "{{ tmpl.destination }}"
 {% if tmpl.source is defined %}
-  source = "/etc/vault/[% tmpl.source %]"
+  source = "/etc/vault/{{ tmpl.source }}"
 {% elif tmpl.contents is defined %}
   contents = <<EOT
-[% tmpl.contents -%]
+{{ tmpl.contents -}}
 EOT
 {% endif %}
 {% if tmpl.perms is defined %}
-  perms = "[% tmpl.perms %]"
+  perms = "{{ tmpl.perms }}"
 {% endif %}
 {% if tmpl.command is defined %}
-  command = "[% tmpl.command %]"
+  command = "{{ tmpl.command }}"
 {% endif %}
 }
 {% endfor %}

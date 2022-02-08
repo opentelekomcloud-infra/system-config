@@ -18,33 +18,6 @@
   register: zuul_scheduler_tenant_config
   tags: ["config"]
 
-- name: Create Zuul Scheduler Service
-  community.kubernetes.k8s:
-    context: "{{ context }}"
-    state: "present"
-    namespace: "{{ namespace }}"
-    name: "zuul-scheduler-{{ instance }}"
-    api_version: "v1"
-    kind: "Service"
-    apply: "yes"
-    definition:
-      metadata:
-        labels:
-          app.kubernetes.io/app: "zuul"
-          app.kubernetes.io/component: "zuul-scheduler"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
-      spec:
-        ports:
-        - name: "gearman"
-          port: 4730
-          protocol: "TCP"
-          targetPort: 4730
-        selector:
-          app.kubernetes.io/app: "zuul"
-          app.kubernetes.io/component: "zuul-scheduler"
-          app.kubernetes.io/instance: "{{ instance }}"
-
 - name: Create Zuul Scheduler SS
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -96,31 +69,22 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             containers:
               - name: "zuul-scheduler"
                 resources:
                   limits:
-                    cpu: '2'
-                    memory: 2G
+                    cpu: "2"
+                    memory: "2G"
                   requests:
-                    cpu: 100m
-                    memory: 200Mi
+                    cpu: "100m"
+                    memory: "200Mi"
                 securityContext:
                   privileged: true
-                ports:
-                  - containerPort: 4730
-                    name: "gearman"
-                    protocol: "TCP"
                 volumeMounts:
-                  - name: "certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/ssl"
-                  - name: "scheduler-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/scheduler"
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/zk"
                   - name: "cert-data"
                     mountPath: "/tls"
                   - name: "zuul-config"
@@ -137,6 +101,10 @@
                     mountPath: "/var/run/zuul"
                   - name: "zuul-scheduler-state-dir"
                     mountPath: "/var/lib/zuul"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
                 image: "quay.io/opentelekomcloud/zuul-scheduler:{{ zuul.zuul_version_tag }}"
 
               # Vault agent produces files as vault user. We need to ensure
@@ -171,23 +139,14 @@
                   - mountPath: "/secrets"
                     name: "secrets"
 
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
             volumes:
               - name: "tenant-config"
                 configMap:
                   name: "zuul-scheduler-tenant-config-{{ instance }}"
-              - name: "certs"
-                secret:
-                  secretName: "zuul-{{ instance }}"
-              - name: "scheduler-certs"
-                secret:
-                  secretName: "zuul-scheduler-{{ instance }}"
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
-              - name: "zuul-ssh-key"
-                secret:
-                  secretName: "zuul-executor-ssh-{{ instance }}"
-                  defaultMode: 256
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
@@ -203,6 +162,13 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"
 
         volumeClaimTemplates:
           - metadata:

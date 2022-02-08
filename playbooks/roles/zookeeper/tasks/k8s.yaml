@@ -32,7 +32,7 @@
   community.hashi_vault.vault_read:
     url: "{{ ansible_hashi_vault_addr }}"
     token: "{{ ansible_hashi_vault_token }}"
-    path: "secret/data/{{ zookeeper.vault_server_cert_path }}"
+    path: "{{ zookeeper.vault_server_cert_path }}"
   register: server_cert_in_vault
 
 - name: Check server certificate validity

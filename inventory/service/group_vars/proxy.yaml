@@ -1,27 +1,27 @@
 haproxy_image: "{{ haproxy_image_stable }}"
 
 proxy_backends:
-  - name: "graphite-apimon"
-    options:
-      - "http-send-name-header Host"
-      # NOTE: try to perform simliest query
-      - "option httpchk HEAD /metrics/find?query=*"
-      - "default-server check weight 100 inter 5s fall 5 rise 1"
-    domain_names:
-      - "graphite.eco.tsi-dev.otc-service.com"
-      - "graphite1.eco.tsi-dev.otc-service.com"
-      - "graphite2.eco.tsi-dev.otc-service.com"
-      - "graphite3.eco.tsi-dev.otc-service.com"
-    servers:
-      - name: "graphite1"
-        address: "192.168.191.55:80"
-        opts: "cookie graphite1"
-      - name: "graphite2"
-        address: "192.168.14.159:443"
-        opts: "ssl verify none cookie graphite2"
-      - name: "graphite3"
-        address: "192.168.151.11:443"
-        opts: "ssl verify none cookie graphite3"
+#  - name: "graphite-apimon"
+#    options:
+#      - "http-send-name-header Host"
+#      # NOTE: try to perform simliest query
+#      - "option httpchk HEAD /metrics/find?query=*"
+#      - "default-server check weight 100 inter 5s fall 5 rise 1"
+#    domain_names:
+#      - "graphite.eco.tsi-dev.otc-service.com"
+#      - "graphite1.eco.tsi-dev.otc-service.com"
+#      - "graphite2.eco.tsi-dev.otc-service.com"
+#      - "graphite3.eco.tsi-dev.otc-service.com"
+#    servers:
+#      - name: "graphite1"
+#        address: "192.168.191.55:80"
+#        opts: "cookie graphite1"
+#      - name: "graphite2"
+#        address: "192.168.14.159:443"
+#        opts: "ssl verify none cookie graphite2"
+#      - name: "graphite3"
+#        address: "192.168.151.11:443"
+#        opts: "ssl verify none cookie graphite3"
 
   - name: "graphite-ca"
     options:

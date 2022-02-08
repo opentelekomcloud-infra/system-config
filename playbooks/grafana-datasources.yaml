@@ -1,0 +1,10 @@
+# Manage grafana datasources
+- hosts: "grafana-controller:!disabled"
+  tasks:
+    - include_role:
+        name: "grafana"
+        tasks_from: "import_ds.yaml"
+      vars:
+        grafana_datasource_content: "{{ item.value }}"
+        grafana_datasource_name: "{{ item.key }}"
+      loop: "{{ grafana_datasources | dict2items }}"

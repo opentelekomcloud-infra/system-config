@@ -123,10 +123,6 @@
     version: '{{ _install_ansible_openstacksdk_version | default(omit) }}'
     state: '{{ _install_openstacksdk_state | default(omit) }}'
 
-- name: Install openshift client lib for k8s modules
-  pip:
-    name: 'openshift'
-
 # NOTE(ianw) 2021-03-03 stevedore < 3.3.0 has a bug where it creates a
 # constantly expanding set of cache files in
 # /root/.cache/python-endpoints when run under ansible in a /tmp
@@ -156,6 +152,11 @@
   file:
     state: directory
     path: /etc/ansible/inventory_plugins
+
+- name: Ensure /etc/ansible/plugins/lookup
+  file:
+    state: directory
+    path: /etc/ansible/plugins/lookup
 
 - name: Ensure /var/cache/ansible
   file:
@@ -203,6 +204,11 @@
   copy:
     src: inventory_plugins/yamlgroup.py
     dest: /etc/ansible/inventory_plugins/yamlgroup.py
+
+- name: Copy vault_cloud_config plugin in place
+  copy:
+    src: lookup_plugins/vault_cloud_config.py
+    dest: /etc/ansible/plugins/lookup/vault_cloud_config.py
 
 - name: Setup log rotation
   include_role:

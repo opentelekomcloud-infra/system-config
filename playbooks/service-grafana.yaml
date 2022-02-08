@@ -1,9 +1,13 @@
-# On all hosts in grafan group except those also in k8s-controller
+# On all hosts in grafana group except those also in k8s-controller
 - hosts: "grafana:!disabled:!k8s-controller"
   become: true
   name: "Base: configure grafana"
   vars:
-    grafana: "{{ grafana_instances[grafana_instance] | combine(grafana_instances_secrets[grafana_instance], recursive=True) }}"
+    grafana: "{{ grafana_instances[grafana_instance]
+        | combine((grafana_instances_secrets[grafana_instance]|default({})), recursive=True)
+        | combine((grafana_instance_extra_vars|default({})), recursive=True)
+        | combine((grafana_instance_extra_secret_vars|default({})), recursive=True)
+      }}"
   roles:
     # Group should be responsible for defining open ports
     - role: firewalld
@@ -19,7 +23,11 @@
         name: "grafana"
         tasks_from: "k8s.yaml"
       vars:
-        grafana: "{{ grafana_instances[item.grafana_instance] | combine(grafana_instances_secrets[item.grafana_instance], recursive=True) }}"
+        grafana: "{{ grafana_instances[item.grafana_instance]
+            | combine((grafana_instances_secrets[item.grafana_instance]|default({})), recursive=True)
+            | combine((item.extra_vars|default({})), recursive=True)
+            | combine((grafana_k8s_instances_extra_secret_vars[item.instance]|default({})), recursive=True)
+          }}"
         instance: "{{ item.instance }}"
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"

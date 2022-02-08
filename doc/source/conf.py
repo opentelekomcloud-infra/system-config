@@ -24,6 +24,7 @@ sys.path.insert(0, os.path.abspath('.'))
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = [
+    'sphinx.ext.graphviz',
     'custom_roles',
     'zuul_sphinx'
 ]
@@ -54,6 +55,8 @@ exclude_patterns = ['_build']
 
 html_theme = 'alabaster'
 html_static_path = ['_svg']
+
+graphviz_output_format = 'svg'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass

@@ -3,12 +3,17 @@
   become: true
   name: "Base: configure alerta"
   vars:
-    alerta: "{{ alerta_instances[alerta_instance] | combine(alerta_instances_secrets[alerta_instance], recursive=True) }}"
+    alerta: "{{ alerta_instances[alerta_instance]
+        | combine((alerta_instances_secrets[alerta_instance]|default({})), recursive=True)
+        | combine((alerta_instance_extra_vars|default({})), recursive=True)
+        | combine((alerta_instance_extra_secret_vars|default({})), recursive=True)
+      }}"
   roles:
     # Group should be responsible for defining open ports
     - role: firewalld
     - role: alerta
       alertad_config: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
+      alerta_config: "{{ lookup('template', 'templates/alerta/alerta.conf.j2') }}"
 
 # Deploy alerta on K8S
 - hosts: "k8s-controller:!disabled"
@@ -19,7 +24,11 @@
         name: "alerta"
         tasks_from: "k8s.yaml"
       vars:
-        alerta: "{{ alerta_instances[item.alerta_instance] | combine(alerta_instances_secrets[item.alerta_instance], recursive=True) }}"
+        alerta: "{{ alerta_instances[item.alerta_instance]
+            | combine((alerta_instances_secrets[item.alerta_instance]|default({})), recursive=True)
+            | combine((item.extra_vars|default({})), recursive=True)
+            | combine((alerta_k8s_instances_extra_secret_vars[item.instance]|default({})), recursive=True)
+          }}"
         instance: "{{ item.instance }}"
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"

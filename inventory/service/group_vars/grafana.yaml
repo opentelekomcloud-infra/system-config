@@ -1,14 +1,52 @@
-default: &default_vars
-  grafana_plugins: [ ]
-  grafana_enable_renderer: true
-  grafana_users_allow_sign_up: false
-  grafana_renderer_host: "renderer"
-  grafana_grafana_host: "grafana"
-  grafana_image: "{{ grafana_image_stable }}"
-  grafana_renderer_image: "{{ grafana_renderer_image_stable }}"
-  grafana_users_login_hint: "OTC LDAP account"
-  grafana_users_password_hint: "OTC LDAP password"
+# Grafana instances (clusters)
+grafana_instances:
+  ## Main dashboard
+  dashboard:
+    fqdn: "dashboard.tsi-dev.otc-service.com"
+    grafana_cert: "grafana"
+    grafana_enable_renderer: true
+    grafana_grafana_host: "grafana"
+    grafana_image: "{{ grafana_image_stable }}"
+    grafana_plugins: [ ]
+    grafana_renderer_host: "renderer"
+    grafana_renderer_image: "{{ grafana_renderer_image_stable }}"
+    grafana_url: "https://dashboard.tsi-dev.otc-service.com"
+    grafana_users_login_hint: "OTC LDAP account"
+    grafana_users_password_hint: "OTC LDAP password"
+    vault_image: "{{ vault_image_stable }}"
 
+  # Staging env
+  dashboard_stg:
+    cluster_issuer: "letsencrypt-staging"
+    fqdn: "dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
+    grafana_enable_renderer: true
+    grafana_grafana_host: "grafana"
+    grafana_image: "{{ grafana_image_stable }}"
+    grafana_plugins: [ ]
+    grafana_renderer_host: "renderer"
+    grafana_renderer_image: "{{ grafana_renderer_image_stable }}"
+    grafana_url: "https://dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
+    grafana_users_login_hint: "OTC LDAP account"
+    grafana_users_password_hint: "OTC LDAP password"
+    vault_image: "{{ vault_image_stable }}"
+
+  # Infra dashboard
+  dashboard_infra:
+    fqdn: "dashboard.eco.tsi-dev.otc-service.com"
+    grafana_cert: "grafana-eco"
+    grafana_enable_renderer: true
+    grafana_grafana_host: "grafana"
+    grafana_image: "{{ grafana_image_stable }}"
+    grafana_plugins: [ ]
+    grafana_renderer_host: "renderer"
+    grafana_renderer_image: "{{ grafana_renderer_image_stable }}"
+    grafana_url: "https://dashboard.eco.tsi-dev.otc-service.com"
+    grafana_users_login_hint: "Username"
+    grafana_users_password_hint: "Password"
+    vault_image: "{{ vault_image_stable }}"
+
+# Extra vars for k8 deployment
+grafana_k8s_extra_vars:
   grafana_deployment_count: 2
   grafana_deployment_resources:
     limits:
@@ -25,44 +63,29 @@ default: &default_vars
       cpu: 100m
       memory: 100Mi
 
-grafana_instances:
-  production_stg:
-    cluster_issuer: "letsencrypt-staging"
-    fqdn: dashboard.apps.osinfra-stg.eco.tsi-dev.otc-service.com
-    default: *default_vars
-  production_infra:
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "dashboard.tsi-dev.otc-service.com"
-    grafana_cert: "grafana"
-    default: *default_vars
-  production_infra-mirror:
-    # cluster_issuer: "letsencrypt-prod"
-    fqdn: "dashboard.tsi-dev.otc-service.com"
-    grafana_cert: "grafana"
-    default: *default_vars
-  production_vc:
-    default: *default_vars
-  production_infra-eco:
-    default: *default_vars
-    fqdn: "dashboard.eco.tsi-dev.otc-service.com"
-    grafana_cert: "grafana-eco"
-    grafana_users_login_hint: "Username"
-    grafana_users_password_hint: "Password"
-
+# Grafana map of instances to K8 installations
 grafana_k8s_instances:
-  - grafana_instance: "production_stg"
-    instance: "stg"
-    context: "otcinfra-stg"
-    namespace: "apimon"
-  - grafana_instance: "production_infra"
+  # Main grafana in main cluster
+  - grafana_instance: "dashboard"
     instance: "prod"
     context: "otcinfra"
     namespace: "apimon"
-  - grafana_instance: "production_infra-mirror"
+    extra_vars: "{{ grafana_k8s_extra_vars }}"
+  # Main grafana in mirror cluster
+  - grafana_instance: "dashboard"
     instance: "prod-mirror"
     context: "otcinfra-mirror"
     namespace: "apimon"
-  - grafana_instance: "production_infra-eco"
+    extra_vars: "{{ grafana_k8s_extra_vars }}"
+  # Stg grafana in stg cluster
+  - grafana_instance: "dashboard_stg"
+    instance: "stg"
+    context: "otcinfra-stg"
+    namespace: "apimon"
+    extra_vars: "{{ grafana_k8s_extra_vars }}"
+  # Infra grafana in main cluster
+  - grafana_instance: "dashboard_infra"
     instance: "prod-eco"
     context: "otcinfra"
     namespace: "grafana-eco"
+    extra_vars: "{{ grafana_k8s_extra_vars }}"

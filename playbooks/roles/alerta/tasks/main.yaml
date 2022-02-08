@@ -20,7 +20,7 @@
   retries: 5
 
 - name: Create alerta group
-  become: yes
+  become: true
   ansible.builtin.group:
     name: "{{ alerta_os_group }}"
     state: present
@@ -76,6 +76,19 @@
     mode: "0664"
   when:
     - "alertad_config is defined and alertad_config|length"
+  notify:
+    - Restart alerta
+
+- name: Write alerta config file
+  become: true
+  ansible.builtin.copy:
+    content: "{{ alerta_config }}"
+    dest: "/etc/alerta/alerta.conf"
+    owner: "{{ alerta_os_user }}"
+    group: "{{ alerta_os_group }}"
+    mode: "0664"
+  when:
+    - "alerta_config is defined and alerta_config|length"
   notify:
     - Restart alerta
 

@@ -1,9 +1,12 @@
 state: "present"
 
 vault_storage_path: "/opt/vault/data"
+vault_plugin_path: "/etc/vault.d/plugins"
 vault_enable_ui: false
 vault_owner: "vault"
 vault_group: "vault"
+
+vault_plugins: []
 
 # hashi GPG
 hashicorp_gpg_key: |

@@ -1,3 +1,22 @@
+- name: Create Zuul Vars CM
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    namespace: "{{ namespace }}"
+    name: "zuul-executor-vars-{{ instance }}"
+    api_version: "v1"
+    kind: "ConfigMap"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/app: "zuul"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      data:
+        site-vars.yaml: "{{ (zuul.executor_vars | default({})) | to_nice_yaml }}"
+  tags: ["config"]
+
 - name: Create Zuul Executor Service
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -75,10 +94,18 @@
                     name: "vault-agent-config"
                   - mountPath: "/secrets"
                     name: "secrets"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
             containers:
 
               - name: "zuul-executor"
+                image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
+                args:
+                  - "/usr/local/bin/zuul-executor"
+                  - "-f"
+                  - "-d"
                 resources:
                   limits:
                     cpu: '2'
@@ -102,12 +129,6 @@
                     protocol: "TCP"
                 terminationGracePeriodSeconds: 60
                 volumeMounts:
-                  - name: "certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/ssl"
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/zk"
                   - name: "cert-data"
                     mountPath: "/tls"
                   - name: "zuul-config"
@@ -118,7 +139,14 @@
                     mountPath: "/var/lib/zuul"
                   - name: "zuul-var-run"
                     mountPath: "/var/run/zuul"
-                image: "quay.io/opentelekomcloud/zuul-executor:{{ zuul.zuul_version_tag }}"
+                  - name: "zuul-vars"
+                    mountPath: "/var/run/zuul/vars"
+                  - name: "zuul-trusted-ro"
+                    mountPath: "/var/run/zuul/trusted-ro"
+                    readOnly: true
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
               # Vault agent produces files as vault user. We need to ensure
               # those have correct ownership and privs, therefore permanently
@@ -151,21 +179,44 @@
                     name: "vault-agent-config"
                   - mountPath: "/secrets"
                     name: "secrets"
+                  - mountPath: "/var/run/zuul/trusted-ro"
+                    # since we want to populate it - no readonly
+                    name: "zuul-trusted-ro"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
+
+              - name: "zuul-base-vault-agent"
+                command:
+                  - "sh"
+                  - "-c"
+                  - "vault agent -config=/etc/vault/vault-agent-config-zuul-executor-base.hcl"
+                env:
+                  - name: "VAULT_ADDR"
+                    value: "{{ ansible_hashi_vault_addr }}"
+                image: "{{ zuul.vault_image }}"
+                volumeMounts:
+                  - mountPath: "/etc/vault"
+                    name: "vault-agent-config"
+                  - mountPath: "/var/run/zuul/trusted-ro"
+                    # since we want to populate it - no readonly
+                    name: "zuul-trusted-ro"
+                  - mountPath: "/var/run/secrets/tokens"
+                    name: "k8-tokens"
+                    readOnly: true
 
             volumes:
-              - name: "certs"
-                secret:
-                  secretName: "zuul-{{ instance }}"
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
-                  defaultMode: 256
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
+              - name: "zuul-vars"
+                configMap:
+                  name: "zuul-executor-vars-{{ instance }}"
               - name: "zuul-data-volume"
                 emptyDir: {}
               - name: "zuul-var-run"
+                emptyDir: {}
+              - name: "zuul-trusted-ro"
                 emptyDir: {}
               - name: "cert-data"
                 emptyDir: {}
@@ -173,3 +224,10 @@
                 emptyDir: {}
               - name: "secrets"
                 emptyDir: {}
+              - name: "k8-tokens"
+                projected:
+                  defaultMode: 420
+                  sources:
+                  - serviceAccountToken:
+                      expirationSeconds: 7200
+                      path: "vault-token"

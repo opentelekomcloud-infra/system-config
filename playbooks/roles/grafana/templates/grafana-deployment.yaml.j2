@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/instance: "{{ instance }}"
     app.kubernetes.io/managed-by: "system-config"
 spec:
-  replicas: {{ (grafana.grafana_deployment_count | default(grafana.default.grafana_deployment_count))|int }}
+  replicas: {{ grafana.grafana_deployment_count | int }}
   selector:
     matchLabels:
       app.kubernetes.io/name: "grafana"
@@ -41,8 +41,52 @@ spec:
                   values:
                   - "{{ instance }}"
               topologyKey: kubernetes.io/hostname
+      serviceAccountName: "{{ grafana_service_account_name }}"
+      initContainers:
+        - args:
+            - agent
+            - -config=/etc/vault/vault-agent-config.hcl
+            - -log-level=debug
+            - -exit-after-auth=true
+          env:
+            - name: "VAULT_ADDR"
+              value: "{{ ansible_hashi_vault_addr }}"
+{% if grafana.vault_skip_setcap is defined and grafana.vault_skip_setcap %}
+            - name: "SKIP_SETCAP"
+              value: "true"
+{% endif %}
+          image: "{{ grafana.vault_image }}"
+          name: "vault-agent"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: /var/run/secrets/tokens
+              name: k8-tokens
+            - mountPath: "/vault-data"
+              name: "vault-data"
       containers:
-      - image: "{{ grafana.grafana_renderer_image | default(grafana.default.grafana_renderer_image) }}" 
+      - args:
+          - agent
+          - -config=/etc/vault/vault-agent-config.hcl
+          - -log-level=debug
+          - -exit-after-auth=false
+        env:
+          - name: "VAULT_ADDR"
+            value: "{{ ansible_hashi_vault_addr }}"
+{% if grafana.vault_skip_setcap is defined and grafana.vault_skip_setcap %}
+          - name: "SKIP_SETCAP"
+            value: "true"
+{% endif %}
+        image: "{{ grafana.vault_image }}"
+        name: "vault-agent-sidecar"
+        volumeMounts:
+          - mountPath: "/etc/vault"
+            name: "vault-agent-config"
+          - mountPath: /var/run/secrets/tokens
+            name: k8-tokens
+          - mountPath: "/vault-data"
+            name: "vault-data"
+      - image: "{{ grafana.grafana_renderer_image }}" 
         name: "grafana-renderer"
         ports:
         - containerPort: 8081
@@ -54,30 +98,14 @@ spec:
             {{ key2 }}: {{ value2 }}
 {% endfor %}
 {% endfor %}
-{% else %}
-        resources:
-{% for key, value in grafana.default.renderer_deployment_resources.items() %}
-          {{ key }}:
-{% for key2, value2 in value.items() %}
-            {{ key2 }}: {{ value2 }}
-{% endfor %}
-{% endfor %}
 {% endif %}
-      - image: "{{ grafana.grafana_image | default(grafana.default.grafana_image) }}"
+      - image: "{{ grafana.grafana_image }}"
         name: grafana
         ports:
         - containerPort: 3000
 {% if grafana.grafana_deployment_resources is defined %}
         resources:
 {% for key, value in grafana.grafana_deployment_resources.items() %}
-          {{ key }}:
-{% for key2, value2 in value.items() %}
-            {{ key2 }}: {{ value2 }}
-{% endfor %}
-{% endfor %}
-{% else %}
-        resources:
-{% for key, value in grafana.default.grafana_deployment_resources.items() %}
           {{ key }}:
 {% for key2, value2 in value.items() %}
             {{ key2 }}: {{ value2 }}
@@ -99,28 +127,44 @@ spec:
             value: http://localhost:8081/render
           - name: GF_RENDERING_CALLBACK_URL
             value: http://{{ grafana.fqdn }}:3000
-{% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) or
-      (grafana.default.grafana_plugins is defined and grafana.default.grafana_plugins|length)
-%}
+{% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) %}
           - name: GF_INSTALL_PLUGINS
-            value: "{{ grafana.grafana_plugins | default(grafana.default.grafana_plugins) }}"
+            value: "{{ grafana.grafana_plugins }}"
 {% endif %}
         envFrom:
         - secretRef:
             name: "{{ grafana_secret_name }}"
-{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) or
-      (grafana.grafana_ldap_enable is undefined and grafana.default.grafana_ldap_enable)
-%}
         volumeMounts:
-        - name: grafana-config
-          mountPath: /etc/grafana/ldap/ldap.toml
-          subPath: ldap.toml
-        - name: grafana-config
-          mountPath: /etc/grafana/ldap/ldap-certificate.crt
-          subPath: ldap-certificate.crt
+        - mountPath: "/vault-data"
+          name: "vault-data"
+{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) %}
+        - name: grafana-config-ldap
+          mountPath: /etc/grafana/ldap
+{% endif %}
       volumes:
+{% if (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable) %}
       - configMap:
           name: "{{ grafana_config_name }}"
-        name: grafana-config
+          items:
+            - key: ldap.toml
+              path: ldap.toml
+            - key: ldap-certificate.crt
+              path: ldap-certificate.crt
+        name: grafana-config-ldap
 {% endif %}
+      - configMap:
+          name: "{{ grafana_config_name }}"
+          items:
+            - key: vault-agent-config.hcl
+              path: vault-agent-config.hcl
+        name: vault-agent-config
+      - name: k8-tokens
+        projected:
+          defaultMode: 420
+          sources:
+          - serviceAccountToken:
+              expirationSeconds: 7200
+              path: vault-token
+      - emptyDir: {}
+        name: vault-data
 status: {}

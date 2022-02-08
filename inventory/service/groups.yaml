@@ -141,6 +141,9 @@ groups:
     - web3.eco.tsi-dev.otc-service.com
     - bridge.eco.tsi-dev.otc-service.com
 
+  grafana-controller:
+    - bridge.eco.tsi-dev.otc-service.com
+
   proxy:
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
@@ -159,15 +162,15 @@ groups:
     - vault2.eco.tsi-dev.otc-service.com
     - vault3.eco.tsi-dev.otc-service.com
 
-  zookeeper:
-    - zk1.zuul.eco.tsi-dev.otc-service.com
-    - zk2.zuul.eco.tsi-dev.otc-service.com
-    - zk3.zuul.eco.tsi-dev.otc-service.com
+  zookeeper: []
+    # - zk1.zuul.eco.tsi-dev.otc-service.com
+    # - zk2.zuul.eco.tsi-dev.otc-service.com
+    # - zk3.zuul.eco.tsi-dev.otc-service.com
 
-  zuul-zookeeper:
-    - zk1.zuul.eco.tsi-dev.otc-service.com
-    - zk2.zuul.eco.tsi-dev.otc-service.com
-    - zk3.zuul.eco.tsi-dev.otc-service.com
+  #  zuul-zookeeper:
+  #    - zk1.zuul.eco.tsi-dev.otc-service.com
+  #    - zk2.zuul.eco.tsi-dev.otc-service.com
+  #    - zk3.zuul.eco.tsi-dev.otc-service.com
 
   zuul:
     - bridge.eco.tsi-dev.otc-service.com
@@ -192,6 +195,12 @@ groups:
     - vault2.eco.tsi-dev.otc-service.com
     - vault3.eco.tsi-dev.otc-service.com
 
+  vault-controller:
+    - bridge.eco.tsi-dev.otc-service.com
+
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com
+    - zk1.zuul.eco.tsi-dev.otc-service.com
+    - zk2.zuul.eco.tsi-dev.otc-service.com
+    - zk3.zuul.eco.tsi-dev.otc-service.com

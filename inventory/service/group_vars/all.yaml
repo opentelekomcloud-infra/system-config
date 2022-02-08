@@ -25,18 +25,18 @@ database_users:
     comment: Grafana-eco user
 haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
 haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
-alerta_image_stable: quay.io/opentelekomcloud/alerta:8.5.0
-alerta_image_latest: quay.io/opentelekomcloud/alerta:8.5.0
+alerta_image_stable: quay.io/opentelekomcloud/alerta:8.7.0
+alerta_image_latest: quay.io/opentelekomcloud/alerta:8.7.0
 statsd_image_stable: quay.io/opentelekomcloud/statsd:v0.9.0
 statsd_image_latest: quay.io/opentelekomcloud/statsd:v0.9.0
 carbonapi_image_stable: quay.io/opentelekomcloud/carbonapi:v0.15.4
 carbonapi_image_latest: quay.io/opentelekomcloud/carbonapi:v0.15.4
-promtail_image_stable: quay.io/opentelekomcloud/promtail:2.3.0
-promtail_image_latest: quay.io/opentelekomcloud/promtail:2.3.0
+promtail_image_stable: quay.io/opentelekomcloud/promtail:2.4.1
+promtail_image_latest: quay.io/opentelekomcloud/promtail:2.4.1
 graphite_image_stable: quay.io/opentelekomcloud/graphite-statsd:latest
 graphite_image_latest: quay.io/opentelekomcloud/graphite-statsd:latest
-grafana_image_stable: quay.io/opentelekomcloud/grafana:8.2.7
-grafana_image_latest: quay.io/opentelekomcloud/grafana:8.2.7
+grafana_image_stable: quay.io/opentelekomcloud/grafana:8.3.3
+grafana_image_latest: quay.io/opentelekomcloud/grafana:8.3.3
 grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.2.1
 grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.2.1
 apimon_image_stable: quay.io/opentelekomcloud/apimon:change_25_latest
@@ -53,3 +53,5 @@ document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.
 document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.3-alpine
 telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.20.0
 telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.20.0
+vault_image_stable: quay.io/opentelekomcloud/vault:1.9.2
+vault_image_latest: quay.io/opentelekomcloud/vault:1.9.2
