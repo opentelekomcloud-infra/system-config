@@ -2,6 +2,7 @@
 # Opensearch cluster is managed by HELM
 - hosts: "k8s-controller:!disabled"
   name: "Base: configure Opensearch K8S networking - ingress/tls/secrets"
+  become: true
   tasks:
     - include_role:
         name: "opensearch"
