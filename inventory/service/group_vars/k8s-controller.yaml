@@ -207,6 +207,33 @@ helm_chart_instances:
     version: 1.0.24
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
+  otcinfra_opensearch:
+    context: otcinfra
+    repo_url: https://opensearch-project.github.io/helm-charts/
+    repo_name: opensearch
+    name: opensearch
+    ref: opensearch/opensearch
+    version: 1.5.4
+    namespace: opensearch
+    values_template: "templates/charts/opensearch/opensearch-otcinfra-values.yaml.j2"
+    opensearch_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_tls_name }}"
+    opensearch_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_fqdn }}"
+    opensearch_node_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_tls_name }}"
+    opensearch_node_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_fqdn}}"
+    opensearch_admin_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_tls_name }}"
+    opensearch_admin_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_fqdn }}"
+    opensearch_internal_users_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_internal_users_name}}"
+  otcinfra_opensearch-dashboard:
+    context: otcinfra
+    repo_url: https://opensearch-project.github.io/helm-charts/
+    repo_name: opensearch
+    name: opensearch-dashboards
+    ref: opensearch/opensearch-dashboards
+    version: 1.1.1
+    namespace: opensearch
+    values_template: "templates/charts/opensearch/opensearch-dashboard-otcinfra-values.yaml.j2"
+    opensearch_dashboard_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_tls_name }}"
+    opensearch_dashboard_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_fqdn }}"
   otcci_telegraf:
     context: otcci
     repo_url: https://helm.influxdata.com/
@@ -257,6 +284,26 @@ loki_k8s_instances:
     context: "otcinfra"
     instance: "prod"
     namespace: "loki"
+
+opensearch_instances:
+  otcinfra_opensearch:
+    opensearch_cert: "opensearch"
+    opensearch_tls_name: "opensearch-cert-tls"
+    opensearch_fqdn: "opensearch.eco.tsi-dev.otc-service.com"
+    opensearch_dashboard_cert: "opensearch-dashboard"
+    opensearch_dashboard_tls_name: "opensearch-dashboard-cert-tls"
+    opensearch_dashboard_fqdn: "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+    opensearch_node_tls_name: "opensearch-node-tls"
+    opensearch_node_fqdn: "opensearch-node.eco.tsi-dev.otc-service.com"
+    opensearch_admin_tls_name: "opensearch-admin-tls"
+    opensearch_admin_fqdn: "opensearch-admin.eco.tsi-dev.otc-service.com"
+    opensearch_internal_users_name: "opensearch-internal-users"
+
+opensearch_k8s_instances:
+  - opensearch_instance: "otcinfra_opensearch"
+    context: "otcinfra"
+    instance: "prod"
+    namespace: "opensearch"
 
 swift_proxy_instances:
   artifacts:

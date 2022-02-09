@@ -79,6 +79,11 @@
             dependencies:
               - name: infra-prod-base
                 soft: true
+         
+        - infra-prod-service-opensearch: &infra-prod-service-opensearch
+            dependencies:
+              - name: infra-prod-base
+                soft: true
 
         - infra-prod-install-helm-chart: &infra-prod-install-helm-chart
             dependencies:
@@ -175,6 +180,7 @@
         - infra-prod-service-bridge: *infra-prod-service-bridge
 
         - infra-prod-install-cce: *infra-prod-install-cce
+        - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
