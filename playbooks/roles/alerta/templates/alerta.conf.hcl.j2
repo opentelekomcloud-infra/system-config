@@ -1,0 +1,5 @@
+[DEFAULT]
+endpoint = http://localhost:8080/api
+[%- with secret "{{ alerta.vault_secret_path }}" %]
+key = [% .Data.data.api_key %]
+[%- end %]
