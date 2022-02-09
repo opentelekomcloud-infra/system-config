@@ -28,6 +28,10 @@ ssl_certs:
     - "dashboard.eco.tsi-dev.otc-service.com"
   loki:
     - "loki.eco.tsi-dev.otc-service.com"
+  opensearch:
+    - "opensearch.eco.tsi-dev.otc-service.com"
+  opensearch-dashboard:
+    - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
   alerta:
     - "alerts.eco.tsi-dev.otc-service.com"
   matrix:

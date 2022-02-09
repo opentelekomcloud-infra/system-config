@@ -1,0 +1,23 @@
+opensearchHosts: "http://opensearch-cluster-master:9200"
+ingress:
+  enabled: true
+  annotations:
+    "kubernetes.io/ingress.class" : "nginx"
+  hosts:
+  - host: "{{ chart.opensearch_dashboard_fqdn }}"
+    paths:
+      - path: /
+        backend:
+          serviceName: opensearch-dashboards
+          servicePort: 5601
+  tls:
+    - secretName: "{{ chart.opensearch_dashboard_tls_name }}"
+      hosts:
+        - "{{ chart.opensearch_dashboard_fqdn }}"
+
+extraEnvs:
+  - name: OPENSEARCH_USERNAME
+    value: "{{ chart.opensearch_username }}"
+  - name: OPENSEARCH_PASSWORD
+    value: "{{ chart.opensearch_password }}"
+

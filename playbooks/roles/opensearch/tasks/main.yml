@@ -1,0 +1,158 @@
+# These role tasks are to expose the Opensearch service with  ingress using TLS
+# Manage x509 certificats required for Opensearch 
+# The Opensearch deployment is managed with Helm chart
+- name: Create {{ instance }} Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
+- name: Create {{ instance }} Opensearch TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ opensearch.opensearch_tls_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "opensearch"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ opensearch.opensearch_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ opensearch.opensearch_cert }}.pem') | string | b64encode }}"
+  when: "opensearch.opensearch_cert is defined"
+
+- name: Create {{ instance }} Opensearch-dashboard TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ opensearch.opensearch_dashboard_tls_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "opensearch-dashboard"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ opensearch.opensearch_dashboard_cert }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ opensearch.opensearch_dashboard_cert }}.pem') | string | b64encode }}"
+  when: "opensearch.opensearch_dashboard_cert is defined"
+
+- name: Create {{ instance }} Opensearch node/admin x509 certificate
+  include_role:
+    name: "x509_cert"
+    tasks_from: cert.yaml
+  vars:
+    x509_common_name: "{{ host }}"
+    x509_private_key_format: "pkcs8"
+  loop:
+    - "{{ opensearch.opensearch_node_fqdn }}"
+    - "{{ opensearch.opensearch_admin_fqdn }}"
+  loop_control:
+    loop_var: "host"
+ 
+- name: Create {{ instance }} Opensearch directory for storing SSL certificate/key/ca
+  become: true
+  file:
+    path: "/etc/ssl/opensearch-{{ instance }}"
+    state: directory
+
+- name: Copy {{ instance }} Opensearch SSL certificate/key/ca
+  become: true
+  copy:
+    src: "{{ file }}"
+    dest: "/etc/ssl/opensearch-{{ instance }}/"
+  loop:
+    - "/etc/ssl/ca/ca.pem"
+    - "/etc/ssl/certs/{{ opensearch.opensearch_node_fqdn }}.pem"
+    - "/etc/ssl/certs/{{ opensearch.opensearch_admin_fqdn }}.pem"
+  loop_control:
+    loop_var: "file"
+
+- name: Rename CA file to ensure it will be at the end of assembled certificate 
+  command: "mv /etc/ssl/opensearch-{{ instance }}/ca.pem /etc/ssl/opensearch-{{ instance }}/zca.pem"
+
+- name: Assemble {{ instance }} Opensearch combined node cert with ca
+  become: true
+  assemble:
+    src: "/etc/ssl/opensearch-{{ instance }}/"
+    dest: "/etc/ssl/opensearch-{{ instance }}/{{ opensearch.opensearch_node_fqdn }}-fullchain.crt"
+    regexp: "(zca|{{ opensearch.opensearch_node_fqdn }}).pem"
+    mode: "0444"
+
+- name: Assemble {{ instance }} Opensearch combined admin cert with ca
+  assemble:
+    src: "/etc/ssl/opensearch-{{ instance }}/"
+    dest: "/etc/ssl/opensearch-{{ instance }}/{{ opensearch.opensearch_admin_fqdn }}-fullchain.crt"
+    regexp: "(zca|{{ opensearch.opensearch_admin_fqdn }}).pem"
+    mode: "0444"
+
+- name: Create {{ instance }} Opensearch node TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ opensearch.opensearch_node_tls_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "opensearch-node"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/opensearch-{{ instance }}/{{ opensearch.opensearch_node_fqdn }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/keys/{{ opensearch.opensearch_node_fqdn }}.pem') | string | b64encode }}"
+  when: "opensearch.opensearch_node_fqdn is defined"
+
+- name: Create {{ instance }} Opensearch admin TLS Certs Secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ opensearch.opensearch_admin_tls_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "opensearch-admin"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "kubernetes.io/tls"
+      data:
+        tls.crt: "{{ lookup('file', '/etc/ssl/opensearch-{{ instance }}/{{ opensearch.opensearch_admin_fqdn }}-fullchain.crt') | string | b64encode }}"
+        tls.key: "{{ lookup('file', '/etc/ssl/keys/{{ opensearch.opensearch_admin_fqdn }}.pem') | string | b64encode }}"
+  when: "opensearch.opensearch_admin_fqdn is defined"
+
+- name: Create {{ instance }} Opensearch internal_users.yml secret
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ opensearch.opensearch_internal_users_name }}"
+    api_version: "v1"
+    kind: "Secret"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "opensearch-admin"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      type: "Opaque"
+      data:
+        internal_users.yml:  "{{ lookup('template', 'opensearch-internal-users.yaml.j2') | string | b64encode }}"
+

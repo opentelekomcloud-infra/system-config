@@ -1,0 +1,86 @@
+ingress:
+  enabled: true
+  annotations:
+    "kubernetes.io/ingress.class" : "nginx"
+  path: /
+  hosts:
+    - "{{ chart.opensearch_fqdn }}"
+  tls:
+    - secretName: "{{ chart.opensearch_tls_name }}"
+      hosts:
+        - "{{ chart.opensearch_fqdn }}"
+persistence:
+  storageClass: csi-disk
+  size: 100Gi
+  annotations:
+    everest.io/disk-volume-type: sas
+secretMounts:
+  - name: "node-pem"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/node.pem"
+    subPath: "tls.crt"
+  - name: "node-key-pem"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/node-key.pem"
+    subPath: "tls.key"
+  - name: "root-cacert"
+    secretName: "{{ chart.opensearch_node_tls_name }}"
+    path: "/usr/share/opensearch/config/root-cacert.pem"
+    subPath: "tls.crt"
+  - name: "admin-pem"
+    secretName: "{{ chart.opensearch_admin_tls_name }}"
+    path: "/usr/share/opensearch/config/admin.pem"
+    subPath: "tls.crt"
+  - name: "admin-key-pem"
+    secretName: "{{ chart.opensearch_admin_tls_name }}"
+    path: "/usr/share/opensearch/config/admin-key.pem"
+    subPath: "tls.key"
+config:
+  opensearch.yml: |
+    cluster.name: opensearch-cluster
+
+    # Bind to all interfaces because we don't know what IP address Docker will assign to us.
+    network.host: 0.0.0.0
+
+    plugins:
+      security:
+        ssl:
+          transport:
+            pemcert_filepath: node.pem
+            pemkey_filepath: node-key.pem
+            pemtrustedcas_filepath: root-cacert.pem
+            enforce_hostname_verification: false
+          http:
+            enabled: false
+        allow_unsafe_democertificates: true
+        allow_default_init_securityindex: true
+        nodes_dn:
+          - CN={{ chart.opensearch_node_fqdn }}
+        authcz:
+          admin_dn:
+            - CN={{ chart.opensearch_admin_fqdn }}
+        audit.type: internal_opensearch
+        enable_snapshot_restore_privilege: true
+        check_snapshot_restore_write_privileges: true
+        restapi:
+          roles_enabled: ["all_access", "security_rest_api_access"]
+          password_validation_regex: '(?=.*[A-Z])(?=.*[^a-zA-Z\d])(?=.*[0-9])(?=.*[a-z]).{8,}'
+          password_validation_error_message: "Password must be minimum 8 characters long and must contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+        system_indices:
+          enabled: true
+          indices:
+            [
+              ".opendistro-alerting-config",
+              ".opendistro-alerting-alert*",
+              ".opendistro-anomaly-results*",
+              ".opendistro-anomaly-detector*",
+              ".opendistro-anomaly-checkpoints",
+              ".opendistro-anomaly-detection-state",
+              ".opendistro-reports-*",
+              ".opendistro-notifications-*",
+              ".opendistro-notebooks",
+              ".opendistro-asynchronous-search-response*",
+            ]
+
+securityConfig:
+  internalUsersSecret: "{{ chart.opensearch_internal_users_name }}"
