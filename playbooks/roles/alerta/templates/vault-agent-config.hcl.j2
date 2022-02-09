@@ -1,0 +1,30 @@
+# Comment this out if running as sidecar instead of initContainer
+exit_after_auth = true
+pid_file = "/tmp/pidfile"
+auto_auth {
+    method "kubernetes" {
+        mount_path = "{{ alerta.vault_k8_auth_mount_path }}"
+        config = {
+            role = "{{ alerta.vault_role_name }}"
+            token_path = "/run/secrets/tokens/vault-token"
+        }
+    }
+}
+
+cache {
+    use_auto_auth_token = true
+}
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  source = "/vault-data/template/alertad.conf.hcl"
+  destination = "/vault-data/alertad.conf"
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  source = "/vault-data/template/alerta.conf.hcl"
+  destination = "/vault-data/alerta.conf"
+  }

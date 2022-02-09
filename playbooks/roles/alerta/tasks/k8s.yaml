@@ -7,6 +7,34 @@
     api_version: "v1"
     kind: "Namespace"
 
+- name: Create {{ instance }} ServiceAccount
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_service_account_name }}"
+    api_version: "v1"
+    kind: "ServiceAccount"
+    apply: "yes"
+
+- name: Create {{ instance }} SA binding
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ alerta_service_account_name }}-tokenreview-binding"
+    api_version: "rbac.authorization.k8s.io/v1"
+    kind: "ClusterRoleBinding"
+    definition:
+      subjects:
+        - kind: "ServiceAccount"
+          name: "{{ alerta_service_account_name }}"
+          namespace: "{{ namespace }}"
+      roleRef:
+        kind: "ClusterRole"
+        name: "system:auth-delegator"
+        apiGroup: "rbac.authorization.k8s.io"
+
 - name: Create {{ instance }} ConfigMap
   community.kubernetes.k8s:
     context: "{{ context }}"
@@ -23,8 +51,9 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       data:
-        alertad.conf: "{{ lookup('template', 'templates/alerta/alertad.conf.j2') }}"
-        alerta.conf: "{{ lookup('template', 'templates/alerta/alerta.conf.j2') }}"
+        alertad.conf.hcl: "{{ lookup('template', 'alertad.conf.hcl.j2') }}"
+        alerta.conf.hcl: "{{ lookup('template', 'alerta.conf.hcl.j2') }}"
+        vault-agent-config.hcl: "{{ lookup('template', 'vault-agent-config.hcl.j2') }}"
 
 - name: Create {{ instance }} TLS Certs Secret
   community.kubernetes.k8s:
