@@ -73,9 +73,6 @@
                   - name: "cert-data"
                     mountPath: "/tls"
                     readOnly: true
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/zuul/zk"
                   - mountPath: "/etc/zuul"
                     name: "zuul-config"
                   - mountPath: "/var/run/secrets/tokens"
@@ -125,9 +122,6 @@
               - name: "vault-agent-config"
                 configMap:
                   name: "vault-agent-config-{{ instance }}"
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
               - name: "cert-data"
                 emptyDir: {}
               - name: "zuul-config"

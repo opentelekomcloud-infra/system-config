@@ -93,9 +93,6 @@
                   - name: "STATSD_HOST"
                     value: "{{ zuul.statsd_host }}"
                 volumeMounts:
-                  - name: "zk-certs"
-                    readOnly: true
-                    mountPath: "/etc/nodepool/ssl/zk"
                   - name: "cert-data"
                     mountPath: "/tls"
                     readOnly: true
@@ -150,10 +147,6 @@
               - name: "nodepool-config"
                 configMap:
                   name: "nodepool-config-{{ instance }}"
-                  defaultMode: 420
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
                   defaultMode: 420
               - name: "vault-agent-config"
                 configMap:
@@ -261,9 +254,6 @@
                   - name: "OS_CLIENT_CONFIG_FILE"
                     value: "/etc/openstack/clouds.yaml"
                 volumeMounts:
-                  - name: "zk-certs"
-                    mountPath: "/etc/nodepool/ssl/zk"
-                    readOnly: true
                   - name: "cert-data"
                     mountPath: "/tls"
                     readOnly: true
@@ -328,9 +318,6 @@
               - name: "nodepool-config"
                 configMap:
                   name: "nodepool-config-{{ instance }}"
-              - name: "zk-certs"
-                secret:
-                  secretName: "zuul-zk-certs-{{ instance }}"
               - name: "cert-data"
                 emptyDir: {}
 
