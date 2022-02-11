@@ -266,7 +266,7 @@ apimon_instances:
             epmon_swift, epmon_sdrs, epmon_rds, epmon_smn,
             epmon_rest] | combine }}"
     # Do endpoints check once per minute only
-    epmon_interval: 60
+    epmon_interval: 120
 
     # Test projects
     test_projects:
