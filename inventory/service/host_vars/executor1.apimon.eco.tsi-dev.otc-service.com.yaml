@@ -1,1 +1,41 @@
+image: "Standard_Fedora_35_latest"
+flavor: "s3.xlarge.4"
+security_groups: ["common_sg", "apimon-executor-sg", "dashboard-common-sg"]
+nics:
+  - fixed_ip: "192.168.110.225"
+    net-name: "dashboard-otc-net"
+root_volume_size: 10
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 10
+  - name: "home"
+    size: 10
+userdata: |
+  #cloud-config
+  disk_setup:
+    /dev/vdb:
+      table_type: 'mbr'
+      layout:
+        - 100
+    /dev/vdc:
+      table_type: 'mbr'
+      layout:
+        - 100
+  fs_setup:
+    - label: var
+      filesystem: ext4
+      device: '/dev/vdb1'
+    - label: home
+      filesystem: ext4
+      device: '/dev/vdc1'
+  runcmd:
+    - mkdir /mnt/vdb && mount /dev/vdb1 /mnt/vdb
+    - cp -a /var/* /mnt/vdb/
+    - umount /mnt/vdb && rmdir /mnt/vdb
+    - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
+    - mount /var
+  mounts:
+    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
+
 firewalld_extra_ports_enable: ["8125/udp"]
