@@ -29,13 +29,22 @@ userdata: |
     - label: home
       filesystem: ext4
       device: '/dev/vdc1'
+  mounts:
+    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
+  groups:
+    - automation
+  users:
+    - default
+    - name: automation
+      primary_group: automation
+      ssh_authorized_keys:
+        - "{{ bastion_public_key }}"
+      sudo: ALL=(ALL) NOPASSWD:ALL
   runcmd:
     - mkdir /mnt/vdb && mount /dev/vdb1 /mnt/vdb
     - cp -a /var/* /mnt/vdb/
     - umount /mnt/vdb && rmdir /mnt/vdb
     - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
     - mount /var
-  mounts:
-    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
 
 firewalld_extra_ports_enable: ["8125/udp"]
