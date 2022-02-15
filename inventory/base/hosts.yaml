@@ -125,4 +125,3 @@ all:
         cloud: "otcinfra-domain3-infra-nl"
         az: "eu-nl-01"
         region: "eu-nl"
-        region: "eu-de"
