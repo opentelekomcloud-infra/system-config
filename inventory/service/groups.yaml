@@ -204,7 +204,3 @@ groups:
     - zk1.zuul.eco.tsi-dev.otc-service.com
     - zk2.zuul.eco.tsi-dev.otc-service.com
     - zk3.zuul.eco.tsi-dev.otc-service.com
-    # prepare replacement of executor hosts
-    - executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor3.apimon.eco.tsi-dev.otc-service.com
-    - executor4.apimon.eco.tsi-dev.otc-service.com

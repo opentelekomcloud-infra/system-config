@@ -1,0 +1,9 @@
+- name: "Initialize variable"
+  set_fact:
+    data_volumes_idlist: []
+  no_log: true
+- name: "Loop over a list of results"
+  set_fact:
+    data_volumes_idlist: "{{ data_volumes_idlist + [ item.id ] }}"
+  no_log: true
+  loop: "{{ data_volumes_result.results }}"
