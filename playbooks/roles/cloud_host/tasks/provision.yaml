@@ -5,6 +5,22 @@
     name: "otcinfra-bridge"
     public_key: "{{ bastion_public_key }}"
 
+- name: "Create data disk if requested for {{ host }}"
+  openstack.cloud.volume:
+    state: "present"
+    cloud: "{{ hostvars[host].location.cloud }}"
+    name: "{{ hostvars[host].inventory_hostname }}-{{ item.name }}"
+    size: "{{ item.size }}"
+    availability_zone: "{{ hostvars[host].location.az }}"
+    wait: true
+  register: data_volumes_result
+  when: hostvars[host].data_volumes is defined
+  loop: "{{ hostvars[host].data_volumes }}"
+
+- name: "Construct data_volumes_idlist from result"
+  include_tasks: construct_volumes_idlist.yaml
+  when: data_volumes_result.changed == true
+
 - name: "Provision server {{ hostvars[host].inventory_hostname }}"
   openstack.cloud.server:
     state: "present"
@@ -22,3 +38,5 @@
     terminate_volume: true
     delete_fip: true
     auto_ip: "{{ hostvars[host].auto_ip | default(omit) }}"
+    volumes:  "{{ data_volumes_idlist | default(omit) }}"
+    userdata: "{{ hostvars[host].userdata  | default(omit) }}"
