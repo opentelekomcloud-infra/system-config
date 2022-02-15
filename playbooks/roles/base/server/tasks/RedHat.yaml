@@ -6,7 +6,7 @@
         state: absent
 
     - name: Ensure chrony is running
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: chronyd
         enabled: yes
         state: started
@@ -20,8 +20,8 @@
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Ensure dnf-automatic service is running
-  ansible.builtin.service:
-    name: dnf-automatic
+  ansible.builtin.systemd:
+    name: dnf-automatic.timer
     enabled: yes
     state: started
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
