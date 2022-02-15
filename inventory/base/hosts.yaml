@@ -23,9 +23,17 @@ all:
     executor3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.145
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-02"
+        region: "eu-de"
     executor4.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.164
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
@@ -117,3 +125,4 @@ all:
         cloud: "otcinfra-domain3-infra-nl"
         az: "eu-nl-01"
         region: "eu-nl"
+        region: "eu-de"
