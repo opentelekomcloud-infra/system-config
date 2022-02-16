@@ -1,0 +1,61 @@
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Create cloudmon group
+  become: true
+  ansible.builtin.group:
+    name: "{{ cloudmon_os_group }}"
+    state: present
+
+- name: Create cloudmon user for docker/podman
+  become: true
+  ansible.builtin.user:
+    name: "{{ cloudmon_os_user }}"
+    group: "{{ cloudmon_os_group }}"
+    groups: "{{ 'docker' if container_command == 'docker' else '' }}"
+    state: present
+
+- name: Ensure directories exist
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ item }}"
+    mode: "0755"
+    owner: "{{ cloudmon_os_user }}"
+    group: "{{ cloudmon_os_group }}"
+  loop:
+    - "{{ cloudmon_config_dest }}"
+
+- name: Write config files
+  become: true
+  ansible.builtin.copy:
+    content: "{{ plugin_config | to_nice_yaml }}"
+    dest: "{{ cloudmon_config_dest }}/{{ plugin_name }}.yaml"
+    mode: "0644"
+    owner: "{{ cloudmon_os_user }}"
+    group: "{{ cloudmon_os_group }}"
+  notify: "Restart plugin"
+
+- name: Write systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "plugin.service.j2"
+    dest: "/etc/systemd/system/{{ plugin_name }}.service"
+  notify: "Restart plugin"

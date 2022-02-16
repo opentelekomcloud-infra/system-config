@@ -1,0 +1,11 @@
+- hosts: apimon-scheduler:!disabled
+  become: true
+  name: "Configure CloudMon plugins"
+  tasks:
+    - include_role:
+        name: cloudmon_plugin
+      vars:
+        plugin_name: "{{ item.name }}"
+        plugin_image: "{{ item.image }}"
+        plugin_config: "{{ item.config | default(omit) }}"
+      loop: "{{ apimon_instances[apimon_instance]['plugins'] | default([]) }}"

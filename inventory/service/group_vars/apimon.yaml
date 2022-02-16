@@ -33,6 +33,24 @@ apimon_instances:
     zone: production_eu-de
     image: "{{ apimon_image_stable }}"
 
+    plugins:
+      - name: cloudmon-plugin-smtp
+        image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_3_latest"
+        config:
+          interval: 60
+          timeout: 2
+          smtp_servers:
+            - addr: 80.158.29.159:25
+              name: mta01
+            - addr: 80.158.29.232:25
+              name: mta02
+            - addr: 80.158.30.229:25
+              name: mta03
+          statsd:
+            server: 192.168.110.58:8125
+            prefix: cloudmon.production_eu-de.production_eu-de
+
+
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
     epmon_clouds:
