@@ -198,6 +198,16 @@
       - playbooks/roles/alerta/
 
 - job:
+    name: infra-prod-service-cloudmon
+    parent: infra-prod-service-base
+    description: Run service-cloudmon.yaml playbook.
+    vars:
+      playbook_name: service-cloudmon.yaml
+    files:
+      - inventory/
+      - playbooks/service-cloudmon.yaml
+
+- job:
     name: infra-prod-grafana-dashboards
     parent: infra-prod-service-base
     description: Run dashboards.yaml playbook.
