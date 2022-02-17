@@ -35,10 +35,10 @@ promtail_image_stable: quay.io/opentelekomcloud/promtail:2.4.1
 promtail_image_latest: quay.io/opentelekomcloud/promtail:2.4.1
 graphite_image_stable: quay.io/opentelekomcloud/graphite-statsd:latest
 graphite_image_latest: quay.io/opentelekomcloud/graphite-statsd:latest
-grafana_image_stable: quay.io/opentelekomcloud/grafana:8.3.3
-grafana_image_latest: quay.io/opentelekomcloud/grafana:8.3.3
-grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.2.1
-grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.2.1
+grafana_image_stable: quay.io/opentelekomcloud/grafana:8.3.5
+grafana_image_latest: quay.io/opentelekomcloud/grafana:8.3.5
+grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.3.0
+grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.3.0
 apimon_image_stable: quay.io/opentelekomcloud/apimon:change_25_latest
 apimon_image_latest: quay.io/opentelekomcloud/apimon:change_25_latest
 memcached_image_stable: quay.io/opentelekomcloud/memcached:1.6.10-alpine
