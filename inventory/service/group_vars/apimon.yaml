@@ -2,6 +2,7 @@ apimon_image: "{{ apimon_image_stable }}"
 apimon_executor_image: "{{ apimon_image }}"
 apimon_scheduler_image: "{{ apimon_image }}"
 apimon_epmon_image: "{{ apimon_image }}"
+cloudmon_plugin_smtp_image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_4_latest"
 
 # Templates and filenames config
 apimon_epmon_config_template: "templates/apimon/apimon.yaml.j2"
@@ -35,7 +36,7 @@ apimon_instances:
 
     plugins:
       - name: cloudmon-plugin-smtp
-        image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_3_latest"
+        image: "{{ cloudmon_plugin_smtp_image }}"
         config:
           interval: 60
           timeout: 2
@@ -49,7 +50,6 @@ apimon_instances:
           statsd:
             server: 192.168.110.58:8125
             prefix: cloudmon.production_eu-de.production_eu-de
-
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -138,6 +138,23 @@ apimon_instances:
     gearman_host: 192.168.2.60
     zone: vcloud_muc
     image: "{{ apimon_image_stable }}"
+
+    plugins:
+      - name: cloudmon-plugin-smtp
+        image: "{{ cloudmon_plugin_smtp_image }}"
+        config:
+          interval: 60
+          timeout: 2
+          smtp_servers:
+            - addr: 80.158.29.159:25
+              name: mta01
+            - addr: 80.158.29.232:25
+              name: mta02
+            - addr: 80.158.30.229:25
+              name: mta03
+          statsd:
+            server: 192.168.110.58:8125
+            prefix: cloudmon.production_eu-de.vcloud_muc
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
