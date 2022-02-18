@@ -206,6 +206,7 @@
     files:
       - inventory/
       - playbooks/service-cloudmon.yaml
+      - playbooks/roles/cloudmon_plugin
 
 - job:
     name: infra-prod-grafana-dashboards
