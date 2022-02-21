@@ -20,5 +20,5 @@
     grafana_api_key: "{{ grafana_api_key }}"
     state: "present"
     overwrite: "yes"
-    folder: "{{ cloudmon_folder | default('Testing') }}"
+    folder: "{{ cloudmon_folder | default('Cloudmon') }}"
     path: "{{ tmp_file.path }}"

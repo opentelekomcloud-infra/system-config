@@ -28,7 +28,6 @@ executor_secure_config_file_name: "apimon-executor-secure.yaml"
 apimon_secure_file_location: "/etc/apimon/apimon-secure.yaml"
 
 cloudmon_datasource: "apimon-carbonapi"
-cloudmon_folder: "testingApimon"
 
 # Main instances configuration
 apimon_instances:
