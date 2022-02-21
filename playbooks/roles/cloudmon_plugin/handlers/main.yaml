@@ -1,0 +1,6 @@
+- name: Restart plugin
+  ansible.builtin.systemd:
+    name: "{{ plugin_name }}"
+    enabled: true
+    state: "restarted"
+    daemon_reload: true

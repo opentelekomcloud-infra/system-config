@@ -1,0 +1,44 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Create temporary build directory
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: git
+  register: tmp_dir
+
+- name: Get plugin dashboards archive from init container
+  ansible.builtin.shell: "{{ container_runtime }} run --rm {{ plugin_init_image }} cat /cloudmon/init/grafana.tar.gz >> {{ tmp_dir.path }}/grafana.tar.gz"
+  register: result
+
+- name: Unpack dashboards archive
+  ansible.builtin.unarchive:
+    src: "{{ tmp_dir.path }}/grafana.tar.gz"
+    dest: "{{ tmp_dir.path }}"
+    remote_src: "yes"
+
+- name: Find dashboards definitions
+  ansible.builtin.find:
+    paths: "{{ tmp_dir.path }}/grafana/dashboards"
+    patterns: "*.yaml"
+    recurse: "yes"
+  register: dashboards
+
+- name: Read found files
+  ansible.builtin.slurp:
+    src: "{{ item.path }}"
+  loop: "{{ dashboards.files }}"
+  register: dashboards_content
+
+- name: Process individual dashboards
+  include_tasks: "dashboard.yaml"
+  loop: "{{ dashboards_content.results }}"
+  loop_control:
+    loop_var: "zj_dashboard"
+    label: "{{ zj_dashboard.source }}"

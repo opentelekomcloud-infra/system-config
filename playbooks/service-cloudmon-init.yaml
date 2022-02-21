@@ -1,0 +1,16 @@
+- hosts: apimon-scheduler:!disabled
+  become: true
+  name: "Init CloudMon plugins"
+  tasks:
+    - include_role:
+        name: cloudmon_plugin
+        tasks_from: "dashboards.yaml"
+      vars:
+        plugin_name: "{{ item.name }}"
+        plugin_image: "{{ item.image }}"
+        plugin_init_image: "{{ item.init_image }}"
+        plugin_config: "{{ item.config | default(omit) }}"
+        grafana_url: "{{ cloudmon_grafana_url }}"
+        grafana_api_key: "{{ cloudmon_grafana_api_token }}"
+      loop: "{{ apimon_instances[apimon_instance]['plugins'] | default([]) }}"
+      when: "item.init_image is defined"

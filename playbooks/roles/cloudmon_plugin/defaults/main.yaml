@@ -1,0 +1,6 @@
+cloudmon_config_dest: /etc/cloudmon
+cloudmon_os_group: cloudmon
+cloudmon_os_user: cloudmon
+
+container_command: "podman"
+container_runtime: "/usr/bin/{{ container_command }}"

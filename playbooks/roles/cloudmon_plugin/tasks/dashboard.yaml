@@ -1,0 +1,24 @@
+---
+- name: Create temporary dashboard template
+  delegate_to: "bridge.eco.tsi-dev.otc-service.com"
+  ansible.builtin.tempfile:
+    state: file
+  register: tmp_file
+
+- name: Write dashboard json into the file
+  delegate_to: "bridge.eco.tsi-dev.otc-service.com"
+  ansible.builtin.copy:
+    content: "{{ zj_dashboard.content | b64decode | from_yaml |
+      regex_replace('\\$cloudmon_datasource', cloudmon_datasource)
+    }}"
+    dest: "{{ tmp_file.path }}"
+
+- name: Create dashboard
+  delegate_to: "bridge.eco.tsi-dev.otc-service.com"
+  community.grafana.grafana_dashboard:
+    grafana_url: "{{ grafana_url }}"
+    grafana_api_key: "{{ grafana_api_key }}"
+    state: "present"
+    overwrite: "yes"
+    folder: "{{ cloudmon_folder | default('Cloudmon') }}"
+    path: "{{ tmp_file.path }}"
