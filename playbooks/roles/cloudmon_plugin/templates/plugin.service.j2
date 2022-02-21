@@ -1,0 +1,27 @@
+[Unit]
+Description={{ plugin_name }} Service
+After=syslog.target network.target
+
+[Service]
+Restart=always
+TimeoutSec=30s
+User={{ cloudmon_os_user }}
+Group={{ cloudmon_os_group }}
+
+ExecStartPre=-{{ container_runtime }} kill {{ plugin_name }}
+ExecStartPre=-{{ container_runtime }} rm {{ plugin_name }}
+
+ExecStart={{ container_runtime }} run \
+    --name {{ plugin_name }} \
+{% if container_command == 'podman' %}
+    --log-opt=path=/dev/null \
+{% endif %}
+    -v {{ cloudmon_config_dest }}/{{ plugin_name }}.yaml:/cloudmon/config.yaml:ro \
+    -e RUST_LOG=debug \
+    {{ plugin_image }}
+
+ExecStop={{ container_runtime }} stop -t 300 "{{ plugin_name }}"
+ExecStop={{ container_runtime }} rm "{{ plugin_name }}"
+
+[Install]
+WantedBy=multi-user.target

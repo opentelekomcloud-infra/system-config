@@ -2,6 +2,8 @@ apimon_image: "{{ apimon_image_stable }}"
 apimon_executor_image: "{{ apimon_image }}"
 apimon_scheduler_image: "{{ apimon_image }}"
 apimon_epmon_image: "{{ apimon_image }}"
+cloudmon_plugin_smtp_image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_6_latest"
+cloudmon_plugin_smtp_init_image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp-init:change_6_latest"
 
 # Templates and filenames config
 apimon_epmon_config_template: "templates/apimon/apimon.yaml.j2"
@@ -25,6 +27,8 @@ executor_secure_config_file_name: "apimon-executor-secure.yaml"
 # common (scheduler+epmon) secure file
 apimon_secure_file_location: "/etc/apimon/apimon-secure.yaml"
 
+cloudmon_datasource: "apimon-carbonapi"
+
 # Main instances configuration
 apimon_instances:
   production:
@@ -32,6 +36,24 @@ apimon_instances:
     gearman_host: 192.168.110.58
     zone: production_eu-de
     image: "{{ apimon_image_stable }}"
+
+    plugins:
+      - name: cloudmon-plugin-smtp
+        image: "{{ cloudmon_plugin_smtp_image }}"
+        init_image: "{{ cloudmon_plugin_smtp_init_image }}"
+        config:
+          interval: 60
+          timeout: 2
+          smtp_servers:
+            - addr: 80.158.29.159:25
+              name: mta01
+            - addr: 80.158.29.232:25
+              name: mta02
+            - addr: 80.158.30.229:25
+              name: mta03
+          statsd:
+            server: 192.168.110.58:8125
+            prefix: cloudmon.production_eu-de.production_eu-de
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
@@ -120,6 +142,23 @@ apimon_instances:
     gearman_host: 192.168.2.60
     zone: vcloud_muc
     image: "{{ apimon_image_stable }}"
+
+    plugins:
+      - name: cloudmon-plugin-smtp
+        image: "{{ cloudmon_plugin_smtp_image }}"
+        config:
+          interval: 60
+          timeout: 2
+          smtp_servers:
+            - addr: 80.158.29.159:25
+              name: mta01
+            - addr: 80.158.29.232:25
+              name: mta02
+            - addr: 80.158.30.229:25
+              name: mta03
+          statsd:
+            server: 192.168.110.58:8125
+            prefix: cloudmon.production_eu-de.vcloud_muc
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)

@@ -79,7 +79,7 @@
             dependencies:
               - name: infra-prod-base
                 soft: true
-         
+
         - infra-prod-service-opensearch: &infra-prod-service-opensearch
             dependencies:
               - name: infra-prod-base
@@ -115,6 +115,11 @@
                 soft: true
 
         - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-cloudmon: &infra-prod-service-cloudmon
             dependencies:
               - name: infra-prod-base
                 soft: true
