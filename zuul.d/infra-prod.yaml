@@ -360,7 +360,7 @@
         propose_key: "{{ propose_key }}"
         propose_value: "{{ value }}"
     dependencies:
-      - name: infra-prod-install-ansible
+      - name: infra-prod-base
         soft: true
     required-projects:
       - github.com/opentelekomcloud-infra/system-config
