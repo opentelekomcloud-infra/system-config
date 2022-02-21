@@ -11,15 +11,12 @@ clusters:
     cluster: 
       server: {{ otcinfra1_k8s.server }}
       insecure-skip-tls-verify: true
-  - name: otcinfra-mirror
-    cluster: 
-      server: {{ otcinfra2_k8s.server }}
   - name: otcinfra-stg
     cluster: 
       server: {{ otcinfra_stg_k8s.server }}
-  - name: otcapimon1
+  - name: otcinfra2
     cluster: 
-      server: {{ otcapimon1_k8s.server }}
+      server: {{ otcinfra2_k8s.server }}
       insecure-skip-tls-verify: true
 contexts:
   - name: otcci
@@ -30,18 +27,14 @@ contexts:
     context:
       cluster: otcinfra
       user: otcinfra-admin
-  - name: otcinfra-mirror
-    context:
-      cluster: otcinfra-mirror
-      user: otcinfra-mirror-admin
   - name: otcinfra-stg
     context:
       cluster: otcinfra-stg
       user: otcinfra-stg-admin
-  - name: otcapimon1
+  - name: otcinfra2
     context:
-      cluster: otcapimon1
-      user: otcapimon1-admin
+      cluster: otcinfra2
+      user: otcinfra2-admin
 users:
   - name: otcci-admin
     user:
@@ -51,15 +44,11 @@ users:
     user:
       client-certificate-data: {{ otcinfra1_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ otcinfra1_k8s.secrets['client.key'] | b64encode }}
-  - name: otcinfra-mirror-admin
-    user:
-      client-certificate-data: {{ otcinfra2_k8s.secrets['client.crt'] | b64encode }}
-      client-key-data: {{ otcinfra2_k8s.secrets['client.key'] | b64encode }}
   - name: otcinfra-stg-admin
     user:
       client-certificate-data: {{ otcinfra_stg_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ otcinfra_stg_k8s.secrets['client.key'] | b64encode }}
-  - name: otcapimon1-admin
+  - name: otcinfra2-admin
     user:
-      client-certificate-data: {{ otcapimon1_k8s.secrets['client.crt'] | b64encode }}
-      client-key-data: {{ otcapimon1_k8s.secrets['client.key'] | b64encode }}
+      client-certificate-data: {{ otcinfra2_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ otcinfra2_k8s.secrets['client.key'] | b64encode }}

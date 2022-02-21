@@ -6,7 +6,7 @@
     loop_var: "network"
 
 - name: Create router
-  openstack.cloud.router:
+  opentelekomcloud.cloud.router:
     cloud: "{{ net.cloud }}"
     name: "{{ net.router }}"
     network: "{{ net.external_network_name | default(omit) }}"
