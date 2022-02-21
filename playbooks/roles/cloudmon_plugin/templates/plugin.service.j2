@@ -17,10 +17,10 @@ ExecStart={{ container_runtime }} run \
     --log-opt=path=/dev/null \
 {% endif %}
     -v {{ cloudmon_config_dest }}/{{ plugin_name }}.yaml:/cloudmon/config.yaml:ro \
-    -e RUST_LOG=debug \
+    -e CLOUDMON_LOG_LEVEL=debug \
     {{ plugin_image }}
 
-ExecStop={{ container_runtime }} stop -t 300 "{{ plugin_name }}"
+ExecStop={{ container_runtime }} stop -t 30 "{{ plugin_name }}"
 ExecStop={{ container_runtime }} rm "{{ plugin_name }}"
 
 [Install]

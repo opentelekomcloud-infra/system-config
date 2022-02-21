@@ -157,7 +157,7 @@ apimon_instances:
             - addr: 80.158.30.229:25
               name: mta03
           statsd:
-            server: 192.168.110.58:8125
+            server: 192.168.2.60:8125
             prefix: cloudmon.production_eu-de.vcloud_muc
 
     # Endpoint monitoring configuration
