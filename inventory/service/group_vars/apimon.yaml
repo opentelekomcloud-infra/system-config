@@ -442,17 +442,6 @@ apimon_k8s_instances:
       scheduler_count: 1
       executor_count: 1
       apimon_image_pull_policy: "Always"
-  - apimon_instance: "production_2"
-    instance: "prod-2"
-    context: "otcapimon1"
-    namespace: "apimon"
-    cr_spec:
-      apimon_image: "{{ apimon_image_stable }}"
-      epmon_count: 1
-      scheduler_count: 0
-      executor_count: 0
-      apimon_image_pull_policy: "Always"
-      statsd_graphite_host: "192.168.14.159"
 
 # This represents service endpoints to be tested by EPmon process
 # They get combined into the epmon configuration by selecting dedicated group

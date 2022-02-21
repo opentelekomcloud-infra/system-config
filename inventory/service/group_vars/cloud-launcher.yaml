@@ -16,8 +16,6 @@ cloud_projects:
   # Infra projects
   - name: "eu-de_apimon"
     cloud: "otcinfra-domain2-admin"
-  - name: "eu-de_apimon2"
-    cloud: "otcinfra-domain2-admin"
   - name: "eu-de_eco_infra"
     cloud: "otcinfra-domain3-admin"
     domain: "{{ clouds.otcinfra_domain3_admin.auth.domain_id }}"
@@ -33,6 +31,11 @@ cloud_projects:
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Infrastructure of the Ecosystem Squad"
+  - name: "eu-de_eco_infra2"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Infrastructure of the Ecosystem Squad - mirror/stg"
   - name: "eu-de_database"
     cloud: "otcinfra-domain2-admin"
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
@@ -158,6 +161,7 @@ cloud_role_assignments:
     projects:
       - "eu-de_zuul"
       - "eu-de_eco_infra"
+      - "eu-de_eco_infra2"
       - "eu-de_database"
     groups:
       - "eco_infra"
@@ -166,6 +170,7 @@ cloud_role_assignments:
     projects:
       - "eu-de_zuul"
       - "eu-de_eco_infra"
+      - "eu-de_eco_infra2"
       - "eu-de_database"
     groups:
       - "eco_infra"
@@ -198,14 +203,12 @@ cloud_role_assignments:
     role: "te_admin"
     projects:
       - "eu-de_apimon"
-      - "eu-de_apimon2"
     groups:
       - "apimon"
   - cloud: "otcinfra-domain2-admin"
     role: "server_adm"
     projects:
       - "eu-de_apimon"
-      - "eu-de_apimon2"
     groups:
       - "apimon"
   # Zuul role assignments
@@ -288,6 +291,16 @@ cloud_nets:
   #          - name: "infra-subnet"
   #            cidr: "192.168.170.0/24"
   #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  # mirror/stag infra
+  # domain2
+  - cloud: "otcinfra-domain2-infra2-de"
+    router: "eco-infra"
+    nets:
+      - name: "infra-net"
+        subnets:
+          - name: "infra-subnet"
+            cidr: "192.168.171.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.8.8']
   # domain3
   - cloud: "otcinfra-domain3-infra-de"
     router: "eco-infra"
@@ -339,16 +352,6 @@ cloud_nets:
           - name: "subnet-zuul"
             cidr: "192.168.103.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  # apimon infra
-  - cloud: "otcapimon-pool2"
-    router: "apimon-infra"
-    # enable_snat: true
-    nets:
-      - name: "apimon-infra-net"
-        subnets:
-          - name: "apimon-infra-subnet"
-            cidr: "192.168.111.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.4.4']
 
 cloud_nat_gws:
   # main infra
@@ -378,12 +381,11 @@ cloud_nat_gws:
     description: "main NAT GW for the CI"
     internal_network: "ci-net"
     spec: 1
-  # apimon infra
-  - cloud: "otcapimon-pool2"
-    name: "apimoninfra"
-    description: "main NAT GW for the APImon infra"
-    router: "apimon-infra"
-    internal_network: "apimon-infra-net"
+  - cloud: "otcinfra-domain2-infra2-de"
+    name: "otcinfra"
+    description: "main NAT GW for the infra"
+    router: "eco-infra"
+    internal_network: "infra-net"
     spec: 1
 
 cloud_peerings:
@@ -396,15 +398,7 @@ cloud_peerings:
   #    remote_router: "apimon-infra"
   #    remote_project: "{{ clouds.otcapimon_pool2.auth.project_name }}"
   #
-  - cloud: "otcinfra-domain2-database"
-    name: "database-apimon_pool2"
-    local_router: "database_router"
-    local_project: "eu-de_database"
-    local_cidr: "192.168.14.0/24"
-    remote_cloud: "otcapimon-pool2"
-    remote_router: "apimon-infra"
-    remote_project: "{{ clouds.otcapimon_pool2.auth.project_name }}"
-    remote_cidr: "192.168.111.0/24"
+  # domain2-infra-de<=>database
   - cloud: "otcinfra-domain2-database"
     name: "database-domain2_infra_de"
     local_router: "database_router"
@@ -414,12 +408,32 @@ cloud_peerings:
     remote_router: "eco-infra"
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.111.0/24"
+  # domain2-infra2-de<=>database
+  - cloud: "otcinfra-domain2-database"
+    name: "database-domain2_infra2_de"
+    local_router: "database_router"
+    local_project: "eu-de_database"
+    local_cidr: "192.168.14.0/24"
+    remote_cloud: "otcinfra-domain2-infra2-de"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra2"
+    remote_cidr: "192.168.171.0/24"
   # domain2-infra-de<=>bridge
   - cloud: "otcinfra-domain2-infra-de"
     name: "bridge-domain2_infra_de"
     local_router: "eco-infra"
     local_project: "eu-de_eco_infra"
     local_cidr: "192.168.170.0/24"
+    remote_cloud: "otcapimon-pool1"
+    remote_router: "dashboard-otc-vpc-router"
+    remote_project: "eu-de_apimon"
+    remote_cidr: "192.168.110.0/24"
+  # domain2-infra2-de<=>bridge
+  - cloud: "otcinfra-domain2-infra2-de"
+    name: "bridge-domain2_infra2_de"
+    local_router: "eco-infra"
+    local_project: "eu-de_eco_infra2"
+    local_cidr: "192.168.171.0/24"
     remote_cloud: "otcapimon-pool1"
     remote_router: "dashboard-otc-vpc-router"
     remote_project: "eu-de_apimon"
@@ -730,6 +744,12 @@ cloud_load_balancers:
       vip_subnet: "infra-subnet"
       vip_address: "192.168.170.6"
       public_ip_address: "80.158.55.110"
+  - cloud: "otcinfra-domain2-infra2-de"
+    loadbalancer:
+      name: "elb-eco-infra"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.171.6"
+      public_ip_address: "80.158.58.167"
   - cloud: "otcci-main"
     loadbalancer:
       name: "elb-zuul"
@@ -841,6 +861,25 @@ cloud_rds:
 
 cloud_cce:
   - cloud: "otcinfra-domain2-infra-de"
+    name: "eco-infra"
+    flavor: "cce.s2.small"
+    router: "eco-infra"
+    network: "infra-net"
+    network_mode: "overlay_l2"
+    nodes:
+      - name: "eco-infra-01"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-01"
+        os: "CentOS 7.7"
+      - name: "eco-infra-02"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-02"
+        os: "CentOS 7.7"
+      - name: "eco-infra-03"
+        flavor: "s3.xlarge.4"
+        az: "eu-de-03"
+        os: "CentOS 7.7"
+  - cloud: "otcinfra-domain2-infra2-de"
     name: "eco-infra"
     flavor: "cce.s2.small"
     router: "eco-infra"
