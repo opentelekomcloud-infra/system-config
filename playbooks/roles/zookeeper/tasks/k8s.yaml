@@ -64,7 +64,7 @@
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
-    name: "{{ zookeeper_service_account }}-tokenreview-binding"
+    name: "{{ zookeeper_service_account }}-{{ instance }}-tokenreview-binding"
     api_version: "rbac.authorization.k8s.io/v1"
     kind: "ClusterRoleBinding"
     apply: "yes"
