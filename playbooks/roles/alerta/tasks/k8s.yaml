@@ -22,7 +22,7 @@
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
-    name: "{{ alerta_service_account_name }}-tokenreview-binding"
+    name: "{{ alerta_service_account_name }}-{{ instance }}-tokenreview-binding"
     api_version: "rbac.authorization.k8s.io/v1"
     kind: "ClusterRoleBinding"
     definition:
