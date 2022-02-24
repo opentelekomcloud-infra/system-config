@@ -208,6 +208,15 @@ helm_chart_instances:
     version: 1.0.24
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
+  otcinfra2_telegraf:
+    context: otcinfra2
+    repo_url: https://helm.influxdata.com/
+    repo_name: influxdata
+    name: telegraf
+    ref: influxdata/telegraf-ds
+    version: 1.0.29
+    namespace: telegraf
+    values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
   otcinfra_opensearch:
     context: otcinfra
     repo_url: https://opensearch-project.github.io/helm-charts/
