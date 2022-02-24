@@ -249,6 +249,122 @@ panels:
       target: aliasByNode(stats.telegraf.otcinfra.*.mem.used_percent, 3)
     title: Infra K8S nodes - Memory Usage
     type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 7
+      w: 24
+      x: 0
+      y: 0
+    id: 6
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - refId: A
+      target: aliasByNode(stats.telegraf.otcinfra2.*.cpu.cpu-total.usage_idle, 3)
+    title: Infra2 K8S nodes - CPU Idle
+    type: timeseries
+  - datasource: {{ grafana_ds | default('apimon') }}
+    fieldConfig:
+      defaults:
+        color:
+          mode: palette-classic
+        custom:
+          axisLabel: ''
+          axisPlacement: auto
+          barAlignment: 0
+          drawStyle: line
+          fillOpacity: 0
+          gradientMode: none
+          hideFrom:
+            legend: false
+            tooltip: false
+            viz: false
+          lineInterpolation: linear
+          lineWidth: 1
+          pointSize: 5
+          scaleDistribution:
+            type: linear
+          showPoints: auto
+          spanNulls: false
+          stacking:
+            group: A
+            mode: none
+          thresholdsStyle:
+            mode: 'off'
+        mappings: []
+        max: 100
+        min: 0
+        thresholds:
+          mode: absolute
+          steps:
+          - color: green
+            value:
+          - color: red
+            value: 80
+        unit: percent
+      overrides: []
+    gridPos:
+      h: 7
+      w: 24
+      x: 0
+      y: 7
+    id: 7
+    options:
+      legend:
+        calcs: []
+        displayMode: list
+        placement: right
+      tooltip:
+        mode: single
+    targets:
+    - refId: A
+      target: aliasByNode(stats.telegraf.otcinfra2.*.mem.used_percent, 3)
+    title: Infra2 K8S nodes - Memory Usage
+    type: timeseries
   - alert:
       alertRuleTags: {}
       conditions:
@@ -320,7 +436,7 @@ panels:
       w: 24
       x: 0
       y: 14
-    id: 6
+    id: 8
     options:
       legend:
         calcs: []
@@ -384,7 +500,7 @@ panels:
       w: 24
       x: 0
       y: 23
-    id: 7
+    id: 9
     options:
       legend:
         calcs: []
@@ -443,7 +559,7 @@ panels:
       w: 24
       x: 0
       y: 32
-    id: 8
+    id: 10
     options:
       legend:
         calcs: []

@@ -71,6 +71,12 @@ grafana_k8s_instances:
     context: "otcinfra"
     namespace: "apimon"
     extra_vars: "{{ grafana_k8s_extra_vars }}"
+  # Main grafana in otcinfra2 cluster
+  - grafana_instance: "dashboard"
+    instance: "prod2"
+    context: "otcinfra2"
+    namespace: "apimon"
+    extra_vars: "{{ grafana_k8s_extra_vars }}"
   # Stg grafana in stg cluster
   - grafana_instance: "dashboard_stg"
     instance: "stg"
