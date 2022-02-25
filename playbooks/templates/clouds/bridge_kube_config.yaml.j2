@@ -11,9 +11,6 @@ clusters:
     cluster: 
       server: {{ otcinfra1_k8s.server }}
       insecure-skip-tls-verify: true
-  - name: otcinfra-stg
-    cluster: 
-      server: {{ otcinfra_stg_k8s.server }}
   - name: otcinfra2
     cluster: 
       server: {{ otcinfra2_k8s.server }}
@@ -27,10 +24,6 @@ contexts:
     context:
       cluster: otcinfra
       user: otcinfra-admin
-  - name: otcinfra-stg
-    context:
-      cluster: otcinfra-stg
-      user: otcinfra-stg-admin
   - name: otcinfra2
     context:
       cluster: otcinfra2
@@ -44,10 +37,6 @@ users:
     user:
       client-certificate-data: {{ otcinfra1_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ otcinfra1_k8s.secrets['client.key'] | b64encode }}
-  - name: otcinfra-stg-admin
-    user:
-      client-certificate-data: {{ otcinfra_stg_k8s.secrets['client.crt'] | b64encode }}
-      client-key-data: {{ otcinfra_stg_k8s.secrets['client.key'] | b64encode }}
   - name: otcinfra2-admin
     user:
       client-certificate-data: {{ otcinfra2_k8s.secrets['client.crt'] | b64encode }}
