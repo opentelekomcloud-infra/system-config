@@ -294,6 +294,7 @@ opensearch_instances:
     opensearch_admin_tls_name: "opensearch-admin-tls"
     opensearch_admin_fqdn: "opensearch-admin.eco.tsi-dev.otc-service.com"
     opensearch_internal_users_name: "opensearch-internal-users"
+    opensearch_security_config_secret_name: "opensearch-internal-users"
 
 opensearch_k8s_instances:
   - opensearch_instance: "otcinfra_opensearch"

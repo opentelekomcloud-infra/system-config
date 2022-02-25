@@ -83,4 +83,5 @@ config:
             ]
 
 securityConfig:
-  internalUsersSecret: "{{ chart.opensearch_internal_users_name }}"
+  config:
+    securityConfigSecret: "{{ chart.opensearch_security_config_secret_name }}"
