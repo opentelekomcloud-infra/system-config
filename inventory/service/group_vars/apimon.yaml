@@ -424,17 +424,18 @@ apimon_instances:
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
 
-apimon_k8s_instances:
-  - apimon_instance: "production_stg"
-    instance: "stg"
-    context: "otcinfra-stg"
-    namespace: "apimon"
-    cr_spec:
-      apimon_image: "{{ apimon_image_latest }}"
-      epmon_count: 0
-      scheduler_count: 1
-      executor_count: 1
-      apimon_image_pull_policy: "Always"
+apimon_k8s_instances: []
+# Disabling apimon operator deployment on stg
+#  - apimon_instance: "production_stg"
+#    instance: "stg"
+#    context: "otcinfra-stg"
+#    namespace: "apimon"
+#    cr_spec:
+#      apimon_image: "{{ apimon_image_latest }}"
+#      epmon_count: 0
+#      scheduler_count: 1
+#      executor_count: 1
+#      apimon_image_pull_policy: "Always"
 
 # This represents service endpoints to be tested by EPmon process
 # They get combined into the epmon configuration by selecting dedicated group

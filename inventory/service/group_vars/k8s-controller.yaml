@@ -46,10 +46,6 @@ document_hosting_instances:
     ingress_class: "ingress-intern"
 
 document_hosting_k8s_instances:
-  - document_hosting_instance: "stg"
-    context: "otcinfra-stg"
-    instance: "stg"
-    namespace: "document-hosting"
   - document_hosting_instance: "helpcenter"
     context: "otcinfra"
     instance: "helpcenter"
@@ -82,16 +78,6 @@ maubot_k8s_instances:
     namespace: "matrix"
 
 helm_chart_instances:
-  otcinfra-stg_cert-manager:
-    context: otcinfra-stg
-    repo_url: https://charts.jetstack.io
-    repo_name: jetstack
-    name: cert-manager
-    ref: jetstack/cert-manager
-    version: v1.6.1
-    namespace: cert-manager
-    values_template: "templates/charts/cert-manager/cert-manager-values.yaml.j2"
-    post_config_template: "templates/charts/cert-manager/cert-manager-post-config.yaml.j2"
   otcinfra2_cert-manager:
     context: otcinfra2
     repo_url: https://charts.jetstack.io
