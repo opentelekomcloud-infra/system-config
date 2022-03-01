@@ -143,22 +143,7 @@ apimon_instances:
     zone: vcloud_muc
     image: "{{ apimon_image_stable }}"
 
-    plugins:
-      - name: cloudmon-plugin-smtp
-        image: "{{ cloudmon_plugin_smtp_image }}"
-        config:
-          interval: 60
-          timeout: 2
-          smtp_servers:
-            - addr: 80.158.29.159:25
-              name: mta01
-            - addr: 80.158.29.232:25
-              name: mta02
-            - addr: 80.158.30.229:25
-              name: mta03
-          statsd:
-            server: 192.168.2.60:8125
-            prefix: cloudmon.production_eu-de.vcloud_muc
+    plugins: []
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
