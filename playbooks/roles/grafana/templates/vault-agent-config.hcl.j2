@@ -20,7 +20,7 @@ template {
   right_delimiter = "%]"
   destination = "/vault-data/database_username"
   contents = <<EOT
-  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.username %][% end %]
+  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.username %][% end -%]
   EOT
   }
 
@@ -29,6 +29,53 @@ template {
   right_delimiter = "%]"
   destination = "/vault-data/database_password"
   contents = <<EOT
-  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.password %][% end %]
+  [%- with secret "{{ grafana.vault_database_path }}" %][% .Data.data.password %][% end -%]
   EOT
   }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/security_admin_password"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_grafana_path }}" %][% .Data.data.security_admin_password %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/security_oauth_client_id"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_oauth_path }}" %][% .Data.data.client_id %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/security_oauth_client_secret"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_oauth_path }}" %][% .Data.data.client_secret %][% end -%]
+  EOT
+  }
+
+{% if grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable %}
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/ldap_password"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_ldap_path }}" %][% .Data.data.bind_password %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/ldap_ca_cert"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_ldap_path }}" %][% .Data.data.ca_crt %][% end -%]
+  EOT
+  }
+{% endif %}
