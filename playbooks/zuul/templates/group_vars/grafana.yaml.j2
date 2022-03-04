@@ -3,23 +3,24 @@ grafana_instances_secrets:
   dashboard:
     grafana_security_admin_password: foobar
     grafana_auth_github_enable: true
+    grafana_auth_ldap_ca_path: "/fake/dir/ldap.toml"
     grafana_auth_github_client_id: grafana
     grafana_auth_github_client_secret: secret
     grafana_auth_github_allowed_orgs: opentelekomcloud-infra
     grafana_auth_ldap_certificate: |
       dummy-ca-cert
-    grafana_auth_ldap_host: '"ldap.example.com"'
+    grafana_auth_ldap_host: "ldap.example.com"
     grafana_auth_ldap_hosts_entry: "ldap.example.com:1.2.3.4"
-    grafana_auth_ldap_bind_dn:  '"cn=proxy,ou=profile,dc=example,dc=com"'
+    grafana_auth_ldap_bind_dn:  "cn=proxy,ou=profile,dc=example,dc=com"
     grafana_auth_ldap_bind_password: 'foobar'
-    grafana_auth_ldap_search_filter:  '"(uid=%s)"'
-    grafana_auth_ldap_search_base_dns:  '["ou=people,dc=example,dc=com"]'
-    grafana_auth_ldap_group_search_filter:  '"(&(objectClass=posixGroup)(memberUid=%s))"'
-    grafana_auth_ldap_group_search_filter_user_attribute:  '"uid"'
+    grafana_auth_ldap_search_filter:  "(uid=%s)"
+    grafana_auth_ldap_search_base_dns:  "[\"ou=people,dc=example,dc=com\"]"
+    grafana_auth_ldap_group_search_filter:  "(&(objectClass=posixGroup)(memberUid=%s))"
+    grafana_auth_ldap_group_search_filter_user_attribute:  "uid"
     grafana_auth_ldap_group_dn_super_admin: "cn=grafana-super-admins,ou=group,dc=example,dc=com"
     grafana_auth_ldap_group_dn_admin:  "cn=grafana-admins,ou=group,dc=example,dc=com"
     grafana_auth_ldap_group_dn_editor: "cn=grafana-editors,ou=group,dc=example,dc=com"
-    grafana_auth_ldap_group_search_base_dns: [ "cn=grafana-super-admins,ou=group,dc=example,dc=com", "cn=grafana-admins,ou=group,dc=example,dc=com", "cn=grafana-editors,ou=group,dc=example,dc=com" ]
+    grafana_auth_ldap_group_search_base_dns: "[ \"cn=grafana-super-admins,ou=group,dc=example,dc=com\", \"cn=grafana-admins,ou=group,dc=example,dc=com\", \"cn=grafana-editors,ou=group,dc=example,dc=com\" ]"
 
 grafana_instance: dashboard
 # disable k8 in tests

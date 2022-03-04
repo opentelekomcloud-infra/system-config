@@ -37,7 +37,6 @@
 - name: Set ldap variables for ConfigMap
   set_fact:
     ldap_toml: "{{ lookup('template', 'templates/grafana/ldap.toml.j2') }}"
-    ldap_certificate_crt: "{{ grafana.grafana_auth_ldap_certificate }}"
   when:
     - (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable)
 
@@ -58,7 +57,6 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         ldap.toml: "{{ ldap_toml | default(omit) }}"
-        ldap-certificate.crt: "{{ ldap_certificate_crt | default(omit) }}"
         vault-agent-config.hcl: "{{ lookup('template', 'vault-agent-config.hcl.j2') }}"
 
 - name: Create {{ instance }} Secrets
