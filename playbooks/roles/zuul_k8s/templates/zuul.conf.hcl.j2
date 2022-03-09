@@ -3,6 +3,7 @@ tenant_config=/etc/zuul-config/zuul/main.yaml
 # log_config=/etc/zuul/logging.conf
 state_dir=/var/lib/zuul
 relative_priority=true
+prometheus_port=9091
 
 [fingergw]
 user=zuul
@@ -34,11 +35,13 @@ git_dir=/var/lib/zuul/git
 git_timeout=600
 git_user_email=zuul@zuul.otc-service.com
 git_user_name=OpenTelekomCloud Zuul
+prometheus_port=9091
 
 [executor]
 {% for key, value in zuul.executor.items() -%}
 {{ key }}={{ value }}
 {% endfor %}
+prometheus_port=9091
 
 [web]
 # log_config=/etc/zuul/logging.conf
@@ -46,6 +49,7 @@ listen_address=0.0.0.0
 #listen_port=9000
 status_url=https://{{ zuul.web_domain }}
 root=https://{{ zuul.web_domain }}
+prometheus_port=9091
 
 [database]
 {% for key, value in zuul.database_secrets.items() -%}
