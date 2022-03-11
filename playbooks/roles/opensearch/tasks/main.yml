@@ -154,5 +154,7 @@
           app.kubernetes.io/managed-by: "system-config"
       type: "Opaque"
       data:
-        internal_users.yml: "{{ opensearch.config.internal_users.yml | string | b64encode }}"
-        config.yml: "{{ opensearch.config.config.yml | string | b64encode }}"
+        internal_users.yml: "{{ opensearch.config['internal_users.yml'] | string | b64encode }}"
+        config.yml: "{{ opensearch.config['config.yml'] | string | b64encode }}"
+        roles.yml: "{{ opensearch.config['roles.yml'] | string | b64encode }}"
+        roles_mapping.yml: "{{ opensearch.config['roles_mapping.yml'] | string | b64encode }}"
