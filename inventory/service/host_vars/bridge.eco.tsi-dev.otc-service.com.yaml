@@ -32,6 +32,10 @@ ssl_certs:
     - "opensearch.eco.tsi-dev.otc-service.com"
   opensearch-dashboard:
     - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+  opensearch-stg:
+    - "opensearch-stg.eco.tsi-dev.otc-service.com"
+  opensearch-stg-dashboard:
+    - "opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
   alerta:
     - "alerts.eco.tsi-dev.otc-service.com"
   matrix:

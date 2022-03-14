@@ -138,12 +138,12 @@
         tls.key: "{{ lookup('file', '/etc/ssl/keys/{{ opensearch.opensearch_admin_fqdn }}.pem') | string | b64encode }}"
   when: "opensearch.opensearch_admin_fqdn is defined"
 
-- name: Create {{ instance }} Opensearch internal_users.yml secret
+- name: Create {{ instance }} Opensearch security config config.yml secret
   community.kubernetes.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
-    name: "{{ opensearch.opensearch_internal_users_name }}"
+    name: "{{ opensearch.opensearch_security_config_secret_name }}"
     api_version: "v1"
     kind: "Secret"
     definition:
@@ -154,5 +154,7 @@
           app.kubernetes.io/managed-by: "system-config"
       type: "Opaque"
       data:
-        internal_users.yml:  "{{ lookup('template', 'opensearch-internal-users.yaml.j2') | string | b64encode }}"
-
+        internal_users.yml: "{{ opensearch.config['internal_users.yml'] | string | b64encode }}"
+        config.yml: "{{ opensearch.config['config.yml'] | string | b64encode }}"
+        roles.yml: "{{ opensearch.config['roles.yml'] | string | b64encode }}"
+        roles_mapping.yml: "{{ opensearch.config['roles_mapping.yml'] | string | b64encode }}"

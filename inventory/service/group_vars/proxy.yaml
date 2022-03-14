@@ -158,6 +158,70 @@ proxy_backends:
         address: "192.168.151.123:8200"
         opts: "ssl verify none"
 
+  - name: "opensearch"
+    options:
+      - "default-server check inter 5s fall 5 rise 1"
+      - "http-check send hdr Host opensearch.eco.tsi-dev.otc-service.com"
+      - "option  forwardfor"
+      - "acl auth_found req.hdr(authorization) -m found"
+      - "http-request set-header x-proxy-user readall if ! auth_found"
+      - "http-request set-header x-proxy-roles readall if ! auth_found"
+      - "acl get_post_method method GET POST"
+      - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
+      - "acl options_method method OPTIONS"
+      - "http-response set-header Access-Control-Allow-Origin * if options_method"
+      - "http-response set-header Access-Control-Allow-Methods \"GET,POST,OPTIONS,HEAD\" if options_method"
+      - "http-response set-header Access-Control-Allow-Headers \"Authorization,Origin,X-Requested-With,Content-Type,Accept\" if options_method"
+    domain_names:
+      - "opensearch.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "infra"
+        address: "192.168.170.6:443"
+        opts: "ssl verify none"
+
+  - name: "opensearch-dashboard"
+    options:
+      - "http-check send hdr Host opensearch-dashboard.eco.tsi-dev.otc-service.com"
+      - "default-server check inter 5s fall 5 rise 1"
+    domain_names:
+      - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "infra"
+        address: "192.168.170.6:443"
+        opts: "ssl verify none"
+
+  - name: "opensearch-stg"
+    options:
+      - "default-server check inter 5s fall 5 rise 1"
+      - "http-check send hdr Host opensearch-stg.eco.tsi-dev.otc-service.com"
+      - "option  forwardfor"
+      - "acl auth_found req.hdr(authorization) -m found"
+      - "http-request set-header x-proxy-user readall if ! auth_found"
+      - "http-request set-header x-proxy-roles readall if ! auth_found"
+      - "acl get_post_method method GET POST"
+      - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
+      - "acl options_method method OPTIONS"
+      - "http-response set-header Access-Control-Allow-Origin * if options_method"
+      - "http-response set-header Access-Control-Allow-Methods \"GET,POST,OPTIONS,HEAD\" if options_method"
+      - "http-response set-header Access-Control-Allow-Headers \"Authorization,Origin,X-Requested-With,Content-Type,Accept\" if options_method"
+    domain_names:
+      - "opensearch-stg.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "infra2"
+        address: "192.168.171.6:443"
+        opts: "ssl verify none"
+
+  - name: "opensearch-stg-dashboard"
+    options:
+      - "http-check send hdr Host opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
+      - "default-server check inter 5s fall 5 rise 1"
+    domain_names:
+      - "opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "infra2"
+        address: "192.168.171.6:443"
+        opts: "ssl verify none"
+
 proxy_frontends:
   - name: "influx"
     bind: "*:8086 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
