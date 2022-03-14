@@ -11,7 +11,7 @@ ingress:
         - "{{ chart.opensearch_fqdn }}"
 persistence:
   storageClass: csi-disk
-  size: 100Gi
+  size: 10Gi
   annotations:
     everest.io/disk-volume-type: sas
 secretMounts:

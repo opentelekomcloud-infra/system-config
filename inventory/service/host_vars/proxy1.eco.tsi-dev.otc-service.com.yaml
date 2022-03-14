@@ -9,6 +9,10 @@ ssl_certs:
     - "graphite.eco.tsi-dev.otc-service.com"
     - "graphite-ca.eco.tsi-dev.otc-service.com"
     - "influx1.eco.tsi-dev.otc-service.com"
+    - "opensearch.eco.tsi-dev.otc-service.com"
+    - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+    - "opensearch-stg.eco.tsi-dev.otc-service.com"
+    - "opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
   matrix:
     - "matrix.otc-service.com"
   docs:
