@@ -162,10 +162,8 @@ proxy_backends:
     options:
       - "default-server check inter 5s fall 5 rise 1"
       - "http-check send hdr Host opensearch.eco.tsi-dev.otc-service.com"
-      - "option  forwardfor"
       - "acl auth_found req.hdr(authorization) -m found"
-      - "http-request set-header x-proxy-user readall if ! auth_found"
-      - "http-request set-header x-proxy-roles readall if ! auth_found"
+      - "http-request set-header authorization \"Basic {{ searchuser_auth }}\" if ! auth_found"
       - "acl get_post_method method GET POST"
       - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
       - "acl options_method method OPTIONS"
@@ -194,10 +192,8 @@ proxy_backends:
     options:
       - "default-server check inter 5s fall 5 rise 1"
       - "http-check send hdr Host opensearch-stg.eco.tsi-dev.otc-service.com"
-      - "option  forwardfor"
       - "acl auth_found req.hdr(authorization) -m found"
-      - "http-request set-header x-proxy-user readall if ! auth_found"
-      - "http-request set-header x-proxy-roles readall if ! auth_found"
+      - "http-request set-header authorization \"Basic {{ searchuser_auth }}\" if ! auth_found"
       - "acl get_post_method method GET POST"
       - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
       - "acl options_method method OPTIONS"
