@@ -2,11 +2,6 @@ apimon_image: "{{ apimon_image_stable }}"
 apimon_executor_image: "{{ apimon_image }}"
 apimon_scheduler_image: "{{ apimon_image }}"
 apimon_epmon_image: "{{ apimon_image }}"
-cloudmon_plugin_smtp_image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_6_latest"
-cloudmon_plugin_smtp_init_image: "quay.io/opentelekomcloud/cloudmon-plugin-smtp-init:change_6_latest"
-cloudmon_plugin_loadbalancer_image: "quay.io/opentelekomcloud/cloudmon-plugin-loadbalancer:change_1_latest"
-cloudmon_plugin_loadbalancer_init_image: "quay.io/opentelekomcloud/cloudmon-plugin-loadbalancer-init:change_1_latest"
-
 
 # Templates and filenames config
 apimon_epmon_config_template: "templates/apimon/apimon.yaml.j2"
@@ -63,14 +58,16 @@ apimon_instances:
         config:
           interval: 5
           timeout: 2
-          address: 80.158.38.217
-          listeners:
-            - port: 80
-              mode: http
-            - port: 443
-              mode: https
-            - port: 3333
-              mode: tcp
+          loadbalancers:
+            - address: lb-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv2
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
           statsd:
             server: 192.168.110.58:8125
             prefix: cloudmon.production_eu-de.production_eu-de
@@ -170,14 +167,16 @@ apimon_instances:
         config:
           interval: 5
           timeout: 2
-          address: 80.158.38.217
-          listeners:
-            - port: 80
-              mode: http
-            - port: 443
-              mode: https
-            - port: 3333
-              mode: tcp
+          loadbalancers:
+            - address: lb-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv2
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
           statsd:
             server: 192.168.2.60:8125
             prefix: cloudmon.production_eu-de.vcloud_muc
