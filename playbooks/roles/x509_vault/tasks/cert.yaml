@@ -14,6 +14,13 @@
   register: cert_info
   when: "cert_in_vault.data is defined"
 
+- name: Construct alt_names value
+  ansible.builtin.set_fact:
+    alt_names: "{{ alt_names | join(',') }}"
+  when:
+    - "alt_names is defined"
+    - "alt_names is iterable"
+
 - name: Issue certificate
   ansible.builtin.uri:
     url: "{{ ansible_hashi_vault_addr }}/v1/{{ vault_pki_path }}/issue/{{ vault_pki_role }}"
