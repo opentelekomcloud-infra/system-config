@@ -55,20 +55,28 @@
             containers:
               - name: "zuul-web"
                 image: "quay.io/opentelekomcloud/zuul-web:{{ zuul.zuul_version_tag }}"
+                command:
+                  - "/usr/local/bin/zuul-web"
+                  - "-f"
                 ports:
                   - containerPort: 9000
                     name: "zuul-web"
                     protocol: "TCP"
+                  - containerPort: 9091
+                    name: "zuul-prom"
+                    protocol: "TCP"
                 readinessProbe:
-                  tcpSocket:
-                    port: "zuul-web"
-                  initialDelaySeconds: 120
-                  periodSeconds: 5
-                  timeoutSeconds: 5
+                  httpGet:
+                    path: "/health/ready"
+                    port: "zuul-prom"
+                  failureThreshold: 30
+                  periodSeconds: 10
                 livenessProbe:
-                  tcpSocket:
-                    port: "zuul-web"
+                  httpGet:
+                    path: "/health/live"
+                    port: "zuul-prom"
                   initialDelaySeconds: 120
+                  failureThreshold: 10
                   periodSeconds: 5
                   timeoutSeconds: 5
                 resources:

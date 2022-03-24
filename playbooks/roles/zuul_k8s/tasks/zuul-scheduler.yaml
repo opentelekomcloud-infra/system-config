@@ -75,6 +75,9 @@
 
             containers:
               - name: "zuul-scheduler"
+                command:
+                  - "/usr/local/bin/zuul-scheduler"
+                  - "-f"
                 resources:
                   limits:
                     cpu: "2"
