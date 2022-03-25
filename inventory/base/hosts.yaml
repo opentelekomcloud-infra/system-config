@@ -37,9 +37,17 @@ all:
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-03"
+        region: "eu-de"
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     graphite1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.191.55
       ansible_user: automation

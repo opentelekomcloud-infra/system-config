@@ -1,3 +1,18 @@
+image: "Standard_Fedora_35_latest"
+flavor: "s3.xlarge.4"
+security_groups: ["common_sg", "apimon-executor-sg", "dashboard-common-sg"]
+nics:
+  - fixed_ip: "192.168.110.207"
+    net-name: "dashboard-otc-net"
+root_volume_size: 10
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 10
+  - name: "home"
+    size: 10
+userdata: "{{ common_userdata }}"
+
 apimon_zone: production_eu-de
 apimon_clouds:
   - name: preprod
