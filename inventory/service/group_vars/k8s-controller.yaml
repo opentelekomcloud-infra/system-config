@@ -139,6 +139,8 @@ helm_chart_instances:
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
+    config_entries:
+      use-gzip: true
   otcci_nginx-ingress:
     context: otcci
     repo_url: https://kubernetes.github.io/ingress-nginx
