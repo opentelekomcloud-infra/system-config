@@ -1,1 +1,15 @@
+image: "Standard_Fedora_35_latest"
+flavor: "c4.xlarge.2"
+security_groups: ["common_sg", "apimon-executor-sg", "dashboard-common-sg"]
+nics:
+  - fixed_ip: "192.168.110.58"
+    net-name: "dashboard-otc-net"
+root_volume_size: 10
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 10
+  - name: "home"
+    size: 50
+userdata: "{{ common_userdata }}"
 firewalld_extra_ports_enable: ["8125/udp"]
