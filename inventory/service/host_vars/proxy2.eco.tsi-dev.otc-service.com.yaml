@@ -1,3 +1,18 @@
+image: "Standard_Fedora_35_latest"
+flavor: "s3.large.2"
+security_groups: ["common_sg", "vault_sg", "dashboard-common-sg", "dashboard-web-proxy-sg"]
+nics:
+  - fixed_ip: "192.168.110.151"
+    net-name: "dashboard-otc-net"
+root_volume_size: 10
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 10
+  - name: "home"
+    size: 10
+userdata: "{{ common_userdata }}"
+
 ssl_certs:
   proxy2:
     - "proxy2.eco.tsi-dev.otc-service.com"
