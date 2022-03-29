@@ -10,6 +10,10 @@ all:
     scheduler1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.58
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
       ansible_user: automation
@@ -37,9 +41,17 @@ all:
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-03"
+        region: "eu-de"
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
       ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     graphite1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.191.55
       ansible_user: automation
@@ -61,11 +73,17 @@ all:
       ansible_user: automation
       location:
         provider: "otc"
+        cloud: "otcapimon-pool1"
+        az: "eu-de-01"
+        region: "eu-de"
     proxy2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.151
       ansible_user: automation
       location:
         provider: "otc"
+        cloud: "otcapimon-pool1"
+        az: "eu-de-03"
+        region: "eu-de"
     web3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.2.52
       ansible_user: automation
