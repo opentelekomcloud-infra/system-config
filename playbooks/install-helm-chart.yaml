@@ -5,5 +5,5 @@
     - include_role:
         name: install-helm-chart
       vars:
-        chart: "{{ helm_chart_instances[item] | combine(helm_chart_instances_secrets[item], recursive=True) }}"
+        chart: "{{ helm_chart_instances[item] | combine((helm_chart_instances_secrets[item]|default({})), recursive=True) }}"
       loop: "{{ helm_chart_instances | list }}"

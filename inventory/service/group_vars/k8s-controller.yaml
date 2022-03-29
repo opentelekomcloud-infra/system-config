@@ -266,6 +266,30 @@ helm_chart_instances:
     version: 1.0.24
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
+  otcinfra_falco:
+    context: otcinfra
+    repo_url: https://falcosecurity.github.io/charts
+    repo_name: falcosecurity
+    name: falco
+    ref: falcosecurity/falco
+    version: 1.17.4
+    namespace: falco
+  otcinfra2_falco:
+    context: otcinfra2
+    repo_url: https://falcosecurity.github.io/charts
+    repo_name: falcosecurity
+    name: falco
+    ref: falcosecurity/falco
+    version: 1.17.4
+    namespace: falco
+  otcci_falco:
+    context: otcci
+    repo_url: https://falcosecurity.github.io/charts
+    repo_name: falcosecurity
+    name: falco
+    ref: falcosecurity/falco
+    version: 1.17.4
+    namespace: falco
 
 octavia_proxy_instances:
   eu-nl:
