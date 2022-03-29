@@ -17,4 +17,6 @@ controller:
 {% if chart.elb_ip is defined %}
     LoadBalancerIP: "{{ chart.elb_eip }}"
 {% endif %}
-
+{% if chart.config_entries is defined %}
+  config: {{ chart.config_entries }}
+{% endif %}
