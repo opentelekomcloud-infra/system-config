@@ -143,3 +143,10 @@ all:
         cloud: "otcinfra-domain3-infra-nl"
         az: "eu-nl-01"
         region: "eu-nl"
+    influx1.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.110.227
+      ansible_user: automation
+      location:
+        cloud: "otcapimon-pool1"
+        az: "eu-de-03"
+        region: "eu-de"
