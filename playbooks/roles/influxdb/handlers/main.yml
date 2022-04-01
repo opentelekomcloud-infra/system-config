@@ -1,0 +1,10 @@
+---
+# handlers file for roles/influxdb
+
+- name: restart influxdb
+  become: true
+  systemd:
+    name: "{{ influxdb_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

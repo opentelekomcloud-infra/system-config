@@ -198,6 +198,9 @@ groups:
   vault-controller:
     - bridge.eco.tsi-dev.otc-service.com
 
+  influxdb:
+    - influx1.eco.tsi-dev.otc-service.com
+
   disabled:
     # We can not manage coreos with ansible by default
     - graphite1.apimon.eco.tsi-dev.otc-service.com

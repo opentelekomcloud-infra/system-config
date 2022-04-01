@@ -1,0 +1,17 @@
+image: "Standard_Fedora_35_latest"
+flavor: "s3.xlarge.2"
+security_groups: ["common_sg", "dashboard-common-sg", "dashboard-influxdb-sg"]
+nics:
+  - fixed_ip: "192.168.110.227"
+    net-name: "dashboard-otc-net"
+root_volume_size: 10
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 50
+  - name: "home"
+    size: 10
+userdata: "{{ common_userdata }}"
+
+firewalld_extra_services_enable: []
+firewalld_extra_ports_enable: ['8086/tcp']

@@ -1,0 +1,7 @@
+- hosts: "influxdb:!disabled"
+  name: "Base: configure influxdb"
+  become: true
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+    - influxdb
