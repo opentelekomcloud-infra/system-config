@@ -1,0 +1,13 @@
+state: "present"
+
+container_runtime: "/usr/bin/{{ container_command }}"
+
+influxdb_image: "quay.io/opentelekomcloud/influxdb:2.1.1"
+
+packages: []
+
+influxdb_os_user: "influx"
+influxdb_os_group: "influx"
+
+influxdb_systemd_service_name: "influxdb.service"
+influxdb_systemd_unit_path: "{{ '/etc/systemd/system/' + influxdb_systemd_service_name }}"
