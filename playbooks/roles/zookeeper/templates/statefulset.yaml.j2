@@ -119,9 +119,9 @@ spec:
               value: "10"
             - name: ZK_TICK_TIME
               value: "2000"
-            - name: ZOO_AUTOPURGE_PURGEINTERVAL
-              value: "{{ zookeeper_autopurge_interval | default(0) }}"
-            - name: ZOO_AUTOPURGE_SNAPRETAINCOUNT
+            - name: ZK_PURGE_INTERVAL
+              value: "{{ zookeeper.autopurge_interval | default(0) }}"
+            - name: ZK_SNAP_RETAIN_COUNT
               value: "3"
             - name: ZOO_INIT_LIMIT
               value: "5"
