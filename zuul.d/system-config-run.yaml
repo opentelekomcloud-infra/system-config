@@ -175,8 +175,8 @@
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
         - name: graphite2.apimon.eco.tsi-dev.otc-service.com
-          label: centos-8
-        - name: web3.eco.tsi-dev.otc-service.com
+          label: ubuntu-focal
+        - name: graphite1.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
     vars:
       run_playbooks:
