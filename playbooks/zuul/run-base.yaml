@@ -72,22 +72,22 @@
     - name: Display group membership
       command: ansible localhost -m debug -a 'var=groups'
     - name: Run base.yaml
-      command: "set -o pipefail && ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/base.yaml 2>&1 | tee /var/log/ansible/base.yaml.log"
+      shell: "set -o pipefail && ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/base.yaml 2>&1 | tee /var/log/ansible/base.yaml.log"
       args:
         executable: /bin/bash
     - name: Run bridge service playbook
-      command: "set -o pipefail && ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/service-bridge.yaml 2>&1 | tee /var/log/ansible/service-bridge.yaml.log"
+      shell: "set -o pipefail && ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/service-bridge.yaml 2>&1 | tee /var/log/ansible/service-bridge.yaml.log"
       args:
         executable: /bin/bash
     - name: Run playbook
       when: run_playbooks is defined
       loop: "{{ run_playbooks }}"
-      command: "set -o pipefail && ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ item }} 2>&1 | tee /var/log/ansible/{{ item | basename }}.log"
+      shell: "set -o pipefail && ansible-playbook -f 50 -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ item }} 2>&1 | tee /var/log/ansible/{{ item | basename }}.log"
       args:
         executable: /bin/bash
     - name: Run test playbook
       when: run_test_playbook is defined
-      shell: "set -o pipefail && NSIBLE_ROLES_PATH=/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/roles ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ run_test_playbook }} 2>&1 | tee /var/log/ansible/{{ run_test_playbook | basename }}.log"
+      shell: "set -o pipefail && ANSIBLE_ROLES_PATH=/home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/roles ansible-playbook -v /home/zuul/src/github.com/opentelekomcloud-infra/system-config/{{ run_test_playbook }} 2>&1 | tee /var/log/ansible/{{ run_test_playbook | basename }}.log"
       args:
         executable: /bin/bash
 
