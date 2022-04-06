@@ -45,3 +45,7 @@ override_config:
       bearer_token = "/var/run/secrets/kubernetes.io/serviceaccount/token"
       insecure_skip_verify = true
       namepass = ["kubernetes_pod_volume"]
+      [inputs.kubernetes.tagpass]
+        pod_name = ["[a-z]*-[0-9]"]
+      [inputs.kubernetes.tagdrop]
+        volume_name = ["*config*", "*token*"]
