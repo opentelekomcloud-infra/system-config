@@ -65,6 +65,7 @@
     target: "/root/bin/carbonapi-healthcheck.sh.j2"
     setype: bin_t
     state: present
+  when: ansible_facts.selinux.status == 'enabled'
 
 - name: Write carbonapi-healthcheck systemd unit file
   become: true
