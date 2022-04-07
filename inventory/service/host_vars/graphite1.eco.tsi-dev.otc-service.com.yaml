@@ -5,8 +5,13 @@ graphite_storage_schemas: |
   pattern = ^stats\.*\.zuul\.*
   retentions = 60:90d
 
-graphite_retention_stats: "60s:1d,5m:30d,10m:3m"
-graphite_default_stats: "60s:1d,5m:30d,10m:3m"
+  ["carbon"]
+  pattern = ^carbon\.*
+  retentions = 60:90d
+
+  ["default"]
+  pattern = .*
+  retentions = 60s:1d,5m:30d,10m:3m
 
 ssl_certs:
   graphite1-infra:
