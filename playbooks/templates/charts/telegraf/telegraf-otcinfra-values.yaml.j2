@@ -39,6 +39,8 @@ override_config:
 
     [[inputs.disk]]
       ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs"]
+      [inputs.disk.tagdrop]
+        device = ["mapper-docker*"]
 
     [[inputs.kubernetes]]
       url = "https://$HOSTIP:10250"
