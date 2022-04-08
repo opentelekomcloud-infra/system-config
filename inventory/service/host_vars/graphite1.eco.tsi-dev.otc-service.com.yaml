@@ -11,7 +11,7 @@ graphite_storage_schemas: |
 
   ["default"]
   pattern = .*
-  retentions = 60s:1d,5m:30d,10m:3m
+  retentions = 60s:1d,5m:30d,10m:90d
 
 ssl_certs:
   graphite1-infra:
