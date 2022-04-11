@@ -68,6 +68,15 @@ apimon_instances:
                   mode: https
                 - port: 3333
                   mode: tcp
+            - address: lb3-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv3
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
           statsd:
             server: 192.168.110.58:8125
             prefix: cloudmon.production_eu-de.production_eu-de
@@ -170,6 +179,15 @@ apimon_instances:
           loadbalancers:
             - address: lb-eu-de.apimon.eco.tsi-dev.otc-service.com
               name: elbv2
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
+            - address: lb3-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv3
               listeners:
                 - port: 80
                   mode: http
