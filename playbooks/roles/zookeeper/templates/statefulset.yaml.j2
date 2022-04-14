@@ -161,6 +161,18 @@ spec:
             - serviceAccountToken:
                 expirationSeconds: 7200
                 path: vault-token
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: In
+                  values:
+                  - "{{ instance }}"
+              topologyKey: kubernetes.io/hostname
   volumeClaimTemplates:
     - metadata:
         name: datadir
