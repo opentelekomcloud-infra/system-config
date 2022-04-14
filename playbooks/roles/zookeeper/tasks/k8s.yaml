@@ -132,7 +132,6 @@
           name: client
           targetPort: client
           protocol: TCP
-        clusterIP: None
         selector:
           app: zookeeper
 
