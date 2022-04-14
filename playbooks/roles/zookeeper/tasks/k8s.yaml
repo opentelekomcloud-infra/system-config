@@ -147,9 +147,9 @@
     definition:
       spec:
         selector:
-          mathLabels:
+          matchLabels:
             app: zookeeper
-      maxUnavailable: 1
+        maxUnavailable: 1
 
 - name: Manage StatefulSet
   community.kubernetes.k8s:
