@@ -1,7 +1,7 @@
 # Base image building jobs
 - job:
     name: system-config-build-image
-    parent: build-docker-image
+    parent: otc-build-docker-image
     abstract: true
     vars:
       zuul_work_dir: /home/zuul/src/github.com/opentelekomcloud-infra/system-config
