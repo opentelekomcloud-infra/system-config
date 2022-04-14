@@ -115,6 +115,9 @@
               - name: Screenshots
                 url: "bridge.eco.tsi-dev.otc-service.com/screenshots"
 
+    - name: Allow PBR's git calls to operate in system-config, despite not owning it
+      command: git config --global safe.directory /home/zuul/src/github.com/opentelekomcloud-infra/system-config
+
     - name: Run and collect testinfra
       block:
         - name: Run testinfra to validate configuration
