@@ -31,6 +31,7 @@ proxy_backends:
       - "http-check send hdr Host graphite-ca.eco.tsi-dev.otc-service.com"
       # Use all available backup servers instead of first one
       - "option allbackups"
+      - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
     domain_names:
       - "graphite-ca.eco.tsi-dev.otc-service.com"
@@ -57,6 +58,7 @@ proxy_backends:
       # K8 deployed apps require explicit sending Host header
       - "http-check send hdr Host dashboard.tsi-dev.otc-service.com"
       - "option allbackups"
+      - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
       - "http-request set-header Host dashboard.tsi-dev.otc-service.com"
     domain_names:
@@ -81,6 +83,7 @@ proxy_backends:
       # K8 deployed apps require explicit sending Host header
       - "http-check send hdr Host dashboard.eco.tsi-dev.otc-service.com"
       - "option allbackups"
+      - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
     domain_names:
       - "dashboard.eco.tsi-dev.otc-service.com"
@@ -96,6 +99,7 @@ proxy_backends:
       # K8 deployed apps require explicit sending Host header
       - "http-check send hdr Host alerts.eco.tsi-dev.otc-service.com"
       - "option allbackups"
+      - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
     domain_names:
       - "alerts.eco.tsi-dev.otc-service.com"
@@ -114,6 +118,7 @@ proxy_backends:
     options:
       - "http-send-name-header Host"
       - "default-server check inter 5s fall 5 rise 1"
+      - "option forwardfor"
     domain_names:
       - "influx1.eco.tsi-dev.otc-service.com"
     servers:
@@ -124,6 +129,7 @@ proxy_backends:
   - name: "matrix"
     options:
       #      - "http-send-name-header Host"
+      - "option forwardfor"
       - "default-server check inter 5s fall 5 rise 1"
     domain_names:
       - "matrix.otc-service.com"
@@ -134,6 +140,7 @@ proxy_backends:
 
   - name: "docs"
     options:
+      - "option forwardfor"
       - "default-server check inter 5s fall 5 rise 1"
     domain_names:
       - "docs.otc-service.com"
@@ -144,6 +151,7 @@ proxy_backends:
 
   - name: "vault"
     options:
+      - "option forwardfor"
       - "option httpchk GET /v1/sys/health"
     domain_names:
       - "vault-lb.eco.tsi-dev.otc-service.com"
@@ -170,6 +178,7 @@ proxy_backends:
       - "http-response set-header Access-Control-Allow-Origin * if options_method"
       - "http-response set-header Access-Control-Allow-Methods \"GET,POST,OPTIONS,HEAD\" if options_method"
       - "http-response set-header Access-Control-Allow-Headers \"Authorization,Origin,X-Requested-With,Content-Type,Accept\" if options_method"
+      - "option forwardfor"
     domain_names:
       - "opensearch.eco.tsi-dev.otc-service.com"
     servers:
@@ -180,6 +189,7 @@ proxy_backends:
   - name: "opensearch-dashboard"
     options:
       - "http-check send hdr Host opensearch-dashboard.eco.tsi-dev.otc-service.com"
+      - "option forwardfor"
       - "default-server check inter 5s fall 5 rise 1"
     domain_names:
       - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
@@ -200,6 +210,7 @@ proxy_backends:
       - "http-response set-header Access-Control-Allow-Origin * if options_method"
       - "http-response set-header Access-Control-Allow-Methods \"GET,POST,OPTIONS,HEAD\" if options_method"
       - "http-response set-header Access-Control-Allow-Headers \"Authorization,Origin,X-Requested-With,Content-Type,Accept\" if options_method"
+      - "option forwardfor"
     domain_names:
       - "opensearch-stg.eco.tsi-dev.otc-service.com"
     servers:
@@ -210,6 +221,7 @@ proxy_backends:
   - name: "opensearch-stg-dashboard"
     options:
       - "http-check send hdr Host opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
+      - "option forwardfor"
       - "default-server check inter 5s fall 5 rise 1"
     domain_names:
       - "opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
