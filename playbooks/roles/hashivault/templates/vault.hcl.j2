@@ -25,6 +25,9 @@ listener "tcp" {
 {% if vault_proxy_protocol_authorized_addrs is defined %}
   proxy_protocol_authorized_addrs = "{{ vault_proxy_protocol_authorized_addrs }}"
 {% endif %}
+{% if vault_x_forwarded_for_authorized_addrs is defined %}
+  x_forwarded_for_authorized_addrs = "{{ vault_x_forwarded_for_authorized_addrs }}"
+{% endif %}
 }
 
 {% if vault_seal_transit_address is defined %}
