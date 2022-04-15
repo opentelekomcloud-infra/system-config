@@ -19,12 +19,12 @@ listener "tcp" {
   address       = "0.0.0.0:8200"
   tls_cert_file = "/etc/ssl/{{ inventory_hostname }}/vault/vault-fullchain.crt"
   tls_key_file  = "/etc/ssl/{{ inventory_hostname }}/vault/vault.pem"
-{%- if vault_proxy_protocol_behavior is defined -%}
+{% if vault_proxy_protocol_behavior is defined %}
   proxy_protocol_behavior = "{{ vault_proxy_protocol_behavior }}"
-{%- endif %}
-{%- if vault_proxy_protocol_authorized_addrs is defined -%}
+{% endif %}
+{% if vault_proxy_protocol_authorized_addrs is defined %}
   proxy_protocol_authorized_addrs = "{{ vault_proxy_protocol_authorized_addrs }}"
-{%- endif %}
+{% endif %}
 }
 
 {% if vault_seal_transit_address is defined %}
