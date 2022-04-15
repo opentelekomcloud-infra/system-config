@@ -7,7 +7,7 @@ zuul_instances:
     config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
     web_domain: "zuul.otc-service.com"
     nodepool_version_tag: "5.0.0"
-    zuul_version_tag: "5.1.0"
+    zuul_version_tag: "5.2.2"
     zuul_connections:
       - name: "github"
         driver: "github"
@@ -17,7 +17,7 @@ zuul_instances:
       - name: "opendev"
         driver: "git"
         baseurl: "https://opendev.org"
-    vault_image: "vault:1.9.2"
+    vault_image: "vault:1.10.0"
 
 zuul_k8s_instances:
   - zuul_instance: "main"
