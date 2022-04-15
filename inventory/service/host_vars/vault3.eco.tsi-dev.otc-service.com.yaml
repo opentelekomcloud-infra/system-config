@@ -14,6 +14,6 @@ vault_cert: "vault"
 
 vault_proxy_protocol_behavior: "allow_authorized"
 vault_proxy_protocol_authorized_addrs: "192.168.110.151,192.168.110.160"
-vault_x_forwarded_for_addrs: "192.168.110.151,192.168.110.160"
+vault_x_forwarded_for_authorized_addrs: "192.168.110.151,192.168.110.160"
 
 firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']
