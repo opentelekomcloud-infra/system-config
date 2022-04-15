@@ -50,15 +50,14 @@
     deploy:
       jobs:
         # This installs the ansible on bridge that all the infra-prod
-        # jobs will run with.  Note the jobs use this ansible to then
-        # run against zuul's checkout of system-config.
+        # jobs will run with, and sets up bridge with zuul's checkout
+        # of system-config.
         - infra-prod-bootstrap-bridge
 
         # From now on, all jobs should depend on base
         - infra-prod-base: &infra-prod-base
             dependencies:
               - name: infra-prod-bootstrap-bridge
-                soft: true
 
         - infra-prod-service-bridge: &infra-prod-service-bridge
             dependencies:
