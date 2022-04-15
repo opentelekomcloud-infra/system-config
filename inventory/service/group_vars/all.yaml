@@ -58,8 +58,8 @@ database_users:
     db: grafana-eco
     priv: ALL
     comment: Grafana-eco user
-haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
-haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.4.1-alpine
+haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
+haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
 alerta_image_stable: quay.io/opentelekomcloud/alerta:8.7.0
 alerta_image_latest: quay.io/opentelekomcloud/alerta:8.7.0
 statsd_image_stable: quay.io/opentelekomcloud/statsd:v0.9.0
