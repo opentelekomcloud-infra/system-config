@@ -151,6 +151,11 @@
             app: zookeeper
         maxUnavailable: 1
 
+- name: Set vault version from instance vars
+  ansible.builtin.set_fact:
+    vault_image: "{{ zookeeper.vault_image }}"
+  when: "zookeeper.vault_image is defined"
+
 - name: Manage StatefulSet
   community.kubernetes.k8s:
     context: "{{ context }}"
