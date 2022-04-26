@@ -14,6 +14,7 @@ controller:
     annotations:
       kubernetes.io/elb.class: union
       kubernetes.io/elb.id: "{{ chart.elb_id }}"
+    externalTrafficPolicy: "Local"
 {% if chart.elb_ip is defined %}
     LoadBalancerIP: "{{ chart.elb_eip }}"
 {% endif %}
