@@ -120,6 +120,8 @@ helm_chart_instances:
     is_default: true
     config_entries:
       use-gzip: true
+      compute-full-forwarded-for: true
+      use-forwarded-headers: true
   otcinfra_nginx-ingress-intern:
     context: otcinfra
     repo_url: https://kubernetes.github.io/ingress-nginx
@@ -133,6 +135,8 @@ helm_chart_instances:
     is_default: false
     config_entries:
       use-gzip: true
+      compute-full-forwarded-for: true
+      use-forwarded-headers: true
   otcinfra2_nginx-ingress:
     context: otcinfra2
     repo_url: https://kubernetes.github.io/ingress-nginx
@@ -145,6 +149,8 @@ helm_chart_instances:
     is_default: true
     config_entries:
       use-gzip: true
+      compute-full-forwarded-for: true
+      use-forwarded-headers: true
   otcci_nginx-ingress:
     context: otcci
     repo_url: https://kubernetes.github.io/ingress-nginx
@@ -156,7 +162,9 @@ helm_chart_instances:
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
     config_entries:
-     use-gzip: true
+      use-gzip: true
+      compute-full-forwarded-for: true
+      use-forwarded-headers: true
   otcinfra_loki:
     context: otcinfra
     repo_url: https://grafana.github.io/helm-charts
