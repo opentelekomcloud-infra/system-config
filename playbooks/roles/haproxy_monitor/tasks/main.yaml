@@ -16,6 +16,7 @@
 
   rescue:
     - name: Restart Haproxy
+      become: true
       ansible.builtin.service:
         name: "haproxy"
         state: "restarted"
