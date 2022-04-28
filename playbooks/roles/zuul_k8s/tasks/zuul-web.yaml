@@ -15,7 +15,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 1
+        replicas: 2
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
@@ -31,6 +31,18 @@
               vaultConfVersion: "{{ zuul_vault_cm_version | default(omit) }}"
               zkClientCertValidity: "{{ zk_client_cert_info.not_after }}"
           spec:
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: "app.kubernetes.io/instance"
+                        operator: In
+                        values:
+                        - "{{ instance }}"
+                    topologyKey: kubernetes.io/hostname
             serviceAccountName: "{{ zuul_service_account_name }}"
             initContainers:
               - name: "vault-agent"
