@@ -1,0 +1,10 @@
+- hosts: cloud-launcher:!disabled
+  name: "Manage cloud dns zones/recordsets"
+  become: true
+  tasks:
+    - include_role:
+        name: cloud_dns
+      loop: "{{ cloud_dns }}"
+      loop_control:
+        loop_var: "dns"
+

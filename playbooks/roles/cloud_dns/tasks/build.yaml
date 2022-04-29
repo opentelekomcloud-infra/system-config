@@ -1,0 +1,20 @@
+- name: Create DNS zone
+  opentelekomcloud.cloud.dns_zone:
+    cloud: "{{ dns.cloud }}"
+    name: "{{ dns.dns_zone.name }}"
+    router: "{{ dns.dns_zone.router }}"
+    zone_type: "private"
+    ttl: "{{ dns.dns_zone.ttl | default(omit) }}"
+  register: dns_zone
+
+- name: Create DNS recordsets
+  opentelekomcloud.cloud.dns_recordset:
+    cloud: "{{ dns.cloud }}"
+    recordset_name: "{{ item.name }}"
+    zone_id: "{{ dns_zone.zone.id }}"
+    type: "{{ item.type }}"
+    records: "{{ item.records }}"
+    ttl: "{{ item.ttl | default(omit) }}"
+  loop: "{{ dns.dns_zone.recordsets }}"
+  when: "dns.dns_zone.recordsets is defined"
+
