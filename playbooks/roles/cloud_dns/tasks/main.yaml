@@ -1,0 +1,8 @@
+---
+- name: Install DNS zone/recordsets
+  include_tasks: build.yaml
+  when: state == "present"
+
+- name: Destroy DNS zone/recordsets
+  include_tasks: destroy.yaml
+  when: state == "absent"
