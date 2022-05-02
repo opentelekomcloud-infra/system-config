@@ -1,0 +1,8 @@
+- name: Delete DNS zone
+  opentelekomcloud.cloud.dns_zone:
+    cloud: "{{ dns.cloud }}"
+    name: "{{ dns.dns_zone.name }}"
+    router: "{{ dns.dns_zone.router }}"
+    zone_type: "private"
+    state: "absent"
+

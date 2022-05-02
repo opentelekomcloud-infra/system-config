@@ -954,3 +954,58 @@ cloud_cce:
         az: "eu-de-01"
         os: "CentOS 7.7"
 
+cloud_dns:
+  - cloud: "otcinfra-domain2-infra-de"
+    dns_zone:
+      name: "docs-int.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "docs-int.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.170.129"
+  - cloud: "otcinfra-domain2-infra-de"
+    dns_zone:
+      name: "artifacts.eco.tsi-dev.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "artifacts.eco.tsi-dev.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.170.129"
+  - cloud: "otcinfra-domain2-infra-de"
+    dns_zone:
+      name: "git.tsi-dev.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "git.tsi-dev.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.170.142"
+  - cloud: "otcinfra-domain2-infra2-de"
+    dns_zone:
+      name: "docs-int.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "docs-int.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.170.129"
+  - cloud: "otcinfra-domain2-infra2-de"
+    dns_zone:
+      name: "artifacts.eco.tsi-dev.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "artifacts.eco.tsi-dev.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.170.129"
+  - cloud: "otcinfra-domain2-infra2-de"
+    dns_zone:
+      name: "git.tsi-dev.otc-service.com."
+      router: "eco-infra"
+      recordsets:
+        - name: "git.tsi-dev.otc-service.com."
+          type: "A"
+          records:
+            - "192.168.171.142"
