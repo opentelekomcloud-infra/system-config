@@ -38,10 +38,18 @@
                   podAffinityTerm:
                     labelSelector:
                       matchExpressions:
-                      - key: "app.kubernetes.io/instance"
-                        operator: In
-                        values:
-                        - "{{ instance }}"
+                        - key: "app.kubernetes.io/app"
+                          operator: In
+                          values:
+                          - "zuul"
+                        - key: "app.kubernetes.io/component"
+                          operator: In
+                          values:
+                          - "zuul-web"
+                        - key: "app.kubernetes.io/instance"
+                          operator: In
+                          values:
+                          - "{{ instance }}"
                     topologyKey: kubernetes.io/hostname
             serviceAccountName: "{{ zuul_service_account_name }}"
             initContainers:
