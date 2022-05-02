@@ -81,6 +81,8 @@
     parent: infra-prod-playbook
     description: Base job for most service playbooks.
     abstract: true
+    irrelevant-files:
+      - inventory/service/group_vars/zuul.yaml
 
 - job:
     name: infra-prod-service-bridge
