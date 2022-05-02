@@ -13,8 +13,9 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: "zookeeper"
-      component: "server"
+      app.kubernetes.io/name: "zookeeper"
+      app.kubernetes.io/instance: "{{ instance }}"
+      app.kubernetes.io/component: "server"
   serviceName: "{{ zookeeper_headless_svc_name }}"
   replicas: 3
   podManagementPolicy: "Parallel"
@@ -23,8 +24,9 @@ spec:
   template:
     metadata:
       labels:
-        app: "zookeeper"
-        component: "server"
+        app.kubernetes.io/name: "zookeeper"
+        app.kubernetes.io/instance: "{{ instance }}"
+        app.kubernetes.io/component: "server"
       annotations:
         serverCertValidity: "{{ server_cert_info.not_after }}"
     spec:
@@ -172,6 +174,10 @@ spec:
                   operator: In
                   values:
                   - "{{ instance }}"
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                  - "zookeeper"
               topologyKey: kubernetes.io/hostname
   volumeClaimTemplates:
     - metadata:
