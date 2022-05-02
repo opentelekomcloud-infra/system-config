@@ -269,6 +269,9 @@
                     mountPath: "/dev"
                   - name: "nodepool-images-dir"
                     mountPath: "/opt/nodepool/images"
+                  # Podman need non-overlayfs
+                  - name: "nodepool-containers"
+                    mountPath: "/var/lib/containers"
                   - name: "zuul-config-data"
                     mountPath: "/data"
                   - name: "dib-tmp"
@@ -333,6 +336,8 @@
               - name: "nodepool-data-volume"
                 emptyDir: {}
               - name: "nodepool-logs"
+                emptyDir: {}
+              - name: "nodepool-containers"
                 emptyDir: {}
               - name: "zuul-config"
                 emptyDir: {}
