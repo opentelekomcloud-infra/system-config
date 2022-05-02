@@ -101,20 +101,21 @@
         # Important to start up
         publishNotReadyAddresses: true
         selector:
-          app: zookeeper
+          app.kubernetes.io/name: "zookeeper"
+          app.kubernetes.io/instance: "{{ instance }}"
         ports:
-        - port: 2281
-          name: client
-          targetPort: client
-          protocol: TCP
-        - port: 2888
-          name: server
-          targetPort: server
-          protocol: TCP
-        - port: 3888
-          name: election
-          targetPort: election
-          protocol: TCP
+          - port: 2281
+            name: client
+            targetPort: client
+            protocol: TCP
+          - port: 2888
+            name: server
+            targetPort: server
+            protocol: TCP
+          - port: 3888
+            name: election
+            targetPort: election
+            protocol: TCP
 
 - name: Manage public service
   community.kubernetes.k8s:
@@ -127,13 +128,15 @@
     apply: "yes"
     definition:
       spec:
+        type: ClusterIP
         ports:
-        - port: 2281
-          name: client
-          targetPort: client
-          protocol: TCP
+          - port: 2281
+            name: client
+            targetPort: client
+            protocol: TCP
         selector:
-          app: zookeeper
+          app.kubernetes.io/name: "zookeeper"
+          app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Manage PodDisruptionBudget
   community.kubernetes.k8s:
@@ -148,7 +151,8 @@
       spec:
         selector:
           matchLabels:
-            app: zookeeper
+            app.kubernetes.io/name: "zookeeper"
+            app.kubernetes.io/instance: "{{ instance }}"
         maxUnavailable: 1
 
 - name: Set vault version from instance vars
