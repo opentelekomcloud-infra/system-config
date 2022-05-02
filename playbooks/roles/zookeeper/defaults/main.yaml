@@ -1,5 +1,5 @@
 ---
-zookeeper_image: "quay.io/opentelekomcloud/zookeeper:3.7.0"
+zookeeper_image: "quay.io/opentelekomcloud/zookeeper:3.8.0"
   # zookeeper_statsd_image: "quay.io/opentelekomcloud/zookeeper-statsd:1.0.0"
 container_runtime: "/usr/bin/{{ container_command }}"
 
