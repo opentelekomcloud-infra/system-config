@@ -4,8 +4,8 @@ zuul_main_vars:
   statsd_host: "zuul-statsd-main"
   config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
   web_domain: "zuul.otc-service.com"
-  nodepool_version_tag: "post5.0.0"
-  zuul_version_tag: "5.2.5"
+  nodepool_version_tag: "6.0.0"
+  zuul_version_tag: "6.0.0"
   zuul_connections:
     - name: "github"
       driver: "github"
@@ -20,60 +20,62 @@ zuul_main_vars:
 zuul_instances:
   main:
     zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
-    graphite_host: "{{ zuul_main_var.graphite_host }}"
-    statsd_host: "{{ zuul_main_var.statsd_host }}"
-    config_repo: "{{ zuul_main_var.config_repo }}"
-    web_domain: "{{ zuul_main_var.web_domain }}"
-    nodepool_version_tag: "{{ zuul_main_var.nodepool_version_tag }}"
-    zuul_version_tag: "{{ zuul_main_var.zuul_version_tag }}"
-    zuul_connections: "{{ zuul_main_var.zuul_connections }}"
-    vault_image: "{{ zuul_main_var.vault_image }}"
-    zuul_web_instances_count: 2
+    graphite_host: "{{ zuul_main_vars.graphite_host }}"
+    statsd_host: "{{ zuul_main_vars.statsd_host }}"
+    config_repo: "{{ zuul_main_vars.config_repo }}"
+    web_domain: "{{ zuul_main_vars.web_domain }}"
+    nodepool_version_tag: "{{ zuul_main_vars.nodepool_version_tag }}"
+    zuul_version_tag: "{{ zuul_main_vars.zuul_version_tag }}"
+    zuul_connections: "{{ zuul_main_vars.zuul_connections }}"
+    vault_image: "{{ zuul_main_vars.vault_image }}"
+    zuul_web_instances_count: 0
+    zuul_scheduler_instances_count: 0
+    zuul_merger_instances_count: 0
+    zuul_executor_instances_count: 0
+    nodepool_launcher_instances_count: 0
+    nodepool_builder_instances_count: 0
+
+  infra:
+    zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
+    graphite_host: "{{ zuul_main_vars['graphite_host'] }}"
+    statsd_host: "{{ zuul_main_vars.statsd_host }}"
+    config_repo: "{{ zuul_main_vars.config_repo }}"
+    web_domain: "{{ zuul_main_vars.web_domain }}"
+    nodepool_version_tag: "{{ zuul_main_vars.nodepool_version_tag }}"
+    zuul_version_tag: "{{ zuul_main_vars.zuul_version_tag }}"
+    zuul_connections: "{{ zuul_main_vars.zuul_connections }}"
+    vault_image: "{{ zuul_main_vars.vault_image }}"
+    zuul_web_instances_count: 1
     zuul_scheduler_instances_count: 1
     zuul_merger_instances_count: 1
     zuul_executor_instances_count: 2
     nodepool_launcher_instances_count: 1
     nodepool_builder_instances_count: 1
-
-  infra:
-    zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
-    graphite_host: "{{ zuul_main_var.graphite_host }}"
-    statsd_host: "{{ zuul_main_var.statsd_host }}"
-    config_repo: "{{ zuul_main_var.config_repo }}"
-    web_domain: "{{ zuul_main_var.web_domain }}"
-    nodepool_version_tag: "{{ zuul_main_var.nodepool_version_tag }}"
-    zuul_version_tag: "{{ zuul_main_var.zuul_version_tag }}"
-    zuul_connections: "{{ zuul_main_var.zuul_connections }}"
-    vault_image: "{{ zuul_main_var.vault_image }}"
-    zuul_web_instances_count: 0
-    zuul_scheduler_instances_count: 0
-    zuul_merger_instances_count: 0
-    zuul_executor_instances_count: 0
-    nodepool_launcher_instances_count: 0
-    nodepool_builder_instances_count: 0
+    ingress_class: "nginx"
 
   infra2:
     zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
-    graphite_host: "{{ zuul_main_var.graphite_host }}"
-    statsd_host: "{{ zuul_main_var.statsd_host }}"
-    config_repo: "{{ zuul_main_var.config_repo }}"
-    web_domain: "{{ zuul_main_var.web_domain }}"
-    nodepool_version_tag: "{{ zuul_main_var.nodepool_version_tag }}"
-    zuul_version_tag: "{{ zuul_main_var.zuul_version_tag }}"
-    zuul_connections: "{{ zuul_main_var.zuul_connections }}"
-    vault_image: "{{ zuul_main_var.vault_image }}"
+    graphite_host: "{{ zuul_main_vars.graphite_host }}"
+    statsd_host: "{{ zuul_main_vars.statsd_host }}"
+    config_repo: "{{ zuul_main_vars.config_repo }}"
+    web_domain: "{{ zuul_main_vars.web_domain }}"
+    nodepool_version_tag: "{{ zuul_main_vars.nodepool_version_tag }}"
+    zuul_version_tag: "{{ zuul_main_vars.zuul_version_tag }}"
+    zuul_connections: "{{ zuul_main_vars.zuul_connections }}"
+    vault_image: "{{ zuul_main_vars.vault_image }}"
     zuul_web_instances_count: 0
     zuul_scheduler_instances_count: 0
     zuul_merger_instances_count: 0
     zuul_executor_instances_count: 0
     nodepool_launcher_instances_count: 0
     nodepool_builder_instances_count: 0
+    ingress_class: "nginx"
 
 zuul_k8s_instances:
-  - zuul_instance: "main"
-    context: "otcci"
-    instance: "main"
-    namespace: "zuul-ci"
+  # - zuul_instance: "main"
+  #   context: "otcci"
+  #   instance: "main"
+  #   namespace: "zuul-ci"
   - zuul_instance: "infra"
     context: "otcinfra"
     instance: "main"

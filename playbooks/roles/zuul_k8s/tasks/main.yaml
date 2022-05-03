@@ -1,3 +1,7 @@
+- name: Emit header
+  ansible.builtin.debug:
+    msg: "Start configuring Zuul instance {{ instance }} on {{ context }}"
+
 - include_role:
     name: "x509_vault"
     tasks_from: cert.yaml
@@ -34,6 +38,14 @@
   when: "cert_in_vault.data is defined"
   tags: ["config"]
 
+- name: Create Zull Namespace
+  community.kubernetes.k8s:
+    context: "{{ context }}"
+    state: "present"
+    name: "{{ namespace }}"
+    api_version: "v1"
+    kind: "Namespace"
+
 - include_tasks: zuul-config.yaml
 
 # We want to have control over the state when we deploy
@@ -51,14 +63,6 @@
     dest: "{{ zuul_config_dir }}/{{ instance }}"
     force: yes
   tags: ["config"]
-
-- name: Create Zull Namespace
-  community.kubernetes.k8s:
-    context: "{{ context }}"
-    state: "present"
-    name: "{{ namespace }}"
-    api_version: "v1"
-    kind: "Namespace"
 
 - name: Manage Zuul ServiceAccount
   community.kubernetes.k8s:

@@ -24,8 +24,8 @@ users:
   - name: {{ k8.name }}-admin
     user:
 [%- with secret "{{ k8.vault_path }}" %]
-      client-certificate-data: "[% .Data.data['client.crt'] %]"
-      client-key-data: "[% .Data.data['client.key'] %]"
+      client-certificate-data: "[% base64Encode .Data.data.client_crt %]"
+      client-key-data: "[% base64Encode .Data.data.client_key %]"
 [%- end %]
 
 {% endfor %}
