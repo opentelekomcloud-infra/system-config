@@ -35,8 +35,50 @@ zuul_instances:
     nodepool_launcher_instances_count: 1
     nodepool_builder_instances_count: 1
 
+  infra:
+    zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
+    graphite_host: "{{ zuul_main_var.graphite_host }}"
+    statsd_host: "{{ zuul_main_var.statsd_host }}"
+    config_repo: "{{ zuul_main_var.config_repo }}"
+    web_domain: "{{ zuul_main_var.web_domain }}"
+    nodepool_version_tag: "{{ zuul_main_var.nodepool_version_tag }}"
+    zuul_version_tag: "{{ zuul_main_var.zuul_version_tag }}"
+    zuul_connections: "{{ zuul_main_var.zuul_connections }}"
+    vault_image: "{{ zuul_main_var.vault_image }}"
+    zuul_web_instances_count: 0
+    zuul_scheduler_instances_count: 0
+    zuul_merger_instances_count: 0
+    zuul_executor_instances_count: 0
+    nodepool_launcher_instances_count: 0
+    nodepool_builder_instances_count: 0
+
+  infra2:
+    zookeeper_instance_group: "{{ zuul_main_vars.zookeeper_instance_group }}"
+    graphite_host: "{{ zuul_main_var.graphite_host }}"
+    statsd_host: "{{ zuul_main_var.statsd_host }}"
+    config_repo: "{{ zuul_main_var.config_repo }}"
+    web_domain: "{{ zuul_main_var.web_domain }}"
+    nodepool_version_tag: "{{ zuul_main_var.nodepool_version_tag }}"
+    zuul_version_tag: "{{ zuul_main_var.zuul_version_tag }}"
+    zuul_connections: "{{ zuul_main_var.zuul_connections }}"
+    vault_image: "{{ zuul_main_var.vault_image }}"
+    zuul_web_instances_count: 0
+    zuul_scheduler_instances_count: 0
+    zuul_merger_instances_count: 0
+    zuul_executor_instances_count: 0
+    nodepool_launcher_instances_count: 0
+    nodepool_builder_instances_count: 0
+
 zuul_k8s_instances:
   - zuul_instance: "main"
     context: "otcci"
+    instance: "main"
+    namespace: "zuul-ci"
+  - zuul_instance: "infra"
+    context: "otcinfra"
+    instance: "main"
+    namespace: "zuul-ci"
+  - zuul_instance: "infra2"
+    context: "otcinfra2"
     instance: "main"
     namespace: "zuul-ci"

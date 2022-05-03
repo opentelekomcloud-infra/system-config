@@ -55,12 +55,12 @@
             restartPolicy: "Always"
             terminationGracePeriodSeconds: 30
             serviceAccountName: "{{ zuul_service_account_name }}"
-            initContainers:
+           initContainers:
               - name: "vault-agent"
                 command:
                   - "sh"
                   - "-c"
-                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool.hcl -exit-after-auth=true && mkdir -p /etc/openstack && cp /secrets/openstack/clouds.yaml /etc/openstack"
+                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool-launcher.hcl -exit-after-auth=true"
                 env:
                   - name: "VAULT_ADDR"
                     value: "{{ ansible_hashi_vault_addr }}"
@@ -78,6 +78,8 @@
             containers:
 
               - name: "nodepool-launcher"
+                securityContext:
+                  runAsUser: 10001
                 resources:
                   limits:
                     cpu: 300m
@@ -99,7 +101,7 @@
                   - name: "nodepool-config"
                     readOnly: true
                     mountPath: "/etc/nodepool/"
-                  - name: "nodepool-data-volume"
+                  - name: "nodepool-home"
                     mountPath: "/var/lib/nodepool"
                   - name: "openstack-config"
                     mountPath: "/etc/openstack"
@@ -115,7 +117,7 @@
                 command:
                   - "sh"
                   - "-c"
-                  - "while :; do cp -v /secrets/tls/* /tls/; cp -uv /secrets/openstack/clouds.yaml /etc/openstack/clouds.yaml; chown -R 0:0 /etc/openstack /tls; sleep 60; done"
+                  - "while :; do cp -v /secrets/tls/* /tls/; cp -uv /secrets/openstack/clouds.yaml /etc/openstack/clouds.yaml; cp /secrets/kube_config /var/lib/zuul/.kube/config; chown -R 10001:10001 /etc/openstack /tls /var/lib/zuul/.kube; sleep 60; done"
                 volumeMounts:
                   - name: "secrets"
                     mountPath: "/secrets"
@@ -123,12 +125,14 @@
                     mountPath: "/tls"
                   - name: "openstack-config"
                     mountPath: "/etc/openstack"
+                  - name: "nodepool-home"
+                    mountPath: "/var/lib/zuul"
 
               - name: "vault-agent-sidecar"
                 command:
                   - "sh"
                   - "-c"
-                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool.hcl"
+                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool-launcher.hcl"
                 env:
                   - name: "VAULT_ADDR"
                     value: "{{ ansible_hashi_vault_addr }}"
@@ -156,7 +160,7 @@
                 persistentVolumeClaim:
                   claimName: "zuul-config-{{ instance }}"
 
-              - name: "nodepool-data-volume"
+              - name: "nodepool-home"
                 emptyDir: {}
               - name: "cert-data"
                 emptyDir: {}
@@ -176,7 +180,7 @@
           rollingUpdate:
             maxUnavailable: 25%
             maxSurge: 25%
-        revisionHistoryLimit: 10
+        revisionHistoryLimit: 3
         progressDeadlineSeconds: 600
 
 - name: Create nodepool-builder StatefulSet
@@ -219,7 +223,7 @@
                 command:
                   - "sh"
                   - "-c"
-                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool.hcl -exit-after-auth=true && mkdir -p /etc/openstack && cp /secrets/openstack/clouds.yaml /etc/openstack"
+                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool-builder.hcl -exit-after-auth=true && mkdir -p /etc/openstack && cp /secrets/openstack/clouds.yaml /etc/openstack"
                 env:
                   - name: "VAULT_ADDR"
                     value: "{{ ansible_hashi_vault_addr }}"
@@ -298,11 +302,12 @@
                   - name: "openstack-config"
                     mountPath: "/etc/openstack"
 
+
               - name: "vault-agent-sidecar"
                 command:
                   - "sh"
                   - "-c"
-                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool.hcl"
+                  - "vault agent -config=/etc/vault/vault-agent-config-nodepool-builder.hcl"
                 env:
                   - name: "VAULT_ADDR"
                     value: "{{ ansible_hashi_vault_addr }}"

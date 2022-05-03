@@ -141,11 +141,19 @@
           }
           )
         }}"
-        vault-agent-config-nodepool.hcl: "{{ lookup(
+        vault-agent-config-nodepool-launcher.hcl: "{{ lookup(
           'ansible.builtin.template', 'vault-agent-config.hcl.j2',
           template_vars={
             'zuul': zuul,
-            'vault_agent_templates': vault_agent_templates_nodepool
+            'vault_agent_templates': vault_agent_templates_nodepool_launcher
+          }
+          )
+        }}"
+        vault-agent-config-nodepool-builder.hcl: "{{ lookup(
+          'ansible.builtin.template', 'vault-agent-config.hcl.j2',
+          template_vars={
+            'zuul': zuul,
+            'vault_agent_templates': vault_agent_templates_nodepool_builder
           }
           )
         }}"
@@ -188,6 +196,13 @@
           }
           )
         }}"
+        nodepool-kube-config.hcl: "{{ lookup(
+          'ansible.builtin.template',
+          'templates/clouds/nodepool_kube_config.hcl.j2',
+          template_vars={'zuul': zuul}
+          )
+        }}"
+
   tags: ["config"]
   register: zuul_vault_cm
 

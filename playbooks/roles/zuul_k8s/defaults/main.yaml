@@ -11,7 +11,14 @@ graphite_pickle_port: 2014
 
 zuul_service_account_name: "zuul"
 
-vault_agent_templates_nodepool:
+vault_agent_templates_nodepool_launcher:
+  - destination: "/secrets/openstack/clouds.yaml"
+    source: "clouds.yaml.hcl"
+    perms: "0644"
+  - destination: "/secrets/kube_config"
+    source: "nodepool-kube-config.hcl"
+    perms: "0640"
+vault_agent_templates_nodepool_builder:
   - destination: "/secrets/openstack/clouds.yaml"
     source: "clouds.yaml.hcl"
     perms: "0644"
