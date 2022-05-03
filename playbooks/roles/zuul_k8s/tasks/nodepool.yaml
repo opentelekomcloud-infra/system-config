@@ -36,7 +36,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 1
+        replicas: "{{ zuul.nodepool_launcher_instances_count | default(1) }}"
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
@@ -196,7 +196,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 1
+        replicas: "{{ zuul.nodepool_builder_instances_count | default(1) }}"
         serviceName: "nodepool-builder"
         selector:
           matchLabels:

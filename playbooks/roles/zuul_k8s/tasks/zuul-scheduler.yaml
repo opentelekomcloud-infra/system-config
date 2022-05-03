@@ -35,7 +35,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 1
+        replicas: "{{ zuul.zuul_scheduler_instances_count | default(1) }}"
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
@@ -182,4 +182,4 @@
               storageClassName: "csi-nas"
               resources:
                 requests:
-                  storage: "100G"
+                  storage: "5G"
