@@ -35,10 +35,10 @@
           app.kubernetes.io/managed-by: "system-config"
       spec:
         ports:
-        - name: "logs"
-          port: 7900
-          protocol: "TCP"
-          targetPort: 7900
+          - name: "logs"
+            port: 7900
+            protocol: "TCP"
+            targetPort: 7900
         selector:
           app.kubernetes.io/app: "zuul"
           app.kubernetes.io/component: "zuul-executor"
@@ -61,7 +61,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 2
+        replicas: "{{ zuul.zuul_executor_instances_count | default(2) }}"
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
@@ -228,6 +228,6 @@
                 projected:
                   defaultMode: 420
                   sources:
-                  - serviceAccountToken:
-                      expirationSeconds: 7200
-                      path: "vault-token"
+                    - serviceAccountToken:
+                        expirationSeconds: 7200
+                        path: "vault-token"
