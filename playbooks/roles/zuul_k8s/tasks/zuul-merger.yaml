@@ -15,7 +15,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 1
+        replicas: "{{ zuul.zuul_merger_instances_count | default(1) }}"
         podManagementPolicy: "Parallel"
         serviceName: "zuul-merger"
         selector:

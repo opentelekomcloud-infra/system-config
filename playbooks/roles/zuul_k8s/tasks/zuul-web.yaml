@@ -15,7 +15,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
       spec:
-        replicas: 2
+        replicas: "{{ zuul.zuul_web_instances_count | default(1) }}"
         selector:
           matchLabels:
             app.kubernetes.io/app: "zuul"
