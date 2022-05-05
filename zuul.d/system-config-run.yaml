@@ -43,9 +43,7 @@
     nodeset:
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
-        - name: f32
-          label: fedora-32
+          label: ubuntu-jammy
     files:
       - tox.ini
       - playbooks/
