@@ -42,6 +42,15 @@ spec:
                     - "{{ instance }}"
               topologyKey: kubernetes.io/hostname
       serviceAccountName: "{{ zuul_service_account_name }}"
+
+{% if zuul.additional_hosts is defined and zuul.additional_hosts|length > 0 %}
+      hostAliases:
+{% for host in zuul.additional_hosts %}
+          - ip: "{{ host.ip }}"
+            hostnames: {{ host.names }}
+{% endfor %}
+{% endif %}
+
       initContainers:
         - name: "vault-agent"
           command:
