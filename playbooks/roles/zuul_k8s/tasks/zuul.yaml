@@ -1,3 +1,5 @@
+- include_tasks: zuul-client.yaml
+  tags: ["config"]
 - include_tasks: zuul-merger.yaml
   tags: ["config"]
 - include_tasks: zuul-scheduler.yaml
@@ -5,6 +7,4 @@
 - include_tasks: zuul-web.yaml
   tags: ["config"]
 - include_tasks: zuul-executor.yaml
-  tags: ["config"]
-- include_tasks: zuul-client.yaml
   tags: ["config"]

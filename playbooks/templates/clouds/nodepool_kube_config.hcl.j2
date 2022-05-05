@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Config
+current-context: otcci
+preferences: {}
+
+clusters:
+{% for k8 in zuul.nodepool_k8s %}
+  - name: {{ k8.name }}
+    cluster: 
+      server: {{ k8.server }}
+      insecure-skip-tls-verify: true
+{% endfor %}
+
+contexts:
+{% for k8 in zuul.nodepool_k8s %}
+  - name: {{ k8.name }}
+    context:
+      cluster: {{ k8.name }}
+      user: {{ k8.name }}-admin
+{% endfor %}
+
+users:
+{% for k8 in zuul.nodepool_k8s %}
+  - name: {{ k8.name }}-admin
+    user:
+[%- with secret "{{ k8.vault_path }}" %]
+      client-certificate-data: "[% base64Encode .Data.data.client_crt %]"
+      client-key-data: "[% base64Encode .Data.data.client_key %]"
+[%- end %]
+
+{% endfor %}
