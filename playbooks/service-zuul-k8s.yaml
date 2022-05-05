@@ -19,7 +19,8 @@
       when: "vault_token is defined"
       tags: ["config"]
 
-    - include_role:
+    - name: Deploy Zuul
+      include_role:
         name: "zuul_k8s"
       vars:
         zuul: "{{ zuul_instances[item.zuul_instance] | combine(zuul_instances_secrets[item.zuul_instance], recursive=True) }}"
