@@ -59,7 +59,7 @@
     nodeset:
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+          label: ubuntu-jammy
         - name: centos-stream
           label: centos-9-stream
     vars:
