@@ -60,10 +60,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: statsd.f31
-          label: fedora-31
-        - name: statsd.f32
-          label: fedora-32
+        - name: centos-stream
+          label: centos-9-stream
     vars:
       run_playbooks:
         - playbooks/service-statsd.yaml
