@@ -10,6 +10,11 @@
     src: 90no-translations
     dest: /etc/apt/apt.conf.d/90no-translations
 
+- name: Make /etc/apt/sources.list.d
+  ansible.builtin.file:
+    state: "directory"
+    path: "/etc/apt/sources.list.d"
+
 - name: Replace sources.list file
   copy:
     src: 'sources.list.{{ ansible_facts.lsb.codename }}.{{ ansible_facts.architecture }}'
