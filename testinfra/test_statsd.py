@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['statsd.f31', 'statsd.f32']
+testinfra_hosts = ['centos-stream']
 
 
 def test_statsd_config(host):
