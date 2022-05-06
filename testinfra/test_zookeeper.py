@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['zk.fedora']
+testinfra_hosts = ['zk.centos-stream']
 
 
 def test_zk_container_listening(host):

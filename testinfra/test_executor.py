@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['executor.f32', 'executor.focal']
+testinfra_hosts = ['executor.centos-stream', 'executor.focal']
 
 
 def test_executor_config(host):

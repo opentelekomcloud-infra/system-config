@@ -60,7 +60,7 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-jammy
-        - name: centos-stream
+        - name: statsd.centos-stream
           label: centos-9-stream
     vars:
       run_playbooks:
@@ -97,8 +97,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: epmon.f32
-          label: fedora-32
+        - name: epmon.centos-stream
+          label: centos-9-stream
         - name: epmon.focal
           label: ubuntu-focal
     vars:
@@ -122,8 +122,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: scheduler.f32
-          label: fedora-32
+        - name: scheduler.centos-stream
+          label: centos-9-stream
         - name: scheduler.focal
           label: ubuntu-focal
     vars:
@@ -146,8 +146,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: executor.f32
-          label: fedora-32
+        - name: executor.centos-stream
+          label: centos-9-stream
         - name: executor.focal
           label: ubuntu-focal
     vars:
@@ -279,7 +279,7 @@
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
         - name: proxy1.eco.tsi-dev.otc-service.com
-          label: fedora-32
+          label: centos-9-stream
     vars:
       run_playbooks:
         - playbooks/acme-certs.yaml
@@ -321,8 +321,8 @@
       nodes:
         - name: bridge.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
-        - name: zk.fedora
-          label: fedora-32
+        - name: zk.centos-stream
+          label: centos-9-stream
     vars:
       run_playbooks:
         # We do not want to create CA part of ZK setup, therefore only invoke additional playbook in the test.

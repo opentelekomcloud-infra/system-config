@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['epmon.f32', 'epmon.focal']
+testinfra_hosts = ['epmon.centos-stream', 'epmon.focal']
 
 
 def test_epmon_config(host):
@@ -22,8 +22,8 @@ def test_epmon_config(host):
     assert b'test_alerta_endpoint' in config.content
     assert b'alerta_token' in secure_config.content
     hostname = host.ansible.get_variables()['inventory_hostname']
-    if hostname == 'epmon.f32':
-        assert b'zone: zone_f32' in config.content
+    if hostname == 'epmon.centos-stream':
+        assert b'zone: zone_centos-stream' in config.content
     elif hostname == 'epmon.focal':
         assert b'zone: zone_focal' in config.content
 

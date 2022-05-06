@@ -5,35 +5,35 @@ groups:
   certcheck:
     - bridge.eco.tsi-dev.otc-service.com
   statsd:
-    - centos-stream
+    - statsd.centos-stream
   apimon:
-    - epmon.f32
+    - epmon.centos-stream
     - epmon.focal
-    - scheduler.f32
+    - scheduler.centos-stream
     - scheduler.focal
-    - executor.f32
+    - executor.centos-stream
     - executor.focal
   apimon-clouds:
     - bridge.eco.tsi-dev.otc-service.com
-    - epmon.f32
+    - epmon.centos-stream
     - epmon.focal
-    - scheduler.f32
+    - scheduler.centos-stream
     - scheduler.focal
   apimon-epmon:
-    - epmon.f32
+    - epmon.centos-stream
     - epmon.focal
   apimon-scheduler:
-    - scheduler.f32
+    - scheduler.centos-stream
     - scheduler.focal
   apimon-executor:
-    - executor.f32
+    - executor.centos-stream
     - executor.focal
   apimon-inst1:
-    - epmon.f32
+    - epmon.centos-stream
     - epmon.focal
-    - scheduler.f32
+    - scheduler.centos-stream
     - scheduler.focal
-    - executor.f32
+    - executor.centos-stream
     - executor.focal
   graphite:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
@@ -48,7 +48,7 @@ groups:
     - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - le1
-    - proxy1.f32
+    - proxy1.centos-stream
     - web1.eco.tsi-dev.otc-service.com
   memcached:
     - memcached.focal
@@ -61,4 +61,4 @@ groups:
   vault:
     - vault1.eco.tsi-dev.otc-service.com
   zookeeper: 
-    - zk.fedora
+    - zk.centos-stream
