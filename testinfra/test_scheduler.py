@@ -10,7 +10,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-testinfra_hosts = ['scheduler.f32', 'scheduler.focal']
+testinfra_hosts = ['scheduler.centos-stream', 'scheduler.focal']
 
 
 def test_scheduler_config(host):
