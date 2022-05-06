@@ -64,11 +64,11 @@
         - group_vars/proxy.yaml
         - group_vars/k8s-controller.yaml
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
-        - host_vars/epmon.f32.yaml
+        - host_vars/epmon.centos-stream.yaml
         - host_vars/epmon.focal.yaml
         - host_vars/le1.yaml
-        - host_vars/proxy1.f32.yaml
-        - host_vars/zk.fedora.yaml
+        - host_vars/proxy1.centos-stream.yaml
+        - host_vars/zk.centos-stream.yaml
     - name: Display group membership
       command: ansible localhost -m debug -a 'var=groups'
     - name: Run base.yaml
