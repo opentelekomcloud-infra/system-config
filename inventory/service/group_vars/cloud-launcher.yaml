@@ -1000,7 +1000,7 @@ cloud_cce:
     network_mode: "overlay_l2"
     nodes:
       - name: "zuul-01"
-        flavor: "s3.2xlarge.2"
+        flavor: "s3.xlarge.2"
         az: "eu-de-01"
         os: "CentOS 7.7"
       - name: "zuul-02"
@@ -1013,7 +1013,7 @@ cloud_cce:
         os: "CentOS 7.7"
       - name: "zuul-04"
         flavor: "s3.2xlarge.2"
-        az: "eu-de-01"
+        az: "eu-de-02"
         os: "CentOS 7.7"
 
 cloud_dns:
