@@ -1,3 +1,18 @@
+# NOTE(gtema): this is ephemeral to the Ansible run; it is updating the
+# in-memory inventory.
+- hosts: localhost
+  tasks:
+    - name: Add bridge to inventory
+      add_host:
+        name: bridge.eco.tsi-dev.otc-service.com
+        ansible_python_interpreter: python3
+        ansible_user: zuul
+        # Without setting ansible_host directly, mirror-workspace-git-repos
+        # gets sad because if delegate_to localhost and with add_host that
+        # ends up with ansible_host being localhost.
+        ansible_host: bridge.eco.tsi-dev.otc-service.com
+        ansible_port: 22
+
 - hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
   name: "Bridge: boostrap the bastion host"
   become: true
