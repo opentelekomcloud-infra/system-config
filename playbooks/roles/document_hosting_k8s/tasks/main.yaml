@@ -111,6 +111,10 @@
                         operator: In
                         values:
                         - "{{ instance }}"
+                      - key: "app.kubernetes.io/name"
+                        operator: In
+                        values:
+                        - "document-hosting"
                     topologyKey: kubernetes.io/hostname
 
 - name: Create Document Hosting {{ instance }} Autoscaler

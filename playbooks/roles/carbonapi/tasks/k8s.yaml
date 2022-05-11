@@ -124,6 +124,22 @@
                 configMap:
                   name: "{{ carbonapi_cm_name }}"
                   defaultMode: 420
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: "app.kubernetes.io/instance"
+                        operator: In
+                        values:
+                        - "{{ instance }}"
+                      - key: "app.kubernetes.io/name"
+                        operator: In
+                        values:
+                        - "carbonapi"
+                    topologyKey: kubernetes.io/hostname
 
 - name: Create carbonapi Autoscaler
   community.kubernetes.k8s:

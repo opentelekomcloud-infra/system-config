@@ -25,3 +25,19 @@ zookeeper:
 zookeeper_headless_svc_name: "zookeeper-headless"
 zookeeper_pvc_scn: "csi-disk"
 zookeeper_pvc_size: "5Gi"
+
+zookeeper_vault_agent_resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi
+
+zookeeper_resources:
+  limits:
+    cpu: 2
+    memory: 4Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
