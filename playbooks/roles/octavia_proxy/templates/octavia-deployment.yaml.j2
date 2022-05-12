@@ -28,6 +28,10 @@ spec:
                   operator: In
                   values:
                   - "{{ instance }}"
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                  - "octavia-proxy"
               topologyKey: kubernetes.io/hostname
       containers:
       - image: "{{ octavia_proxy.image }}"

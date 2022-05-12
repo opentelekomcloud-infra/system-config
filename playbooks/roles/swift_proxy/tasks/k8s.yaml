@@ -92,6 +92,22 @@
                 secret:
                   secretName: "{{ config_secret_name }}"
                   defaultMode: 420
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  podAffinityTerm:
+                    labelSelector:
+                      matchExpressions:
+                      - key: "app.kubernetes.io/instance"
+                        operator: In
+                        values:
+                        - "{{ instance }}"
+                      - key: "app.kubernetes.io/name"
+                        operator: In
+                        values:
+                        - "swift-proxy"
+                    topologyKey: kubernetes.io/hostname
 
 - name: Create swift-proxy {{ instance }} Autoscaler
   community.kubernetes.k8s:
