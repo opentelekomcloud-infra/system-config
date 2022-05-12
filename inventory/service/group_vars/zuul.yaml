@@ -45,7 +45,7 @@ zuul_instances:
     zuul_version_tag: "{{ zuul_main_vars.zuul_version_tag }}"
     zuul_connections: "{{ zuul_main_vars.zuul_connections }}"
     vault_image: "{{ zuul_main_vars.vault_image }}"
-    zuul_web_instances_count: 1
+    zuul_web_instances_count: 2
     zuul_scheduler_instances_count: 1
     zuul_merger_instances_count: 1
     zuul_executor_instances_count: 2
