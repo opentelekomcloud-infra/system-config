@@ -40,6 +40,10 @@ spec:
                   operator: In
                   values:
                   - "{{ instance }}"
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                  - "grafana"
               topologyKey: kubernetes.io/hostname
       serviceAccountName: "{{ grafana_service_account_name }}"
       initContainers:
@@ -57,6 +61,7 @@ spec:
 {% endif %}
           image: "{{ grafana.vault_image }}"
           name: "vault-agent"
+          resources: {{ grafana_vault_agent_resources }}
           volumeMounts:
             - mountPath: "/etc/vault"
               name: "vault-agent-config"
@@ -79,6 +84,7 @@ spec:
 {% endif %}
         image: "{{ grafana.vault_image }}"
         name: "vault-agent-sidecar"
+        resources: {{ grafana_vault_agent_resources }}
         volumeMounts:
           - mountPath: "/etc/vault"
             name: "vault-agent-config"

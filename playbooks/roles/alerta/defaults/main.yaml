@@ -12,3 +12,11 @@ alerta_deployment_name: "alerta-deployment-{{ instance }}"
 alerta_service_name: "alerta-service-{{ instance }}"
 alerta_ingress_name: "alerta-ingress-{{ instance }}"
 alerta_ssl_cert_name: "alerta-ssl-{{ instance }}"
+
+alerta_vault_agent_resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi

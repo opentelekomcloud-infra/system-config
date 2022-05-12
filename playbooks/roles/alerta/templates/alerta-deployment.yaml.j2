@@ -35,6 +35,10 @@ spec:
                   operator: In
                   values:
                   - "{{ instance }}"
+                - key: "app.kubernetes.io/name"
+                  operator: In
+                  values:
+                  - "alerta"
               topologyKey: kubernetes.io/hostname
       serviceAccountName: "{{ alerta_service_account_name }}"
       initContainers:
@@ -52,6 +56,7 @@ spec:
 {% endif %}
           image: "{{ alerta.vault_image }}"
           name: "vault-agent"
+          resources: {{ alerta_vault_agent_resources }}
           volumeMounts:
             - mountPath: "/etc/vault"
               name: "vault-agent-config"
@@ -76,6 +81,7 @@ spec:
 {% endif %}
         image: "{{ alerta.vault_image }}"
         name: "vault-agent-sidecar"
+        resources: {{ alerta_vault_agent_resources }}
         volumeMounts:
           - mountPath: "/etc/vault"
             name: "vault-agent-config"

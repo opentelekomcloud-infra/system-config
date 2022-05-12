@@ -170,7 +170,26 @@ spec:
             - serviceAccountToken:
                 expirationSeconds: 7200
                 path: "vault-token"
-
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: "app.kubernetes.io/instance"
+                  operator: In
+                  values:
+                  - "{{ instance }}"
+                - key: "app.kubernetes.io/app"
+                  operator: In
+                  values:
+                  - "zuul"
+                - key: "app.kubernetes.io/component"
+                  operator: In
+                  values:
+                  - "nodepool-builder"
+              topologyKey: kubernetes.io/hostname
   volumeClaimTemplates:
     - metadata:
         name: "nodepool-images-dir"

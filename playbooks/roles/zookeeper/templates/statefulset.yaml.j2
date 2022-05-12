@@ -43,6 +43,7 @@ spec:
               value: "{{ ansible_hashi_vault_addr }}"
           image: "{{ vault_image }}"
           name: "vault-agent"
+          resources: {{ zookeeper_vault_agent_resources }}
           volumeMounts:
             - mountPath: "/etc/vault"
               name: "vault-agent-config"
@@ -62,6 +63,7 @@ spec:
               value: "{{ ansible_hashi_vault_addr }}"
           image: "{{ vault_image }}"
           name: "vault-agent-sidecar"
+          resources: {{ zookeeper_vault_agent_resources }}
           volumeMounts:
             - mountPath: "/etc/vault"
               name: "vault-agent-config"
@@ -75,6 +77,7 @@ spec:
             fsGroup: 1000
             runAsUser: 1000
           image: "{{ zookeeper_image }}"
+          resources: {{ zookeeper_resources }}
           command:
             - "/bin/bash"
             - "-xec"
