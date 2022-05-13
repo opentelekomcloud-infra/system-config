@@ -100,19 +100,19 @@
           spec:
             containers:
               - name: "matrix"
-                # resources: "{{ matrix_resources | default(omit) }}"
-                # readinessProbe:
-                #   initialDelaySeconds: 10
-                #   httpGet:
-                #     path: "/metrics/find/?query=*"
-                #     port: "matrix"
-                #   timeoutSeconds: "{{ matrix_readiness_timeout }}"
-                # livenessProbe:
-                #   initialDelaySeconds: 10
-                #   httpGet:
-                #     path: "/metrics/find/?query=*"
-                #     port: "matrix"
-                #   timeoutSeconds: "{{ matrix_liveness_timeout }}"
+                resources: "{{ matrix_resources | default(omit) }}"
+                readinessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/health"
+                    port: "matrix"
+                  timeoutSeconds: "{{ matrix_readiness_timeout }}"
+                livenessProbe:
+                  initialDelaySeconds: 10
+                  httpGet:
+                    path: "/health"
+                    port: "matrix"
+                  timeoutSeconds: "{{ matrix_liveness_timeout }}"
                 ports:
                   - name: "matrix"
                     containerPort: 8008
