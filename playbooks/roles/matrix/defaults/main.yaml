@@ -9,3 +9,14 @@ matrix_ss_name: "matrix"
 matrix_pvc_size: "100G"
 # StorageClassName for the PVC
 matrix_pvc_scn: "nfs-rw"
+
+matrix_resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 100Mi
+
+matrix_liveness_timeout: 2
+matrix_readiness_timeout: 2
