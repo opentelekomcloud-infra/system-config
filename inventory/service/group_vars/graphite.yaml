@@ -2,3 +2,19 @@ graphite_sync_user: graphite
 graphite_sync_group: graphite
 
 graphite_memcached_host: "{{ ansible_host }}:11211"
+graphite_storage_schemas: |
+  ["carbon"]
+  pattern = ^carbon\.*
+  retentions = 60:90d
+
+  ["telegraf"]
+  pattern = ^stats.telegraf.*
+  retentions = 10s:6h,5m:30d,1h:1y
+
+  ["stats"]
+  pattern = ^stats.*
+  retentions = 10s:1d,1m:40d,10m:3y
+
+  ["default"]
+  pattern = .*
+  retentions = 60s:1d,5m:30d,1h:1y
