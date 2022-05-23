@@ -52,7 +52,7 @@ server {
       set $index_uri $request_uri;
       break;
     }
-    if ($request_uri ~* '^/([\w\d-_]+)\.(.*)$') {
+    if ($request_uri ~* '^/([\w\d\-_]+)\.(.*)$') {
       # root files from docsportal
       set $index_uri '/$1.$2';
       break;
