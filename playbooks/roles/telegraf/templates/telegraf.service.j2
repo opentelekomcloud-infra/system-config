@@ -18,6 +18,7 @@ TimeoutStopSec=70
 ExecStartPre=-/bin/rm -f %t/container-telegraf.pid %t/container-telegraf.ctr-id
 
 ExecStart=/usr/bin/podman run \
+          --user telegraf \
           --conmon-pidfile %t/container-telegraf.pid \
           --cidfile %t/container-telegraf.ctr-id \
           --cgroups=no-conmon \
@@ -52,6 +53,7 @@ Restart=on-failure
 TimeoutStopSec=70
 
 ExecStart=/usr/bin/docker run  \
+          --user telegraf \
           --name telegraf \
           -p 8888:8888 \
           -v /etc/telegraf:/etc/telegraf:ro \
