@@ -141,7 +141,7 @@
 
 {% if telegraf_input_disk_enable %}
 [[inputs.disk]]
-  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs", "fuse-overlayfs", "fuse.fuse-overlayfs"]
+  ignore_fs = ["tmpfs", "devtmpfs", "devfs", "iso9660", "overlay", "aufs", "squashfs", "fuse-overlayfs", "fuse.fuse-overlayfs", "nsfs"]
 {% endif %} 
 
 [[inputs.internal]]
