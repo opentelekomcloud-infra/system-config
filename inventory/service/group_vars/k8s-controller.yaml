@@ -425,3 +425,22 @@ zookeeper_k8s_instances:
     context: "otcinfra2"
     instance: "zuul"
     namespace: "zookeeper"
+
+cloudmon_instances:
+  main:
+    fqdn: "cloudmon.eco.tsi-dev.otc-service.com"
+    metrics_image: "{{ cloudmon_metrics_image }}"
+    graphite_host: "https://graphite-ca.eco.tsi-dev.otc-service.com"
+    metrics_deployment_count: 1
+    ingress_class: "nginx"
+    cluster_issuer: "letsencrypt-prod"
+    environments:
+      - production_eu-de
+      - production_eu-nl
+      - preprod
+
+cloudmon_k8s_instances:
+  - cloudmon_instance: "main"
+    context: "otcinfra"
+    instance: "main"
+    namespace: "cloudmon"

@@ -1,0 +1,288 @@
+---
+datasource:
+  url: {{ graphite_host }}
+  type: graphite
+server:
+  address: "0.0.0.0"
+  port: 3005
+metric_templates:
+  api_success_rate_low:
+    query: "asPercent(sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.{2*,3*,404}.count), sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.attempted.count))"
+    op: "lt"
+    threshold: 90
+  api_down:
+    query: "asPercent(sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.failed.count), sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.attempted.count))"
+    op: "eq"
+    threshold: 100
+  api_connect_failures_above_10pct:
+    query: "asPercent(sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.failed.count), sumSeries(stats.counters.openstack.api.$environment.*.$service.*.*.attempted.count))"
+    op: "gt"
+    threshold: 10
+  api_server_errors:
+    query: "consolidateBy(aggregate(stats.counters.openstack.api.$environment.*.$service.*.*.5*.count, 'count'), 'sum')"
+    op: "gt"
+    threshold: 0
+  api_slow:
+    query: "consolidateBy(aggregate(stats.timers.openstack.api.$environment.*.$service.*.*.*.mean, 'avg'), 'avg')"
+    op: "gt"
+    threshold: 1000
+  api_failed:
+    query: "consolidateBy(aggregate(stats.counters.openstack.api.$environment.$environment.$service.*.*.failed.count, 'count'), 'sum')"
+    op: "gt"
+    threshold: 0
+
+bin_metrics:
+{% for environment in environments %}
+  ### CES
+  binary.{{ environment }}.ces.api_success_rate_low:
+    template:
+      name: "api_success_rate_low"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+  binary.{{ environment }}.ces.api_down:
+    template:
+      name: "api_down"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+  binary.{{ environment }}.ces.api_connect_failures_above_10pct:
+    template:
+      name: "api_connect_failures_above_10pct"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+  binary.{{ environment }}.ces.api_server_errors:
+    template:
+      name: "api_server_errors"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+  binary.{{ environment }}.ces.api_slow:
+    template:
+      name: "api_slow"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+    threshold: 2000
+  binary.{{ environment }}.ces.api_failed:
+    template:
+      name: "api_failed"
+      vars:
+        environment: "{{ environment }}"
+        service: "ces"
+
+  #### Compute
+  binary.{{ environment }}.compute.api_success_rate_low:
+    template:
+      name: "api_success_rate_low"
+      vars:
+        environment: "{{ environment }}"
+        service: "{compute,ces}"
+  binary.{{ environment }}.compute.api_down:
+    template:
+      name: "api_down"
+      vars:
+        environment: "{{ environment }}"
+        service: "{compute,ces}"
+  binary.{{ environment }}.compute.api_connect_failures_above_10pct:
+    template:
+      name: "api_connect_failures_above_10pct"
+      vars:
+        environment: "{{ environment }}"
+        service: "{compute,ces}"
+  binary.{{ environment }}.compute.api_server_errors:
+    template:
+      name: "api_server_errors"
+      vars:
+        environment: "{{ environment }}"
+        service: "{compute,ces}"
+  binary.{{ environment }}.compute.api_slow:
+    template:
+      name: "api_slow"
+      vars:
+        environment: "{{ environment }}"
+        service: "{compute,ces}"
+  binary.{{ environment }}.compute.api_turtle:
+    query: "consolidateBy(removeBelowValue(aggregate(stats.timers.openstack.api.{{ environment }}.*.{compute,ecs}.*.*.*.mean, 'avg'), 2000), 'avg')"
+    op: "gt"
+    threshold: 3000
+  binary.{{ environment }}.compute.server_start_success_under_50pct:
+    query: "asPercent(sumSeries(stats.counters.apimon.metric.{{ environment }}.{{ environment }}.create_server.*.passed.count), sumSeries(stats.counters.apimon.metric.{{ environment }}.{{ environment }}.create_server.*.attempted.count))"
+    op: "lt"
+    threshold: 90
+  binary.{{ environment }}.compute.server_start_failed:
+    query: "consolidateBy(sumSeries(stats.counters.apimon.metric.{{ environment }}.{{ environment }}.create_server.*.failed.count), 'sum')"
+    op: "gt"
+    threshold: 0
+  ##### Network
+  binary.{{ environment }}.network.api_success_rate_low:
+    template:
+      name: "api_success_rate_low"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+  binary.{{ environment }}.network.api_down:
+    template:
+      name: "api_down"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+  binary.{{ environment }}.network.api_connect_failures_above_10pct:
+    template:
+      name: "api_connect_failures_above_10pct"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+  binary.{{ environment }}.network.api_server_errors:
+    template:
+      name: "api_server_errors"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+  binary.{{ environment }}.network.api_slow:
+    template:
+      name: "api_slow"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+  binary.{{ environment }}.network.api_turtle:
+    query: "consolidateBy(aggregate(stats.timers.openstack.api.{{ environment }}.*.network.*.*.*.mean, 'avg'), 'avg')"
+    op: "gt"
+    threshold: 3000
+  binary.{{ environment }}.network.api_failed:
+    template:
+      name: "api_failed"
+      vars:
+        environment: "{{ environment }}"
+        service: "network"
+
+  ### Image
+  binary.{{ environment }}.image.api_success_rate_low:
+    template:
+      name: "api_success_rate_low"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.api_down:
+    template:
+      name: "api_down"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.api_connect_failures_above_10pct:
+    template:
+      name: "api_connect_failures_above_10pct"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.api_server_errors:
+    template:
+      name: "api_server_errors"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.api_slow:
+    template:
+      name: "api_slow"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.api_turtle:
+    query: "consolidateBy(aggregate(stats.timers.openstack.api.{{ environment }}.*.image.*.*.*.mean, 'avg'), 'avg')"
+    op: "gt"
+    threshold: 3000
+  binary.{{ environment }}.image.api_failed:
+    template:
+      name: "api_failed"
+      vars:
+        environment: "{{ environment }}"
+        service: "image"
+  binary.{{ environment }}.image.image_upload_failed:
+    query: "consolidateBy(aggregate(stats.counters.apimon.metric.{{ environment }}.*.image_upload.failed.count, 'sum'), 'sum')"
+    op: "gt"
+    threshold: 0
+
+  ### CCE
+  #
+  binary.{{ environment }}.cce.api_success_rate_low:
+    template:
+      name: "api_success_rate_low"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_down:
+    template:
+      name: "api_down"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_connect_failures_above_10pct:
+    template:
+      name: "api_connect_failures_above_10pct"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_server_errors:
+    template:
+      name: "api_server_errors"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_slow:
+    template:
+      name: "api_slow"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_failed:
+    template:
+      name: "api_failed"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+  binary.{{ environment }}.cce.api_turtle:
+    query: "consolidateBy(aggregate(stats.timers.openstack.api.{{ environment }}.*.ccev2_0.*.*.*.mean, 'avg'), 'avg')"
+    op: "gt"
+    threshold: 4000
+  binary.{{ environment }}.cce.api_failed:
+    template:
+      name: "api_failed"
+      vars:
+        environment: "{{ environment }}"
+        service: "ccev2_0"
+{% endfor %}
+expr_metrics:
+{% for environment in environments %}
+  health.{{ environment }}.compute:
+    metrics:
+      - binary.{{ environment }}.compute.api_slow
+      - binary.{{ environment }}.compute.api_down
+      - binary.{{ environment }}.compute.server_error
+      - binary.{{ environment }}.compute.server_start_success_under_50pct
+    expressions:
+      - expression: "binary.{{ environment }}.compute.api_slow || binary.{{ environment }}.compute.server_error || binary.{{ environment }}.compute.server_start_success_under_50pct"
+        weight: 1
+      - expression: "binary.{{ environment }}.compute.api_down"
+        weight: 2
+  health.{{ environment }}.network:
+    metrics:
+      - binary.{{ environment }}.network.api_slow
+      - binary.{{ environment }}.network.api_down
+      - binary.{{ environment }}.network.server_error
+    expressions:
+      - expression: "binary.{{ environment }}.network.api_slow || binary.{{ environment }}.network.server_error "
+        weight: 1
+      - expression: "binary.{{ environment }}.network.api_down"
+        weight: 2
+  health.{{ environment }}.image:
+    metrics:
+      - binary.{{ environment }}.image.api_slow
+      - binary.{{ environment }}.image.api_down
+      - binary.{{ environment }}.image.server_error
+    expressions:
+      - expression: "binary.{{ environment }}.image.api_slow || binary.{{ environment }}.image.server_error "
+        weight: 1
+      - expression: "binary.{{ environment }}.image.api_down"
+        weight: 2
+{% endfor %}
