@@ -1,12 +1,31 @@
-- hosts: apimon-scheduler:!disabled
+# Deploy cloudmon in K8
+- hosts: "k8s-controller:!disabled"
+  name: "Base: configure CloudMon K8s deployments"
   become: true
-  name: "Configure CloudMon plugins"
   tasks:
     - include_role:
-        name: cloudmon_plugin
+        name: "cloudmon_metrics"
+        tasks_from: "k8s.yaml"
       vars:
-        plugin_name: "{{ item.name }}"
-        plugin_image: "{{ item.image }}"
-        plugin_init_image: "{{ item.image_init | default(omit) }}"
-        plugin_config: "{{ item.config | default(omit) }}"
-      loop: "{{ apimon_instances[apimon_instance]['plugins'] | default([]) }}"
+        cloudmon: "{{ cloudmon_instances[item.cloudmon_instance]
+            | combine((cloudmon_instances_secrets[item.cloudmon_instance]|default({})), recursive=True)
+            | combine((item.extra_vars|default({})), recursive=True)
+            | combine((cloudon_k8s_instances_extra_secret_vars[item.instance]|default({})), recursive=True)
+          }}"
+        instance: "{{ item.instance }}"
+        context: "{{ item.context }}"
+        namespace: "{{ item.namespace }}"
+      loop: "{{ cloudmon_k8s_instances | list }}"
+
+      # - hosts: apimon-scheduler:!disabled
+      #   become: true
+      #   name: "Configure CloudMon plugins"
+      #   tasks:
+      #     - include_role:
+      #         name: cloudmon_plugin
+      #       vars:
+      #         plugin_name: "{{ item.name }}"
+      #         plugin_image: "{{ item.image }}"
+      #         plugin_init_image: "{{ item.image_init | default(omit) }}"
+      #         plugin_config: "{{ item.config | default(omit) }}"
+      #       loop: "{{ apimon_instances[apimon_instance]['plugins'] | default([]) }}"

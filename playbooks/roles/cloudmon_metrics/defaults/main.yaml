@@ -1,0 +1,12 @@
+state: "present"
+namespace: "cloudmon"
+cloudmon_service_account_name: "cloudmon"
+cloudmon_metrics_config_name: "cloudmon-metrics-{{ instance }}"
+cloudmon_metrics_deployment_name: "cloudmon-metrics-{{ instance }}"
+cloudmon_metrics_resources:
+  limits:
+    cpu: 100m
+    memory: 100Mi
+  requests:
+    cpu: 50m
+    memory: 50Mi
