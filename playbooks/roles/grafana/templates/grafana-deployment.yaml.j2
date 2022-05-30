@@ -135,7 +135,8 @@ spec:
             value: http://{{ grafana.fqdn }}:3000
 {% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) %}
           - name: GF_INSTALL_PLUGINS
-            value: "{{ grafana.grafana_plugins }}"
+            # Plugins as comma separated list: https://grafana.com/docs/grafana/latest/installation/docker/#install-official-and-community-grafana-plugins
+            value: "{{ grafana.grafana_plugins | join(',') }}"
 {% endif %}
         envFrom:
         - secretRef:
