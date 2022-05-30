@@ -7,7 +7,7 @@ grafana_instances:
     grafana_enable_renderer: true
     grafana_grafana_host: "grafana"
     grafana_image: "{{ grafana_image_stable }}"
-    grafana_plugins: [ ]
+    grafana_plugins: ["simpod-json-datasource"]
     grafana_renderer_host: "renderer"
     grafana_renderer_image: "{{ grafana_renderer_image_stable }}"
     grafana_url: "https://dashboard.tsi-dev.otc-service.com"
