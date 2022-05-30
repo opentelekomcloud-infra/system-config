@@ -135,6 +135,7 @@ spec:
             value: http://{{ grafana.fqdn }}:3000
 {% if (grafana.grafana_plugins is defined and grafana.grafana_plugins|length) %}
           - name: GF_INSTALL_PLUGINS
+            # Plugins as space separated list: https://github.com/grafana/grafana/blob/main/packaging/docker/run.sh
             value: "{{ grafana.grafana_plugins }}"
 {% endif %}
         envFrom:

@@ -127,4 +127,3 @@
   loop: "{{ grafana.grafana_plugins }}"
   notify:
     - restart grafana
-
