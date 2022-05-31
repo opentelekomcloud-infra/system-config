@@ -27,7 +27,7 @@ metric_templates:
     op: "gt"
     threshold: 1000
   api_failed:
-    query: "consolidateBy(aggregate(stats.counters.openstack.api.$environment.$environment.$service.*.*.failed.count, 'count'), 'sum')"
+    query: "consolidateBy(aggregate(stats.counters.openstack.api.$environment.*.$service.*.*.failed.count, 'count'), 'sum')"
     op: "gt"
     threshold: 0
 
