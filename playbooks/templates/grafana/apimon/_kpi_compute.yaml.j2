@@ -98,7 +98,7 @@
         refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.upper,
           7, 'avg')
-    title: Boot time duration (F33)
+    title: Boot time duration (Fedora)
     type: stat
 
   - datasource: {{ grafana_ds | default('apimon') }}
@@ -127,4 +127,3 @@
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server_coreos.{default,eu*}.*.upper, 7, 'avg')
     title: Boot time duration (CoreOS)
     type: stat
-
