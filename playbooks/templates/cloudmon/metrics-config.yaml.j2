@@ -258,10 +258,10 @@ expr_metrics:
     metrics:
       - binary.{{ environment }}.compute.api_slow
       - binary.{{ environment }}.compute.api_down
-      - binary.{{ environment }}.compute.server_error
+      - binary.{{ environment }}.compute.api_server_errors
       - binary.{{ environment }}.compute.server_start_success_under_50pct
     expressions:
-      - expression: "binary.{{ environment }}.compute.api_slow || binary.{{ environment }}.compute.server_error || binary.{{ environment }}.compute.server_start_success_under_50pct"
+      - expression: "binary.{{ environment }}.compute.api_slow || binary.{{ environment }}.compute.api_server_errors || binary.{{ environment }}.compute.server_start_success_under_50pct"
         weight: 1
       - expression: "binary.{{ environment }}.compute.api_down"
         weight: 2
@@ -269,9 +269,9 @@ expr_metrics:
     metrics:
       - binary.{{ environment }}.network.api_slow
       - binary.{{ environment }}.network.api_down
-      - binary.{{ environment }}.network.server_error
+      - binary.{{ environment }}.network.api_server_errors
     expressions:
-      - expression: "binary.{{ environment }}.network.api_slow || binary.{{ environment }}.network.server_error "
+      - expression: "binary.{{ environment }}.network.api_slow || binary.{{ environment }}.network.api_server_errors"
         weight: 1
       - expression: "binary.{{ environment }}.network.api_down"
         weight: 2
@@ -279,9 +279,9 @@ expr_metrics:
     metrics:
       - binary.{{ environment }}.image.api_slow
       - binary.{{ environment }}.image.api_down
-      - binary.{{ environment }}.image.server_error
+      - binary.{{ environment }}.image.api_server_errors
     expressions:
-      - expression: "binary.{{ environment }}.image.api_slow || binary.{{ environment }}.image.server_error "
+      - expression: "binary.{{ environment }}.image.api_slow || binary.{{ environment }}.image.api_server_errors"
         weight: 1
       - expression: "binary.{{ environment }}.image.api_down"
         weight: 2
