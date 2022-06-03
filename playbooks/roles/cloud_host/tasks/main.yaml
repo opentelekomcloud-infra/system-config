@@ -1,4 +1,35 @@
 ---
+- name: "Set cloud env"
+  set_fact:
+    cloud: "{{ hostvars[host].location.cloud }}"
+
+- name: "Set cloud_auth env if applicable "
+  set_fact:
+    cloud_auth: "{{ clouds[cloud].auth_cloud }}"
+  when: "clouds[cloud].auth_cloud is defined"
+
+- name: "Read vault data"
+  no_log: true
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "{{ clouds[cloud].vault_path }}"
+  register: "cloud_token"
+  when: "clouds[cloud].vault_path is defined"
+
+- name: "Combine cloud_auth with vault artifacts"
+  no_log: true
+  set_fact:
+    cloud_auth: "{{ cloud_auth | combine(vault_items, recursive=true) }}"
+  vars:
+    vault_items:
+      "auth":
+        "auth_url": "{{ cloud_token.data.data.auth.auth_url }}"
+        "project_domain_id": "{{ cloud_token.data.data.auth.project_domain_id }}"
+        "project_name": "{{ cloud_token.data.data.auth.project_name }}"
+        "token": "{{ cloud_token.data.data.auth.token }}"
+  when: "cloud_auth is defined"
+
 - include: "provision.yaml"
   when: "state != 'absent'"
 
