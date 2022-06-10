@@ -33,6 +33,19 @@ spec:
 {% endif %}
 
       initContainers:
+        # Set tcpkeepalive on the pod level. Since this is unsafe sysctl but we 
+        # need this in the privileged container only do it the old style.
+        - name: init-sysctl
+          image: busybox
+          command:
+          - sysctl
+          - -w
+          - net.core.somaxconn=1024
+          - net.ipv4.tw_reuse=1
+          securityContext:
+            privileged: true
+            runAsUser: 0
+            runAsNonRoot: False
         - name: "vault-agent"
           command:
             - "sh"
