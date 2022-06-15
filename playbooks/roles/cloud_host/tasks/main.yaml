@@ -3,11 +3,6 @@
   set_fact:
     cloud: "{{ hostvars[host].location.cloud }}"
 
-- name: "Set cloud_auth env if applicable "
-  set_fact:
-    cloud_auth: "{{ clouds[cloud].auth_cloud }}"
-  when: "clouds[cloud].auth_cloud is defined"
-
 - name: "Read vault data"
   no_log: true
   community.hashi_vault.vault_read:
