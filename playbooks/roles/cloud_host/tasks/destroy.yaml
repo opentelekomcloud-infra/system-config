@@ -1,6 +1,6 @@
 - name: Destroy instance
   openstack.cloud.server:
     state: "absent"
-    cloud: "{{ cloud_auth |default(cloud) }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ hostvars[host].inventory_hostname }}"
     delete_fip: true

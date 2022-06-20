@@ -12,11 +12,6 @@
   register: "cloud_token"
   when: "clouds[cloud].vault_path is defined"
 
-- name: "Set cloud_auth variable with auth artifacts from vault"
-  no_log: true
-  set_fact:
-    cloud_auth: "{{ cloud_token.data.data }}"
-
 - include: "provision.yaml"
   when: "state != 'absent'"
 
