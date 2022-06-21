@@ -45,3 +45,33 @@
     vault_addr: "{{ vault.vault_addr | default(omit) }}"
     vault_token: "{{ vault.vault_token | default(omit)}}"
     k8: "{{ vault.kubernetes }}"
+
+- include_tasks: pwd_policy.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop:  "{{ vault.pwd_policies }}"
+  loop_control:
+    loop_var: "pwd_policy"
+    label: "{{ pwd_policy.name }}"
+  when: "vault.pwd_policies is defined"
+
+- include_tasks: os_cloud.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.os_clouds }}"
+  loop_control:
+    loop_var: "cloud"
+    label: "{{ cloud.name }}"
+  when: "vault.os_clouds is defined"
+
+- include_tasks: os_role.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.os_roles }}"
+  loop_control:
+    loop_var: "role"
+    label: "{{ role.name }}"
+  when: "vault.os_roles is defined"
