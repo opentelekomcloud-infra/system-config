@@ -1,14 +1,14 @@
 - name: "Ensure keypair exists for {{ host }}"
   openstack.cloud.keypair:
     state: "present"
-    cloud: "{{ hostvars[host].location.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "otcinfra-bridge"
     public_key: "{{ bastion_public_key }}"
 
 - name: "Create data disk if requested for {{ host }}"
   openstack.cloud.volume:
     state: "present"
-    cloud: "{{ hostvars[host].location.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ hostvars[host].inventory_hostname }}-{{ item.name }}"
     size: "{{ item.size }}"
     availability_zone: "{{ hostvars[host].location.az }}"
@@ -24,7 +24,7 @@
 - name: "Provision server {{ hostvars[host].inventory_hostname }}"
   openstack.cloud.server:
     state: "present"
-    cloud: "{{ hostvars[host].location.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ hostvars[host].inventory_hostname }}"
     flavor: "{{ hostvars[host].flavor }}"
     key_name: "otcinfra-bridge"
