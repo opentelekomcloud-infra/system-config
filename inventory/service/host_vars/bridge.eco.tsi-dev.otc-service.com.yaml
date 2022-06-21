@@ -56,3 +56,6 @@ ssl_certs:
 vault_cert: "vault"
 
 firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']
+
+# fallback to older version due to incompatibilities with ansible collection
+bridge_openstacksdk_version: '0.61.0'
