@@ -3,5 +3,5 @@
 vault_plugins:
   - url: "https://github.com/opentelekomcloud-infra/vault-plugin-secrets-github/releases/download/v1.2.1/vault-plugin-secrets-github_1.2.1_linux_amd64.zip"
     sha256: "9acd271a264a48cb8dfac055bb9849b3938fe8afbc794a2d81d14be1357cbcf5"
-  - url: "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.1.1/vault-plugin-secrets-openstack_1.1.1_linux_amd64.tar.gz"
-    sha256: "e9e917c37078abda6a809c44773d4a8d049e93b4f086276f0b8a5df5dc86b7ba"
+  - url: "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.1.2/vault-plugin-secrets-openstack_1.1.2_linux_amd64.tar.gz"
+    sha256: "970cc58903bfcd9e314acd2307b93d5885f7359d86e7fa6fa66b5f39cc48a10d"
