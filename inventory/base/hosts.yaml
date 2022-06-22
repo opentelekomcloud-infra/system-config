@@ -126,21 +126,21 @@ all:
       ansible_host: 192.168.170.123
       ansible_user: automation
       location:
-        cloud: "otcinfra-domain2-infra-de"
+        cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-02"
         region: "eu-de"
     vault2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.123
       ansible_user: automation
       location:
-        cloud: "otcinfra-domain3-infra-de"
+        cloud: "otc_vault_449_de_eco_infra"
         az: "eu-de-01"
         region: "eu-de"
     vault3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.123
       ansible_user: automation
       location:
-        cloud: "otcinfra-domain3-infra-nl"
+        cloud: "otc_vault_449_nl_eco_infra"
         az: "eu-nl-01"
         region: "eu-nl"
     influx1.eco.tsi-dev.otc-service.com:
