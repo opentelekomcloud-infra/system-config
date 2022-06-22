@@ -17,3 +17,17 @@
 
 - include: "destroy.yaml"
   when: "state == 'absent'"
+
+- name: "Revoke lease in vault and delete user from cloud"
+  ansible.builtin.uri:
+    url: "{{ ansible_hashi_vault_addr }}/v1/sys/leases/revoke"
+    headers:
+      X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+    method: "POST"
+    body_format: "json"
+    body:
+      lease_id: "{{ cloud_token.data.lease_id }}"
+    status_code: [200, 201, 202, 204]
+  when:
+    - "cloud_token.data.lease_id is defined"
+    - "cloud_token.data.lease_id | length > 0"
