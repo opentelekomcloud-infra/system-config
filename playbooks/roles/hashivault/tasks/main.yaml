@@ -80,3 +80,9 @@
     name: "vault"
     enabled: "true"
     state: "started"
+
+- name: Renew transit token
+  include_tasks: "renew_transit_token.yaml"
+  vars:
+    vault_addr: "{{ vault_seal_transit_address | default(omit) }}"
+    transit_token: "{{ vault_seal_transit_token |default(omit) }}"
