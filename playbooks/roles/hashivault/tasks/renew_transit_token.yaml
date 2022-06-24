@@ -3,8 +3,8 @@
     vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self url={{ vault_addr }} auth_method=token').id }}"
   delegate_to: "bridge.eco.tsi-dev.otc-service.com"
   when:
-    - "vault_addr is defined"
-    - "transit_token is defined"
+    - "vault_addr is defined and vault_addr | length > 0"
+    - "transit_token is defined and transit_token | length > 0"
 
 - name: Renew transit token
   ansible.builtin.uri:
@@ -18,5 +18,5 @@
     status_code: [200, 201, 202, 204]
   delegate_to: "bridge.eco.tsi-dev.otc-service.com"
   when:
-    - "vault_addr is defined"
-    - "transit_token is defined"
+    - "vault_addr is defined and vault_addr | length > 0"
+    - "transit_token is defined and transit_token | length > 0"
