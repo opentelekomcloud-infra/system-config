@@ -4,6 +4,7 @@
   delegate_to: "bridge.eco.tsi-dev.otc-service.com"
   when:
     - "vault_addr is defined"
+    - "transit_token is defined"
 
 - name: Renew transit token
   ansible.builtin.uri:
