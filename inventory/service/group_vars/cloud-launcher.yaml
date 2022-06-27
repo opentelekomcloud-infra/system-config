@@ -942,7 +942,7 @@ cloud_rds:
     dba: "domain2_apimon"
 
 cloud_cce:
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     name: "eco-infra"
     flavor: "cce.s2.small"
     router: "eco-infra"
@@ -973,7 +973,7 @@ cloud_cce:
         flavor: "s3.xlarge.4"
         az: "eu-de-03"
         os: "CentOS 7.7"
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     name: "eco-infra"
     flavor: "cce.s2.small"
     router: "eco-infra"
@@ -992,7 +992,7 @@ cloud_cce:
         flavor: "s3.xlarge.4"
         az: "eu-de-03"
         os: "CentOS 7.7"
-  - cloud: "otcci-main"
+  - cloud: "otc_vault_448_de_zuul"
     name: "zuul"
     flavor: "cce.s2.small"
     router: "ci"

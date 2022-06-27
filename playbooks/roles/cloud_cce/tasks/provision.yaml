@@ -1,13 +1,13 @@
 - name: Ensure keypair exists
   openstack.cloud.keypair:
     state: 'present'
-    cloud: '{{ cce.cloud }}'
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: 'otcinfra-bridge'
     public_key: '{{ bastion_public_key }}'
 
 - name: Create CCE Cluster
   opentelekomcloud.cloud.cce_cluster:
-    cloud: '{{ cce.cloud }}'
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     state: present
     wait: true
     name: '{{ cce.name }}'
@@ -18,7 +18,7 @@
 
 - name: Create CCE Cluster nodes
   opentelekomcloud.cloud.cce_cluster_node:
-    cloud: '{{ cce.cloud }}'
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     cluster: '{{ cce.name }}'
     name: '{{ cce_node.name}}'
     availability_zone: '{{ cce_node.az }}'
