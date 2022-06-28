@@ -1,6 +1,6 @@
 - name: Delete DNS zone
   opentelekomcloud.cloud.dns_zone:
-    cloud: "{{ dns.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ dns.dns_zone.name }}"
     router: "{{ dns.dns_zone.router }}"
     zone_type: "private"

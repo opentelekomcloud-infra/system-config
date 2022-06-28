@@ -1,7 +1,7 @@
 ---
 - name: Destroy router
   openstack.cloud.router:
-    cloud: "{{ net.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ net.router }}"
     state: "{{ state }}"
 

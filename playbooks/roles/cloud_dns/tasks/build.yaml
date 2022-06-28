@@ -1,6 +1,6 @@
 - name: Create DNS zone
   opentelekomcloud.cloud.dns_zone:
-    cloud: "{{ dns.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ dns.dns_zone.name }}"
     router: "{{ dns.dns_zone.router }}"
     zone_type: "private"
@@ -9,7 +9,7 @@
 
 - name: Create DNS recordsets
   opentelekomcloud.cloud.dns_recordset:
-    cloud: "{{ dns.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     recordset_name: "{{ item.name }}"
     zone_id: "{{ dns_zone.zone.id }}"
     type: "{{ item.type }}"
