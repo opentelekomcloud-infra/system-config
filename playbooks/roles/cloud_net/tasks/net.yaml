@@ -1,7 +1,7 @@
 ---
 - name: Create Network
   openstack.cloud.network:
-    cloud: "{{ net.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ network.name }}"
     state: "{{ state }}"
   register: "cloud_net_network"

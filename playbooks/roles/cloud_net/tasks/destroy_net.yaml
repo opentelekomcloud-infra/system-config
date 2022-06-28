@@ -1,7 +1,7 @@
 ---
 - name: Destroy subnet
   openstack.cloud.subnet:
-    cloud: "{{ net.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ subnet.name }}"
     state: "{{ state }}"
   loop: "{{ network.subnets }}"
@@ -10,6 +10,6 @@
 
 - name: Destroy Network
   openstack.cloud.network:
-    cloud: "{{ net.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ network.name }}"
     state: "{{ state }}"

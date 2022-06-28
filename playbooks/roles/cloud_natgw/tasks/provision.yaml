@@ -2,7 +2,7 @@
 # Create
 - name: Create NATGW
   opentelekomcloud.cloud.nat_gateway:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ natgw.name }}"
     description: "{{ natgw.description | default(omit) }}"
     internal_network: "{{ natgw.internal_network }}"
@@ -12,14 +12,14 @@
 
 - name: Check SNAT rules
   opentelekomcloud.cloud.nat_snat_rule_info:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     gateway: "{{ natgw_result.gateway.id }}"
   register: snat_rules
 
 # NOTE: care need to be taken not to produce too many unbound IPs
 - name: Allocate FIP
   opentelekomcloud.cloud.floating_ip:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     network: "admin_external_net"
     reuse: "true"
   register: fip_result
@@ -27,7 +27,7 @@
 
 - name: Create SNAT rule
   opentelekomcloud.cloud.nat_snat_rule:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     nat_gateway: "{{ natgw_result.gateway.id }}"
     network: "{{ natgw_result.gateway.internal_network_id }}"
     floating_ip: "{{ fip_result.floating_ip.floating_ip_address }}"

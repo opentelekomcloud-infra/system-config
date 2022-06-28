@@ -1,12 +1,12 @@
 - name: Check SNAT rules
   opentelekomcloud.cloud.nat_snat_rule_info:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     gateway: "{{ natgw.name }}"
   register: snat_rules
 
 - name: Drop SNAT rule
   opentelekomcloud.cloud.nat_snat_rule:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     state: "absent"
     nat_gateway: "{{ natgw.name }}"
     id: "{{ item.id }}"
@@ -14,6 +14,6 @@
 
 - name: Drop NATGW
   opentelekomcloud.cloud.nat_gateway:
-    cloud: "{{ natgw.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ natgw.name }}"
     state: "absent"

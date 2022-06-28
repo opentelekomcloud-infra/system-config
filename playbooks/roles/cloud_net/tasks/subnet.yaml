@@ -1,6 +1,6 @@
 - name: Create subnet
   openstack.cloud.subnet:
-    cloud: "{{ net.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ subnet.name }}"
     state: "{{ state }}"
     network_name: "{{ network.name }}"
