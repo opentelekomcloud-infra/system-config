@@ -26,6 +26,26 @@ default_provider_driver = {{ octavia_proxy.default_provider_driver }}
 region = {{ octavia_proxy.region_name }}
 {% endif %}
 
+[elbv2_driver_settings]
+# Overrides base urls for API calls
+# Must be set for each region accordingly.
+{% if octavia_proxy.elbv2_settings.endpoint_override is defined %}
+endpoint_override = {{ octavia_proxy.elbv2_settings.endpoint_override }}
+{% endif %}
+
+[elbv3_driver_settings]
+# Overrides base urls for API calls
+# Must be set for each region accordingly.
+{% if octavia_proxy.elbv3_settings.endpoint_override is defined %}
+endpoint_override = {{ octavia_proxy.elbv3_settings.endpoint_override }}
+{% endif %}
+
+# This setting is mandatory for dedicated load balancer, it has default value for eu-de region.
+# Must be set for eu-nl or another regions.
+{% if octavia_proxy.elbv3_settings.default_az is defined %}
+default_az = {{ octavia_proxy.elbv3_settings.default_az }}
+{% endif %}
+
 [keystone_authtoken]
 # This group of config options are imported from keystone middleware. Thus the
 # option names should match the names declared in the middleware.
