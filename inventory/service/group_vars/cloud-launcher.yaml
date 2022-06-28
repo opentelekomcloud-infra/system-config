@@ -1017,7 +1017,7 @@ cloud_cce:
         os: "CentOS 7.7"
 
 cloud_dns:
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     dns_zone:
       name: "docs-int.otc-service.com."
       router: "eco-infra"
@@ -1026,7 +1026,7 @@ cloud_dns:
           type: "A"
           records:
             - "192.168.170.129"
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     dns_zone:
       name: "artifacts.eco.tsi-dev.otc-service.com."
       router: "eco-infra"
@@ -1035,7 +1035,7 @@ cloud_dns:
           type: "A"
           records:
             - "192.168.170.129"
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     dns_zone:
       name: "git.tsi-dev.otc-service.com."
       router: "eco-infra"
@@ -1044,7 +1044,7 @@ cloud_dns:
           type: "A"
           records:
             - "192.168.170.142"
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     dns_zone:
       name: "docs-int.otc-service.com."
       router: "eco-infra"
@@ -1053,7 +1053,7 @@ cloud_dns:
           type: "A"
           records:
             - "192.168.170.129"
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     dns_zone:
       name: "artifacts.eco.tsi-dev.otc-service.com."
       router: "eco-infra"
@@ -1062,7 +1062,7 @@ cloud_dns:
           type: "A"
           records:
             - "192.168.170.129"
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     dns_zone:
       name: "git.tsi-dev.otc-service.com."
       router: "eco-infra"
