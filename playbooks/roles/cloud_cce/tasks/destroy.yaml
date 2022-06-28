@@ -1,5 +1,5 @@
 - name: Destroy CCE instance
   opentelekomcloud.cloud.cce_cluster:
-    cloud: '{{ cce.cloud }}'
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: '{{ cce.name }}'
     state: 'absent'
