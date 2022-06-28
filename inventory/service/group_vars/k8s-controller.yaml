@@ -317,6 +317,8 @@ octavia_proxy_instances:
       - driver: "elbv3"
         description: "The Open Telekom Cloud Dedicated LB driver"
     default_provider_driver: "elbv3"
+    elbv3_settings:
+      default_az: "eu-nl-01"
   eu-de:
     fqdn: "octavia-de.eco.tsi-dev.otc-service.com"
     image: "{{ octavia_proxy_image_stable }}"
@@ -325,7 +327,11 @@ octavia_proxy_instances:
     enabled_drivers:
       - driver: "elbv2"
         description: "The Open Telekom Cloud Shared LB driver"
+      - driver: "elbv3"
+        description: "The Open Telekom Cloud Dedicated LB driver"
     default_provider_driver: "elbv2"
+    elbv3_settings:
+      endpoint_override: "https://elb.eu-de.otc.t-systems.com/v3/%(project_id)s"
 
 octavia_proxy_k8s_instances:
   - octavia_proxy_instance: "eu-de"
