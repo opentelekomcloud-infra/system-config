@@ -293,7 +293,7 @@ cloud_nets:
   #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
   # mirror/stag infra
   # domain2
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     router: "eco-infra"
     nets:
       - name: "infra-net"
@@ -302,7 +302,7 @@ cloud_nets:
             cidr: "192.168.171.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.8.8']
   # domain3
-  - cloud: "otcinfra-domain3-infra-de"
+  - cloud: "otc_vault_449_de_eco_infra"
     router: "eco-infra"
     # enable_snat: true
     nets:
@@ -311,7 +311,7 @@ cloud_nets:
           - name: "eco-infra-subnet"
             cidr: "192.168.150.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otcinfra-domain3-infra-nl"
+  - cloud: "otc_vault_449_nl_eco_infra"
     router: "apimon-infra"
     # enable_snat: true
     nets:
@@ -320,7 +320,7 @@ cloud_nets:
           - name: "apimon-infra-subnet"
             cidr: "192.168.151.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otcci-main"
+  - cloud: "otc_vault_448_de_zuul"
     router: "ci"
     nets:
       - name: "ci-net"
@@ -328,7 +328,7 @@ cloud_nets:
           - name: "ci-subnet"
             cidr: "192.168.21.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otcci-pool1"
+  - cloud: "otc_vault_448_de_zuul_pool1"
     router: "vpc-zuul"
     nets:
       - name: "zuul_net"
@@ -336,7 +336,7 @@ cloud_nets:
           - name: "subnet-zuul"
             cidr: "192.168.101.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otcci-pool2"
+  - cloud: "otc_vault_448_de_zuul_pool2"
     router: "vpc-zuul"
     nets:
       - name: "zuul_net"
@@ -344,7 +344,7 @@ cloud_nets:
           - name: "subnet-zuul"
             cidr: "192.168.102.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otcci-pool3"
+  - cloud: "otc_vault_448_de_zuul_pool3"
     router: "vpc-zuul"
     nets:
       - name: "zuul_net"
@@ -356,32 +356,32 @@ cloud_nets:
 cloud_nat_gws:
   # main infra
   # # domain2
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     name: "otcinfra"
     description: "main NAT GW for the infra"
     router: "eco-infra"
     internal_network: "infra-net"
     spec: 1
   # domain3
-  - cloud: "otcinfra-domain3-infra-de"
+  - cloud: "otc_vault_449_de_eco_infra"
     name: "otcinfra"
     description: "main NAT GW for the infra"
     router: "eco-infra"
     internal_network: "eco-infra-net"
     spec: 1
-  - cloud: "otcinfra-domain3-infra-nl"
+  - cloud: "otc_vault_449_nl_eco_infra"
     router: "apimon-infra"
     name: "otcinfra"
     description: "main NAT GW for the infra"
     internal_network: "apimon-infra-net"
     spec: 1
-  - cloud: "otcci-main"
+  - cloud: "otc_vault_448_de_zuul"
     router: "ci"
     name: "otcci"
     description: "main NAT GW for the CI"
     internal_network: "ci-net"
     spec: 1
-  - cloud: "otcinfra-domain2-infra2-de"
+  - cloud: "otc_vault_448_de_eco_infra2"
     name: "otcinfra"
     description: "main NAT GW for the infra"
     router: "eco-infra"
@@ -752,37 +752,37 @@ vault_sg: &vault_sg
       description: "Vault Server-2-Server"
 
 cloud_security_groups:
-  - cloud: "otcapimon-pool1"
+  - cloud: "otc_vault_448_de_apimon"
     <<: *bastion_sg
-  - cloud: "otcinfra-domain2-database"
+  - cloud: "otc_vault_448_de_database"
     <<: *common_sg
-  - cloud: "otcinfra-domain2-database"
+  - cloud: "otc_vault_448_de_database"
     <<: *graphite_sg
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     <<: *common_sg
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     <<: *pg_sg
-  - cloud: "otcinfra-domain2-infra-de"
+  - cloud: "otc_vault_448_de_eco_infra"
     <<: *vault_sg
-  - cloud: "otcinfra-domain3-infra-nl"
+  - cloud: "otc_vault_449_nl_eco_infra"
     <<: *common_sg
-  - cloud: "otcinfra-domain3-infra-nl"
+  - cloud: "otc_vault_449_nl_eco_infra"
     <<: *graphite_sg
-  - cloud: "otcinfra-domain3-infra-nl"
+  - cloud: "otc_vault_449_nl_eco_infra"
     <<: *vault_sg
-  - cloud: "otcinfra-domain3-infra-de"
+  - cloud: "otc_vault_449_de_eco_infra"
     <<: *common_sg
-  - cloud: "otcinfra-domain3-infra-de"
+  - cloud: "otc_vault_449_de_eco_infra"
     <<: *vault_sg
-  - cloud: "otcci-pool1"
+  - cloud: "otc_vault_448_de_zuul_pool1"
     <<: *zuul_sg
-  - cloud: "otcci-pool2"
+  - cloud: "otc_vault_448_de_zuul_pool2"
     <<: *zuul_sg
-  - cloud: "otcci-pool3"
+  - cloud: "otc_vault_448_de_zuul_pool3"
     <<: *zuul_sg
-  - cloud: "otcapimon-pool1"
+  - cloud: "otc_vault_448_de_apimon"
     <<: *common_sg
-  - cloud: "otcapimon-pool1"
+  - cloud: "otc_vault_448_de_apimon"
     <<: *pg_sg
 
 cloud_load_balancers:
