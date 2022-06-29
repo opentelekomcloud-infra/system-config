@@ -4,7 +4,7 @@
 
 - name: Create Load Balancer
   opentelekomcloud.cloud.loadbalancer:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ lb.loadbalancer.name }}"
     vip_subnet: "{{ lb.loadbalancer.vip_subnet | default(omit) }}"
     vip_address: "{{ lb.loadbalancer.vip_address | default(omit) }}"
@@ -13,7 +13,7 @@
 
 - name: Find certificates
   opentelekomcloud.cloud.lb_certificate_info:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.ssl_cert }}"
   loop: "{{ lb.loadbalancer.listeners }}"
   when: "item.ssl_cert is defined"
@@ -28,7 +28,7 @@
 
 - name: Create Listeners
   opentelekomcloud.cloud.lb_listener:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.name }}"
     loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
     protocol: "{{ item.protocol }}"
@@ -41,7 +41,7 @@
 
 - name: Create Pools
   opentelekomcloud.cloud.lb_pool:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.name }}"
     description: "{{ item.description | default(omit) }}"
     loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
@@ -53,7 +53,7 @@
 
 - name: Register Pool Members
   opentelekomcloud.cloud.lb_member:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.name }}"
     pool: "{{ item.pool }}"
     protocol_port: "{{ item.protocol_port }}"
