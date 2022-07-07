@@ -1,0 +1,105 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Create gitea group
+  become: yes
+  ansible.builtin.group:
+    name: "{{ gitea_os_group }}"
+    state: present
+
+- name: Create gitea user
+  become: true
+  ansible.builtin.user:
+    name: "{{ gitea_os_user }}"
+    group: "{{ gitea_os_group }}"
+    shell: "/bin/bash"
+    comment: "Git Version Control"
+    home: "/home/git"
+    password_lock: true
+    system: true
+    state: "present"
+
+- name: Mount
+  ansible.builtin.mount:
+    src: "192.168.170.198:/"
+    path: "/var/lib/gitea1"
+    fstype: "nfs"
+    state: mounted
+
+- name: Ensure directories exist
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default(0755) }}"
+    owner: "{{ item.owner | default(gitea_os_user) }}"
+    group: "{{ item.group | default(gitea_os_group) }}"
+  loop:
+    - path: "/etc/gitea"
+      mode: "0775"
+    - path: "/var/lib/gitea"
+      mode: "0750"
+    - path: "/var/lib/gitea/custom/conf"
+      mode: "0750"
+      #    - path: "/var/lib/gitea/data"
+      #      mode: "0750"
+      #    - path: "/var/lib/gitea/log"
+      #      mode: "0750"
+      #    - path: "/var/lib/gitea/git"
+      #      mode: "0750"
+
+- name: Download gitea binary
+  become: true
+  ansible.builtin.get_url:
+    url: "https://dl.gitea.io/gitea/{{ gitea_version }}/gitea-{{ gitea_version }}-{{ ansible_system | lower }}-{{ arch_translation[ansible_architecture] }}"
+    dest: "/usr/local/bin/gitea"
+    mode: 0755
+    checksum: "{{ gitea_checksum }}"
+
+- name: Write gitea config env file
+  become: true
+  template:
+    src: "env.j2"
+    dest: "/etc/gitea/env"
+    owner: "{{ gitea_os_user }}"
+    group: "{{ gitea_os_group }}"
+    mode: "0640"
+  notify:
+    - Restart gitea
+
+- name: Write config file
+  become: true
+  ansible.builtin.template:
+    src: "app.ini.j2"
+    dest: "/var/lib/gitea/custom/conf/app.ini"
+    owner: "{{ gitea_os_user }}"
+    group: "{{ gitea_os_group }}"
+    mode: "0640"
+  notify:
+    - Restart gitea
+
+- name: Write systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "gitea.service.j2"
+    dest: "/etc/systemd/system/gitea.service"
+  notify:
+    - Restart gitea

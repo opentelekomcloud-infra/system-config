@@ -1,0 +1,10 @@
+- name: Check gitea process
+  command: pgrep -f gitea
+  ignore_errors: yes
+  register: gitea_pids
+
+- name: Restart Gitea
+  ansible.builtin.service:
+    name: "gitea"
+    state: "restarted"
+  when: gitea_pids.rc == 0

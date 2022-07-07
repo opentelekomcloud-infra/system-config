@@ -58,6 +58,12 @@ database_users:
     db: grafana-eco
     priv: ALL
     comment: Grafana-eco user
+  domain2_gitea_gitea_gitea:
+    dba: domain2_gitea
+    username: gitea
+    db: gitea
+    priv: ALL
+    comment: Gitea user
 haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
 haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
 alerta_image_stable: quay.io/opentelekomcloud/alerta:8.7.0

@@ -49,6 +49,40 @@
     - "'vault' in group_names"
     - "vault_cert is defined"
 
+- name: Check gitea user
+  ansible.builtin.user:
+    name: "git"
+  register: "gitea_user"
+  when: "'gitea' in group_names"
+
+- name: Create gitea certs directory
+  ansible.builtin.file:
+    path: "/etc/ssl/{{ inventory_hostname }}/gitea"
+    state: "directory"
+    mode: "0755"
+    owner: "{{ gitea_user.name | default(omit) }}"
+    group: "{{ gitea_user.group | default(omit) }}"
+  when: "'gitea' in group_names"
+
+- name: Copy gitea certs
+  ansible.builtin.copy:
+    src: "{{ certs_path }}/{{ cert }}"
+    dest: "{{ certs_path }}/gitea/{{ cert }}"
+    mode: "0440"
+    owner: "{{ gitea_user.name | default(omit) }}"
+    group: "{{ gitea_user.group | default(omit) }}"
+    remote_src: true
+  loop:
+    - "{{ gitea_cert }}.pem"
+    - "{{ gitea_cert }}-fullchain.crt"
+  loop_control:
+    loop_var: "cert"
+  notify:
+    - Restart gitea
+  when:
+    - "'gitea' in group_names"
+    - "gitea_cert is defined"
+
 # we only restart haproxy if it's cert files got modified
 - name: Prepare haproxy certs
   ansible.builtin.assemble:

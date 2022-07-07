@@ -1,0 +1,7 @@
+- hosts: "gitea:!disabled"
+  name: "Base: configure gitea"
+  become: true
+  roles:
+    # Group should be responsible for defining open ports
+    - firewalld
+    - gitea
