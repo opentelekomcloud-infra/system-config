@@ -129,6 +129,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-service-gitea: &infra-prod-service-gitea
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-service-grafana: &infra-prod-service-grafana
             dependencies:
               - name: infra-prod-base
@@ -198,6 +203,7 @@
         - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
         - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
         - infra-prod-service-docs: *infra-prod-service-docs
+        - infra-prod-service-gitea: *infra-prod-service-gitea
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-graphite: *infra-prod-service-graphite
         - infra-prod-service-loki: *infra-prod-service-loki
