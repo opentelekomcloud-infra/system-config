@@ -1,0 +1,41 @@
+# zuul jobs
+- job:
+    name: system-config-build-image-zuul
+    description: Build zuul images.
+    parent: system-config-build-image
+    vars: &zuul_vars
+      docker_images:
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul
+          target: zuul
+          tags: 
+            &imagetag ["latest", "change_849033"]
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul-executor
+          target: zuul-executor
+          tags: *imagetag
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul-fingergw
+          target: zuul-fingergw
+          tags: *imagetag
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul-merger
+          target: zuul-merger
+          tags: *imagetag
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul-scheduler
+          target: zuul-scheduler
+          tags: *imagetag
+        - context: "docker/zuul"
+          repository: opentelekomcloud/zuul-web
+          target: zuul-web
+          tags: *imagetag
+    files: &zuul_files
+      - docker/zuul
+
+- job:
+    name: system-config-upload-image-zuul
+    description: Build and upload a zuul images.
+    parent: system-config-upload-image
+    vars: *zuul_vars
+    files: *zuul_files
