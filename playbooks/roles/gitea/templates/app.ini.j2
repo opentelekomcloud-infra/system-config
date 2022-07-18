@@ -14,6 +14,9 @@ DOMAIN = {{ gitea_domain }}
 {% if gitea_root_url is defined %}
 ROOT_URL = {{ gitea_root_url }}
 {% endif %}
+{% if gitea_http_port is defined %}
+HTTP_PORT = {{ gitea_http_port }}
+{% endif %}
 
 DISABLE_SSH = false
 START_SSH_SERVER = true
