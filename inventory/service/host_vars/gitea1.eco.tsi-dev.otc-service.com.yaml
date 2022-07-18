@@ -70,5 +70,5 @@ ssl_certs:
     - "gitea.eco.tsi-dev.otc-service.com"
 gitea_cert: "gitea"
 
-firewalld_extra_services_enable: []
-firewalld_extra_ports_enable: ['2222/tcp', '3000/tcp']
+firewalld_extra_services_enable: ['https']
+firewalld_extra_ports_enable: ['2222/tcp']
