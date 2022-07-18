@@ -1,6 +1,4 @@
 gitea_domain: "gitea.eco.tsi-dev.otc-service.com"
 gitea_app_name: "Open Telekom Cloud: git"
 gitea_root_url: "https://gitea.eco.tsi-dev.otc-service.com:3000"
-#gitea_image: "quay.io/opentelekomcloud/gitea:1.16.8-rootless"
-#gitea_image: docker.io/opendevorg/gitea:latest
 gitea_http_port: 443

@@ -37,13 +37,6 @@
     system: true
     state: "present"
 
-- name: Mount
-  ansible.builtin.mount:
-    src: "192.168.170.198:/"
-    path: "/var/lib/gitea1"
-    fstype: "nfs"
-    state: mounted
-
 - name: Ensure directories exist
   become: true
   ansible.builtin.file:
@@ -59,12 +52,6 @@
       mode: "0750"
     - path: "/var/lib/gitea/custom/conf"
       mode: "0750"
-      #    - path: "/var/lib/gitea/data"
-      #      mode: "0750"
-      #    - path: "/var/lib/gitea/log"
-      #      mode: "0750"
-      #    - path: "/var/lib/gitea/git"
-      #      mode: "0750"
 
 - name: Download gitea binary
   become: true

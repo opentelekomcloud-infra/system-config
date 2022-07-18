@@ -4,21 +4,21 @@ all:
       ansible_host: 192.168.110.10
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
     scheduler1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.58
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
     executor2.apimon.eco.tsi-dev.otc-service.com:
@@ -28,28 +28,28 @@ all:
       ansible_host: 192.168.110.145
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-02"
         region: "eu-de"
     executor4.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.164
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
     graphite1.apimon.eco.tsi-dev.otc-service.com:
@@ -73,7 +73,7 @@ all:
       ansible_user: automation
       location:
         provider: "otc"
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
     proxy2.eco.tsi-dev.otc-service.com:
@@ -81,7 +81,7 @@ all:
       ansible_user: automation
       location:
         provider: "otc"
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
     web3.eco.tsi-dev.otc-service.com:
@@ -126,28 +126,28 @@ all:
       ansible_host: 192.168.170.123
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_eco_infra"
+        cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-02"
         region: "eu-de"
     vault2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.123
       ansible_user: automation
       location:
-        # cloud: "otc_vault_449_de_eco_infra"
+        cloud: "otc_vault_449_de_eco_infra"
         az: "eu-de-01"
         region: "eu-de"
     vault3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.123
       ansible_user: automation
       location:
-        # cloud: "otc_vault_449_nl_eco_infra"
+        cloud: "otc_vault_449_nl_eco_infra"
         az: "eu-nl-01"
         region: "eu-nl"
     influx1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.227
       ansible_user: automation
       location:
-        # cloud: "otc_vault_448_de_apimon"
+        cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
     gitea1.eco.tsi-dev.otc-service.com:

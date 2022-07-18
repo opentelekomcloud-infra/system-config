@@ -1,9 +1,5 @@
 ---
 packages:
   - pandoc
-    # - podman
-    # - uidmap
-    # - slirp4netns
-    # - fuse-overlayfs
 
 container_command: podman
