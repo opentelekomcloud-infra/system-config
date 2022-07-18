@@ -444,3 +444,8 @@ ALLOW_ATTR = class
 [markup.sanitizer.html.2]
 ELEMENT = a
 ALLOW_ATTR = class
+
+{% if gitea_packages_enable is defined and gitea_packages_enable %}
+[packages]
+ENABLED=true
+{% endif %}
