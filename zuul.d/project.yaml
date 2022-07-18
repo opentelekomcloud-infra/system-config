@@ -27,6 +27,7 @@
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
         - system-config-build-image-haproxy-statsd
+        - system-config-build-image-zuul
     gate:
       jobs:
         - otc-tox-linters
@@ -47,6 +48,7 @@
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
         - system-config-upload-image-haproxy-statsd
+        - system-config-upload-image-zuul
     deploy:
       jobs:
         # This installs the ansible on bridge that all the infra-prod
