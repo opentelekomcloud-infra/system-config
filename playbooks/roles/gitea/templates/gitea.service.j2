@@ -45,6 +45,7 @@ WorkingDirectory=/var/lib/gitea/
 # (manually creating /run/gitea doesn't work, because it would not persist across reboots)
 #RuntimeDirectory=gitea
 #ExecStart=/usr/local/bin/gitea web --config /etc/gitea/app.ini
+# NOTE: by default data will be searched under $WorkingDirectory
 ExecStart=/usr/local/bin/gitea web
 Restart=always
 Environment=USER={{ gitea_os_user }} HOME=/home/{{ gitea_os_user }} GITEA_WORK_DIR=/var/lib/gitea
