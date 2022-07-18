@@ -30,7 +30,7 @@
       vars:
         login: "{{ database_dbas[db_instance.key] }}"
         databases: "{{ db_instance.value['databases'] }}"
-        users: "{{ db_instance.value['users'] }}"
+        users: "{{ db_instance.value['users'] | default([]) }}"
       loop: "{{ db_items | dict2items }}"
       loop_control:
         loop_var: db_instance

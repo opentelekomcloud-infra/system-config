@@ -10,3 +10,4 @@
   loop_control:
     loop_var: "instance"
     label: "{{ instance.username }}"
+  when: "users | length > 0"

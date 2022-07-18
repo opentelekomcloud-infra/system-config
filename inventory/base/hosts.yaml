@@ -150,3 +150,10 @@ all:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
+    gitea1.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.170.200
+      ansible_user: automation
+      location:
+        cloud: "otc_vault_448_de_eco_infra"
+        az: "eu-de-01"
+        region: "eu-de"

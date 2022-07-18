@@ -28,6 +28,7 @@
     body:
       lease_id: "{{ cloud_token.data.lease_id }}"
     status_code: [200, 201, 202, 204]
+  check_mode: false
   when:
     - "cloud_token.data.lease_id is defined"
     - "cloud_token.data.lease_id | length > 0"
