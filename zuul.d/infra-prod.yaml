@@ -167,6 +167,17 @@
       - playbooks/roles/apimon_k8s
 
 - job:
+    name: infra-prod-service-gitea
+    parent: infra-prod-service-base
+    description: Run service-gitea.yaml playbook.
+    vars:
+      playbook_name: service-gitea.yaml
+    files:
+      - inventory/
+      - playbooks/service-gitea.yaml
+      - playbooks/roles/gitea/
+
+- job:
     name: infra-prod-service-graphite
     parent: infra-prod-service-base
     description: Run service-graphite.yaml playbook.
