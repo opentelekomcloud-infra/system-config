@@ -6,3 +6,6 @@
 
 - name: Reload vault
   include_tasks: roles/acme_create_certs/handlers/reload-vault.yaml
+
+- name: Restart gitea
+  include_tasks: roles/acme_create_certs/handlers/restart-gitea.yaml

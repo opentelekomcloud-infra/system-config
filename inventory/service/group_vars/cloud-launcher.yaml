@@ -751,6 +751,26 @@ vault_sg: &vault_sg
       remote_ip_prefix: "192.168.0.0/16"
       description: "Vault Server-2-Server"
 
+gitea_sg: &gitea_sg
+  name: "gitea_sg"
+  description: "Gitea security group"
+  rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "ping"
+    - protocol: "tcp"
+      port_range_min: 2222
+      port_range_max: 2222
+      description: "git ssh"
+    - protocol: "tcp"
+      port_range_min: 443
+      port_range_max: 443
+      remote_ip_prefix: "0.0.0.0/0"
+      description: "Gitea Web"
+
+
 cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
     <<: *bastion_sg
@@ -764,6 +784,8 @@ cloud_security_groups:
     <<: *pg_sg
   - cloud: "otc_vault_448_de_eco_infra"
     <<: *vault_sg
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *gitea_sg
   - cloud: "otc_vault_449_nl_eco_infra"
     <<: *common_sg
   - cloud: "otc_vault_449_nl_eco_infra"
