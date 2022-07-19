@@ -313,6 +313,26 @@
       - inventory/service/groups.yaml
 
 - job:
+    name: system-config-run-gitea
+    parent: system-config-run
+    description: |
+      Run the playbook for the gitea servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-jammy
+        - name: gitea.focal
+          label: ubuntu-jammy
+    vars:
+      run_playbooks:
+        - playbooks/service-gitea.yaml
+    files:
+      - playbooks/bootstrap-bridge.yaml
+      - playbooks/service-gitea.yaml
+      - playbooks/roles/gitea/
+      - testinfra/test_gitea.py
+
+- job:
     name: system-config-run-zookeeper
     parent: system-config-run
     description: |
