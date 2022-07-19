@@ -39,13 +39,23 @@ ENABLE_GZIP = true
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
-;; Postgres Configuration
+;; Database Configuration
 ;;
-DB_TYPE = postgres
+{% if gitea_db_type is defined %}
+DB_TYPE = {{ gitea_db_type }}
+{% endif %}
+{% if gitea_db_host is defined %}
 HOST = {{ gitea_db_host }} ; can use socket e.g. /var/run/postgresql/
+{% endif %}
+{% if gitea_db_name is defined %}
 NAME = {{ gitea_db_name }}
+{% endif %}
+{% if gitea_db_username is defined %}
 USER = {{ gitea_db_username }}
+{% endif %}
+{% if gitea_db_password is defined %}
 PASSWD = {{ gitea_db_password }}
+{% endif %}
 SSL_MODE=require
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
