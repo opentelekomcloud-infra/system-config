@@ -1,5 +1,5 @@
 - name: Remove SSL Cert
   opentelekomcloud.cloud.lb_certificate:
-    cloud: "{{ cert.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ cert.name }}"
     state: "absent"

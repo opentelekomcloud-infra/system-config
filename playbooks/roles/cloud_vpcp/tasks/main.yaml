@@ -1,6 +1,60 @@
 ---
+- name: "Set cloud env"
+  set_fact:
+    cloud: "{{ vpcp.cloud }}"
+
+- name: "Set remote cloud env"
+  set_fact:
+    remote_cloud: "{{ vpcp.remote_cloud }}"
+
+- name: "Read vault data"
+  no_log: true
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "{{ clouds[cloud].vault_path }}"
+  register: "cloud_token"
+  when: "clouds[cloud].vault_path is defined"
+
+- name: "Read vault data for remote cloud"
+  no_log: true
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "{{ clouds[remote_cloud].vault_path }}"
+  register: "remote_cloud_token"
+  when: "clouds[remote_cloud].vault_path is defined"
+
 - include: "provision.yaml"
   when: "state != 'absent'"
 
 - include: "destroy.yaml"
   when: "state == 'absent'"
+
+- name: "Revoke lease in vault and delete user from cloud"
+  ansible.builtin.uri:
+    url: "{{ ansible_hashi_vault_addr }}/v1/sys/leases/revoke"
+    headers:
+      X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+    method: "POST"
+    body_format: "json"
+    body:
+      lease_id: "{{ cloud_token.data.lease_id }}"
+    status_code: [200, 201, 202, 204]
+  when:
+    - "cloud_token.data.lease_id is defined"
+    - "cloud_token.data.lease_id | length > 0"
+
+- name: "Revoke lease in vault and delete user from remote cloud"
+  ansible.builtin.uri:
+    url: "{{ ansible_hashi_vault_addr }}/v1/sys/leases/revoke"
+    headers:
+      X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+    method: "POST"
+    body_format: "json"
+    body:
+      lease_id: "{{ remote_cloud_token.data.lease_id }}"
+    status_code: [200, 201, 202, 204]
+  when:
+    - "remote_cloud_token.data.lease_id is defined"
+    - "remote_cloud_token.data.lease_id | length > 0"
