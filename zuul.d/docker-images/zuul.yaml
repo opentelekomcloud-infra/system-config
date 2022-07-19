@@ -9,14 +9,10 @@
           repository: opentelekomcloud/zuul
           target: zuul
           tags: 
-            &imagetag ["latest", "change_849033"]
+            &imagetag ["latest", "change_850008"]
         - context: "docker/zuul"
           repository: opentelekomcloud/zuul-executor
           target: zuul-executor
-          tags: *imagetag
-        - context: "docker/zuul"
-          repository: opentelekomcloud/zuul-fingergw
-          target: zuul-fingergw
           tags: *imagetag
         - context: "docker/zuul"
           repository: opentelekomcloud/zuul-merger
