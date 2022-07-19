@@ -1,4 +1,17 @@
 ---
+- name: "Set cloud env"
+  set_fact:
+    cloud: "{{ cert.cloud }}"
+
+- name: "Read vault data"
+  no_log: true
+  community.hashi_vault.vault_read:
+    url: "{{ ansible_hashi_vault_addr }}"
+    token: "{{ ansible_hashi_vault_token }}"
+    path: "{{ clouds[cloud].vault_path }}"
+  register: "cloud_token"
+  when: "clouds[cloud].vault_path is defined"
+
 - name: Install LB SSL Certs
   include_tasks: build.yaml
   when: state == "present"
@@ -6,3 +19,17 @@
 - name: Destroy LB SSL Certs
   include_tasks: destroy.yaml
   when: state == "absent"
+
+- name: "Revoke lease in vault and delete user from cloud"
+  ansible.builtin.uri:
+    url: "{{ ansible_hashi_vault_addr }}/v1/sys/leases/revoke"
+    headers:
+      X-Vault-Token: "{{ ansible_hashi_vault_token }}"
+    method: "POST"
+    body_format: "json"
+    body:
+      lease_id: "{{ cloud_token.data.lease_id }}"
+    status_code: [200, 201, 202, 204]
+  when:
+    - "cloud_token.data.lease_id is defined"
+    - "cloud_token.data.lease_id | length > 0"

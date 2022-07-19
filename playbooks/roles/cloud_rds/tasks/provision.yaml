@@ -2,7 +2,7 @@
 - name: Provision RDS instance
   opentelekomcloud.cloud.rds_instance:
     state: "present"
-    cloud: "{{ instance.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     availability_zone: "{{ instance.az | mandatory }}"
     datastore_type: "{{ instance.datastore_type }}"
     datastore_version: "{{ instance.datastore_version | mandatory}}"

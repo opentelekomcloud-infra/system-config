@@ -2,31 +2,31 @@
 # Provision VPC Peerings
 - name: Find local project
   openstack.cloud.project_info:
-    cloud: "{{ vpcp.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ vpcp.local_project }}"
   register: local_project
 
 - name: Find Local router
   openstack.cloud.routers_info:
-    cloud: "{{ vpcp.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ vpcp.local_router }}"
   register: local_router
 
 - name: Find Remote project
   openstack.cloud.project_info:
-    cloud: "{{ vpcp.remote_cloud }}"
+    cloud: "{{ remote_cloud_token.data.data |default(remote_cloud) }}"
     name: "{{ vpcp.remote_project }}"
   register: remote_project
 
 - name: Find Remote router
   openstack.cloud.routers_info:
-    cloud: "{{ vpcp.remote_cloud }}"
+    cloud: "{{ remote_cloud_token.data.data |default(remote_cloud) }}"
     name: "{{ vpcp.remote_router }}"
   register: remote_router
 
 - name: Create VPC Peering - A side
   opentelekomcloud.cloud.vpc_peering:
-    cloud: "{{ vpcp.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ vpcp.name }}"
     local_router: "{{ local_router.openstack_routers[0].id }}"
     local_project: "{{ local_project.openstack_projects[0].id }}"
@@ -36,14 +36,14 @@
 
 - name: Accept Peering - B side
   opentelekomcloud.cloud.vpc_peering_mode:
-    cloud: "{{ vpcp.remote_cloud }}"
+    cloud: "{{ remote_cloud_token.data.data |default(remote_cloud) }}"
     name: "{{ vpcp.name }}"
     mode: "accept"
   register: peering_b
 
 - name: Create VPC Peering route - A side
   opentelekomcloud.cloud.vpc_route:
-    cloud: "{{ vpcp.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     type: "peering"
     router: "{{ local_router.openstack_routers[0].id }}"
     destination: "{{ vpcp.remote_cidr }}"
@@ -51,7 +51,7 @@
 
 - name: Create VPC Peering route - B side
   opentelekomcloud.cloud.vpc_route:
-    cloud: "{{ vpcp.remote_cloud }}"
+    cloud: "{{ remote_cloud_token.data.data |default(remote_cloud) }}"
     type: "peering"
     router: "{{ remote_router.openstack_routers[0].id }}"
     destination: "{{ vpcp.local_cidr }}"

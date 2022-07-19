@@ -1,6 +1,6 @@
 - name: Unregister Pool Members
   opentelekomcloud.cloud.lb_member:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.name }}"
     pool: "{{ item.pool }}"
     protocol_port: "{{ item.protocol_port }}"
@@ -13,7 +13,7 @@
 
 - name: Drop Listeners
   opentelekomcloud.cloud.lb_listener:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ item.name }}"
     loadbalancer: "{{ loadbalancer.loadbalancer.id }}"
     protocol: "{{ item.protocol }}"
@@ -27,7 +27,7 @@
 
 - name: Drop Load Balancer
   opentelekomcloud.cloud.loadbalancer:
-    cloud: "{{ lb.cloud }}"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
     name: "{{ lb.loadbalancer.name }}"
     state: "absent"
 
