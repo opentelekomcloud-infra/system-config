@@ -12,10 +12,6 @@
 
 testinfra_hosts = ['gitea.focal']
 
-def test_gitea_listening(host):
-    sock = host.socket("tcp://0.0.0.0:443")
-    assert sock.is_listening
-
 def test_gitea_systemd(host):
     service = host.service('gitea')
     assert service.is_enabled
