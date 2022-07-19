@@ -42,7 +42,7 @@
   ansible.builtin.file:
     state: "directory"
     path: "{{ item.path }}"
-    mode: "{{ item.mode | default(0755) }}"
+    mode: "{{ item.mode | default('0755') }}"
     owner: "{{ item.owner | default(gitea_os_user) }}"
     group: "{{ item.group | default(gitea_os_group) }}"
   loop:
