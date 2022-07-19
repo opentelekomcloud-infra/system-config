@@ -60,6 +60,7 @@
         - group_vars/graphite.yaml
         - group_vars/memcached.yaml
         - group_vars/alerta.yaml
+        - group_vars/gitea.yaml
         - group_vars/grafana.yaml
         - group_vars/proxy.yaml
         - group_vars/k8s-controller.yaml

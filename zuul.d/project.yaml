@@ -23,6 +23,7 @@
         - system-config-run-grafana
         - system-config-run-proxy
         - system-config-run-vault
+        - system-config-run-gitea
         # - system-config-run-zookeeper
         - system-config-build-image-zookeeper-statsd
         - system-config-build-image-graphite-statsd
@@ -44,6 +45,7 @@
         - system-config-run-grafana
         - system-config-run-proxy
         - system-config-run-vault
+        - system-config-run-gitea
         # - system-config-run-zookeeper
         - system-config-upload-image-zookeeper-statsd
         - system-config-upload-image-graphite-statsd
