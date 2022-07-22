@@ -3,3 +3,25 @@ gitea_app_name: "Open Telekom Cloud: git"
 gitea_root_url: "https://gitea.eco.tsi-dev.otc-service.com"
 gitea_http_port: 443
 gitea_packages_enable: true
+
+fail2ban_filters:
+  - content: |
+      # gitea.conf
+      [Init]
+      datepattern = ^%%Y/%%m/%%d %%H:%%M:%%S
+
+      [Definition]
+      failregex =  .*(Failed authentication attempt|invalid credentials|Attempted access of unknown user).* from <HOST>
+      ignoreregex =
+    dest: "/etc/fail2ban/filter.d/gitea.conf"
+
+fail2ban_jails:
+  - content: |
+      [gitea]
+      enabled = true
+      filter = gitea
+      logpath = /var/lib/gitea/log/gitea.log
+      maxretry = 10
+      findtime = 3600
+      bantime = 900
+    dest: "/etc/fail2ban/jail.d/gitea.conf"
