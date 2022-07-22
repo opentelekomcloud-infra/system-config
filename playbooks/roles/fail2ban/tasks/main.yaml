@@ -1,0 +1,55 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Write fail2ban local jail conf
+  become: true
+  ansible.builtin.template:
+    src: "jail.local.j2"
+    dest: "/etc/fail2ban/jail.local"
+    mode: "0640"
+  notify:
+    - Restart fail2ban
+
+- name: Write service specific filters
+  become: true
+  ansible.builtin.copy:
+    content: "{{ filter.content }}"
+    dest: "{{ filter.dest }}"
+    mode: "{{ filter.mode | default('0644') }}"
+  loop:
+    "{{ fail2ban_filters | default([]) }}"
+  loop_control:
+    loop_var: "filter"
+  notify:
+    - Restart fail2ban
+
+- name: Write service specific jails
+  become: true
+  ansible.builtin.copy:
+    content: "{{ jail.content }}"
+    dest: "{{ jail.dest }}"
+    mode: "{{ jail.mode | default('0644') }}"
+  loop:
+    "{{ fail2ban_jails | default([]) }}"
+  loop_control:
+    loop_var: "jail"
+  notify:
+    - Restart fail2ban
