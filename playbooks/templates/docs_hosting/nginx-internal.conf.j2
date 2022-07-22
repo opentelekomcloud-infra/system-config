@@ -30,7 +30,7 @@ server {
   }
 
   location / {
-    set $container 'docs';
+    set $container 'docsportal';
     set $index_uri '/index.html';
 
     if ($request_uri ~* '/releasenotes(/?)$') {
