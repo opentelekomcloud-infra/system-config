@@ -4,8 +4,8 @@ zuul_main_vars:
   statsd_host: "zuul-statsd-main"
   config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
   web_domain: "zuul.otc-service.com"
-  nodepool_version_tag: "6.0.0"
-  zuul_version_tag: "change_603_change_850008"
+  nodepool_version_tag: "6.1.0"
+  zuul_version_tag: "change_605_change_850413"
   zuul_connections:
     - name: "github"
       driver: "github"
