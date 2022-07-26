@@ -9,3 +9,7 @@ arch_translation:
   amd64: amd64
   x86_64: amd64
   i386: 386
+
+gitea_smtp_enable: false
+gitea_smtp_mailer_type: "smtp"
+gitea_smtp_tls: false
