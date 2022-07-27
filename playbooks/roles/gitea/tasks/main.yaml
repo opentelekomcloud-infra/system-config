@@ -61,6 +61,14 @@
     mode: 0755
     checksum: "{{ gitea_checksum }}"
 
+- name: Write /etc/hosts entry for ldap
+  become: true
+  ansible.builtin.lineinfile:
+    path: "/etc/hosts"
+    regexp: "{{ gitea_ldap_hostname }}$"
+    line: "{{ gitea_ldap_ip }} {{ gitea_ldap_hostname }}"
+  when: gitea_add_ldap_hosts_entry
+
 - name: Write gitea config env file
   become: true
   template:

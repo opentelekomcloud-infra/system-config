@@ -11,3 +11,4 @@ arch_translation:
   i386: 386
 
 gitea_mailer_enable: false
+gitea_add_ldap_hosts_entry: false
