@@ -67,7 +67,9 @@
     path: "/etc/hosts"
     regexp: "{{ gitea_ldap_hostname }}$"
     line: "{{ gitea_ldap_ip }} {{ gitea_ldap_hostname }}"
-  when: gitea_add_ldap_hosts_entry
+  when:
+  - gitea_ldap_ip is defined
+  - gitea_ldap_hostname is defined
 
 - name: Write gitea config env file
   become: true
