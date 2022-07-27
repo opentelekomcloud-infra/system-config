@@ -23,7 +23,7 @@ RUN  git config --global user.email "zuul@otc-service.com" && \
 
 RUN git clone https://opendev.org/zuul/zuul zuul_src && \
     cd /zuul_src && \
-    git pull https://review.opendev.org/zuul/zuul refs/changes/98/850898/1
+    git pull https://review.opendev.org/zuul/zuul refs/changes/41/850941/2
 
 FROM docker.io/library/node:16-bullseye as js-builder
 
