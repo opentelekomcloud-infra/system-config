@@ -5,7 +5,7 @@ zuul_main_vars:
   config_repo: "https://github.com/opentelekomcloud-infra/zuul-config.git"
   web_domain: "zuul.otc-service.com"
   nodepool_version_tag: "6.1.0"
-  zuul_version_tag: "change_612_change_850898"
+  zuul_version_tag: "change_615_change_850898"
   zuul_connections:
     - name: "github"
       driver: "github"
