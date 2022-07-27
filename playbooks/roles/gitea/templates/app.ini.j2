@@ -345,15 +345,15 @@ ENABLE_AUTO_REGISTRATION = true
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-{%if gitea_smtp_enable %}
+{%if gitea_mailer_enable %}
 [mailer]
 ENABLED        = true
-FROM           = {{ gitea_smtp_from_address }}
-MAILER_TYPE    = {{ gitea_smtp_mailer_type }}
-HOST           = {{ gitea_smtp_host }}
-IS_TLS_ENABLED = {{ gitea_smtp_tls }}
-USER           = {{ gitea_smtp_username }}
-PASSWD         = {{ gitea_smtp_password }}
+FROM           = {{ gitea_mailer_from }}
+MAILER_TYPE    = {{ gitea_mailer_type }}
+HOST           = {{ gitea_mailer_host }}
+IS_TLS_ENABLED = {{ gitea_mailer_is_tls_enabled }}
+USER           = {{ gitea_mailer_user }}
+PASSWD         = {{ gitea_mailer_passwd }}
 {% endif %}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
