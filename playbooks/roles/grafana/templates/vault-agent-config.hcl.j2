@@ -79,3 +79,32 @@ template {
   EOT
   }
 {% endif %}
+
+{% if grafana.grafana_smtp_enable is defined and grafana.grafana_smtp_enable %}
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/smtp_gw_host"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_smtp_gw_path}}" %][% .Data.data.host %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/smtp_gw_user"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_smtp_gw_path }}" %][% .Data.data.username %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/smtp_gw_password"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_smtp_gw_path }}" %][% .Data.data.password %][% end -%]
+  EOT
+  }
+{% endif %}
