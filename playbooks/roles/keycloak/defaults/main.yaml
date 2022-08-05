@@ -4,3 +4,5 @@ keycloak_os_group: keycloak
 keycloak_os_user: keycloak
 
 keyclok_image: quay.io/keycloak/keycloak:latest
+
+keycloak_http_enable: false
