@@ -23,7 +23,9 @@ ExecStart={{ container_runtime }} run \
     --user root \
     --network host \
     -v /var/keycloak/data:/opt/keycloak/data:Z \
-    -v /etc/ssl/keycloak1.eco.tsi-dev.otc-service.com/keycloak:/opt/keycloak/ssl:Z \
+{% if keycloak_enable_https is defined and keycloak_enable_https %}
+    -v /etc/ssl/{{ inventory_hostname }}/keycloak:/opt/keycloak/ssl:Z \
+{% endif %}
     ${KEYCLOAK_IMAGE} start --proxy reencrypt
 
 ExecReload=-{{ container_runtime }} stop "keycloak"
