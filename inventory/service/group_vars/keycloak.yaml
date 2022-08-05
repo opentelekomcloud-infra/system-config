@@ -1,0 +1,2 @@
+keycloak_servername: "keycloak.eco.tsi-dev.otc-service.com"
+keycloak_image: "{{ keycloak_image_stable }}"

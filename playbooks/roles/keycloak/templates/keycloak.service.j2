@@ -1,0 +1,37 @@
+[Unit]
+Description=Keycloak container
+Wants=syslog.service
+
+[Service]
+Type=simple
+TimeoutSec=30s
+Restart=always
+User={{ keycloak_os_user }}
+Group={{ keycloak_os_group }}
+
+EnvironmentFile=/etc/keycloak/env
+
+ExecStartPre=-{{ container_runtime }} system migrate
+ExecStartPre=-{{ container_runtime }} rm "keycloak"
+
+ExecStart={{ container_runtime }} run \
+    --name "keycloak" \
+{% if container_command == 'podman' %}
+    --log-opt=path=/dev/null \
+{% endif %}
+    --env-file /etc/keycloak/env \
+    --user root \
+    --network host \
+    -v /var/keycloak/data:/opt/keycloak/data:Z \
+    -v /etc/ssl/keycloak1.eco.tsi-dev.otc-service.com/keycloak:/opt/keycloak/ssl:Z \
+    ${KEYCLOAK_IMAGE} start --proxy reencrypt
+
+ExecReload=-{{ container_runtime }} stop "keycloak"
+ExecReload=-{{ container_runtime }} rm "keycloak"
+
+ExecStop={{ container_runtime }} stop "keycloak"
+ExecStop={{ container_runtime }} rm "keycloak"
+
+[Install]
+WantedBy=multi-user.target
+

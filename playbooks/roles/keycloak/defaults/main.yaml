@@ -1,0 +1,6 @@
+container_runtime: "/usr/bin/{{ container_command }}"
+
+keycloak_os_group: keycloak
+keycloak_os_user: keycloak
+
+keyclok_image: quay.io/keycloak/keycloak:latest

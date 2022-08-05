@@ -770,6 +770,15 @@ gitea_sg: &gitea_sg
       remote_ip_prefix: "0.0.0.0/0"
       description: "Gitea Web"
 
+keycloak_sg: &keycloak_sg
+  name: "keycloak_sg"
+  description: "Keycloak security group"
+  rules:
+    - protocol: "tcp"
+      port_range_min: 8443
+      port_range_max: 8443
+      remote_ip_prefix: "0.0.0.0/0"
+      description: "Keycloak web"
 
 cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
@@ -786,6 +795,8 @@ cloud_security_groups:
     <<: *vault_sg
   - cloud: "otc_vault_448_de_eco_infra"
     <<: *gitea_sg
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *keycloak_sg
   - cloud: "otc_vault_449_nl_eco_infra"
     <<: *common_sg
   - cloud: "otc_vault_449_nl_eco_infra"
