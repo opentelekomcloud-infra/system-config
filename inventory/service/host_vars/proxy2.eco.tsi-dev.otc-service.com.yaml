@@ -28,6 +28,7 @@ ssl_certs:
     - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
     - "opensearch-stg.eco.tsi-dev.otc-service.com"
     - "opensearch-stg-dashboard.eco.tsi-dev.otc-service.com"
+    - "keycloak.eco.tsi-dev.otc-service.com"
   matrix:
     - "matrix.otc-service.com"
   docs:

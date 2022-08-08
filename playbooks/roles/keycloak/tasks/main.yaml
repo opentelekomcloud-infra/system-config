@@ -1,0 +1,69 @@
+---
+- name: Include variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files: "{{ distro_lookup_path }}"
+      paths:
+        - "vars"
+
+- name: Install required packages
+  become: true
+  ansible.builtin.package:
+    state: present
+    name: "{{ item }}"
+  loop:
+    - "{{ packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
+- name: Create keycloak group
+  become: yes
+  ansible.builtin.group:
+    name: "{{ keycloak_os_group }}"
+    state: present
+
+- name: Create keycloak user
+  become: true
+  ansible.builtin.user:
+    name: "{{ keycloak_os_user }}"
+    group: "{{ keycloak_os_group }}"
+    shell: "/bin/bash"
+    groups: "{{ 'docker' if container_command == 'docker' else '' }}"
+    comment: "Keycloak user"
+    state: "present"
+
+- name: Ensure directories exist
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default('0755') }}"
+    owner: "{{ item.owner | default(keycloak_os_user) }}"
+    group: "{{ item.group | default(keycloak_os_group) }}"
+  loop:
+    - path: "/etc/keycloak"
+      mode: "0775"
+    - path: "/var/keycloak/data"
+      mode: "0755"
+
+- name: Write keycloak config env file
+  become: true
+  template:
+    src: "env.j2"
+    dest: "/etc/keycloak/env"
+    owner: "{{ keycloak_os_user }}"
+    group: "{{ keycloak_os_group }}"
+    mode: "0640"
+  notify:
+    - Restart keycloak
+
+- name: Write systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "keycloak.service.j2"
+    dest: "/etc/systemd/system/keycloak.service"
+  notify:
+    - Restart keycloak

@@ -333,6 +333,26 @@
       - testinfra/test_gitea.py
 
 - job:
+    name: system-config-run-keycloak
+    parent: system-config-run
+    description: |
+      Run the playbook for the keycloak servers.
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-jammy
+        - name: keycloak.focal
+          label: ubuntu-jammy
+    vars:
+      run_playbooks:
+        - playbooks/service-keycloak.yaml
+    files:
+      - playbooks/bootstrap-bridge.yaml
+      - playbooks/service-keycloak.yaml
+      - playbooks/roles/keycloak/
+      - testinfra/test_keycloak.py
+
+- job:
     name: system-config-run-zookeeper
     parent: system-config-run
     description: |
