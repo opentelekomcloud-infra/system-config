@@ -154,6 +154,12 @@ proxy_backends:
       - "option forwardfor"
       - "option httpchk GET /health"
       - "default-server check inter 5s fall 5 rise 1"
+      - "acl get_post_method method GET POST"
+      - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
+      - "acl options_method method OPTIONS"
+      - "http-response set-header Access-Control-Allow-Origin * if options_method"
+      - "http-response set-header Access-Control-Allow-Methods \"GET,POST,OPTIONS,HEAD\" if options_method"
+      - "http-response set-header Access-Control-Allow-Headers \"Authorization,Origin,X-Requested-With,Content-Type,Accept\" if options_method"
     domain_names:
       - "keycloak.eco.tsi-dev.otc-service.com"
     servers:
