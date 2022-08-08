@@ -68,10 +68,10 @@ zuul_scheduler_resources:
 zuul_web_resources:
   limits:
     cpu: "50m"
-    memory: "200Mi"
+    memory: "500Mi"
   requests:
     cpu: "20m"
-    memory: "100Mi"
+    memory: "200Mi"
 
 
 vault_agent_templates_nodepool_launcher:
