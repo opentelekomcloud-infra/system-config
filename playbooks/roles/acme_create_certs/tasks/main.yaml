@@ -83,6 +83,40 @@
     - "'gitea' in group_names"
     - "gitea_cert is defined"
 
+- name: Check keycloak user
+  ansible.builtin.user:
+    name: "keycloak"
+  register: "keycloak_user"
+  when: "'keycloak' in group_names"
+
+- name: Create keycloak certs directory
+  ansible.builtin.file:
+    path: "/etc/ssl/{{ inventory_hostname }}/keycloak"
+    state: "directory"
+    mode: "0755"
+    owner: "{{ keycloak_user.name | default(omit) }}"
+    group: "{{ keycloak_user.name | default(omit) }}"
+  when: "'keycloak' in group_names"
+
+- name: Copy keycloak certs
+  ansible.builtin.copy:
+    src: "{{ certs_path }}/{{ cert }}"
+    dest: "{{ certs_path }}/keycloak/{{ cert }}"
+    mode: "0440"
+    owner: "{{ keycloak_user.name | default(omit) }}"
+    group: "{{ keycloak_user.name | default(omit) }}"
+    remote_src: true
+  loop:
+    - "{{ keycloak_cert }}.pem"
+    - "{{ keycloak_cert }}-fullchain.crt"
+  loop_control:
+    loop_var: "cert"
+  notify:
+    - Restart keycloak
+  when:
+    - "'keycloak' in group_names"
+    - "keycloak_cert is defined"
+
 # we only restart haproxy if it's cert files got modified
 - name: Prepare haproxy certs
   ansible.builtin.assemble:

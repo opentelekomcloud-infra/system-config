@@ -149,6 +149,18 @@ proxy_backends:
         address: "192.168.170.6:443"
         opts: "ssl verify none cookie otcinfra"
 
+  - name: "keycloak"
+    options:
+      - "option forwardfor"
+      - "option httpchk GET /health"
+      - "default-server check inter 5s fall 5 rise 1"
+    domain_names:
+      - "keycloak.eco.tsi-dev.otc-service.com"
+    servers:
+      - name: "infra"
+        address: "192.168.170.90:8443"
+        opts: "ssl verify none cookie keycloak1"
+
   - name: "vault"
     options:
       - "option forwardfor"

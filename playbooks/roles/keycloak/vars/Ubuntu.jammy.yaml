@@ -1,0 +1,6 @@
+---
+packages:
+  - podman
+  - uidmap
+
+container_command: podman

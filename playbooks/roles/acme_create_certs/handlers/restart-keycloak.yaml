@@ -1,0 +1,10 @@
+- name: Check keycloak process
+  command: pgrep -f keycloak
+  ignore_errors: yes
+  register: keycloak_pids
+
+- name: Restart keycloak
+  ansible.builtin.service:
+    name: "keycloak"
+    state: "restarted"
+  when: keycloak_pids.rc == 0

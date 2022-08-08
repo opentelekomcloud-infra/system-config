@@ -1,0 +1,6 @@
+- name: Restart keycloak
+  ansible.builtin.systemd:
+    name: "keycloak"
+    enabled: true
+    state: "restarted"
+    daemon_reload: true
