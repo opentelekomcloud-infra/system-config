@@ -9,3 +9,6 @@
 
 - name: Restart gitea
   include_tasks: roles/acme_create_certs/handlers/restart-gitea.yaml
+
+- name: Restart keycloak
+  include_tasks: roles/acme_create_certs/handlers/restart-keycloak.yaml
