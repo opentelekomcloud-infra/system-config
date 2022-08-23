@@ -26,7 +26,11 @@ ExecStart={{ container_runtime }} run \
 {% if keycloak_enable_https is defined and keycloak_enable_https %}
     -v /etc/ssl/{{ inventory_hostname }}/keycloak:/opt/keycloak/ssl:Z \
 {% endif %}
+{% if keycloak_auth_ldap_certificate is defined and keycloak_auth_ldap_certificate|length > 0 %}
+    ${KEYCLOAK_IMAGE} start --proxy reencrypt --spi-truststore-file-file=/opt/keycloak/data/cacerts-otc --spi-truststore-file-password={{ keycloak_keystore_pass }} --spi-truststore-file-hostname-verification-policy=ANY
+{% else %}
     ${KEYCLOAK_IMAGE} start --proxy reencrypt
+{% endif %}
 
 ExecReload=-{{ container_runtime }} stop "keycloak"
 ExecReload=-{{ container_runtime }} rm "keycloak"
