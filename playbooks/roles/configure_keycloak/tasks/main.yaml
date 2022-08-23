@@ -1,0 +1,92 @@
+---
+- name: Get master realm access_token
+  ansible.builtin.uri:
+    url: "{{ keycloak.admin_url}}"
+    method: "POST"
+    body_format: "form-urlencoded"
+    body:
+      grant_type: "password"
+      username: "admin"
+      password: "{{ keycloak.admin_password }}"
+      client_id: "admin-cli"
+  register: "kc_token"
+  no_log: true
+
+- include_tasks: realm.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.realms }}"
+  loop_control:
+    loop_var: "realm"
+    label: "{{ realm.name }}"
+  when: "keycloak.realms is defined"
+
+- include_tasks: identity_provider.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.identity_providers }}"
+  loop_control:
+    loop_var: "identity_provider"
+    label: "{{ identity_provider.name }}"
+  when: "keycloak.identity_providers is defined"
+
+- include_tasks: client_scope.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.client_scopes }}"
+  loop_control:
+    loop_var: "client_scope"
+    label: "{{ client_scope.name }}"
+
+- include_tasks: client.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.clients }}"
+  loop_control:
+    loop_var: "client"
+    label: "{{ client.name }}"
+
+- include_tasks: role.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.roles }}"
+  loop_control:
+    loop_var: "role"
+    label: "{{ role.name }}"
+  when: "keycloak.roles is defined"
+
+- include_tasks: group.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.groups }}"
+  loop_control:
+    loop_var: "group"
+    label: "{{ group.name }}"
+  when: "keycloak.groups is defined"
+
+- include_tasks: group_membership.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.group_memberships }}"
+  loop_control:
+    loop_var: "group_membership"
+    label: "{{ group_membership.group_name }}"
+  when: "keycloak.group_memberships is defined"
+
+- include_tasks: client_rolemapping.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.client_rolemappings }}"
+  loop_control:
+    loop_var: "client_rolemapping"
+    label: "{{ client_rolemapping.group_name }}"
+  when: "keycloak.client_rolemappings is defined"
+
