@@ -49,6 +49,44 @@
     - path: "/var/keycloak/data"
       mode: "0755"
 
+- name: Copy OTC LDAP root CA cert to FS
+  become: true
+  ansible.builtin.copy:
+    content: "{{ keycloak_auth_ldap_certificate }}"
+    dest: "/var/keycloak/data/ldap-certificate.crt"
+    owner: "{{ keycloak_os_user }}"
+    group: "{{ keycloak_os_group }}"
+    mode: 0664
+  when:
+    - "keycloak_auth_ldap_certificate is defined"
+    - "keycloak_auth_ldap_certificate |length > 0"
+
+- name: Copy base Java cacert keystore to FS
+  become: true
+  ansible.builtin.copy:
+    remote_src: yes
+    src: "/etc/ssl/certs/java/cacerts"
+    dest: "/var/keycloak/data/cacerts-otc"
+    owner: "{{ keycloak_os_user }}"
+    group: "{{ keycloak_os_group }}"
+    mode: 0664
+  when:
+    - "keycloak_auth_ldap_certificate is defined"
+    - "keycloak_auth_ldap_certificate |length > 0"
+
+- name: Add OTC LDAP CA cert to cacerts-otc
+  community.general.java_cert:
+    keystore_path: "/var/keycloak/data/cacerts-otc"
+    keystore_pass: "{{ keycloak_keystore_pass }}"
+    state: "present"
+    cert_alias: "otc-ldap-ca"
+    cert_path: "/var/keycloak/data/ldap-certificate.crt"
+  when:
+    - "keycloak_auth_ldap_certificate is defined"
+    - "keycloak_auth_ldap_certificate |length > 0"
+  notify:
+    - Restart keycloak
+
 - name: Write keycloak config env file
   become: true
   template:

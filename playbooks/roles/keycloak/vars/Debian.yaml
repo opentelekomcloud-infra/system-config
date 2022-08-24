@@ -1,5 +1,6 @@
 ---
 packages:
   - docker.io
+  - default-jre-headless
 
 container_command: docker
