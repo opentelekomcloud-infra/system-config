@@ -1,7 +1,7 @@
 - name: Read OS Role {{ role.name }} 
   check_mode: "no"
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/role/{{ role.name }}"
+    url: "{{ vault_addr }}/v1/openstack/roles/{{ role.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "GET"
@@ -12,7 +12,7 @@
 - name: Read OS Cloud {{ role.cloud }} to which role should be bound
   check_mode: "no"
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/cloud/{{ role.cloud }}"
+    url: "{{ vault_addr }}/v1/openstack/clouds/{{ role.cloud }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "GET"
@@ -22,7 +22,7 @@
 
 - name: Write OS Role {{ role.name }} to vault
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/role/{{ role.name }}"
+    url: "{{ vault_addr }}/v1/openstack/roles/{{ role.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "POST"
@@ -46,7 +46,7 @@
 
 - name: Update OS Role {{ role.name }} 
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/role/{{ role.name }}"
+    url: "{{ vault_addr }}/v1/openstack/roles/{{ role.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "PUT"

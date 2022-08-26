@@ -75,3 +75,13 @@
     loop_var: "role"
     label: "{{ role.name }}"
   when: "vault.os_roles is defined"
+
+- include_tasks: os_static_role.yaml
+  vars:
+    vault_addr: "{{ vault.vault_addr | default(omit) }}"
+    vault_token: "{{ vault.vault_token | default(omit)}}"
+  loop: "{{ vault.os_static_roles }}"
+  loop_control:
+    loop_var: "static_role"
+    label: "{{ static_role.name }}"
+  when: "vault.os_static_roles is defined"

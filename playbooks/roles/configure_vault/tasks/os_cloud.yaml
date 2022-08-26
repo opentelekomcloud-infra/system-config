@@ -1,7 +1,7 @@
 - name: Read OS Cloud {{ cloud.name }} 
   check_mode: "no"
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/cloud/{{ cloud.name }}"
+    url: "{{ vault_addr }}/v1/openstack/clouds/{{ cloud.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "GET"
@@ -18,7 +18,7 @@
 
 - name: Write OS Cloud {{ cloud.name }} to vault
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/cloud/{{ cloud.name }}"
+    url: "{{ vault_addr }}/v1/openstack/clouds/{{ cloud.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "POST"
@@ -37,7 +37,7 @@
 
 - name: Update OS Cloud {{ cloud.name }} - no PWD Updated
   ansible.builtin.uri:
-    url: "{{ vault_addr }}/v1/openstack/cloud/{{ cloud.name }}"
+    url: "{{ vault_addr }}/v1/openstack/clouds/{{ cloud.name }}"
     headers:
       X-Vault-Token: "{{ vault_token }}"
     method: "PUT"
