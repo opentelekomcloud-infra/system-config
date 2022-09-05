@@ -32,6 +32,16 @@
     label: "{{ identity_provider.name }}"
   when: "keycloak.identity_providers is defined"
 
+- include_tasks: user_federation.yaml
+  vars:
+    token: "{{ kc_token.json.access_token }}"
+    url: "{{ keycloak.base_url}}"
+  loop: "{{ keycloak.user_federations }}"
+  loop_control:
+    loop_var: "user_federation"
+    label: "{{ user_federation.name }}"
+  when: "keycloak.user_federations is defined"
+
 - include_tasks: client_scope.yaml
   vars:
     token: "{{ kc_token.json.access_token }}"
