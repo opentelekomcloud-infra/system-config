@@ -70,6 +70,7 @@
     owner: "{{ keycloak_os_user }}"
     group: "{{ keycloak_os_group }}"
     mode: 0664
+    force: no
   when:
     - "keycloak_auth_ldap_certificate is defined"
     - "keycloak_auth_ldap_certificate |length > 0"
