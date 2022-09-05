@@ -16,5 +16,6 @@
     web_origins: "{{ client.web_origins |default(omit) }}"
     implicit_flow_enabled: "{{ client.implicit_flow_enabled |default(omit) }}"
     public_client: "{{ client.public_client |default(omit) }}"
+    secret: "{{ client.secret |default(omit) }}"
     default_client_scopes: "{{ client.default_client_scopes |default(omit) }}"
     optional_client_scopes: "{{ client.optional_client_scopes |default(omit) }}"
