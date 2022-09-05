@@ -333,11 +333,6 @@ apimon_instances:
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
     epmon_clouds:
-      - hybrid_sbb:
-          service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
-            epmon_cinder, epmon_cts, epmon_keystone, epmon_glance,
-            epmon_network, epmon_swift, epmon_sdrs, epmon_rds,
-            epmon_rest] | combine }}"
       - hybrid_swiss:
           service_override: "{{ [epmon_as, epmon_ces, epmon_compute,
             epmon_cinder, epmon_keystone, epmon_glance, epmon_network,
@@ -356,11 +351,6 @@ apimon_instances:
 
     # Test Environments
     test_environments:
-      - name: hybrid_sbb
-        env:
-          OS_CLOUD: hybrid_sbb
-        clouds:
-          - hybrid_sbb
       - name: hybrid_swiss
         env:
           OS_CLOUD: hybrid_swiss
@@ -369,13 +359,6 @@ apimon_instances:
 
     # Test Matrix
     test_matrix:
-      - env: hybrid_sbb
-        project: apimon
-        tasks:
-          - scenario1_token.yaml
-          - scenario3a_evs_az.yaml
-          - scenario4_image.yaml
-          - scenario30_domains.yaml
       - env: hybrid_swiss
         project: apimon
         tasks:
@@ -393,8 +376,6 @@ apimon_instances:
 
     # Test clouds configuration
     clouds:
-      - name: hybrid_sbb
-        cloud: otcapimon_hybrid_sbb
       - name: hybrid_swiss
         cloud: otcapimon_hybrid_swiss
       - name: swift
