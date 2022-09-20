@@ -86,6 +86,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-install-loadbalancer: &infra-prod-install-loadbalancer
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-service-opensearch: &infra-prod-service-opensearch
             dependencies:
               - name: infra-prod-base
@@ -157,6 +162,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-service-memcached: &infra-prod-service-memcached
             dependencies:
               - name: infra-prod-base
@@ -195,6 +205,7 @@
         - infra-prod-base: *infra-prod-base
         - infra-prod-service-bridge: *infra-prod-service-bridge
 
+        - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
         - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
@@ -218,6 +229,7 @@
         - infra-prod-service-proxy: *infra-prod-service-proxy
         - infra-prod-service-vault: *infra-prod-service-vault
         - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
+        - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
     periodic-hourly:
       # hourly execution
