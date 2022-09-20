@@ -341,6 +341,18 @@
       - playbooks/roles/cloud_cce
 
 - job:
+    name: infra-prod-install-loadbalancer
+    parent: infra-prod-service-base
+    description: Install cloud load balancers + certs
+    vars:
+      playbook_name: cloud-loadbalancer.yaml
+    files:
+      - inventory/service/group_vars/cloud-launcher.yaml
+      - playbooks/cloud-loadbalancer.yaml
+      - playbooks/roles/cloud_loadbalancer
+      - playbooks/roles/cloud_loadbalancer_cert
+
+- job:
     name: infra-prod-service-octavia-proxy
     parent: infra-prod-service-base
     description: Deploy Octavia Proxy
@@ -373,6 +385,17 @@
       - inventory/service/group_vars/k8s-controller.yaml
       - playbooks/service-loki.yaml
       - playbooks/roles/loki
+
+- job:
+    name: infra-prod-service-swift-proxy
+    parent: infra-prod-service-base
+    description: Deploy swift proxy service-swift-proxy.yaml
+    vars:
+      playbook_name: service-swift-proxy.yaml
+    files:
+      - inventory/service/group_vars/k8s-controller.yaml
+      - playbooks/service-swift-proxy.yaml
+      - playbooks/roles/swift_proxy
 
 - job:
     name: infra-prod-propose-update
