@@ -42,6 +42,7 @@ template {
   EOT
   }
 
+{% if grafana.grafana_auth_github_enable is defined and grafana.grafana_auth_github_enable %}
 template {
   left_delimiter = "[%"
   right_delimiter = "%]"
@@ -59,6 +60,27 @@ template {
   [%- with secret "{{ grafana.vault_oauth_path }}" %][% .Data.data.client_secret %][% end -%]
   EOT
   }
+{% endif %}
+
+{% if grafana.grafana_auth_generic_oauth_enable is defined and grafana.grafana_auth_generic_oauth_enable %}
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/security_generic_oauth_client_id"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_grafana_path }}" %][% .Data.data.grafana_kc_client_id %][% end -%]
+  EOT
+  }
+
+template {
+  left_delimiter = "[%"
+  right_delimiter = "%]"
+  destination = "/vault-data/security_generic_oauth_client_secret"
+  contents = <<EOT
+  [%- with secret "{{ grafana.vault_grafana_path }}" %][% .Data.data.grafana_kc_client_secret %][% end -%]
+  EOT
+  }
+{% endif %}
 
 {% if grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable %}
 template {
