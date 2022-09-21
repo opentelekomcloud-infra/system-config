@@ -1,7 +1,8 @@
 alerta_instance: "monitoring"
 alerta_instance_extra_vars: {}
 grafana_instance: "dashboard"
-grafana_instance_extra_vars: {}
+grafana_instance_extra_vars:
+  grafana_auth_generic_oauth_enable: false
 
 ssl_certs:
   web3:
