@@ -14,9 +14,10 @@
       install_ansible_openstacksdk_name: '{{ bridge_openstacksdk_name | default("openstacksdk") }}'
       install_ansible_openstacksdk_version: '{{ bridge_openstacksdk_version | default("latest") }}'
       install_ansible_collections:
+        # keep namespace opentelekomcloud till we update also playbooks
         - namespace: opentelekomcloud
           name: apimon
-          repo: opentelekomcloud/ansible-collection-apimon
+          repo: stackmon/ansible-collection-apimon
         - namespace: opentelekomcloud
           name: cloud
           repo: opentelekomcloud/ansible-collection-cloud
