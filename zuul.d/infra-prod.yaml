@@ -387,6 +387,27 @@
       - playbooks/roles/loki
 
 - job:
+    name: infra-prod-service-keycloak
+    parent: infra-prod-service-base
+    description: Deploy keycloak service
+    vars:
+      playbook_name: service-keycloak.yaml
+    files:
+      - inventory/service/group_vars/keycloak.yaml
+      - playbooks/service-keycloak.yaml
+      - playbooks/roles/keycloak
+
+- job:
+    name: infra-prod-configure-keycloak
+    parent: infra-prod-service-base
+    description: Configure keycloak service
+    vars:
+      playbook_name: configure-keycloak.yaml
+    files:
+      - playbooks/configure-keycloak.yaml
+      - playbooks/roles/configure_keycloak
+
+- job:
     name: infra-prod-service-swift-proxy
     parent: infra-prod-service-base
     description: Deploy swift proxy service-swift-proxy.yaml
