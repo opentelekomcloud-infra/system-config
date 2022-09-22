@@ -81,6 +81,16 @@
               - name: infra-prod-bootstrap-bridge
                 soft: true
 
+        - infra-prod-service-keycloak: &infra-prod-service-keycloak
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-configure-keycloak: &infra-prod-configure-keycloak
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-install-cce: &infra-prod-install-cce
             dependencies:
               - name: infra-prod-base
@@ -212,6 +222,9 @@
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
+
+        - infra-prod-service-keycloak: *infra-prod-service-keycloak
+        - infra-prod-configure-keycloak: *infra-prod-configure-keycloak
 
         - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
         - infra-prod-service-alerta: *infra-prod-service-alerta
