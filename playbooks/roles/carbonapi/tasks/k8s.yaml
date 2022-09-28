@@ -156,8 +156,8 @@
           kind: "Deployment"
           name: "{{ carbonapi_dpl_name }}"
           apiVersion: "apps/v1"
-        minReplicas: 1
-        maxReplicas: 4
+        minReplicas: 4
+        maxReplicas: 8
         metrics:
           - type: "Resource"
             resource:
