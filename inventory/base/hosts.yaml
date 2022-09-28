@@ -157,6 +157,13 @@ all:
         cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-01"
         region: "eu-de"
+    gitea2.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.150.200
+      ansible_user: automation
+      location:
+        cloud: "otc_vault_449_de_eco_infra"
+        az: "eu-de-02"
+        region: "eu-de"
     keycloak1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.90
       ansible_user: automation
