@@ -795,6 +795,8 @@ cloud_security_groups:
     <<: *vault_sg
   - cloud: "otc_vault_448_de_eco_infra"
     <<: *gitea_sg
+  - cloud: "otc_vault_449_de_eco_infra"
+    <<: *gitea_sg
   - cloud: "otc_vault_448_de_eco_infra"
     <<: *keycloak_sg
   - cloud: "otc_vault_449_nl_eco_infra"

@@ -1,0 +1,13 @@
+- hosts: "gitea:!disabled"
+  name: "Base: configure gitea"
+  become: true
+  tasks:
+  - name: Synchronize gitea data directory
+    ansible.posix.synchronize:
+      src: /var/lib/gitea/data/
+      dest: /var/lib/gitea/data/
+      mode: push
+      archive: yes
+      compress: yes
+    delegate_to: gitea1.eco.tsi-dev.otc-service.com
+    when : "inventory_hostname == 'gitea2.eco.tsi-dev.otc-service.com'"
