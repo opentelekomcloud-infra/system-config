@@ -18,6 +18,8 @@ zuul_main_vars:
     - name: "gitea"
       driver: "gitea"
       baseurl: "https://gitea.eco.tsi-dev.otc-service.com"
+    - name: "smtp"
+      driver: "smtp"
   vault_image: "vault:1.10.0"
 
 zuul_instances:
