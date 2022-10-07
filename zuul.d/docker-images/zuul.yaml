@@ -9,7 +9,7 @@
           repository: opentelekomcloud/zuul
           target: zuul
           tags:
-            &imagetag ["latest", "change_850898"]
+            &imagetag ["latest", "change_859940"]
         - context: "docker/zuul"
           repository: opentelekomcloud/zuul-executor
           target: zuul-executor
