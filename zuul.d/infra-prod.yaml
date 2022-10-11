@@ -178,6 +178,15 @@
       - playbooks/roles/gitea/
 
 - job:
+    name: infra-prod-gitea-sync
+    parent: infra-prod-service-base
+    description: Run sync-gitea-data.yaml playbook
+    vars:
+      playbook_name: sync-gitea-data.yaml
+    files:
+      - playbooks/sync-gitea-data.yaml
+
+- job:
     name: infra-prod-service-graphite
     parent: infra-prod-service-base
     description: Run service-graphite.yaml playbook.
