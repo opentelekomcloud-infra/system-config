@@ -155,6 +155,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-gitea-sync: &infra-prod-gitea-sync
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-service-grafana: &infra-prod-service-grafana
             dependencies:
               - name: infra-prod-base
@@ -250,3 +255,4 @@
         - infra-prod-bootstrap-bridge
 
         - infra-prod-service-bridge: *infra-prod-service-bridge
+        - infra-prod-gitea-sync: *infra-prod-gitea-sync
