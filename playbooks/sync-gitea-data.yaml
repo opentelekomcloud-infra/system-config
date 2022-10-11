@@ -2,6 +2,21 @@
   name: "Base: configure gitea"
   become: true
   tasks:
+  - name: Copy simple script to disable gitea sync
+    ansible.builtin.copy:
+      src: templates/gitea_sync/disable-gitea-sync
+      dest: /usr/local/bin/disable-gitea-sync
+      mode: 0755
+      owner: root
+      group: root
+    delegate_to: bridge.eco.tsi-dev.otc-service.com
+
+  - name: Check if sync is required
+    ansible.builtin.stat:
+      path: /home/zuul/DISABLE-GITEA-SYNC
+    delegate_to: bridge.eco.tsi-dev.otc-service.com
+    register: disable_gitea_sync
+
   - name: Synchronize gitea data directory
     ansible.posix.synchronize:
       src: /var/lib/gitea/data/
@@ -10,4 +25,6 @@
       archive: yes
       compress: yes
     delegate_to: gitea1.eco.tsi-dev.otc-service.com
-    when : "inventory_hostname == 'gitea2.eco.tsi-dev.otc-service.com'"
+    when:
+    - "inventory_hostname == 'gitea2.eco.tsi-dev.otc-service.com'"
+    - "not disable_gitea_sync.stat.exists"
