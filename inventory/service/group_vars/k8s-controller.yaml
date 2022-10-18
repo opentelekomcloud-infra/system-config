@@ -410,13 +410,13 @@ swift_proxy_k8s_instances:
 zookeeper_instances:
   zuul:
     autopurge_interval: 6
-    vault_image: "vault:1.10.0"
+    vault_image: "{{ vault_image_stable }}"
   zuul-infra:
     autopurge_interval: 6
-    vault_image: "vault:1.10.0"
+    vault_image: "{{ vault_image_stable }}"
   zuul-infra2:
     autopurge_interval: 6
-    vault_image: "vault:1.10.0"
+    vault_image: "{{ vault_image_stable }}"
 
 zookeeper_k8s_instances:
   - zookeeper_instance: "zuul"
