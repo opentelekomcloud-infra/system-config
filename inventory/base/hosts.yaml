@@ -122,6 +122,27 @@ all:
     storage3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.158
       ansible_user: automation
+    storage4.swift.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.80.104
+      ansible_user: automation
+      location:
+        cloud: "otc_vault_448_de_openstack_swift"
+        az: "eu-de-01"
+        region: "eu-de"
+    storage5.swift.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.80.105
+      ansible_user: automation
+      location:
+        cloud: "otc_vault_448_de_openstack_swift"
+        az: "eu-de-02"
+        region: "eu-de"
+    storage6.swift.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.80.106
+      ansible_user: automation
+      location:
+        cloud: "otc_vault_448_de_openstack_swift"
+        az: "eu-de-03"
+        region: "eu-de"
     vault1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.123
       ansible_user: automation

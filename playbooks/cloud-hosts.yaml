@@ -22,3 +22,4 @@
       when:
         - "hostvars[host].location is defined"
         - "hostvars[host]['location']['cloud'] is defined"
+        - "limit_host is defined and limit_host == host or limit_host is not defined"
