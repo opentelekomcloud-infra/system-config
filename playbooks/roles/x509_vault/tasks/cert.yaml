@@ -14,12 +14,17 @@
   register: cert_info
   when: "cert_in_vault.data is defined"
 
+- name: Make sure alt_names_str is empty - in loop with include_role this can be already set to unwanted value
+  ansible.builtin.set_fact:
+    alt_names_str: ""
+
 - name: Construct alt_names value
   ansible.builtin.set_fact:
-    alt_names: "{{ alt_names | join(',') }}"
+    alt_names_str: "{{ alt_names | join(',') }}"
   when:
     - "alt_names is defined"
     - "alt_names is iterable"
+    - "alt_names is not match('__omit')"
 
 - name: Issue certificate
   ansible.builtin.uri:
@@ -29,7 +34,7 @@
       X-Vault-Token: "{{ ansible_hashi_vault_token }}"
     body:
       common_name: "{{ common_name }}"
-      alt_names: "{{ alt_names | default(omit) }}"
+      alt_names: "{{ alt_names_str | default(omit) }}"
       private_key_format: "{{ private_key_format | default(omit) }}"
     body_format: "json"
   when: "cert_in_vault.data is not defined or not cert_info.valid_at.point_1"
