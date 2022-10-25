@@ -44,6 +44,7 @@
 
 - name: Create recon/cache directory
   ansible.builtin.file:
+    state: "directory"
     dest: "/var/cache/swift"
     owner: "root"
     group: "swift"
