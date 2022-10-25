@@ -27,7 +27,7 @@ swift_proxy_pipeline:
   - container_sync
   - bulk
   - ratelimit
-    #- authtoken
+  #  - authtoken
   - validatetoken
   - keystoneauth
   - copy
