@@ -83,6 +83,8 @@ log_statsd_metric_prefix = swift.{{ inventory_hostname.split('.', 1)[0] }}
 # Time to wait while receiving each chunk of data from a client or another
 # backend node.
 # client_timeout = 60
+# Connection timeout - 0.5 is not enough under load
+conn_timeout = 1
 #
 # network_chunk_size = 65536
 # disk_chunk_size = 65536

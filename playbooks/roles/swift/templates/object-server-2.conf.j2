@@ -7,6 +7,7 @@ log_statsd_port = 8125
 log_statsd_default_sample_rate = 1.0
 log_statsd_sample_rate_factor = 1.0
 log_statsd_metric_prefix = swift.{{ inventory_hostname.split('.', 1)[0] }}
+conn_timeout = 1
 
 [pipeline:main]
 pipeline = object-server
