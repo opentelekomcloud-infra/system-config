@@ -86,6 +86,8 @@ log_statsd_metric_prefix = swift.{{ inventory_hostname.split('.', 1)[0] }}
 # cors_expose_headers =
 #
 # client_timeout = 60
+# Increase connection timeout. 0.5 is not enough under load
+conn_timeout = 1
 # eventlet_debug = false
 #
 # You can set scheduling priority of processes. Niceness values range from -20

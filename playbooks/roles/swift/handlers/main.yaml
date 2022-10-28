@@ -3,8 +3,10 @@
   ansible.builtin.service:
     name: "rsync"
     state: "restarted"
+    enabled: true
 
 - name: Restart rsyslog
   ansible.builtin.service:
     name: "rsyslog"
     state: "restarted"
+    enabled: true

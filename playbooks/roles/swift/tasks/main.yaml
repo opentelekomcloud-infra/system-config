@@ -1,15 +1,15 @@
 ---
-#- name: Install system packages
-#  ansible.builtin.package:
-#    name: "{{ item }}"
-#    state: "present"
-#  loop: "{{ packages }}"
-#
-#- name: Install additional python packages using pip
-#  ansible.builtin.pip:
-#    name: "{{ item }}"
-#    virtualenv: "/usr/local/swift"
-#  loop: "{{ python_packages }}"
+- name: Install system packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: "present"
+  loop: "{{ packages }}"
+
+- name: Install additional python packages using pip
+  ansible.builtin.pip:
+    name: "{{ item }}"
+    virtualenv: "/usr/local/swift"
+  loop: "{{ python_packages }}"
 
 - name: Create swift group
   ansible.builtin.group:
@@ -54,6 +54,8 @@
   ansible.builtin.file:
     dest: "{{ item.dest }}"
     state: "directory"
+    group: "swift"
+    owner: "swift"
   loop:
     - dest: "/etc/swift/account-server"
     - dest: "/etc/swift/container-server"
@@ -90,6 +92,8 @@
     - src: "object-server-2.conf.j2"
       dest: "/etc/swift/object-server/2.conf"
       repl: true
+    - src: "internal-client.conf.j2"
+      dest: "/etc/swift/internal-client.conf"
   when: "item.repl is not defined or (item.repl and swift_replication_ip is defined)"
 
 - name: Write swift rsyslog conf
