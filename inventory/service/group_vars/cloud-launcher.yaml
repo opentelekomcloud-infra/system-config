@@ -943,12 +943,12 @@ cloud_load_balancers:
           lb_algorithm: "round_robin"
           protocol: "tcp"
       members:
-        - name: "proxy1.dashboard.tsi-dev.otc-service.com"
+        - name: "proxy1.eco.tsi-dev.otc-service.com"
           address: "192.168.110.160"
           pool: "pool-8200"
           subnet: "dashboard-default-subnet"
           protocol_port: 8200
-        - name: "proxy2.dashboard.tsi-dev.otc-service.com"
+        - name: "proxy2.eco.tsi-dev.otc-service.com"
           address: "192.168.110.151"
           pool: "pool-8200"
           subnet: "dashboard-default-subnet"
