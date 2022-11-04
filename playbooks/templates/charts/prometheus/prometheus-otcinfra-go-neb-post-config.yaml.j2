@@ -1,0 +1,84 @@
+apiVersion: v1
+stringData:
+  config.yaml: |
+    clients:
+      - UserID: "{{ chart.go_neb_user_id }}"
+        AccessToken: "{{ chart.go_neb_access_token }}"
+        HomeserverURL: "https://matrix.org"
+        Sync: true
+        AutoJoinRooms: true
+        DisplayName: "OpenTelekomCloud Bot"
+    services:
+       - ID: "alertmanager_service"
+         Type: "alertmanager"
+         UserID: "{{ chart.go_neb_user_id }}"
+         Config:
+          webhook_url: "/alertmanager_service"
+          rooms:
+            "{{ chart.go_neb_room_id }}":
+{% raw %}
+              text_template: "{{range .Alerts -}} [{{ .Status }}] {{index .Labels \"alertname\" }}: {{index .Annotations \"description\"}} {{ end -}}"
+              html_template: "{{range .Alerts -}}  {{ $severity := index .Labels \"severity\" }}    {{ if eq .Status \"firing\" }}      {{ if eq $severity \"critical\"}}        <font color='red'><b>[FIRING - CRITICAL]</b></font>      {{ else if eq $severity \"warning\"}}        <font color='orange'><b>[FIRING - WARNING]</b></font>      {{ else }}        <b>[FIRING - {{ $severity }}]</b>      {{ end }}    {{ else }}      <font color='green'><b>[RESOLVED]</b></font>    {{ end }}  {{ index .Labels \"alertname\"}} : {{ index .Annotations \"description\"}}   <a href=\"{{ .GeneratorURL }}\">source</a><br/>{{end -}}"
+              msg_type: "m.text"  # Must be either `m.text` or `m.notice`
+{% endraw %}
+kind: Secret
+type: Opaque
+metadata:
+  creationTimestamp: null
+  name: go-neb
+  namespace: monitoring
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: go-neb
+  name: go-neb
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: go-neb
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: go-neb
+    spec:
+      containers:
+      - image: "{{ chart.go_neb_image }}"
+        name: go-neb
+        resources: {}
+        env:
+        - name: "BASE_URL"
+          value: "http://go-neb.monitoring.svc:4050"
+        - name: "CONFIG_FILE"
+          value: "/etc/config/go-neb/config.yaml"
+        volumeMounts:
+          - name: config-volume
+            mountPath: /etc/config/go-neb/
+      volumes:
+        - name: config-volume
+          secret:
+            secretName: go-neb
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: go-neb
+  name: go-neb
+  namespace: monitoring
+spec:
+  ports:
+  - name: 4050-4050
+    port: 4050
+    protocol: TCP
+    targetPort: 4050
+  selector:
+    app: go-neb
+  type: ClusterIP
