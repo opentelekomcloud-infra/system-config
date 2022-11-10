@@ -1,0 +1,20 @@
+# vault-custom jobs
+- job:
+    name: system-config-build-image-vault-custom
+    description: Build a vault-custom image with kubectl included
+    parent: system-config-build-image
+    vars: &vault-custom_vars
+      docker_images:
+        - context: docker/vault-custom
+          repository: opentelekomcloud/vault-custom
+          tags: ['latest']
+    files: &vault-custom_files
+      - docker/vault-custom/
+
+- job:
+    name: system-config-upload-image-vault-custom
+    description: Build and upload vault-custom image with kubectl included
+    parent: system-config-upload-image
+    vars: *vault-custom_files
+    files: *vault-custom_files
+
