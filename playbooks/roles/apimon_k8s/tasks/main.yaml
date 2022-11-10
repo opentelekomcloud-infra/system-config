@@ -1,5 +1,5 @@
 - name: Create {{ instance }} ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -19,7 +19,7 @@
         logging.conf: "{{ lookup('template', 'templates/apimon/logging.conf.j2') }}"
 
 - name: Create {{ instance }} Secrets
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -43,7 +43,7 @@
       secret_name: "apimon-secure-{{ instance }}"
 
 - name: Create {{ instance }} CR
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

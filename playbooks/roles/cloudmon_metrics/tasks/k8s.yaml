@@ -1,5 +1,5 @@
 - name: Create {{ instance }} Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     name: "{{ namespace }}"
@@ -7,7 +7,7 @@
     kind: "Namespace"
 
 - name: Manage CloudMon ServiceAccount
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -17,7 +17,7 @@
     apply: "yes"
 
 - name: Create CloudMon Metrics {{ instance }} ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -43,7 +43,7 @@
         }}"
 
 - name: Start CloudMon Metrics {{ instance }} deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -52,7 +52,7 @@
     definition: "{{ lookup('template', 'cloudmon-metrics-deployment.yaml.j2') | from_yaml }}"
 
 - name: Create CloudMon Metrics {{ instance }} Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -80,7 +80,7 @@
         type: "ClusterIP"
 
 - name: Create CloudMon Metrics {{ instance }} Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

@@ -2,7 +2,7 @@
 # Manage x509 certificats required for Opensearch 
 # The Opensearch deployment is managed with Helm chart
 - name: Create {{ instance }} Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     name: "{{ namespace }}"
@@ -10,7 +10,7 @@
     kind: "Namespace"
 
 - name: Create {{ instance }} Opensearch TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -30,7 +30,7 @@
   when: "opensearch.opensearch_cert is defined"
 
 - name: Create {{ instance }} Opensearch-dashboard TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -99,7 +99,7 @@
     mode: "0444"
 
 - name: Create {{ instance }} Opensearch node TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -119,7 +119,7 @@
   when: "opensearch.opensearch_node_fqdn is defined"
 
 - name: Create {{ instance }} Opensearch admin TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -139,7 +139,7 @@
   when: "opensearch.opensearch_admin_fqdn is defined"
 
 - name: Create {{ instance }} Opensearch security config config.yml secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"

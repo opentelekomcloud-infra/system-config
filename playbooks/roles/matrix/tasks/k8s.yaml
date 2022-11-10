@@ -1,6 +1,6 @@
 ---
 - name: Create matrix Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -8,7 +8,7 @@
     kind: "Namespace"
 
 - name: Create matrix ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -27,7 +27,7 @@
         log.config: "{{ lookup('template', 'log.config.j2') }}"
 
 - name: Create matrix TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -46,7 +46,7 @@
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ matrix.matrix_cert }}.pem') | string | b64encode }}"
 
 - name: Create matrix Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -72,7 +72,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Create matrix StatefulSet
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -146,7 +146,7 @@
               volumeMode: "Filesystem"
 
 - name: Create matrix Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

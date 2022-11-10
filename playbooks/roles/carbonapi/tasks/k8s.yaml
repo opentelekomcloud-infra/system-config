@@ -1,6 +1,6 @@
 ---
 - name: Create carbonapi Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -8,7 +8,7 @@
     kind: "Namespace"
 
 - name: Create carbonapi ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -25,7 +25,7 @@
         carbonapi.yaml: "{{ lookup('template', 'carbonapi.yaml.j2') }}"
 
 - name: Create carbonapi TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -43,7 +43,7 @@
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ carbonapi.carbonapi_cert }}.pem') | string | b64encode }}"
 
 - name: Create carbonapi Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -69,7 +69,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Create carbonapi Deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -142,7 +142,7 @@
                     topologyKey: kubernetes.io/hostname
 
 - name: Create carbonapi Autoscaler
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -167,7 +167,7 @@
                 averageUtilization: 70
 
 - name: Create carbonapi Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

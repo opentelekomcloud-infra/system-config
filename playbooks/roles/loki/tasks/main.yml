@@ -2,7 +2,7 @@
 # basic auth ingress using TLS
 # The Loki deployment is managed with Helm chart
 - name: Create {{ instance }} Secrets
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -13,7 +13,7 @@
     definition: "{{ lookup('template', 'loki-basic-auth-secret.yaml.j2') | from_yaml }}"
 
 - name: Create {{ instance }} TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -33,7 +33,7 @@
   when: "loki.loki_cert is defined"
 
 - name: Start {{ instance }} Loki ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
