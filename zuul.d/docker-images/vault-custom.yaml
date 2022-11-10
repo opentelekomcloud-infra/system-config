@@ -15,6 +15,5 @@
     name: system-config-upload-image-vault-custom
     description: Build and upload vault-custom image with kubectl included
     parent: system-config-upload-image
-    vars: *vault-custom_files
+    vars: *vault-custom_vars
     files: *vault-custom_files
-
