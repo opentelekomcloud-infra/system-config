@@ -1,6 +1,6 @@
 ---
 - name: Create Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     name: "{{ namespace }}"
@@ -8,7 +8,7 @@
     kind: "Namespace"
 
 - name: Create swift-proxy {{ instance }} Secrets Config
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -27,7 +27,7 @@
   tags: ["config"]
 
 - name: Create swift-proxy {{ instance }} TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -47,7 +47,7 @@
   when: "sp.cert is defined"
 
 - name: Create swift-proxy {{ instance }} Deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -110,7 +110,7 @@
                     topologyKey: kubernetes.io/hostname
 
 - name: Create swift-proxy {{ instance }} Autoscaler
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -141,7 +141,7 @@
                 averageUtilization: 70
 
 - name: Create swift-proxy {{ instance }} Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -167,7 +167,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Create swift-proxy Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"

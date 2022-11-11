@@ -1,6 +1,6 @@
 ---
 - name: Create {{ instance }} Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     name: "{{ namespace }}"
@@ -8,7 +8,7 @@
     kind: "Namespace"
 
 - name: Create {{ instance }} ServiceAccount
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -18,7 +18,7 @@
     apply: "yes"
 
 - name: Create {{ instance }} SA binding
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -36,7 +36,7 @@
         apiGroup: "rbac.authorization.k8s.io"
 
 - name: Create {{ instance }} ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -56,7 +56,7 @@
         vault-agent-config.hcl: "{{ lookup('template', 'vault-agent-config.hcl.j2') }}"
 
 - name: Create {{ instance }} TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -76,7 +76,7 @@
   when: "alerta.alerta_cert is defined"
 
 - name: Start {{ instance }} Alerta deployment 
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -85,7 +85,7 @@
     definition: "{{ lookup('template', 'alerta-deployment.yaml.j2') | from_yaml }}"
 
 - name: Expose {{ instance }} Alerta deployment with service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -94,7 +94,7 @@
     definition: "{{ lookup('template', 'alerta-service.yaml.j2') | from_yaml }}"
 
 - name: Start {{ instance }} Alerta ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"

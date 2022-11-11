@@ -5,7 +5,7 @@
     graphite_cluster_memcache_host: "{{ (graphite.memcache_host|default([])) | join(', ') }}"
 
 - name: Create Graphite Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -13,7 +13,7 @@
     kind: "Namespace"
 
 - name: Create default Graphite Web ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -30,7 +30,7 @@
         graphite-statsd.conf: "{{ lookup('template', 'graphite-statsd.conf.j2') }}"
 
 - name: Create Graphite TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -48,7 +48,7 @@
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ graphite.graphite_cert }}.pem') | string | b64encode }}"
 
 - name: Create graphite-web Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -79,7 +79,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Create graphite-web Deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -164,7 +164,7 @@
                   defaultMode: 420
 
 - name: Create graphite-web Autoscaler
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -189,7 +189,7 @@
                 averageUtilization: 70
 
 - name: Create Graphite Web Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

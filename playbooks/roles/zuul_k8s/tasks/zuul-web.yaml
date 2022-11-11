@@ -1,5 +1,5 @@
 - name: Create Zuul Web SS
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -10,7 +10,7 @@
     definition: "{{ lookup('template', 'zuul-web-dpl.yaml.j2') | from_yaml }}"
 
 - name: Create Zuul Web Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -38,7 +38,7 @@
         type: "ClusterIP"
 
 - name: Create Zuul Web Ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -71,7 +71,7 @@
                     servicePort: 80
 
 - name: Create Zuul Web Autoscaler
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

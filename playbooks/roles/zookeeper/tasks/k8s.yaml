@@ -42,7 +42,7 @@
   when: "server_cert_in_vault.data is defined"
 
 - name: Create {{ namespace }} Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -50,7 +50,7 @@
     kind: "Namespace"
 
 - name: Manage Zookeeper ServiceAccount
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -60,7 +60,7 @@
     apply: "yes"
 
 - name: Manage Zookeeper ServiceAccount RoleBinding
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -79,14 +79,14 @@
         namespace: "{{ namespace }}"
 
 - name: Manage configuration
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     apply: "yes"
     definition: "{{ lookup('template', 'k8s_config.yaml.j2') | from_yaml }}"
 
 - name: Manage headless service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: present
     name: "{{ zookeeper_headless_svc_name }}"
@@ -118,7 +118,7 @@
             protocol: TCP
 
 - name: Manage public service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: present
     name: "zookeeper"
@@ -139,7 +139,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Manage PodDisruptionBudget
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: present
     name: "zookeeper-pdb"
@@ -161,7 +161,7 @@
   when: "zookeeper.vault_image is defined"
 
 - name: Manage StatefulSet
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "zookeeper"

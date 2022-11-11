@@ -1,6 +1,6 @@
 ---
 - name: Create maubot Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -8,7 +8,7 @@
     kind: "Namespace"
 
 - name: Create maubot ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -25,7 +25,7 @@
         config.yaml: "{{ lookup('template', 'config.yaml.j2') }}"
 
 - name: Create maubot Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -51,7 +51,7 @@
           app.kubernetes.io/instance: "{{ instance }}"
 
 - name: Create maubot StatefulSet
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -111,7 +111,7 @@
               volumeMode: "Filesystem"
 
 # - name: Create maubot Ingress
-#   community.kubernetes.k8s:
+#   kubernetes.core.k8s:
 #     context: "{{ context }}"
 #     state: "present"
 #     namespace: "{{ namespace }}"
