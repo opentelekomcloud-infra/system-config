@@ -30,6 +30,7 @@
         - system-config-build-image-graphite-statsd
         - system-config-build-image-haproxy-statsd
         - system-config-build-image-zuul
+        - system-config-build-image-vault
     gate:
       jobs:
         - otc-tox-linters
@@ -53,6 +54,7 @@
         - system-config-upload-image-graphite-statsd
         - system-config-upload-image-haproxy-statsd
         - system-config-upload-image-zuul
+        - system-config-upload-image-vault
     deploy:
       jobs:
         # This installs the ansible on bridge that all the infra-prod
