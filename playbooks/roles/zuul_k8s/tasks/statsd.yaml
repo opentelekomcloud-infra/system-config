@@ -1,6 +1,6 @@
 ---
 - name: Create Statsd config
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -19,7 +19,7 @@
   tags: ["config"]
 
 - name: Create Statsd Service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -47,7 +47,7 @@
         type: "ClusterIP"
 
 - name: Create Zuul StatsD SS
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

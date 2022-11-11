@@ -5,7 +5,7 @@
 # - zuul-scheduler (tenant file)
 #
 - name: Create zuul-config PVC
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -29,7 +29,7 @@
             storage: 1Gi
 
 - name: Create zuul-config fetcher StatefulSet
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

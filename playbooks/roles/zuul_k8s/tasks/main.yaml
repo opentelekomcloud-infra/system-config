@@ -39,7 +39,7 @@
   tags: ["config"]
 
 - name: Create Zull Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "{{ namespace }}"
@@ -65,7 +65,7 @@
   tags: ["config"]
 
 - name: Manage Zuul ServiceAccount
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -75,7 +75,7 @@
     apply: "yes"
 
 - name: Create Zull SA binding
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -94,7 +94,7 @@
         apiGroup: ""
 
 - name: Create Zuul tokenreview ServiceAccount RoleBinding
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -113,7 +113,7 @@
         namespace: "{{ namespace }}"
 
 - name: Create vault-agent-config
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     name: "vault-agent-config-{{ instance }}"

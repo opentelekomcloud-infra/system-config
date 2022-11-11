@@ -1,5 +1,5 @@
 - name: Create Zuul Merger Deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -10,7 +10,7 @@
     definition: "{{ lookup('template', 'zuul-merger-ss.yaml.j2') | from_yaml }}"
 
 - name: Create Zuul Merger Autoscaler
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"

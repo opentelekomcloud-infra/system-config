@@ -1,5 +1,5 @@
 - name: Create {{ instance }} Namespace
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     name: "{{ namespace }}"
@@ -7,7 +7,7 @@
     kind: "Namespace"
 
 - name: Create {{ instance }} ServiceAccount
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -17,7 +17,7 @@
     apply: "yes"
 
 - name: Create {{ instance }} SA binding
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -41,7 +41,7 @@
     - (grafana.grafana_ldap_enable is defined and grafana.grafana_ldap_enable)
 
 - name: Create {{ instance }} ConfigMap
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -60,7 +60,7 @@
         vault-agent-config.hcl: "{{ lookup('template', 'vault-agent-config.hcl.j2') }}"
 
 - name: Create {{ instance }} Secrets
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -71,7 +71,7 @@
     definition: "{{ lookup('template', 'grafana-secret.yaml.j2') | from_yaml }}"
 
 - name: Create {{ instance }} TLS Certs Secret
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "present"
     namespace: "{{ namespace }}"
@@ -91,7 +91,7 @@
   when: "grafana.grafana_cert is defined"
 
 - name: Start {{ instance }} Grafana deployment
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -100,7 +100,7 @@
     definition: "{{ lookup('template', 'grafana-deployment.yaml.j2') | from_yaml }}"
 
 - name: Expose {{ instance }} Grafana deployment with service
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
@@ -109,7 +109,7 @@
     definition: "{{ lookup('template', 'grafana-service.yaml.j2') | from_yaml }}"
 
 - name: Start {{ instance }} Grafana ingress
-  community.kubernetes.k8s:
+  kubernetes.core.k8s:
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
