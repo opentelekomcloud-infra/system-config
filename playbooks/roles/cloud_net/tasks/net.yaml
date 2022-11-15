@@ -6,7 +6,7 @@
     state: "{{ state }}"
   register: "cloud_net_network"
 
-- include: "subnet.yaml"
+- include_tasks: "subnet.yaml"
   loop: "{{ network.subnets }}"
   loop_control:
     loop_var: "subnet"

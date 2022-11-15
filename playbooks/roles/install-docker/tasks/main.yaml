@@ -5,11 +5,11 @@
     path: /etc/docker
 
 - name: Install docker-ce from upstream
-  include: upstream.yaml
+  include_tasks: upstream.yaml
   when: use_upstream_docker|bool
 
 - name: Install docker-engine from distro
-  include: distro.yaml
+  include_tasks: distro.yaml
   when: not use_upstream_docker|bool
 
 - name: reset ssh connection to pick up docker group
