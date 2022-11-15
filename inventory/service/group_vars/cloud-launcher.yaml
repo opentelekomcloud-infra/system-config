@@ -1057,7 +1057,7 @@ cloud_cce:
         az: "eu-de-03"
         os: "CentOS 7.7"
   - cloud: "otc_vault_448_de_zuul"
-    name: "zuul"
+    name: "zuul-ci"
     flavor: "cce.s2.small"
     router: "ci"
     network: "ci-net"
