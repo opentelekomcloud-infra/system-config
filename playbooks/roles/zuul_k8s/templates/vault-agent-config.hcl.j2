@@ -66,5 +66,8 @@ EOT
 {% if tmpl.command is defined %}
   command = "{{ tmpl.command }}"
 {% endif %}
+{% if tmpl.exec is defined %}
+  exec = {{ tmpl.exec }}
+{% endif %}
 }
 {% endfor %}
