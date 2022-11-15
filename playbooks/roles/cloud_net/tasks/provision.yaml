@@ -1,6 +1,6 @@
 ---
 # Create
-- include: "net.yaml"
+- include_tasks: "net.yaml"
   loop: "{{ net.nets }}"
   loop_control:
     loop_var: "network"

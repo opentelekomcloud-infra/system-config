@@ -12,10 +12,10 @@
   register: "cloud_token"
   when: "clouds[cloud].vault_path is defined"
 
-- include: "provision.yaml"
+- include_tasks: "provision.yaml"
   when: "state != 'absent'"
 
-- include: "destroy.yaml"
+- include_tasks: "destroy.yaml"
   when: "state == 'absent'"
 
 - name: "Revoke lease in vault and delete user from cloud"
