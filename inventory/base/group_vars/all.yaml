@@ -58,6 +58,12 @@ all_users:
     uid: 2002
     gid: 2002
 
+  enrrou:
+    comment: Vladimir Vshivkov
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF0YWXjTSh8DOgVH8nZPEP+9ZaTvRP3TF4qTUxZ7knHM1H6Rx0IROHa60l19J4+X7Cmu7dsNtSVslXAAVCEO5Wcrm5cU8IbczBPQKoGYpAvGaYqneuzl9Yp8MH3HpPs6nJ1REA3lwB1TcmuyDJklb2sG86Iug4+D3EnovMnzrv+75ypuEOTMxQzj2h7f3twSKX5DFulrKsHW0+HWRhTXMD/k/HnJrXsbm/H9KAg+916zbykUitggRl1pznlUzjD5zm1cvg6bO0mnb8dE9KoE28cXJacMOV/8/KKIpL0EU4WAIcRKmjZ3k/gNSrl6ONvP2OxyeESyjN0BSobspsu71V enrrou@MacBookProEnrrou.local
+    uid: 2003
+    gid: 2003
+
   zuul:
     comment: Zuul CICD
     key: |
@@ -74,6 +80,7 @@ base_users:
   - gtema
   - kucerakk
   - vhasko
+  - enrrou
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
