@@ -1,0 +1,117 @@
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-type: basic
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.alertmanager_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.alertmanager_fqdn }}"
+        secretName: alertmanager-mon
+  alertamanagerSpec:
+    externalUrl: "https://{{ chart.alertmanager_fqdn }}"
+  config:
+    route:
+      routes:
+        - receiver: 'null'
+          matchers:
+            - alertname =~ "InfoInhibitor|Watchdog"
+        - receiver: "matrix-webhook"
+          matchers:
+            - severity =~ "critical|warning"
+          continue: true
+    receivers:
+    - name: 'null'
+    - name: "matrix-webhook"
+      webhook_configs:
+      - url: "{{ chart.matrix_webhook_url }}"
+        send_resolved: true
+prometheus:
+  extraSecret:
+    name: basic-auth
+    data:
+      auth: "{{ chart.prometheus_basic_auth_credentials }}" 
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-type: basic
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.prometheus_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.prometheus_fqdn }}"
+        secretName: prometheus-mon
+  prometheusSpec:
+    externalUrl: "https://{{ chart.prometheus_fqdn }}"
+    retention: "7d"
+    additionalScrapeConfigs:
+    - job_name: blackbox
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      static_configs:
+        - targets: {{ chart.prometheus_endpoints_2xx }}
+      relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: prometheus-blackbox-exporter:9115
+additionalPrometheusRulesMap:
+  endpoint-mon:
+    groups:
+    - name: critical-rules
+      rules:
+      - alert: ProbeFailing
+        expr: up{job="blackbox"} == 0 or probe_success{job="blackbox"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Endpoint Down
+          description: "Endpoint is Down\n {{ '{{ $labels.instance }}' }}"
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.grafana_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.grafana_fqdn }}"
+        secretName: grafana-mon
+  adminPassword: "{{ chart.grafana_admin_password }}"
+defaultRules:
+  rules:
+    kubeScheduler: false
+    kubeProxy: false
+    kubeControllerManager: false
+    etcd: false
+kubeScheduler:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeProxy:
+  enabled: false
+coreDns:
+  enabled: false
