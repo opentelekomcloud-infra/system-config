@@ -194,7 +194,7 @@
     state: "present"
     namespace: "{{ namespace }}"
     name: "graphite-web-{{ instance }}"
-    api_version: "networking.k8s.io/v1beta1"
+    api_version: "networking.k8s.io/v1"
     kind: "Ingress"
     apply: "yes"
     definition:
@@ -212,7 +212,10 @@
           - host: "{{ graphite.domain_name }}"
             http:
               paths:
-                - path: "/"
-                  backend:
-                    serviceName: "graphite-web-{{ instance }}"
-                    servicePort: 80
+              - backend:
+                  service:
+                    name: "graphite-web-{{ instance }}"
+                    port:
+                      number: 80
+                path: "/"
+                pathType: "Prefix"
