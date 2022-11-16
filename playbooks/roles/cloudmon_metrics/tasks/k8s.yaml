@@ -85,7 +85,7 @@
     state: "present"
     namespace: "{{ namespace }}"
     name: "cloudmon-metrics-{{ instance }}"
-    api_version: "networking.k8s.io/v1beta1"
+    api_version: "networking.k8s.io/v1"
     kind: "Ingress"
     apply: "yes"
     definition:
@@ -107,7 +107,10 @@
           - host: "{{ cloudmon.fqdn }}"
             http:
               paths:
-                - path: "/"
-                  backend:
-                    serviceName: "cloudmon-metrics-{{ instance }}"
-                    servicePort: 3005
+              - backend:
+                  service:
+                    name: "cloudmon-metrics-{{ instance }}"
+                    port:
+                      number: 3005
+                path: "/"
+                pathType: "Prefix"
