@@ -76,8 +76,8 @@ promtail_image_stable: quay.io/opentelekomcloud/promtail:2.4.1
 promtail_image_latest: quay.io/opentelekomcloud/promtail:2.4.1
 graphite_image_stable: quay.io/opentelekomcloud/graphite-statsd:latest
 graphite_image_latest: quay.io/opentelekomcloud/graphite-statsd:latest
-grafana_image_stable: quay.io/opentelekomcloud/grafana:9.2.2
-grafana_image_latest: quay.io/opentelekomcloud/grafana:9.2.2
+grafana_image_stable: quay.io/opentelekomcloud/grafana:9.2.5
+grafana_image_latest: quay.io/opentelekomcloud/grafana:9.2.5
 grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.6.1
 grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.6.1
 apimon_image_stable: quay.io/opentelekomcloud/apimon:change_35_latest
