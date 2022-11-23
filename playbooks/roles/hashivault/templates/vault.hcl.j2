@@ -10,7 +10,11 @@ plugin_directory = "{{ vault_plugin_path }}"
 
 storage "raft" {
   path = "{{ vault_storage_path }}"
+{% if vault_node_id is defined %}
+  node_id = "{{ vault_node_id }}"
+{% else %}
   node_id = "vault{{ vault_id | default((inventory_hostname | regex_replace('vault(\\d+)\..*$', '\\1')| int )) }}"
+{% endif %}
 # TODO: autojoin
 }
 
