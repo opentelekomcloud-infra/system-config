@@ -21,4 +21,4 @@ results:
     - matrix
     - vault-controller
     - keycloak-controller
-    # - vault  # This is temporary
+    - vault

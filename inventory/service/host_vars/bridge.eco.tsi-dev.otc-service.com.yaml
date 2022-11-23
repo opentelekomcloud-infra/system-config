@@ -59,3 +59,6 @@ firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']
 
 # fallback to older version due to incompatibilities with ansible collection
 bridge_openstacksdk_version: '0.61.0'
+
+# vault node_id
+vault_node_id: "node1"
