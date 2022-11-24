@@ -73,6 +73,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-service-audit: &infra-prod-service-audit
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -220,6 +225,7 @@
         - infra-prod-bootstrap-bridge
 
         - infra-prod-base: *infra-prod-base
+        - infra-prod-service-audit: *infra-prod-service-audit
         - infra-prod-service-bridge: *infra-prod-service-bridge
 
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer

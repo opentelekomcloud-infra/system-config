@@ -1,0 +1,5 @@
+- hosts: "!disabled"
+  name: "Configure audit on hosts"
+  become: true
+  roles:
+    - base/audit
