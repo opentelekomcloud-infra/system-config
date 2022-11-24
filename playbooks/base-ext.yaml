@@ -1,5 +1,5 @@
 - hosts: "!disabled"
-  name: "Configure audit on hosts"
+  name: "Configure base setup for all hosts - ext"
   become: true
   roles:
     - base/audit

@@ -85,14 +85,14 @@
       - inventory/service/group_vars/zuul.yaml
 
 - job:
-    name: infra-prod-service-audit
+    name: infra-prod-base-ext
     parent: infra-prod-service-base
-    description: Run service-audit.yaml playbook.
+    description: Run base-ext.yaml playbook.
     vars:
-      playbook_name: service-audit.yaml
+      playbook_name: base-ext.yaml
     files:
       - inventory/
-      - playbooks/service-audit.yaml
+      - playbooks/base-ext.yaml
       - playbooks/roles/base/audit/
 
 - job:

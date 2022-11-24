@@ -68,12 +68,12 @@
               - name: infra-prod-bootstrap-bridge
                 soft: true
 
-        - infra-prod-service-bridge: &infra-prod-service-bridge
+        - infra-prod-base-ext: &infra-prod-base-ext
             dependencies:
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-audit: &infra-prod-service-audit
+        - infra-prod-service-bridge: &infra-prod-service-bridge
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -225,7 +225,7 @@
         - infra-prod-bootstrap-bridge
 
         - infra-prod-base: *infra-prod-base
-        - infra-prod-service-audit: *infra-prod-service-audit
+        - infra-prod-base-ext: *infra-prod-base-ext
         - infra-prod-service-bridge: *infra-prod-service-bridge
 
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
