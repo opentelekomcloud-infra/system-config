@@ -6,7 +6,6 @@
     - block:
         - include_role: name=base/repos
         - include_role: name=base/server
-        - include_role: name=base/audit
         - include_role: name=base/timezone
         - include_role: name=base/unbound
         - include_role: name=firewalld
