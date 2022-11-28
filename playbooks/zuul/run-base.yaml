@@ -4,7 +4,7 @@
     ansible_cron_disable_job: true
     cloud_launcher_disable_job: true
 
-- hosts: bridge.eco.tsi-dev.otc-service.com
+- hosts: prod_bastion[0]
   become: true
   tasks:
     - name: Write inventory on bridge
@@ -115,7 +115,7 @@
           zuul:
             artifacts:
               - name: Screenshots
-                url: "bridge.eco.tsi-dev.otc-service.com/screenshots"
+                url: "{{ groups['prod_bastion'][0] }}/screenshots"
 
     - name: Allow PBR's git calls to operate in system-config, despite not owning it
       command: git config --global safe.directory /home/zuul/src/github.com/opentelekomcloud-infra/system-config
@@ -139,4 +139,4 @@
               zuul:
                 artifacts:
                   - name: testinfra results
-                    url: "bridge.eco.tsi-dev.otc-service.com/test-results.html"
+                    url: "{{ groups['prod_bastion'][0] }}/test-results.html"
