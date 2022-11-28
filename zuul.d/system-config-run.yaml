@@ -19,7 +19,7 @@
         '/var/log/containers': logs
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-cloud
-        override-checkout: master
+        override-checkout: main
       - name: github.com/stackmon/ansible-collection-apimon
         override-checkout: main
       - name: github.com/opentelekomcloud/ansible-collection-gitcontrol
