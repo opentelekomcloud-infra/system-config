@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   roles:
     - add-bastion-host
@@ -20,18 +21,18 @@
             owner: zuul
             group: zuul
             mode: '0644'
-            remote_src: yes
-          become: yes
+            remote_src: true
+          become: true
 
-#        - name: Encrypt logs
-#          include_role:
-#            name: encrypt-logs
-#          vars:
-#            encrypt_logs_files:
-#              - '{{ _encrypt_tempdir.path }}/{{ playbook_name }}.log'
-#            # Artifact URL should just point to root directory, so blank
-#            encrypt_logs_artifact_path: ''
-#            encrypt_logs_download_script_path: '{{ _encrypt_tempdir.path }}'
+        - name: Encrypt logs
+          include_role:
+            name: encrypt-logs
+          vars:
+            encrypt_logs_files:
+              - '{{ _encrypt_tempdir.path }}/{{ playbook_name }}.log'
+            # Artifact URL should just point to root directory, so blank
+            encrypt_logs_artifact_path: ''
+            encrypt_logs_download_script_path: '{{ _encrypt_tempdir.path }}'
 
         - name: Return logs
           ansible.posix.synchronize:
@@ -45,11 +46,11 @@
 
       always:
 
-#        - name: Remove temporary staging
-#          file:
-#            path: '{{ _encrypt_tempdir.path }}'
-#            state: absent
-#          when: _encrypt_tempdir is defined
+        - name: Remove temporary staging
+          file:
+            path: '{{ _encrypt_tempdir.path }}'
+            state: absent
+          when: _encrypt_tempdir is defined
 
     # Not using normal zuul job roles as the bastion host is not a
     # test node with all the normal bits in place.
@@ -106,6 +107,6 @@
 
     - name: Cleanup old playbook logs on bridge
       when: not infra_prod_playbook_collect_log
-      become: yes
+      become: true
       ansible.builtin.shell: |
         find /var/log/ansible -name '{{ playbook_name }}.log.*' -type f -mtime +30 -delete
