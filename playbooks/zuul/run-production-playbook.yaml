@@ -1,67 +1,24 @@
-# Re-adding host to inventory is required since Zuul runs with ephemeral
-# inventory and do not really contain bridge in this playbook inventory.
+---
 - hosts: localhost
-  tasks:
-    - name: Add bridge to inventory
-      add_host:
-        name: bridge01.eco.tsi-dev.otc-service.com
-        ansible_python_interpreter: python3
-        ansible_user: zuul
-        ansible_host: bridge01.eco.tsi-dev.otc-service.com
-        ansible_port: 22
+  roles:
+    - add-bastion-host
 
 - hosts: prod_bastion[0]
   tasks:
     - name: Run the production playbook and capture logs
       block:
+        - name: Get a current timestamp
+          ansible.builtin.set_fact:
+            _log_timestamp: "{{ lookup('pipe', 'date +%Y-%m-%dT%H:%M:%S') }}"
 
-      - name: Construct execution command
-        set_fact:
-          ansible_command: "ansible-playbook -v -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/{{ playbook_name }} -e '{{ ((extra_job_vars | default({}))) | to_json }}'"
+        - name: Construct execution command
+          ansible.builtin.set_fact:
+            ansible_command: "ansible-playbook -v -f {{ infra_prod_ansible_forks }} /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks/{{ playbook_name }} -e '{{ ((extra_job_vars | default({}))) | to_json }}'"
 
-      - name: Log a playbook start header
-        become: yes
-        shell: 'echo "Running {{ ansible_date_time.iso8601 }}: {{ ansible_command }}" > /var/log/ansible/{{ playbook_name }}.log'
+        - name: Log a playbook start header
+          become: true
+          ansible.builtin.shell: 'echo "Running {{ _log_timestamp }}: {{ ansible_command }}" > /var/log/ansible/{{ playbook_name }}.log'
 
-      - name: Run specified playbook on bridge and redirect output
-        become: yes
-        shell: "{{ ansible_command }} >> /var/log/ansible/{{ playbook_name }}.log"
-
-      always:
-
-        # Not using normal zuul job roles as bridge.eco.tsi-dev.otc-service.com is not a
-        # test node with all the normal bits in place.
-        - name: Collect log output
-          synchronize:
-            dest: "{{ zuul.executor.log_root }}/{{ playbook_name }}.log"
-            mode: pull
-            src: "/var/log/ansible/{{ playbook_name }}.log"
-            verify_host: true
-          when: infra_prod_playbook_collect_log
-
-        - name: Return playbook log artifact to Zuul
-          when: infra_prod_playbook_collect_log
-          zuul_return:
-            data:
-              zuul:
-                artifacts:
-                  - name: "Playbook Log"
-                    url: "{{ playbook_name }}.log"
-                    metadata:
-                      type: text
-
-        # If we aren't publishing logs through zuul then keep a set on
-        # bridge directly.
-        - name: Rename playbook log on bridge
-          when: not infra_prod_playbook_collect_log
-          become: yes
-          copy:
-            remote_src: yes
-            src: "/var/log/ansible/{{ playbook_name }}.log"
-            dest: "/var/log/ansible/{{ playbook_name }}.log.{{ ansible_date_time.iso8601 }}"
-
-        - name: Cleanup old playbook logs on bridge
-          when: not infra_prod_playbook_collect_log
-          become: yes
-          shell: |
-            find /var/log/ansible -name '{{ playbook_name }}.log.*' -type f -mtime 30 -delete
+        - name: Run specified playbook on bridge and redirect output
+          become: true
+          ansible.builtin.shell: "{{ ansible_command }} >> /var/log/ansible/{{ playbook_name }}.log"
