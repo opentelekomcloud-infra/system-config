@@ -1,0 +1,27 @@
+- name: Encrypt file
+  include_role:
+    name: encrypt-file
+  vars:
+    encrypt_file: '{{ encrypt_logs_files }}'
+    encrypt_file_keys: '{{ encrypt_logs_keys }}'
+    encrypt_file_recipients: '{{ encrypt_logs_recipients + encrypt_logs_job_recipients|default([]) }}'
+
+- name: Write download script
+  template:
+    src: download-logs.sh.j2
+    dest: '{{ encrypt_logs_download_script_path }}/download-logs.sh'
+    mode: 0755
+  vars:
+    encrypt_logs_download_api: 'https://zuul.otc-service.com/api/tenant/{{ zuul.tenant }}'
+
+- name: Return artifact
+  zuul_return:
+    data:
+      zuul:
+        artifacts:
+          # This is parsed by the log download script above, so any
+          # changes to format must be accounted for there too.
+          - name: Encrypted logs
+            url: '{{ encrypt_logs_artifact_path }}'
+            metadata:
+              logfiles: "{{ encrypt_logs_files | map('basename') | map('regex_replace', '^(.*)$', '\\1.gpg') | list }}"

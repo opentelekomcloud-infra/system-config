@@ -27,19 +27,18 @@
 
 - job:
     name: infra-prod-bootstrap-bridge
-    parent: infra-prod-playbook
+    parent: otc-infra-prod-setup-keys
     description: |
         Configure the bastion host (bridge)
         This job does minimal configuration on the bastion host
         (bridge.openstack.org) to allow it to run system-config
-        playbooks against our production hosts.  It sets up Ansible on
+        playbooks against our production hosts. It sets up Ansible on
         the host.
         Note that this is separate to infra-prod-service-bridge;
         bridge in it's role as the bastion host actaully runs that
         against itself; it includes things not strictly needed to make
         the host able to deploy system-config.
-    vars:
-      playbook_name: bootstrap-bridge.yaml
+    run: playbooks/zuul/run-production-bootstrap-bridge.yaml
     required-projects:
       - name: github.com/stackmon/ansible-collection-apimon
         override-checkout: main
@@ -50,17 +49,12 @@
       - name: opendev.org/openstack/ansible-collections-openstack
         override-checkout: 1.8.0
     files:
-      - inventory/
-      - roles/
-      - install_modules.sh
-      - modules.env
       - playbooks/boostrap-bridge.yaml
-      - playbooks/roles/pip3/
+      - playbooks/zuul/run-production-bootstrap-bridge.yaml
+      - playbooks/zuul/run-production-bootstrap-bridge-add-rootkey.yaml
       - playbooks/roles/install-ansible/
-      - playbooks/roles/logrotate/
       - playbooks/roles/root-keys/
       - inventory/service/host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
-      - playbooks/zuul/run-production-playbook.yaml
 
 - job:
     name: infra-prod-base

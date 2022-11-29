@@ -10,7 +10,7 @@
         ansible_host: bridge.eco.tsi-dev.otc-service.com
         ansible_port: 22
 
-- hosts: bridge.eco.tsi-dev.otc-service.com
+- hosts: prod_bastion[0]
   tasks:
     - name: Run the production playbook and capture logs
       block:

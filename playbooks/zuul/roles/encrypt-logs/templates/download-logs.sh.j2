@@ -1,0 +1,89 @@
+#!/bin/bash
+
+set -e
+
+ZUUL_API=${ZUUL_API:-"{{ encrypt_logs_download_api }}"}
+ZUUL_BUILD_UUID=${ZUUL_BUILD_UUID:-"{{ zuul.build }}"}
+{% raw %}
+ZUUL_API_URL=${ZUUL_API}/build/${ZUUL_BUILD_UUID}
+
+(( ${BASH_VERSION%%.*} >= 4 )) || { echo >&2 "bash >=4 required to download."; exit 1; }
+command -v python3 >/dev/null 2>&1 || { echo >&2 "Python3 is required to download."; exit 1; }
+command -v curl >/dev/null 2>&1 || { echo >&2 "curl is required to download."; exit 1; }
+
+function log {
+    echo "$(date -Iseconds) | $@"
+}
+
+function get_urls {
+    /usr/bin/env python3 - <<EOF
+import gzip
+import json
+import urllib.request
+from urllib.error import HTTPError
+import sys
+
+try:
+    base_url = urllib.request.urlopen("${ZUUL_API_URL}").read()
+    base_json = json.loads(base_url)
+    for a in base_json['artifacts']:
+        if a['name'] == 'Encrypted logs':
+            url = a['url']
+            logfiles = (url + f for f in  a['metadata']['logfiles'])
+            for l in logfiles:
+                print(l)
+
+except HTTPError as e:
+    if e.code == 404:
+        print(
+            "Could not find build UUID in Zuul API. This can happen with "
+            "buildsets still running, or aborted ones. Try again after the "
+            "buildset is reported back to Zuul.", file=sys.stderr)
+    else:
+        print(e, file=sys.stderr)
+    sys.exit(2)
+
+EOF
+}
+
+function save_file {
+    local exit_code=0
+    local xtra_args="--compressed"
+
+    curl -s ${xtra_args} -o $(basename "${file}") "${file}" || exit_code=$?
+    if [[ $exit_code -ne 0 ]]; then
+        log "Failed to download ${base_url}${file}"
+        exit 1
+    fi
+}
+
+log "Querying ${ZUUL_API_URL} for manifest"
+_files="$(get_urls)"
+readarray -t files <<< "${_files}"
+
+len="${#files[@]}"
+if [[ -z "${DOWNLOAD_DIR}" ]]; then
+    DOWNLOAD_DIR=$(mktemp -d --tmpdir zuul-logs.XXXXXX)
+fi
+log "Saving logs to ${DOWNLOAD_DIR}"
+
+pushd "${DOWNLOAD_DIR}" > /dev/null
+
+log "Getting logs from ${ZUUL_BUILD_UUID}"
+for (( i=0; i<$len; i++ )); do
+    file="${files[i]}"
+    printf -v _out "  %-80s [ %04d/%04d ]" "${file}" "${i}" $(( len -1 ))
+    log "$_out"
+    save_file $file
+done
+
+for f in ${DOWNLOAD_DIR}/*.gpg; do
+    log "Decrypting $(basename $f)"
+    gpg --output ${f/.gpg/} --decrypt ${f}
+    rm ${f}
+done
+
+popd >/dev/null
+
+log "Download to ${DOWNLOAD_DIR} complete!"
+{% endraw %}

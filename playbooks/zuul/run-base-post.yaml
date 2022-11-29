@@ -1,7 +1,7 @@
 - hosts: localhost
   tasks:
     - name: Make log directories for testing hosts
-      file:
+      ansible.builtin.file:
         path: "{{ zuul.executor.log_root }}/{{ item }}/logs"
         state: directory
         recurse: true
@@ -9,7 +9,7 @@
 
 - hosts: all
   tasks:
-    - include_role:
+    - ansible.builtin.include_role:
         name: collect-container-logs
         # The zuul user isn't part of the docker group on our fake
         # production systems. Work around this by operating as root
@@ -18,31 +18,31 @@
         # this role for collecting logs from containers under other
         # users.
         apply:
-          become: yes
+          become: true
       vars:
         container_command: "{{ item }}"
       loop:
-      - docker
-      - podman
+        - docker
+        - podman
 
-    - include_role:
+    - ansible.builtin.include_role:
         name: stage-output
 
-- hosts: bridge.eco.tsi-dev.otc-service.com
+- hosts: prod_bastion[0]
   tasks:
     - name: Set log directory
-      set_fact:
+      ansible.builtin.set_fact:
         log_dir: "{{ zuul.executor.log_root }}/{{ inventory_hostname }}"
 
     - name: Collect tox output
-      include_role:
+      ansible.builtin.include_role:
         name: fetch-tox-output
       vars:
         tox_envlist: testinfra
         zuul_work_dir: src/github.com/opentelekomcloud-infra/system-config
 
     - name: Collect ansible configuration
-      synchronize:
+      ansible.posix.synchronize:
         dest: "{{ log_dir }}/etc"
         mode: pull
         src: "/etc/ansible"
