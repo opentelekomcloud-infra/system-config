@@ -6,80 +6,42 @@
 #   gpg_asc: <ASCII-armored PGP public key block>
 #
 encrypt_logs_keys:
-  - name: 'ianw'
-    key_id: '0x9615aec8'
+  - name: 'gtema'
+    key_id: 'EE9CF90803E191FCA74A6CE421E08923422F2D65'
     gpg_asc: |
-        -----BEGIN PGP PUBLIC KEY BLOCK-----
-        Version: GnuPG v1
+      -----BEGIN PGP PUBLIC KEY BLOCK-----
 
-        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
-        YyJrcbCb0lGKJnpdWIXnDldS91E0Lw==
-        =jbiD
-        -----END PGP PUBLIC KEY BLOCK-----
+      mQENBF3DzCsBCAC7E0BwWlmYCTE+KBnKnMfK1C/GgDitqn8pg3JFp95q3HHK3WyD
+      2hABJ7a+r5oiNBjknY1X85lL17/xsoU6CuB+8ydZPNJdJOEtHSJJbgzVzev1Q0e+
+      AcFudA7aug5Yy1nLQ7dLDJqS1MBS1ACewvNg7fBnbxW5eukJRXIgceE+qM0UzWii
+      eL5bt3gsOWGgCXq1frF2f9W+4Ge14Pv/dcA4SkMHwbL83uXZoFnQ5LHT+iDbMhMK
+      pBL7lRjNsIBT4sfpcr9XbnCuvpSWHjO9pv67rlUFJ7X2Tavq9wgCra8TYk/EF7qy
+      5Xx5f/iQX7giRN94Rwk0/wV92slN8WIaY6FBABEBAAG0K0FydGVtIEdvbmNoYXJv
+      diA8YXJ0ZW0uZ29uY2hhcm92QGdtYWlsLmNvbT6JAU0EEwEIADgWIQTunPkIA+GR
+      /KdKbOQh4IkjQi8tZQUCXcPMKwIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAK
+      CRAh4IkjQi8tZTEhB/Ys87/vGqp5b3yRKLqLNhbl4n2nu+8BICq+o7OnQhQHRyxG
+      m49lTfikyO7NSI96ms/TsIWm6+vpTyrUpt/cJlDAOC+YhZsUw11rDxH+x56oFeE5
+      5jpAIP85GD02U9+q7UHFDKgZipUvQX/EoJdkj7y5u6GnO1GuU8STRPsGDpviWS+N
+      JoVVjLnwfV46y09IBGWzcOSXAaEJ07XAF7l/27zFVgRmoD1zKeIaVgfZ4wn8gavU
+      gEaXor6brfS9HLAnj8hNGOLV8A/twPd2G6MNz7mQbMI8RJNvGqfZftxwMU0vHev5
+      Z15EO5/oCDHlLZDOQrPmKDcKihIKyd65K8/WCHi5AQ0EXcPMKwEIAMMMUXoIikgf
+      qYGM8EAqGtu7cHRF7b9yebnDQRjyqFkH6EdSTWObeDRwJ7pLMdsgsOqBV/iPNJKN
+      Z54ALlwvtCxI6saAQqm5/hXcmpSk/36BRTfJOMmaC6VJRxN7uCh1ETr3bCtlX1c3
+      yT9WV6Rwg6/A0TisXkKXQOtJlk3yIFVYdiQ/6BP9KN/8nfNgKrD0AQwQhdIYmQoj
+      Mrm7oQ4Ac4JFeEzAKU5v5HHP87LBriQcpjwIdcEEvGzOL22mhCLIbxyAO0ZUKUjR
+      gzredTcyAlAk6OXB7dOGYN1B5kPpE9wh6Aa7QiMMk9uXE0egGDQV4guvenePopf5
+      Qyoa06Ixtx0AEQEAAYkBNgQYAQgAIBYhBO6c+QgD4ZH8p0ps5CHgiSNCLy1lBQJd
+      w8wrAhsMAAoJECHgiSNCLy1laykIAIjTdRAoLGSgkU9ME8pVBZm8YUwOFa+xhhD7
+      ahiQfcfhQbWtjbM+D18h53VWsLsQ04710qygaLDmQqkvxFYidOum6PB2H54o8EVE
+      MBolzhGo1ngAcPauE9TJF6gDubJ1XhGgffLC0dHjsPr03U5HKd9YZgVrl5kKGFeD
+      13mgPRvwln6gIcyq1jC4q2NCrKKso8U3J6qQyN941Jev8RooCLaHCEwRcxz6+6y0
+      i0SjZ+KHhXL6BnpPVoPrfrf5gQ/eMapBmpC8ovE1MfxcXswgNpDnaEj2ByKyemPG
+      NTcQSDmiSxQ++v8RpJHiLvbi7NAdCZ6petx76r68gFWB1TKsOTg=
+      =cm/6
+      -----END PGP PUBLIC KEY BLOCK-----
 
 # This is the default list of keys from ``encrypt_log_keys`` that wish
 # to always be a recipient of encrypted logs.  Others can add
 # themselves to particular prod jobs of interest individually.
 encrypt_logs_recipients:
-  - ianw
-
+  - gtema
