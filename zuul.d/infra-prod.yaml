@@ -13,15 +13,17 @@
       CD deployment of our infrastructure. Set playbook_name to
       specify the playbook relative to
       /home/zuul/src/github.com/opentelekomcloud-infra/system-config/playbooks
-      on bridge.eco.tsi-dev.otc-service.com.
+      on bridgeXX.eco.tsi-dev.otc-service.com.
     abstract: true
     semaphore: infra-prod-playbook
     run: playbooks/zuul/run-production-playbook.yaml
+    post-run: playbooks/zuul/run-production-playbook-post.yaml
     required-projects:
       - opentelekomcloud-infra/system-config
     vars:
-      infra_prod_ansible_forks: 5
+      infra_prod_ansible_forks: 10
       infra_prod_playbook_collect_log: false
+      infra_prod_playbook_encrypt_log: true
     nodeset:
       nodes: []
 
