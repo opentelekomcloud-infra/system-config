@@ -1,0 +1,13 @@
+- name: Add bastion host to inventory for production playbook
+  ansible.builtin.add_host:
+    name: 'bridge01.eco.tsi-dev.otc-service.com'
+    groups: 'prod_bastion'
+    ansible_python_interpreter: python3
+    ansible_user: zuul
+    # Without setting ansible_host directly, mirror-workspace-git-repos
+    # gets sad because if delegate_to localhost and with add_host that
+    # ends up with ansible_host being localhost.
+    ansible_host: 'bridge01.eco.tsi-dev.otc-service.com'
+    ansible_port: 22
+    # Port 19885 is firewalled
+    zuul_console_disabled: true

@@ -42,8 +42,21 @@
       currently in use.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
+        - &bridge_node_x86 {name: bridge99.eco.tsi-dev.otc-service.com, label: ubuntu-jammy}
+      groups:
+        # Each job should define this group -- to avoid hard-coding
+        # the bastion hostname in the job setup, playbooks/tasks refer
+        # to it only by this group.  This should only have one entry
+        # -- in a couple of places the jobs use the actual hostname
+        # and assume element [0] here is that hostname.
+        #
+        # Note that this shouldn't be confused with the group in
+        # inventory/service/groups.yaml -- this group contains the
+        # host that Zuul, running on the executor, will setup as the
+        # bridge node.  This node will then run a nested Ansible to
+        # test the production playbooks -- *that* Ansible has a
+        # "bastion" group too
+        - &bastion_group { name: prod_bastion, nodes: [ bridge99.eco.tsi-dev.otc-service.com ] }
     files:
       - tox.ini
       - playbooks/

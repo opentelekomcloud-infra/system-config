@@ -1,36 +1,96 @@
-- hosts: bridge.eco.tsi-dev.otc-service.com:!disabled
+# NOTE: This is included from two paths to setup the bridge/bastion
+# host in different circumstances:
+#
+# 1) Gate tests -- here Zuul is running this on the executor against
+#    ephemeral nodes.  It uses the "bastion" group as defined in the
+#    system-config-run jobs.
+#
+# 2) Production -- here we actually run against the real bastion host.
+#    The host is dynamically added in opendev/base-jobs before this
+#    runs, and put into a group called "bastion".
+#
+# In both cases, the "bastion" group has one entry, which is the
+# bastion host to run against.
+- hosts: prod_bastion[0]:!disabled
   name: "Bridge: boostrap the bastion host"
   become: true
-  roles:
-    - pip3
+  tasks:
     # Note for production use we expect to take the defaults; unit
     # test jobs override this to test with latest upstream ansible.
     # For example, if there is a fix on the ansible stable branch we
     # need that is unreleased, you could do the following:
     #
-    - role: install-ansible
-      install_ansible_name: '{{ bridge_ansible_name | default("ansible") }}'
-      install_ansible_version: '{{ bridge_ansible_version | default("6.0.0") }}'
-      install_ansible_openstacksdk_name: '{{ bridge_openstacksdk_name | default("openstacksdk") }}'
-      install_ansible_openstacksdk_version: '{{ bridge_openstacksdk_version | default("latest") }}'
-      install_ansible_collections:
-        # keep namespace opentelekomcloud till we update also playbooks
-        - namespace: opentelekomcloud
-          name: apimon
-          repo: stackmon/ansible-collection-apimon
-        - namespace: opentelekomcloud
-          name: cloud
-          repo: opentelekomcloud/ansible-collection-cloud
-        - namespace: opentelekomcloud
-          name: gitcontrol
-          repo: opentelekomcloud/ansible-collection-gitcontrol
-        - namespace: openstack
-          name: cloud
-          repo: openstack/ansible-collections-openstack
-          git_provider: opendev.org
-    - root-keys
+    #  install_ansible_name: '{{ bridge_ansible_name | default("git+https://github.com/ansible/ansible.git@stable-2.7") }}'
+    #  install_ansible_version: '{{ bridge_ansible_version | default(None) }}'
+    - name: Install ansible
+      include_role:
+        name: install-ansible
+      vars:
+        install_ansible_name: '{{ bridge_ansible_name | default("ansible") }}'
+        install_ansible_version: '{{ bridge_ansible_version | default("6.0.0") }}'
+        install_ansible_openstacksdk_name: '{{ bridge_openstacksdk_name | default("openstacksdk") }}'
+        install_ansible_openstacksdk_version: '{{ bridge_openstacksdk_version | default("latest") }}'
+        install_ansible_collections:
+          # keep namespace opentelekomcloud till we update also playbooks
+          - namespace: opentelekomcloud
+            name: apimon
+            repo: stackmon/ansible-collection-apimon
+          - namespace: opentelekomcloud
+            name: cloud
+            repo: opentelekomcloud/ansible-collection-cloud
+          - namespace: opentelekomcloud
+            name: gitcontrol
+            repo: opentelekomcloud/ansible-collection-gitcontrol
+          - namespace: openstack
+            name: cloud
+            repo: openstack/ansible-collections-openstack
+            git_provider: opendev.org
 
-  tasks:
+    # This is the key that bridge uses to log into remote hosts.
+    #
+    # For production, this root-key variable is kept with the others
+    # in the Ansible production secrets.  Thus we need to deploy via
+    # the local Ansible we just installed that will load these
+    # variables.  Remote hosts have trusted this from their bringup
+    # procedure.
+    #
+    # In testing, we have been called with "root_rsa_key" variable set
+    # with an ephemeral key.  In this case, we pass it in as a "-e"
+    # variable directly from the file written on disk.  The testing
+    # ephemeral nodes have been made to trust this by the multinode
+    # setup.
+    #
+    # NOTE(ianw) : Another option here is to keep the root key as a
+    # secret directly in Zuul, which could be written out directly
+    # here.  Maybe one day we will do something like this.
+    - name: Create root key variable when testing
+      when: root_rsa_key is defined
+      block:
+        - name: Create vars dict
+          ansible.builtin.set_fact:
+            _root_rsa_key_dict:
+              root_rsa_key: '{{ root_rsa_key }}'
+
+        - name: Save extra-vars
+          ansible.builtin.copy:
+            content: '{{ _root_rsa_key_dict | to_nice_json }}'
+            dest: '/home/zuul/root-rsa-key.json'
+
+        - name: Save abstracted inventory file
+          ansible.builtin.copy:
+            content: |
+                {{ inventory_hostname }}
+                [prod_bastion]
+                {{ inventory_hostname }}
+            dest: '/home/zuul/bastion-inventory.ini'
+
+    - name: Make ansible log directory
+      ansible.builtin.file:
+        path: '/var/log/ansible'
+        state: directory
+        owner: root
+        mode: 0755
+
     - name: Ensure sc2 folders
       ansible.builtin.file:
         path: "{{ item }}"

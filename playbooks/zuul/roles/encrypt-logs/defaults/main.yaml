@@ -1,0 +1,85 @@
+# Anyone who wants to be able to read encrypted published logs should
+# have an entry in this variable in the format
+#
+# - name: <freeform string name>
+#   key_id: <key-id of GPG key>
+#   gpg_asc: <ASCII-armored PGP public key block>
+#
+encrypt_logs_keys:
+  - name: 'ianw'
+    key_id: '0x9615aec8'
+    gpg_asc: |
+        -----BEGIN PGP PUBLIC KEY BLOCK-----
+        Version: GnuPG v1
+
+        mQINBFQO6lIBEADINS0UyBzR0ljAfYy6h4eh266Hi4R5Q6hw1aZPezz+yrFu+1po
+        XWlHBBGs2BRKakM9vY6JkedX13iYJo0D0TACIQFqICXI91wLLoT4RMwTK5XWhJoq
+        OnMqA578fepgKWivd06lTmd3KwVy6stT/E4i1KWpntHymwiWQ25SOOccGA4cy7qf
+        kGdNDupACXFp5Sa61fBgTLlf9JDR8t4hOqEpb3czDOjSS+LGBdBYzA3DyxBySJk5
+        yhNPug2UNnWv0i+mOuehp1no/VNJzCAvCDjSGLD5fVRBpPCPBGhvr5oJ1VvLU51B
+        7kuV+pHIurn5dMtocGhgenuwHUouAS+IiYaywlaJ/N9s5GT8jnYGht+DcxyuHFj2
+        ZaTfBwDa3DrSTisKBMwfRMf9zKkwDRERM0C0ReknS1ACwuIlZhDKjlHx1Rv67uuz
+        DIQieX+kThF5YPqFNm52bs4fHfcuKDBU2aCpmmASR8tr15olC8LhW/PlExix8rY7
+        ALUdySejLEdY86xnrqV9g2VSHwdyXDOKMxbwQO5l4IsQgZfdcJJ6KK8sAVvO3Ftc
+        MZzt0oebF3ocO6Azm8de2sx3bVNeod3K1fERG83u7OuAuJmWoHMbnhRqmt/c3Pua
+        ZC4Z+c1mBYe9ZpL/zfUooWoS6H9F9J0tkvoSYXsxSkv3BdGluqiGO0kuXwARAQAB
+        tB1JYW4gV2llbmFuZCA8aWFuQHdpZW5hbmQub3JnPokCOQQTAQgAJAIbAwULCQgH
+        AwUVCgkICwUWAgMBAAIeAQIXgAUCVA7sxQIZAQAKCRC2pvuLlhWuyOQ9D/iYeO7M
+        XojUPYTnAcc7fj2ltXKDhcKmslhB7gqg1y3kLGK8Veys407WAOg124rI3dSViUQ3
+        uEPDBYNc1YSfxIRLPB5tlNYYlAOmuSxyMn7pHBSM/2ZJwAws4H7HrdsDoEJ59/FQ
+        B/T3fhKTAYqYU3OHJNrCTAizLaD4DHQsLB3ZngL2HArRYJS05Kt3f4VnlIPIkCO5
+        lxbLdUvLzgW5fUIRG6zkHJ7Ws9W4b7Lrfmu/HoqNkZVbY6c2uYziiPvi0xX5eVa/
+        EFHerMJVg41Kh3xIAkWmphSMiKHcrAxgJNsiV3LnrbemW4vqsh8HjbdChBkLdd/l
+        jiIsr46oILyry32L5TN1PIVZF5cgsEOmaQXOktT6Ot062j5CJ/uktW2ZThvu75O1
+        q3e6ai5lU9hSLUlyXs0GQUyGz+iW7rQRYkFA0ei0/Kj27h+SJHCvXQlBgDMoYWzz
+        5P76YN+3GXILA55L56+e7+oowv7OnPJYiNfxsqSmP5DfuI8aZV3e6zowKdAJcQKX
+        modQC0D6HiIAJwfsSbHhCb4S/PmpKxneoKYBophnxTQoUsCgN3ohTj48P8ghHZso
+        GwKxYwj5c8T2MYKtYp8jZFj7e22JrezK6mxNSGRR3kfSxQkSFbMOzhQEc+yBCE5g
+        A1k69gpGnkhNt4LOVyvCw+23SsT1HK04UrWkiEYEEBEIAAYFAlQO7bcACgkQWDlS
+        U/gp6edmbQCdEhGjPxS9ThH956Qu4nXhaEeNBJgAoKbnfznTgEoU0KDJwfjyPeo3
+        p0L5tB1JYW4gV2llbmFuZCA8aWFud0BkZWJpYW4ub3JnPokCNwQTAQgAIQIbAwUL
+        CQgHAwUVCgkICwUWAgMBAAIeAQIXgAUCVA7sxAAKCRC2pvuLlhWuyGUBEACT8QUp
+        OeF7zuZyEb9/g0zBkinv2SXH3DlcGwTnD9XLq6NfmETIM8zAz+WCeFtE2U9cMdP6
+        JAQfhBr49WFYf1fIw6fZvlALSekRLMLlHA6E7P+bERITxahkhsf1cGmNMewgY8SD
+        7/YDSh4hzaou/2XEPsjOa49kwkylrNmA7+57UbYXINtlc2mlO3vl8ZFaNfRiBnVO
+        fkGGYxTs2h99Apqixw41zx0Jk+ebB+xUdP83aswEwP5CpfADDtJiRORhBUeoqBkv
+        y9UKpwMd6Mtn7+mDDDMI3/NjODsxqxyDDRcHhUhu9mXZJLT1GiaTL2bS5NAn6g07
+        7n6mvxN58YLizy+TwK1z30Ls1+3WEppjq7RGbXL2fn7qHnddlp0lZOE2P6VcGCJG
+        dfH0tdbaYKWMT7dMBgKRGZIxBw3fToqrTG5fjkmON31A+mloU/JusuYSeOk9H/MZ
+        r8HffeGC/R4ZUpBiNTEvfEkdZGW+WOGFYjjYSBmKw98UpahPW3cmDKaqaDizY6VQ
+        MxcN66eH40arvVID+YQHCkiABgfeHWhP92bIAIIPphmibXg8XMR0gUCTtZjy4usQ
+        7xqoSvCt/K5Om9OFoSF/CYHB/31r7RzuKQqED+DcIp9QmnLFqeKFcLFEuhHv0llt
+        Gd1m/UQy7NtzfRYZXQmjOpSgrGvwqYJLIe3ProhGBBARCAAGBQJUDu23AAoJEFg5
+        UlP4Kenn748AoLtqkDtDcf9pwupm+PCiDD6xgTb1AKC6zwJFCY+Y5JsBFKp/VUz+
+        2bA7I7kCDQRUDupSARAAyJbRcgcnwFNvutHiNCnaOgqE6zSV6xTebcPJEqIBlnGP
+        Svk6XLWgbZ6IKbuXIHjn+RggtzDuKnpj+c5QFZpwNuTsJ43t0erIm8FmuvHkUaQl
+        gD/7i4YZulUckN7E41i8BoqD3IcpeEjI/2VrPjhVvzWU+MxRpVrF5VdCWa/tSqFl
+        8Xr+/nNR7VW0ojr/eplovXaxBXOMf2vraynwny4ftvW7oaJ6KlXuP3BSqpePAd72
+        kz33s9k3X/TeUruTtIn/dWXyT36b67IaZRdzxBHguYcKCy9+r+f1IIssq6kjgZi0
+        o2VijZ2DZvR0YB0cSe1FHKCmaqxx9I+wajBIw/bgFf3gDmABPpTK0Z4T3oIrUGoF
+        q7JXcqT9X+cZidimZSdE6xgiMzS2xSNXf1bmK/6BslU3/PiwMy7MDUM02z1pGKVK
+        xV+5Al7Tf/gFYMrpQ6r6rDAVj9Ube+ORTIfJcWKbBJ1RLIo8NA6/K+QqezMsyX9n
+        IZXM1fdQVm9OsGgzdT8h2kMLzm1JAj7yahAnig33MKp/IUfcsjLsR8GnkMTxv8Tq
+        O8X5AHyxk+sbzSLmFpT6nGGsGL4o+3rfPyQmhWkkuxjBRQeUQABCLgF01tfzlXch
+        JwLygD/ENAeYMDrNaTp9sgWsX7QZvHE/cLLk8bKqtziGRBtsTgBAjIHnKFSJAMEA
+        EQEAAYkCHwQYAQgACQUCVA7qUgIbDAAKCRC2pvuLlhWuyKqRD/4zm/PsFH3njOsJ
+        MrOwidxvlKNG+x6GZc6W6yvO1OyVZVtbsSwVAJfFQZejmj0NSL1sl/isQlQxBjXZ
+        TFjv3sQhUt+J6tOI7SzneP0iFXvhyuz3ffe0myG1pBKCgISmUDPEADYd9D7puyv6
+        sZe56wiMXxHOiTrlHLHGFpmezfgybX2f/sQpZcUP4titLhVCt6A2cliHQcCoQjOI
+        FibNfks3jgql6YtF/JPkThxOcuT5BF59hVoSh41iLlO5feMJYIa8IQk3o7dzSVCX
+        EKotxotuYQ/bvmwZDT50TIJY3GzrpQsLxcM5+jaRB+S4rF91tAQ6msvdaSbhoARH
+        VEBMZAFM4257XMZXghgqdbHgtU8IEpL7rGwuIyoC/pEsLkbnzKuwthWag1U6KmoO
+        wevlH3u9Lj57zJjsn2RTrHHzVNIlIe8tJuInnacAoYq1lsmj5NCrZ8wpTSnv7C+o
+        rPQDmnnQz9MoUruyutd51GCMUTv4KthSYElgS9y18BPT0F5cHWkNBBT+W3NEPjgQ
+        1SAxJ3dpqZgDlmWBO9XJ5rhb5rUiUDc03Dmnq7qLZtHQEXTipiUkuyoF24hisJ7+
+        XgLPdWwyuOjfSc6foik6xYSuR1duxypmb9BidTmVPtQtG9uRvpc6vc7nRoUJKN8U
+        YyJrcbCb0lGKJnpdWIXnDldS91E0Lw==
+        =jbiD
+        -----END PGP PUBLIC KEY BLOCK-----
+
+# This is the default list of keys from ``encrypt_log_keys`` that wish
+# to always be a recipient of encrypted logs.  Others can add
+# themselves to particular prod jobs of interest individually.
+encrypt_logs_recipients:
+  - ianw
+
