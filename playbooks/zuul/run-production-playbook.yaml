@@ -4,10 +4,10 @@
   tasks:
     - name: Add bridge to inventory
       add_host:
-        name: bridge.eco.tsi-dev.otc-service.com
+        name: bridge01.eco.tsi-dev.otc-service.com
         ansible_python_interpreter: python3
         ansible_user: zuul
-        ansible_host: bridge.eco.tsi-dev.otc-service.com
+        ansible_host: bridge01.eco.tsi-dev.otc-service.com
         ansible_port: 22
 
 - hosts: prod_bastion[0]
