@@ -11,7 +11,6 @@ Group={{ keycloak_os_group }}
 
 EnvironmentFile=/etc/keycloak/env
 
-ExecStartPre=-{{ container_runtime }} system migrate
 ExecStartPre=-{{ container_runtime }} rm "keycloak"
 
 ExecStart={{ container_runtime }} run \
