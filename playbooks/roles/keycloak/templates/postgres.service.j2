@@ -20,7 +20,7 @@ ExecStart={{ container_runtime }} run \
 {% endif %}
     --env-file /etc/keycloak/postgres-env \
     --network host \
-    -v /var/keycloak/pgdata:/var/lib/postgresql/data:Z \
+    -v /var/keycloak/pgdata:/var/lib/postgresql/data:rw,Z \
     ${POSTGRES_IMAGE}
 
 ExecReload=-{{ container_runtime }} stop "postgres"
