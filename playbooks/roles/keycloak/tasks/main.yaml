@@ -49,6 +49,43 @@
     - path: "/var/keycloak/data"
       mode: "0755"
 
+- name: Ensure postgres directories exist
+  become: true
+  ansible.builtin.file:
+    state: "directory"
+    path: "{{ item.path }}"
+    mode: "{{ item.mode | default('0755') }}"
+    owner: "{{ item.owner | default(keycloak_os_user) }}"
+    group: "{{ item.group | default(keycloak_os_group) }}"
+  loop:
+    - path: "/var/keycloak/pgdata"
+      mode: "0755"
+  when:
+    - "keycloak_run_local_postgres"
+
+- name: Write postgres config env file
+  become: true
+  template:
+    src: "postgres-env.j2"
+    dest: "/etc/keycloak/postgres-env"
+    owner: "{{ keycloak_os_user }}"
+    group: "{{ keycloak_os_group }}"
+    mode: "0640"
+  notify:
+    - Restart postgres
+  when:
+    - "keycloak_run_local_postgres"
+
+- name: Write postgres systemd unit file
+  become: true
+  ansible.builtin.template:
+    src: "postgres.service.j2"
+    dest: "/etc/systemd/system/postgres.service"
+  notify:
+    - Restart postgres
+  when:
+    - "keycloak_run_local_postgres"
+
 - name: Copy OTC LDAP root CA cert to FS
   become: true
   ansible.builtin.copy:
@@ -99,7 +136,7 @@
   notify:
     - Restart keycloak
 
-- name: Write systemd unit file
+- name: Write keycloak systemd unit file
   become: true
   ansible.builtin.template:
     src: "keycloak.service.j2"
