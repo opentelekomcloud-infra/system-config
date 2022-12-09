@@ -97,8 +97,8 @@ octavia_proxy_image_stable: quay.io/opentelekomcloud/octavia-proxy:change_111_la
 octavia_proxy_image_latest: quay.io/opentelekomcloud/octavia-proxy:change_111_latest
 document_hosting_image_stable: quay.io/opentelekomcloud/nginx-unprivileged:1.21.6-alpine
 document_hosting_image_latest: quay.io/opentelekomcloud/nginx-unprivileged:1.21.6-alpine
-telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.22.4-alpine
-telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.22.4-alpine
+telegraf_image_stable: quay.io/opentelekomcloud/telegraf:1.24.4-alpine
+telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.24.4-alpine
 vault_image_stable: quay.io/opentelekomcloud/vault:change_668_latest
 vault_image_latest: quay.io/opentelekomcloud/vault:change_668_latest
 influxdb_image_stable: quay.io/opentelekomcloud/influxdb:2.1.1
