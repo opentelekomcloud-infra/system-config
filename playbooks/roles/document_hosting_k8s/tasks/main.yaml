@@ -25,6 +25,7 @@
       data:
         nginx-site.conf: "{{ lookup('template', (document_hosting.nginx_template | default('nginx-site.conf.j2'))) }}"
         custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
+        redirect.map: "{{ lookup('template', 'redirect.map.j2') }}"
 
 - name: Create Document Hosting {{ instance }} TLS Certs Secret
   kubernetes.core.k8s:
@@ -95,6 +96,9 @@
                 - name: nginx-config
                   mountPath: /usr/share/nginx/html/custom_404.html
                   subPath: custom_404.html
+                - name: nginx-config
+                  mountPath: /etc/nginx/redirect.map
+                  subPath: redirect.map
             volumes:
               - configMap:
                   name: "{{ document_hosting_cm_name }}"

@@ -2,6 +2,10 @@ upstream backend {
   #this is one of the swift proxy server
   server {{ document_hosting.server }};
 }
+
+map_hash_max_size 2048;
+map_hash_bucket_size 2048;
+include /etc/nginx/redirect.map;
     
 server_names_hash_bucket_size 128;
 server {
@@ -32,6 +36,12 @@ server {
   location / {
     set $container 'docsportal';
     set $index_uri '/index.html';
+
+    if ($new_uri != "") {
+      #rewrite based on redirect.map mapper
+      rewrite ^(.*)$ https://$server_name$new_uri permanent;
+      break;
+    }
 
     if ($request_uri ~* '/releasenotes(/?)$') {
       # overridden releasenotes index from docsportal
