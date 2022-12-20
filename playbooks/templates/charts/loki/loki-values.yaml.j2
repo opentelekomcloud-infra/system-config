@@ -1,12 +1,84 @@
-persistence:
-  enabled: true
-  accessModes:
-  - ReadWriteMany
-  storageClassName: csi-nas
-  size: 200Gi
-config:
-  chunk_store_config:
-    max_look_back_period: 744h
-  table_manager:
-    retention_deletes_enabled: true
+global:
+  dnsService: coredns
+loki:
+  commonConfig:
+    replication_factor: 1
+  storage:
+    # where to store logs
+    type: s3
+  # retention enable
+  compactor:
+    retention_enabled: true
+    compaction_interval: 10m
+    retention_delete_delay: 2h
+  # retention period config
+  limits_config:
     retention_period: 744h
+read:
+  replicas: 1
+  persistence:
+    storageClass: csi-disk
+write:
+  replicas: 1
+  persistence:
+    storageClass: csi-disk
+monitoring:
+  selfMonitoring:
+    enabled: false
+    lokiCanary:
+      enabled: false
+    grafanaAgent:
+      installOperator: false
+  # grafana dashboards to be added under prometheus/grafana instance
+  # running on the same k8s cluster
+  dashboards:
+    namespace: monitoring
+    labels:
+      grafana_dashboard: "1"
+      release: "prometheus"
+  # prometheus rules to be added under prometheus instance running
+  # on the same k8s cluster
+  rules:
+    namespace: monitoring
+    labels:
+      release: "prometheus"
+  # servicemonitor instance to be added under prometheus instance
+  # running on the same k8s cluster - to scrape loki metrics
+  serviceMonitor:
+    metricsInstance:
+      enabled: false
+    namespace: monitoring
+    namespaceSelector:
+      matchNames:
+        - loki
+    labels:
+      release: "prometheus"
+test:
+  enabled: false
+
+gateway:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - host: "{{ chart.fqdn }}"
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: "{{ chart.tls_secret_name }}"
+        hosts:
+          - "{{ chart.fqdn }}"
+  basicAuth:
+    enabled: true
+    username: "{{ chart.loki_username }}"
+    password: "{{ chart.loki_password }}"
+
+minio:
+  enabled: true
+  rootPassword: "{{ chart.loki_minio_root_password }}"
+  persistence:
+    size: 200Gi
+    storageClass: csi-disk

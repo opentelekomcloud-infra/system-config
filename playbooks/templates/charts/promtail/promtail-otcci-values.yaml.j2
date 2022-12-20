@@ -1,0 +1,11 @@
+config:
+  clients:
+    - url: {{ chart.promtail_loki_url }}
+      tenant_id: {{ chart.promtail_tenant_id }}
+      basic_auth:
+        username: {{ chart.promtail_loki_username }}
+        password: {{ chart.promtail_loki_password }}
+  snippets:
+    extraRelabelConfigs:
+      - target_label: "cluster"
+        replacement: "otcci"

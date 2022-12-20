@@ -6,5 +6,6 @@ promtail_systemd_unit_path: "{{ '/etc/systemd/system/' + promtail_systemd_servic
 promtail_loki_url: "http://loki"
 promtail_loki_username: "admin"
 promtail_loki_password: "dummy"
+promtail_tenant_id: "dummy"
 
 promtail_image: "grafana/promtail:2.3.0"

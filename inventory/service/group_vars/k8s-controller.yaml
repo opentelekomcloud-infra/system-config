@@ -171,7 +171,7 @@ helm_chart_instances:
     repo_name: grafana
     name: loki
     ref: grafana/loki
-    version: 2.8.5
+    version: 3.6.0
     namespace: loki
     values_template: "templates/charts/loki/loki-values.yaml.j2"
   otcinfra_promtail:
@@ -180,27 +180,27 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 3.9.2
+    version: 6.7.2
     namespace: promtail
-    values_template: "templates/charts/promtail/promtail-values.yaml.j2"
+    values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
   otcinfra2_promtail:
     context: otcinfra2
     repo_url: https://grafana.github.io/helm-charts
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 3.11.0
+    version: 6.7.2
     namespace: promtail
-    values_template: "templates/charts/promtail/promtail-values.yaml.j2"
+    values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
   otcci_promtail:
     context: otcci
     repo_url: https://grafana.github.io/helm-charts
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 3.9.2
+    version: 6.7.2
     namespace: promtail
-    values_template: "templates/charts/promtail/promtail-values.yaml.j2"
+    values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
   otcinfra_telegraf:
     context: otcinfra
     repo_url: https://helm.influxdata.com/
@@ -382,17 +382,6 @@ octavia_proxy_k8s_instances:
     context: "otcinfra"
     instance: "eu-nl"
     namespace: "octavia"
-
-loki_instances:
-  prod:
-    loki_cert: "loki"
-    fqdn: "loki.eco.tsi-dev.otc-service.com"
-
-loki_k8s_instances:
-  - loki_instance: "prod"
-    context: "otcinfra"
-    instance: "prod"
-    namespace: "loki"
 
 opensearch_instances:
   otcinfra_opensearch:
