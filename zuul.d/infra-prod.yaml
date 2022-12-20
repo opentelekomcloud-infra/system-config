@@ -392,17 +392,6 @@
       - playbooks/roles/opensearch
 
 - job:
-    name: infra-prod-service-loki
-    parent: infra-prod-service-base
-    description: Deploy Loki cert + Ingress
-    vars:
-      playbook_name: service-loki.yaml
-    files:
-      - inventory/service/group_vars/k8s-controller.yaml
-      - playbooks/service-loki.yaml
-      - playbooks/roles/loki
-
-- job:
     name: infra-prod-service-keycloak
     parent: infra-prod-service-base
     description: Deploy keycloak service
