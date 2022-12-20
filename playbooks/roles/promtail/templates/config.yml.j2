@@ -4,6 +4,7 @@ server:
 
 client:
   url: {{ promtail_loki_url }}
+  tenant_id: {{ promtail_tenant_id }}
   basic_auth:
     username: {{ promtail_loki_username }}
     password: {{ promtail_loki_password }}

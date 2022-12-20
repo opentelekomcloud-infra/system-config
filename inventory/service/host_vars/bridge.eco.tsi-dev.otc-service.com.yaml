@@ -26,8 +26,6 @@ ssl_certs:
     - "dashboard.tsi-dev.otc-service.com"
   grafana-eco:
     - "dashboard.eco.tsi-dev.otc-service.com"
-  loki:
-    - "loki.eco.tsi-dev.otc-service.com"
   opensearch:
     - "opensearch.eco.tsi-dev.otc-service.com"
   opensearch-dashboard:

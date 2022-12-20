@@ -179,11 +179,6 @@
               - name: infra-prod-service-memcached
                 soft: true
 
-        - infra-prod-service-loki: &infra-prod-service-loki
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
             dependencies:
               - name: infra-prod-base
@@ -249,7 +244,6 @@
         - infra-prod-service-gitea: *infra-prod-service-gitea
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-graphite: *infra-prod-service-graphite
-        - infra-prod-service-loki: *infra-prod-service-loki
         - infra-prod-service-memcached: *infra-prod-service-memcached
         - infra-prod-service-statsd: *infra-prod-service-statsd
         - infra-prod-service-proxy: *infra-prod-service-proxy
