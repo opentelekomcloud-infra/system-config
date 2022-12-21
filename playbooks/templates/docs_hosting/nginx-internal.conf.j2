@@ -3,9 +3,11 @@ upstream backend {
   server {{ document_hosting.server }};
 }
 
+{% if document_hosting.redirect_map is defined and document_hosting.redirect_map %}
 map_hash_max_size 2048;
 map_hash_bucket_size 2048;
-include /etc/nginx/redirect.map;
+include /etc/nginx/redirect/*.map;
+{% endif %}
     
 server_names_hash_bucket_size 128;
 server {
@@ -37,11 +39,13 @@ server {
     set $container 'docsportal';
     set $index_uri '/index.html';
 
+{% if document_hosting.redirect_map is defined and document_hosting.redirect_map %}
     if ($new_uri != "") {
       #rewrite based on redirect.map mapper
       rewrite ^(.*)$ https://$server_name$new_uri permanent;
       break;
     }
+{% endif %}
 
     if ($request_uri ~* '/releasenotes(/?)$') {
       # overridden releasenotes index from docsportal

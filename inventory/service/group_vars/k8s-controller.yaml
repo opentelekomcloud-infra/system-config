@@ -44,6 +44,8 @@ document_hosting_instances:
     cert: "docs-int"
     nginx_template: "templates/docs_hosting/nginx-internal.conf.j2"
     ingress_class: "ingress-intern"
+    redirect_map: true
+    kiwigrid_image: "quay.io/kiwigrid/k8s-sidecar:1.19.2"
 
 document_hosting_k8s_instances:
   - document_hosting_instance: "helpcenter"
