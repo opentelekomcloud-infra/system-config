@@ -225,7 +225,7 @@ helm_chart_instances:
     repo_name: opensearch
     name: opensearch
     ref: opensearch/opensearch
-    version: 1.8.3
+    version: 1.17.0
     namespace: opensearch
     values_template: "templates/charts/opensearch/opensearch-otcinfra-values.yaml.j2"
     opensearch_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_tls_name }}"
@@ -241,7 +241,7 @@ helm_chart_instances:
     repo_name: opensearch
     name: opensearch-dashboards
     ref: opensearch/opensearch-dashboards
-    version: 1.2.2
+    version: 1.10.0
     namespace: opensearch
     values_template: "templates/charts/opensearch/opensearch-dashboard-otcinfra-values.yaml.j2"
     opensearch_dashboard_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_tls_name }}"
