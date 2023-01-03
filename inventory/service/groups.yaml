@@ -194,6 +194,8 @@ groups:
     - storage4.swift.eco.tsi-dev.otc-service.com
     - storage5.swift.eco.tsi-dev.otc-service.com
     - storage6.swift.eco.tsi-dev.otc-service.com
+    - storage7.swift.eco.tsi-dev.otc-service.com
+    - storage8.swift.eco.tsi-dev.otc-service.com
 
   vault:
     - bridge.eco.tsi-dev.otc-service.com
