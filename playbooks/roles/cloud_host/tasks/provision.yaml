@@ -12,6 +12,7 @@
     name: "{{ hostvars[host].inventory_hostname }}-{{ item.name }}"
     size: "{{ item.size }}"
     availability_zone: "{{ hostvars[host].location.az }}"
+    volume_type: "{{ item.type | default(omit) }}"
     wait: true
   register: data_volumes_result
   when: hostvars[host].data_volumes is defined
