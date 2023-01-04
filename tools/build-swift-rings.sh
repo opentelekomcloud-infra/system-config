@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
 add_disk() {
-  # $1 - zone
-  # $2 - ip last octet
-  # $3 - replication ip last octet
-  # $4 - disk name
-  swift-ring-builder data/account.builder add r1z$1-192.168.82.$2:6202R192.168.83.$3:6202/$4 100
-  swift-ring-builder data/container.builder add r1z$1-192.168.82.$2:6201R192.168.83.$3:6201/$4 100
-  swift-ring-builder data/object.builder add r1z$1-192.168.82.$2:6200R192.168.83.$3:6200/$4 100
+    # $1 - zone
+    # $2 - ip last octet
+    # $3 - replication ip last octet
+    # $4 - disk name
+    swift-ring-builder data/account.builder add r1z$1-192.168.82.$2:6202R192.168.83.$3:6202/$4 100
+    swift-ring-builder data/container.builder add r1z$1-192.168.82.$2:6201R192.168.83.$3:6201/$4 100
+    swift-ring-builder data/object.builder add r1z$1-192.168.82.$2:6200R192.168.83.$3:6200/$4 100
 }
 
 POLICIES="object container account"
@@ -44,5 +44,5 @@ add_disk 8 108 108 vdd1
 
 
 for p in $POLICIES; do
-  swift-ring-builder $p.builder rebalance
+    swift-ring-builder $p.builder rebalance
 done
