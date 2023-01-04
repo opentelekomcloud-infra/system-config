@@ -26,12 +26,12 @@ add_disk 2 45 15 vdb
 add_disk 3 48 72 vdb
 
 # Zone 4
-add_disk 4 104 104 sda1
-add_disk 4 104 104 sdb1
+# add_disk 4 104 104 sda1
+# add_disk 4 104 104 sdb1
 
 # Zone 5
-add_disk 5 105 105 sda1
-add_disk 5 105 105 sdb1
+# add_disk 5 105 105 sda1
+# add_disk 5 105 105 sdb1
 
 # Zone 6
 add_disk 6 106 106 vdd1
