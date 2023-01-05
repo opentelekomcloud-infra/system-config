@@ -26,12 +26,10 @@ add_disk 2 45 15 vdb
 add_disk 3 48 72 vdb
 
 # Zone 4
-# add_disk 4 104 104 sda1
-# add_disk 4 104 104 sdb1
+add_disk 4 104 104 vdd1
 
 # Zone 5
-# add_disk 5 105 105 sda1
-# add_disk 5 105 105 sdb1
+add_disk 5 105 105 vdd1
 
 # Zone 6
 add_disk 6 106 106 vdd1
@@ -44,5 +42,5 @@ add_disk 8 108 108 vdd1
 
 
 for p in $POLICIES; do
-    swift-ring-builder $p.builder rebalance
+    swift-ring-builder data/$p.builder rebalance
 done
