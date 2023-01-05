@@ -25,16 +25,17 @@
       data:
         nginx-site.conf: "{{ lookup('template', (document_hosting.nginx_template | default('nginx-site.conf.j2'))) }}"
         custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
+  register: doc_cm
 
 - name: Create Document Hosting {{ instance }} redirect map if requested
   include_tasks: redirect-map.yaml
   vars:
-    one_cm_data: "{{ {} | combine({redirect_item | basename | splitext | first  : lookup('template', redirect_item )})}}"
-    redirect_cm_name: "{{ redirect_item | basename | splitext | first }}"
-  with_fileglob: "templates/*.map.j2"
+    one_cm_data: "{{ { redirect_item.key : lookup('ansible.builtin.file', redirect_item.value) } }}"
+    redirect_cm_name: "{{ redirect_item.key }}"
+  loop: "{{ document_hosting.redirect_maps | dict2items }}"
   loop_control:
     loop_var: "redirect_item"
-  when: "document_hosting.redirect_map is defined and document_hosting.redirect_map"
+  when: "document_hosting.redirect_maps is defined and document_hosting.redirect_maps"
 
 - name: Create Document Hosting {{ instance }} TLS Certs Secret
   kubernetes.core.k8s:
@@ -76,10 +77,10 @@
     kind: "Role"
     definition:
       rules:
-      - apiGroups: ["*"]
-        resources: ["configmaps"]
-        verbs: ["get", "watch", "list"]
-  when: "document_hosting.redirect_map is defined and document_hosting.redirect_map"
+        - apiGroups: ["*"]
+          resources: ["configmaps"]
+          verbs: ["get", "watch", "list"]
+  when: "document_hosting.redirect_maps is defined and document_hosting.redirect_maps"
 
 - name: Create {{ instance }} SA binding
   kubernetes.core.k8s:
@@ -98,7 +99,7 @@
         kind: "Role"
         name: "{{ document_hosting_service_account_name }}-role"
         apiGroup: "rbac.authorization.k8s.io"
-  when: "document_hosting.redirect_map is defined and document_hosting.redirect_map"
+  when: "document_hosting.redirect_maps is defined and document_hosting.redirect_maps"
 
 - name: Create Document Hosting {{ instance }} Deployment
   kubernetes.core.k8s:
@@ -115,6 +116,8 @@
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
+        annotations:
+          cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
       spec:
         selector:
           matchLabels:
@@ -125,6 +128,8 @@
             labels:
               app.kubernetes.io/name: "document-hosting"
               app.kubernetes.io/instance: "{{ instance }}"
+            annotations:
+              cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
           spec:
             containers:
               - name: "document-hosting"
@@ -143,32 +148,32 @@
                     port: http
                 resources: "{{ document_hosting_resources | default(omit) }}"
                 volumeMounts:
-                - name: nginx-config
-                  mountPath: /etc/nginx/conf.d/
-                - name: nginx-config
-                  mountPath: /usr/share/nginx/html/custom_404.html
-                  subPath: custom_404.html
-                - name: nginx-config
-                  mountPath: /etc/nginx/redirect.map
-                  subPath: redirect.map
-                - mountPath: /etc/nginx/redirect
-                  name: redirect-map-volume
+                  - name: nginx-config
+                    mountPath: /etc/nginx/conf.d/
+                  - name: nginx-config
+                    mountPath: /usr/share/nginx/html/custom_404.html
+                    subPath: custom_404.html
+                  - name: nginx-config
+                    mountPath: /etc/nginx/redirect.map
+                    subPath: redirect.map
+                  - mountPath: /etc/nginx/redirect
+                    name: redirect-map-volume
               - env:
-                - name: METHOD
-                  value: WATCH
-                - name: LABEL
-                  value: redirect_map
-                - name: LABEL_VALUE
-                  value: "true"
-                - name: FOLDER
-                  value: /tmp/redirect
-                - name: RESOURCE
-                  value: configmap
+                  - name: METHOD
+                    value: WATCH
+                  - name: LABEL
+                    value: redirect_map
+                  - name: LABEL_VALUE
+                    value: "true"
+                  - name: FOLDER
+                    value: /tmp/redirect
+                  - name: RESOURCE
+                    value: configmap
                 image: "{{ document_hosting.kiwigrid_image }}"
                 name: redirect-configmap-sync
                 volumeMounts:
-                - mountPath: /tmp/redirect
-                  name: redirect-map-volume
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
             serviceAccountName: "{{ document_hosting_service_account_name }}"
             volumes:
               - configMap:
@@ -180,19 +185,19 @@
             affinity:
               podAntiAffinity:
                 preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 100
-                  podAffinityTerm:
-                    labelSelector:
-                      matchExpressions:
-                      - key: "app.kubernetes.io/instance"
-                        operator: In
-                        values:
-                        - "{{ instance }}"
-                      - key: "app.kubernetes.io/name"
-                        operator: In
-                        values:
-                        - "document-hosting"
-                    topologyKey: kubernetes.io/hostname
+                  - weight: 100
+                    podAffinityTerm:
+                      labelSelector:
+                        matchExpressions:
+                          - key: "app.kubernetes.io/instance"
+                            operator: In
+                            values:
+                              - "{{ instance }}"
+                          - key: "app.kubernetes.io/name"
+                            operator: In
+                            values:
+                              - "document-hosting"
+                      topologyKey: kubernetes.io/hostname
 
 - name: Create Document Hosting {{ instance }} Autoscaler
   kubernetes.core.k8s:
