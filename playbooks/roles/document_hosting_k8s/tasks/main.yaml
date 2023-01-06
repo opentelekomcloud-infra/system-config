@@ -28,10 +28,24 @@
   register: doc_cm
 
 - name: Create Document Hosting {{ instance }} redirect map if requested
-  include_tasks: redirect-map.yaml
-  vars:
-    one_cm_data: "{{ { redirect_item.key : lookup('ansible.builtin.file', redirect_item.value) } }}"
-    redirect_cm_name: "{{ redirect_item.key }}"
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ redirect_item.key }}"
+    kind: "ConfigMap"
+    api_version: "v1"
+    apply: "yes"
+    server_side_apply:
+      field_manager: "ansible"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+          redirect_map: "true"
+      data: "{{ { redirect_item.key : lookup('ansible.builtin.file', redirect_item.value) } }}"
   loop: "{{ document_hosting.redirect_maps | dict2items }}"
   loop_control:
     loop_var: "redirect_item"

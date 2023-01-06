@@ -50,7 +50,7 @@ server {
 {% if document_hosting.redirect_maps is defined and document_hosting.redirect_maps %}
     if ($new_uri != "") {
       #rewrite based on redirect.map mapper
-      rewrite ^(.*)$ $new_uri permanent;
+      rewrite ^(.*)$ https://$server_name$new_uri permanent;
       break;
     }
 {% endif %}

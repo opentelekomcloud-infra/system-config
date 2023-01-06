@@ -68,7 +68,6 @@ help_center_redirects:
   web-application-firewall-dedicated: "templates/docs_hosting/redirect_maps/redirect-web-application-firewall-dedicated.map"
   web-application-firewall: "templates/docs_hosting/redirect_maps/redirect-web-application-firewall.map"
 
-
 document_hosting_instances:
   stg:
     server_name: "docs.apps.osinfra-stg.eco.tsi-dev.otc-service.com"
@@ -76,6 +75,7 @@ document_hosting_instances:
     image: "{{ document_hosting_image_latest }}"
     cluster_issuer: "letsencrypt-staging"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
+    kiwigrid_image: "quay.io/kiwigrid/k8s-sidecar:1.19.2"
   helpcenter:
     server_name: "docs-beta.otc.t-systems.com"
     not_found: "The page you are requesting is not available..."
@@ -83,12 +83,14 @@ document_hosting_instances:
     cluster_issuer: "letsencrypt-prod"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
     ingress_class: "nginx"
+    kiwigrid_image: "quay.io/kiwigrid/k8s-sidecar:1.19.2"
   main:
     server_name: "docs.otc-service.com"
     not_found: "The page you are requesting is not available..."
     image: "{{ document_hosting_image_stable }}"
     cert: "docs"
     nginx_template: "templates/docs_hosting/nginx-public.conf.j2"
+    kiwigrid_image: "quay.io/kiwigrid/k8s-sidecar:1.19.2"
   int:
     server_name: "docs-int.otc-service.com"
     not_found: "The page you are requesting is not available..."
