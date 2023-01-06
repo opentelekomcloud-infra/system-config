@@ -1,12 +1,11 @@
 # Whether or not to install ARA
 install_ansible_ara_enable: false
 
-# See available configuration options in the ARA docs:
-# https://ara.readthedocs.io/en/stable/configuration.html
-# Note that this may be set in the private host vars when using mysql so we can
-# keep the credentials secret.
+# See available configuration options for the callback in the ARA docs:
+# https://ara.readthedocs.io/en/latest/ara-plugin-configuration.html
 install_ansible_ara_config:
-  # Connection string for ARA
-  # https://ara.readthedocs.io/en/stable/configuration.html#ara-database
-  # Ex: mysql+pymysql://ara:password@localhost/ara
-  database: "sqlite:////var/cache/ansible/ara.sqlite"
+  api_client: offline
+#  api_server: http://127.0.0.1:8000
+#  api_username: null
+#  api_password: null
+#  api_timeout: 30
