@@ -292,8 +292,21 @@
           - hosts:
               - "{{ document_hosting.server_name }}"
             secretName: "{{ document_hosting_ssl_cert_name }}"
+          - hosts:
+              - "{{ document_hosting.beta_server_name }}"
+            secretName: "{{ document_hosting_ssl_cert_name }}"
         rules:
           - host: "{{ document_hosting.server_name }}"
+            http:
+              paths:
+                - path: "/"
+                  pathType: "Prefix"
+                  backend:
+                    service:
+                      name: "{{ document_hosting_svc_name }}"
+                      port:
+                        number: 8080
+          - host: "{{ document_hosting.beta_server_name }}"
             http:
               paths:
                 - path: "/"
