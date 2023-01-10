@@ -13,7 +13,7 @@
         [
         {%- for host, values in _bridge_inventory['all']['hosts'].items() -%}
         {%   for key in values['host_keys'] %}
-        '{{ host }},{{ values.public_v4 }}{{ "," + values.public_v6 if 'public_v6' in values}} {{ key }}',
+        '{{ host }},{{ values.public_v4 | default(values.ansible_host) }}{{ "," + values.public_v6 if 'public_v6' in values}} {{ key }}',
         {%   endfor %}
         {%- endfor -%}
         ]
