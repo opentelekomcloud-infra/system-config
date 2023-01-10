@@ -1,7 +1,8 @@
 document_hosting:
   swift_server: swift.example.com:443
-  server_name: docs.example.com
-  alt_server_name: docs-beta.example.com
+  server_name: 
+    - docs.example.com
+    - *.example.com
   swift_projectid: project_id
   not_found: "The page you are requesting is not available..."
   image: quay.io/opentelekomcloud/nginx-unprivileged

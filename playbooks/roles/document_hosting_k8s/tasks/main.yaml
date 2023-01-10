@@ -290,13 +290,13 @@
         ingressClassName: "{{ document_hosting.ingress_class | default(omit) }}"
         tls:
           - hosts:
-              - "{{ document_hosting.server_name }}"
+              - "{{ document_hosting.server_name.0 }}"
             secretName: "{{ document_hosting_ssl_cert_name }}"
           - hosts:
-              - "{{ document_hosting.alt_server_name }}"
+              - "{{ document_hosting.server_name.1 }}"
             secretName: "{{ document_hosting_ssl_cert_name }}"
         rules:
-          - host: "{{ document_hosting.server_name }}"
+          - host: "{{ document_hosting.server_name.0 }}"
             http:
               paths:
                 - path: "/"
@@ -306,7 +306,7 @@
                       name: "{{ document_hosting_svc_name }}"
                       port:
                         number: 8080
-          - host: "{{ document_hosting.alt_server_name }}"
+          - host: "{{ document_hosting.server_name.1 }}"
             http:
               paths:
                 - path: "/"
