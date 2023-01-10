@@ -1,78 +1,94 @@
-# If install_ansible_version is not defined (note; not *empty*) it
-# should be "latest"
-- name: Set ansible default version to latest
-  set_fact:
-    install_ansible_version: latest
-  when: install_ansible_version is not defined
+# The -devel job in particular already defines
+# install_ansbile_requirements in the job definition to pick
+# main/devel branch repos checked out from Zuul
+- name: Set default ansible install requirements
+  when: install_ansible_requirements is not defined
+  block:
+  - name: Set defaults
+    set_fact:
+      _install_ansible_requirements:
+        - 'ansible<8'
+        - 'openstacksdk'
 
-# If a version is not explicitly set we want to make sure to
-# completely omit the version argument to pip:, as it will be coming
-# from the long-form install_ansible_name variable.  Additionally, if
-# the version is the special value "latest", then we also want to omit
-# any version number, but also set the package state to "latest".
-- name: Set ansible version for installation
-  set_fact:
-    _install_ansible_version: '{{ install_ansible_version }}'
-  when: install_ansible_version not in ('', 'latest')
+  - name: Add ARA to defaults if enabled
+    when: install_ansible_ara_enable
+    set_fact:
+      _install_ansible_requirements: '{{ _install_ansible_requirements + ["ara[server]"] }}'
 
-- name: Set ansible package state for installation
-  set_fact:
-    _install_ansible_state: latest
-  when: install_ansible_version == 'latest'
+  - name: Set variable
+    # NOTE(ianw) the block when: statement is calcuated for each task
+    # -- keep this last!
+    set_fact:
+      install_ansible_requirements: '{{ _install_ansible_requirements }}'
 
-# Since Ansible 2.10 (~2020-08) the devel core package is split into
-# "ansible-core".  The PyPi the package "ansible" has everything in it
-# (the so called Ansible Community Distribution) but we specifically
-# want to test against devel.  However, ARA still depends on the
-# "ansible" package -- but we like ARA, because we can see the nested
-# runs with it.  To to keep ARA but avoid it bringing in either an old
-# version of Ansible, or the ACD, install a dummy package.
-- name: Check if running devel branch
-  set_fact:
-    _install_ansible_from_devel: true
-  when: '"github.com/ansible/ansible" in install_ansible_name'
-
-- name: Setup Ansible stub for post 2.10 compat
-  include_tasks: install_ansible_stub.yaml
-  when: _install_ansible_from_devel is defined
-
-# From Ansible 2.10 >= most of the fun stuff is in collections.  Clone
-# our required collections here.  Note, in production, we use ACD
-# which bundles most of this.
-#
-# TODO(ianw): we should add these to zuul and link the speculative
-# copies into ansible, then we could test changes in the collections!
-- name: Install Ansible collections
-  include_tasks: install_ansible_collection.yaml
-  when: _install_ansible_from_devel is defined
-  loop:
-    - namespace: ansible
-      name: netcommon
-      repo: ansible-collections/ansible.netcommon
-    - namespace: ansible
-      name: posix
-      repo: ansible-collections/ansible.posix
-    - namespace: community
-      name: general
-      repo: ansible-collections/community.general
-    - namespace: community
-      name: crypto
-      repo: ansible-collections/community.crypto
-
-- name: Ensure required Ansible build packages for non-wheel architectures
+# NOTE(ianw) 2022-10-26 : ARM64 generally needs this because upstream
+# projects don't always ship arm64 wheels.  But x86 may need it when
+# we have a fresh host with a more recent Python too
+- name: Ensure required Ansible build packages
   apt:
     update_cache: yes
     name:
       - libffi-dev
       - libssl-dev
       - build-essential
-  when: ansible_architecture == 'aarch64'
+      - python3-dev
 
-- name: Install ansible
+- name: Install python-venv package
+  package:
+    name:
+      - python3-venv
+    state: present
+
+- name: Create venv
+  include_role:
+    name: create-venv
+  vars:
+    create_venv_path: '/usr/ansible-venv'
+
+# The boostrap job runs this all the time, and we'd like to skip
+# trying to update the venv mostly.  But we also want to have things
+# like ansible specify '<X' so we pick up point releases.  By writing
+# the current day into the requirements.txt, the template updates once
+# a day, and thus we update the venv just once a day.
+- name: Get current day
+  shell: 'date +%Y-%m-%d'
+  register: _date
+
+- name: Write out requirements file
+  template:
+    src: requirements.txt.j2
+    dest: '/usr/ansible-venv/requirements.txt'
+    owner: root
+    group: root
+    mode: 0644
+  register: _requirements_updated
+
+- name: Install packages
+  when: _requirements_updated.changed
   pip:
-    name: '{{ install_ansible_name | default("ansible") }}'
-    version: '{{ _install_ansible_version | default(omit) }}'
-    state: '{{ _install_ansible_state | default(omit) }}'
+    requirements: '/usr/ansible-venv/requirements.txt'
+    # Always upgrade because only called in response to
+    # requirements.txt changes.
+    state: latest
+    virtualenv: '/usr/ansible-venv'
+
+# From Ansible 2.10 >= most of the fun stuff is in collections.  Clone
+# our required collections here.  Note this is only for our testing of
+# the devel branch; if we're using a release we use the Ansible
+# distribution package which bundles all this.
+- name: Install Ansible collections
+  include_tasks: install_ansible_collection.yaml
+  when: install_ansible_collections is defined
+  loop: '{{ install_ansible_collections }}'
+
+- name: Symlink Ansible globally
+  file:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    state: link
+  loop:
+    - { src: '/usr/ansible-venv/bin/ansible-playbook', dest: '/usr/local/bin/ansible-playbook' }
+    - { src: '/usr/ansible-venv/bin/ansible', dest: '/usr/local/bin/ansible' }
 
 - name: Ansible version check
   command: 'ansible-playbook --version'
@@ -90,58 +106,19 @@
   debug:
     msg: '{{ _ansible_version_check.stdout }}'
 
-- name: Set up the ARA callback
-  include_tasks: install_ara.yaml
+# This registered variable is templated into ansible.cfg below
+# to setup the callback plugins for ARA
+- name: Get ARA's location for callback plugins
   when: install_ansible_ara_enable
+  command: /usr/ansible-venv/bin/python3 -m ara.setup.callback_plugins
+  register: install_ansible_ara_callback_plugins
+  changed_when: false
 
 # For use by k8s_raw ansible module
 # - name: Install openshift client
 #   pip:
 #     name: 'openshift'
 # TODO(corvus): re-add this once kubernetes 9.0.0 is released
-
-# Same version/state default swizzling as described above for
-# openstacksdk
-- name: Set openstacksdk default version to latest
-  set_fact:
-    install_ansible_openstacksdk_version: latest
-  when: install_ansible_openstacksdk_version is not defined
-
-- name: Set openstacksdk version for installation
-  set_fact:
-    _install_ansible_openstacksdk_version: '{{ install_ansible_openstacksdk_version }}'
-  when: install_ansible_openstacksdk_version not in ('', 'latest')
-
-- name: Set openstacksdk package state for installation
-  set_fact:
-    _install_openstacksdk_state: latest
-  when: install_ansible_openstacksdk_version == 'latest'
-
-- name: Install openstacksdk
-  pip:
-    name: '{{ install_ansible_openstacksdk_name | default("openstacksdk") }}'
-    version: '{{ _install_ansible_openstacksdk_version | default(omit) }}'
-    state: '{{ _install_openstacksdk_state | default(omit) }}'
-
-# NOTE(ianw) 2021-03-03 stevedore < 3.3.0 has a bug where it creates a
-# constantly expanding set of cache files in
-# /root/.cache/python-endpoints when run under ansible in a /tmp
-# directory (this happens via cloud-launcher and openstacksdk).
-# Ensure the production host is updated, and drop a .disable file
-# for good measure
-- name: Ensure stevedore >= 3.3.0
-  pip:
-    name: 'stevedore>=3.3.0'
-- name: Add stevedore cache dir
-  file:
-    path: /root/.cache/python-entrypoints/
-    state: directory
-    mode: 0700
-- name: Add stevedore cache disable file
-  file:
-    path: /root/.cache/python-entrypoints/.disable
-    state: touch
-    mode: 0600
 
 - name: Ensure /etc/ansible and /etc/ansible/hosts
   file:
@@ -152,11 +129,6 @@
   file:
     state: directory
     path: /etc/ansible/inventory_plugins
-
-- name: Ensure /etc/ansible/plugins/lookup
-  file:
-    state: directory
-    path: /etc/ansible/plugins/lookup
 
 - name: Ensure /var/cache/ansible
   file:
@@ -205,11 +177,6 @@
     src: inventory_plugins/yamlgroup.py
     dest: /etc/ansible/inventory_plugins/yamlgroup.py
 
-- name: Copy vault_cloud_config plugin in place
-  copy:
-    src: lookup_plugins/vault_cloud_config.py
-    dest: /etc/ansible/plugins/lookup/vault_cloud_config.py
-
 - name: Setup log rotation
   include_role:
     name: logrotate
@@ -218,8 +185,3 @@
 
 - name: Verify ansible install
   command: ansible --version
-
-- name: Install additional Ansible collections
-  include_tasks: install_ansible_collection.yaml
-  when: install_ansible_collections is defined
-  loop: "{{ install_ansible_collections }}"
