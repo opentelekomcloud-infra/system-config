@@ -58,6 +58,16 @@ cloud_projects:
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Database cluster project"
+  - name: "eu-de_failover"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Failovers DE project"
+  - name: "eu-nl_failover"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-nl"
+    description: "Failovers NL project"
   # Docs and logs
   - name: "eu-de_docs"
     cloud: "otcinfra-domain2-admin"
@@ -318,7 +328,23 @@ cloud_nets:
           - name: "infra-subnet"
             cidr: "192.168.171.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.8.8']
-  # domain3
+#  - cloud: "otc_vault_448_de_failover"
+#    router: "eco-failover"
+#    nets:
+#      - name: "infra-net"
+#        subnets:
+#          - name: "infra-subnet"
+#            cidr: "192.168.160.0/24"
+#            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+#  - cloud: "otc_vault_448_nl_failover"
+#    router: "eco-failover"
+#    nets:
+#      - name: "infra-net"
+#        subnets:
+#          - name: "infra-subnet"
+#            cidr: "192.168.161.0/24"
+#            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+    # domain3
   - cloud: "otc_vault_449_de_eco_infra"
     router: "eco-infra"
     # enable_snat: true
@@ -379,7 +405,19 @@ cloud_nat_gws:
     router: "eco-infra"
     internal_network: "infra-net"
     spec: 1
-  # domain3
+#  - cloud: "otc_vault_448_de_failover"
+#    name: "otcinfra"
+#    description: "main NAT GW for the failover"
+#    router: "eco-failover"
+#    internal_network: "infra-net"
+#    spec: 1
+#  - cloud: "otc_vault_448_nl_failover"
+#    name: "otcinfra"
+#    description: "main NAT GW for the failover"
+#    router: "eco-failover"
+#    internal_network: "infra-net"
+#    spec: 1
+   # domain3
   - cloud: "otc_vault_449_de_eco_infra"
     name: "otcinfra"
     description: "main NAT GW for the infra"
