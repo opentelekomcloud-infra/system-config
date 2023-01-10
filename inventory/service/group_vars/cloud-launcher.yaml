@@ -328,22 +328,22 @@ cloud_nets:
           - name: "infra-subnet"
             cidr: "192.168.171.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.8.8']
-#  - cloud: "otc_vault_448_de_failover"
-#    router: "eco-failover"
-#    nets:
-#      - name: "infra-net"
-#        subnets:
-#          - name: "infra-subnet"
-#            cidr: "192.168.160.0/24"
-#            dns_nameservers: ['100.125.4.25', '8.8.8.8']
-#  - cloud: "otc_vault_448_nl_failover"
-#    router: "eco-failover"
-#    nets:
-#      - name: "infra-net"
-#        subnets:
-#          - name: "infra-subnet"
-#            cidr: "192.168.161.0/24"
-#            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  - cloud: "otc_vault_448_de_failover"
+    router: "eco-failover"
+    nets:
+      - name: "infra-net"
+        subnets:
+          - name: "infra-subnet"
+            cidr: "192.168.160.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  - cloud: "otc_vault_448_nl_failover"
+    router: "eco-failover"
+    nets:
+      - name: "infra-net"
+        subnets:
+          - name: "infra-subnet"
+            cidr: "192.168.161.0/24"
+            dns_nameservers: ['100.125.4.25', '8.8.8.8']
     # domain3
   - cloud: "otc_vault_449_de_eco_infra"
     router: "eco-infra"
@@ -405,18 +405,18 @@ cloud_nat_gws:
     router: "eco-infra"
     internal_network: "infra-net"
     spec: 1
-#  - cloud: "otc_vault_448_de_failover"
-#    name: "otcinfra"
-#    description: "main NAT GW for the failover"
-#    router: "eco-failover"
-#    internal_network: "infra-net"
-#    spec: 1
-#  - cloud: "otc_vault_448_nl_failover"
-#    name: "otcinfra"
-#    description: "main NAT GW for the failover"
-#    router: "eco-failover"
-#    internal_network: "infra-net"
-#    spec: 1
+  - cloud: "otc_vault_448_de_failover"
+    name: "otcinfra"
+    description: "main NAT GW for the failover"
+    router: "eco-failover"
+    internal_network: "infra-net"
+    spec: 1
+  - cloud: "otc_vault_448_nl_failover"
+    name: "otcinfra"
+    description: "main NAT GW for the failover"
+    router: "eco-failover"
+    internal_network: "infra-net"
+    spec: 1
    # domain3
   - cloud: "otc_vault_449_de_eco_infra"
     name: "otcinfra"
@@ -835,6 +835,21 @@ keycloak_sg: &keycloak_sg
       remote_ip_prefix: "0.0.0.0/0"
       description: "Keycloak web"
 
+hc_sg: &hc_sg
+  name: "hc_sg"
+  description: "HelpCenter security group"
+  rules:
+    - protocol: "tcp"
+      port_range_min: 22
+      port_range_max: 22
+      remote_ip_prefix: "0.0.0.0/0"
+    - protocol: "tcp"
+      port_range_min: 443
+      port_range_max: 443
+      remote_ip_prefix: "0.0.0.0/0"
+      description: "HTTPS"
+
+
 cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
     <<: *bastion_sg
@@ -874,6 +889,10 @@ cloud_security_groups:
     <<: *common_sg
   - cloud: "otc_vault_448_de_apimon"
     <<: *pg_sg
+  - cloud: "otc_vault_448_de_failover"
+    <<: *hc_sg
+  - cloud: "otc_vault_448_nl_failover"
+    <<: *hc_sg
 
 cloud_load_balancers:
   - cloud: "otc_vault_448_de_openstack_swift"
