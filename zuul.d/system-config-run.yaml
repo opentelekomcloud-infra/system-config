@@ -9,7 +9,6 @@
     run: playbooks/zuul/run-base.yaml
     post-run: playbooks/zuul/run-base-post.yaml
     vars:
-      install_ansible_ara_enable: false
       zuul_copy_output: "{{ copy_output | combine(host_copy_output | default({})) }}"
       stage_dir: "{{ ansible_user_dir }}/zuul-output"
       copy_output:
@@ -27,7 +26,21 @@
       - name: opendev.org/openstack/ansible-collections-openstack
         override-checkout: master
     host-vars:
-      bridge.eco.tsi-dev.otc-service.com:
+      bridge*.eco.tsi-dev.otc-service.com:
+        install_ansible_collections:
+          - namespace: opentelekomcloud
+            name: apimon
+            repo: stackmon/ansible-collection-apimon
+          - namespace: opentelekomcloud
+            name: cloud
+            repo: opentelekomcloud/ansible-collection-cloud
+          - namespace: opentelekomcloud
+            name: gitcontrol
+            repo: opentelekomcloud/ansible-collection-gitcontrol
+          - namespace: openstack
+            name: cloud
+            repo: openstack/ansible-collections-openstack
+            git_provider: opendev.org
         host_copy_output:
           '{{ zuul.project.src_dir }}/junit.xml': logs
           '{{ zuul.project.src_dir }}/test-results.html': logs
