@@ -51,6 +51,7 @@
         dest: "/etc/ansible/hosts/{{ item }}"
       loop:
         - group_vars/all.yaml
+        - group_vars/bastion.yaml
         - group_vars/control-plane-clouds.yaml
         - group_vars/ssl_certs.yaml
         - group_vars/apimon.yaml

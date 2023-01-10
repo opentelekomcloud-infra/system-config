@@ -68,6 +68,10 @@ groups:
   apimon-stg:
     - bridge.apimon.eco.tsi-dev.tsi-service.com
 
+  bastion:
+    - bastion*.eco.tsi-dev.otc-service.com
+    - bridge*.eco.tsi-dev.otc-service.com
+
   # Carbonapi
   carbonapi:
     # Bridge is here to allow k8 access to vars

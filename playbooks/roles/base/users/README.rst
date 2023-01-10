@@ -19,6 +19,12 @@ Configure users on a server.  Users are given sudo access
 
    Extra users to install on a specific host or group
 
+.. zuul:rolevar:: disabled_distro_cloud_users
+   :default: []
+
+   Distro cloud image default users to remove from hosts. This removal is
+   slightly more forceful than the removal of normal users.
+
 .. zuul:rolevar:: disabled_users
    :default: []
 
