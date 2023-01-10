@@ -15,6 +15,14 @@
     group: root
     mode: 0440
 
+- name: Setup adduser.conf file
+  copy:
+    dest: /etc/adduser.conf
+    src: '{{ ansible_facts.os_family }}/adduser.conf'
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Setup login.defs file
   copy:
     dest: /etc/login.defs
@@ -22,6 +30,17 @@
     owner: root
     group: root
     mode: 0644
+
+- name: Delete default distro cloud image users
+  # Do this in a separate task so that we can use force: yes which is
+  # probably too destructive for normal users, but should be fine for
+  # these built in cloud image names.
+  loop: "{{ disabled_distro_cloud_users }}"
+  user:
+    name: "{{ item }}"
+    state: absent
+    remove: yes
+    force: yes
 
 - name: Delete old users
   loop: "{{ disabled_users }}"

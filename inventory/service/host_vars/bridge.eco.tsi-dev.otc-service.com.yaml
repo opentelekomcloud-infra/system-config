@@ -1,13 +1,3 @@
-bastion_key_exclusive: false
-bridge_ansible_version: "7.1.0"
-
-kube_config_template: clouds/bridge_kube_config.yaml.j2
-extra_users:
-  - zuul
-
-cloud_launcher_profiles: []
-cloud_launcher_clouds: []
-
 use_upstream_docker: False
 
 x509_certificates:
