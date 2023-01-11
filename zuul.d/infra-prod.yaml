@@ -49,7 +49,7 @@
       - name: github.com/opentelekomcloud/ansible-collection-gitcontrol
         override-checkout: main
       - name: opendev.org/openstack/ansible-collections-openstack
-        override-checkout: 1.8.0
+        override-checkout: main
     files:
       - playbooks/boostrap-bridge.yaml
       - playbooks/zuul/run-production-bootstrap-bridge.yaml
