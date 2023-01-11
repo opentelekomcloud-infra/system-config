@@ -3,95 +3,145 @@ all:
     bastion.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.10
       ansible_user: automation
+      public_v4: 192.168.110.10
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBO3RHfleGRMVSNHSBg634EJwM1jYMrbsHTibECPttH1xc6Hdq5XSk/LWYYAeR8g3otMjxxwCVS13e/nMQNMlYvo='
     scheduler1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.58
       ansible_user: automation
+      public_v4: 192.168.110.58
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF43yVqjpjvGhiyvxxKg8GopIn401sUL+XOaZy5limHRu/W9vlTMKyQBb2hOO5J9Qo/71XJciAJYHiX46YC67IY='
     executor1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.225
       ansible_user: automation
+      public_v4: 192.168.110.225
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHjaOBm6r6ZutikCTQONG1QunfApsR4o/InT344055jZudZsD0vmag6Lv2JmaZRBMROyHVC4mROoFptZNT54z3w='
     executor2.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.2.60
       ansible_user: automation
+      public_v4: 192.168.2.60
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
     executor3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.145
       ansible_user: automation
+      public_v4: 192.168.110.145
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKX2DWGS0GQtm1J4xo+kqZcDXprQI99Vr5aQx0rAgvAwodlFwJpJvoc7l+OhCsPLkU1s+D/AbA3z6BQQFLvx8qI='
     executor4.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.164
       ansible_user: automation
+      public_v4: 192.168.110.164
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBODGaSYNGnCUpVUvzzfzfRbn/Wn7qNQbzEHL9BF3/+uccsCp9+6F6tIM5l/D/GmszHmDodyYbB8GzoSEFL/yLqo='
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
+      public_v4: 192.168.110.249
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE4dnaYcIiRDqdE7CvX4XzrJUumhmW1v3kNfMFnvuG3tEz4FxC0+rm7/1HV7qWMLsS7x0VGixdbAMnmhqVUmMBI='
     preprod.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.207
       ansible_user: automation
+      public_v4: 192.168.110.207
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIvp6vPPhXzZCsJEMAiQSlUZQ+B/gsd4lV65SZRBSM9vYOX0NGJyWRf7Bo2lIQzpQnMW8oASCBMlwAVqrGi62lk='
     graphite1.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.191.55
       ansible_user: automation
+      public_v4: 192.168.191.55
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
     graphite2.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.159
       ansible_user: automation
+      public_v4: 192.168.14.159
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHgvp6PXJRhTkVzjnD1+oRsgEka02t34C+6stSNSP5hMgYz844exqJVZrB8eDE8Wl/QXOsR2eupBNUYJzUCDWRo='
     graphite3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.11
       ansible_user: automation
+      public_v4: 192.168.151.11
         #location:
         #  cloud: "otcinfra-domain3-infra-nl"
         #  az: "eu-nl-01"
         #  region: "eu-nl"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK+SKubrx+fxYz9uQ0abQWXdvWSbP22taXgMY4uGTpi2l99/O0ctElLBYEG0xHr0HF6XgT3fx15r9kkuaCeZvrw='
     graphite1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.241
       ansible_user: automation
+      public_v4: 192.168.14.241
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLgj7wCMal2RTsIoCad1xXbnVKpVeeLY5HD5K+KUulKbWD8oMVYrvavIvBOz/t2eNQumDQKhe5rLiYCpiDWl/Hk='
     proxy1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.160
       ansible_user: automation
+      public_v4: 192.168.110.160
       location:
         provider: "otc"
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEIYwNg0Kgt0niQLRtSMre1UbF9EZFIAbxRKuGJ1hVl7jurlVLtGNptFuKUgzh5GGume9DuOMd9ds+N3SCdz1WU='
     proxy2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.151
       ansible_user: automation
+      public_v4: 192.168.110.151
       location:
         provider: "otc"
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC85A2P8NFeLqXTFCYIZiGRQuotAtRlku7UiGAnh9y6gXBILGg/F3m34apKrY9PLk1Y0OLUD4zmx0vlLr+eq5LQ='
     web3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.2.52
       ansible_user: automation
+      public_v4: 192.168.2.52
       location:
         provider: vcloud
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29
       ansible_user: automation
+      public_v4: 192.168.110.29
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBF5fsmQImQIzni107n2sNhWIa7M0a2SlvxdMvegy67gaQGIh5lI30/hQ0Nyz1N3MbC/h5VetJm+hzJaYuo3Y3yQ='
+        - 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCihP3c2JSZG6aFFVruAh3TXlygaoVfon3aUwmpmBVwLbmlpHmuIMfG3dpdFfuEVjwRB1FNp3w510gbDZl+K/E/6trnxkZ7iNkVCL1VZoFrpFQU065QaP3uIrwGWdNeatTrI14YlM4CFIyrdsUithy28RaoKDBFOV4DTLuNZvGvogc7fR4nkTDitzeyEkGugD7v9ZNQiW7tyPiUv1nP911vTSA+R1cJkXlXx1FAxC6y1qXJuH4nKoCmPrYBGanljiUvGHt4YLCF0evYnMipuO0uSMvZG1qGjP1GtSOac1BhKnjTUNaXIYPr8WFB7N57VLDHgfa5s/zLS5P6BdC7FogPuFs9+6k9n4uko9ugYx4cXKObYzbrvvWMwEG5dIphde+Tv9uwpY66cKDpaFYapKN3FpGE3Q9wi43JSjXeySSJJIgafIskTpkmBwgEAM8L0NOqIAAjW8Q+gdxMneD3C5QlAXsb5dLPPuVylVObg5VDi4+u278ndko+DfCbGDw/rYU='
+        - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJEukfStIMZq8DT5pGpcVAWJ9OzQqivuggLHmVaqx2kd'
     #zk1.zuul.eco.tsi-dev.otc-service.com:
     #  ansible_host: 192.168.20.116
     #  ansible_user: automation
@@ -104,108 +154,165 @@ all:
     controller.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.181
       ansible_user: automation
+      public_v4: 192.168.80.181
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFeVK2qEPXEeDSzuRzVEMFZ4WyTIEmaq+O5GvAG5hLsQcFgeJMSnMMLFOv0ivaXjK1XXdsDbPETL5xuI7l1CSks='
     proxy1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.190
       ansible_user: automation
+      public_v4: 192.168.80.190
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNQyuLQd2eWTWWzdNEV7aXRu9NQ0MI+1mmqgm2dRSgy2sTUyakeBqFeHKuWdVpEv0lUEi1YNKVi6tydN4GKDYcM='
     proxy2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.129
       ansible_user: automation
+      public_v4: 192.168.80.129
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBB9vtraua0hTHdoRP1RlErMItedKotvRIF1bUGgDPknDm81yzCMru9EJGsAIvi8G21RhddjO3CBjyxYp6kpq2UQ='
     proxy3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.15
       ansible_user: automation
+      public_v4: 192.168.80.15
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIYVNoXSrfgNlQ8ZeGEkEZKsBYp6EW6XvBngScedeIfxsQ84O0ZmSPf5jPGdOl3IWNuOMGOSObuX9VbJJe9yQi4='
     storage1.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.86
       ansible_user: automation
+      public_v4: 192.168.80.86
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIOmBE098sLSwDiXvPSTIWAmjDWsRTrLEQ+cGKTIk7yIh0e9eam3MwnSPbrR0sqt09J06U19kkEUTW6+pkZWKXg='
     storage2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.2
       ansible_user: automation
+      public_v4: 192.168.80.2
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMeAklcRAwMTNMbbflumUySM6nwDqo814bmIevl4Z26WyBgIkU7qQkAwnI2wFVbaSCb5xh1c5FrQFTO09eGFZ8c='
     storage3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.158
       ansible_user: automation
+      public_v4: 192.168.80.158
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBMfI6II6ENlsHvLtR5XM2yHO5fra84K8QA8b72wISp5XW3usrFpqw3c1RG9kpuDW1f/4o1nPQZYusx94dV/hh8='
     storage4.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.104
       ansible_user: automation
+      public_v4: 192.168.80.104
       location:
         cloud: "otc_vault_448_de_openstack_swift"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIGId3KQgD+OUl54jqBJItC0a/2Y3yNfH8JsISf/B1mv1FL+5hSwRXjEKtxlrgvGnxmgkCGs2pLYoCWU/AhtUwU='
     storage5.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.105
       ansible_user: automation
+      public_v4: 192.168.80.105
       location:
         cloud: "otc_vault_448_de_openstack_swift"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNk1qLCkhe44neW1JgUwEDZwdlqgzh26pHBbc6enSRP18j5aXAqxnJD22Uuvk2cKynPkrhNLK3x2xhgcWC/m/7k='
     storage6.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.106
       ansible_user: automation
+      public_v4: 192.168.80.106
       location:
         cloud: "otc_vault_448_de_openstack_swift"
         az: "eu-de-03"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBM5f8SQRHrtVuVm2xLM/QidKKM8V8F5/3bgqFfDgNr0wP/t4xn+9TCpwU1b4zCB/jbuXnTeuO9X1NTqftQN/+F4='
     storage7.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.107
       ansible_user: automation
+      public_v4: 192.168.80.107
       location:
         cloud: "otc_vault_448_de_openstack_swift"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH79tc4qExJhvDRoUspkabOpuxTvaRFZftju/R+ViK7OphRIxdol8LvCKw5UIGlF0Z+ElS7MatA+Z/wpVJ+ttlM='
     storage8.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.108
       ansible_user: automation
+      public_v4: 192.168.80.108
       location:
         cloud: "otc_vault_448_de_openstack_swift"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDBcYYNAkxV17fZOCcF9AEVxbmUt4ZjCrZoRdMoPPS1+1nMD7C/sR3UX09qWyFzf3FeFds6uNeADFY3Yz7EMaRo='
     vault1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.123
       ansible_user: automation
+      public_v4: 192.168.170.123
       location:
         cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFiPzNLi9kxmb4FeAjpQ8GfXpUqzZxs+1L1JqYmAhaNPdy6DwcKglWde/ce3DxFA3YXGGNw8B1euq+hI/zoNVxI='
     vault2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.123
       ansible_user: automation
+      public_v4: 192.168.150.123
       location:
         cloud: "otc_vault_449_de_eco_infra"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNgVYQmU1AEzantVTjKpe1A6z22ve8/gMkdBFFwHgQicG6ppU+0L9LtVJsLd7xgSg8wnUGaZUotQ9sfKogwb2LQ='
     vault3.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.151.123
       ansible_user: automation
+      public_v4: 192.168.151.123
       location:
         cloud: "otc_vault_449_nl_eco_infra"
         az: "eu-nl-01"
         region: "eu-nl"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBE3Afc7X7kB5v6Rre0LJRC05R/KVW5iV6q+KKyHHQWMCXTdEHRDkgXiSDwxV7FPneZB7QT42QqNfoa43Zz4ptP0='
     influx1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.227
       ansible_user: automation
+      public_v4: 192.168.110.227
       location:
         cloud: "otc_vault_448_de_apimon"
         az: "eu-de-03"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAcJjzbdsPgPP9kmdGyGwl7rXJr5SGeg0wPzZK9TBRY4v+SkFaJLMb1wkNmkzWZN99sKzZddLoEwizPVQcT/dRc='
     gitea1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.200
       ansible_user: automation
+      public_v4: 192.168.170.200
       location:
         cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBA4L6C0gdxqrbueQf+cEWVHxmZmcewbYCGV5wqEayTXT4ceoktkyzHjOjk4fa91VmE5He+GkC1a88hDnWcwT2+w='
     gitea2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.200
       ansible_user: automation
+      public_v4: 192.168.150.200
       location:
         cloud: "otc_vault_449_de_eco_infra"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEzIRChgeuRUouUD5cCUAqtVhvEExDqY9NkXZk55dYEyvCBsb9NGtts2mnkTgNduIBmd2WThVxEOXPzHCMveaxg='
     keycloak1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.90
       ansible_user: automation
+      public_v4: 192.168.170.90
       location:
         cloud: "otc_vault_448_de_eco_infra"
         az: "eu-de-02"
         region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNuE4ogtK1l57J6Pr8IUS6UJmGf6Q+UJUrSqqUYpSBpP1ijGhOXbytQjauQ4q22UCr0B+Aet5LvyXk2Rg9cUlLI='
     hc1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.160.101
       ansible_user: automation
@@ -213,6 +320,7 @@ all:
         cloud: "otc_vault_448_de_failover"
         az: "eu-de-01"
         region: "eu-de"
+      host_keys: []
     hc2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.161.101
       ansible_user: automation
@@ -220,3 +328,4 @@ all:
         cloud: "otc_vault_448_nl_failover"
         az: "eu-nl-01"
         region: "eu-nl"
+      host_keys: []

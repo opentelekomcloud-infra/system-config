@@ -85,6 +85,12 @@ base_users:
 extra_users: []
 # Users who should be removed
 disabled_users: []
+# Default distro cloud image names to remove
+disabled_distro_cloud_users:
+  - ubuntu
+  - linux
+  - centos
+  - admin
 # telegraf
 telegraf_image: "{{ telegraf_image_stable }}"
 telegraf_output_graphite_host: 192.168.14.159

@@ -30,22 +30,7 @@
         install_ansible_version: '{{ bridge_ansible_version | default("6.0.0") }}'
         install_ansible_openstacksdk_name: '{{ bridge_openstacksdk_name | default("openstacksdk") }}'
         install_ansible_openstacksdk_version: '{{ bridge_openstacksdk_version | default("latest") }}'
-        install_ansible_collections:
-          # keep namespace opentelekomcloud till we update also playbooks
-          - namespace: opentelekomcloud
-            name: apimon
-            repo: stackmon/ansible-collection-apimon
-          - namespace: opentelekomcloud
-            name: cloud
-            repo: opentelekomcloud/ansible-collection-cloud
-          - namespace: opentelekomcloud
-            name: gitcontrol
-            repo: opentelekomcloud/ansible-collection-gitcontrol
-          - namespace: openstack
-            name: cloud
-            repo: openstack/ansible-collections-openstack
-            git_provider: opendev.org
-
+          #
     # This is the key that bridge uses to log into remote hosts.
     #
     # For production, this root-key variable is kept with the others
@@ -106,3 +91,7 @@
       loop:
         - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/base/hosts.yaml"
         - "/home/zuul/src/gitlab/ecosystem/system-config/inventory/service/groups.yaml"
+
+    - name: Setup global known_hosts
+      ansible.builtin.include_role:
+        name: add-inventory-known-hosts

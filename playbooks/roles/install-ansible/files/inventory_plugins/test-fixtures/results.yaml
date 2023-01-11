@@ -6,6 +6,7 @@ results:
   bridge.eco.tsi-dev.otc-service.com:
     - apimon-clouds
     - apimon
+    - bastion
     - cloud-launcher
     - database-launcher
     - control-plane-clouds

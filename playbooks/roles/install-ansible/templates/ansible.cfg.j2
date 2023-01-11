@@ -19,6 +19,7 @@ callback_plugins=/etc/ansible/callback_plugins:{{ install_ansible_ara_callback_p
 callback_plugins=/etc/ansible/callback_plugins
 {% endif %}
 stdout_callback=debug
+pipelining = True
 
 [inventory]
 enable_plugins=yaml,yamlgroup,advanced_host_list,ini

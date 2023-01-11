@@ -49,7 +49,7 @@
       - name: github.com/opentelekomcloud/ansible-collection-gitcontrol
         override-checkout: main
       - name: opendev.org/openstack/ansible-collections-openstack
-        override-checkout: 1.8.0
+        override-checkout: main
     files:
       - playbooks/boostrap-bridge.yaml
       - playbooks/zuul/run-production-bootstrap-bridge.yaml
@@ -57,6 +57,25 @@
       - playbooks/roles/install-ansible/
       - playbooks/roles/root-keys/
       - inventory/service/host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
+      - inventory/base/hosts.yaml
+      - inventory/service/group_vars/bastion.yaml
+    vars:
+      install_ansible_collections:
+        - namespace: opentelekomcloud
+          name: apimon
+          repo: stackmon/ansible-collection-apimon
+        - namespace: opentelekomcloud
+          name: cloud
+          repo: opentelekomcloud/ansible-collection-cloud
+        - namespace: opentelekomcloud
+          name: gitcontrol
+          repo: opentelekomcloud/ansible-collection-gitcontrol
+        - namespace: openstack
+          name: cloud
+          repo: openstack/ansible-collections-openstack
+          git_provider: opendev.org
+      install_ansible_requirements:
+        - hvac
 
 - job:
     name: infra-prod-base

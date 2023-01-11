@@ -1,0 +1,54 @@
+- name: Check directory is specified
+  assert:
+    that: create_venv_path is defined
+
+- name: Ensure venv dir
+  file:
+    path: '{{ create_venv_path }}'
+    state: directory
+
+# Xenial's default pip will try to pull in packages that
+# aren't compatible with 3.5.  Cap them
+- name: Setup requirements for bionic
+  when: ansible_distribution_version is version('16.04', '==')
+  set_fact:
+    _venv_requirements:
+      - pip<21
+      - setuptools<51
+
+# Bionic's default pip will try to pull in packages that
+# aren't compatible with 3.6.  Cap them
+- name: Setup requirements for Bionic
+  when: ansible_distribution_version is version('18.04', '==')
+  set_fact:
+    _venv_requirements:
+      - pip<22
+      - setuptools<60
+
+- name: Setup requirements for later era
+  when: ansible_distribution_version is version('20.04', '>=')
+  set_fact:
+    _venv_requirements:
+      - pip
+      - setuptools
+
+# This is used to timestamp the requirements-venv.txt file.  This
+# means we will run --upgrade on the venv once a day, but otherwise
+# leave it alone.
+- name: Get current day
+  shell: 'date +%Y-%m-%d'
+  register: _date
+
+- name: Write requirements
+  template:
+    src: requirements-venv.txt
+    dest: '{{ create_venv_path }}/requirements-venv.txt'
+  register: _venv_requirements_txt
+
+- name: Create or upgrade venv
+  when: _venv_requirements_txt.changed
+  pip:
+    requirements: '{{ create_venv_path }}/requirements-venv.txt'
+    state: latest
+    virtualenv: '{{ create_venv_path }}'
+    virtualenv_command: '/usr/bin/python3 -m venv'

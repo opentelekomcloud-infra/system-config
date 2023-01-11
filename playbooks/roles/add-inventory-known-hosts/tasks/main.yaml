@@ -1,0 +1,40 @@
+- name: Load the current inventory from bridge
+  slurp:
+    src: '/home/zuul/src/github.com/opentelekomcloud-infra/system-config/inventory/base/hosts.yaml'
+  register: _bridge_inventory_encoded
+
+- name: Turn inventory into variable
+  set_fact:
+    _bridge_inventory: '{{ _bridge_inventory_encoded.content | b64decode | from_yaml }}'
+
+- name: Build known_hosts list
+  set_fact:
+    bastion_known_hosts: >-
+        [
+        {%- for host, values in _bridge_inventory['all']['hosts'].items() -%}
+        {%   for key in values['host_keys'] %}
+        '{{ host }},{{ values.public_v4 }}{{ "," + values.public_v6 if 'public_v6' in values}} {{ key }}',
+        {%   endfor %}
+        {%- endfor -%}
+        ]
+
+- name: Write out values to /etc/ssh/ssh_known_hosts
+  blockinfile:
+    path: '/etc/ssh/ssh_known_hosts'
+    block: |
+      {% for entry in bastion_known_hosts %}
+      {{ entry }}
+      {% endfor %}
+    owner: root
+    group: root
+    mode: 0644
+    create: yes
+
+# Disable writing out known_hosts globally on the bastion host.
+# Nothing on this host should be connecting to somewhere not codified
+# above; this prevents us possibly hiding that by caching values.
+- name: Disable known_hosts caching
+  lineinfile:
+    path: /etc/ssh/ssh_config
+    regexp: 'UserKnownHostsFile'
+    line: '    UserKnownHostsFile /dev/null'
