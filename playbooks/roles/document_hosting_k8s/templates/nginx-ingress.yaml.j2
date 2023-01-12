@@ -10,23 +10,12 @@ spec:
   tls:
   {% for server_name in document_hosting.server_name %}
     - hosts:
-        - "{{ document_hosting.server_name.0 }}"
+        - "{{ server_name }}"
       secretName: "{{ document_hosting_ssl_cert_name }}"
-    - hosts:
-        - "{{ document_hosting.server_name.1 }}"
-      secretName: "{{ document_hosting_ssl_cert_name }}"
+  {% endfor %}
   rules:
-    - host: "{{ document_hosting.server_name.0 }}"
-      http:
-        paths:
-          - path: "/"
-            pathType: "Prefix"
-            backend:
-              service:
-                name: "{{ document_hosting_svc_name }}"
-                port:
-                  number: 8080
-    - host: "{{ document_hosting.server_name.1 }}"
+    {% for server_name in document_hosting.server_name %}
+    - host: "{{ server_name }}"
       http:
         paths:
           - path: "/"
