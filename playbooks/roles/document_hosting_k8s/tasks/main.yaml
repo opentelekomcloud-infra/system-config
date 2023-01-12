@@ -279,40 +279,5 @@
     kind: "Ingress"
     apply: "yes"
     definition:
-      metadata:
-        labels:
-          app.kubernetes.io/name: "document-hosting"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
-        annotations:
-          cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer | default(omit) }}"
-      spec:
-        ingressClassName: "{{ document_hosting.ingress_class | default(omit) }}"
-        tls:
-          - hosts:
-              - "{{ document_hosting.server_name.0 }}"
-            secretName: "{{ document_hosting_ssl_cert_name }}"
-          - hosts:
-              - "{{ document_hosting.server_name.1 }}"
-            secretName: "{{ document_hosting_ssl_cert_name }}"
-        rules:
-          - host: "{{ document_hosting.server_name.0 }}"
-            http:
-              paths:
-                - path: "/"
-                  pathType: "Prefix"
-                  backend:
-                    service:
-                      name: "{{ document_hosting_svc_name }}"
-                      port:
-                        number: 8080
-          - host: "{{ document_hosting.server_name.1 }}"
-            http:
-              paths:
-                - path: "/"
-                  pathType: "Prefix"
-                  backend:
-                    service:
-                      name: "{{ document_hosting_svc_name }}"
-                      port:
-                        number: 8080
+      "{{ lookup('template', 'nginx-ingress.yaml.j2') }}"
+    
