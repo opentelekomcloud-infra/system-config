@@ -1,5 +1,5 @@
 - name: Add users
-  ansuble.builtin.user:
+  ansible.builtin.user:
     name: "zuul"
     state: present
     uid: "{{ all_users['zuul'].uid }}"

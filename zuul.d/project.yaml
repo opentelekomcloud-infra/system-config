@@ -14,7 +14,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-document-hosting
+        - system-config-run-docs
         - system-config-run-graphite: &system-config-run-graphite
             dependencies:
               - name: system-config-run-memcached
@@ -42,7 +42,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-document-hosting
+        - system-config-run-docs
         - system-config-run-graphite: *system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta
@@ -76,11 +76,6 @@
                 soft: true
 
         - infra-prod-service-bridge: &infra-prod-service-bridge
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-document-hosting: &infra-prod-document-hosting
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -234,8 +229,6 @@
         - infra-prod-install-cce: *infra-prod-install-cce
         - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
-
-        - infra-prod-document-hosting: *infra-prod-document-hosting
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources

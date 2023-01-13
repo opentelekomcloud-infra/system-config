@@ -206,7 +206,7 @@
       - testinfra/test_executor.py
 
 - job:
-    name: system-config-run-document-hosting
+    name: system-config-run-docs
     parent: system-config-run
     description: |
       Run the playbook for the document-hosting servers.
@@ -219,10 +219,10 @@
           label: ubuntu-jammy
     vars:
       run_playbooks:
-        - playbooks/service-document-hosting.yaml
+        - playbooks/service-docs.yaml
+      document_hosting_k8s_instances: {}
     files:
-      - playbooks/service-document-hosting.yaml
-      - playbooks/roles/failover
+      - playbooks/service-docs.yaml
       - playbooks/roles/document_hosting
 
 - job:
