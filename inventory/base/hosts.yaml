@@ -314,7 +314,7 @@ all:
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNuE4ogtK1l57J6Pr8IUS6UJmGf6Q+UJUrSqqUYpSBpP1ijGhOXbytQjauQ4q22UCr0B+Aet5LvyXk2Rg9cUlLI='
     hc1.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.160.101
+      ansible_host: 80.158.17.179
       ansible_user: automation
       public_v4: 80.158.17.179
       location:
