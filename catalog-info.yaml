@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: system-config
+  annotations:
+    github.com/project-slug: opentelekomcloud-infra/system-config
+spec:
+  type: other
+  lifecycle: unknown
+  owner: eco
