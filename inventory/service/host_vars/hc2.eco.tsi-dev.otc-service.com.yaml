@@ -1,7 +1,7 @@
 ---
 image: "Standard_Ubuntu_22.04_latest"
-flavor: "c4.large.2"
-security_groups: ["failover_common", "hc_sg"]
+flavor: "c4.xlarge.2"
+security_groups: ["failover_common_sg", "hc_sg"]
 nics:
   - fixed_ip: "192.168.161.101"
     net-name: "infra-net"

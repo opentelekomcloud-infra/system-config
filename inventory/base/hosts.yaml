@@ -320,7 +320,8 @@ all:
         cloud: "otc_vault_448_de_failover"
         az: "eu-de-01"
         region: "eu-de"
-      host_keys: []
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFffEK/esn/o4mSEGn2UjwcNYgoV4D/f6jfkXd2RrKiy+DIQtev8g8Yz64680q1okZyU1a1Qf1H4rA/vvo/bffU="
     hc2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.161.101
       ansible_user: automation
