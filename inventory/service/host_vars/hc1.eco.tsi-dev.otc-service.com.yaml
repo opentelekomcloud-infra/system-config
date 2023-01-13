@@ -66,3 +66,6 @@ firewalld_extra_ports_enable:
 # for audit rules
 find_exclude_mountpoints:
   - "/srv/node/vdd1"
+
+extra_users:
+  - zuul
