@@ -16,6 +16,20 @@
         '/var/log/messages': logs_txt
         '/var/log/docker': logs
         '/var/log/containers': logs
+      install_ansible_collections:
+        - namespace: opentelekomcloud
+          name: apimon
+          repo: stackmon/ansible-collection-apimon
+        - namespace: opentelekomcloud
+          name: cloud
+          repo: opentelekomcloud/ansible-collection-cloud
+        - namespace: opentelekomcloud
+          name: gitcontrol
+          repo: opentelekomcloud/ansible-collection-gitcontrol
+        - namespace: openstack
+          name: cloud
+          repo: openstack/ansible-collections-openstack
+          git_provider: opendev.org
     required-projects:
       - name: github.com/opentelekomcloud/ansible-collection-cloud
         override-checkout: main
@@ -84,10 +98,11 @@
       currently in use.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
+        - <<: *bridge_node_x86
         - name: statsd.centos-stream
           label: centos-9-stream
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-statsd.yaml
@@ -103,8 +118,9 @@
       Run the playbook for the x509 certificates.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/x509-certs.yaml
@@ -121,12 +137,13 @@
       currently in use.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: epmon.centos-stream
           label: centos-9-stream
         - name: epmon.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-apimon-epmon.yaml
@@ -146,12 +163,13 @@
       currently in use.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: scheduler.centos-stream
           label: centos-9-stream
         - name: scheduler.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-apimon-scheduler.yaml
@@ -170,12 +188,13 @@
       currently in use.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: executor.centos-stream
           label: centos-9-stream
         - name: executor.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-apimon-executor.yaml
@@ -194,12 +213,13 @@
     timeout: 3600
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: graphite2.apimon.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
         - name: graphite1.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/acme-certs.yaml
@@ -220,10 +240,11 @@
     timeout: 3600
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: memcached.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-memcached.yaml
@@ -240,10 +261,11 @@
       Run the playbook for the alerta servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: alerta.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-alerta.yaml
@@ -260,10 +282,11 @@
       Run the playbook for the grafana servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: grafana.focal
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-grafana.yaml
@@ -280,10 +303,11 @@
       Run the playbook for the acme-ssl servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: le1
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/acme-certs.yaml
@@ -302,10 +326,11 @@
       Run the playbook for the proxy servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: proxy1.eco.tsi-dev.otc-service.com
           label: centos-9-stream
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/acme-certs.yaml
@@ -323,10 +348,11 @@
       Run the playbook for the vault servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: vault1.eco.tsi-dev.otc-service.com
           label: ubuntu-focal
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         # We do not want to create CA part of ZK setup, therefore only invoke additional playbook in the test.
@@ -345,10 +371,11 @@
       Run the playbook for the gitea servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
+        - <<: *bridge_node_x86
         - name: gitea.focal
           label: ubuntu-jammy
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-gitea.yaml
@@ -365,10 +392,11 @@
       Run the playbook for the keycloak servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
+        - <<: *bridge_node_x86
         - name: keycloak.focal
           label: ubuntu-jammy
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         - playbooks/service-keycloak.yaml
@@ -385,10 +413,11 @@
       Run the playbook for the zk servers.
     nodeset:
       nodes:
-        - name: bridge.eco.tsi-dev.otc-service.com
-          label: ubuntu-focal
+        - <<: *bridge_node_x86
         - name: zk.centos-stream
           label: centos-9-stream
+      groups:
+        - <<: *bastion_group
     vars:
       run_playbooks:
         # We do not want to create CA part of ZK setup, therefore only invoke additional playbook in the test.
