@@ -401,7 +401,6 @@
       run_playbooks:
         - playbooks/service-keycloak.yaml
     files:
-      - playbooks/bootstrap-bridge.yaml
       - playbooks/service-keycloak.yaml
       - playbooks/roles/keycloak/
       - testinfra/test_keycloak.py
