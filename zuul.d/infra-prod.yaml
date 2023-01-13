@@ -193,19 +193,6 @@
       - playbooks/roles/apimon_k8s
 
 - job:
-    name: infra-prod-service-document-hosting
-    parent: infra-prod-service-base
-    description: Run service-document-hosting.yaml playbook.
-    vars:
-      playbook_name: service-document-hostingyaml
-    files:
-      - inventory/service/group_vars/failover
-      - inventory/service/host_vars/hc1.eco.tsi-dev.otc-service.com
-      - playbooks/service-document-hosting.yaml
-      - playbooks/roles/failover
-      - playbooks/roles/document_hosting
-
-- job:
     name: infra-prod-service-gitea
     parent: infra-prod-service-base
     description: Run service-gitea.yaml playbook.

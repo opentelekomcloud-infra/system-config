@@ -8,4 +8,5 @@
   become: true
   ansible.builtin.service:
     name: "nginx"
-    state: "running"
+    state: "started"
+    enabled: true
