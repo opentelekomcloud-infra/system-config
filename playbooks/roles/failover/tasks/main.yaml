@@ -1,0 +1,20 @@
+- name: Add users
+  ansuble.builtin.user:
+    name: "zuul"
+    state: present
+    uid: "{{ all_users['zuul'].uid }}"
+    group: "{{ 'zuul' }}"
+    comment: "{{ all_users['zuul'].comment }}"
+    groups: sudo
+    shell: /bin/bash
+  when:
+    - "'uid' in all_users['zuul']"
+
+- name: Add Zuul ssh keys
+  ansible.builtin.authorized_key:
+    user: "zuul"
+    state: "present"
+    key: "{{ zuul_ssh_key }}"
+    exclusive: true
+  when:
+    - zuul_ssh_key is defined

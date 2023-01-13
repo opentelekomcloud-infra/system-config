@@ -81,6 +81,13 @@ groups:
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
+  # Documentation hosting
+  docs:
+    - hc1.eco.tsi-dev.otc-service.com
+
+  failover:
+    - hc1.eco.tsi-dev.otc-service.com
+
   # Matrix server
   matrix:
     # Bridge is here to allow k8 access to vars

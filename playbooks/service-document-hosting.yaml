@@ -1,0 +1,5 @@
+- hosts: docs
+  name: "Deploy Failover HelpCenter"
+  roles:
+    - failover
+    - document_hosting

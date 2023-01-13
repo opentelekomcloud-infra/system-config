@@ -206,6 +206,26 @@
       - testinfra/test_executor.py
 
 - job:
+    name: system-config-run-document-hosting
+    parent: system-config-run
+    description: |
+      Run the playbook for the document-hosting servers.
+    timeout: 3600
+    nodeset:
+      nodes:
+        - name: bridge.eco.tsi-dev.otc-service.com
+          label: ubuntu-jammy
+        - name: hc1.eco.tsi-dev.otc-service.com
+          label: ubuntu-jammy
+    vars:
+      run_playbooks:
+        - playbooks/service-document-hosting.yaml
+    files:
+      - playbooks/service-document-hosting.yaml
+      - playbooks/roles/failover
+      - playbooks/roles/document_hosting
+
+- job:
     name: system-config-run-graphite
     parent: system-config-run
     description: |
