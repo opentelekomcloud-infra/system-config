@@ -835,20 +835,24 @@ keycloak_sg: &keycloak_sg
       remote_ip_prefix: "0.0.0.0/0"
       description: "Keycloak web"
 
-hc_sg: &hc_sg
-  name: "hc_sg"
-  description: "HelpCenter security group"
+failover_common_sg: &failover_common__sg
+  name: "failover_common__sg"
+  description: "Failover Common security group"
   rules:
     - protocol: "tcp"
       port_range_min: 22
       port_range_max: 22
       remote_ip_prefix: "0.0.0.0/0"
+
+hc_sg: &hc_sg
+  name: "hc_sg"
+  description: "HelpCenter security group"
+  rules:
     - protocol: "tcp"
       port_range_min: 443
       port_range_max: 443
       remote_ip_prefix: "0.0.0.0/0"
       description: "HTTPS"
-
 
 cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
@@ -890,7 +894,11 @@ cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
     <<: *pg_sg
   - cloud: "otc_vault_448_de_failover"
+    <<: *failover_common_sg
+  - cloud: "otc_vault_448_de_failover"
     <<: *hc_sg
+  - cloud: "otc_vault_448_nl_failover"
+    <<: *failover_common__sg
   - cloud: "otc_vault_448_nl_failover"
     <<: *hc_sg
 
