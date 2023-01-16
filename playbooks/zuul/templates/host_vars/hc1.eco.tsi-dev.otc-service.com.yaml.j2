@@ -1,0 +1,9 @@
+# We can't modify zuul user (failover role) when connecting as zuul user
+failover_user: zuul2
+all_users:
+   zuul2:
+    comment: Zuul CICD
+    key: |
+      ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqO/dXXqmBr1RP8+En5iuLDkPtk7S1jbqjD6QppHo3eKe0WDXeENydPQrXrYf1wJcRa9a8Mdxx2tSxVNqyNVLmlyzPzPc9K2TM6shtHoc3Jzd1HlmfB9MJU2amKuqePwAptCgsxxLBvK+mvh0kXmKnkfMSItCpjOyj6udwwFChJFU/2LB3X9FqLCQB7n3FYKwvbrFDtcIa1COo2h8TychwqWAPKj0Fh7M+mjaF41vcBcmz+uaNk5czC0c7b03TVjKTpYFEmZNtoc0taLP6Ya2exYdHo2uiPYmFiPdVFuv6AMpRnO9CRZzQv+1tlcEPVfsp8gHJVOI47NTx5c5PRTMl system-config
+    uid: 2031
+    gid: 2031
