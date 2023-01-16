@@ -14,3 +14,9 @@
       when:
         # K8 cluster
         - "ansible_connection != 'kubectl'"
+
+- hosts: "failover:!disabled"
+  name: "Base: set up failover hosts"
+  become: true
+  roles:
+    - "failover"

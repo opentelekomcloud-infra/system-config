@@ -69,6 +69,7 @@
         - host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
         - host_vars/epmon.centos-stream.yaml
         - host_vars/epmon.focal.yaml
+        - host_vars/hc1.eco.tsi-dev.otc-service.com.yaml
         - host_vars/le1.yaml
         - host_vars/proxy1.centos-stream.yaml
         - host_vars/zk.centos-stream.yaml

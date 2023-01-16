@@ -1,0 +1,21 @@
+- name: Add Zuul user
+  ansible.builtin.user:
+    name: "{{ failover_user }}"
+    state: "present"
+    uid: "{{ all_users[failover_user].uid }}"
+    group: "{{ failover_group }}"
+    comment: "{{ all_users[failover_user].comment | default(omit)}}"
+    groups: "sudo"
+    shell: "/bin/bash"
+  when:
+    - "failover_user in all_users"
+    - "'uid' in all_users[failover_user]"
+
+- name: Add Zuul ssh keys
+  ansible.builtin.authorized_key:
+    user: "{{ failover_user }}"
+    state: "present"
+    key: "{{ failover_user_ssh_key }}"
+    exclusive: true
+  when:
+    - "failover_user_ssh_key is defined"
