@@ -154,12 +154,14 @@ ALLOW_ONLY_INTERNAL_REGISTRATION = false
 ;REQUIRE_SIGNIN_VIEW = false
 ;ENABLE_NOTIFY_MAIL = false
 ENABLE_NOTIFY_MAIL = true
+DEFAULT_KEEP_EMAIL_PRIVATE = true
 ;;
 ;; This setting enables gitea to be signed in with HTTP BASIC Authentication using the user's password
 ;; If you set this to false you will not be able to access the tokens endpoints on the API with your password
 ;; Please note that setting this to false will not disable OAuth Basic or Basic authentication using a token
 ;ENABLE_BASIC_AUTHENTICATION = true
 SHOW_REGISTRATION_BUTTON = false
+DEFAULT_ORG_VISIBILITY = limited
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -167,8 +169,7 @@ SHOW_REGISTRATION_BUTTON = false
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISABLE_USERS_PAGE = true
-;; require signing is set to true but is not available by the above option
-REQUIRE_SIGNIN_VIEW = true
+REQUIRE_SIGNIN_VIEW = false
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
