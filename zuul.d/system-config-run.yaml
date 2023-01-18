@@ -206,27 +206,6 @@
       - testinfra/test_executor.py
 
 - job:
-    name: system-config-run-docs
-    parent: system-config-run
-    description: |
-      Run the playbook for the document-hosting servers.
-    nodeset:
-      nodes:
-        - <<: *bridge_node_x86
-        - name: hc1.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
-      groups:
-        - <<: *bastion_group
-    vars:
-      run_playbooks:
-        - playbooks/service-docs.yaml
-      document_hosting_k8s_instances: {}
-    files:
-      - playbooks/service-docs.yaml
-      - playbooks/roles/document_hosting
-      - testinfra/test_docs.py
-
-- job:
     name: system-config-run-graphite
     parent: system-config-run
     description: |
