@@ -211,6 +211,13 @@
   /usermanual/iam/iam_01_0031.html /identity-access-management/umn/getting_started/creating_a_user_and_adding_the_user_to_a_user_group.html;
   /usermanual/iam/iam_01_0034.html /identity-access-management/umn/getting_started/getting_started_with_iam.html;
   /usermanual/iam/iam_01_0032.html /identity-access-management/umn/getting_started/logging_in_as_a_user.html;
+  /ac/index.html /identity-access-management/mycredential/index.html;
+  /usermanual/ac/en-us_topic_0046606215.html /identity-access-management/mycredential/what_is_my_credential.html;
+  /usermanual/ac/en-us_topic_0046783936.html /identity-access-management/mycredential/how_do_i_view_my_credential_information.html;
+  /usermanual/ac/en-us_topic_0046606214.html /identity-access-management/mycredential/how_do_i_modify_my_credential_information.html;
+  /usermanual/ac/en-us_topic_0046606344.html /identity-access-management/mycredential/how_do_i_query_a_project_id.html;
+  /usermanual/ac/en-us_topic_0046606340.html /identity-access-management/mycredential/how_do_i_manage_access_keys.html;
+  /usermanual/ac/en-us_topic_0046606357.html /identity-access-management/mycredential/change_history.html;
   /en-us/api/iam/iam_02_0512.html /identity-access-management/api-ref/appendix/index.html;
   /en-us/api/iam/iam_02_0005.html /identity-access-management/api-ref/appendix/status_codes.html;
   /en-us/api/iam/en-us_topic_0057845624.html /identity-access-management/api-ref/appendix/obtaining_user,_account,_user_group,_project,_and_agency_information.html;
@@ -424,3 +431,10 @@
   /en-us/usermanual/iam/iam_01_0031.html /identity-access-management/umn/getting_started/creating_a_user_and_adding_the_user_to_a_user_group.html;
   /en-us/usermanual/iam/iam_01_0034.html /identity-access-management/umn/getting_started/getting_started_with_iam.html;
   /en-us/usermanual/iam/iam_01_0032.html /identity-access-management/umn/getting_started/logging_in_as_a_user.html;
+  /en-us/ac/index.html /identity-access-management/mycredential/index.html;
+  /en-us/usermanual/ac/en-us_topic_0046606215.html /identity-access-management/mycredential/what_is_my_credential.html;
+  /en-us/usermanual/ac/en-us_topic_0046783936.html /identity-access-management/mycredential/how_do_i_view_my_credential_information.html;
+  /en-us/usermanual/ac/en-us_topic_0046606214.html /identity-access-management/mycredential/how_do_i_modify_my_credential_information.html;
+  /en-us/usermanual/ac/en-us_topic_0046606344.html /identity-access-management/mycredential/how_do_i_query_a_project_id.html;
+  /en-us/usermanual/ac/en-us_topic_0046606340.html /identity-access-management/mycredential/how_do_i_manage_access_keys.html;
+  /en-us/usermanual/ac/en-us_topic_0046606357.html /identity-access-management/mycredential/change_history.html;

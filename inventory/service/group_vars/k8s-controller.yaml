@@ -18,6 +18,7 @@ graphite_web_k8s_instances:
     namespace: "graphite"
 
 help_center_redirects:
+  additional-resources: "templates/docs_hosting/redirect_maps/redirect-additional-resources.map"
   anti-ddos: "templates/docs_hosting/redirect_maps/redirect-anti-ddos.map"
   application-operations-management: "templates/docs_hosting/redirect_maps/redirect-application-operations-management.map"
   auto-scaling: "templates/docs_hosting/redirect_maps/redirect-auto-scaling.map"
