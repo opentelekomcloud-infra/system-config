@@ -14,7 +14,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-docs
+        # - system-config-run-docs
         - system-config-run-graphite: &system-config-run-graphite
             dependencies:
               - name: system-config-run-memcached
@@ -42,7 +42,7 @@
         - system-config-run-apimon-epmon
         - system-config-run-apimon-scheduler
         - system-config-run-apimon-executor
-        - system-config-run-docs
+        # - system-config-run-docs
         - system-config-run-graphite: *system-config-run-graphite
         - system-config-run-memcached
         - system-config-run-alerta

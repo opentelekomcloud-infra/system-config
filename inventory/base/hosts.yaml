@@ -313,21 +313,3 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNuE4ogtK1l57J6Pr8IUS6UJmGf6Q+UJUrSqqUYpSBpP1ijGhOXbytQjauQ4q22UCr0B+Aet5LvyXk2Rg9cUlLI='
-    hc1.eco.tsi-dev.otc-service.com:
-      ansible_host: 80.158.17.179
-      ansible_user: automation
-      public_v4: 80.158.17.179
-      location:
-        cloud: "otc_vault_448_de_failover"
-        az: "eu-de-01"
-        region: "eu-de"
-      host_keys:
-        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFffEK/esn/o4mSEGn2UjwcNYgoV4D/f6jfkXd2RrKiy+DIQtev8g8Yz64680q1okZyU1a1Qf1H4rA/vvo/bffU="
-#    hc2.eco.tsi-dev.otc-service.com:
-#      ansible_host: 192.168.161.101
-#      ansible_user: automation
-#      location:
-#        cloud: "otc_vault_448_nl_failover"
-#        az: "eu-nl-01"
-#        region: "eu-nl"
-#      host_keys: []
