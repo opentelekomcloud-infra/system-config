@@ -10,8 +10,3 @@
         context: "{{ item.context }}"
         namespace: "{{ item.namespace }}"
       loop: "{{ document_hosting_k8s_instances | list }}"
-
-- hosts: docs
-  name: "Configure Document Hosting on VMs"
-  roles:
-    - "document_hosting"
