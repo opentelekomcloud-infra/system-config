@@ -2,31 +2,8 @@ upstream backend {
   #this is one of the swift proxy server
   server {{ document_hosting.swift_server }}:443;
 }
-    
-proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
-    
-server_names_hash_bucket_size 128;
-server {
-  #skip some normal config like listen, log
-  listen 8080;
-  server_name {{ document_hosting.server_name }};
-  access_log /dev/stdout ;
-  error_log /dev/stdout debug;
-  #set proxy cache config, you can find all these command in nginx wiki page
-  proxy_set_header Host $host;
-  proxy_set_header Accept "*/*";
-  proxy_cache_valid 200 1d;
-  proxy_read_timeout 120;
-  proxy_send_timeout 120;
-  proxy_cache_key "$host$uri";
-  proxy_cache_methods GET;
-  proxy_intercept_errors on;
-  #set a return http header of cache status, so that you can see the status of file cache
-  add_header X-Cache $upstream_cache_status;
-  
-  error_page 401 404 /custom_404.html;
-  
-  log_format json_analytics escape=json '{'
+
+log_format json_analytics escape=json '{'
                     '"msec": "$msec", ' # request unixtime in seconds with a milliseconds resolution
                     '"connection": "$connection", ' # connection serial number
                     '"connection_requests": "$connection_requests", ' # number of requests made in connection
@@ -66,6 +43,29 @@ server {
                     '"http_cf_ray": "$http_cf_ray",'
                     '"geoip_country_code": "$geoip_country_code"'
                     '}';
+
+proxy_cache_path /tmp/proxy_cache_dir levels=1:2 keys_zone=staticcache:180m inactive=1d max_size=500m;
+    
+server_names_hash_bucket_size 128;
+server {
+  #skip some normal config like listen, log
+  listen 8080;
+  server_name {{ document_hosting.server_name }};
+  access_log /dev/stdout ;
+  error_log /dev/stdout debug;
+  #set proxy cache config, you can find all these command in nginx wiki page
+  proxy_set_header Host $host;
+  proxy_set_header Accept "*/*";
+  proxy_cache_valid 200 1d;
+  proxy_read_timeout 120;
+  proxy_send_timeout 120;
+  proxy_cache_key "$host$uri";
+  proxy_cache_methods GET;
+  proxy_intercept_errors on;
+  #set a return http header of cache status, so that you can see the status of file cache
+  add_header X-Cache $upstream_cache_status;
+  
+  error_page 401 404 /custom_404.html;
   
   access_log /dev/stdout json_analytics;
   
