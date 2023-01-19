@@ -24,6 +24,7 @@
           app.kubernetes.io/managed-by: "system-config"
       data:
         nginx-site.conf: "{{ lookup('template', (document_hosting.nginx_template | default('nginx-site.conf.j2'))) }}"
+        fallback.conf: "{{lookup('template', 'templates/docs_hosting/fallback.conf.j2') }}"
         custom_404.html: "{{ lookup('template', 'custom_404.html.j2') }}"
   register: doc_cm
 
@@ -32,7 +33,7 @@
     context: "{{ context }}"
     state: "{{ state }}"
     namespace: "{{ namespace }}"
-    name: "{{ redirect_item.key }}"
+    name: "{{ instance }}-{{ redirect_item.key }}"
     kind: "ConfigMap"
     api_version: "v1"
     apply: "yes"
@@ -44,7 +45,7 @@
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
           app.kubernetes.io/managed-by: "system-config"
-          redirect_map: "true"
+          redirect_map: "{{ instance }}"
       data: "{{ { redirect_item.key : lookup('ansible.builtin.file', redirect_item.value) } }}"
   loop: "{{ document_hosting.redirect_maps | dict2items }}"
   loop_control:
@@ -121,97 +122,10 @@
     state: "{{ state }}"
     namespace: "{{ namespace }}"
     name: "{{ document_hosting_dep_name }}"
-    api_version: "apps/v1"
-    kind: "Deployment"
+      #api_version: "apps/v1"
+      #kind: "Deployment"
     apply: "yes"
-    definition:
-      metadata:
-        labels:
-          app.kubernetes.io/name: "document-hosting"
-          app.kubernetes.io/instance: "{{ instance }}"
-          app.kubernetes.io/managed-by: "system-config"
-        annotations:
-          cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
-      spec:
-        selector:
-          matchLabels:
-            app.kubernetes.io/name: "document-hosting"
-            app.kubernetes.io/instance: "{{ instance }}"
-        template:
-          metadata:
-            labels:
-              app.kubernetes.io/name: "document-hosting"
-              app.kubernetes.io/instance: "{{ instance }}"
-            annotations:
-              cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
-          spec:
-            containers:
-              - name: "document-hosting"
-                image: "{{ document_hosting.image }}"
-                ports:
-                  - name: http
-                    containerPort: 8080
-                    protocol: TCP
-                livenessProbe:
-                  httpGet:
-                    path: /
-                    port: http
-                readinessProbe:
-                  httpGet:
-                    path: /
-                    port: http
-                resources: "{{ document_hosting_resources | default(omit) }}"
-                volumeMounts:
-                  - name: nginx-config
-                    mountPath: /etc/nginx/conf.d/
-                  - name: nginx-config
-                    mountPath: /usr/share/nginx/html/custom_404.html
-                    subPath: custom_404.html
-                  - name: nginx-config
-                    mountPath: /etc/nginx/redirect.map
-                    subPath: redirect.map
-                  - mountPath: /etc/nginx/redirect
-                    name: redirect-map-volume
-              - env:
-                  - name: METHOD
-                    value: WATCH
-                  - name: LABEL
-                    value: redirect_map
-                  - name: LABEL_VALUE
-                    value: "true"
-                  - name: FOLDER
-                    value: /tmp/redirect
-                  - name: RESOURCE
-                    value: configmap
-                image: "{{ document_hosting.kiwigrid_image }}"
-                name: redirect-configmap-sync
-                volumeMounts:
-                  - mountPath: /tmp/redirect
-                    name: redirect-map-volume
-            serviceAccountName: "{{ document_hosting_service_account_name }}"
-            volumes:
-              - configMap:
-                  name: "{{ document_hosting_cm_name }}"
-                  defaultMode: 420
-                name: nginx-config
-              - emptyDir: {}
-                name: redirect-map-volume
-            affinity:
-              podAntiAffinity:
-                preferredDuringSchedulingIgnoredDuringExecution:
-                  - weight: 100
-                    podAffinityTerm:
-                      labelSelector:
-                        matchExpressions:
-                          - key: "app.kubernetes.io/instance"
-                            operator: In
-                            values:
-                              - "{{ instance }}"
-                          - key: "app.kubernetes.io/name"
-                            operator: In
-                            values:
-                              - "document-hosting"
-                      topologyKey: kubernetes.io/hostname
+    definition: "{{ lookup('template', 'deployment.yaml.j2') | from_yaml }}"
 
 - name: Create Document Hosting {{ instance }} Autoscaler
   kubernetes.core.k8s:
@@ -243,6 +157,82 @@
                 type: "Utilization"
                 averageUtilization: 70
 
+- name: Create Document Hosting {{ instance }} Fallback Deployment
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_dep_name }}-fallback"
+    api_version: "apps/v1"
+    kind: "Deployment"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting-fallback"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+        annotations:
+          cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
+      spec:
+        selector:
+          matchLabels:
+            app.kubernetes.io/name: "document-hosting-fallback"
+            app.kubernetes.io/instance: "{{ instance }}"
+        template:
+          metadata:
+            labels:
+              app.kubernetes.io/name: "document-hosting-fallback"
+              app.kubernetes.io/instance: "{{ instance }}"
+            annotations:
+              cm-version: "{{ doc_cm.result.metadata.resourceVersion }}"
+          spec:
+            containers:
+              - name: "document-hosting"
+                image: "{{ document_hosting.image }}"
+                ports:
+                  - name: http
+                    containerPort: 8080
+                    protocol: TCP
+                livenessProbe:
+                  httpGet:
+                    path: /
+                    port: http
+                readinessProbe:
+                  httpGet:
+                    path: /
+                    port: http
+                resources: "{{ document_hosting_resources | default(omit) }}"
+                volumeMounts:
+                  - name: nginx-config
+                    mountPath: /etc/nginx/conf.d/
+            volumes:
+              - configMap:
+                  name: "{{ document_hosting_cm_name }}"
+                  defaultMode: 420
+                  items:
+                    - key: fallback.conf
+                      path: fallback.conf
+                name: nginx-config
+            affinity:
+              podAntiAffinity:
+                preferredDuringSchedulingIgnoredDuringExecution:
+                  - weight: 100
+                    podAffinityTerm:
+                      labelSelector:
+                        matchExpressions:
+                          - key: "app.kubernetes.io/instance"
+                            operator: In
+                            values:
+                              - "{{ instance }}"
+                          - key: "app.kubernetes.io/name"
+                            operator: In
+                            values:
+                              - "document-hosting"
+                      topologyKey: kubernetes.io/hostname
+  when:
+    - "'fallback' in document_hosting"
+
 - name: Create Document Hosting {{ instance }} Service
   kubernetes.core.k8s:
     context: "{{ context }}"
@@ -269,6 +259,34 @@
           app.kubernetes.io/name: "document-hosting"
           app.kubernetes.io/instance: "{{ instance }}"
 
+- name: Create Document Hosting {{ instance }} Fallback Service
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "{{ document_hosting_svc_name }}-fallback"
+    kind: "Service"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "document-hosting-fallback"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        type: "ClusterIP"
+        ports:
+          - name: http
+            port: 8080
+            protocol: "TCP"
+            targetPort: 8080
+        selector:
+          app.kubernetes.io/name: "document-hosting-fallback"
+          app.kubernetes.io/instance: "{{ instance }}"
+  when:
+    - "'fallback' in document_hosting"
+
 - name: Create Document Hosting {{ instance }} Ingress
   kubernetes.core.k8s:
     context: "{{ context }}"
@@ -286,6 +304,7 @@
           app.kubernetes.io/managed-by: "system-config"
         annotations:
           cert-manager.io/cluster-issuer: "{{ document_hosting.cluster_issuer | default(omit) }}"
+          nginx.ingress.kubernetes.io/default-backend: "{{ document_hosting_svc_name }}-fallback"
       spec:
         ingressClassName: "{{ document_hosting.ingress_class | default(omit) }}"
         tls:
