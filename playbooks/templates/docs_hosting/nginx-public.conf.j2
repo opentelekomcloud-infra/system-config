@@ -46,7 +46,10 @@ upstream backend {
 {% if document_hosting.redirect_maps is defined and document_hosting.redirect_maps %}
 map_hash_max_size 2048;
 map_hash_bucket_size 2048;
-map $request_uri $new_uri {
+map $request_uri $request_uri_path {
+  "~^(?P<path>[^?]*)(\?.*)?$"  $path;
+}
+map $request_uri_path $new_uri {
   default "";
 {% for map in document_hosting.redirect_maps.keys() %}
   include /etc/nginx/redirect/{{map}};
