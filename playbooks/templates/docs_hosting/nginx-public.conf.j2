@@ -94,6 +94,11 @@ server {
     }
 {% endif %}
 
+    if ($request_uri ~* '/developer/(.*)$') {
+      # developer is a subfolder in docsportal
+      set $index_uri '/developer/$1';
+      break;
+    }
     if ($request_uri ~* '/additional/(.*)$') {
       # additional is a subfolder in docsportal
       set $index_uri '/additional/$1';
