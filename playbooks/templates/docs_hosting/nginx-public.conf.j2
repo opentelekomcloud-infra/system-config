@@ -88,6 +88,8 @@ server {
 
 {% if document_hosting.redirect_maps is defined and document_hosting.redirect_maps %}
     if ($new_uri != "") {
+      #delete args
+      set $args '';
       #rewrite based on redirect.map mapper
       rewrite ^(.*)$ https://$server_name$new_uri permanent;
       break;
