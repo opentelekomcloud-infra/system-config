@@ -64,6 +64,13 @@ spec:
               value: /tmp/redirect
             - name: RESOURCE
               value: configmap
+          resources:
+            limits:
+              cpu: "200m"
+              memory: "100Mi"
+            requests:
+              cpu: "10m"
+              memory: "50Mi"
           image: "{{ document_hosting.kiwigrid_image }}"
           volumeMounts:
             - mountPath: /tmp/redirect
