@@ -22,6 +22,9 @@ write:
   replicas: 1
   persistence:
     storageClass: csi-disk
+backend:
+  persistence:
+    storageClass: csi-disk
 monitoring:
   selfMonitoring:
     enabled: false
