@@ -268,7 +268,7 @@ helm_chart_instances:
     repo_name: grafana
     name: loki
     ref: grafana/loki
-    version: 3.6.0
+    version: 4.4.0
     namespace: loki
     values_template: "templates/charts/loki/loki-values.yaml.j2"
   otcinfra_promtail:
@@ -277,7 +277,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.7.2
+    version: 6.8.1
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
   otcinfra2_promtail:
@@ -286,7 +286,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.7.2
+    version: 6.8.1
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
   otcci_promtail:
@@ -295,7 +295,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.7.2
+    version: 6.8.1
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
   otcinfra_telegraf:
