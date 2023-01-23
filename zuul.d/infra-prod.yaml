@@ -329,6 +329,7 @@
     files:
       - playbooks/service-docs.yaml
       - playbooks/roles/document_hosting_k8s
+      - playbooks/templates/docs_hosting
 
 - job:
     name: infra-prod-service-vault
