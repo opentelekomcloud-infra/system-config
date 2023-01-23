@@ -17,7 +17,7 @@ POLICIES="object container account"
 #done
 
 # Zone 1
-# add_disk 1 166 114 vdb
+add_disk 1 101 101 vdd1
 
 # Zone 2
 add_disk 2 45 15 vdb
