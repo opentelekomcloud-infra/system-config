@@ -64,8 +64,8 @@ userdata: |
     - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
     - mount /var
 
-swift_storage_ip: "192.168.82.166"
-swift_replication_ip: "192.168.83.114"
+swift_storage_ip: "192.168.82.101"
+swift_replication_ip: "192.168.83.101"
 swift_drives:
   - name: "vdd1"
 swift_region: 1
