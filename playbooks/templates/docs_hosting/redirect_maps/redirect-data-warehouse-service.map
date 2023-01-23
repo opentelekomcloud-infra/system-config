@@ -388,7 +388,6 @@
   /devg/dws/dws_04_0702.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/gs_wlm_operator_history.html;
   /devg/dws/dws_04_0777.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_statio_sys_indexes.html;
   /devg/dws/dws_04_0709.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/gs_workload_sql_count.html;
-  /devg/dws/dws_04_0880.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/v$session.html;
   /devg/dws/dws_04_0809.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_lock_conflicts.html;
   /devg/dws/dws_04_0818.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_running_xacts.html;
   /devg/dws/dws_04_0800.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_comm_send_stream.html;
@@ -556,7 +555,6 @@
   /devg/dws/dws_04_0734.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_job_proc.html;
   /devg/dws/dws_04_0850.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pv_os_run_info.html;
   /devg/dws/dws_04_0684.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/global_stat_database.html;
-  /devg/dws/dws_04_0881.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/v$session_longops.html;
   /devg/dws/dws_04_0838.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_wlm_operator_statistics.html;
   /devg/dws/dws_04_0782.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_statio_user_tables.html;
   /devg/dws/dws_04_0758.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_stat_all_tables.html;
@@ -1752,7 +1750,6 @@
   /en-us/devg/dws/dws_04_0702.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/gs_wlm_operator_history.html;
   /en-us/devg/dws/dws_04_0777.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_statio_sys_indexes.html;
   /en-us/devg/dws/dws_04_0709.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/gs_workload_sql_count.html;
-  /en-us/devg/dws/dws_04_0880.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/v$session.html;
   /en-us/devg/dws/dws_04_0809.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_lock_conflicts.html;
   /en-us/devg/dws/dws_04_0818.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_running_xacts.html;
   /en-us/devg/dws/dws_04_0800.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_comm_send_stream.html;
@@ -1920,7 +1917,6 @@
   /en-us/devg/dws/dws_04_0734.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_job_proc.html;
   /en-us/devg/dws/dws_04_0850.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pv_os_run_info.html;
   /en-us/devg/dws/dws_04_0684.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/global_stat_database.html;
-  /en-us/devg/dws/dws_04_0881.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/v$session_longops.html;
   /en-us/devg/dws/dws_04_0838.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_wlm_operator_statistics.html;
   /en-us/devg/dws/dws_04_0782.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_statio_user_tables.html;
   /en-us/devg/dws/dws_04_0758.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_stat_all_tables.html;
