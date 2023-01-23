@@ -43,12 +43,13 @@ upstream backend {
   server {{ document_hosting.swift_server }}:443;
 }
 
-{% if document_hosting.redirect_maps is defined and document_hosting.redirect_maps %}
 map_hash_max_size 2048;
 map_hash_bucket_size 2048;
 map $request_uri $request_uri_path {
   "~^(?P<path>[^?]*)(\?.*)?$"  $path;
 }
+
+{% if document_hosting.redirect_maps is defined and document_hosting.redirect_maps %}
 map $request_uri_path $new_uri {
   default "";
 {% for map in document_hosting.redirect_maps.keys() %}
