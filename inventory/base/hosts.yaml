@@ -176,11 +176,16 @@ all:
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIYVNoXSrfgNlQ8ZeGEkEZKsBYp6EW6XvBngScedeIfxsQ84O0ZmSPf5jPGdOl3IWNuOMGOSObuX9VbJJe9yQi4='
     storage1.swift.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.80.86
+      ansible_host: 192.168.80.101
       ansible_user: automation
-      public_v4: 192.168.80.86
+      public_v4: 192.168.80.101
+      location:
+        cloud: "otc_vault_448_de_openstack_swift"
+        az: "eu-de-01"
+        region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIOmBE098sLSwDiXvPSTIWAmjDWsRTrLEQ+cGKTIk7yIh0e9eam3MwnSPbrR0sqt09J06U19kkEUTW6+pkZWKXg='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCgXu+aeV5OcLLGgwJSa0E/qzpwm8UIyeM1+eWxX461RKHXcHrFvO/oxLbrUdmEfY6lxtdZ9n0u+9M3CCEudCFo='
+        - 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB1OUErrYTrO1z0rMiNOLFtRSoE4jtXHYkGNzjIMBtH6'
     storage2.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.2
       ansible_user: automation
