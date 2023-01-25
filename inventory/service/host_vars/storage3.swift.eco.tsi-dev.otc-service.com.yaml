@@ -70,7 +70,7 @@ swift_replication_ip: "192.168.83.103"
 swift_drives:
   - name: "vdd1"
 swift_region: 1
-swift_zone: 1
+swift_zone: 3
 
 swift_services:
   - "account"
