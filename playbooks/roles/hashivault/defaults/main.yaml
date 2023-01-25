@@ -11,6 +11,7 @@ vault_plugins: []
 # hashi GPG
 hashicorp_gpg_key: |
   -----BEGIN PGP PUBLIC KEY BLOCK-----
+  
   mQINBGO9u+MBEADmE9i8rpt8xhRqxbzlBG06z3qe+e1DI+SyjscyVVRcGDrEfo+J
   W5UWw0+afey7HFkaKqKqOHVVGSjmh6HO3MskxcpRm/pxRzfni/OcBBuJU2DcGXnG
   nuRZ+ltqBncOuONi6Wf00McTWviLKHRrP6oWwWww7sYF/RbZp5xGmMJ2vnsNhtp3
