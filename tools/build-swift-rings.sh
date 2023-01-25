@@ -20,10 +20,10 @@ POLICIES="object container account"
 add_disk 1 101 101 vdd1
 
 # Zone 2
-#add_disk 2 45 15 vdb
+add_disk 2 102 102 vdd1
 #
 # Zone 3
-#add_disk 3 48 72 vdb
+add_disk 3 103 103 vdd1
 
 # Zone 4
 add_disk 4 104 104 vdd1
