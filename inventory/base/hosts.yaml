@@ -195,7 +195,7 @@ all:
         az: "eu-de-02"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMeAklcRAwMTNMbbflumUySM6nwDqo814bmIevl4Z26WyBgIkU7qQkAwnI2wFVbaSCb5xh1c5FrQFTO09eGFZ8c='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBG0Z6fy9uMp3dQ4x6rKtSUd/efDt8G9E52MlEya8jnPL5JzELIYvFEvKHhFVcKrOV4gYGvwP/XkjRV/r4hEoDzQ='
     storage3.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.103
       ansible_user: automation
@@ -205,7 +205,7 @@ all:
         az: "eu-de-03"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBMfI6II6ENlsHvLtR5XM2yHO5fra84K8QA8b72wISp5XW3usrFpqw3c1RG9kpuDW1f/4o1nPQZYusx94dV/hh8='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBAjopZVU/fKjehQgs1CQR1KAz98kNZO6ARJPsswgTLECTY5QvjKRGSwWhj5goCMKwkpMEpbgoeyc0EXDQeZdH74='
     storage4.swift.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.80.104
       ansible_user: automation
