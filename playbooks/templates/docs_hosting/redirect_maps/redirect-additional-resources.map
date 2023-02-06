@@ -1,4 +1,3 @@
-  /en-us/index.html /index.html;
   /glossary/index.html /additional/glossary.html;
   /permissions/index.html /additional/permissions.html;
   /endpoint/index.html /additional/endpoints.html;
@@ -13,6 +12,13 @@
   /api/apiug/apig-en-api-180328006.html /developer/api_guidelines/calling_apis/ak_sk_authentication/signing_a_request.html;
   /api/apiug/apig-en-api-180328008.html /developer/api_guidelines/calling_apis/ak_sk_authentication/sample_code.html;
   /api/apiug/apig-en-api-180328012.html /developer/api_guidelines/http_status_codes.html;
+  /faq/iaas/en-us_topic_0027928402.html /additional/faqs/what_can_i_do_if_the_system_fails_to_switch_to_open_telekom_cloud_from_myworkplace_on_a_client_running_linux_os.html;
+  /faq/iaas/en-us_topic_0040259342.html /additional/faqs/quotas.html;
+  /faq/iaas/en-us_topic_0041752254.html /additional/faqs/which_browsers_are_supported.html;
+  /public/learnmore.html https://open-telekom-cloud.com/en/contact;
+  /smg/index.html /secure-mail-gateway/umn/;
+  /usermanual/ecs/en-us_topic_0014250631.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
+  /en-us/index.html /index.html;
   /en-us/glossary/index.html /additional/glossary.html;
   /en-us/permissions/index.html /additional/permissions.html;
   /en-us/endpoint/index.html /additional/endpoints.html;
@@ -27,3 +33,9 @@
   /en-us/api/apiug/apig-en-api-180328006.html /developer/api_guidelines/calling_apis/ak_sk_authentication/signing_a_request.html;
   /en-us/api/apiug/apig-en-api-180328008.html /developer/api_guidelines/calling_apis/ak_sk_authentication/sample_code.html;
   /en-us/api/apiug/apig-en-api-180328012.html /developer/api_guidelines/http_status_codes.html;
+  /en-us/faq/iaas/en-us_topic_0027928402.html /additional/faqs/what_can_i_do_if_the_system_fails_to_switch_to_open_telekom_cloud_from_myworkplace_on_a_client_running_linux_os.html;
+  /en-us/faq/iaas/en-us_topic_0040259342.html /additional/faqs/quotas.html;
+  /en-us/faq/iaas/en-us_topic_0041752254.html /additional/faqs/which_browsers_are_supported.html;
+  /en-us/public/learnmore.html https://open-telekom-cloud.com/en/contact;
+  /en-us/smg/index.html /secure-mail-gateway/umn/;
+  /en-us/usermanual/ecs/en-us_topic_0014250631.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
