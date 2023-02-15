@@ -79,7 +79,6 @@
   /smg/index.html /secure-mail-gateway/umn/;
   /smn/index.html /simple-message-notification/umn/;
   /swr/index.html /software-repository-container/umn/;
-  /sd/index.html /status-dashboard/umn/;
   /sdrs/index.html /storage-disaster-recovery-service/umn/;
   /tms/index.html /tag-management-service/umn/;
   /vpc/index.html /virtual-private-cloud/umn/;
@@ -130,7 +129,6 @@
   /en-us/smg/index.html /secure-mail-gateway/umn/;
   /en-us/smn/index.html /simple-message-notification/umn/;
   /en-us/swr/index.html /software-repository-container/umn/;
-  /en-us/sd/index.html /status-dashboard/umn/;
   /en-us/sdrs/index.html /storage-disaster-recovery-service/umn/;
   /en-us/tms/index.html /tag-management-service/umn/;
   /en-us/vpc/index.html /virtual-private-cloud/umn/;
