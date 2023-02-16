@@ -1,0 +1,9 @@
+- op: add
+  path: /spec/rules/0
+  value:
+    host: backstage.eco.tsi-dev.otc-service.com
+
+- op: add
+  path: /spec/tls/0/hosts
+  value:
+    - bs1
