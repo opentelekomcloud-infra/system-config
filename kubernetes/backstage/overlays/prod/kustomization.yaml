@@ -10,8 +10,8 @@ namespace: backstage
 
 images:
 - name: backstage
-  newName: gitea.eco.tsi-dev.otc-service.com/backstage/backstage
-  newTag: "5"
+  newName: quay.io/opentelekomcloud/backstage
+  newTag: "6"
 
 patches:
 - patch: |-
