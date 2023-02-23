@@ -6,7 +6,6 @@ labels:
 - includeSelectors: true
   pairs:
     app.kubernetes.io/instance: prod
-namespace: backstage
 
 images:
 - name: backstage
