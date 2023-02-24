@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth-proxy
+  labels:
+    app.kubernetes.io/component: oauth-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: oauth-proxy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: oauth-proxy
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccount: "backstage"
+
+      initContainers:
+        - name: "vault-agent"
+          command:
+            - "sh"
+            - "-c"
+            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          image: "vault"
+          resources: 
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: "/secrets"
+              name: "secrets"
+
+            - mountPath: "/var/run/secrets/tokens"
+              name: "k8-tokens"
+              readOnly: true
+
+      containers:
+        - name: "sh"
+          image: "busybox:1.34.1-musl"
+          command:
+            - "sh"
+            - "-c"
+            - "while :; do sleep 60; done"
+          volumeMounts:
+            - name: "secrets"
+              mountPath: "/secrets"
+
+        - name: oauth
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: oauth2-proxy
+            containerPort: 4180
+            protocol: TCP
+          args:
+            - '--config=/secrets/oauth2-proxy.cfg'
+          readinessProbe:
+            tcpSocket:
+              port: 4180
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 4180
+            failureThreshold: 10
+            periodSeconds: 5
+            timeoutSeconds: 5              
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+            limits:
+              cpu: "100m"
+              memory: "200Mi"
+          volumeMounts:
+            - mountPath: "/secrets"
+              name: "secrets"
+
+      volumes:
+        - name: vault-agent-config
+          configMap:
+            defaultMode: 420
+            name: oauth-proxy-vault-config
+
+        - name: secrets
+          emptyDir: {}
+
+        - name: "k8-tokens"
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: "vault-token"
