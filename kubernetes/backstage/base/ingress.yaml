@@ -3,7 +3,6 @@ kind: Ingress
 metadata:
   name: backstage
 spec:
-  ingressClassName: nginx
   rules:
     - host: backstage
       http:
