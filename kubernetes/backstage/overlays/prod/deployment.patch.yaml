@@ -34,16 +34,6 @@ spec:
               readOnly: true
 
       containers:
-        - name: "sh"
-          image: "busybox:1.34.1-musl"
-          command:
-            - "sh"
-            - "-c"
-            - "while :; do sleep 60; done"
-          volumeMounts:
-            - name: "secrets"
-              mountPath: "/secrets"
-
         - name: backstage
           args:
             - "node"
