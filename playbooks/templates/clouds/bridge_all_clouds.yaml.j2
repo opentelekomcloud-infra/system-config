@@ -214,7 +214,24 @@ clouds:
       password: "{{ clouds.otcapimon_pool2.auth.password }}"
       project_name: {{ clouds.otcapimon_pool2.auth.project_name }}
       user_domain_name: {{ clouds.otcapimon_pool2.auth.user_domain_name }}
-
+  # APImon probe projects
+  otccloudmon-de:
+    profile: otc
+    auth: 
+      username: {{ cloud_448_de_cloudmon.auth.username }}
+      password: "{{ cloud_448_de_cloudmon.auth.password }}"
+      project_name: {{ cloud_448_de_cloudmon.auth.project_name }}
+      # Replace once vault plugin is fixed to return user_domain_name
+      # user_domain_name: { { cloud_448_de_cloudmon.auth.user_domain_name } }
+      user_domain_id: {{ cloud_448_de_cloudmon.auth.project_domain_id }}
+  otccloudmon-nl:
+    profile: otc
+    auth: 
+      username: {{ cloud_448_nl_cloudmon.auth.username }}
+      password: "{{ cloud_448_nl_cloudmon.auth.password }}"
+      project_name: {{ cloud_448_nl_cloudmon.auth.project_name }}
+      user_domain_id: {{ cloud_448_nl_cloudmon.auth.project_domain_id }}
+    region_name: eu-nl
 
   # APImon probe projects
   otcapimon-probes11:

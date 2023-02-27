@@ -1,4 +1,4 @@
-- name: Read OS Static Role {{ static_role.name }} 
+- name: Read OS Static Role {{ static_role.name }}
   check_mode: "no"
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/openstack/static-roles/{{ static_role.name }}"
@@ -38,11 +38,11 @@
       username: "{{ static_role.username | default(omit) }}"
       extensions: "{{ static_role.extensions | default(omit) }}"
     status_code: [200, 201, 202, 204]
-  when: 
+  when:
     - "current_static_role is not defined or current_static_role.status != 200"
     - "static_role_cloud is defined and static_role_cloud.status == 200"
 
-- name: Update OS Static Role {{ static_role.name }} 
+- name: Update OS Static Role {{ static_role.name }}
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/openstack/static-roles/{{ static_role.name }}"
     headers:

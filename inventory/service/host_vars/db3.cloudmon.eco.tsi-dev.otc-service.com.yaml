@@ -1,0 +1,73 @@
+---
+image: "Standard_Fedora_37_latest"
+flavor: "c4.xlarge.4"
+security_groups: ["default", "cloudmon_common", "etcd_sg", "pg_ha_sg"]
+
+nics:
+  - fixed_ip: "192.168.121.13"
+    net-name: "stackmon"
+
+root_volume_size: 20
+auto_ip: false
+data_volumes:
+  - name: "var"
+    size: 100
+  - name: "home"
+    size: 20
+  - name: "storage1"
+    size: 512
+    type: "SAS"
+userdata: |
+  #cloud-config
+  disk_setup:
+    /dev/vdb:
+      table_type: 'mbr'
+      layout:
+        - 100
+    /dev/vdc:
+      table_type: 'mbr'
+      layout:
+        - 100
+    /dev/vdd:
+      table_type: 'mbr'
+      layout:
+        - 100
+  fs_setup:
+    - label: var
+      filesystem: ext4
+      device: '/dev/vdb1'
+    - label: home
+      filesystem: ext4
+      device: '/dev/vdc1'
+    - label: storage1
+      filesystem: ext4
+      device: '/dev/vdd1'
+  mounts:
+    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
+    - [ "LABEL=storage1", "/var/lib/postgresql", "auto", "defaults", "1", "2" ]
+  groups:
+    - automation
+  users:
+    - default
+    - name: automation
+      primary_group: automation
+      ssh_authorized_keys:
+        - "{{ bastion_public_key }}"
+      sudo: ALL=(ALL) NOPASSWD:ALL
+  runcmd:
+    - mkdir /mnt/vdb && mount /dev/vdb1 /mnt/vdb
+    - cp -a /var/* /mnt/vdb/
+    - umount /mnt/vdb && rmdir /mnt/vdb
+    - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
+    - mount /var
+
+firewalld_extra_services_enable: ['http', 'https', 'postgresql']
+firewalld_extra_ports_enable:
+  - '2379/tcp'
+  - '2380/tcp'
+  - '8008/tcp'
+
+ssl_certs:
+  db:
+    - "db3.cloudmon.eco.tsi-dev.otc-service.com"
+    - "db.cloudmon.eco.tsi-dev.otc-service.com"

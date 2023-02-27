@@ -8,7 +8,7 @@
 - name: Add rules
   openstack.cloud.security_group_rule:
     cloud: "{{ cloud_token.data.data |default(cloud) }}"
-    security_group: "{{ secur_group.secgroup.id }}"
+    security_group: "{{ secur_group.security_group.id }}"
       # NOTE(gtema) module currently doesn't support description
     # description: "{{ sg.description | default(omit) }}"
     protocol: "{{ item.protocol }}"

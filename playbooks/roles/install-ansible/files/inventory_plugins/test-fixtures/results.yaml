@@ -4,6 +4,7 @@
 results:
 
   bridge.eco.tsi-dev.otc-service.com:
+    - prod_bastion
     - apimon-clouds
     - apimon
     - bastion
