@@ -46,14 +46,16 @@ auth:
 {{- end }}
 
 catalog:
-  #  providers:
-  #    keycloakOrg:
-  #      default:
-  #        baseUrl: https://keycloak.eco.tsi-dev.otc-service.com/
-  #        loginRealm: ${KEYCLOAK_REALM}
-  #        realm: ${KEYCLOAK_REALM}
-  #        clientId: ${KEYCLOAK_CLIENTID}
-  #        clientSecret: ${KEYCLOAK_CLIENTSECRET}
+{{- with secret "secret/data/backstage/oidc" }}
+  providers:
+    keycloakOrg:
+      default:
+        baseUrl: https://keycloak.eco.tsi-dev.otc-service.com/
+        loginRealm: {{ .Data.data.realm }}
+        realm: {{ .Data.data.realm }}
+        clientId: {{ .Data.data.client_id }}
+        clientSecret: {{ .Data.data.client_secret }}
+{{- end }}
   readonly: true
   rules:
     - allow: [Component, System, API, Resource, Location, Group, User]
