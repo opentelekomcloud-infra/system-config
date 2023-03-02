@@ -4,25 +4,30 @@
     description: Build zuul images.
     parent: system-config-build-image
     vars: &zuul_vars
-      docker_images:
+      container_images:
         - context: "docker/zuul"
+          registry: quay.io
           repository: opentelekomcloud/zuul
           target: zuul
           tags:
             &imagetag ["latest", "change_859940"]
         - context: "docker/zuul"
+          registry: quay.io
           repository: opentelekomcloud/zuul-executor
           target: zuul-executor
           tags: *imagetag
         - context: "docker/zuul"
+          registry: quay.io
           repository: opentelekomcloud/zuul-merger
           target: zuul-merger
           tags: *imagetag
         - context: "docker/zuul"
+          registry: quay.io
           repository: opentelekomcloud/zuul-scheduler
           target: zuul-scheduler
           tags: *imagetag
         - context: "docker/zuul"
+          registry: quay.io
           repository: opentelekomcloud/zuul-web
           target: zuul-web
           tags: *imagetag
