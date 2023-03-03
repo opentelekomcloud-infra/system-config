@@ -4,8 +4,9 @@
     description: Build a graphite-statsd image.
     parent: system-config-build-image
     vars: &graphite-statsd_vars
-      docker_images:
+      container_images:
         - context: docker/graphite-statsd
+          registry: quay.io
           repository: opentelekomcloud/graphite-statsd
           tags: ['latest']
     files: &graphite-statsd_files
@@ -17,10 +18,3 @@
     parent: system-config-upload-image
     vars: *graphite-statsd_vars
     files: *graphite-statsd_files
-
-      #- job:
-      #    name: system-config-promote-image-graphite-statsd
-      #    description: Promote a previously published graphite-statsd image to latest.
-      #    parent: system-config-promote-image
-      #    vars: *graphite-statsd_vars
-      #    files: *graphite-statsd_files
