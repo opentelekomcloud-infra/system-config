@@ -4,8 +4,9 @@
     description: Build a vault image with kubectl included
     parent: system-config-build-image
     vars: &vault_vars
-      docker_images:
+      container_images:
         - context: docker/vault
+          registry: quay.io
           repository: opentelekomcloud/vault
           tags: ['latest']
     files: &vault_files

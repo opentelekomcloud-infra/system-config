@@ -4,8 +4,9 @@
     description: Build a haproxy-statsd image.
     parent: system-config-build-image
     vars: &haproxy-statsd_vars
-      docker_images:
+      container_images:
         - context: docker/haproxy-statsd
+          registry: quay.io
           repository: opentelekomcloud/haproxy-statsd
           tags: ['latest']
     files: &haproxy-statsd_files
@@ -17,10 +18,3 @@
     parent: system-config-upload-image
     vars: *haproxy-statsd_vars
     files: *haproxy-statsd_files
-
-      #- job:
-      #    name: system-config-promote-image-haproxy-statsd
-      #    description: Promote a previously published haproxy-statsd image to latest.
-      #    parent: system-config-promote-image
-      #    vars: *haproxy-statsd_vars
-      #    files: *haproxy-statsd_files
