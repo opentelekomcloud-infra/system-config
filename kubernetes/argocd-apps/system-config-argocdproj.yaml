@@ -1,10 +1,6 @@
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
-  managedFields:
-  - apiVersion: argoproj.io/v1alpha1
-    manager: Go-http-client
-    operation: Update
   name: system-config
   namespace: argocd
 spec:

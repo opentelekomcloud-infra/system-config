@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: dependencytrack
     server: https://kubernetes.default.svc
-  project: default
+  project: system-config
   source:
     path: kubernetes/dep-track/overlays/prod
     repoURL: https://github.com/opentelekomcloud-infra/system-config

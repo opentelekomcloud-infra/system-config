@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: backstage
     server: https://kubernetes.default.svc
-  project: default
+  project: system-config
   source:
     path: kubernetes/backstage/overlays/prod
     repoURL: https://github.com/opentelekomcloud-infra/system-config
