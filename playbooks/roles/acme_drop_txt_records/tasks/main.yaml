@@ -7,6 +7,9 @@
     acme_txt_keys: "{{ acme_txt_keys | combine(hostvars[item]['acme_txt_required'], list_merge='append') }}"
   with_inventory_hostnames:
     - ssl_certs:!disabled
+  when:
+    - "item in hostvars"
+    - "'acme_txt_required' in hostvars[item]"
 
 - name: Final list
   debug:
