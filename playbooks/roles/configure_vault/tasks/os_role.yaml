@@ -1,4 +1,4 @@
-- name: Read OS Role {{ role.name }} 
+- name: Read OS Role {{ role.name }}
   check_mode: "no"
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/openstack/roles/{{ role.name }}"
@@ -40,11 +40,11 @@
       root: "{{ role.root | default(omit) }}"
       extensions: "{{ role.extensions | default(omit) }}"
     status_code: [200, 201, 202, 204]
-  when: 
+  when:
     - "current_role is not defined or current_role.status != 200"
     - "role_cloud is defined and role_cloud.status == 200"
 
-- name: Update OS Role {{ role.name }} 
+- name: Update OS Role {{ role.name }}
   ansible.builtin.uri:
     url: "{{ vault_addr }}/v1/openstack/roles/{{ role.name }}"
     headers:
