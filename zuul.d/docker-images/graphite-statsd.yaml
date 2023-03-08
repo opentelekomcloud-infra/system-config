@@ -8,7 +8,7 @@
         - context: docker/graphite-statsd
           registry: quay.io
           repository: opentelekomcloud/graphite-statsd
-          tags: ['latest']
+          tags: ['1.1.10-4', 'latest']
     files: &graphite-statsd_files
       - docker/graphite-statsd/
 
