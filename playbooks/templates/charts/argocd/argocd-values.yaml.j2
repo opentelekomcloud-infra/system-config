@@ -30,15 +30,12 @@ server:
 
     hosts: 
       - argocd.eco.tsi-dev.otc-service.com
-
     paths:
       - /
-
     tls: 
       - secretName: your-certificate-name
         hosts:
           - argocd.eco.tsi-dev.otc-service.com
-
     https: true
 
 repoServer:
@@ -61,5 +58,5 @@ configs:
       name: Keycloak
       issuer: http://keycloak.eco.tsi-dev.otc-service.com/
       clientID: argocd
-      clientSecret: $oidc.azuread.clientSecret
+      clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
