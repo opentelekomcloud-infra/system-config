@@ -78,4 +78,4 @@ firewalld_extra_ports_enable:
 ssl_certs:
   graphite:
     - "graphite1.cloudmon.eco.tsi-dev.otc-service.com"
-    - "db.cloudmon.eco.tsi-dev.otc-service.com"
+    - "graphite.cloudmon.eco.tsi-dev.otc-service.com"
