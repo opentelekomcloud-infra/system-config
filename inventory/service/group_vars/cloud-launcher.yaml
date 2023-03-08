@@ -320,81 +320,98 @@ cloud_nets:
   #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
   # mirror/stag infra
   # domain2
-  - cloud: "otc_vault_448_de_eco_infra2"
-    router: "eco-infra"
+  #  - cloud: "otc_vault_448_de_eco_infra2"
+  #    router: "eco-infra"
+  #    nets:
+  #      - name: "infra-net"
+  #        subnets:
+  #          - name: "infra-subnet"
+  #            cidr: "192.168.171.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  #  - cloud: "otc_vault_448_de_failover"
+  #    router: "eco-failover"
+  #    nets:
+  #      - name: "infra-net"
+  #        subnets:
+  #          - name: "infra-subnet"
+  #            cidr: "192.168.160.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  #  - cloud: "otc_vault_448_nl_failover"
+  #    router: "eco-failover"
+  #    nets:
+  #      - name: "infra-net"
+  #        subnets:
+  #          - name: "infra-subnet"
+  #            cidr: "192.168.161.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.8.8']
+  #    # domain3
+  #  - cloud: "otc_vault_449_de_eco_infra"
+  #    router: "eco-infra"
+  #    # enable_snat: true
+  #    nets:
+  #      - name: "eco-infra-net"
+  #        subnets:
+  #          - name: "eco-infra-subnet"
+  #            cidr: "192.168.150.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  #  - cloud: "otc_vault_449_nl_eco_infra"
+  #    router: "apimon-infra"
+  #    # enable_snat: true
+  #    nets:
+  #      - name: "apimon-infra-net"
+  #        subnets:
+  #          - name: "apimon-infra-subnet"
+  #            cidr: "192.168.151.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  #  - cloud: "otc_vault_448_de_zuul"
+  #    router: "ci"
+  #    nets:
+  #      - name: "ci-net"
+  #        subnets:
+  #          - name: "ci-subnet"
+  #            cidr: "192.168.21.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  #  - cloud: "otc_vault_448_de_zuul_pool1"
+  #    router: "vpc-zuul"
+  #    nets:
+  #      - name: "zuul_net"
+  #        subnets:
+  #          - name: "subnet-zuul"
+  #            cidr: "192.168.101.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  #  - cloud: "otc_vault_448_de_zuul_pool2"
+  #    router: "vpc-zuul"
+  #    nets:
+  #      - name: "zuul_net"
+  #        subnets:
+  #          - name: "subnet-zuul"
+  #            cidr: "192.168.102.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  #  - cloud: "otc_vault_448_de_zuul_pool3"
+  #    router: "vpc-zuul"
+  #    nets:
+  #      - name: "zuul_net"
+  #        subnets:
+  #          - name: "subnet-zuul"
+  #            cidr: "192.168.103.0/24"
+  #            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+  - cloud: "otccloudmon-de"
+    router: "stackmon"
     nets:
-      - name: "infra-net"
+      - name: "stackmon"
         subnets:
-          - name: "infra-subnet"
-            cidr: "192.168.171.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.8.8']
-  - cloud: "otc_vault_448_de_failover"
-    router: "eco-failover"
-    nets:
-      - name: "infra-net"
-        subnets:
-          - name: "infra-subnet"
-            cidr: "192.168.160.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.8.8']
-  - cloud: "otc_vault_448_nl_failover"
-    router: "eco-failover"
-    nets:
-      - name: "infra-net"
-        subnets:
-          - name: "infra-subnet"
-            cidr: "192.168.161.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.8.8']
-    # domain3
-  - cloud: "otc_vault_449_de_eco_infra"
-    router: "eco-infra"
-    # enable_snat: true
-    nets:
-      - name: "eco-infra-net"
-        subnets:
-          - name: "eco-infra-subnet"
-            cidr: "192.168.150.0/24"
+          - name: "subnet-stackmon"
+            cidr: "192.168.120.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otc_vault_449_nl_eco_infra"
-    router: "apimon-infra"
-    # enable_snat: true
+  - cloud: "otccloudmon-nl"
+    router: "stackmon"
     nets:
-      - name: "apimon-infra-net"
+      - name: "stackmon"
         subnets:
-          - name: "apimon-infra-subnet"
-            cidr: "192.168.151.0/24"
+          - name: "subnet-stackmon"
+            cidr: "192.168.121.0/24"
             dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otc_vault_448_de_zuul"
-    router: "ci"
-    nets:
-      - name: "ci-net"
-        subnets:
-          - name: "ci-subnet"
-            cidr: "192.168.21.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otc_vault_448_de_zuul_pool1"
-    router: "vpc-zuul"
-    nets:
-      - name: "zuul_net"
-        subnets:
-          - name: "subnet-zuul"
-            cidr: "192.168.101.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otc_vault_448_de_zuul_pool2"
-    router: "vpc-zuul"
-    nets:
-      - name: "zuul_net"
-        subnets:
-          - name: "subnet-zuul"
-            cidr: "192.168.102.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.4.4']
-  - cloud: "otc_vault_448_de_zuul_pool3"
-    router: "vpc-zuul"
-    nets:
-      - name: "zuul_net"
-        subnets:
-          - name: "subnet-zuul"
-            cidr: "192.168.103.0/24"
-            dns_nameservers: ['100.125.4.25', '8.8.4.4']
+
 
 cloud_nat_gws:
   # main infra
@@ -766,6 +783,26 @@ pg_sg: &pg_sg
       remote_ip_prefix: "192.168.0.0/16"
       description: "pg"
 
+pg_ha_sg: &pg_ha_sg
+  name: "pg_ha_sg"
+  description: "Postgres HA (Patroni) security group"
+  rules:
+    - protocol: "tcp"
+      port_range_min: 5000
+      port_range_max: 5000
+      remote_ip_prefix: "0.0.0.0/0"
+      description: "PostgreSQL - LB"
+    - protocol: "tcp"
+      port_range_min: 5432
+      port_range_max: 5432
+      remote_ip_prefix: "0.0.0.0/0"
+      description: "PostgreSQL"
+    - protocol: "tcp"
+      port_range_min: 8008
+      port_range_max: 8008
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "Patroni - DCS"
+
 zuul_sg: &zuul_sg
   name: "Zuul"
   description: "Default (Zuul enabled) security group"
@@ -835,10 +872,14 @@ keycloak_sg: &keycloak_sg
       remote_ip_prefix: "0.0.0.0/0"
       description: "Keycloak web"
 
-failover_common_sg: &failover_common_sg
-  name: "failover_common__sg"
-  description: "Failover Common security group"
+cloudmon_common_sg: &cloudmon_common_sg
+  name: "cloudmon_common"
+  description: "CloudMon Common security group"
   rules:
+    - protocol: "icmp"
+      port_range_min: -1
+      port_range_max: -1
+      remote_ip_prefix: "0.0.0.0/0"
     - protocol: "tcp"
       port_range_min: 22
       port_range_max: 22
@@ -853,6 +894,21 @@ hc_sg: &hc_sg
       port_range_max: 443
       remote_ip_prefix: "0.0.0.0/0"
       description: "HTTPS"
+
+etcd_sg: &etcd_sg
+  name: "etcd_sg"
+  description: "Etcd security group"
+  rules:
+    - protocol: "tcp"
+      port_range_min: 2379
+      port_range_max: 2379
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "etcd client"
+    - protocol: "tcp"
+      port_range_min: 2380
+      port_range_max: 2380
+      remote_ip_prefix: "192.168.0.0/16"
+      description: "etcd peer"
 
 cloud_security_groups:
   - cloud: "otc_vault_448_de_apimon"
@@ -893,14 +949,22 @@ cloud_security_groups:
     <<: *common_sg
   - cloud: "otc_vault_448_de_apimon"
     <<: *pg_sg
-  - cloud: "otc_vault_448_de_failover"
-    <<: *failover_common_sg
-  - cloud: "otc_vault_448_de_failover"
-    <<: *hc_sg
-  - cloud: "otc_vault_448_nl_failover"
-    <<: *failover_common_sg
-  - cloud: "otc_vault_448_nl_failover"
-    <<: *hc_sg
+  - cloud: "otccloudmon-de"
+    <<: *cloudmon_common_sg
+  - cloud: "otccloudmon-de"
+    <<: *graphite_sg
+  - cloud: "otccloudmon-de"
+    <<: *pg_ha_sg
+  - cloud: "otccloudmon-de"
+    <<: *etcd_sg
+  - cloud: "otccloudmon-nl"
+    <<: *cloudmon_common_sg
+  - cloud: "otccloudmon-nl"
+    <<: *graphite_sg
+  - cloud: "otccloudmon-nl"
+    <<: *pg_ha_sg
+  - cloud: "otccloudmon-nl"
+    <<: *etcd_sg
 
 cloud_load_balancers:
   - cloud: "otc_vault_448_de_openstack_swift"

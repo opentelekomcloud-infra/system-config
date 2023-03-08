@@ -326,3 +326,73 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNuE4ogtK1l57J6Pr8IUS6UJmGf6Q+UJUrSqqUYpSBpP1ijGhOXbytQjauQ4q22UCr0B+Aet5LvyXk2Rg9cUlLI='
+    cloudmon1.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 80.158.91.184
+      ansible_user: automation
+      public_v4: 80.158.91.184
+      location:
+        cloud: "otccloudmon-de"
+        az: "eu-de-03"
+        region: "eu-de"
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHNFcGBl/eFZ6imCNWZZIz6ki2FE4sZbN+cmg8Z1zVfbYquRZqgRfeXV5xlBjxAsC2V5+R/cgdgyz9TYPpFG2ns="
+    graphite1.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 80.158.90.28
+      ansible_user: automation
+      public_v4: 80.158.90.28
+      location:
+        cloud: "otccloudmon-de"
+        az: "eu-de-01"
+        region: "eu-de"
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC2raB5EaDgipU3QnRADqME/o2D/0CY2tCN4LlPMzOc8PBv67bJoWqeTePyreyAS5lbP3Qp8egOM/JqEdPG+7NE="
+    graphite2.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 80.158.78.154
+      ansible_user: automation
+      public_v4: 80.158.78.154
+      location:
+        cloud: "otccloudmon-nl"
+        az: "eu-nl-01"
+        region: "eu-nl"
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK4YvKbWIxB93UjS+jUdoO9NRZaM5j/AA7FNrC/mnSErfrb/1Ace8ndwbo+Ksj32eXHgOZoapJmmsif10fjjJTY="
+#    graphite3.cloudmon.eco.tsi-dev.otc-service.com:
+#      ansible_host: 80.158.77.76
+#      ansible_user: automation
+#      public_v4: 80.158.77.76
+#      location:
+#        cloud: "otccloudmon-nl"
+#        az: "eu-nl-02"
+#        region: "eu-nl"
+#      host_keys:
+#        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFI/0gY69Pow938VCgiN8fa+gJxxldZ0NT7NAcM4HPyM+5zes40yem3QabYgFMUHe9yWe3BWqhZ8V7HPVPxtpHo="
+    db1.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 80.158.108.184
+      ansible_user: automation
+      public_v4: 80.158.108.184
+      location:
+        cloud: "otccloudmon-de"
+        az: "eu-de-01"
+        region: "eu-de"
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLXqCSrRWeNILwORC8tv/SMx9+bIP26Vb2aVOW3MpCNWwzSYXjw7/LswJE1dvN984cP2C32PbxTFYPa3ltWDaxE="
+    db2.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 80.158.77.179
+      ansible_user: automation
+      public_v4: 80.158.77.179
+      location:
+        cloud: "otccloudmon-nl"
+        az: "eu-nl-01"
+        region: "eu-nl"
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJ5g5fxLAOZ12PDnyshnlEYnpWOdzf9l5YQZ0IP6ec7qMp2SNW5IUH1dQQEkpkc0bJ7Vd2aWjEniIipMKp0PyBA="
+#    db3.cloudmon.eco.tsi-dev.otc-service.com:
+#      ansible_host: 80.158.76.51
+#      ansible_user: automation
+#      public_v4: 80.158.76.51
+#      location:
+#        cloud: "otccloudmon-nl"
+#        az: "eu-nl-02"
+#        region: "eu-nl"
+#      host_keys:
+#        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGxxqEP0nj2PvJDcQsJkQNb7CIUc+tviyKPrUJ5EZLaWFgYzo5B5n8oXbnzdmpJYDFyJbhAoNhByoBkf8kQzPdQ="
