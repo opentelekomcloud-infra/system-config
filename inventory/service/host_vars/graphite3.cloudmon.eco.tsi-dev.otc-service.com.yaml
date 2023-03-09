@@ -39,7 +39,7 @@ userdata: |
     - label: home
       filesystem: ext4
       device: '/dev/vdc1'
-    - label: storage1
+    - label: storage
       filesystem: ext4
       device: '/dev/vdd1'
   mounts:
