@@ -1,10 +1,10 @@
 ---
 image: "Standard_Ubuntu_22.04_latest"
-flavor: "c4.2xlarge.2"
-security_groups: ["cloudmon_common", "graphite_sg"]
+flavor: "c4.xlarge.2"
+security_groups: ["default", "cloudmon_common"]
 
 nics:
-  - fixed_ip: "192.168.121.10"
+  - fixed_ip: "192.168.120.20"
     net-name: "stackmon"
 
 root_volume_size: 20
@@ -14,9 +14,6 @@ data_volumes:
     size: 100
   - name: "home"
     size: 20
-  - name: "storage1"
-    size: 512
-    type: "SAS"
 userdata: |
   #cloud-config
   disk_setup:
@@ -28,10 +25,6 @@ userdata: |
       table_type: 'mbr'
       layout:
         - 100
-    /dev/vdd:
-      table_type: 'mbr'
-      layout:
-        - 100
   fs_setup:
     - label: var
       filesystem: ext4
@@ -39,12 +32,8 @@ userdata: |
     - label: home
       filesystem: ext4
       device: '/dev/vdc1'
-    - label: storage
-      filesystem: ext4
-      device: '/dev/vdd1'
   mounts:
     - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
-    - [ "LABEL=storage", "/opt/graphite/storage", "auto", "defaults", "1", "2" ]
   groups:
     - automation
   users:
@@ -60,22 +49,3 @@ userdata: |
     - umount /mnt/vdb && rmdir /mnt/vdb
     - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
     - mount /var
-
-firewalld_extra_services_enable: ['http', 'https']
-firewalld_extra_ports_enable:
-  - '2003/tcp'
-  - '2004/tcp'
-  - '2013/tcp'
-  - '2014/tcp'
-  - '2023/tcp'
-  - '2024/tcp'
-  - '8080/tcp'
-  - '8081/tcp'
-  - '8082/tcp'
-  - '8125/udp'
-  - '11211/tcp'
-
-ssl_certs:
-  graphite:
-    - "graphite2.cloudmon.eco.tsi-dev.otc-service.com"
-    - "graphite.cloudmon.eco.tsi-dev.otc-service.com"

@@ -199,6 +199,8 @@ groups:
     - db2.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-de-01.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-nl-01.cloudmon.eco.tsi-dev.otc-service.com
 
   swift:
     - proxy1.swift.eco.tsi-dev.otc-service.com
