@@ -99,7 +99,7 @@ kubernetes:
       clusters:
         - name: otcinfra2
           authProvider: 'serviceAccount'
-          skipTlsVerify: true
+          skipTLSVerify: true
           url: 'https://192.168.171.211:5443'
 {{- with secret "secret/data/backstage/k8_infra2" }}
           serviceAccountToken: {{ .Data.data.token }}
