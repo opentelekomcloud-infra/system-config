@@ -21,7 +21,7 @@ labels:
 images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
-    newTag: "change_2_latest"
+    newTag: "change_6_latest"
 
 namespace: backstage
 
