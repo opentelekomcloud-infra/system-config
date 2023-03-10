@@ -90,6 +90,20 @@ integrations:
           privateKey: |
 {{ .Data.data.privateKey | indent 12 }}
 {{- end }}
+
+kubernetes:
+  serviceLocatorMethod:
+    type: 'multiTenant'
+  clusterLocatorMethods:
+    - type: 'config'
+      clusters:
+        - name: otcinfra2
+          authProvider: 'serviceAccount'
+          skipTlsVerify: true
+          url: 'https://192.168.171.211:5433'
+{{- with secret "secret/data/backstage/k8_infra2" }}
+          serviceAccountToken: {{ .Data.data.token }}
+{{- end }}
 EOT
   perms = "0664"
 }
