@@ -100,10 +100,31 @@ kubernetes:
         - name: otcinfra2
           authProvider: 'serviceAccount'
           skipTLSVerify: true
+          skipMetricsLookup: true
           url: 'https://192.168.171.211:5443'
 {{- with secret "secret/data/backstage/k8_infra2" }}
           serviceAccountToken: {{ .Data.data.token }}
 {{- end }}
+
+proxy:
+  '/grafana/api':
+    target: https://dashboard.tsi-dev.otc-service.com
+    headers:
+{{- with secret "secret/data/backstage/grafana" }}
+      Authorization: "{{ .Data.data.token }}"
+{{- end }}
+  '/dependencytrack':
+    target: https://dependencytrack.eco.tsi-dev.otc-service.com
+    allowedMethods: ['GET']
+    headers:
+{{- with secret "secret/data/backstage/dependencytrack" }}
+      X-Api-Key: "{{ .Data.data.token }}"
+{{- end }}
+  '/quay/api':
+    target: 'https://quay.io'
+    headers:
+      X-Requested-With: 'XMLHttpRequest'
+
 EOT
   perms = "0664"
 }
