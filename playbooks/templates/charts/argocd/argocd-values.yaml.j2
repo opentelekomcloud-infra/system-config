@@ -56,7 +56,7 @@ configs:
   cm:
     oidc.config: |
       name: Keycloak
-      issuer: http://keycloak.eco.tsi-dev.otc-service.com/
+      issuer: https://keycloak.eco.tsi-dev.otc-service.com/realms/eco
       clientID: argocd
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
@@ -64,4 +64,9 @@ configs:
   secret:
     createSecret: true
     extra:    
-      oidc.keycloak.clientSecret: ODMwODM5NTgtOGVjNi00N2IwLWE0MTEtYThjNTUzODFmYmQy
+      oidc.keycloak.clientSecret:
+
+  rbacConfig:
+    policy.default: role:readonly
+    policy.csv: |
+      g, argocd-admin, role:admin
