@@ -22,6 +22,9 @@ images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
     newTag: "change_6_latest"
+  - name: vault
+    newName: docker.io/vault
+    newTag: "1.12.4"
 
 namespace: backstage
 
