@@ -66,4 +66,4 @@ roleRef:
   name: backstage-read-only
 subjects:
 - kind: ServiceAccount
-  name: backstage
+  name: backstage-ro
