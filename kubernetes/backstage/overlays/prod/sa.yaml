@@ -4,6 +4,12 @@ kind: ServiceAccount
 metadata:
   name: backstage
 ---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: backstage-ro
+  namespace: default
+---
 # This role is for backstage kubernetes plugin
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -67,3 +73,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: backstage-ro
+  namespace: default
