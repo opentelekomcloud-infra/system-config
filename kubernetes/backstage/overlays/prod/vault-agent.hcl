@@ -111,7 +111,7 @@ proxy:
     target: https://dashboard.tsi-dev.otc-service.com
     headers:
 {{- with secret "secret/data/backstage/grafana" }}
-      Authorization: "{{ .Data.data.token }}"
+      Authorization: "Bearer {{ .Data.data.token }}"
 {{- end }}
   '/dependencytrack':
     target: https://dependencytrack.eco.tsi-dev.otc-service.com
