@@ -1,0 +1,135 @@
+---
+apiVersion: apps/v1
+kind: not-used
+metadata:
+  name: not-used
+spec:
+  template:
+    spec:
+      containers:
+        - name: "vault-agent"
+          args:
+            - touch /home/vault/.vault-token && vault agent -config=/vault/configs/config-zuul.hcl
+          command:
+            - "/bin/sh"
+            - "-ec"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+            - name: "VAULT_LOG_LEVEL"
+              value: "debug"
+            - name: "VAULT_LOG_FORMAT"
+              value: "standard"
+          image: "hashicorp/vault"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 10001
+            runAsNonRoot: true
+            runAsUser: 10001
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: "/home/vault"
+              name: "home-init"
+            - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+              name: "kube-api-access"
+              readOnly: true
+            - mountPath: "/vault/secrets"
+              name: "zuul-config"
+            - mountPath: "/vault/custom"
+              name: "extra-secrets"
+              readOnly: true
+            - mountPath: "/vault/configs"
+              name: "vault-config"
+              readOnly: true
+
+      initContainers:
+        - name: "vault-agent-init"
+          args:
+            - touch /home/vault/.vault-token && vault agent -config=/vault/configs/config-zuul.hcl -exit-after-auth=true
+          command:
+            - "/bin/sh"
+            - "-ec"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+            - name: "VAULT_LOG_LEVEL"
+              value: "debug"
+            - name: "VAULT_LOG_FORMAT"
+              value: "standard"
+          image: "hashicorp/vault"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsGroup: 10001
+            runAsNonRoot: true
+            runAsUser: 10001
+          resources:
+            limits:
+              cpu: 500m
+              memory: 128Mi
+            requests:
+              cpu: 250m
+              memory: 64Mi
+          volumeMounts:
+            - mountPath: "/home/vault"
+              name: "home-init"
+            - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+              name: "kube-api-access"
+              readOnly: true
+            - mountPath: "/vault/secrets"
+              name: "zuul-config"
+            - mountPath: "/vault/custom"
+              name: "extra-secrets"
+              readOnly: true
+            - mountPath: "/vault/configs"
+              name: "vault-config"
+              readOnly: true
+
+      volumes:
+        - name: "kube-api-access"
+          projected:
+            defaultMode: 420
+            sources:
+              - serviceAccountToken:
+                  expirationSeconds: 7200
+                  path: "token"
+              - configMap:
+                  items:
+                    - key: "ca.crt"
+                      path: "ca.crt"
+                  name: "kube-root-ca.crt"
+              - downwardAPI:
+                  items:
+                    - fieldRef:
+                        apiVersion: "v1"
+                        fieldPath: "metadata.namespace"
+                      path: "namespace"
+        - emptyDir:
+            medium: "Memory"
+          name: "home-init"
+        - emptyDir:
+            medium: "Memory"
+          name: "home-sidecar"
+            #        - emptyDir:
+            #            medium: "Memory"
+            #          name: "zuul-config"
+        - name: "vault-config"
+          configMap:
+            name: "vault-agent-config"
+        - name: "extra-secrets"
+          secret:
+            defaultMode: 420
+            secretName: "vault-config-zuul"

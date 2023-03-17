@@ -1,0 +1,14 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: zookeeper
+  labels:
+    app.kubernetes.io/name: "zookeeper"
+    app.kubernetes.io/component: "server"
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zookeeper"
+      app.kubernetes.io/component: "server"
+  maxUnavailable: 1

@@ -1,0 +1,73 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepool-launcher
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: zuul
+    app.kubernetes.io/component: "nodepool-launcher"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/part-of: zuul
+      app.kubernetes.io/component: "nodepool-launcher"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/part-of: zuul
+        app.kubernetes.io/component: "nodepool-launcher"
+    spec:
+      containers:
+        - name: "launcher"
+          image: "zuul/nodepool-launcher"
+          command:
+            - "/usr/local/bin/nodepool-launcher"
+            - "-f"
+            - "-d"
+            - "-c"
+            - "/data/nodepool/nodepool.yaml"
+
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "500Mi"
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+
+          volumeMounts:
+            - name: "zookeeper-client-tls"
+              mountPath: "/tls/client"
+              readOnly: true
+
+            - name: "zuul-config-data"
+              mountPath: "/data"
+
+            - name: "nodepool-lib"
+              mountPath: "/var/lib/nodepool"
+
+      serviceAccountName: "zuul"
+      volumes:
+        - name: "nodepool-config"
+          secret:
+            secretName: "nodepool-config"
+
+        - name: "zookeeper-client-tls"
+          secret:
+            secretName: "zookeeper-client-tls"
+
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+
+        - name: "nodepool-lib"
+          emptyDir: {}
+  revisionHistoryLimit: 2

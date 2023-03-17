@@ -1,0 +1,108 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodepool-builder
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: "zuul"
+    app.kubernetes.io/component: "nodepool-builder"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/part-of: "zuul"
+      app.kubernetes.io/component: "nodepool-builder"
+  serviceName: "nodepool-builder"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/part-of: "zuul"
+        app.kubernetes.io/component: "nodepool-builder"
+    spec:
+      containers:
+        - name: "builder"
+          image: "zuul/nodepool-builder"
+          command:
+            - "/usr/local/bin/nodepool-builder"
+            - "-f"
+            - "-d"
+            - "-c"
+            - "/data/nodepool/nodepool.yaml"
+
+          resources:
+            limits:
+              cpu: "300m"
+              memory: "500Mi"
+            requests:
+              cpu: "100m"
+              memory: "200Mi"
+
+          securityContext:
+            privileged: true
+            # runAsUser: 10001
+            # runAsGroup: 10001
+
+          volumeMounts:
+            - name: "dev"
+              mountPath: "/dev"
+
+            - name: "dib-tmp"
+              mountPath: "/opt/dib_tmp"
+
+            - name: "dib-cache"
+              mountPath: "/opt/dib_cache"
+
+            - name: "nodepool-images-dir"
+              mountPath: "/opt/nodepool/images"
+
+            # Podman need non-overlayfs
+            - name: "nodepool-containers"
+              mountPath: "/var/lib/containers"
+
+            - name: "zookeeper-client-tls"
+              mountPath: "/tls/client"
+              readOnly: true
+
+            - name: "zuul-config-data"
+              mountPath: "/data"
+
+      serviceAccountName: "zuul"
+      volumes:
+        - name: "dev"
+          hostPath:
+            path: "/dev"
+
+        - name: "dib-cache"
+          emptyDir: {}
+
+        - name: "dib-tmp"
+          emptyDir: {}
+
+        - name: "nodepool-config"
+          secret:
+            secretName: "nodepool-config"
+
+        - name: "nodepool-containers"
+          emptyDir: {}
+
+        - name: "zookeeper-client-tls"
+          secret:
+            secretName: "zookeeper-client-tls"
+
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+
+  volumeClaimTemplates:
+    - metadata:
+        name: "nodepool-images-dir"
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        storageClassName: "csi-disk"
+        resources:
+          requests:
+            storage: "80G"

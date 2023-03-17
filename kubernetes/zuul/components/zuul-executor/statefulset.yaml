@@ -1,0 +1,102 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: "zuul"
+    app.kubernetes.io/component: "zuul-executor"
+spec:
+  replicas: 1
+  serviceName: "zuul-executor"
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/part-of: "zuul"
+      app.kubernetes.io/component: "zuul-executor"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/part-of: "zuul"
+        app.kubernetes.io/component: "zuul-executor"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: "app.kubernetes.io/name"
+                      operator: In
+                      values:
+                        - "zuul"
+                    - key: "app.kubernetes.io/component"
+                      operator: In
+                      values:
+                        - "zuul-executor"
+                topologyKey: "kubernetes.io/hostname"
+
+      containers:
+        - name: "executor"
+          image: "zuul/zuul-executor"
+          args: ["/usr/local/bin/zuul-executor", "-f", "-d"]
+          env:
+            - name: "ZUUL_EXECUTOR_SIGTERM_GRACEFUL"
+              value: "1"
+
+          lifecycle:
+            preStop:
+              exec:
+                command: [
+                  "/usr/local/bin/zuul-executor", "graceful"
+                ]
+
+          ports:
+            - containerPort: 7900
+              name: "logs"
+              protocol: "TCP"
+
+          resources:
+            limits:
+              cpu: "2"
+              memory: "8G"
+            requests:
+              cpu: "1"
+              memory: "1G"
+
+          securityContext:
+            privileged: true
+
+
+          volumeMounts:
+            - name: "zuul-config"
+              mountPath: "/etc/zuul"
+              readOnly: true
+            - name: "zookeeper-client-tls"
+              mountPath: "/tls/client"
+              readOnly: true
+            - name: "zuul-config-data"
+              mountPath: "/etc/zuul-config"
+            - name: "zuul-var"
+              mountPath: "/var/lib/zuul"
+
+      serviceAccountName: "zuul"
+      terminationGracePeriodSeconds: 120
+      volumes:
+        - name: "zuul-config"
+          secret:
+            secretName: "zuul-config"
+
+        - name: "zookeeper-client-tls"
+          secret:
+            secretName: "zookeeper-client-tls"
+
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+
+        - name: "zuul-var"
+          emptyDir: {}
