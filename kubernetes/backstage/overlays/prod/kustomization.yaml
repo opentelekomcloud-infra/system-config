@@ -1,0 +1,67 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+components:
+  - ../../components/oauth-proxy
+  - ../../components/redis
+
+configMapGenerator:
+  - name: backstage-vault-config
+    files:
+      - vault-agent.hcl
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: prod
+      app.kubernetes.io/managed-by: kustomize
+      app.kubernetes.io/name: backstage
+      app.kubernetes.io/version: 1.0.0
+
+images:
+  - name: backstage
+    newName: quay.io/opentelekomcloud/backstage
+    newTag: "change_6_latest"
+  - name: vault
+    newName: docker.io/vault
+    newTag: "1.12.4"
+
+namespace: backstage
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value:
+          nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value:
+          backstage.eco.tsi-dev.otc-service.com
+      - op: add
+        path: /spec/rules/0/http/paths/0/backend
+        value:
+          service:
+            name: backstage-oauth-proxy
+            port:
+              number: 80
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - backstage.eco.tsi-dev.otc-service.com
+            secretName: backstage-cert-prod
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: backstage
+      version: v1
+  - path: deployment.patch.yaml
+
+resources:
+  - ../../base
+  - sa.yaml
