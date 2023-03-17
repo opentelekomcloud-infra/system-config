@@ -177,11 +177,11 @@ maubot_k8s_instances:
 helm_chart_instances:
   otcinfra2_argocd:
     context: otcinfra2
-    repo_url: https://argoproj.github.io
+    repo_url: https://argoproj.github.io/argo-helm
     repo_name: argo-helm
     name: argocd
     ref: argoproj/argocd
-    version: 5.21.0
+    version: 5.27.1
     namespace: argocd
     values_template: "templates/charts/argocd/argocd-values.yaml.j2"
   otcinfra2_cert-manager:

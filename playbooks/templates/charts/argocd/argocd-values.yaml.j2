@@ -24,8 +24,9 @@ server:
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     ingressClassName: "nginx"
 
     hosts: 
@@ -54,6 +55,7 @@ applicationSet:
 
 configs:
   cm:
+    url: https://argocd.eco.tsi-dev.otc-service.com
     oidc.config: |
       name: Keycloak
       issuer: https://keycloak.eco.tsi-dev.otc-service.com/realms/eco
