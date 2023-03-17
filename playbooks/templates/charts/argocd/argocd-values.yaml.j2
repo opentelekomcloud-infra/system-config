@@ -1,0 +1,77 @@
+# -- Provide a name in place of `argocd`
+nameOverride: argocd
+
+createAggregateRoles: false
+createClusterRoles: true
+
+crds:
+  install: true
+  keep: true
+
+dex:
+  enabled: false
+
+## Server
+server:
+  extensions:
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
+
+  containerSecurityContext:
+    seccompProfile:
+      type: Unconfined
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    ingressClassName: "nginx"
+
+    hosts:
+      - argocd.eco.tsi-dev.otc-service.com
+    paths:
+      - /
+    tls:
+      - secretName: argocd-cert
+        hosts:
+          - argocd.eco.tsi-dev.otc-service.com
+    https: true
+
+repoServer:
+  env:
+    - name: ARGOCD_GPG_ENABLED
+      value: "false"
+  containerSecurityContext:
+    seccompProfile:
+      type: Unconfined
+
+## ApplicationSet controller
+applicationSet:
+  containerSecurityContext:
+    seccompProfile:
+      type: Unconfined
+
+configs:
+  cm:
+    url: https://argocd.eco.tsi-dev.otc-service.com
+    oidc.config: |
+      name: Keycloak
+      issuer: https://keycloak.eco.tsi-dev.otc-service.com/realms/eco
+      clientID: argocd
+      clientSecret: $oidc.keycloak.clientSecret
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
+  secret:
+    createSecret: true
+    extra: 
+      oidc.keycloak.clientSecret: {{ chart.secrets.keycloak_client_secret }}
+
+  rbac:
+    policy.default: role:readonly
+    policy.csv: |
+      g, /argocd-admin, role:admin

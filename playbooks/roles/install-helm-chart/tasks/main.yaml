@@ -4,7 +4,7 @@
     state: present
     repo_url: "{{ chart.repo_url }}"
     name: "{{ chart.repo_name }}"
-  when: 
+  when:
     - "chart.repo_url is defined"
     - "chart.repo_name is defined"
 
@@ -15,14 +15,14 @@
 - name: Install HELM chart {{ chart.name }} on cluster {{ chart.context }}
   kubernetes.core.helm:
     state: present
-    wait: yes
+    wait: true
     kube_context: "{{ chart.context }}"
     name: "{{ chart.name }}"
     chart_ref: "{{ chart.ref }}"
     chart_version: "{{ chart.version }}"
     release_namespace: "{{ chart.namespace }}"
     create_namespace: true
-    update_repo_cache: yes 
+    update_repo_cache: true
     values: "{{ values | default(omit) }}"
 
 - name: Apply post-config manifest on cluster {{ chart.context }}
