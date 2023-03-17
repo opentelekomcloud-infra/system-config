@@ -11,9 +11,9 @@ spec:
   source:
     path: kubernetes/backstage/overlays/prod
     repoURL: https://github.com/opentelekomcloud-infra/system-config
-    targetRevision: kustomize
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
     syncOptions:
-    - PruneLast=true
+      - PruneLast=true

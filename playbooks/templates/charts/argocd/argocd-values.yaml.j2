@@ -32,11 +32,11 @@ server:
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
     ingressClassName: "nginx"
 
-    hosts: 
+    hosts:
       - argocd.eco.tsi-dev.otc-service.com
     paths:
       - /
-    tls: 
+    tls:
       - secretName: argocd-cert
         hosts:
           - argocd.eco.tsi-dev.otc-service.com
@@ -68,10 +68,10 @@ configs:
 
   secret:
     createSecret: true
-    extra:    
-      oidc.keycloak.clientSecret:
+    extra: 
+      oidc.keycloak.clientSecret: {{ chart.secrets.keycloak_client_secret }}
 
-  rbacConfig:
+  rbac:
     policy.default: role:readonly
     policy.csv: |
-      g, argocd-admin, role:admin
+      g, /argocd-admin, role:admin

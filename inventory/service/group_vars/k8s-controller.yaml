@@ -178,9 +178,9 @@ helm_chart_instances:
   otcinfra2_argocd:
     context: otcinfra2
     repo_url: https://argoproj.github.io/argo-helm
-    repo_name: argo-helm
+    repo_name: argocd
     name: argocd
-    ref: argoproj/argocd
+    ref: argocd/argo-cd
     version: 5.27.1
     namespace: argocd
     values_template: "templates/charts/argocd/argocd-values.yaml.j2"
