@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-client
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/component: "zuul-client"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/component: "zuul-client"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/component: "zuul-client"
+    spec:
+      serviceAccountName: "zuul"
+
+      containers:
+        # Zuul-client is a regular zuul-web image doing nothing.
+        # We use it only to have completely independent pod serving as
+        # zuul client for i.e. maintenance.
+        - name: "zuul-client"
+          image: "zuul/zuul-web"
+          command:
+            - "sh"
+            - "-c"
+            - "while :; do sleep 60; done"
+
+          resources:
+            limits:
+              cpu: "50m"
+              memory: "200Mi"
+            requests:
+              cpu: "20m"
+              memory: "100Mi"
+
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+
+          volumeMounts:
+            - name: "zuul-config"
+              mountPath: "/etc/zuul"
+              readOnly: true
+            - name: "zookeeper-client-tls"
+              mountPath: "/tls/client"
+              readOnly: true
+            - name: "zuul-config-data"
+              mountPath: "/etc/zuul-config"
+
+      volumes:
+        - name: "zuul-config"
+          secret:
+            secretName: "zuul-config"
+
+        - name: "zookeeper-client-tls"
+          secret:
+            secretName: "zookeeper-client-tls"
+
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+
+  revisionHistoryLimit: 2

@@ -1,0 +1,25 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zookeeper-server
+spec:
+  privateKey:
+    encoding: PKCS8
+  secretName: zookeeper-server-tls
+  commonName: server
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  dnsNames:
+    - zookeeper-0.zookeeper-headless.zuul-ci.svc.cluster.local
+    - zookeeper-0
+    - zookeeper-1.zookeeper-headless.zuul-ci.svc.cluster.local
+    - zookeeper-1
+    - zookeeper-2.zookeeper-headless.zuul-ci.svc.cluster.local
+    - zookeeper-2
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer

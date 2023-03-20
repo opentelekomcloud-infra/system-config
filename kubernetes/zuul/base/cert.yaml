@@ -1,0 +1,22 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zookeeper-client
+  labels:
+    app.kubernetes.io/name: zookeeper-client-certificate
+    app.kubernetes.io/part-of: zuul
+    app.kubernetes.io/component: zookeeper-client-certificate
+spec:
+  privateKey:
+    encoding: PKCS8
+  secretName: zookeeper-client-tls
+  commonName: client
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth
+    - client auth
+  issuerRef:
+    name: ca-issuer
+    kind: Issuer

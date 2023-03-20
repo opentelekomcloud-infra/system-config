@@ -1,0 +1,184 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+components:
+  - ../../components/zuul-client
+  - ../../components/zuul-merger
+  - ../../components/nodepool-builder
+
+configMapGenerator:
+  - name: "vault-agent-config"
+    files:
+      - "config-zuul.hcl=configs/vault-agent/config-zuul.hcl"
+      - "config-nodepool.hcl=configs/vault-agent/config-nodepool.hcl"
+  - name: "zuul-instance-config"
+    behavior: "replace"
+    literals:
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: zuul-ci
+
+images:
+  - name: "busybox"
+    newName: "quay.io/opentelekomcloud/busybox"
+    newTag: "1.36.0-musl"
+
+  - name: "hashicorp/vault"
+    newName: "docker.io/hashicorp/vault"
+    newTag: "1.12.3"
+
+  - name: "zuul/zuul-executor"
+    newName: "quay.io/opentelekomcloud/zuul-executor"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-merger"
+    newName: "quay.io/opentelekomcloud/zuul-merger"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-scheduler"
+    newName: "quay.io/opentelekomcloud/zuul-scheduler"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-web"
+    newName: "quay.io/opentelekomcloud/zuul-web"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/nodepool-builder"
+    newName: "quay.io/opentelekomcloud/nodepool-builder"
+    newTag: "6.2.0"
+
+  - name: "zuul/nodepool-launcher"
+    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newTag: "6.2.0"
+
+patches:
+  # Patch zookeeper (storage class, size and count)
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: "csi-disk"
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: "5Gi"
+    target:
+      group: apps
+      kind: StatefulSet
+      name: zookeeper
+      version: v1
+
+  # Path zuul components (replace config and enable vault)
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/0
+        value:
+          name: "zuul-config"
+          emptyDir: {}
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-client,zuul-web)"
+      group: apps
+      version: v1
+      kind: Deployment
+
+  - path: patch-zuul.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-client,zuul-web)"
+      group: apps
+      version: v1
+      kind: Deployment
+
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/0
+        value:
+          name: "zuul-config"
+          emptyDir:
+            medium: "Memory"
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger)"
+      group: apps
+      version: v1
+      kind: StatefulSet
+
+  - path: patch-zuul.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger)"
+      group: apps
+      version: v1
+      kind: StatefulSet
+
+  # Patching Nodepool components (replace config and enable vault)
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/0
+        value:
+          name: "nodepool-config"
+          emptyDir: {}
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher)"
+      group: apps
+      version: v1
+      kind: Deployment
+
+  - path: patch-nodepool.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher)"
+      group: apps
+      version: v1
+      kind: Deployment
+
+  # Patching web
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        # value: zuul.otc-service.com
+        value: zuul
+      # - op: replace
+      #   path: /metadata/annotations
+      #   value:
+      #     cert-manager.io/cluster-issuer: letsencrypt-prod
+      # - op: replace
+      #   path: /spec/tls
+      #   value:
+      #     - hosts:
+      #         - zuul
+      #       secretName: zuul-cert-prod
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: zuul-web
+      version: v1
+
+resources:
+  - ../../base
+  - crb.yaml
+
+secretGenerator:
+  # Replacing general secrets to be able to trigger updates
+  - name: zuul-config
+    behavior: "replace"
+    files:
+      - "configs/zuul.conf.hcl"
+  - name: nodepool-config
+    behavior: "replace"
+    files:
+      - "configs/openstack/clouds.yaml.hcl"
+  # Vault configs
+  - name: vault-config-zuul
+    files:
+      - "configs/zuul.conf.hcl"
+  - name: vault-config-nodepool
+    files:
+      - "configs/openstack/clouds.yaml.hcl"
+      - "configs/kube.config.hcl"

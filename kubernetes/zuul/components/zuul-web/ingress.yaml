@@ -1,0 +1,21 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "zuul-web"
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: "zuul"
+    app.kubernetes.io/component: "zuul-web"
+spec:
+  rules:
+    - host: "zuul"
+      http:
+        paths:
+          - backend:
+              service:
+                name: "zuul-web"
+                port:
+                  number: 9000
+            path: "/"
+            pathType: "Prefix"
