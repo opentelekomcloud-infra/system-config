@@ -1,0 +1,69 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-web
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: zuul
+    app.kubernetes.io/component: "zuul-web"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/part-of: "zuul"
+      app.kubernetes.io/component: "zuul-web"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/part-of: "zuul"
+        app.kubernetes.io/component: "zuul-web"
+    spec:
+      containers:
+        - name: "web"
+          image: "zuul/zuul-web"
+          args: ["/usr/local/bin/zuul-web", "-f", "-d"]
+
+          ports:
+            - containerPort: 9000
+              name: "web"
+              protocol: "TCP"
+
+          resources:
+            limits:
+              cpu: "50m"
+              memory: "500Mi"
+            requests:
+              cpu: "20m"
+              memory: "200Mi"
+
+          securityContext:
+            runAsUser: 10001
+            runAsGroup: 10001
+
+          volumeMounts:
+            - name: "zuul-config"
+              mountPath: "/etc/zuul"
+              readOnly: true
+            - name: "zookeeper-client-tls"
+              mountPath: "/tls/client"
+              readOnly: true
+            - name: "zuul-config-data"
+              mountPath: "/etc/zuul-config"
+
+      serviceAccountName: "zuul"
+      volumes:
+        - name: "zuul-config"
+          secret:
+            secretName: "zuul-config"
+
+        - name: "zookeeper-client-tls"
+          secret:
+            secretName: "zookeeper-client-tls"
+
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+  revisionHistoryLimit: 2

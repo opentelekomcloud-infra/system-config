@@ -1,0 +1,144 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "zookeeper"
+  labels:
+    app.kubernetes.io/name: "zookeeper"
+    app.kubernetes.io/component: "server"
+spec:
+  podManagementPolicy: "Parallel"
+  replicas: 1
+  serviceName: "zookeeper-headless"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: "server"
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: "app.kubernetes.io/name"
+                      operator: In
+                      values:
+                        - "zookeeper"
+                    - key: "app.kubernetes.io/component"
+                      operator: In
+                      values:
+                        - "server"
+                topologyKey: "kubernetes.io/hostname"
+
+      terminationGracePeriodSeconds: 1800
+      serviceAccountName: "zookeeper"
+      containers:
+        - name: "zookeeper"
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+          image: "zookeeper"
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "4Gi"
+            requests:
+              cpu: "100m"
+              memory: "1Gi"
+          command:
+            - "/bin/bash"
+            - "-xec"
+            - "/config-scripts/run"
+          ports:
+            - containerPort: 2281
+              name: "client"
+            - containerPort: 2888
+              name: "server"
+            - containerPort: 3888
+              name: "election"
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - /config-scripts/ok
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 2
+            successThreshold: 1
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - /config-scripts/ready
+            initialDelaySeconds: 20
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 2
+            successThreshold: 1
+          env:
+            - name: ZK_REPLICAS
+              value: "3"
+            - name: JMXAUTH
+              value: "false"
+            - name: JMXDISABLE
+              value: "false"
+            - name: JMXPORT
+              value: "1099"
+            - name: JMXSSL
+              value: "false"
+            - name: ZK_SYNC_LIMIT
+              value: "10"
+            - name: ZK_TICK_TIME
+              value: "2000"
+            - name: ZOO_AUTOPURGE_PURGEINTERVAL
+              value: "6"
+            - name: ZOO_AUTOPURGE_SNAPRETAINCOUNT
+              value: "3"
+            - name: ZOO_INIT_LIMIT
+              value: "5"
+            - name: ZOO_MAX_CLIENT_CNXNS
+              value: "60"
+            - name: ZOO_PORT
+              value: "2181"
+            - name: ZOO_STANDALONE_ENABLED
+              value: "false"
+            - name: ZOO_TICK_TIME
+              value: "2000"
+
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            - name: zookeeper-server-tls
+              mountPath: /tls/server
+              readOnly: true
+            - name: zookeeper-client-tls
+              mountPath: /tls/client
+              readOnly: true
+            - name: config
+              mountPath: /config-scripts
+
+      volumes:
+        - name: config
+          configMap:
+            name: zookeeper-config
+            defaultMode: 0555
+        - name: zookeeper-server-tls
+          secret:
+            secretName: zookeeper-server-tls
+        - name: zookeeper-client-tls
+          secret:
+            secretName: zookeeper-server-tls
+
+  updateStrategy:
+    type: "RollingUpdate"
+  volumeClaimTemplates:
+    - metadata:
+        name: "data"
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: "1Gi"
