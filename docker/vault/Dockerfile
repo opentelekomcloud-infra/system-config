@@ -1,4 +1,4 @@
-from docker.io/vault:1.12.1
+from docker.io/vault:1.12.4
 
 LABEL maintainer="Ecosystem squad - DL-PBCOTCDELECO@t-systems.com"
 
