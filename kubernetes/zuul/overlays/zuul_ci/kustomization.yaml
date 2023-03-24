@@ -28,8 +28,8 @@ images:
     newTag: "1.36.0-musl"
 
   - name: "hashicorp/vault"
-    newName: "docker.io/hashicorp/vault"
-    newTag: "1.12.3"
+    newName: "quay.io/opentelekomcloud/vault"
+    newTag: "change_783_latest"
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
@@ -135,6 +135,13 @@ patches:
       version: v1
       kind: Deployment
 
+  - path: patch-nodepool.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-builder)"
+      group: apps
+      version: v1
+      kind: Deployment
+
   # Patching web
   - patch: |-
       - op: replace
@@ -142,18 +149,18 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        # value: zuul.otc-service.com
+        value: zuul.otc-service.com
         value: zuul
-      # - op: replace
-      #   path: /metadata/annotations
-      #   value:
-      #     cert-manager.io/cluster-issuer: letsencrypt-prod
-      # - op: replace
-      #   path: /spec/tls
-      #   value:
-      #     - hosts:
-      #         - zuul
-      #       secretName: zuul-cert-prod
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - zuul
+            secretName: zuul-cert-prod
     target:
       group: networking.k8s.io
       kind: Ingress
