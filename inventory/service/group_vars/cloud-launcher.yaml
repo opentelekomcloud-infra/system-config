@@ -1182,7 +1182,7 @@ cloud_cce:
         az: "eu-de-02"
         os: "CentOS 7.7"
       - name: "eco-infra-03"
-        flavor: "s3.xlarge.4"
+        flavor: "s3.xlarge.8"
         az: "eu-de-03"
         os: "CentOS 7.7"
       - name: "eco-infra-04"
