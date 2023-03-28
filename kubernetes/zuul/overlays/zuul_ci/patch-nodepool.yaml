@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-        - name: "launcher"
+        - name: "nodepool"
           volumeMounts:
             - name: "vault-secrets"
               mountPath: "/etc/openstack"

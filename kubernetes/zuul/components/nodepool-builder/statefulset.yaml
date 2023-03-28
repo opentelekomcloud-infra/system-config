@@ -23,7 +23,7 @@ spec:
         app.kubernetes.io/component: "nodepool-builder"
     spec:
       containers:
-        - name: "builder"
+        - name: "nodepool"
           image: "zuul/nodepool-builder"
           command:
             - "/usr/local/bin/nodepool-builder"
