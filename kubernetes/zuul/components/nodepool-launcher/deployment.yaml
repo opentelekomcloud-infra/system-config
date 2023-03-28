@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/component: "nodepool-launcher"
     spec:
       containers:
-        - name: "launcher"
+        - name: "nodepool"
           image: "zuul/nodepool-launcher"
           command:
             - "/usr/local/bin/nodepool-launcher"
