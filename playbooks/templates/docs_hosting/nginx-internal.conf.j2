@@ -123,8 +123,8 @@ server {
     }
     if ($request_uri ~* '/releasenotes/(.*)$') {
       # rn itself
-      set $container 'releasenotes';
-      set $index_uri '/$1';
+      # set $container 'releasenotes';
+      set $index_uri '/releasenotes/$1';
       break;
     }
     if ($request_uri ~* '(^/_static)|(^/_images)') {
