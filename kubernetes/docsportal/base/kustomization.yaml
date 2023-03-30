@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: nginx-config
+    files:
+      - configs/nginx-site.conf
+      - templates/404.html
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "base"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "quay.io/opentelekomcloud/nginx-unprivileged"
+    newTag: "1.21.6-alpine"
+
+resources:
+  - sa.yaml
+  - role.yaml
+  - role_binding.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml

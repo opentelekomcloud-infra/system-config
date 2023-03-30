@@ -1,0 +1,19 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: document-hosting
+  name: document-hosting
+spec:
+  rules:
+    - host: document-hosting
+      http:
+        paths:
+          - backend:
+              service:
+                name: document-hosting
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix
