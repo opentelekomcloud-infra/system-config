@@ -1,0 +1,47 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: "nginx-config"
+    behavior: "merge"
+    files:
+      - "configs/nginx-site.conf"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "docsporta"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "quay.io/opentelekomcloud/nginx-unprivileged"
+    newTag: "1.21.6-alpine"
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs.otc-service.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - docs.otc-service.com
+            secretName: docsportal-cert
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting
+      version: v1
+
+resources:
+  - ../../base

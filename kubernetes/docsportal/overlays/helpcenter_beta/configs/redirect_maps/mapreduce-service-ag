@@ -1,0 +1,10 @@
+  /en-us/usermanual/mrs/mrs_03_1020.html /mapreduce-service/umn/faq/accounts_and_permissions/does_an_mrs_cluster_support_access_permission_control_if_kerberos_authentication_is_not_enabled.html;
+  /en-us/usermanual/mrs/mrs_03_1037.html /mapreduce-service/umn/faq/accounts_and_permissions/why_is_the_manage_user_function_unavailable_on_the_system_page_on_mrs_manager.html;
+  /en-us/usermanual/mrs/mrs_03_1035.html /mapreduce-service/umn/faq/accounts_and_permissions/how_do_i_assign_tenant_management_permission_to_a_new_account.html;
+  /en-us/usermanual/mrs/mrs_03_1118.html /mapreduce-service/umn/faq/accounts_and_permissions/how_do_i_customize_an_mrs_policy.html;
+  /en-us/usermanual/mrs/mrs_01_0444.html /mapreduce-service/umn/data_backup_and_restoration/index.html;
+  /en-us/usermanual/mrs/mrs_01_0446.html /mapreduce-service/umn/data_backup_and_restoration/hive_metadata.html;
+  /en-us/usermanual/mrs/mrs_01_0445.html /mapreduce-service/umn/data_backup_and_restoration/hdfs_data.html;
+  /en-us/usermanual/mrs/mrs_01_0448.html /mapreduce-service/umn/data_backup_and_restoration/hbase_data.html;
+  /en-us/usermanual/mrs/mrs_01_0449.html /mapreduce-service/umn/data_backup_and_restoration/kafka_data.html;
+  /en-us/usermanual/mrs/mrs_01_0447.html /mapreduce-service/umn/data_backup_and_restoration/hive_data.html;
