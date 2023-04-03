@@ -14,178 +14,178 @@ configMapGenerator:
       - "configs/nginx-site.conf"
   - name: "additional-resource"
     files:
-      - "configs/redirect_maps/redirect-additional-resources"
+      - "configs/redirect_maps/additional-resources"
   - name: "anti-ddos"
     files:
-      - "configs/redirect_maps/redirect-anti-ddos"
+      - "configs/redirect_maps/anti-ddos"
   - name: "application-operations-management"
     files:
-      - "configs/redirect_maps/redirect-application-operations-management"
+      - "configs/redirect_maps/application-operations-management"
   - name: "auto-scaling"
     files:
-      - "configs/redirect_maps/redirect-auto-scaling"
+      - "configs/redirect_maps/auto-scaling"
   - name: "bare-metal-server"
     files:
-      - "configs/redirect_maps/redirect-bare-metal-server"
+      - "configs/redirect_maps/bare-metal-server"
   - name: "cloud-backup-recovery"
     files:
-      - "configs/redirect_maps/redirect-cloud-backup-recovery"
+      - "configs/redirect_maps/cloud-backup-recovery"
   - name: "cloud-container-engine"
     files:
-      - "configs/redirect_maps/redirect-cloud-container-engine"
+      - "configs/redirect_maps/cloud-container-engine"
   - name: "cloud-eye"
     files:
-      - "configs/redirect_maps/redirect-cloud-eye"
+      - "configs/redirect_maps/cloud-eye"
   - name: "cloud-search-service"
     files:
-      - "configs/redirect_maps/redirect-cloud-search-service"
+      - "configs/redirect_maps/cloud-search-service"
   - name: "cloud-server-backup-service"
     files:
-      - "configs/redirect_maps/redirect-cloud-server-backup-service"
+      - "configs/redirect_maps/cloud-server-backup-service"
   - name: "cloud-trace-service"
     files:
-      - "configs/redirect_maps/redirect-cloud-trace-service"
+      - "configs/redirect_maps/cloud-trace-service"
   - name: "data-ingestion-service"
     files:
-      - "configs/redirect_maps/redirect-data-ingestion-service"
+      - "configs/redirect_maps/data-ingestion-service"
   - name: "data-replication-service"
     files:
-      - "configs/redirect_maps/redirect-data-replication-service"
+      - "configs/redirect_maps/data-replication-service"
   - name: "data-warehouse-service-1"
     files:
-      - "configs/redirect_maps/redirect-data-warehouse-service-1"
+      - "configs/redirect_maps/data-warehouse-service-1"
   - name: "data-warehouse-service-2"
     files:
-      - "configs/redirect_maps/redirect-data-warehouse-service-2"
+      - "configs/redirect_maps/data-warehouse-service-2"
   - name: "data-warehouse-service-3"
     files:
-      - "configs/redirect_maps/redirect-data-warehouse-service-3"
+      - "configs/redirect_maps/data-warehouse-service-3"
   - name: "dedicated-host"
     files:
-      - "configs/redirect_maps/redirect-dedicated-host"
+      - "configs/redirect_maps/dedicated-host"
   - name: "direct-connect"
     files:
-      - "configs/redirect_maps/redirect-direct-connect"
+      - "configs/redirect_maps/direct-connect"
   - name: "distributed-cache-service"
     files:
-      - "configs/redirect_maps/redirect-distributed-cache-service"
+      - "configs/redirect_maps/distributed-cache-service"
   - name: "distributed-message-service"
     files:
-      - "configs/redirect_maps/redirect-distributed-message-service"
+      - "configs/redirect_maps/distributed-message-service"
   - name: "document-database-service"
     files:
-      - "configs/redirect_maps/redirect-document-database-service"
+      - "configs/redirect_maps/document-database-service"
   - name: "domain-name-service"
     files:
-      - "configs/redirect_maps/redirect-domain-name-service"
+      - "configs/redirect_maps/domain-name-service"
   - name: "elastic-cloud-server"
     files:
-      - "configs/redirect_maps/redirect-elastic-cloud-server"
+      - "configs/redirect_maps/elastic-cloud-server"
   - name: "elastic-ip"
     files:
-      - "configs/redirect_maps/redirect-elastic-ip"
+      - "configs/redirect_maps/elastic-ip"
   - name: "elastic-load-balancing"
     files:
-      - "configs/redirect_maps/redirect-elastic-load-balancing"
+      - "configs/redirect_maps/elastic-load-balancing"
   - name: "elastic-volume-service"
     files:
-      - "configs/redirect_maps/redirect-elastic-volume-service"
+      - "configs/redirect_maps/elastic-volume-service"
   - name: "gaussdb-mysql"
     files:
-      - "configs/redirect_maps/redirect-gaussdb-mysql"
+      - "configs/redirect_maps/gaussdb-mysql"
   - name: "gausdb-nosql"
     files:
-      - "configs/redirect_maps/redirect-gaussdb-nosql"
+      - "configs/redirect_maps/gaussdb-nosql"
   - name: "gaussdb-opengauss"
     files:
-      - "configs/redirect_maps/redirect-gaussdb-opengauss"
+      - "configs/redirect_maps/gaussdb-opengauss"
   - name: "identity-access-management"
     files:
-      - "configs/redirect_maps/redirect-identity-access-management"
+      - "configs/redirect_maps/identity-access-management"
   - name: "image-management-service"
     files:
-      - "configs/redirect_maps/redirect-image-management-service"
+      - "configs/redirect_maps/image-management-service"
   - name: "key-management-service"
     files:
-      - "configs/redirect_maps/redirect-key-management-service"
+      - "configs/redirect_maps/key-management-service"
   - name: "log-tank-service"
     files:
-      - "configs/redirect_maps/redirect-log-tank-service"
+      - "configs/redirect_maps/log-tank-service"
   - name: "mapreduce-service-aa"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-aa"
+      - "configs/redirect_maps/mapreduce-service-aa"
   - name: "mapreduce-service-ab"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-ab"
+      - "configs/redirect_maps/mapreduce-service-ab"
   - name: "mapreduce-service-ac"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-ac"
+      - "configs/redirect_maps/mapreduce-service-ac"
   - name: "mapreduce-service-ad"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-ad"
+      - "configs/redirect_maps/mapreduce-service-ad"
   - name: "mapreduce-service-ae"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-ae"
+      - "configs/redirect_maps/mapreduce-service-ae"
   - name: "mapreduce-service-af"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-af"
+      - "configs/redirect_maps/mapreduce-service-af"
   - name: "mapreduce-service-ag"
     files:
-      - "configs/redirect_maps/redirect-mapreduce-service-ag"
+      - "configs/redirect_maps/mapreduce-service-ag"
   - name: "modelarts"
     files:
-      - "configs/redirect_maps/redirect-modelarts"
+      - "configs/redirect_maps/modelarts"
   - name: "nat-gateway"
     files:
-      - "configs/redirect_maps/redirect-nat-gateway"
+      - "configs/redirect_maps/nat-gateway"
   - name: "object-storage-service"
     files:
-      - "configs/redirect_maps/redirect-object-storage-service"
+      - "configs/redirect_maps/object-storage-service"
   - name: "private-link-access-service"
     files:
-      - "configs/redirect_maps/redirect-private-link-access-service"
+      - "configs/redirect_maps/private-link-access-service"
   - name: "relational-database-service"
     files:
-      - "configs/redirect_maps/redirect-relational-database-service"
+      - "configs/redirect_maps/relational-database-service"
   - name: "resource-management-service"
     files:
-      - "configs/redirect_maps/redirect-resource-management-service"
+      - "configs/redirect_maps/resource-management-service"
   - name: "resource-template-service"
     files:
-      - "configs/redirect_maps/redirect-resource-template-service"
+      - "configs/redirect_maps/resource-template-service"
   - name: "scalable-file-service"
     files:
-      - "configs/redirect_maps/redirect-scalable-file-service"
+      - "configs/redirect_maps/scalable-file-service"
   - name: "simple-message-notification"
     files:
-      - "configs/redirect_maps/redirect-simple-message-notification"
+      - "configs/redirect_maps/simple-message-notification"
   - name: "software-repository-container"
     files:
-      - "configs/redirect_maps/redirect-software-repository-container"
+      - "configs/redirect_maps/software-repository-container"
   - name: "storage-disaster-recovery-service"
     files:
-      - "configs/redirect_maps/redirect-storage-disaster-recovery-service"
+      - "configs/redirect_maps/storage-disaster-recovery-service"
   - name: "tag-management-service"
     files:
-      - "configs/redirect_maps/redirect-tag-management-service"
+      - "configs/redirect_maps/tag-management-service"
   - name: "virtual-private-cloud"
     files:
-      - "configs/redirect_maps/redirect-virtual-private-cloud"
+      - "configs/redirect_maps/virtual-private-cloud"
   - name: "virtual-private-network"
     files:
-      - "configs/redirect_maps/redirect-virtual-private-network"
+      - "configs/redirect_maps/virtual-private-network"
   - name: "volume-backup-service"
     files:
-      - "configs/redirect_maps/redirect-volume-backup-service"
+      - "configs/redirect_maps/volume-backup-service"
   - name: "vpc-endpoint"
     files:
-      - "configs/redirect_maps/redirect-vpc-endpoint"
+      - "configs/redirect_maps/vpc-endpoint"
   - name: "web-application-firewall-dedicated"
     files:
-      - "configs/redirect_maps/redirect-web-application-firewall-dedicated"
+      - "configs/redirect_maps/web-application-firewall-dedicated"
   - name: "web-application-firewall"
     files:
-      - "configs/redirect_maps/redirect-web-application-firewall"
+      - "configs/redirect_maps/web-application-firewall"
 
 # kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
 # selector
@@ -247,11 +247,11 @@ patches:
                     name: nginx-config
                     subPath: redirect.map
                   - mountPath: /etc/nginx/redirect
-                    name: redirect-map-volume
+                    name: map-volume
 
               # sidecar that searches CM by "redirect_map=helpcenter" label
               # and flushes content into files on shared volume
-              - name: redirect-configmap-sync
+              - name: configmap-sync
                 env:
                   - name: METHOD
                     value: WATCH
@@ -275,7 +275,7 @@ patches:
                 terminationMessagePolicy: File
                 volumeMounts:
                   - mountPath: /tmp/redirect
-                    name: redirect-map-volume
+                    name: map-volume
 
     target:
       group: apps
