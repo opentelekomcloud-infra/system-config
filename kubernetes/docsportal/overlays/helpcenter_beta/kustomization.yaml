@@ -247,7 +247,7 @@ patches:
                     name: nginx-config
                     subPath: redirect.map
                   - mountPath: /etc/nginx/redirect
-                    name: map-volume
+                    name: redirect-map-volume
 
               # sidecar that searches CM by "redirect_map=helpcenter" label
               # and flushes content into files on shared volume
@@ -275,7 +275,7 @@ patches:
                 terminationMessagePolicy: File
                 volumeMounts:
                   - mountPath: /tmp/redirect
-                    name: map-volume
+                    name: redirect-map-volume
 
     target:
       group: apps
