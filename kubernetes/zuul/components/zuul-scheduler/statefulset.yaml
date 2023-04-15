@@ -37,9 +37,29 @@ spec:
                 topologyKey: "kubernetes.io/hostname"
 
       containers:
-        - name: "scheduler"
+        - name: "zuul"
           image: "zuul/zuul-scheduler"
           args: ["/usr/local/bin/zuul-scheduler", "-f", "-d"]
+
+          ports:
+            - containerPort: 9091
+              name: "prometheus"
+              protocol: "TCP"
+
+          readinessProbe:
+            httpGet:
+              path: "/health/ready"
+              port: "prometheus"
+            failureThreshold: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: "/health/live"
+              port: "prometheus"
+            initialDelaySeconds: 120
+            failureThreshold: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
 
           resources:
             limits:

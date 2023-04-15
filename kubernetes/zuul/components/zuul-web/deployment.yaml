@@ -22,7 +22,7 @@ spec:
         app.kubernetes.io/component: "zuul-web"
     spec:
       containers:
-        - name: "web"
+        - name: "zuul"
           image: "zuul/zuul-web"
           args: ["/usr/local/bin/zuul-web", "-f", "-d"]
 
@@ -30,6 +30,24 @@ spec:
             - containerPort: 9000
               name: "web"
               protocol: "TCP"
+            - containerPort: 9091
+              name: "prometheus"
+              protocol: "TCP"
+
+          readinessProbe:
+            httpGet:
+              path: "/health/ready"
+              port: "prometheus"
+            failureThreshold: 30
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: "/health/live"
+              port: "prometheus"
+            initialDelaySeconds: 120
+            failureThreshold: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
 
           resources:
             limits:

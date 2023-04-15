@@ -40,13 +40,6 @@ spec:
             runAsUser: 1000
             runAsGroup: 1000
           image: "zookeeper"
-          resources:
-            limits:
-              cpu: "500m"
-              memory: "4Gi"
-            requests:
-              cpu: "100m"
-              memory: "1Gi"
           command:
             - "/bin/bash"
             - "-xec"
@@ -107,6 +100,14 @@ spec:
               value: "false"
             - name: ZOO_TICK_TIME
               value: "2000"
+
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "2Gi"
+            requests:
+              cpu: "20m"
+              memory: "1Gi"
 
           volumeMounts:
             - name: data

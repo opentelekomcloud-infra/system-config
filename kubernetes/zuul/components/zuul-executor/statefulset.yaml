@@ -40,7 +40,7 @@ spec:
                 topologyKey: "kubernetes.io/hostname"
 
       containers:
-        - name: "executor"
+        - name: "zuul"
           image: "zuul/zuul-executor"
           args: ["/usr/local/bin/zuul-executor", "-f", "-d"]
           env:
@@ -58,18 +58,35 @@ spec:
             - containerPort: 7900
               name: "logs"
               protocol: "TCP"
+            - containerPort: 9091
+              name: "prometheus"
+              protocol: "TCP"
+
+                #          readinessProbe:
+                #            httpGet:
+                #              path: "/health/ready"
+                #              port: "prometheus"
+                #            failureThreshold: 20
+                #            periodSeconds: 10
+                #          livenessProbe:
+                #            httpGet:
+                #              path: "/health/live"
+                #              port: "prometheus"
+                #            initialDelaySeconds: 120
+                #            failureThreshold: 10
+                #            periodSeconds: 5
+                #            timeoutSeconds: 5
 
           resources:
             limits:
-              cpu: "2"
+              cpu: "2000m"
               memory: "8G"
             requests:
-              cpu: "1"
+              cpu: "500m"
               memory: "1G"
 
           securityContext:
             privileged: true
-
 
           volumeMounts:
             - name: "zuul-config"
@@ -82,6 +99,11 @@ spec:
               mountPath: "/etc/zuul-config"
             - name: "zuul-var"
               mountPath: "/var/lib/zuul"
+            - name: "zuul-vars"
+              mountPath: "/var/run/zuul/vars"
+            - name: "zuul-trusted-ro"
+              mountPath: "/var/run/zuul/trusted-ro"
+              readOnly: true
 
       serviceAccountName: "zuul"
       terminationGracePeriodSeconds: 120
@@ -97,6 +119,13 @@ spec:
         - name: "zuul-config-data"
           persistentVolumeClaim:
             claimName: "zuul-config"
+
+        - name: "zuul-vars"
+          configMap:
+            name: "zuul-executor-vars"
+
+        - name: "zuul-trusted-ro"
+          emptyDir: {}
 
         - name: "zuul-var"
           emptyDir: {}
