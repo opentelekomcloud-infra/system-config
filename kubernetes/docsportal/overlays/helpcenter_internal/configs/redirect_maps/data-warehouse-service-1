@@ -90,7 +90,6 @@
   /devg/dws/dws_04_0442.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/reviewing_and_modifying_a_table_definition/using_partial_clustering.html;
   /devg/dws/dws_04_0454.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/index.html;
   /devg/dws/dws_04_0461.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/sublink_name_hints.html;
-  /devg/dws/dws_04_0464.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/hint_errors,_conflicts,_and_other_warnings.html;
   /devg/dws/dws_04_0465.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/plan_hint_cases.html;
   /devg/dws/dws_04_0462.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/skew_hints.html;
   /devg/dws/dws_04_0458.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/rows_hints.html;
@@ -98,6 +97,7 @@
   /devg/dws/dws_04_0460.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/scan_operation_hints.html;
   /devg/dws/dws_04_0463.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/configuration_parameter_hints.html;
   /devg/dws/dws_04_0459.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/stream_operation_hints.html;
+  /devg/dws/dws_04_0464.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/hint_errors_conflicts_and_other_warnings.html;
   /devg/dws/dws_04_0456.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/join_order_hints.html;
   /devg/dws/dws_04_0457.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/hint-based_tuning/join_operation_hints.html;
   /devg/dws/dws_04_0466.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_improvement/routinely_maintaining_tables.html;
@@ -118,6 +118,7 @@
   /devg/dws/dws_04_0409.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_analysis/query_execution_process.html;
   /devg/dws/dws_04_0411.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_analysis/deep_dive_on_the_sql_execution_plan.html;
   /devg/dws/dws_04_0412.html /data-warehouse-service/dev-guide/developer_guide/query_performance_optimization/query_analysis/querying_sql_statements_that_affect_performance_most.html;
+  /devg/dws/dws_04_0042.html /data-warehouse-service/dev-guide/developer_guide/syntax_compatibility_differences_among_oracle_teradata_and_mysql.html;
   /devg/dws/dws_04_0523.html /data-warehouse-service/dev-guide/developer_guide/stored_procedures/basic_statements/index.html;
   /devg/dws/dws_04_0526.html /data-warehouse-service/dev-guide/developer_guide/stored_procedures/basic_statements/call_statement.html;
   /devg/dws/dws_04_0524.html /data-warehouse-service/dev-guide/developer_guide/stored_procedures/basic_statements/variable_definition_statement.html;
@@ -229,7 +230,6 @@
   /devg/dws/dws_04_0399.html /data-warehouse-service/dev-guide/developer_guide/resource_monitoring/topsql_query_example.html;
   /devg/dws/dws_04_0395.html /data-warehouse-service/dev-guide/developer_guide/resource_monitoring/monitoring_memory_resources.html;
   /devg/dws/dws_04_0396.html /data-warehouse-service/dev-guide/developer_guide/resource_monitoring/instance_resource_monitoring.html;
-  /devg/dws/dws_04_0042.html /data-warehouse-service/dev-guide/developer_guide/syntax_compatibility_differences_among_oracle,_teradata,_and_mysql.html;
   /devg/dws/dws_04_0055.html /data-warehouse-service/dev-guide/developer_guide/database_security_management/managing_users_and_their_permissions/system_administrator.html;
   /devg/dws/dws_04_0053.html /data-warehouse-service/dev-guide/developer_guide/database_security_management/managing_users_and_their_permissions/index.html;
   /devg/dws/dws_04_0057.html /data-warehouse-service/dev-guide/developer_guide/database_security_management/managing_users_and_their_permissions/users.html;
@@ -282,7 +282,7 @@
   /devg/dws/dws_04_0189.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/index.html;
   /devg/dws/dws_04_0194.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/creating_a_gds_foreign_table.html;
   /devg/dws/dws_04_0196.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/handling_import_errors.html;
-  /devg/dws/dws_04_0193.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/installing,_configuring,_and_starting_gds.html;
+  /devg/dws/dws_04_0193.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/installing_configuring_and_starting_gds.html;
   /devg/dws/dws_04_0198.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/example_of_importing_data_using_gds.html;
   /devg/dws/dws_04_0192.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/preparing_source_data.html;
   /devg/dws/dws_04_0190.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_gds_to_import_data_from_a_remote_server/importing_data_in_parallel_using_gds.html;
@@ -325,7 +325,7 @@
   /devg/dws/dws_04_0262.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/exporting_data_in_parallel_using_gds.html;
   /devg/dws/dws_04_0261.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/index.html;
   /devg/dws/dws_04_0265.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/creating_a_gds_foreign_table.html;
-  /devg/dws/dws_04_0264.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/installing,_configuring,_and_starting_gds.html;
+  /devg/dws/dws_04_0264.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/installing_configuring_and_starting_gds.html;
   /devg/dws/dws_04_0268.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/examples_of_exporting_data_using_gds.html;
   /devg/dws/dws_04_0263.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/planning_data_export.html;
   /devg/dws/dws_04_0267.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/using_gds_to_export_data_to_a_remote_server/stopping_gds.html;
@@ -453,6 +453,7 @@
   /devg/dws/dws_04_0683.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/global_rel_iostat.html;
   /devg/dws/dws_04_0740.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_pooler_status.html;
   /devg/dws/dws_04_0840.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_wlm_session_history.html;
+  /devg/dws/dws_04_0880.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/vsession.html;
   /devg/dws/dws_04_0666.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/dba_indexes.html;
   /devg/dws/dws_04_0801.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_comm_status.html;
   /devg/dws/dws_04_0725.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_comm_send_stream.html;
@@ -503,6 +504,7 @@
   /devg/dws/dws_04_0724.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pg_comm_recv_stream.html;
   /devg/dws/dws_04_0820.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_stat_activity.html;
   /devg/dws/dws_04_0701.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/gs_wlm_operaror_info.html;
+  /devg/dws/dws_04_0881.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/vsession_longops.html;
   /devg/dws/dws_04_0861.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/user_cons_columns.html;
   /devg/dws/dws_04_0803.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_get_stat_all_tables.html;
   /devg/dws/dws_04_0832.html /data-warehouse-service/dev-guide/developer_guide/system_catalogs_and_system_views/system_views/pgxc_wait_events.html;
@@ -749,7 +751,7 @@
   /devg/dws/dws_06_0002.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/index.html;
   /devg/dws/dws_06_0006.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/postgresql_features_unsupported_by_gaussdbdws.html;
   /devg/dws/dws_06_0005.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/function_differences.html;
-  /devg/dws/dws_06_0003.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/gaussdbdws_gsql,_postgresql_psql,_and_libpq.html;
+  /devg/dws/dws_06_0003.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/gaussdbdws_gsql_postgresql_psql_and_libpq.html;
   /devg/dws/dws_06_0004.html /data-warehouse-service/dev-guide/sql_syntax_reference/differences_between_gaussdbdws_and_postgresql/data_type_differences.html;
   /devg/dws/dws_06_0240.html /data-warehouse-service/dev-guide/sql_syntax_reference/dml_syntax/update.html;
   /devg/dws/dws_06_0227.html /data-warehouse-service/dev-guide/sql_syntax_reference/dml_syntax/index.html;
@@ -863,7 +865,6 @@
   /devg/dws/dws_06_0171.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_resource_pool.html;
   /devg/dws/dws_06_0187.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_view.html;
   /devg/dws/dws_06_0140.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/alter_synonym.html;
-  /devg/dws/dws_06_0161.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_foreign_table__sql_on_obs_or_hadoop.html;
   /devg/dws/dws_06_0155.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_barrier.html;
   /devg/dws/dws_06_0120.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/alter_database.html;
   /devg/dws/dws_06_0177.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_table.html;
@@ -897,6 +898,7 @@
   /devg/dws/dws_06_0134.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/alter_role.html;
   /devg/dws/dws_06_0223.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/set_session_authorization.html;
   /devg/dws/dws_06_0147.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/alter_trigger.html;
+  /devg/dws/dws_06_0161.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/create_foreign_table_sql_on_obs_or_hadoop.html;
   /devg/dws/dws_06_0198.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/drop_owned.html;
   /devg/dws/dws_06_0204.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/drop_schema.html;
   /devg/dws/dws_06_0189.html /data-warehouse-service/dev-guide/sql_syntax_reference/ddl_syntax/drop_database.html;
@@ -953,7 +955,7 @@
   /devg/dws/dws_06_0252.html /data-warehouse-service/dev-guide/sql_syntax_reference/dcl_syntax/reassign_owned.html;
   /devg/dws/dws_06_0075.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/index.html;
   /devg/dws/dws_06_0076.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/overview.html;
-  /devg/dws/dws_06_0080.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/union,_case,_and_related_constructs.html;
+  /devg/dws/dws_06_0080.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/union_case_and_related_constructs.html;
   /devg/dws/dws_06_0079.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/value_storage.html;
   /devg/dws/dws_06_0078.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/functions.html;
   /devg/dws/dws_06_0077.html /data-warehouse-service/dev-guide/sql_syntax_reference/type_conversion/operators.html;
@@ -996,5 +998,3 @@
   /tg/dws/DWS_DS_147.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/overview.html;
   /tg/dws/DWS_DS_151.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/securing_the_application_in-memory_data.html;
   /tg/dws/DWS_DS_154.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/ssl_certificates.html;
-  /tg/dws/DWS_DS_153.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/sql_history.html;
-  /tg/dws/DWS_DS_148.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/login_history.html;

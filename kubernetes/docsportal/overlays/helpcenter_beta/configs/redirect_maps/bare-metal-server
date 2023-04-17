@@ -76,7 +76,6 @@
   /bpicg/bms/en-us_topic_0084945523.html /bare-metal-server/image-creation-guide/converting_the_image_format.html;
   /bpicg/bms/en-us_topic_0081116607.html /bare-metal-server/image-creation-guide/windows/index.html;
   /bpicg/bms/en-us_topic_0131700759.html /bare-metal-server/image-creation-guide/windows/generating_a_new_iso_file.html;
-  /bpicg/bms/en-us_topic_0000001380021690.html /bare-metal-server/image-creation-guide/windows/using_dism++_to_install_the_vmtools_driver_for_an_iso_file.html;
   /bpicg/bms/en-us_topic_0081116608.html /bare-metal-server/image-creation-guide/windows/configuring_the_vm_environment.html;
   /bpicg/bms/en-us_topic_0086739692.html /bare-metal-server/image-creation-guide/windows/optional_configuring_automatic_windows_update.html;
   /bpicg/bms/en-us_topic_0108495465.html /bare-metal-server/image-creation-guide/windows/configuring_the_sid.html;
@@ -90,6 +89,7 @@
   /bpicg/bms/en-us_topic_0131700233.html /bare-metal-server/image-creation-guide/windows/optional_installing_x86_v5_server_drivers/making_preparations.html;
   /bpicg/bms/en-us_topic_0131700758.html /bare-metal-server/image-creation-guide/windows/optional_installing_x86_v5_server_drivers/optional_installing_the_avago3408_3508_raid_driver.html;
   /bpicg/bms/en-us_topic_0081116571.html /bare-metal-server/image-creation-guide/windows/preparing_hardware_and_software.html;
+  /bpicg/bms/en-us_topic_0000001380021690.html /bare-metal-server/image-creation-guide/windows/using_dism_to_install_the_vmtools_driver_for_an_iso_file.html;
   /bpicg/bms/en-us_topic_0085894430.html /bare-metal-server/image-creation-guide/windows/setting_the_windows_time_zone.html;
   /bpicg/bms/en-us_topic_0000001342019697.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/index.html;
   /bpicg/bms/en-us_topic_0000001289260008.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/index.html;
@@ -122,9 +122,9 @@
   /bpicg/bms/en-us_topic_0081116581.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/index.html;
   /bpicg/bms/en-us_topic_0100489883.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/centos_7.html;
   /bpicg/bms/en-us_topic_0131700227.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/overview.html;
-  /bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /bpicg/bms/en-us_topic_0151001259.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/xenserver_7.html;
   /bpicg/bms/en-us_topic_0081116809.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_12.html;
+  /bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /bpicg/bms/en-us_topic_0084951049.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_11_sp4.html;
   /bpicg/bms/en-us_topic_0174865424.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/os_partitioning_recommendations.html;
   /bpicg/bms/en-us_topic_0100489884.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/index.html;
@@ -199,12 +199,12 @@
   /bpicg/bms/en-us_topic_0000001238836639.html /bare-metal-server/image-creation-guide/linux/installing_the_hi1822_driver/hi1822_offload_cards_for_bmss_with_sdi_3.html;
   /bpicg/bms/en-us_topic_0000001193883124.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optimizing_the_udev_configuration.html;
   /bpicg/bms/en-us_topic_0081116691.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/index.html;
+  /bpicg/bms/en-us_topic_0000001238843011.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_installing_common_o_and_m_tools.html;
   /bpicg/bms/en-us_topic_0000001239043027.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/modifying_historical_record_configuration_items.html;
   /bpicg/bms/en-us_topic_0000001238843003.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the_network_script_permission.html;
   /bpicg/bms/en-us_topic_0000001194203066.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/uninstalling_denyhosts.html;
-  /bpicg/bms/en-us_topic_0000001238843011.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_installing_common_o&m_tools.html;
   /bpicg/bms/en-us_topic_0000001194363052.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/modifying_ssh_configuration_items.html;
-  /bpicg/bms/en-us_topic_0000001194043086.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the__etc_motd_configuration_item.html;
+  /bpicg/bms/en-us_topic_0000001194043086.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the_etc_motd_configuration_item.html;
   /bpicg/bms/en-us_topic_0000001194363056.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_setting_automatic_hostname_update.html;
   /bpicg/bms/en-us_topic_0000001194043100.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_setting_the_password_validity_period.html;
   /bpicg/bms/en-us_topic_0000001238962999.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optimizing_selinux.html;
@@ -229,10 +229,8 @@
   /usermanual/bms/en-us_topic_0083745258.html /bare-metal-server/umn/overview/instance/instance_family.html;
   /usermanual/bms/en-us_topic_0140735213.html /bare-metal-server/umn/overview/instance/lifecycle.html;
   /usermanual/bms/en-us_topic_0102159482.html /bare-metal-server/umn/overview/security/index.html;
-  /usermanual/bms/en-us_topic_0083745264.html /bare-metal-server/umn/overview/security/security_group.html;
-  /usermanual/bms/en-us_topic_0147508514.html /bare-metal-server/umn/overview/security/access_control.html;
+  /usermanual/bms/en-us_topic_0147508514.html /bare-metal-server/umn/overview/security/identity_authentication_and_access_control.html;
   /usermanual/bms/en-us_topic_0083745263.html /bare-metal-server/umn/overview/security/cloud-init.html;
-  /usermanual/bms/en-us_topic_0140735214.html /bare-metal-server/umn/overview/security/key_pair.html;
   /usermanual/bms/en-us_topic_0083745262.html /bare-metal-server/umn/overview/security/license_type.html;
   /usermanual/bms/en-us_topic_0083745256.html /bare-metal-server/umn/overview/what_is_bms.html;
   /usermanual/bms/en-us_topic_0069070105.html /bare-metal-server/umn/overview/network.html;
@@ -372,7 +370,7 @@
   /usermanual/bms/en-us_topic_0095251845.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_suse_linux_enterprise_server_11.html;
   /usermanual/bms/en-us_topic_0095251843.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_suse_linux_enterprise_server_12.html;
   /usermanual/bms/en-us_topic_0095251848.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_windows_server.html;
-  /usermanual/bms/en-us_topic_0095251846.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_red_hat,_centos,_oracle_linux,_and_euleros.html;
+  /usermanual/bms/en-us_topic_0095251846.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_red_hat_centos_oracle_linux_and_euleros.html;
   /usermanual/bms/en-us_topic_0140749123.html /bare-metal-server/umn/network/vpc/index.html;
   /usermanual/bms/en-us_topic_0122234355.html /bare-metal-server/umn/network/vpc/overview.html;
   /usermanual/bms/en-us_topic_0120711877.html /bare-metal-server/umn/network/vpc/binding_a_virtual_ip_address_to_a_bms.html;
@@ -389,8 +387,8 @@
   /usermanual/bms/en-us_topic_0110303862.html /bare-metal-server/umn/auditing_of_key_operations/bms_operations_recorded_by_cts.html;
   /usermanual/bms/en-us_topic_0110303863.html /bare-metal-server/umn/auditing_of_key_operations/viewing_traces.html;
   /usermanual/bms/en-us_topic_0084461767.html /bare-metal-server/umn/server_monitoring/index.html;
+  /usermanual/bms/en-us_topic_0084461768.html /bare-metal-server/umn/server_monitoring/monitored_metrics_with_agent_installed.html;
   /usermanual/bms/en-us_topic_0078758302.html /bare-metal-server/umn/server_monitoring/installing_and_configuring_agent.html;
-  /usermanual/bms/en-us_topic_0084461768.html /bare-metal-server/umn/server_monitoring/supported_monitoring_metrics_with_agent_installed.html;
   /usermanual/bms/en-us_topic_0124597141.html /bare-metal-server/umn/troubleshooting/index.html;
   /usermanual/bms/en-us_topic_0059154708.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_i_cannot_log_in_to_my_bms_or_the_bms_evs_disk_is_lost_after_the_bms_is_started_or_restarted.html;
   /usermanual/bms/en-us_topic_0103482177.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_an_evs_disk_attached_to_a_windows_bms_is_in_offline_state.html;
@@ -474,7 +472,6 @@
   /en-us/bpicg/bms/en-us_topic_0084945523.html /bare-metal-server/image-creation-guide/converting_the_image_format.html;
   /en-us/bpicg/bms/en-us_topic_0081116607.html /bare-metal-server/image-creation-guide/windows/index.html;
   /en-us/bpicg/bms/en-us_topic_0131700759.html /bare-metal-server/image-creation-guide/windows/generating_a_new_iso_file.html;
-  /en-us/bpicg/bms/en-us_topic_0000001380021690.html /bare-metal-server/image-creation-guide/windows/using_dism++_to_install_the_vmtools_driver_for_an_iso_file.html;
   /en-us/bpicg/bms/en-us_topic_0081116608.html /bare-metal-server/image-creation-guide/windows/configuring_the_vm_environment.html;
   /en-us/bpicg/bms/en-us_topic_0086739692.html /bare-metal-server/image-creation-guide/windows/optional_configuring_automatic_windows_update.html;
   /en-us/bpicg/bms/en-us_topic_0108495465.html /bare-metal-server/image-creation-guide/windows/configuring_the_sid.html;
@@ -488,6 +485,7 @@
   /en-us/bpicg/bms/en-us_topic_0131700233.html /bare-metal-server/image-creation-guide/windows/optional_installing_x86_v5_server_drivers/making_preparations.html;
   /en-us/bpicg/bms/en-us_topic_0131700758.html /bare-metal-server/image-creation-guide/windows/optional_installing_x86_v5_server_drivers/optional_installing_the_avago3408_3508_raid_driver.html;
   /en-us/bpicg/bms/en-us_topic_0081116571.html /bare-metal-server/image-creation-guide/windows/preparing_hardware_and_software.html;
+  /en-us/bpicg/bms/en-us_topic_0000001380021690.html /bare-metal-server/image-creation-guide/windows/using_dism_to_install_the_vmtools_driver_for_an_iso_file.html;
   /en-us/bpicg/bms/en-us_topic_0085894430.html /bare-metal-server/image-creation-guide/windows/setting_the_windows_time_zone.html;
   /en-us/bpicg/bms/en-us_topic_0000001342019697.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/index.html;
   /en-us/bpicg/bms/en-us_topic_0000001289260008.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/index.html;
@@ -520,9 +518,9 @@
   /en-us/bpicg/bms/en-us_topic_0081116581.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/index.html;
   /en-us/bpicg/bms/en-us_topic_0100489883.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/centos_7.html;
   /en-us/bpicg/bms/en-us_topic_0131700227.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/overview.html;
-  /en-us/bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /en-us/bpicg/bms/en-us_topic_0151001259.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/xenserver_7.html;
   /en-us/bpicg/bms/en-us_topic_0081116809.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_12.html;
+  /en-us/bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /en-us/bpicg/bms/en-us_topic_0084951049.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_11_sp4.html;
   /en-us/bpicg/bms/en-us_topic_0174865424.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/os_partitioning_recommendations.html;
   /en-us/bpicg/bms/en-us_topic_0100489884.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/index.html;
@@ -597,12 +595,12 @@
   /en-us/bpicg/bms/en-us_topic_0000001238836639.html /bare-metal-server/image-creation-guide/linux/installing_the_hi1822_driver/hi1822_offload_cards_for_bmss_with_sdi_3.html;
   /en-us/bpicg/bms/en-us_topic_0000001193883124.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optimizing_the_udev_configuration.html;
   /en-us/bpicg/bms/en-us_topic_0081116691.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/index.html;
+  /en-us/bpicg/bms/en-us_topic_0000001238843011.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_installing_common_o_and_m_tools.html;
   /en-us/bpicg/bms/en-us_topic_0000001239043027.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/modifying_historical_record_configuration_items.html;
   /en-us/bpicg/bms/en-us_topic_0000001238843003.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the_network_script_permission.html;
   /en-us/bpicg/bms/en-us_topic_0000001194203066.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/uninstalling_denyhosts.html;
-  /en-us/bpicg/bms/en-us_topic_0000001238843011.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_installing_common_o&m_tools.html;
   /en-us/bpicg/bms/en-us_topic_0000001194363052.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/modifying_ssh_configuration_items.html;
-  /en-us/bpicg/bms/en-us_topic_0000001194043086.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the__etc_motd_configuration_item.html;
+  /en-us/bpicg/bms/en-us_topic_0000001194043086.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_modifying_the_etc_motd_configuration_item.html;
   /en-us/bpicg/bms/en-us_topic_0000001194363056.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_setting_automatic_hostname_update.html;
   /en-us/bpicg/bms/en-us_topic_0000001194043100.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optional_setting_the_password_validity_period.html;
   /en-us/bpicg/bms/en-us_topic_0000001238962999.html /bare-metal-server/image-creation-guide/linux/performing_security_configuration/optimizing_selinux.html;
@@ -627,10 +625,8 @@
   /en-us/usermanual/bms/en-us_topic_0083745258.html /bare-metal-server/umn/overview/instance/instance_family.html;
   /en-us/usermanual/bms/en-us_topic_0140735213.html /bare-metal-server/umn/overview/instance/lifecycle.html;
   /en-us/usermanual/bms/en-us_topic_0102159482.html /bare-metal-server/umn/overview/security/index.html;
-  /en-us/usermanual/bms/en-us_topic_0083745264.html /bare-metal-server/umn/overview/security/security_group.html;
-  /en-us/usermanual/bms/en-us_topic_0147508514.html /bare-metal-server/umn/overview/security/access_control.html;
+  /en-us/usermanual/bms/en-us_topic_0147508514.html /bare-metal-server/umn/overview/security/identity_authentication_and_access_control.html;
   /en-us/usermanual/bms/en-us_topic_0083745263.html /bare-metal-server/umn/overview/security/cloud-init.html;
-  /en-us/usermanual/bms/en-us_topic_0140735214.html /bare-metal-server/umn/overview/security/key_pair.html;
   /en-us/usermanual/bms/en-us_topic_0083745262.html /bare-metal-server/umn/overview/security/license_type.html;
   /en-us/usermanual/bms/en-us_topic_0083745256.html /bare-metal-server/umn/overview/what_is_bms.html;
   /en-us/usermanual/bms/en-us_topic_0069070105.html /bare-metal-server/umn/overview/network.html;
@@ -770,7 +766,7 @@
   /en-us/usermanual/bms/en-us_topic_0095251845.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_suse_linux_enterprise_server_11.html;
   /en-us/usermanual/bms/en-us_topic_0095251843.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_suse_linux_enterprise_server_12.html;
   /en-us/usermanual/bms/en-us_topic_0095251848.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_windows_server.html;
-  /en-us/usermanual/bms/en-us_topic_0095251846.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_red_hat,_centos,_oracle_linux,_and_euleros.html;
+  /en-us/usermanual/bms/en-us_topic_0095251846.html /bare-metal-server/umn/network/user-defined_vlan/configuring_a_user-defined_vlan_red_hat_centos_oracle_linux_and_euleros.html;
   /en-us/usermanual/bms/en-us_topic_0140749123.html /bare-metal-server/umn/network/vpc/index.html;
   /en-us/usermanual/bms/en-us_topic_0122234355.html /bare-metal-server/umn/network/vpc/overview.html;
   /en-us/usermanual/bms/en-us_topic_0120711877.html /bare-metal-server/umn/network/vpc/binding_a_virtual_ip_address_to_a_bms.html;
@@ -787,8 +783,8 @@
   /en-us/usermanual/bms/en-us_topic_0110303862.html /bare-metal-server/umn/auditing_of_key_operations/bms_operations_recorded_by_cts.html;
   /en-us/usermanual/bms/en-us_topic_0110303863.html /bare-metal-server/umn/auditing_of_key_operations/viewing_traces.html;
   /en-us/usermanual/bms/en-us_topic_0084461767.html /bare-metal-server/umn/server_monitoring/index.html;
+  /en-us/usermanual/bms/en-us_topic_0084461768.html /bare-metal-server/umn/server_monitoring/monitored_metrics_with_agent_installed.html;
   /en-us/usermanual/bms/en-us_topic_0078758302.html /bare-metal-server/umn/server_monitoring/installing_and_configuring_agent.html;
-  /en-us/usermanual/bms/en-us_topic_0084461768.html /bare-metal-server/umn/server_monitoring/supported_monitoring_metrics_with_agent_installed.html;
   /en-us/usermanual/bms/en-us_topic_0124597141.html /bare-metal-server/umn/troubleshooting/index.html;
   /en-us/usermanual/bms/en-us_topic_0059154708.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_i_cannot_log_in_to_my_bms_or_the_bms_evs_disk_is_lost_after_the_bms_is_started_or_restarted.html;
   /en-us/usermanual/bms/en-us_topic_0103482177.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_an_evs_disk_attached_to_a_windows_bms_is_in_offline_state.html;

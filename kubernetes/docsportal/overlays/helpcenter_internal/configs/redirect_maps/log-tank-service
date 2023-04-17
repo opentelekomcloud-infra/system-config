@@ -11,7 +11,7 @@
   /api/lts/lts_02_0014.html /log-tank-service/api-ref/change_history.html;
   /api/lts/lts_02_0019.html /log-tank-service/api-ref/public_parameters/index.html;
   /api/lts/lts_02_0020.html /log-tank-service/api-ref/public_parameters/status_code.html;
-  /api/lts/lts_api_0006.html /log-tank-service/api-ref/public_parameters/obtaining_the_accountid,_project_id,_log_group_id,_and_log_stream_id.html;
+  /api/lts/lts_api_0006.html /log-tank-service/api-ref/public_parameters/obtaining_the_accountid_project_id_log_group_id_and_log_stream_id.html;
   /api/lts/lts_02_0021.html /log-tank-service/api-ref/public_parameters/error_code.html;
   /api/lts/lts_02_0002.html /log-tank-service/api-ref/log_group_management_old_version/index.html;
   /api/lts/lts_02_0003.html /log-tank-service/api-ref/log_group_management_old_version/creating_a_log_group.html;
@@ -69,7 +69,7 @@
   /en-us/api/lts/lts_02_0014.html /log-tank-service/api-ref/change_history.html;
   /en-us/api/lts/lts_02_0019.html /log-tank-service/api-ref/public_parameters/index.html;
   /en-us/api/lts/lts_02_0020.html /log-tank-service/api-ref/public_parameters/status_code.html;
-  /en-us/api/lts/lts_api_0006.html /log-tank-service/api-ref/public_parameters/obtaining_the_accountid,_project_id,_log_group_id,_and_log_stream_id.html;
+  /en-us/api/lts/lts_api_0006.html /log-tank-service/api-ref/public_parameters/obtaining_the_accountid_project_id_log_group_id_and_log_stream_id.html;
   /en-us/api/lts/lts_02_0021.html /log-tank-service/api-ref/public_parameters/error_code.html;
   /en-us/api/lts/lts_02_0002.html /log-tank-service/api-ref/log_group_management_old_version/index.html;
   /en-us/api/lts/lts_02_0003.html /log-tank-service/api-ref/log_group_management_old_version/creating_a_log_group.html;
