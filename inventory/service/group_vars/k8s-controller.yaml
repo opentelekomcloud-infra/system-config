@@ -502,30 +502,8 @@ swift_proxy_k8s_instances:
     instance: "docs-int"
     namespace: "swift-proxy"
 
-zookeeper_instances:
-  zuul:
-    autopurge_interval: 6
-    vault_image: "{{ vault_image_stable }}"
-  zuul-infra:
-    autopurge_interval: 6
-    vault_image: "{{ vault_image_stable }}"
-  zuul-infra2:
-    autopurge_interval: 6
-    vault_image: "{{ vault_image_stable }}"
-
-zookeeper_k8s_instances:
-  - zookeeper_instance: "zuul"
-    context: "otcci"
-    instance: "zuul"
-    namespace: "zookeeper"
-  - zookeeper_instance: "zuul-infra"
-    context: "otcinfra"
-    instance: "zuul"
-    namespace: "zookeeper"
-  - zookeeper_instance: "zuul-infra2"
-    context: "otcinfra2"
-    instance: "zuul"
-    namespace: "zookeeper"
+zookeeper_instances: {}
+zookeeper_k8s_instances: {}
 
 cloudmon_instances:
   main:
