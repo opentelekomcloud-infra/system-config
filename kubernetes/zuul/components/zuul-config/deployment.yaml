@@ -44,11 +44,11 @@ spec:
           image: "zuul/nodepool-builder"
           resources:
             limits:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "50m"
+              memory: "64Mi"
             requests:
               cpu: "10m"
-              memory: "64Mi"
+              memory: "5Mi"
 
           volumeMounts:
             - name: "zuul-config-data"
@@ -62,3 +62,5 @@ spec:
         - name: "zuul-config-data"
           persistentVolumeClaim:
             claimName: "zuul-config"
+
+  revisionHistoryLimit: 2

@@ -1,0 +1,27 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: "restart-nodepool-launcher"
+spec:
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  concurrencyPolicy: Forbid
+  schedule: '15 22 * * *'
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      template:
+        spec:
+          serviceAccountName: "restart-deployment"
+          restartPolicy: Never
+          containers:
+            - name: "kubectl"
+              image: "bitnami/kubectl"
+              command:
+                - "bash"
+                - "-c"
+                - >-
+                  kubectl rollout restart deployment/nodepool-launcher &&
+                  kubectl rollout status deployment/nodepool-launcher

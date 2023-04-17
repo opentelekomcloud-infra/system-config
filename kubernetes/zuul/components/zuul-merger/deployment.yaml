@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: "zuul-merger"
   labels:
@@ -9,7 +9,6 @@ metadata:
     app.kubernetes.io/component: "zuul-merger"
 spec:
   replicas: 1
-  serviceName: "zuul-merger"
   selector:
     matchLabels:
       app.kubernetes.io/name: "zuul"
@@ -40,17 +39,37 @@ spec:
                 topologyKey: "kubernetes.io/hostname"
 
       containers:
-        - name: "merger"
+        - name: "zuul"
           image: "zuul/zuul-merger"
           args: ["/usr/local/bin/zuul-merger", "-f", "-d"]
+
+          ports:
+            - containerPort: 9091
+              name: "prometheus"
+              protocol: "TCP"
+
+          readinessProbe:
+            httpGet:
+              path: "/health/ready"
+              port: "prometheus"
+            failureThreshold: 20
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: "/health/live"
+              port: "prometheus"
+            initialDelaySeconds: 120
+            failureThreshold: 10
+            periodSeconds: 5
+            timeoutSeconds: 5
 
           resources:
             limits:
               cpu: "200m"
-              memory: "400Mi"
+              memory: "600Mi"
             requests:
               cpu: "50m"
-              memory: "200Mi"
+              memory: "100Mi"
 
           securityContext:
             runAsUser: 10001
@@ -85,3 +104,4 @@ spec:
 
         - name: "zuul-var"
           emptyDir: {}
+  revisionHistoryLimit: 2

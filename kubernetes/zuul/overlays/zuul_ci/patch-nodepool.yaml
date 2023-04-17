@@ -1,4 +1,5 @@
 ---
+# Adding HashiCorp Vault agent  sidecar to render nodepool configs
 apiVersion: apps/v1
 kind: not-used
 metadata:
@@ -41,10 +42,10 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: 500m
+              cpu: 100m
               memory: 128Mi
             requests:
-              cpu: 250m
+              cpu: 5m
               memory: 64Mi
           volumeMounts:
             - mountPath: "/home/vault"
@@ -87,11 +88,11 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: 500m
-              memory: 128Mi
+              cpu: "50m"
+              memory: "64Mi"
             requests:
-              cpu: 250m
-              memory: 64Mi
+              cpu: "5m"
+              memory: "32Mi"
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-init"

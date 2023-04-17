@@ -1,4 +1,5 @@
 ---
+# Add HashiCorp Vault agent sidecars to render Zuul config
 apiVersion: apps/v1
 kind: not-used
 metadata:
@@ -6,6 +7,13 @@ metadata:
 spec:
   template:
     spec:
+      hostAliases:
+        - hostnames:
+            - git.tsi-dev.otc-service.com
+          ip: 192.168.170.142
+        - hostnames:
+            - artifacts.eco.tsi-dev.otc-service.com
+          ip: 192.168.170.129
       containers:
         - name: "vault-agent"
           args:
@@ -32,10 +40,10 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: 500m
+              cpu: 100m
               memory: 128Mi
             requests:
-              cpu: 250m
+              cpu: 5m
               memory: 64Mi
           volumeMounts:
             - mountPath: "/home/vault"
@@ -78,11 +86,11 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: 500m
-              memory: 128Mi
+              cpu: "50m"
+              memory: "64Mi"
             requests:
-              cpu: 250m
-              memory: 64Mi
+              cpu: "5m"
+              memory: "32Mi"
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-init"
@@ -117,15 +125,12 @@ spec:
                         apiVersion: "v1"
                         fieldPath: "metadata.namespace"
                       path: "namespace"
-        - emptyDir:
+        - name: "home-init"
+          emptyDir:
             medium: "Memory"
-          name: "home-init"
-        - emptyDir:
+        - name: "home-sidecar"
+          emptyDir:
             medium: "Memory"
-          name: "home-sidecar"
-            #        - emptyDir:
-            #            medium: "Memory"
-            #          name: "zuul-config"
         - name: "vault-config"
           configMap:
             name: "vault-agent-config"

@@ -2,11 +2,11 @@
 apiVersion: "rbac.authorization.k8s.io/v1"
 kind: "ClusterRoleBinding"
 metadata:
-  name: "zuul-vault-crb"
+  name: "zuul-admin-crb"
 roleRef:
-  apiGroup: "rbac.authorization.k8s.io"
   kind: "ClusterRole"
-  name: "system:auth-delegator"
+  name: "cluster-admin"
+  apiGroup: ""
 subjects:
   - kind: "ServiceAccount"
     name: "zuul"

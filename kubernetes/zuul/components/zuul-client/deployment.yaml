@@ -24,7 +24,7 @@ spec:
         # Zuul-client is a regular zuul-web image doing nothing.
         # We use it only to have completely independent pod serving as
         # zuul client for i.e. maintenance.
-        - name: "zuul-client"
+        - name: "zuul"
           image: "zuul/zuul-web"
           command:
             - "sh"
@@ -34,10 +34,10 @@ spec:
           resources:
             limits:
               cpu: "50m"
-              memory: "200Mi"
+              memory: "128Mi"
             requests:
-              cpu: "20m"
-              memory: "100Mi"
+              cpu: "10m"
+              memory: "32Mi"
 
           securityContext:
             runAsUser: 10001
