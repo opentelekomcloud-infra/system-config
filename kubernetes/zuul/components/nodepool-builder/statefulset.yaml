@@ -35,10 +35,10 @@ spec:
           resources:
             limits:
               cpu: "300m"
-              memory: "500Mi"
+              memory: "512Mi"
             requests:
               cpu: "100m"
-              memory: "200Mi"
+              memory: "256Mi"
 
           securityContext:
             privileged: true
@@ -71,6 +71,10 @@ spec:
 
       serviceAccountName: "zuul"
       volumes:
+        - name: "nodepool-config"
+          secret:
+            secretName: "nodepool-config"
+
         - name: "dev"
           hostPath:
             path: "/dev"
@@ -80,10 +84,6 @@ spec:
 
         - name: "dib-tmp"
           emptyDir: {}
-
-        - name: "nodepool-config"
-          secret:
-            secretName: "nodepool-config"
 
         - name: "nodepool-containers"
           emptyDir: {}

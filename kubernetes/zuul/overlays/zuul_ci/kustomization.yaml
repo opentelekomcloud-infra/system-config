@@ -6,16 +6,22 @@ components:
   - ../../components/zuul-client
   - ../../components/zuul-merger
   - ../../components/nodepool-builder
+  - ../../components/restarter
 
 configMapGenerator:
   - name: "vault-agent-config"
     files:
       - "config-zuul.hcl=configs/vault-agent/config-zuul.hcl"
       - "config-nodepool.hcl=configs/vault-agent/config-nodepool.hcl"
+      - "executor-base-vault-agent.hcl=configs/vault-agent/executor-base-vault-agent.hcl"
   - name: "zuul-instance-config"
     behavior: "replace"
     literals:
       - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
+  - name: "zuul-executor-vars"
+    behavior: "replace"
+    files:
+      - "configs/site-vars.yaml"
 
 labels:
   - includeSelectors: true
@@ -49,11 +55,11 @@ images:
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
-    newTag: "6.2.0"
+    newTag: "8.2.0"
 
   - name: "zuul/nodepool-launcher"
     newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "6.2.0"
+    newTag: "8.2.0"
 
 patches:
   # Patch zookeeper (storage class, size and count)
@@ -81,39 +87,35 @@ patches:
         path: /spec/template/spec/volumes/0
         value:
           name: "zuul-config"
-          emptyDir: {}
-    target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-client,zuul-web)"
-      group: apps
-      version: v1
-      kind: Deployment
-
-  - path: patch-zuul.yaml
-    target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-client,zuul-web)"
-      group: apps
-      version: v1
-      kind: Deployment
-
-  - patch: |-
-      - op: replace
-        path: /spec/template/spec/volumes/0
-        value:
-          name: "zuul-config"
           emptyDir:
             medium: "Memory"
     target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger)"
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger,zuul-web,zuul-client)"
       group: apps
       version: v1
-      kind: StatefulSet
 
   - path: patch-zuul.yaml
     target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger)"
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-executor,zuul-merger,zuul-web,zuul-client)"
       group: apps
       version: v1
-      kind: StatefulSet
+
+  # Patching zuul-executor count
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 2
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component=zuul-executor"
+      group: apps
+      version: v1
+
+  # Add zuul-executor base job vault token
+  - path: patch-zuul-executor.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component=zuul-executor"
+      group: apps
+      version: v1
 
   # Patching Nodepool components (replace config and enable vault)
   - patch: |-
@@ -123,24 +125,15 @@ patches:
           name: "nodepool-config"
           emptyDir: {}
     target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher)"
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher,nodepool-builder)"
       group: apps
       version: v1
-      kind: Deployment
 
   - path: patch-nodepool.yaml
     target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher)"
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-launcher,nodepool-builder)"
       group: apps
       version: v1
-      kind: Deployment
-
-  - path: patch-nodepool.yaml
-    target:
-      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (nodepool-builder)"
-      group: apps
-      version: v1
-      kind: StatefulSet
 
   # Patching web
   - patch: |-
@@ -150,7 +143,6 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value: zuul.otc-service.com
-        value: zuul
       - op: replace
         path: /metadata/annotations
         value:
@@ -159,7 +151,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - zuul
+              - zuul.otc-service.com
             secretName: zuul-cert-prod
     target:
       group: networking.k8s.io
@@ -170,6 +162,7 @@ patches:
 resources:
   - ../../base
   - crb.yaml
+  - crb_admin.yaml
 
 secretGenerator:
   # Replacing general secrets to be able to trigger updates

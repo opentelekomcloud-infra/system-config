@@ -1,0 +1,23 @@
+---
+apiVersion: autoscaling/v2
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "zuul-merger"
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: "zuul"
+    app.kubernetes.io/component: "zuul-merger"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "zuul-merger"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 70
