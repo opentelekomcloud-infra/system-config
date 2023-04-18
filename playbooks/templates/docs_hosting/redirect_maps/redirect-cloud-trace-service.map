@@ -67,6 +67,11 @@
   /usermanual/cts/en-us_topic_0100291690.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_waf.html;
   /usermanual/cts/en-us_topic_0100291686.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_anti-ddos.html;
   /usermanual/cts/en-us_topic_0100291685.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_kms.html;
+  /usermanual/cts/en-us_topic_0127139651.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/index.html;
+  /usermanual/cts/en-us_topic_0100273719.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_cloud_eye.html;
+  /usermanual/cts/en-us_topic_0100273720.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_iam.html;
+  /usermanual/cts/en-us_topic_0100291677.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_tms.html;
+  /usermanual/cts/en-us_topic_0100273718.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_cts.html;
   /usermanual/cts/en-us_topic_0127139653.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/index.html;
   /usermanual/cts/en-us_topic_0100363626.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/key_operations_on_drs.html;
   /usermanual/cts/en-us_cts_03_0011.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/key_operations_on_gaussdbfor_mysql.html;
@@ -78,11 +83,6 @@
   /usermanual/cts/en-us_cts_01_0002.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_sdrs.html;
   /usermanual/cts/en-us_topic_0100273731.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_evs.html;
   /usermanual/cts/en-us_topic_0100273717.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_obs.html;
-  /usermanual/cts/en-us_topic_0127139651.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/index.html;
-  /usermanual/cts/en-us_topic_0100273719.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_cloud_eye.html;
-  /usermanual/cts/en-us_topic_0100273720.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_iam.html;
-  /usermanual/cts/en-us_topic_0100291677.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_tms.html;
-  /usermanual/cts/en-us_topic_0100273718.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_cts.html;
   /usermanual/cts/en-us_cts_03_0012.html /cloud-trace-service/umn/supported_services_and_operation_lists/enterprise_intelligence/index.html;
   /usermanual/cts/en-us_cts_03_0013.html /cloud-trace-service/umn/supported_services_and_operation_lists/enterprise_intelligence/key_operations_on_modelarts.html;
   /usermanual/cts/en-us_topic_0127139658.html /cloud-trace-service/umn/supported_services_and_operation_lists/data_analysis/index.html;
@@ -180,6 +180,11 @@
   /en-us/usermanual/cts/en-us_topic_0100291690.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_waf.html;
   /en-us/usermanual/cts/en-us_topic_0100291686.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_anti-ddos.html;
   /en-us/usermanual/cts/en-us_topic_0100291685.html /cloud-trace-service/umn/supported_services_and_operation_lists/security/key_operations_on_kms.html;
+  /en-us/usermanual/cts/en-us_topic_0127139651.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/index.html;
+  /en-us/usermanual/cts/en-us_topic_0100273719.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_cloud_eye.html;
+  /en-us/usermanual/cts/en-us_topic_0100273720.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_iam.html;
+  /en-us/usermanual/cts/en-us_topic_0100291677.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_tms.html;
+  /en-us/usermanual/cts/en-us_topic_0100273718.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_and_deployment/key_operations_on_cts.html;
   /en-us/usermanual/cts/en-us_topic_0127139653.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/index.html;
   /en-us/usermanual/cts/en-us_topic_0100363626.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/key_operations_on_drs.html;
   /en-us/usermanual/cts/en-us_cts_03_0011.html /cloud-trace-service/umn/supported_services_and_operation_lists/database/key_operations_on_gaussdbfor_mysql.html;
@@ -191,11 +196,6 @@
   /en-us/usermanual/cts/en-us_cts_01_0002.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_sdrs.html;
   /en-us/usermanual/cts/en-us_topic_0100273731.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_evs.html;
   /en-us/usermanual/cts/en-us_topic_0100273717.html /cloud-trace-service/umn/supported_services_and_operation_lists/storage/key_operations_on_obs.html;
-  /en-us/usermanual/cts/en-us_topic_0127139651.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/index.html;
-  /en-us/usermanual/cts/en-us_topic_0100273719.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_cloud_eye.html;
-  /en-us/usermanual/cts/en-us_topic_0100273720.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_iam.html;
-  /en-us/usermanual/cts/en-us_topic_0100291677.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_tms.html;
-  /en-us/usermanual/cts/en-us_topic_0100273718.html /cloud-trace-service/umn/supported_services_and_operation_lists/management_&_deployment/key_operations_on_cts.html;
   /en-us/usermanual/cts/en-us_cts_03_0012.html /cloud-trace-service/umn/supported_services_and_operation_lists/enterprise_intelligence/index.html;
   /en-us/usermanual/cts/en-us_cts_03_0013.html /cloud-trace-service/umn/supported_services_and_operation_lists/enterprise_intelligence/key_operations_on_modelarts.html;
   /en-us/usermanual/cts/en-us_topic_0127139658.html /cloud-trace-service/umn/supported_services_and_operation_lists/data_analysis/index.html;

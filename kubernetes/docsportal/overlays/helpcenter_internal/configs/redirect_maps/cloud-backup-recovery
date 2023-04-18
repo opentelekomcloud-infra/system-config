@@ -46,6 +46,9 @@
   /api/cbr/topic_300000001.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/index.html;
   /api/cbr/ListOpLogs.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/querying_the_task_list.html;
   /api/cbr/ShowOpLog.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/querying_a_single_task.html;
+  /api/cbr/cbr_04_0016.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/index.html;
+  /api/cbr/cbr_04_0018.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/category_of_cbr_actions.html;
+  /api/cbr/cbr_04_0017.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /api/cbr/cbr_04_0001.html /cloud-backup-recovery/api-ref/api_usage_guidelines.html;
   /api/cbr/cbr_04_0025.html /cloud-backup-recovery/api-ref/change_history.html;
   /usermanual/cbr/cbr_03_0039.html /cloud-backup-recovery/umn/appendix/index.html;
@@ -189,6 +192,9 @@
   /en-us/api/cbr/topic_300000001.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/index.html;
   /en-us/api/cbr/ListOpLogs.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/querying_the_task_list.html;
   /en-us/api/cbr/ShowOpLog.html /cloud-backup-recovery/api-ref/cbr_apis/tasks/querying_a_single_task.html;
+  /en-us/api/cbr/cbr_04_0016.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/index.html;
+  /en-us/api/cbr/cbr_04_0018.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/category_of_cbr_actions.html;
+  /en-us/api/cbr/cbr_04_0017.html /cloud-backup-recovery/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /en-us/api/cbr/cbr_04_0001.html /cloud-backup-recovery/api-ref/api_usage_guidelines.html;
   /en-us/api/cbr/cbr_04_0025.html /cloud-backup-recovery/api-ref/change_history.html;
   /en-us/usermanual/cbr/cbr_03_0039.html /cloud-backup-recovery/umn/appendix/index.html;
