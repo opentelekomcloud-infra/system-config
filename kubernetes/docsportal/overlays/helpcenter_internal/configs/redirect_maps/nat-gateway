@@ -54,8 +54,8 @@
   /usermanual/nat/nat_faq_0002.html /nat-gateway/umn/faqs/snat/what_are_snat_connections.html;
   /usermanual/nat/nat_faq_0100.html /nat-gateway/umn/faqs/nat_gateway/index.html;
   /usermanual/nat/nat_faq_0004.html /nat-gateway/umn/faqs/nat_gateway/how_does_a_nat_gateway_offer_high_availability.html;
-  /usermanual/nat/nat_faq_0003.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_relationship_between_a_vpc,_nat_gateway,_eip_bandwidth,_and_ecs.html;
   /usermanual/nat/nat_faq_0013.html /nat-gateway/umn/faqs/nat_gateway/what_are_the_differences_between_using_a_nat_gateway_and_using_an_eip_for_an_ecs.html;
+  /usermanual/nat/nat_faq_0003.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_relationship_between_a_vpc_nat_gateway_eip_bandwidth_and_ecs.html;
   /usermanual/nat/nat_faq_0010.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_quota_of_the_nat_gateway.html;
   /usermanual/nat/nat_faq_0005.html /nat-gateway/umn/faqs/nat_gateway/do_the_nat_gateway_and_snat_rule_support_the_update_operation.html;
   /usermanual/nat/nat_faq_0300.html /nat-gateway/umn/faqs/dnat/index.html;
@@ -147,8 +147,8 @@
   /en-us/usermanual/nat/nat_faq_0002.html /nat-gateway/umn/faqs/snat/what_are_snat_connections.html;
   /en-us/usermanual/nat/nat_faq_0100.html /nat-gateway/umn/faqs/nat_gateway/index.html;
   /en-us/usermanual/nat/nat_faq_0004.html /nat-gateway/umn/faqs/nat_gateway/how_does_a_nat_gateway_offer_high_availability.html;
-  /en-us/usermanual/nat/nat_faq_0003.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_relationship_between_a_vpc,_nat_gateway,_eip_bandwidth,_and_ecs.html;
   /en-us/usermanual/nat/nat_faq_0013.html /nat-gateway/umn/faqs/nat_gateway/what_are_the_differences_between_using_a_nat_gateway_and_using_an_eip_for_an_ecs.html;
+  /en-us/usermanual/nat/nat_faq_0003.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_relationship_between_a_vpc_nat_gateway_eip_bandwidth_and_ecs.html;
   /en-us/usermanual/nat/nat_faq_0010.html /nat-gateway/umn/faqs/nat_gateway/what_is_the_quota_of_the_nat_gateway.html;
   /en-us/usermanual/nat/nat_faq_0005.html /nat-gateway/umn/faqs/nat_gateway/do_the_nat_gateway_and_snat_rule_support_the_update_operation.html;
   /en-us/usermanual/nat/nat_faq_0300.html /nat-gateway/umn/faqs/dnat/index.html;

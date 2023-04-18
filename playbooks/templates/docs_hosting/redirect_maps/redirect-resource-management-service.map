@@ -15,7 +15,7 @@
   /api/rms/rms_02_0012.html /resource-management-service/api-ref/apis/resource_relationships/index.html;
   /api/rms/rms_02_0013.html /resource-management-service/api-ref/apis/resource_relationships/querying_resource_relationships.html;
   /api/rms/rms_02_0007.html /resource-management-service/api-ref/apis/resource_query/index.html;
-  /api/rms/rms_02_0009.html /resource-management-service/api-ref/apis/resource_query/querying_cloud_services,_resources,_and_regions_supported_by_rms.html;
+  /api/rms/rms_02_0009.html /resource-management-service/api-ref/apis/resource_query/querying_cloud_services_resources_and_regions_supported_by_rms.html;
   /api/rms/rms_02_0011.html /resource-management-service/api-ref/apis/resource_query/querying_all_resources_under_your_account.html;
   /api/rms/rms_02_0008.html /resource-management-service/api-ref/apis/resource_query/querying_resources_of_a_specific_type.html;
   /api/rms/rms_02_0010.html /resource-management-service/api-ref/apis/resource_query/querying_a_resource.html;
@@ -57,7 +57,7 @@
   /en-us/api/rms/rms_02_0012.html /resource-management-service/api-ref/apis/resource_relationships/index.html;
   /en-us/api/rms/rms_02_0013.html /resource-management-service/api-ref/apis/resource_relationships/querying_resource_relationships.html;
   /en-us/api/rms/rms_02_0007.html /resource-management-service/api-ref/apis/resource_query/index.html;
-  /en-us/api/rms/rms_02_0009.html /resource-management-service/api-ref/apis/resource_query/querying_cloud_services,_resources,_and_regions_supported_by_rms.html;
+  /en-us/api/rms/rms_02_0009.html /resource-management-service/api-ref/apis/resource_query/querying_cloud_services_resources_and_regions_supported_by_rms.html;
   /en-us/api/rms/rms_02_0011.html /resource-management-service/api-ref/apis/resource_query/querying_all_resources_under_your_account.html;
   /en-us/api/rms/rms_02_0008.html /resource-management-service/api-ref/apis/resource_query/querying_resources_of_a_specific_type.html;
   /en-us/api/rms/rms_02_0010.html /resource-management-service/api-ref/apis/resource_query/querying_a_resource.html;

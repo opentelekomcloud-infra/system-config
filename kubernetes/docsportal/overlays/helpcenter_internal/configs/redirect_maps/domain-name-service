@@ -73,8 +73,8 @@
   /usermanual/dns/dns_faq_008.html /domain-name-service/umn/faqs/public_zones/what_can_i_do_if_the_system_prompts_that_the_domain_name_already_exists_when_i_create_a_public_zone.html;
   /usermanual/dns/dns_faq_1402.html /domain-name-service/umn/faqs/dns_overview/index.html;
   /usermanual/dns/dns_faq_006.html /domain-name-service/umn/faqs/dns_overview/will_i_be_billed_for_the_dns_service.html;
-  /usermanual/dns/dns_faq_007.html /domain-name-service/umn/faqs/dns_overview/how_many_zones,_ptr_records,_and_record_sets_can_i_create.html;
   /usermanual/dns/dns_faq_032.html /domain-name-service/umn/faqs/dns_overview/what_is_caa.html;
+  /usermanual/dns/dns_faq_007.html /domain-name-service/umn/faqs/dns_overview/how_many_zones_ptr_records_and_record_sets_can_i_create.html;
   /usermanual/dns/dns_faq_010.html /domain-name-service/umn/faqs/dns_overview/does_dns_support_wildcard_entries.html;
   /usermanual/dns/dns_faq_009.html /domain-name-service/umn/faqs/dns_overview/why_was_the_email_address_format_changed_in_the_soa_record.html;
   /usermanual/dns/dns_faq_140217.html /domain-name-service/umn/faqs/dns_overview/can_dns_point_a_domain_name_to_a_specific_port.html;
@@ -190,8 +190,8 @@
   /en-us/usermanual/dns/dns_faq_008.html /domain-name-service/umn/faqs/public_zones/what_can_i_do_if_the_system_prompts_that_the_domain_name_already_exists_when_i_create_a_public_zone.html;
   /en-us/usermanual/dns/dns_faq_1402.html /domain-name-service/umn/faqs/dns_overview/index.html;
   /en-us/usermanual/dns/dns_faq_006.html /domain-name-service/umn/faqs/dns_overview/will_i_be_billed_for_the_dns_service.html;
-  /en-us/usermanual/dns/dns_faq_007.html /domain-name-service/umn/faqs/dns_overview/how_many_zones,_ptr_records,_and_record_sets_can_i_create.html;
   /en-us/usermanual/dns/dns_faq_032.html /domain-name-service/umn/faqs/dns_overview/what_is_caa.html;
+  /en-us/usermanual/dns/dns_faq_007.html /domain-name-service/umn/faqs/dns_overview/how_many_zones_ptr_records_and_record_sets_can_i_create.html;
   /en-us/usermanual/dns/dns_faq_010.html /domain-name-service/umn/faqs/dns_overview/does_dns_support_wildcard_entries.html;
   /en-us/usermanual/dns/dns_faq_009.html /domain-name-service/umn/faqs/dns_overview/why_was_the_email_address_format_changed_in_the_soa_record.html;
   /en-us/usermanual/dns/dns_faq_140217.html /domain-name-service/umn/faqs/dns_overview/can_dns_point_a_domain_name_to_a_specific_port.html;
