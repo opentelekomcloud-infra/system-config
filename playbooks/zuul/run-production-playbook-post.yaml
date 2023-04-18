@@ -39,7 +39,9 @@
             src: '{{ item[0] }}'
             dest: '{{ item[1] }}'
             mode: pull
-            verify_host: true
+            verify_host: True
+            owner: False
+            group: False
           loop:
             - ['{{ _encrypt_tempdir.path }}/{{ playbook_name }}.log.gpg', '{{ zuul.executor.log_root }}/{{ playbook_name }}.log.gpg']
             - ['{{ _encrypt_tempdir.path }}/download-logs.sh' , '{{ zuul.executor.log_root }}/download-gpg-logs.sh']
