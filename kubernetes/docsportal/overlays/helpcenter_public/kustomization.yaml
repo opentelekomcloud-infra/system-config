@@ -156,6 +156,9 @@ configMapGenerator:
   - name: "scalable-file-service"
     files:
       - "configs/redirect_maps/scalable-file-service"
+  - name: "secure-mail-gateway"
+    files:
+      - "configs/redirect_maps/secure-mail-gateway"
   - name: "simple-message-notification"
     files:
       - "configs/redirect_maps/simple-message-notification"
