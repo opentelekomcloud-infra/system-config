@@ -66,7 +66,7 @@ cloneurl=ssh://git@git-ssh.tsi-dev.otc-service.com
 server=git.tsi-dev.otc-service.com
 {{- with secret "secret/zuul/connections/gitlab" }}
 api_token={{ .Data.data.api_token }}
-webhook_secret={{ .Data.data.webhook_secret }}
+webhook_token={{ .Data.data.webhook_token }}
 {{- end }}
 sshkey=/etc/zuul/connections/gitlab.key
 
