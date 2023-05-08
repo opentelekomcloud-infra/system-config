@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: grafana-docs-monitoring
+spec:
+  schedule: "0/15 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: grafana-docs-monitoring-base
+            image: quay.io/opentelekomcloud/grafana-docs-monitoring
+            imagePullPolicy: IfNotPresent
+            command:
+            - /bin/sh
+            - -c
+            - python3 open_issues.py
+          restartPolicy: OnFailure
