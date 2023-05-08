@@ -14,6 +14,9 @@ loki:
   # retention period config
   limits_config:
     retention_period: 744h
+table_manager:
+  retention_deletes_enabled: true
+  retention_period: 744h
 read:
   replicas: 1
   persistence:
