@@ -4,3 +4,12 @@ metadata:
   name: grafana-docs-monitoring-github
 spec:
   schedule: "45 * * * *"
+    jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            command:
+            - /bin/sh
+            - -c
+            - python3 github_info.py

@@ -4,3 +4,12 @@ metadata:
   name: grafana-docs-monitoring-gitea
 spec:
   schedule: "15 * * * *"
+  jobTemplate:
+  spec:
+    template:
+      spec:
+        containers:
+          command:
+          - /bin/sh
+          - -c
+          - python3 gitea_info.py
