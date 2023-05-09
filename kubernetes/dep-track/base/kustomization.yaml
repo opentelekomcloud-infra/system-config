@@ -4,10 +4,10 @@ kind: Kustomization
 images:
   - name: "dependencytrack/apiserver"
     newName: "docker.io/dependencytrack/apiserver"
-    newTag: "latest"
+    newTag: "4.8.0"
   - name: "dependencytrack/frontend"
     newName: "docker.io/dependencytrack/frontend"
-    newTag: "latest"
+    newTag: "4.8.0"
 
 labels:
 - includeSelectors: true
