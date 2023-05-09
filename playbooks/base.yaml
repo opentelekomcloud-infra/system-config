@@ -13,4 +13,5 @@
         - include_role: name=promtail
       when:
         # K8 cluster
+        - "ansible_connection is defined"
         - "ansible_connection != 'kubectl'"
