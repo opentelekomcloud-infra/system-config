@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: grafana-docs-monitoring
 spec:
-  schedule: "0/15 * * * *"
+  schedule: "0 * * * *"
   jobTemplate:
     spec:
       template:

@@ -1,0 +1,6 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: grafana-docs-monitoring-github
+spec:
+  schedule: "45 * * * *"
