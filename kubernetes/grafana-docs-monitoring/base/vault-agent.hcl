@@ -1,3 +1,3 @@
-path "secret/data/my-cronjob" {
+path "secret/data/grafana-docs-monitoring" {
   capabilities = ["read"]
 }
