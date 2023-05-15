@@ -32,6 +32,9 @@ spec:
                   name: "vault-agent-config"
                 - mountPath: "/secrets"
                   name: "secrets"
+                - mountPath: "/var/run/secrets/tokens"
+                  name: "k8-tokens"
+                  readOnly: true
 
           containers:
             - name: grafana-docs-monitoring-github
@@ -51,3 +54,10 @@ spec:
                 name: grafana-docs-monitoring-vault-config
             - name: secrets
               emptyDir: {}
+            - name: "k8-tokens"
+              projected:
+                defaultMode: 420
+                sources:
+                - serviceAccountToken:
+                    expirationSeconds: 7200
+                    path: "vault-token"
