@@ -6,7 +6,8 @@ tls_ca=/tls/client/ca.crt
 session_timeout=40
 
 [scheduler]
-tenant_config=/etc/zuul-config/zuul/main.yaml
+#tenant_config=/etc/zuul-config/zuul/main.yaml
+tenant_config_script=/etc/zuul-config/tools/render_config.py
 state_dir=/var/lib/zuul
 relative_priority=true
 prometheus_port=9091
