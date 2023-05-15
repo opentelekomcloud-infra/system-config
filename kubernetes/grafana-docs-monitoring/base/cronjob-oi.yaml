@@ -9,6 +9,7 @@ spec:
       template:
         spec:
           serviceAccount: "grafana-docs-monitoring"
+          restartPolicy: OnFailure
           initContainers:
             - name: "vault-agent"
               command:
@@ -31,9 +32,6 @@ spec:
                   name: "vault-agent-config"
                 - mountPath: "/secrets"
                   name: "secrets"
-                - mountPath: "/var/run/secrets/tokens"
-                  name: "k8-tokens"
-                  readOnly: true
 
           containers:
             - name: grafana-docs-monitoring-openissues
@@ -46,8 +44,11 @@ spec:
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"          
-        volumes:
-          - name: vault-agent-config
-            configMap:
-              defaultMode: 420
-              name: grafana-docs-monitoring-vault-config
+          volumes:
+            - name: vault-agent-config
+              configMap:
+                defaultMode: 420
+                name: grafana-docs-monitoring-vault-config
+            - name: secrets
+              emptyDir: {}
+
