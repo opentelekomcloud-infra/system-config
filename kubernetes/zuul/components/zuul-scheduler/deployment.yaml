@@ -1,22 +1,24 @@
 ---
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: zuul-scheduler
   labels:
     app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/part-of: "zuul"
     app.kubernetes.io/component: "zuul-scheduler"
 spec:
   replicas: 1
-  serviceName: "zuul-scheduler"
   selector:
     matchLabels:
       app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/part-of: "zuul"
       app.kubernetes.io/component: "zuul-scheduler"
   template:
     metadata:
       labels:
         app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/part-of: "zuul"
         app.kubernetes.io/component: "zuul-scheduler"
     spec:
       affinity:
@@ -82,8 +84,10 @@ spec:
               readOnly: true
             - name: "zuul-config-data"
               mountPath: "/etc/zuul-config"
-            - name: "zuul-scheduler-state-dir"
+            - name: "zuul-var-lib"
               mountPath: "/var/lib/zuul"
+            - name: "zuul-var-run"
+              mountPath: "/var/run/zuul"
 
       serviceAccountName: "zuul"
       volumes:
@@ -99,13 +103,8 @@ spec:
           persistentVolumeClaim:
             claimName: "zuul-config"
 
-  volumeClaimTemplates:
-    - metadata:
-        name: "zuul-scheduler-state-dir"
-      spec:
-        accessModes:
-          - "ReadWriteOnce"
-        storageClassName: "csi-disk"
-        resources:
-          requests:
-            storage: "5G"
+        - name: "zuul-var-lib"
+          emptyDir: {}
+
+        - name: "zuul-var-run"
+          emptyDir: {}
