@@ -15,10 +15,6 @@ auto_auth {
     }
 }
 
-cache {
-    use_auto_auth_token = true
-}
-
 path "secret/helpcenter/monitoring/github" {
   capabilities = ["read", "list"]
 }
