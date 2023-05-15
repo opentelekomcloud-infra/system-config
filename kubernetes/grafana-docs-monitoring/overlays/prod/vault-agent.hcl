@@ -20,13 +20,13 @@ cache {
 }
 
 path "secret/helpcenter/monitoring/github" {
-  capabilities = ["read"]
+  capabilities = ["read", "list"]
 }
 
 path "secret/helpcenter/monitoring/gitea" {
-  capabilities = ["read"]
+  capabilities = ["read", "list"]
 }
 
 path "secret/helpcenter/monitoring/postgresql" {
-  capabilities = ["read"]
+  capabilities = ["read", "list"]
 }
