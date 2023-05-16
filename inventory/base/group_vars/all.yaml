@@ -46,12 +46,6 @@ all_users:
     uid: 2000
     gid: 2000
 
-  kucerakk:
-    comment: Kristian Kucerak
-    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC5IaDtWpe9BotoKYAJoJIPGaZJ99QarPNd7vZd+WphodShJ/lQYuGbMnCl9eMnQnNf5QPlwpDsH8kszABM6rbvx3iXYkrVpnFPi+jvCqJUl5N7pZtwCdcVPTDX/Q5MWbc2JFq9V0I0NnQgI4qXHlJgHEgUbgVDfN2y0cqdxBVQrZpCkfCGxOAsfrRSARn93m47z8OJ31u2keREUYF0c1KRP9c+jq+NMd4vMV0DZoJy6PijpzhmkvxLhYVD5PW9E7Yca9MsIPGVlt3JpNJw8JAXn7mm++wa+I26v6rldEb3pFRvLkgQm+C1DiGDpOLYPj4N4jyKl+OlAjYz6bk+e9GR kristian.kucerak
-    uid: 2001
-    gid: 2001
-
   vhasko:
     comment: Vladimir Hasko
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvurvAWz7ourNA8rGKFK94qP4qNtSGO28hd5mx76LdbFoNAj0vMj+Uwsxjz00zQjGvWWoL8aRVP/It5P/eAz4C/kzhQcB5s+mOSKcwus5bZMtefyusEN1jr2035bOVpdrV5h8OpNUZ4WJRxfUNb46sz89Y/C49dUPsWY+ZpwDFk4xrYmihPQQyogEJ5PDXvdtNbcW/QA2gj4U+HFWY7vnmiC7tfViX1d3Ne0d4pb1XKiTMiFyQH0jRAF4ydIku4kIG7sqw9HAKoDeOzIbh+LYBO6qbefpH8jF/VVJyc+jmBx49VFAfiNfOg58QwrnKmXWF640O5J1UhDrvoAT8A2y1 vladimir.hasko
@@ -63,6 +57,12 @@ all_users:
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF0YWXjTSh8DOgVH8nZPEP+9ZaTvRP3TF4qTUxZ7knHM1H6Rx0IROHa60l19J4+X7Cmu7dsNtSVslXAAVCEO5Wcrm5cU8IbczBPQKoGYpAvGaYqneuzl9Yp8MH3HpPs6nJ1REA3lwB1TcmuyDJklb2sG86Iug4+D3EnovMnzrv+75ypuEOTMxQzj2h7f3twSKX5DFulrKsHW0+HWRhTXMD/k/HnJrXsbm/H9KAg+916zbykUitggRl1pznlUzjD5zm1cvg6bO0mnb8dE9KoE28cXJacMOV/8/KKIpL0EU4WAIcRKmjZ3k/gNSrl6ONvP2OxyeESyjN0BSobspsu71V enrrou@MacBookProEnrrou.local
     uid: 2003
     gid: 2003
+
+  okashyrina:
+    comment: Olha Kashyrina
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCfTyJzbG5hCzUT+rlaWXxs2uR4Rpk7D9Xi45RnASj6FSXBcdYIZFVe5dKqX+LtDa++e39gqHhS63ucAD45GuUuSelFeuRgIabjm6SMP7XwULePoJd9BwmO67+m/NHOoXaanSUqraMgelrl2ihpMR8yzyJ36y7Z2XrV7cavRhyjjxcMfHueZGOsTjzT493IxyGnMpuMZaBjQEfvXSw8Y6Vr2MtvSL4Jr6cooo/d0MnAE08V0fPAR0YF/5vgKD4ajlv1D1y+KSdk3kls54KP7lfzxO20ltlDIEW1ipVa3HtwDVJ8e9COoeRK990Uu6ecjIaOXCp6DIkfhdwPdRRXbFf92YR0ZPLlETsNkesap2R4gRK+ZB/WPjQhL8FIgvGG3bgEKHSRfKRb+xsoFLROX3EHVJXTowZCyjtRtbCXGYaYdRasdvMjoEKarrbxKI4VDexCCbDqhP6g2Gtiu1iiI4ncVojnfiO0pnCnCjxwV08plf5jncg/0FRn7Xkb94EymaE= helga@dream
+    uid: 2004
+    gid: 2004
 
   ibakhter:
     comment: Ilia Bakhterev
@@ -90,13 +90,13 @@ all_users:
 # List of users to install on all hosts
 base_users:
   - gtema
-  - kucerakk
   - vhasko
   - enrrou
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
-disabled_users: []
+disabled_users:
+  - kucerakk
 # Default distro cloud image names to remove
 disabled_distro_cloud_users:
   - ubuntu
