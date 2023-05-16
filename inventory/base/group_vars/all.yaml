@@ -64,6 +64,12 @@ all_users:
     uid: 2003
     gid: 2003
 
+  ibakhter:
+    comment: Ilia Bakhterev
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPcpgCsi22OOoMNuzQG04YFU3pb2W0ZU/iLsFCWbrtkH ibakhter
+    uid: 2004
+    gid: 2004
+
   stackmon:
     comment: StackMon deployment process
     key: ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBVg7FNubIv5nFEs+lAsPawMq9p5szDpxcMFA18hxDo3BgeZ7ZjnKrQRCgfhLW3jIu70obo0Q/mtrvRlKi+N8aA=
