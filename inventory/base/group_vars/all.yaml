@@ -64,6 +64,12 @@ all_users:
     uid: 2003
     gid: 2003
 
+  okashyrina:
+    comment: Olha Kashyrina
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCfTyJzbG5hCzUT+rlaWXxs2uR4Rpk7D9Xi45RnASj6FSXBcdYIZFVe5dKqX+LtDa++e39gqHhS63ucAD45GuUuSelFeuRgIabjm6SMP7XwULePoJd9BwmO67+m/NHOoXaanSUqraMgelrl2ihpMR8yzyJ36y7Z2XrV7cavRhyjjxcMfHueZGOsTjzT493IxyGnMpuMZaBjQEfvXSw8Y6Vr2MtvSL4Jr6cooo/d0MnAE08V0fPAR0YF/5vgKD4ajlv1D1y+KSdk3kls54KP7lfzxO20ltlDIEW1ipVa3HtwDVJ8e9COoeRK990Uu6ecjIaOXCp6DIkfhdwPdRRXbFf92YR0ZPLlETsNkesap2R4gRK+ZB/WPjQhL8FIgvGG3bgEKHSRfKRb+xsoFLROX3EHVJXTowZCyjtRtbCXGYaYdRasdvMjoEKarrbxKI4VDexCCbDqhP6g2Gtiu1iiI4ncVojnfiO0pnCnCjxwV08plf5jncg/0FRn7Xkb94EymaE= helga@dream
+    uid: 2004
+    gid: 2004
+
   stackmon:
     comment: StackMon deployment process
     key: ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBVg7FNubIv5nFEs+lAsPawMq9p5szDpxcMFA18hxDo3BgeZ7ZjnKrQRCgfhLW3jIu70obo0Q/mtrvRlKi+N8aA=
