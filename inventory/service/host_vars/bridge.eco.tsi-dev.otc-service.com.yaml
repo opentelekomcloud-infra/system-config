@@ -1,5 +1,4 @@
 use_upstream_docker: False
-ansible_python_interpreter: /usr/ansible-venv/bin/python
 
 x509_certificates:
   - "zuul-gearman-client"
