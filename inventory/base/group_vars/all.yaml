@@ -67,8 +67,8 @@ all_users:
   ibakhter:
     comment: Ilia Bakhterev
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPcpgCsi22OOoMNuzQG04YFU3pb2W0ZU/iLsFCWbrtkH ibakhter
-    uid: 2004
-    gid: 2004
+    uid: 2005
+    gid: 2005
 
   stackmon:
     comment: StackMon deployment process
