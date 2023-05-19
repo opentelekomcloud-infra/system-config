@@ -3,6 +3,7 @@ kind: CronJob
 metadata:
   name: grafana-docs-monitoring-gitea
 spec:
+  concurrencyPolicy: Forbid
   schedule: "15 * * * *"
   jobTemplate:
     spec:
@@ -41,9 +42,9 @@ spec:
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
-              - /bin/sh
-              - -c
-              - python3 gitea_info.py
+              - "/bin/sh"
+              - "-c"
+              - "source /secrets/gdm-env; python3 gitea_info.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"

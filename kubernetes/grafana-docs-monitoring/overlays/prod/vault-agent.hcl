@@ -15,14 +15,25 @@ auto_auth {
     }
 }
 
-path "secret/helpcenter/monitoring/github" {
-  capabilities = ["read", "list"]
-}
+template {
+  destination = "/secrets/gdm-env"
+  contents = <<EOT
+{{- with secret "secret/data/helpcenter/monitoring/github" -}}
+GITHUB_TOKEN={{ .Data.data.token }}
+{{- end }}
 
-path "secret/helpcenter/monitoring/gitea" {
-  capabilities = ["read", "list"]
-}
+{{- with secret "secret/data/helpcenter/monitoring/postgresql" -}}
+DB_HOST={{ .Data.data.host }}
+DB_PORT={{ .Data.data.port }}
+DB_NAME={{ .Data.data.dbname }}
+DB_USER={{ .Data.data.username }}
+DB_PASSWORD={{ .Data.data.password }}
+{{- end }}
 
-path "secret/helpcenter/monitoring/postgresql" {
-  capabilities = ["read", "list"]
+{{- with secret "secret/data/helpcenter/monitoring/gitea" -}}
+GITEA_TOKEN={{ .Data.data.token }}
+{{- end }}
+
+EOT
+  perms = "0664"
 }

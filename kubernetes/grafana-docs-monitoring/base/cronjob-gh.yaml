@@ -3,13 +3,14 @@ kind: CronJob
 metadata:
   name: grafana-docs-monitoring-github
 spec:
+  concurrencyPolicy: Forbid
   schedule: "45 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
           serviceAccount: "grafana-docs-monitoring"
-          restartPolicy: OnFailure         
+          restartPolicy: OnFailure
           initContainers:
             - name: "vault-agent"
               command:
@@ -41,12 +42,12 @@ spec:
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
-              - /bin/sh
-              - -c
-              - python3 github_info.py
+              - "/bin/sh"
+              - "-c"
+              - "source /secrets/gdm-env; python3 github_info.py"
               volumeMounts:
                 - mountPath: "/secrets"
-                  name: "secrets"          
+                  name: "secrets"
           volumes:
             - name: vault-agent-config
               configMap:
