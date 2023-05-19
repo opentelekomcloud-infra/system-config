@@ -18,20 +18,18 @@ auto_auth {
 template {
   destination = "/secrets/gdm-env"
   contents = <<EOT
-{{- with secret "secret/data/helpcenter/monitoring/github" -}}
-GITHUB_TOKEN={{ .Data.data.token }}
+{{ with secret "secret/data/helpcenter/monitoring/github" -}}
+export GITHUB_TOKEN={{ .Data.data.token }}
 {{- end }}
-
-{{- with secret "secret/data/helpcenter/monitoring/postgresql" -}}
-DB_HOST={{ .Data.data.host }}
-DB_PORT={{ .Data.data.port }}
-DB_NAME={{ .Data.data.dbname }}
-DB_USER={{ .Data.data.username }}
-DB_PASSWORD={{ .Data.data.password }}
+{{ with secret "secret/data/helpcenter/monitoring/postgresql" -}}
+export DB_HOST={{ .Data.data.host }}
+export DB_PORT={{ .Data.data.port }}
+export DB_NAME={{ .Data.data.dbname }}
+export DB_USER={{ .Data.data.username }}
+export DB_PASSWORD={{ .Data.data.password }}
 {{- end }}
-
-{{- with secret "secret/data/helpcenter/monitoring/gitea" -}}
-GITEA_TOKEN={{ .Data.data.token }}
+{{ with secret "secret/data/helpcenter/monitoring/gitea" -}}
+export GITEA_TOKEN={{ .Data.data.token }}
 {{- end }}
 
 EOT
