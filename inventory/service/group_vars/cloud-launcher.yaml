@@ -79,11 +79,21 @@ cloud_projects:
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Help Center 3.0"
+  - name: "eu-de_docs_hc_swiss"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Help Center Swiss 3.0"
   - name: "eu-de_docs_int"
     cloud: "otcinfra-domain2-admin"
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
     parent_project: "eu-de"
     description: "Internal Documentation portal project"
+  - name: "eu-de_docs_swiss_int"
+    cloud: "otcinfra-domain2-admin"
+    domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
+    parent_project: "eu-de"
+    description: "Internal Documentation portal Swiss project"
   - name: "eu-de_logs"
     cloud: "otcinfra-domain2-admin"
     domain: "{{ clouds.otcinfra_domain2_admin.auth.domain_id }}"
@@ -167,7 +177,7 @@ cloud_user_group_assignments:
     users:
       - "zuul_functional"
       - "zuul_rancher"
-  # APImon group user mapiing
+  # APImon group user mapping
   - cloud: "otc-tests-admin"
     group: "apimon"
     users:
@@ -207,7 +217,9 @@ cloud_role_assignments:
       - "eu-de_logs"
       - "eu-de_docs"
       - "eu-de_docs_hc"
+      - "eu-de_docs_swiss_hc"
       - "eu-de_docs_int"
+      - "eu-de_docs_swiss_int"
     groups:
       - "log_writer"
   # domain3 group/role/projects
