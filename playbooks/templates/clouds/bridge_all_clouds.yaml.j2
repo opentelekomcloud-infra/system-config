@@ -128,6 +128,15 @@ clouds:
        password: "{{ clouds.otcinfra_docs_int.auth.password }}"
     region_name: eu-de
     object_store_endpoint_override: "{{ clouds.otcinfra_docs_int.object_store_endpoint_override }}"
+  otcinfra-docs-int-swiss:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_docs_int_swiss.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_docs_int_swiss.auth.project_name }}
+       username: {{ clouds.otcinfra_docs_int_swiss.auth.username }}
+       password: "{{ clouds.otcinfra_docs_int_swiss.auth.password }}"
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcinfra_docs_int_swiss.object_store_endpoint_override }}"
   otcinfra-docs-hc:
     profile: otc
     auth:
@@ -137,6 +146,15 @@ clouds:
        password: "{{ clouds.otcinfra_docs_hc.auth.password }}"
     region_name: eu-de
     object_store_endpoint_override: "{{ clouds.otcinfra_docs_hc.object_store_endpoint_override }}"
+  otcinfra-docs-hc-swiss:
+    profile: otc
+    auth:
+       user_domain_name: {{ clouds.otcinfra_docs_hc_swiss.auth.user_domain_name }}
+       project_name: {{ clouds.otcinfra_docs_hc_swiss.auth.project_name }}
+       username: {{ clouds.otcinfra_docs_hc_swiss.auth.username }}
+       password: "{{ clouds.otcinfra_docs_hc_swiss.auth.password }}"
+    region_name: eu-de
+    object_store_endpoint_override: "{{ clouds.otcinfra_docs_hc_swiss.object_store_endpoint_override }}"
   # DB
   otcinfra-domain2-database:
     profile: otc
