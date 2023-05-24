@@ -88,7 +88,7 @@ spec:
               value: "2000"
             - name: ZK_PURGE_INTERVAL
               value: "6"
-            - name: ZOO_AUTOPURGE_SNAPRETAINCOUNT
+            - name: ZK_SNAP_RETAIN_COUNT
               value: "3"
             - name: ZOO_INIT_LIMIT
               value: "5"
