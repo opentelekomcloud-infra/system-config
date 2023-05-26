@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-gitea
 spec:
   concurrencyPolicy: Forbid
-  schedule: "15 * * * *"
+  schedule: "5,35 * * * *"
   jobTemplate:
     spec:
       template:
