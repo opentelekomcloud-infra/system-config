@@ -1,0 +1,27 @@
+---
+apiVersion: "autoscaling/v2"
+kind: "HorizontalPodAutoscaler"
+metadata:
+  name: "swift-proxy"
+  labels:
+    app.kubernetes.io/component: "swift-proxy"
+spec:
+  scaleTargetRef:
+    kind: "Deployment"
+    name: "swift-proxy"
+    apiVersion: "apps/v1"
+  minReplicas: 1
+  maxReplicas: 4
+  metrics:
+    - type: "Resource"
+      resource:
+        name: "cpu"
+        target:
+          type: "Utilization"
+          averageUtilization: 70
+    - type: "Resource"
+      resource:
+        name: "memory"
+        target:
+          type: "Utilization"
+          averageUtilization: 70
