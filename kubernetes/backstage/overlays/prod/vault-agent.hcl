@@ -44,6 +44,15 @@ auth:
         clientId: {{ .Data.data.clientId }}
         clientSecret: {{ .Data.data.clientSecret }}
 {{- end }}
+{{- with secret "secret/data/backstage/gitea" }}
+    gitea:
+      development:
+        metadataUrl: https://gitea.eco.tsi-dev.otc-service.com/.well-known/openid-configuration
+        authorizationUrl: https://gitea.eco.tsi-dev.otc-service.com/login/oauth/authorize
+        tokenUrl: https://gitea.eco.tsi-dev.otc-service.com/login/oauth/access_token
+        clientId: {{ .Data.data.clientId }}
+        clientSecret: {{ .Data.data.clientSecret }}
+{{- end }}
 
 catalog:
 {{- with secret "secret/data/backstage/oidc" }}
@@ -71,7 +80,11 @@ catalog:
     # Ecosystem
     - type: url
       target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-ecosystem/contents/blob/main/catalog.yaml
-
+    # templates
+    - type: url
+      target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-templates/contents/blob/main/catalog.yaml
+      rules:
+        - allow: [Template]
 
 integrations:
   gitea:
