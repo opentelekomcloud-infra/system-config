@@ -41,6 +41,8 @@ spec:
             - mountPath: "/var/run/secrets/tokens"
               name: "k8-tokens"
               readOnly: true
+            - mountPath: "/home/vault"
+              name: "home-init"
 
       containers:
         - name: "swift-proxy"
@@ -49,6 +51,9 @@ spec:
               name: "secrets"
 
       volumes:
+        - emptyDir:
+            medium: "Memory"
+          name: "home-init"
         - name: "vault-agent-config"
           configMap:
             defaultMode: 420
