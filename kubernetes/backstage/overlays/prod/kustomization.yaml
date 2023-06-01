@@ -1,3 +1,4 @@
+---
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
@@ -21,7 +22,7 @@ labels:
 images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
-    newTag: "change_21_latest"
+    newTag: "change_22_latest"
   - name: vault
     newName: docker.io/vault
     newTag: "1.12.4"
