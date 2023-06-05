@@ -9,8 +9,8 @@ vault_plugins:
       - "github"
       - "github_otcbot"
       - "github_zuul"
-  - url: "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.3.0/vault-plugin-secrets-openstack_1.3.0_linux_amd64.tar.gz"
-    sha256: "2f48d3011a0cc0ce4726e889f5d4103446eb820cdcc0ecb89deb03757e42568e"
+  - url: "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.3.2/vault-plugin-secrets-openstack_1.3.2_linux_amd64.tar.gz"
+    sha256: "1afa6909b3787c6fd8ec0d80ab4c7bbe6b3f5c8e7696052f540616931d972565"
     name: "vault-plugin-secrets-openstack"
     type: "secret"
     paths:
