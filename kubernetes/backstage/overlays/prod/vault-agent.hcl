@@ -14,8 +14,14 @@ auto_auth {
     }
 }
 
-cache {
-    use_auto_auth_token = true
+api_proxy {
+  use_auto_auth_token = "force"
+  enforce_consistency = "always"
+}
+
+listener "tcp" {
+  address = "127.0.0.1:8100"
+  tls_disable = true
 }
 
 template {
