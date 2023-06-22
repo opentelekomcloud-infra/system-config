@@ -54,7 +54,6 @@
   /api/bms/en-us_topic_0060410929.html /bare-metal-server/api-ref/native_openstack_nova_v2.html;
   /devg/bms/en-us_topic_0113983752.html /bare-metal-server/dev-guide/appendix/index.html;
   /devg/bms/en-us_topic_0137081413.html /bare-metal-server/dev-guide/appendix/status_codes.html;
-  /devg/bms/en-us_topic_0113607324.html /bare-metal-server/dev-guide/appendix/error_codes.html;
   /devg/bms/ /bare-metal-server/dev-guide/index.html;
   /devg/bms/en-us_topic_0113605684.html /bare-metal-server/dev-guide/overview.html;
   /devg/bms/en-us_topic_0113607325.html /bare-metal-server/dev-guide/change_history.html;
@@ -95,7 +94,7 @@
   /bpicg/bms/en-us_topic_0000001289260008.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/index.html;
   /bpicg/bms/en-us_topic_0000001341779861.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/registering_an_iso_file_windows.html;
   /bpicg/bms/en-us_topic_0000001289583000.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/installing_a_windows_os_and_the_vmtools_driver.html;
-  /bpicg/bms/en-us_topic_0000001289739500.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/creating_a_windows_ecs_using_the_iso_image_file.html;
+  /bpicg/bms/en-us_topic_0000001289739500.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/creating_a_windows_ecs_from_an_iso_image.html;
   /bpicg/bms/en-us_topic_0000001289419916.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_using_virt-manager/index.html;
   /bpicg/bms/en-us_topic_0081116779.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_using_virt-manager/creating_a_vm_and_installing_an_os_windows.html;
   /bpicg/bms/en-us_topic_0081116711.html /bare-metal-server/image-creation-guide/windows/optional_installing_bms-network-config/index.html;
@@ -115,14 +114,12 @@
   /bpicg/bms/en-us_topic_0000001238718197.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_disabling_networkmanager.html;
   /bpicg/bms/en-us_topic_0000001239038183.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_configuring_the_grub_timeout.html;
   /bpicg/bms/en-us_topic_0000001194358208.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/configuring_the_network.html;
-  /bpicg/bms/en-us_topic_0000001194038232.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_configuring_the_dns_server.html;
   /bpicg/bms/en-us_topic_0000001194198216.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_deleting_the_local_user.html;
   /bpicg/bms/en-us_topic_0081116685.html /bare-metal-server/image-creation-guide/linux/modifying_the_hardware_device_drivers_that_boot_the_os.html;
   /bpicg/bms/en-us_topic_0081116764.html /bare-metal-server/image-creation-guide/linux/index.html;
   /bpicg/bms/en-us_topic_0081116581.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/index.html;
   /bpicg/bms/en-us_topic_0100489883.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/centos_7.html;
   /bpicg/bms/en-us_topic_0131700227.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/overview.html;
-  /bpicg/bms/en-us_topic_0151001259.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/xenserver_7.html;
   /bpicg/bms/en-us_topic_0081116809.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_12.html;
   /bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /bpicg/bms/en-us_topic_0084951049.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_11_sp4.html;
@@ -130,7 +127,6 @@
   /bpicg/bms/en-us_topic_0100489884.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/index.html;
   /bpicg/bms/en-us_topic_0131700228.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/overview.html;
   /bpicg/bms/en-us_topic_0100489888.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/euleros_openeuler.html;
-  /bpicg/bms/en-us_topic_0100489885.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/xenserver.html;
   /bpicg/bms/en-us_topic_0218670457.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/suse_red_hat_centos_oracle_linux_ubuntu_debian.html;
   /bpicg/bms/en-us_topic_0000001117256546.html /bare-metal-server/image-creation-guide/linux/installing_and_upgrading_drivers_and_firmware_for_ascend_910_bmss/index.html;
   /bpicg/bms/en-us_topic_0000001163456399.html /bare-metal-server/image-creation-guide/linux/installing_and_upgrading_drivers_and_firmware_for_ascend_910_bmss/installation_and_maintenance/index.html;
@@ -162,10 +158,10 @@
   /bpicg/bms/en-us_topic_0081116681.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/index.html;
   /bpicg/bms/en-us_topic_0082901702.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/ubuntu_14.html;
   /bpicg/bms/en-us_topic_0081116561.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/euleros_openeuler.html;
-  /bpicg/bms/en-us_topic_0081116632.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp2_suse_12_sp3_suse_15_oracle_linux_7_red_hat_7_centos_7_centos_8_xenserver_7.html;
   /bpicg/bms/en-us_topic_0081116781.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/red_hat_6_centos_6_oracle_linux_6.html;
   /bpicg/bms/en-us_topic_0081116823.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp1.html;
   /bpicg/bms/en-us_topic_0081116660.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_11_sp4.html;
+  /bpicg/bms/en-us_topic_0081116632.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp2_suse_12_sp3_suse_15_oracle_linux_7_red_hat_7_centos_7_centos_8.html;
   /bpicg/bms/en-us_topic_0081116732.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/ubuntu_16.html;
   /bpicg/bms/en-us_topic_0000001194194546.html /bare-metal-server/image-creation-guide/linux/tools.html;
   /bpicg/bms/en-us_topic_0081116797.html /bare-metal-server/image-creation-guide/linux/optional_installing_the_ib_driver.html;
@@ -173,7 +169,6 @@
   /bpicg/bms/en-us_topic_0081116594.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/index.html;
   /bpicg/bms/en-us_topic_0100489897.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/arm_ubuntu_16.html;
   /bpicg/bms/en-us_topic_0100536284.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/arm_euleros_openeuler.html;
-  /bpicg/bms/en-us_topic_0151001260.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_xenserver_7.html;
   /bpicg/bms/en-us_topic_0083023007.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_ubuntu_14.html;
   /bpicg/bms/en-us_topic_0081116693.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_oracle_linux_6_series_red_hat_6_series_centos_6.html;
   /bpicg/bms/en-us_topic_0081116812.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_ubuntu_16.html;
@@ -211,7 +206,7 @@
   /bpicg/bms/en-us_topic_0000001289553318.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/index.html;
   /bpicg/bms/en-us_topic_0000001341593125.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/index.html;
   /bpicg/bms/en-us_topic_0000001341767245.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/registering_an_iso_file_linux.html;
-  /bpicg/bms/en-us_topic_0000001341607105.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/creating_a_linux_ecs_using_the_iso_file.html;
+  /bpicg/bms/en-us_topic_0000001341607105.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/creating_a_linux_ecs_from_an_iso_image.html;
   /bpicg/bms/en-us_topic_0000001289555358.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_using_virt-manager/index.html;
   /bpicg/bms/en-us_topic_0081116725.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_using_virt-manager/creating_a_linux_vm.html;
   /bpicg/bms/en-us_topic_0186973743.html /bare-metal-server/image-creation-guide/linux/modifying_the_boot_file_uefi_boot_mode.html;
@@ -450,7 +445,6 @@
   /en-us/api/bms/en-us_topic_0060410929.html /bare-metal-server/api-ref/native_openstack_nova_v2.html;
   /en-us/devg/bms/en-us_topic_0113983752.html /bare-metal-server/dev-guide/appendix/index.html;
   /en-us/devg/bms/en-us_topic_0137081413.html /bare-metal-server/dev-guide/appendix/status_codes.html;
-  /en-us/devg/bms/en-us_topic_0113607324.html /bare-metal-server/dev-guide/appendix/error_codes.html;
   /en-us/devg/bms/ /bare-metal-server/dev-guide/index.html;
   /en-us/devg/bms/en-us_topic_0113605684.html /bare-metal-server/dev-guide/overview.html;
   /en-us/devg/bms/en-us_topic_0113607325.html /bare-metal-server/dev-guide/change_history.html;
@@ -491,7 +485,7 @@
   /en-us/bpicg/bms/en-us_topic_0000001289260008.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/index.html;
   /en-us/bpicg/bms/en-us_topic_0000001341779861.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/registering_an_iso_file_windows.html;
   /en-us/bpicg/bms/en-us_topic_0000001289583000.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/installing_a_windows_os_and_the_vmtools_driver.html;
-  /en-us/bpicg/bms/en-us_topic_0000001289739500.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/creating_a_windows_ecs_using_the_iso_image_file.html;
+  /en-us/bpicg/bms/en-us_topic_0000001289739500.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_from_an_iso_image/creating_a_windows_ecs_from_an_iso_image.html;
   /en-us/bpicg/bms/en-us_topic_0000001289419916.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_using_virt-manager/index.html;
   /en-us/bpicg/bms/en-us_topic_0081116779.html /bare-metal-server/image-creation-guide/windows/creating_a_windows_vm/creating_a_vm_using_virt-manager/creating_a_vm_and_installing_an_os_windows.html;
   /en-us/bpicg/bms/en-us_topic_0081116711.html /bare-metal-server/image-creation-guide/windows/optional_installing_bms-network-config/index.html;
@@ -511,14 +505,12 @@
   /en-us/bpicg/bms/en-us_topic_0000001238718197.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_disabling_networkmanager.html;
   /en-us/bpicg/bms/en-us_topic_0000001239038183.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_configuring_the_grub_timeout.html;
   /en-us/bpicg/bms/en-us_topic_0000001194358208.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/configuring_the_network.html;
-  /en-us/bpicg/bms/en-us_topic_0000001194038232.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_configuring_the_dns_server.html;
   /en-us/bpicg/bms/en-us_topic_0000001194198216.html /bare-metal-server/image-creation-guide/linux/configuring_the_vm_environment/optional_deleting_the_local_user.html;
   /en-us/bpicg/bms/en-us_topic_0081116685.html /bare-metal-server/image-creation-guide/linux/modifying_the_hardware_device_drivers_that_boot_the_os.html;
   /en-us/bpicg/bms/en-us_topic_0081116764.html /bare-metal-server/image-creation-guide/linux/index.html;
   /en-us/bpicg/bms/en-us_topic_0081116581.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/index.html;
   /en-us/bpicg/bms/en-us_topic_0100489883.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/centos_7.html;
   /en-us/bpicg/bms/en-us_topic_0131700227.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/overview.html;
-  /en-us/bpicg/bms/en-us_topic_0151001259.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/xenserver_7.html;
   /en-us/bpicg/bms/en-us_topic_0081116809.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_12.html;
   /en-us/bpicg/bms/en-us_topic_0081116640.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/ubuntu_18.html;
   /en-us/bpicg/bms/en-us_topic_0084951049.html /bare-metal-server/image-creation-guide/linux/installing_a_linux_os_on_the_vm/suse_11_sp4.html;
@@ -526,7 +518,6 @@
   /en-us/bpicg/bms/en-us_topic_0100489884.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/index.html;
   /en-us/bpicg/bms/en-us_topic_0131700228.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/overview.html;
   /en-us/bpicg/bms/en-us_topic_0100489888.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/euleros_openeuler.html;
-  /en-us/bpicg/bms/en-us_topic_0100489885.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/xenserver.html;
   /en-us/bpicg/bms/en-us_topic_0218670457.html /bare-metal-server/image-creation-guide/linux/installing_cloud-init/suse_red_hat_centos_oracle_linux_ubuntu_debian.html;
   /en-us/bpicg/bms/en-us_topic_0000001117256546.html /bare-metal-server/image-creation-guide/linux/installing_and_upgrading_drivers_and_firmware_for_ascend_910_bmss/index.html;
   /en-us/bpicg/bms/en-us_topic_0000001163456399.html /bare-metal-server/image-creation-guide/linux/installing_and_upgrading_drivers_and_firmware_for_ascend_910_bmss/installation_and_maintenance/index.html;
@@ -558,10 +549,10 @@
   /en-us/bpicg/bms/en-us_topic_0081116681.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/index.html;
   /en-us/bpicg/bms/en-us_topic_0082901702.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/ubuntu_14.html;
   /en-us/bpicg/bms/en-us_topic_0081116561.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/euleros_openeuler.html;
-  /en-us/bpicg/bms/en-us_topic_0081116632.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp2_suse_12_sp3_suse_15_oracle_linux_7_red_hat_7_centos_7_centos_8_xenserver_7.html;
   /en-us/bpicg/bms/en-us_topic_0081116781.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/red_hat_6_centos_6_oracle_linux_6.html;
   /en-us/bpicg/bms/en-us_topic_0081116823.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp1.html;
   /en-us/bpicg/bms/en-us_topic_0081116660.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_11_sp4.html;
+  /en-us/bpicg/bms/en-us_topic_0081116632.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/suse_12_sp2_suse_12_sp3_suse_15_oracle_linux_7_red_hat_7_centos_7_centos_8.html;
   /en-us/bpicg/bms/en-us_topic_0081116732.html /bare-metal-server/image-creation-guide/linux/checking_the_cloud-init_status/ubuntu_16.html;
   /en-us/bpicg/bms/en-us_topic_0000001194194546.html /bare-metal-server/image-creation-guide/linux/tools.html;
   /en-us/bpicg/bms/en-us_topic_0081116797.html /bare-metal-server/image-creation-guide/linux/optional_installing_the_ib_driver.html;
@@ -569,7 +560,6 @@
   /en-us/bpicg/bms/en-us_topic_0081116594.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/index.html;
   /en-us/bpicg/bms/en-us_topic_0100489897.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/arm_ubuntu_16.html;
   /en-us/bpicg/bms/en-us_topic_0100536284.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/arm_euleros_openeuler.html;
-  /en-us/bpicg/bms/en-us_topic_0151001260.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_xenserver_7.html;
   /en-us/bpicg/bms/en-us_topic_0083023007.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_ubuntu_14.html;
   /en-us/bpicg/bms/en-us_topic_0081116693.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_oracle_linux_6_series_red_hat_6_series_centos_6.html;
   /en-us/bpicg/bms/en-us_topic_0081116812.html /bare-metal-server/image-creation-guide/linux/configuring_remote_login_to_a_bms/x86_ubuntu_16.html;
@@ -607,7 +597,7 @@
   /en-us/bpicg/bms/en-us_topic_0000001289553318.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/index.html;
   /en-us/bpicg/bms/en-us_topic_0000001341593125.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/index.html;
   /en-us/bpicg/bms/en-us_topic_0000001341767245.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/registering_an_iso_file_linux.html;
-  /en-us/bpicg/bms/en-us_topic_0000001341607105.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/creating_a_linux_ecs_using_the_iso_file.html;
+  /en-us/bpicg/bms/en-us_topic_0000001341607105.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_from_an_iso_image/creating_a_linux_ecs_from_an_iso_image.html;
   /en-us/bpicg/bms/en-us_topic_0000001289555358.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_using_virt-manager/index.html;
   /en-us/bpicg/bms/en-us_topic_0081116725.html /bare-metal-server/image-creation-guide/linux/creating_a_linux_vm/creating_a_vm_using_virt-manager/creating_a_linux_vm.html;
   /en-us/bpicg/bms/en-us_topic_0186973743.html /bare-metal-server/image-creation-guide/linux/modifying_the_boot_file_uefi_boot_mode.html;

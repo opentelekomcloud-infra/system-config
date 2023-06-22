@@ -215,7 +215,6 @@
   /usermanual/iam/iam_01_0031.html /identity-access-management/umn/getting_started/creating_a_user_and_adding_the_user_to_a_user_group.html;
   /usermanual/iam/iam_01_0034.html /identity-access-management/umn/getting_started/getting_started_with_iam.html;
   /usermanual/iam/iam_01_0032.html /identity-access-management/umn/getting_started/logging_in_as_a_user.html;
-  /ac/index.html /identity-access-management/mycredential/index.html;
   /usermanual/ac/ /identity-access-management/mycredential/index.html;
   /en-us/api/iam/iam_02_0512.html /identity-access-management/api-ref/appendix/index.html;
   /en-us/api/iam/iam_02_0005.html /identity-access-management/api-ref/appendix/status_codes.html;
@@ -434,5 +433,4 @@
   /en-us/usermanual/iam/iam_01_0031.html /identity-access-management/umn/getting_started/creating_a_user_and_adding_the_user_to_a_user_group.html;
   /en-us/usermanual/iam/iam_01_0034.html /identity-access-management/umn/getting_started/getting_started_with_iam.html;
   /en-us/usermanual/iam/iam_01_0032.html /identity-access-management/umn/getting_started/logging_in_as_a_user.html;
-  /en-us/ac/index.html /identity-access-management/mycredential/index.html;
   /en-us/usermanual/ac/ /identity-access-management/mycredential/index.html;

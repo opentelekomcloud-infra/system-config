@@ -33,7 +33,7 @@
   /api/ces/ces_03_0060.html /cloud-eye/api-ref/change_history.html;
   /usermanual/ces/ /cloud-eye/umn/index.html;
   /usermanual/ces/ces_01_0055.html /cloud-eye/umn/data_dump/index.html;
-  /usermanual/ces/ces_01_0057.html /cloud-eye/umn/data_dump/modifying_deleting_enabling_or_disabling_a_dump_task.html;
+  /usermanual/ces/ces_01_0057.html /cloud-eye/umn/data_dump/modifying,_deleting,_enabling,_or_disabling_a_dump_task.html;
   /usermanual/ces/ces_01_0056.html /cloud-eye/umn/data_dump/adding_a_dump_task.html;
   /usermanual/ces/en-us_topic_0202622212.html /cloud-eye/umn/services_interconnected_with_cloud_eye.html;
   /usermanual/ces/ces_01_0050.html /cloud-eye/umn/event_monitoring/index.html;
@@ -183,7 +183,7 @@
   /en-us/api/ces/ces_03_0060.html /cloud-eye/api-ref/change_history.html;
   /en-us/usermanual/ces/ /cloud-eye/umn/index.html;
   /en-us/usermanual/ces/ces_01_0055.html /cloud-eye/umn/data_dump/index.html;
-  /en-us/usermanual/ces/ces_01_0057.html /cloud-eye/umn/data_dump/modifying_deleting_enabling_or_disabling_a_dump_task.html;
+  /en-us/usermanual/ces/ces_01_0057.html /cloud-eye/umn/data_dump/modifying,_deleting,_enabling,_or_disabling_a_dump_task.html;
   /en-us/usermanual/ces/ces_01_0056.html /cloud-eye/umn/data_dump/adding_a_dump_task.html;
   /en-us/usermanual/ces/en-us_topic_0202622212.html /cloud-eye/umn/services_interconnected_with_cloud_eye.html;
   /en-us/usermanual/ces/ces_01_0050.html /cloud-eye/umn/event_monitoring/index.html;

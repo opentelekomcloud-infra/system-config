@@ -136,8 +136,8 @@
   /usermanual/cbr/cbr_03_0016.html /cloud-backup-recovery/umn/backup_management/using_a_backup_to_create_an_image.html;
   /usermanual/cbr/cbr_03_0013.html /cloud-backup-recovery/umn/backup_management/viewing_a_backup.html;
   /usermanual/cbr/cbr_03_0031.html /cloud-backup-recovery/umn/restoring_data/index.html;
-  /usermanual/cbr/cbr_03_0033.html /cloud-backup-recovery/umn/restoring_data/restoring_data_using_a_cloud_disk_backup.html;
-  /usermanual/cbr/cbr_03_0032.html /cloud-backup-recovery/umn/restoring_data/restoring_data_using_a_cloud_server_backup.html;
+  /usermanual/cbr/cbr_03_0033.html /cloud-backup-recovery/umn/restoring_data/restoring_from_a_cloud_disk_backup.html;
+  /usermanual/cbr/cbr_03_0032.html /cloud-backup-recovery/umn/restoring_data/restoring_from_a_cloud_server_backup.html;
   /usermanual/cbr/cbr_03_0024.html /cloud-backup-recovery/umn/policy_management/index.html;
   /usermanual/cbr/cbr_03_0027.html /cloud-backup-recovery/umn/policy_management/modifying_a_policy.html;
   /usermanual/cbr/cbr_03_0028.html /cloud-backup-recovery/umn/policy_management/deleting_a_policy.html;
@@ -282,8 +282,8 @@
   /en-us/usermanual/cbr/cbr_03_0016.html /cloud-backup-recovery/umn/backup_management/using_a_backup_to_create_an_image.html;
   /en-us/usermanual/cbr/cbr_03_0013.html /cloud-backup-recovery/umn/backup_management/viewing_a_backup.html;
   /en-us/usermanual/cbr/cbr_03_0031.html /cloud-backup-recovery/umn/restoring_data/index.html;
-  /en-us/usermanual/cbr/cbr_03_0033.html /cloud-backup-recovery/umn/restoring_data/restoring_data_using_a_cloud_disk_backup.html;
-  /en-us/usermanual/cbr/cbr_03_0032.html /cloud-backup-recovery/umn/restoring_data/restoring_data_using_a_cloud_server_backup.html;
+  /en-us/usermanual/cbr/cbr_03_0033.html /cloud-backup-recovery/umn/restoring_data/restoring_from_a_cloud_disk_backup.html;
+  /en-us/usermanual/cbr/cbr_03_0032.html /cloud-backup-recovery/umn/restoring_data/restoring_from_a_cloud_server_backup.html;
   /en-us/usermanual/cbr/cbr_03_0024.html /cloud-backup-recovery/umn/policy_management/index.html;
   /en-us/usermanual/cbr/cbr_03_0027.html /cloud-backup-recovery/umn/policy_management/modifying_a_policy.html;
   /en-us/usermanual/cbr/cbr_03_0028.html /cloud-backup-recovery/umn/policy_management/deleting_a_policy.html;
