@@ -68,6 +68,7 @@
   /api/ims/en-us_topic_0125866391.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_tagging.html;
   /api/ims/en-us_topic_0125866389.html /image-management-service/api-ref/permission_policies_and_supported_actions/index.html;
   /api/ims/en-us_topic_0125866390.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_management.html;
+  /api/ims/en-us_topic_0171654733.html /image-management-service/api-ref/permission_policies_and_supported_actions/introduction.html;
   /api/ims/en-us_topic_0125866393.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_sharing.html;
   /api/ims/en-us_topic_0125866395.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_quota.html;
   /api/ims/en-us_topic_0125866394.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_replication.html;
@@ -101,6 +102,7 @@
   /devg/ims/en-us_topic_0109822382.html /image-management-service/dev-guide/common_scenarios/creating_an_image_using_an_external_image_file.html;
   /usermanual/ims/en-us_topic_0047898081.html /image-management-service/umn/glossary.html;
   /usermanual/ims/ /image-management-service/umn/index.html;
+  /usermanual/ims/en-us_topic_0171668647.html /image-management-service/umn/overview/permissions.html;
   /usermanual/ims/en-us_topic_0013901623.html /image-management-service/umn/overview/index.html;
   /usermanual/ims/en-us_topic_0013901609.html /image-management-service/umn/overview/what_is_image_management_service.html;
   /usermanual/ims/en-us_topic_0194137262.html /image-management-service/umn/overview/basic_concepts/index.html;
@@ -202,6 +204,9 @@
   /usermanual/ims/en-us_topic_0030713180.html /image-management-service/umn/creating_a_private_image/creating_a_system_disk_image_from_a_linux_ecs.html;
   /usermanual/ims/en-us_topic_0176812699.html /image-management-service/umn/creating_a_private_image/creating_a_full-ecs_image_from_a_cbr_backup.html;
   /usermanual/ims/en-us_topic_0095084510.html /image-management-service/umn/creating_a_private_image/creating_a_bms_system_disk_image.html;
+  /usermanual/ims/en-us_topic_0171668648.html /image-management-service/umn/permissions_management/index.html;
+  /usermanual/ims/en-us_topic_0171668650.html /image-management-service/umn/permissions_management/creating_a_user_and_granting_permissions.html;
+  /usermanual/ims/en-us_topic_0171668651.html /image-management-service/umn/permissions_management/creating_a_custom_policy.html;
   /usermanual/ims/en-us_topic_0013901608.html /image-management-service/umn/managing_private_images/index.html;
   /usermanual/ims/en-us_topic_0130878748.html /image-management-service/umn/managing_private_images/optimizing_a_windows_private_image/index.html;
   /usermanual/ims/en-us_topic_0037352061.html /image-management-service/umn/managing_private_images/optimizing_a_windows_private_image/installing_uvp_vmtools.html;
@@ -319,6 +324,7 @@
   /en-us/api/ims/en-us_topic_0125866391.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_tagging.html;
   /en-us/api/ims/en-us_topic_0125866389.html /image-management-service/api-ref/permission_policies_and_supported_actions/index.html;
   /en-us/api/ims/en-us_topic_0125866390.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_management.html;
+  /en-us/api/ims/en-us_topic_0171654733.html /image-management-service/api-ref/permission_policies_and_supported_actions/introduction.html;
   /en-us/api/ims/en-us_topic_0125866393.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_sharing.html;
   /en-us/api/ims/en-us_topic_0125866395.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_quota.html;
   /en-us/api/ims/en-us_topic_0125866394.html /image-management-service/api-ref/permission_policies_and_supported_actions/image_replication.html;
@@ -352,6 +358,7 @@
   /en-us/devg/ims/en-us_topic_0109822382.html /image-management-service/dev-guide/common_scenarios/creating_an_image_using_an_external_image_file.html;
   /en-us/usermanual/ims/en-us_topic_0047898081.html /image-management-service/umn/glossary.html;
   /en-us/usermanual/ims/ /image-management-service/umn/index.html;
+  /en-us/usermanual/ims/en-us_topic_0171668647.html /image-management-service/umn/overview/permissions.html;
   /en-us/usermanual/ims/en-us_topic_0013901623.html /image-management-service/umn/overview/index.html;
   /en-us/usermanual/ims/en-us_topic_0013901609.html /image-management-service/umn/overview/what_is_image_management_service.html;
   /en-us/usermanual/ims/en-us_topic_0194137262.html /image-management-service/umn/overview/basic_concepts/index.html;
@@ -453,6 +460,9 @@
   /en-us/usermanual/ims/en-us_topic_0030713180.html /image-management-service/umn/creating_a_private_image/creating_a_system_disk_image_from_a_linux_ecs.html;
   /en-us/usermanual/ims/en-us_topic_0176812699.html /image-management-service/umn/creating_a_private_image/creating_a_full-ecs_image_from_a_cbr_backup.html;
   /en-us/usermanual/ims/en-us_topic_0095084510.html /image-management-service/umn/creating_a_private_image/creating_a_bms_system_disk_image.html;
+  /en-us/usermanual/ims/en-us_topic_0171668648.html /image-management-service/umn/permissions_management/index.html;
+  /en-us/usermanual/ims/en-us_topic_0171668650.html /image-management-service/umn/permissions_management/creating_a_user_and_granting_permissions.html;
+  /en-us/usermanual/ims/en-us_topic_0171668651.html /image-management-service/umn/permissions_management/creating_a_custom_policy.html;
   /en-us/usermanual/ims/en-us_topic_0013901608.html /image-management-service/umn/managing_private_images/index.html;
   /en-us/usermanual/ims/en-us_topic_0130878748.html /image-management-service/umn/managing_private_images/optimizing_a_windows_private_image/index.html;
   /en-us/usermanual/ims/en-us_topic_0037352061.html /image-management-service/umn/managing_private_images/optimizing_a_windows_private_image/installing_uvp_vmtools.html;
