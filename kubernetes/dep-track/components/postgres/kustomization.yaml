@@ -3,7 +3,7 @@ kind: Component
 
 configMapGenerator:
   - name: postgres-vault-config
-    files: 
+    files:
       - vault-agent.hcl
 
 images:
