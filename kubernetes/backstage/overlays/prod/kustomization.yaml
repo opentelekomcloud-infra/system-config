@@ -22,7 +22,7 @@ labels:
 images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
-    newTag: "change_27_latest"
+    newTag: "change_28_latest"
   - name: vault
     newName: docker.io/vault
     newTag: "1.13.2"
