@@ -35,4 +35,3 @@ spec:
             tcpSocket:
               port: 6379
             periodSeconds: 5
-

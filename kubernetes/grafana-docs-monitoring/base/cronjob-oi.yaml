@@ -21,7 +21,7 @@ spec:
                 - name: "VAULT_ADDR"
                   value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
               image: "vault"
-              resources: 
+              resources:
                 limits:
                   cpu: "100m"
                   memory: "100Mi"
@@ -46,7 +46,7 @@ spec:
               - "source /secrets/gdm-env; python3 open_issues.py"
               volumeMounts:
                 - mountPath: "/secrets"
-                  name: "secrets"          
+                  name: "secrets"
           volumes:
             - name: vault-agent-config
               configMap:
