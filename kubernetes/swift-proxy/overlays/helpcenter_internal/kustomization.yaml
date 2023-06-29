@@ -13,6 +13,10 @@ labels:
       app.kubernetes.io/instance: "helpcenter-internal"
       app.kubernetes.io/managed-by: "kustomize"
 
+images:
+  - name: vault
+    newTag: 1.13.3
+
 patches:
   - path: deployment.patch.yaml
   - patch: |-
