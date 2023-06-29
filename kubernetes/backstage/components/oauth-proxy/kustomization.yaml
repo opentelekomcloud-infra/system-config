@@ -3,7 +3,7 @@ kind: Component
 
 configMapGenerator:
   - name: oauth-proxy-vault-config
-    files: 
+    files:
       - vault-agent.hcl
 
 images:
