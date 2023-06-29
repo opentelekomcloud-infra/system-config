@@ -13,8 +13,6 @@ labels:
 images:
   - name: zuul-storage-proxy
     newName: quay.io/zuul-ci/zuul-storage-proxy
-  - name: vault
-    newTag: 1.13.3
 
 resources:
   - service.yaml
