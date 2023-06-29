@@ -1,0 +1,40 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+  labels:
+    app.kubernetes.io/instance: helpcenter-internal
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: document-hosting
+    argocd.argoproj.io/instance: hc-internal
+  name: document-hosting
+  namespace: hc-internal
+spec:
+  ingressClassName: nginx-intern
+  rules:
+  - host: docs-int.otc-service.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: document-hosting
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  - host: docs.otctest.t-systems.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: document-hosting
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-int.otc-service.com
+    secretName: helpcenter-int-cert
