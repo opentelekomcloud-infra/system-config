@@ -15,18 +15,12 @@ configMapGenerator:
   - name: "additional-resource"
     files:
       - "configs/redirect_maps/additional-resources"
-  - name: "anti-ddos"
-    files:
-      - "configs/redirect_maps/anti-ddos"
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
   - name: "auto-scaling"
     files:
       - "configs/redirect_maps/auto-scaling"
-  - name: "bare-metal-server"
-    files:
-      - "configs/redirect_maps/bare-metal-server"
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
@@ -36,45 +30,15 @@ configMapGenerator:
   - name: "cloud-eye"
     files:
       - "configs/redirect_maps/cloud-eye"
-  - name: "cloud-search-service"
-    files:
-      - "configs/redirect_maps/cloud-search-service"
-  - name: "cloud-server-backup-service"
-    files:
-      - "configs/redirect_maps/cloud-server-backup-service"
   - name: "cloud-trace-service"
     files:
       - "configs/redirect_maps/cloud-trace-service"
-  - name: "data-ingestion-service"
-    files:
-      - "configs/redirect_maps/data-ingestion-service"
-  - name: "data-replication-service"
-    files:
-      - "configs/redirect_maps/data-replication-service"
-  - name: "data-warehouse-service-1"
-    files:
-      - "configs/redirect_maps/data-warehouse-service-1"
-  - name: "data-warehouse-service-2"
-    files:
-      - "configs/redirect_maps/data-warehouse-service-2"
-  - name: "data-warehouse-service-3"
-    files:
-      - "configs/redirect_maps/data-warehouse-service-3"
   - name: "dedicated-host"
     files:
       - "configs/redirect_maps/dedicated-host"
   - name: "direct-connect"
     files:
       - "configs/redirect_maps/direct-connect"
-  - name: "distributed-cache-service"
-    files:
-      - "configs/redirect_maps/distributed-cache-service"
-  - name: "distributed-message-service"
-    files:
-      - "configs/redirect_maps/distributed-message-service"
-  - name: "document-database-service"
-    files:
-      - "configs/redirect_maps/document-database-service"
   - name: "domain-name-service"
     files:
       - "configs/redirect_maps/domain-name-service"
@@ -90,15 +54,6 @@ configMapGenerator:
   - name: "elastic-volume-service"
     files:
       - "configs/redirect_maps/elastic-volume-service"
-  - name: "gaussdb-mysql"
-    files:
-      - "configs/redirect_maps/gaussdb-mysql"
-  - name: "gausdb-nosql"
-    files:
-      - "configs/redirect_maps/gaussdb-nosql"
-  - name: "gaussdb-opengauss"
-    files:
-      - "configs/redirect_maps/gaussdb-opengauss"
   - name: "identity-access-management"
     files:
       - "configs/redirect_maps/identity-access-management"
@@ -108,57 +63,15 @@ configMapGenerator:
   - name: "key-management-service"
     files:
       - "configs/redirect_maps/key-management-service"
-  - name: "log-tank-service"
-    files:
-      - "configs/redirect_maps/log-tank-service"
-  - name: "mapreduce-service-aa"
-    files:
-      - "configs/redirect_maps/mapreduce-service-aa"
-  - name: "mapreduce-service-ab"
-    files:
-      - "configs/redirect_maps/mapreduce-service-ab"
-  - name: "mapreduce-service-ac"
-    files:
-      - "configs/redirect_maps/mapreduce-service-ac"
-  - name: "mapreduce-service-ad"
-    files:
-      - "configs/redirect_maps/mapreduce-service-ad"
-  - name: "mapreduce-service-ae"
-    files:
-      - "configs/redirect_maps/mapreduce-service-ae"
-  - name: "mapreduce-service-af"
-    files:
-      - "configs/redirect_maps/mapreduce-service-af"
-  - name: "mapreduce-service-ag"
-    files:
-      - "configs/redirect_maps/mapreduce-service-ag"
-  - name: "modelarts"
-    files:
-      - "configs/redirect_maps/modelarts"
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
   - name: "object-storage-service"
     files:
       - "configs/redirect_maps/object-storage-service"
-  - name: "private-link-access-service"
-    files:
-      - "configs/redirect_maps/private-link-access-service"
   - name: "relational-database-service"
     files:
       - "configs/redirect_maps/relational-database-service"
-  - name: "resource-management-service"
-    files:
-      - "configs/redirect_maps/resource-management-service"
-  - name: "resource-template-service"
-    files:
-      - "configs/redirect_maps/resource-template-service"
-  - name: "scalable-file-service"
-    files:
-      - "configs/redirect_maps/scalable-file-service"
-  - name: "secure-mail-gateway"
-    files:
-      - "configs/redirect_maps/secure-mail-gateway"
   - name: "simple-message-notification"
     files:
       - "configs/redirect_maps/simple-message-notification"
@@ -177,18 +90,12 @@ configMapGenerator:
   - name: "virtual-private-network"
     files:
       - "configs/redirect_maps/virtual-private-network"
-  - name: "volume-backup-service"
-    files:
-      - "configs/redirect_maps/volume-backup-service"
   - name: "vpc-endpoint"
     files:
       - "configs/redirect_maps/vpc-endpoint"
   - name: "web-application-firewall-dedicated"
     files:
       - "configs/redirect_maps/web-application-firewall-dedicated"
-  - name: "web-application-firewall"
-    files:
-      - "configs/redirect_maps/web-application-firewall"
 
 # kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
 # selector
