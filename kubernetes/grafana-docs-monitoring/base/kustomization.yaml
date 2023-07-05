@@ -16,4 +16,5 @@ resources:
   - cronjob-gt.yaml
   - cronjob-oi.yaml
   - cronjob-lci.yaml
+  - cronjob-fz.yaml
   - sa.yaml
