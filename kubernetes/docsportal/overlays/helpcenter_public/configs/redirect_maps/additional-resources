@@ -137,4 +137,4 @@
   /en-us/vpcep/index.html /vpc-endpoint/umn/;
   /en-us/dwaf/index.html /web-application-firewall-dedicated/umn/;
   /en-us/waf/index.html /web-application-firewall/umn/;
-  /sd/doc/download/pdf/sd-usermanual.pdf https://docs-archive.otc.t-systems.com/sd/doc/download/pdf/sd-usermanual.pdf;
+  /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
