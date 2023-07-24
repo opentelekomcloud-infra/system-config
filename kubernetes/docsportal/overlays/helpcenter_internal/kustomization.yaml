@@ -214,8 +214,8 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/ingressClassName
-        # nginx-intern is not exposed to the world
-        value: nginx-intern
+        # ingress-intern is not exposed to the world
+        value: ingress-intern
       - op: replace
         path: /spec/rules/0/host
         value: docs-int.otc-service.com
