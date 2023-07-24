@@ -141,7 +141,7 @@ helm_chart_instances:
     repo_name: argocd
     name: argocd
     ref: argocd/argo-cd
-    version: 5.27.1
+    version: 5.39.1
     namespace: argocd
     values_template: "templates/charts/argocd/argocd-values.yaml.j2"
   otcinfra2_cert-manager:
@@ -354,7 +354,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 2.4.3
+    version: 3.3.0
     namespace: falco
   otcinfra2_falco:
     context: otcinfra2
@@ -362,7 +362,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 2.4.3
+    version: 3.3.0
     namespace: falco
   otcci_falco:
     context: otcci
@@ -370,7 +370,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 2.4.3
+    version: 3.3.0
     namespace: falco
   otcinfra_prometheus:
     context: otcinfra
