@@ -235,7 +235,7 @@ patches:
       - op: replace
         path: /metadata/annotations
         value:
-          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
       - op: replace
         path: /spec/tls
         value:
