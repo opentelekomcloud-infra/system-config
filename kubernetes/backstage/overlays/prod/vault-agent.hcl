@@ -87,8 +87,12 @@ catalog:
     - type: url
       target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-ecosystem/contents/blob/main/catalog.yaml
     # templates
+    #- type: url
+    #  target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-templates/contents/blob/main/catalog.yaml
+    #  rules:
+    #    - allow: [Template]
     - type: url
-      target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-templates/contents/blob/main/catalog.yaml
+      target: https://github.com/opentelekomcloud-infra/backstage-templates/blob/main/catalog.yaml
       rules:
         - allow: [Template]
 
