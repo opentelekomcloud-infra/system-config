@@ -27,7 +27,7 @@ export DB_PORT={{ .Data.data.port }}
 export DB_NAME={{ .Data.data.dbname }}
 export DB_USER={{ .Data.data.username }}
 export DB_PASSWORD={{ .Data.data.password }}
-export DB_ORPH={{ .Data.data.dbname-orph }}
+export DB_ORPH={{ .Data.data.dborph }}
 export DB_CSV=CSV
 {{- end }}
 {{ with secret "secret/data/helpcenter/monitoring/gitea" -}}
