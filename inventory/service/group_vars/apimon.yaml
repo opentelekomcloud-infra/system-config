@@ -264,6 +264,7 @@ apimon_instances:
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
           - scenario3_simple_evs.yaml
+          - scenario9_obs.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -318,6 +319,7 @@ apimon_instances:
            - scenario3a_evs_az.yaml
            - scenario4_image.yaml
            - scenario30_domains.yaml
+           - scenario9_obs.yaml
     clouds:
       - name: preprod
         cloud: otcapimon_preprod
