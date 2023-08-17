@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-last-commit
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 * * * *"
+  schedule: "30 */6 * * *"
   jobTemplate:
     spec:
       template:
