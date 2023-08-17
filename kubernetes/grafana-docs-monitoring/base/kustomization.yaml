@@ -12,10 +12,14 @@ images:
     newTag: "release_0.0.1"
 
 resources:
+  - cronjob-fz.yaml
+  - cronjob-fz-swiss.yaml
   - cronjob-gh.yaml
+  - cronjob-gh-swiss.yaml
   - cronjob-gt.yaml
   - cronjob-oi.yaml
+  - cronjob-oi-swiss.yaml
   - cronjob-lci.yaml
-  - cronjob-fz.yaml
+  - cronjob-lci-swiss.yaml
   - cronjob-servicesdict.yaml
   - sa.yaml
