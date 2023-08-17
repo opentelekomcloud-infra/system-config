@@ -17,9 +17,9 @@ resources:
   - cronjob-gh.yaml
   - cronjob-gh-swiss.yaml
   - cronjob-gt.yaml
-  - cronjob-oi.yaml
-  - cronjob-oi-swiss.yaml
   - cronjob-lci.yaml
   - cronjob-lci-swiss.yaml
+  - cronjob-oi.yaml
+  - cronjob-oi-swiss.yaml
   - cronjob-servicesdict.yaml
   - sa.yaml
