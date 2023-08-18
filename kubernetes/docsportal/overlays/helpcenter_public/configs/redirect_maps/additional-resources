@@ -17,6 +17,7 @@
   /faq/iaas/en-us_topic_0041752254.html /additional/faqs/which_browsers_are_supported.html;
   /public/learnmore.html https://open-telekom-cloud.com/en/contact;
   /usermanual/ecs/en-us_topic_0014250631.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
+  /usermanual/ac/ca_01_0002.html /identity-access-management/mycredential/;
   /en-us/index.html /index.html;
   /en-us/glossary/index.html /additional/glossary.html;
   /en-us/permissions/index.html /additional/permissions.html;
@@ -37,6 +38,7 @@
   /en-us/faq/iaas/en-us_topic_0041752254.html /additional/faqs/which_browsers_are_supported.html;
   /en-us/public/learnmore.html https://open-telekom-cloud.com/en/contact;
   /en-us/usermanual/ecs/en-us_topic_0014250631.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
+  /en-us/usermanual/ac/ca_01_0002.html /identity-access-management/mycredential/;
   /antiddos/index.html /anti-ddos/umn/;
   /aom/index.html /application-operations-management/umn/;
   /as/index.html /auto-scaling/umn/;
