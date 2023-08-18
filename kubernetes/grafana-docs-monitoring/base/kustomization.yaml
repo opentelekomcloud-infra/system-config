@@ -13,13 +13,9 @@ images:
 
 resources:
   - cronjob-fz.yaml
-  - cronjob-fz-swiss.yaml
   - cronjob-gh.yaml
-  - cronjob-gh-swiss.yaml
   - cronjob-gt.yaml
   - cronjob-lci.yaml
-  - cronjob-lci-swiss.yaml
   - cronjob-oi.yaml
-  - cronjob-oi-swiss.yaml
   - cronjob-servicesdict.yaml
   - sa.yaml
