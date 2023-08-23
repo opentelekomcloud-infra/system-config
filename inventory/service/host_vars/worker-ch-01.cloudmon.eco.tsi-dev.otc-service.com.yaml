@@ -1,0 +1,4 @@
+---
+image: "Standard_Ubuntu_22.04_latest"
+flavor: "c4.xlarge.2"
+security_groups: ["default", "cloudmon_common"]
