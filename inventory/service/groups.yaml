@@ -168,11 +168,12 @@ groups:
     - gitea1.eco.tsi-dev.otc-service.com
     - gitea2.eco.tsi-dev.otc-service.com
     - keycloak1.eco.tsi-dev.otc-service.com
-    - cloudmon1.cloudmon.eco.tsi-dev.otc-service.com
     - db1.cloudmon.eco.tsi-dev.otc-service.com
     - db2.cloudmon.eco.tsi-dev.otc-service.com
+    - db3.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite3.cloudmon.eco.tsi-dev.otc-service.com
 
   zookeeper: []
     # - zk1.zuul.eco.tsi-dev.otc-service.com
