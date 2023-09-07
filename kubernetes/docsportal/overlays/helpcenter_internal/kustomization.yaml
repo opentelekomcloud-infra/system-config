@@ -219,19 +219,6 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value: docs-int.otc-service.com
-      - op: add
-        path: /spec/rules/1
-        value:
-          host: docs.otctest.t-systems.com
-          http:
-            paths:
-              - backend:
-                  service:
-                    name: document-hosting
-                    port:
-                      number: 8080
-                path: /
-                pathType: Prefix
       - op: replace
         path: /metadata/annotations
         value:
@@ -241,7 +228,6 @@ patches:
         value:
           - hosts:
               - docs-int.otc-service.com
-              - docs.otctest.t-systems.com
             secretName: helpcenter-int-cert
     target:
       group: networking.k8s.io
@@ -303,3 +289,9 @@ patches:
 
 resources:
   - ../../base
+  - sa.yaml
+  - ingress-oauth.yaml
+
+components:
+  - components/oauth-proxy
+  - components/redis
