@@ -87,11 +87,18 @@ all_users:
     uid: 2031
     gid: 2031
 
+  ashakhba:
+    comment: Artem Shakhbazian
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIMWHGzxoHjKEj8a3PoWVIhsVhmqtST1GSdSstfMZfBO ashakhba
+    uid: 2032
+    gid: 2032
+
 # List of users to install on all hosts
 base_users:
   - gtema
   - vhasko
   - enrrou
+  - ashakhba
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
