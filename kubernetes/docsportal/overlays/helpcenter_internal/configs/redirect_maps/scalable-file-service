@@ -19,6 +19,12 @@
   /api/sfs/sfs_02_0077.html /scalable-file-service/api-ref/sfs_turbo_apis/tag_management/querying_tags_of_a_file_system.html;
   /api/sfs/sfs_02_0055.html /scalable-file-service/api-ref/sfs_turbo_apis/storage_capacity_management/index.html;
   /api/sfs/sfs_02_0056.html /scalable-file-service/api-ref/sfs_turbo_apis/storage_capacity_management/expanding_the_capacity_of_a_file_system.html;
+  /api/sfs/en-us_topic_0000001663116961.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/index.html;
+  /api/sfs/en-us_topic_0000001662997101.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/modifying_a_permission_rule.html;
+  /api/sfs/en-us_topic_0000001614557076.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/deleting_a_permissions_rule.html;
+  /api/sfs/en-us_topic_0000001614397248.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/querying_permission_rules_of_a_file_system.html;
+  /api/sfs/en-us_topic_0000001662877113.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/querying_a_permission_rule_by_id.html;
+  /api/sfs/en-us_topic_0000001663156945.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/creating_a_permission_rule.html;
   /api/sfs/sfs_02_0050.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/index.html;
   /api/sfs/sfs_02_0052.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/deleting_a_file_system.html;
   /api/sfs/sfs_02_0051.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/creating_a_file_system.html;
@@ -91,8 +97,8 @@
   /usermanual/sfs/sfs_01_0048.html /scalable-file-service/umn/management/monitoring/sfs_turbo_metrics.html;
   /usermanual/sfs/sfs_01_0047.html /scalable-file-service/umn/management/monitoring/sfs_metrics.html;
   /usermanual/sfs/sfs_01_0034.html /scalable-file-service/umn/management/file_system_management/index.html;
-  /usermanual/sfs/en-us_topic_0000001515917216.html /scalable-file-service/umn/management/file_system_management/deleting_a_file_system.html;
-  /usermanual/sfs/en-us_topic_0000001567076569.html /scalable-file-service/umn/management/file_system_management/viewing_a_file_system.html;
+  /usermanual/sfs/en-us_topic_0000001527141597.html /scalable-file-service/umn/management/file_system_management/deleting_a_file_system.html;
+  /usermanual/sfs/en-us_topic_0000001476461694.html /scalable-file-service/umn/management/file_system_management/viewing_a_file_system.html;
   /usermanual/sfs/sfs_01_0042.html /scalable-file-service/umn/management/encryption.html;
   /usermanual/sfs/sfs_01_0039.html /scalable-file-service/umn/management/file_system_resizing.html;
   /usermanual/sfs/sfs_01_0050.html /scalable-file-service/umn/management/auditing.html;
@@ -127,7 +133,7 @@
   /usermanual/sfs/sfs_01_0026.html /scalable-file-service/umn/getting_started/unmount_a_file_system.html;
   /usermanual/sfs/sfs_01_0024.html /scalable-file-service/umn/getting_started/mount_a_file_system/index.html;
   /usermanual/sfs/sfs_01_0025.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_a_file_system_automatically.html;
-  /usermanual/sfs/en-us_topic_0000001567076661.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_linux.html;
+  /usermanual/sfs/en-us_topic_0034428728.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_linux.html;
   /usermanual/sfs/en-us_topic_0105224109.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_windows.html;
   /usermanual/sfs/en-us_topic_0034428727.html /scalable-file-service/umn/getting_started/create_a_file_system.html;
   /usermanual/sfs/sfs_01_0056.html /scalable-file-service/umn/troubleshooting/index.html;
@@ -140,7 +146,7 @@
   /usermanual/sfs/sfs_01_0062.html /scalable-file-service/umn/troubleshooting/error_message_wrong_fs_type_bad_option_is_displayed_during_file_system_mounting.html;
   /usermanual/sfs/sfs_01_0058.html /scalable-file-service/umn/troubleshooting/a_server_fails_to_access_a_file_system.html;
   /usermanual/sfs/sfs_01_0063.html /scalable-file-service/umn/troubleshooting/failed_to_access_the_shared_folder_in_windows.html;
-  /usermanual/sfs/en-us_topic_0000001515917172.html /scalable-file-service/umn/troubleshooting/mounting_a_file_system_times_out.html;
+  /usermanual/sfs/en-us_topic_0037934210.html /scalable-file-service/umn/troubleshooting/mounting_a_file_system_times_out.html;
   /usermanual/sfs/sfs_01_0060.html /scalable-file-service/umn/troubleshooting/data_fails_to_be_written_into_a_file_system_mounted_to_ecss_running_different_types_of_operating_systems.html;
   /en-us/api/sfs/sfs_02_0088.html /scalable-file-service/api-ref/appendix/index.html;
   /en-us/api/sfs/sfs_02_0089.html /scalable-file-service/api-ref/appendix/status_codes.html;
@@ -163,6 +169,12 @@
   /en-us/api/sfs/sfs_02_0077.html /scalable-file-service/api-ref/sfs_turbo_apis/tag_management/querying_tags_of_a_file_system.html;
   /en-us/api/sfs/sfs_02_0055.html /scalable-file-service/api-ref/sfs_turbo_apis/storage_capacity_management/index.html;
   /en-us/api/sfs/sfs_02_0056.html /scalable-file-service/api-ref/sfs_turbo_apis/storage_capacity_management/expanding_the_capacity_of_a_file_system.html;
+  /en-us/api/sfs/en-us_topic_0000001663116961.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/index.html;
+  /en-us/api/sfs/en-us_topic_0000001662997101.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/modifying_a_permission_rule.html;
+  /en-us/api/sfs/en-us_topic_0000001614557076.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/deleting_a_permissions_rule.html;
+  /en-us/api/sfs/en-us_topic_0000001614397248.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/querying_permission_rules_of_a_file_system.html;
+  /en-us/api/sfs/en-us_topic_0000001662877113.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/querying_a_permission_rule_by_id.html;
+  /en-us/api/sfs/en-us_topic_0000001663156945.html /scalable-file-service/api-ref/sfs_turbo_apis/permissions_management/creating_a_permission_rule.html;
   /en-us/api/sfs/sfs_02_0050.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/index.html;
   /en-us/api/sfs/sfs_02_0052.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/deleting_a_file_system.html;
   /en-us/api/sfs/sfs_02_0051.html /scalable-file-service/api-ref/sfs_turbo_apis/lifecycle_management/creating_a_file_system.html;
@@ -235,8 +247,8 @@
   /en-us/usermanual/sfs/sfs_01_0048.html /scalable-file-service/umn/management/monitoring/sfs_turbo_metrics.html;
   /en-us/usermanual/sfs/sfs_01_0047.html /scalable-file-service/umn/management/monitoring/sfs_metrics.html;
   /en-us/usermanual/sfs/sfs_01_0034.html /scalable-file-service/umn/management/file_system_management/index.html;
-  /en-us/usermanual/sfs/en-us_topic_0000001515917216.html /scalable-file-service/umn/management/file_system_management/deleting_a_file_system.html;
-  /en-us/usermanual/sfs/en-us_topic_0000001567076569.html /scalable-file-service/umn/management/file_system_management/viewing_a_file_system.html;
+  /en-us/usermanual/sfs/en-us_topic_0000001527141597.html /scalable-file-service/umn/management/file_system_management/deleting_a_file_system.html;
+  /en-us/usermanual/sfs/en-us_topic_0000001476461694.html /scalable-file-service/umn/management/file_system_management/viewing_a_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0042.html /scalable-file-service/umn/management/encryption.html;
   /en-us/usermanual/sfs/sfs_01_0039.html /scalable-file-service/umn/management/file_system_resizing.html;
   /en-us/usermanual/sfs/sfs_01_0050.html /scalable-file-service/umn/management/auditing.html;
@@ -271,7 +283,7 @@
   /en-us/usermanual/sfs/sfs_01_0026.html /scalable-file-service/umn/getting_started/unmount_a_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0024.html /scalable-file-service/umn/getting_started/mount_a_file_system/index.html;
   /en-us/usermanual/sfs/sfs_01_0025.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_a_file_system_automatically.html;
-  /en-us/usermanual/sfs/en-us_topic_0000001567076661.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_linux.html;
+  /en-us/usermanual/sfs/en-us_topic_0034428728.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_linux.html;
   /en-us/usermanual/sfs/en-us_topic_0105224109.html /scalable-file-service/umn/getting_started/mount_a_file_system/mounting_an_nfs_file_system_to_ecss_windows.html;
   /en-us/usermanual/sfs/en-us_topic_0034428727.html /scalable-file-service/umn/getting_started/create_a_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0056.html /scalable-file-service/umn/troubleshooting/index.html;
@@ -284,5 +296,5 @@
   /en-us/usermanual/sfs/sfs_01_0062.html /scalable-file-service/umn/troubleshooting/error_message_wrong_fs_type_bad_option_is_displayed_during_file_system_mounting.html;
   /en-us/usermanual/sfs/sfs_01_0058.html /scalable-file-service/umn/troubleshooting/a_server_fails_to_access_a_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0063.html /scalable-file-service/umn/troubleshooting/failed_to_access_the_shared_folder_in_windows.html;
-  /en-us/usermanual/sfs/en-us_topic_0000001515917172.html /scalable-file-service/umn/troubleshooting/mounting_a_file_system_times_out.html;
+  /en-us/usermanual/sfs/en-us_topic_0037934210.html /scalable-file-service/umn/troubleshooting/mounting_a_file_system_times_out.html;
   /en-us/usermanual/sfs/sfs_01_0060.html /scalable-file-service/umn/troubleshooting/data_fails_to_be_written_into_a_file_system_mounted_to_ecss_running_different_types_of_operating_systems.html;

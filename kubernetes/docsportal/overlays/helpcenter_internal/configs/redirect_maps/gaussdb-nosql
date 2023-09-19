@@ -14,6 +14,7 @@
   /usermanual/nosql/nosql_faq_0001.html /gaussdb-nosql/umn/faqs/index.html;
   /usermanual/nosql/nosql_faq_0103.html /gaussdb-nosql/umn/faqs/database_connection/index.html;
   /usermanual/nosql/nosql_faq_0006.html /gaussdb-nosql/umn/faqs/database_connection/how_can_i_create_and_connect_to_an_ecs.html;
+  /usermanual/nosql/nosql_faq_0010.html /gaussdb-nosql/umn/faqs/database_connection/can_i_change_the_vpc_of_a_gaussdb_nosql_instance_after_it_is_created.html;
   /usermanual/nosql/nosql_faq_0104.html /gaussdb-nosql/umn/faqs/backup_and_restoration/index.html;
   /usermanual/nosql/nosql_faq_0007.html /gaussdb-nosql/umn/faqs/backup_and_restoration/how_long_does_an_instance_store_backup_data.html;
   /usermanual/nosql/nosql_faq_0101.html /gaussdb-nosql/umn/faqs/product_consulting/index.html;
@@ -53,6 +54,9 @@
   /usermanual/nosql/nosql_03_0005.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/deleting_db_instances.html;
   /usermanual/nosql/nosql_increase_nodes.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/adding_nodes.html;
   /usermanual/nosql/nosql_03_0026.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/changing_a_db_instance_class.html;
+  /usermanual/nosql/nosql_03_0019.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/index.html;
+  /usermanual/nosql/nosql_03_0018.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/querying_traces.html;
+  /usermanual/nosql/nosql_03_0017.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/key_operations_recorded_by_cts.html;
   /usermanual/nosql/nosql_04_change_history.html /gaussdb-nosql/umn/change_history.html;
   /usermanual/nosql/nosql_user_guide.html /gaussdb-nosql/umn/introduction/index.html;
   /usermanual/nosql/nosql_01_0004.html /gaussdb-nosql/umn/introduction/db_instance/index.html;
@@ -83,6 +87,7 @@
   /en-us/usermanual/nosql/nosql_faq_0001.html /gaussdb-nosql/umn/faqs/index.html;
   /en-us/usermanual/nosql/nosql_faq_0103.html /gaussdb-nosql/umn/faqs/database_connection/index.html;
   /en-us/usermanual/nosql/nosql_faq_0006.html /gaussdb-nosql/umn/faqs/database_connection/how_can_i_create_and_connect_to_an_ecs.html;
+  /en-us/usermanual/nosql/nosql_faq_0010.html /gaussdb-nosql/umn/faqs/database_connection/can_i_change_the_vpc_of_a_gaussdb_nosql_instance_after_it_is_created.html;
   /en-us/usermanual/nosql/nosql_faq_0104.html /gaussdb-nosql/umn/faqs/backup_and_restoration/index.html;
   /en-us/usermanual/nosql/nosql_faq_0007.html /gaussdb-nosql/umn/faqs/backup_and_restoration/how_long_does_an_instance_store_backup_data.html;
   /en-us/usermanual/nosql/nosql_faq_0101.html /gaussdb-nosql/umn/faqs/product_consulting/index.html;
@@ -122,6 +127,9 @@
   /en-us/usermanual/nosql/nosql_03_0005.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/deleting_db_instances.html;
   /en-us/usermanual/nosql/nosql_increase_nodes.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/adding_nodes.html;
   /en-us/usermanual/nosql/nosql_03_0026.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/db_instance_management/changing_a_db_instance_class.html;
+  /en-us/usermanual/nosql/nosql_03_0019.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/index.html;
+  /en-us/usermanual/nosql/nosql_03_0018.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/querying_traces.html;
+  /en-us/usermanual/nosql/nosql_03_0017.html /gaussdb-nosql/umn/working_with_gaussdbfor_cassandra/auditing/key_operations_recorded_by_cts.html;
   /en-us/usermanual/nosql/nosql_04_change_history.html /gaussdb-nosql/umn/change_history.html;
   /en-us/usermanual/nosql/nosql_user_guide.html /gaussdb-nosql/umn/introduction/index.html;
   /en-us/usermanual/nosql/nosql_01_0004.html /gaussdb-nosql/umn/introduction/db_instance/index.html;
