@@ -12,15 +12,21 @@ configMapGenerator:
         redirect_map: "no"
     files:
       - "configs/nginx-site.conf"
-  - name: "additional-resource"
+  - name: "additional-resources"
     files:
       - "configs/redirect_maps/additional-resources"
   - name: "anti-ddos"
     files:
       - "configs/redirect_maps/anti-ddos"
+  - name: "api-gateway"
+    files:
+      - "configs/redirect_maps/api-gateway"
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
+  - name: "application-performance-management"
+    files:
+      - "configs/redirect_maps/application-performance-management"
   - name: "auto-scaling"
     files:
       - "configs/redirect_maps/auto-scaling"
@@ -33,6 +39,9 @@ configMapGenerator:
   - name: "cloud-container-engine"
     files:
       - "configs/redirect_maps/cloud-container-engine"
+  - name: "cloud-container-instance"
+    files:
+      - "configs/redirect_maps/cloud-container-instance"
   - name: "cloud-eye"
     files:
       - "configs/redirect_maps/cloud-eye"
@@ -42,24 +51,36 @@ configMapGenerator:
   - name: "cloud-server-backup-service"
     files:
       - "configs/redirect_maps/cloud-server-backup-service"
+  - name: "cloud-service-engine"
+    files:
+      - "configs/redirect_maps/cloud-service-engine"
   - name: "cloud-trace-service"
     files:
       - "configs/redirect_maps/cloud-trace-service"
+  - name: "data-arts-studio"
+    files:
+      - "configs/redirect_maps/data-arts-studio"
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
+  - name: "data-lake-insight"
+    files:
+      - "configs/redirect_maps/data-lake-insight"
   - name: "data-replication-service"
     files:
       - "configs/redirect_maps/data-replication-service"
-  - name: "data-warehouse-service-1"
+  - name: "data-warehouse-service-aa"
     files:
-      - "configs/redirect_maps/data-warehouse-service-1"
-  - name: "data-warehouse-service-2"
+      - "configs/redirect_maps/data-warehouse-service-aa"
+  - name: "data-warehouse-service-ab"
     files:
-      - "configs/redirect_maps/data-warehouse-service-2"
-  - name: "data-warehouse-service-3"
+      - "configs/redirect_maps/data-warehouse-service-ab"
+  - name: "data-warehouse-service-ac"
     files:
-      - "configs/redirect_maps/data-warehouse-service-3"
+      - "configs/redirect_maps/data-warehouse-service-ac"
+  - name: "database-security-service"
+    files:
+      - "configs/redirect_maps/database-security-service"
   - name: "dedicated-host"
     files:
       - "configs/redirect_maps/dedicated-host"
@@ -69,6 +90,9 @@ configMapGenerator:
   - name: "distributed-cache-service"
     files:
       - "configs/redirect_maps/distributed-cache-service"
+  - name: "distributed-database-middleware"
+    files:
+      - "configs/redirect_maps/distributed-database-middleware"
   - name: "distributed-message-service"
     files:
       - "configs/redirect_maps/distributed-message-service"
@@ -90,15 +114,27 @@ configMapGenerator:
   - name: "elastic-volume-service"
     files:
       - "configs/redirect_maps/elastic-volume-service"
+  - name: "enterprise-router"
+    files:
+      - "configs/redirect_maps/enterprise-router"
+  - name: "function-graph"
+    files:
+      - "configs/redirect_maps/function-graph"
   - name: "gaussdb-mysql"
     files:
       - "configs/redirect_maps/gaussdb-mysql"
-  - name: "gausdb-nosql"
+  - name: "gaussdb-nosql"
     files:
       - "configs/redirect_maps/gaussdb-nosql"
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
+  - name: "gaussdb_nosql"
+    files:
+      - "configs/redirect_maps/gaussdb_nosql"
+  - name: "host-security-service"
+    files:
+      - "configs/redirect_maps/host-security-service"
   - name: "identity-access-management"
     files:
       - "configs/redirect_maps/identity-access-management"
@@ -165,6 +201,9 @@ configMapGenerator:
   - name: "software-repository-container"
     files:
       - "configs/redirect_maps/software-repository-container"
+  - name: "status-dashboard"
+    files:
+      - "configs/redirect_maps/status-dashboard"
   - name: "storage-disaster-recovery-service"
     files:
       - "configs/redirect_maps/storage-disaster-recovery-service"
@@ -183,12 +222,12 @@ configMapGenerator:
   - name: "vpc-endpoint"
     files:
       - "configs/redirect_maps/vpc-endpoint"
-  - name: "web-application-firewall-dedicated"
-    files:
-      - "configs/redirect_maps/web-application-firewall-dedicated"
   - name: "web-application-firewall"
     files:
       - "configs/redirect_maps/web-application-firewall"
+  - name: "web-application-firewall-dedicated"
+    files:
+      - "configs/redirect_maps/web-application-firewall-dedicated"
 
 # kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
 # selector
