@@ -129,9 +129,6 @@ configMapGenerator:
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
-  - name: "gaussdb_nosql"
-    files:
-      - "configs/redirect_maps/gaussdb_nosql"
   - name: "host-security-service"
     files:
       - "configs/redirect_maps/host-security-service"
