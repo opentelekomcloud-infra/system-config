@@ -129,7 +129,7 @@ configMapGenerator:
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
-  - name: "gaussdb_nosql"
+  - name: "gaussdb-nosql"
     files:
       - "configs/redirect_maps/gaussdb_nosql"
   - name: "host-security-service"
