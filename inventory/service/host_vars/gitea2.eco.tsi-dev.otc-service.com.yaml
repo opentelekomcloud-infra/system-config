@@ -1,5 +1,5 @@
 image: "Standard_Ubuntu_22.04_latest"
-flavor: "d2.xlarge.8"
+flavor: "c4.xlarge.4"
 security_groups: ["common_sg", "gitea_sg"]
 nics:
   - fixed_ip: "192.168.150.200"
@@ -12,6 +12,9 @@ data_volumes:
     size: 100
   - name: "home"
     size: 20
+  - name: "gitea1"
+    size: 1024
+    type: "SAS"
 userdata: |
   #cloud-config
   disk_setup:
@@ -23,11 +26,7 @@ userdata: |
       table_type: 'mbr'
       layout:
         - 100
-    /dev/sda:
-      table_type: 'mbr'
-      layout:
-        - 100
-    /dev/sdb:
+    /dev/vdd:
       table_type: 'mbr'
       layout:
         - 100
@@ -40,14 +39,10 @@ userdata: |
       device: '/dev/vdc1'
     - label: gitea1
       filesystem: ext4
-      device: '/dev/sda1'
-    - label: gitea2
-      filesystem: ext4
-      device: '/dev/sdb1'
+      device: '/dev/vdd1'
   mounts:
     - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
-    - [ "LABEL=gitea1", "/var/gitea", "auto", "defaults", "0", "2" ]
-    - [ "LABEL=gitea2", "/var/gitea_bck", "auto", "defaults", "0", "2" ]
+    - [ "LABEL=gitea1", "/var/lib/gitea", "auto", "defaults", "0", "2" ]
   groups:
     - automation
   users:
