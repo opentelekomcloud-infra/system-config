@@ -42,7 +42,6 @@ userdata: |
       device: '/dev/vdd1'
   mounts:
     - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
-    - [ "LABEL=gitea1", "/var/lib/gitea", "auto", "defaults", "0", "2" ]
   groups:
     - automation
   users:
@@ -57,7 +56,10 @@ userdata: |
     - cp -a /var/* /mnt/vdb/
     - umount /mnt/vdb && rmdir /mnt/vdb
     - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
+    - echo "LABEL=gitea1   /var/lib/gitea   auto   defaults  0 2" >> /etc/fstab
     - mount /var
+    - mkdir -p /var/lib/gitea
+    - mount /var/lib/gitea
 
 ssl_certs:
   gitea:
