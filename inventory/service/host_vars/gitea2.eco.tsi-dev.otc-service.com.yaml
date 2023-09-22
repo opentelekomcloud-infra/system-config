@@ -8,9 +8,9 @@ root_volume_size: 20
 auto_ip: false
 
 data_volumes:
-  - name: "var"
+  - name: "var1"
     size: 100
-  - name: "home"
+  - name: "home1"
     size: 20
   - name: "gitea1"
     size: 1024
@@ -31,17 +31,17 @@ userdata: |
       layout:
         - 100
   fs_setup:
-    - label: var
+    - label: var1
       filesystem: ext4
       device: '/dev/vdb1'
-    - label: home
+    - label: home1
       filesystem: ext4
       device: '/dev/vdc1'
     - label: gitea1
       filesystem: ext4
       device: '/dev/vdd1'
   mounts:
-    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
+    - [ "LABEL=home1", "/home", "auto", "defaults", "0", "2" ]
     - [ "LABEL=gitea1", "/var/lib/gitea", "auto", "defaults", "0", "2" ]
   groups:
     - automation
