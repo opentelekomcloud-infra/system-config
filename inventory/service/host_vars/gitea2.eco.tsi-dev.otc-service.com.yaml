@@ -8,9 +8,9 @@ root_volume_size: 20
 auto_ip: false
 
 data_volumes:
-  - name: "var1"
+  - name: "var"
     size: 100
-  - name: "home1"
+  - name: "home"
     size: 20
   - name: "gitea1"
     size: 1024
@@ -31,18 +31,17 @@ userdata: |
       layout:
         - 100
   fs_setup:
-    - label: var1
+    - label: var
       filesystem: ext4
       device: '/dev/vdb1'
-    - label: home1
+    - label: home
       filesystem: ext4
       device: '/dev/vdc1'
     - label: gitea1
       filesystem: ext4
       device: '/dev/vdd1'
   mounts:
-    - [ "LABEL=home1", "/home", "auto", "defaults", "0", "2" ]
-    - [ "LABEL=gitea1", "/var/lib/gitea", "auto", "defaults", "0", "2" ]
+    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
   groups:
     - automation
   users:
@@ -57,7 +56,10 @@ userdata: |
     - cp -a /var/* /mnt/vdb/
     - umount /mnt/vdb && rmdir /mnt/vdb
     - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
+    - echo "LABEL=gitea1   /var/lib/gitea   auto   defaults  0 2" >> /etc/fstab
     - mount /var
+    - mkdir -p /var/lib/gitea
+    - mount /var/lib/gitea
 
 ssl_certs:
   gitea:
