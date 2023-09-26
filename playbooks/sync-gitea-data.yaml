@@ -39,4 +39,4 @@
     delegate_to: gitea2.eco.tsi-dev.otc-service.com
     when:
     - "inventory_hostname == 'gitea1.eco.tsi-dev.otc-service.com'"
-    - "limit_host == 'gitea1"
+    - "limit_host == 'gitea1'"
