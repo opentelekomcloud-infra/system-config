@@ -64,6 +64,7 @@ userdata: |
 ssl_certs:
   gitea:
     - "gitea2.eco.tsi-dev.otc-service.com"
+    - "gitea1.eco.tsi-dev.otc-service.com"
     - "gitea.eco.tsi-dev.otc-service.com"
 gitea_cert: "gitea"
 
