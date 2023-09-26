@@ -305,7 +305,7 @@ all:
         az: "eu-de-01"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBA4L6C0gdxqrbueQf+cEWVHxmZmcewbYCGV5wqEayTXT4ceoktkyzHjOjk4fa91VmE5He+GkC1a88hDnWcwT2+w='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9DX2XE1zWLMK2utKjPz3rYi/uCRwVVm/VGVgvz4JbVB9GD6O+51LirR4s+gJwJIqlHTYAKsGBbWl3mRd5wv48='
     gitea2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.200
       ansible_user: automation
