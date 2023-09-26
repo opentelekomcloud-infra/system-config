@@ -17,7 +17,7 @@
     delegate_to: bridge.eco.tsi-dev.otc-service.com
     register: disable_gitea_sync
 
-  - name: Synchronize gitea data directory
+  - name: Synchronize gitea1 data directory
     ansible.posix.synchronize:
       src: /var/lib/gitea/data/
       dest: /var/lib/gitea/data/
@@ -28,3 +28,15 @@
     when:
     - "inventory_hostname == 'gitea2.eco.tsi-dev.otc-service.com'"
     - "not disable_gitea_sync.stat.exists"
+
+  - name: Synchronize gitea2 data directory
+    ansible.posix.synchronize:
+      src: /var/lib/gitea/data/
+      dest: /var/lib/gitea/data/
+      mode: push
+      archive: yes
+      compress: yes
+    delegate_to: gitea2.eco.tsi-dev.otc-service.com
+    when:
+    - "inventory_hostname == 'gitea1.eco.tsi-dev.otc-service.com'"
+    - "limit_host == 'gitea1"
