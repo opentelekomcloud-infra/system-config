@@ -354,7 +354,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 3.3.0
+    version: 3.6.2
     namespace: falco
   otcinfra2_falco:
     context: otcinfra2
@@ -362,7 +362,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 3.3.0
+    version: 3.6.2
     namespace: falco
   otcci_falco:
     context: otcci
@@ -370,7 +370,7 @@ helm_chart_instances:
     repo_name: falcosecurity
     name: falco
     ref: falcosecurity/falco
-    version: 3.3.0
+    version: 3.6.2
     namespace: falco
   otcinfra_prometheus:
     context: otcinfra
