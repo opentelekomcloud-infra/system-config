@@ -19,3 +19,4 @@ Vagrantfile
 test_inventory
 doc/source/_svg
 data/backups
+.vscode/

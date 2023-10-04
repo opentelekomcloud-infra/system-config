@@ -120,6 +120,7 @@
   /api/elb/ShowL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/viewing_details_of_a_forwarding_policy.html;
   /api/elb/CreateL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/adding_a_forwarding_policy.html;
   /api/elb/UpdateL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/updating_a_forwarding_policy.html;
+  /api/elb/BatchUpdatePoliciesPriority.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/batch_updating_forwarding_policy_priorities.html;
   /api/elb/module_certificates.html /elastic-load-balancing/api-ref/apis_v3/certificate/index.html;
   /api/elb/DeleteCertificate.html /elastic-load-balancing/api-ref/apis_v3/certificate/deleting_a_certificate.html;
   /api/elb/CreateCertificate.html /elastic-load-balancing/api-ref/apis_v3/certificate/creating_a_certificate.html;
@@ -508,6 +509,7 @@
   /en-us/api/elb/ShowL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/viewing_details_of_a_forwarding_policy.html;
   /en-us/api/elb/CreateL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/adding_a_forwarding_policy.html;
   /en-us/api/elb/UpdateL7Policy.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/updating_a_forwarding_policy.html;
+  /en-us/api/elb/BatchUpdatePoliciesPriority.html /elastic-load-balancing/api-ref/apis_v3/forwarding_policy/batch_updating_forwarding_policy_priorities.html;
   /en-us/api/elb/module_certificates.html /elastic-load-balancing/api-ref/apis_v3/certificate/index.html;
   /en-us/api/elb/DeleteCertificate.html /elastic-load-balancing/api-ref/apis_v3/certificate/deleting_a_certificate.html;
   /en-us/api/elb/CreateCertificate.html /elastic-load-balancing/api-ref/apis_v3/certificate/creating_a_certificate.html;

@@ -305,7 +305,7 @@ all:
         az: "eu-de-01"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBA4L6C0gdxqrbueQf+cEWVHxmZmcewbYCGV5wqEayTXT4ceoktkyzHjOjk4fa91VmE5He+GkC1a88hDnWcwT2+w='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBD9DX2XE1zWLMK2utKjPz3rYi/uCRwVVm/VGVgvz4JbVB9GD6O+51LirR4s+gJwJIqlHTYAKsGBbWl3mRd5wv48='
     gitea2.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.150.200
       ansible_user: automation
@@ -315,7 +315,7 @@ all:
         az: "eu-de-02"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEzIRChgeuRUouUD5cCUAqtVhvEExDqY9NkXZk55dYEyvCBsb9NGtts2mnkTgNduIBmd2WThVxEOXPzHCMveaxg='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMwpqYLQ4fhqdGm6NHsDuQIjwpXUJJOSqDRCoPBA4hzwGD67q+2YnSLnxHk78WhFEEhERaA0U4Rpxpt9hkjoG38='
     keycloak1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.90
       ansible_user: automation
@@ -356,16 +356,12 @@ all:
         region: "eu-nl"
       host_keys:
         - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK4YvKbWIxB93UjS+jUdoO9NRZaM5j/AA7FNrC/mnSErfrb/1Ace8ndwbo+Ksj32eXHgOZoapJmmsif10fjjJTY="
-#    graphite3.cloudmon.eco.tsi-dev.otc-service.com:
-#      ansible_host: 80.158.77.76
-#      ansible_user: automation
-#      public_v4: 80.158.77.76
-#      location:
-#        cloud: "otccloudmon-nl"
-#        az: "eu-nl-02"
-#        region: "eu-nl"
-#      host_keys:
-#        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFI/0gY69Pow938VCgiN8fa+gJxxldZ0NT7NAcM4HPyM+5zes40yem3QabYgFMUHe9yWe3BWqhZ8V7HPVPxtpHo="
+    graphite3.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 185.153.106.183
+      ansible_user: automation
+      public_v4: 185.153.106.183
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLSAOHv/U1A2yujkfZJ0CkcvreCx0QyhA4IvUJl4ibvaYjd2UWl5J+EqRS2LJQmpYpSwUocuLcZcxaup7LPTt/o="
     db1.cloudmon.eco.tsi-dev.otc-service.com:
       ansible_host: 80.158.108.184
       ansible_user: automation
@@ -386,16 +382,12 @@ all:
         region: "eu-nl"
       host_keys:
         - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJ5g5fxLAOZ12PDnyshnlEYnpWOdzf9l5YQZ0IP6ec7qMp2SNW5IUH1dQQEkpkc0bJ7Vd2aWjEniIipMKp0PyBA="
-#    db3.cloudmon.eco.tsi-dev.otc-service.com:
-#      ansible_host: 80.158.76.51
-#      ansible_user: automation
-#      public_v4: 80.158.76.51
-#      location:
-#        cloud: "otccloudmon-nl"
-#        az: "eu-nl-02"
-#        region: "eu-nl"
-#      host_keys:
-#        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGxxqEP0nj2PvJDcQsJkQNb7CIUc+tviyKPrUJ5EZLaWFgYzo5B5n8oXbnzdmpJYDFyJbhAoNhByoBkf8kQzPdQ="
+    db3.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 185.153.106.221
+      ansible_user: automation
+      public_v4: 185.153.106.221
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEdES405tffN7FMuJq4jo1SNw4BwWg6f4VDi3s3Lnd1ljlg6WpvWumSsGUqw16BgBg74uh5DiTuCxvmeItaVBGw="
     worker-de-01.cloudmon.eco.tsi-dev.otc-service.com:
       ansible_host: 80.158.108.175
       ansible_user: automation
@@ -436,3 +428,15 @@ all:
         region: "eu-nl"
       host_keys:
         - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMfxlU2m7oJzjTwCBXyGxOpc/cK+fib4fYhBC+Pwk9n8H6ZhocS6WYFWw+t4/9UQSznnkg7a8CDwMGbb/Kh7elE="
+    worker-ch-01.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 185.153.107.194
+      ansible_user: automation
+      public_v4: 185.153.107.194
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGy6CxDccb+NDAdrz8VApCHvbYFKDuUe2OkSVEC3u95s2Cg7x26MBWw4ClI6VT6qfA7AvtOpQOGLkjnq8bctZVw="
+    worker-ch-02.cloudmon.eco.tsi-dev.otc-service.com:
+      ansible_host: 185.153.106.191
+      ansible_user: automation
+      public_v4: 185.153.106.191
+      host_keys:
+        - "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDafEQB5TLyNhSyxkpTCuk/ggfCESKQyhTFOgWvtla9ngRH53EMVrkhdXuvgb8jd6tSrZbfxFdJ3bt8mEEYnPZo="

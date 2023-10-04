@@ -168,11 +168,12 @@ groups:
     - gitea1.eco.tsi-dev.otc-service.com
     - gitea2.eco.tsi-dev.otc-service.com
     - keycloak1.eco.tsi-dev.otc-service.com
-    - cloudmon1.cloudmon.eco.tsi-dev.otc-service.com
     - db1.cloudmon.eco.tsi-dev.otc-service.com
     - db2.cloudmon.eco.tsi-dev.otc-service.com
+    - db3.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite3.cloudmon.eco.tsi-dev.otc-service.com
 
   zookeeper: []
     # - zk1.zuul.eco.tsi-dev.otc-service.com
@@ -197,10 +198,16 @@ groups:
     - cloudmon1.cloudmon.eco.tsi-dev.otc-service.com
     - db1.cloudmon.eco.tsi-dev.otc-service.com
     - db2.cloudmon.eco.tsi-dev.otc-service.com
+    - db3.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite3.cloudmon.eco.tsi-dev.otc-service.com
     - worker-de-01.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-de-02.cloudmon.eco.tsi-dev.otc-service.com
     - worker-nl-01.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-nl-02.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-ch-01.cloudmon.eco.tsi-dev.otc-service.com
+    - worker-ch-02.cloudmon.eco.tsi-dev.otc-service.com
 
   swift:
     - proxy1.swift.eco.tsi-dev.otc-service.com

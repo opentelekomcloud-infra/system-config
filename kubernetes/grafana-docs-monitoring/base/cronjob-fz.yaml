@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-failed-zuul
 spec:
   concurrencyPolicy: Forbid
-  schedule: "15,45 * * * *"
+  schedule: "13,43 * * * *"
   jobTemplate:
     spec:
       template:

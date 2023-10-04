@@ -17,7 +17,7 @@
     delegate_to: bridge.eco.tsi-dev.otc-service.com
     register: disable_gitea_sync
 
-  - name: Synchronize gitea data directory
+  - name: Synchronize gitea1 data directory
     ansible.posix.synchronize:
       src: /var/lib/gitea/data/
       dest: /var/lib/gitea/data/

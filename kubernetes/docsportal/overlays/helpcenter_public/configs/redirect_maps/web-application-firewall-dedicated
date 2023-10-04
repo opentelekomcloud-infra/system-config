@@ -99,6 +99,7 @@
   /api/dwaf/ShowPolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/querying_a_policy_by_id.html;
   /api/dwaf/CreatePolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/creating_a_policy.html;
   /api/dwaf/UpdatePolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/updating_a_policy.html;
+  /bestpractice/waf/ /web-application-firewall-dedicated/best-practice/index.html;
   /usermanual/dwaf/waf_01_0058.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/index.html;
   /usermanual/dwaf/waf_01_0059.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/waf_operations_recorded_by_cts.html;
   /usermanual/dwaf/waf_01_0060.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/viewing_an_audit_trace.html;
@@ -372,6 +373,7 @@
   /en-us/api/dwaf/ShowPolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/querying_a_policy_by_id.html;
   /en-us/api/dwaf/CreatePolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/creating_a_policy.html;
   /en-us/api/dwaf/UpdatePolicy.html /web-application-firewall-dedicated/api-ref/apis/policy_management/updating_a_policy.html;
+  /en-us/bestpractice/waf/ /web-application-firewall-dedicated/best-practice/index.html;
   /en-us/usermanual/dwaf/waf_01_0058.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/index.html;
   /en-us/usermanual/dwaf/waf_01_0059.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/waf_operations_recorded_by_cts.html;
   /en-us/usermanual/dwaf/waf_01_0060.html /web-application-firewall-dedicated/umn/key_operations_recorded_by_cts/viewing_an_audit_trace.html;

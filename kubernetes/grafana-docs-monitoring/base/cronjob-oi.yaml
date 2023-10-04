@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-openissues
 spec:
   concurrencyPolicy: Forbid
-  schedule: "20,50 * * * *"
+  schedule: "15,45 * * * *"
   jobTemplate:
     spec:
       template:
