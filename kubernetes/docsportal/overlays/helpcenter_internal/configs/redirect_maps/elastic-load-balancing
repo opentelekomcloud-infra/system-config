@@ -225,6 +225,7 @@
   /usermanual/elb/elb_pro_0002.html /elastic-load-balancing/umn/service_overview/product_concepts/region_and_az.html;
   /usermanual/elb/elb_pro_0001.html /elastic-load-balancing/umn/service_overview/product_concepts/basic_concepts.html;
   /usermanual/elb/elb_pro_0004.html /elastic-load-balancing/umn/service_overview/differences_between_dedicated_and_shared_load_balancers.html;
+  /en-us/productdesc-elb/elb_pro_0004.html /elastic-load-balancing/umn/service_overview/differences_between_dedicated_and_shared_load_balancers.html;
   /usermanual/elb/elb_pro_0005.html /elastic-load-balancing/umn/service_overview/product_advantages.html;
   /usermanual/elb/en-us_topic_0015479966.html /elastic-load-balancing/umn/service_overview/what_is_elb.html;
   /usermanual/elb/elb_pro_01_0004.html /elastic-load-balancing/umn/service_overview/load_balancing_on_a_public_or_private_network.html;
