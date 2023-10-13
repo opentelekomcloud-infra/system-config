@@ -246,7 +246,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.8.1
+    version: 6.15.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
   otcinfra2_promtail:
@@ -255,7 +255,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.8.1
+    version: 6.15.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
   otcci_promtail:
@@ -264,7 +264,7 @@ helm_chart_instances:
     repo_name: grafana
     name: promtail
     ref: grafana/promtail
-    version: 6.8.1
+    version: 6.15.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
   otcinfra_telegraf:
