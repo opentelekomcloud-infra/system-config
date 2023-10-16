@@ -273,7 +273,7 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
   otcinfra2_telegraf:
@@ -282,7 +282,7 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
   otcinfra_opensearch:
@@ -345,7 +345,7 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
   otcinfra_falco:
