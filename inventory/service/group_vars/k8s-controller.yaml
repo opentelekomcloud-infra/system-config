@@ -389,7 +389,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus-blackbox-exporter
     ref: prometheus-community/prometheus-blackbox-exporter
-    version: 7.1.3
+    version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra-values.yaml.j2"
   otcinfra2_prometheus:
@@ -409,7 +409,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus-blackbox-exporter
     ref: prometheus-community/prometheus-blackbox-exporter
-    version: 7.1.3
+    version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra2-values.yaml.j2"
 
