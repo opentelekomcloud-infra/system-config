@@ -106,7 +106,7 @@ generatorOptions:
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/instance: "helpcenter-swiss-production"
+      app.kubernetes.io/instance: "helpcenter-swiss-beta"
       app.kubernetes.io/managed-by: "kustomize"
 
 images:

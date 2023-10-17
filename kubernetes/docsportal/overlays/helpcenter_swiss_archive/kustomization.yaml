@@ -12,90 +12,6 @@ configMapGenerator:
         redirect_map: "no"
     files:
       - "configs/nginx-site.conf"
-  - name: "additional-resource"
-    files:
-      - "configs/redirect_maps/additional-resources"
-  - name: "application-operations-management"
-    files:
-      - "configs/redirect_maps/application-operations-management"
-  - name: "auto-scaling"
-    files:
-      - "configs/redirect_maps/auto-scaling"
-  - name: "cloud-backup-recovery"
-    files:
-      - "configs/redirect_maps/cloud-backup-recovery"
-  - name: "cloud-container-engine"
-    files:
-      - "configs/redirect_maps/cloud-container-engine"
-  - name: "cloud-eye"
-    files:
-      - "configs/redirect_maps/cloud-eye"
-  - name: "cloud-trace-service"
-    files:
-      - "configs/redirect_maps/cloud-trace-service"
-  - name: "dedicated-host"
-    files:
-      - "configs/redirect_maps/dedicated-host"
-  - name: "direct-connect"
-    files:
-      - "configs/redirect_maps/direct-connect"
-  - name: "domain-name-service"
-    files:
-      - "configs/redirect_maps/domain-name-service"
-  - name: "elastic-cloud-server"
-    files:
-      - "configs/redirect_maps/elastic-cloud-server"
-  - name: "elastic-ip"
-    files:
-      - "configs/redirect_maps/elastic-ip"
-  - name: "elastic-load-balancing"
-    files:
-      - "configs/redirect_maps/elastic-load-balancing"
-  - name: "elastic-volume-service"
-    files:
-      - "configs/redirect_maps/elastic-volume-service"
-  - name: "identity-access-management"
-    files:
-      - "configs/redirect_maps/identity-access-management"
-  - name: "image-management-service"
-    files:
-      - "configs/redirect_maps/image-management-service"
-  - name: "key-management-service"
-    files:
-      - "configs/redirect_maps/key-management-service"
-  - name: "nat-gateway"
-    files:
-      - "configs/redirect_maps/nat-gateway"
-  - name: "object-storage-service"
-    files:
-      - "configs/redirect_maps/object-storage-service"
-  - name: "relational-database-service"
-    files:
-      - "configs/redirect_maps/relational-database-service"
-  - name: "simple-message-notification"
-    files:
-      - "configs/redirect_maps/simple-message-notification"
-  - name: "software-repository-container"
-    files:
-      - "configs/redirect_maps/software-repository-container"
-  - name: "storage-disaster-recovery-service"
-    files:
-      - "configs/redirect_maps/storage-disaster-recovery-service"
-  - name: "tag-management-service"
-    files:
-      - "configs/redirect_maps/tag-management-service"
-  - name: "virtual-private-cloud"
-    files:
-      - "configs/redirect_maps/virtual-private-cloud"
-  - name: "virtual-private-network"
-    files:
-      - "configs/redirect_maps/virtual-private-network"
-  - name: "vpc-endpoint"
-    files:
-      - "configs/redirect_maps/vpc-endpoint"
-  - name: "web-application-firewall-dedicated"
-    files:
-      - "configs/redirect_maps/web-application-firewall-dedicated"
 
 # kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
 # selector
@@ -106,7 +22,7 @@ generatorOptions:
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/instance: "helpcenter-swiss-production"
+      app.kubernetes.io/instance: "helpcenter-swiss-archive"
       app.kubernetes.io/managed-by: "kustomize"
 
 images:
