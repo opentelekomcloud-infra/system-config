@@ -378,7 +378,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus
     ref: prometheus-community/kube-prometheus-stack
-    version: 41.6.1
+    version: 51.8.1
     namespace: monitoring
     values_template: "templates/charts/prometheus/prometheus-otcinfra-values.yaml.j2"
     post_config_template: "templates/charts/prometheus/prometheus-otcinfra-go-neb-post-config.yaml.j2"
@@ -398,7 +398,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus
     ref: prometheus-community/kube-prometheus-stack
-    version: 41.6.1
+    version: 51.8.1
     namespace: monitoring
     values_template: "templates/charts/prometheus/prometheus-otcinfra2-values.yaml.j2"
     post_config_template: "templates/charts/prometheus/prometheus-otcinfra2-go-neb-post-config.yaml.j2"
