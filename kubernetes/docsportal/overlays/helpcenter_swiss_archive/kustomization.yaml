@@ -1,0 +1,61 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: "nginx-config"
+    behavior: "merge"
+    # rather then adding redirect_map: helpcenter to every CM we rather replace
+    # this value for this CM.
+    options:
+      labels:
+        redirect_map: "no"
+    files:
+      - "configs/nginx-site.conf"
+
+# kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
+# selector
+generatorOptions:
+  labels:
+    redirect_map: helpcenter
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "helpcenter-swiss-archive"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "quay.io/opentelekomcloud/nginx-unprivileged"
+    newTag: "1.21.6-alpine"
+  - name: "kiwigrid/k8s-sidecar"
+    newName: "quay.io/kiwigrid/k8s-sidecar"
+    newTag: "1.19.2"
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs-archive.sc.otc.t-systems.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - docs-archive.sc.otc.t-systems.com
+            secretName: helpcenter-swiss-archive-cert
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting
+      version: v1
+
+resources:
+  - ../../base

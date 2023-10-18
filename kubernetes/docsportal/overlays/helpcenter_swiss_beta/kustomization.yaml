@@ -106,7 +106,7 @@ generatorOptions:
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/instance: "helpcenter-swiss-production"
+      app.kubernetes.io/instance: "helpcenter-swiss-beta"
       app.kubernetes.io/managed-by: "kustomize"
 
 images:
@@ -124,7 +124,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs.sc.otc.t-systems.com
+        value: docs-beta.sc.otc.t-systems.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -133,8 +133,8 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs.sc.otc.t-systems.com
-            secretName: helpcenter-swiss-public-cert
+              - docs-beta.sc.otc.t-systems.com
+            secretName: helpcenter-swiss-beta-cert
     target:
       group: networking.k8s.io
       kind: Ingress
