@@ -134,7 +134,7 @@ patches:
         value:
           - hosts:
               - docs-beta.sc.otc.t-systems.com
-            secretName: helpcenter-swiss-public-cert
+            secretName: helpcenter-swiss-beta-cert
     target:
       group: networking.k8s.io
       kind: Ingress
