@@ -481,7 +481,7 @@ use = egg:swift#recon
 [object-expirer]
 # If this true, this expirer will execute tasks from legacy expirer task queue,
 # at least one object server should run with dequeue_from_legacy = true
-# dequeue_from_legacy = false
+dequeue_from_legacy = true
 #
 # Note: Be careful not to enable ``dequeue_from_legacy`` on too many expirers
 # as all legacy tasks are stored in a single hidden account and the same hidden
