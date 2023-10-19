@@ -34,7 +34,7 @@ email_domains = [
     "*"
 ]
 upstreams = [
-    "http://document-hosting:80"
+    "http://document-hosting:8080"
 ]
 session_store_type = "redis"
 redis_connection_url = "redis://redis:6379"
