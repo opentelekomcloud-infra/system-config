@@ -237,7 +237,7 @@ helm_chart_instances:
     repo_name: grafana
     name: loki
     ref: grafana/loki
-    version: 5.5.0
+    version: 5.34.0
     namespace: loki
     values_template: "templates/charts/loki/loki-values.yaml.j2"
   otcinfra_promtail:
