@@ -15,7 +15,7 @@ alertmanager:
       - hosts:
         - "{{ chart.alertmanager_fqdn }}"
         secretName: alertmanager-mon
-  alertamanagerSpec:
+  alertmanagerSpec:
     externalUrl: "https://{{ chart.alertmanager_fqdn }}"
   config:
     route:
