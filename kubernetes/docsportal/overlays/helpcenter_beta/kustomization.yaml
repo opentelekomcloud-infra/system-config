@@ -305,7 +305,6 @@ patches:
                 image: kiwigrid/k8s-sidecar
                 resources:
                   limits:
-                    cpu: "200m"
                     memory: "100Mi"
                   requests:
                     cpu: "10m"
