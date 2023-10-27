@@ -37,11 +37,12 @@ alertmanager:
     - name: "slack-webhook"
       slack_configs:
       - api_url: "{{ chart.slack_webhook_url }}"
-        color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+        color: '{% raw %}{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}{% endraw %}'
         link_names: false
         send_resolved: true
         short_fields: false
         text: |
+          {% raw %}
           {{ range .Alerts }}
             {{- if .Annotations.summary }}
             *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
@@ -51,8 +52,8 @@ alertmanager:
             {{- end }}
             *Cluster:* {{ .Labels.cce_cluster }}
           {{ end }}
-        title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing
-          }}{{ end }}] {{ .CommonLabels.alertname }}'
+          {% endraw %}
+        title: '{% raw %}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing }}{{ end }}] {{ .CommonLabels.alertname }}{% endraw %}'
 prometheus:
   extraSecret:
     name: basic-auth
