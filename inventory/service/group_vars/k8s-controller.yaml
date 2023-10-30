@@ -412,6 +412,17 @@ helm_chart_instances:
     version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra2-values.yaml.j2"
+  otcci_prometheus:
+    context: otcci
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-otcci-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-otcci-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
 
 octavia_proxy_instances:
   eu-nl:
