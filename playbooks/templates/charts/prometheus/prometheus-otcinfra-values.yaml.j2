@@ -42,7 +42,7 @@ alertmanager:
         send_resolved: true
         short_fields: false
         text: |
-          {% raw %}
+{% raw %}
           {{ range .Alerts }}
             {{- if .Annotations.summary }}
             *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
@@ -52,7 +52,7 @@ alertmanager:
             {{- end }}
             *Cluster:* {{ .Labels.cce_cluster }}
           {{ end }}
-          {% endraw %}
+{% endraw %}
         title: '{% raw %}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing }}{{ end }}] {{ .CommonLabels.alertname }}{% endraw %}'
 prometheus:
   extraSecret:
