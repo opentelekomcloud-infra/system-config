@@ -20,14 +20,15 @@ alertmanager:
   config:
     route:
       routes:
-        - receiver: 'null'
-          matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
-        - receiver: "matrix-webhook"
-          matchers:
-            - severity =~ "critical|warning"
-          continue: true
-        - receiver: "slack-webhook"
+      - matchers:
+        - alertname =~ "InfoInhibitor|Watchdog"
+        receiver: "null"
+        continue: false
+      - matchers:
+        - severity =~ "critical|warning"
+        receiver: matrix-webhook
+        continue: true
+      - receiver: slack-webhook
     receivers:
     - name: 'null'
     - name: "matrix-webhook"
@@ -41,8 +42,8 @@ alertmanager:
         link_names: false
         send_resolved: true
         short_fields: false
+{%- raw %}
         text: |
-{% raw %}
           {{ range .Alerts }}
             {{- if .Annotations.summary }}
             *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
