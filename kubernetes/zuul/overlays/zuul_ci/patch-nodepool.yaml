@@ -42,11 +42,10 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: 100m
-              memory: 128Mi
+              memory: "128Mi"
             requests:
               cpu: 5m
-              memory: 64Mi
+              memory: "128Mi"
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-init"
@@ -88,11 +87,10 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              cpu: "50m"
               memory: "64Mi"
             requests:
               cpu: "5m"
-              memory: "32Mi"
+              memory: "64Mi"
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-init"
