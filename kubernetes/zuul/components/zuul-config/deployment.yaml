@@ -44,11 +44,10 @@ spec:
           image: "zuul/nodepool-builder"
           resources:
             limits:
-              cpu: "50m"
               memory: "64Mi"
             requests:
               cpu: "10m"
-              memory: "5Mi"
+              memory: "64Mi"
 
           volumeMounts:
             - name: "zuul-config-data"

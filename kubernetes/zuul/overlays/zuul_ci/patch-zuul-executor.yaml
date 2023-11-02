@@ -36,11 +36,10 @@ spec:
             # zuul executor (ansible) is not able to access file
           resources:
             limits:
-              cpu: "50m"
               memory: "64Mi"
             requests:
               cpu: "5m"
-              memory: "32Mi"
+              memory: "64Mi"
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-vault-base"
