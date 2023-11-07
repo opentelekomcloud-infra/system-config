@@ -17,6 +17,14 @@ alertmanager:
         secretName: alertmanager-mon
   alertmanagerSpec:
     externalUrl: "https://{{ chart.alertmanager_fqdn }}"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: csi-disk
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
   config:
     route:
       routes:
@@ -80,7 +88,15 @@ prometheus:
     externalLabels:
       cce_cluster: otcinfra
     externalUrl: "https://{{ chart.prometheus_fqdn }}"
-    retention: "7d"
+    retention: "14d"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: csi-disk
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 100Gi
     additionalScrapeConfigs:
     - job_name: blackbox_http_2xx
       metrics_path: /probe
@@ -149,6 +165,11 @@ grafana:
         - "{{ chart.grafana_fqdn }}"
         secretName: grafana-mon
   adminPassword: "{{ chart.grafana_admin_password }}"
+  persistence:
+    enabled: true
+    storageClassName: csi-disk
+    size: 5Gi
+    accessModes: ["ReadWriteOnce"]
 defaultRules:
   rules:
     kubeScheduler: false
