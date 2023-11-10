@@ -59,7 +59,9 @@ alertmanager:
             {{- if .Annotations.description }}
             *Description:* {{ .Annotations.description }}
             {{- end }}
+            {{- if and .Labels.cce_cluster (not (match "blackbox_http_.*" .Labels.job)) }}
             *Cluster:* {{ .Labels.cce_cluster }}
+            {{- end }}
           {{ end }}
 {% endraw %}
         title: '{% raw %}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing }}{{ end }}] {{ .CommonLabels.alertname }}{% endraw %}'
@@ -143,7 +145,7 @@ additionalPrometheusRulesMap:
     - name: critical-rules
       rules:
       - alert: ProbeFailing
-        expr: up{job="blackbox"} == 0 or probe_success{job="blackbox"} == 0
+        expr: (up{job=~"blackbox_http.*"} == 0) or (probe_success{job=~"blackbox_http_.*"} == 0)
         for: 2m
         labels:
           severity: critical
