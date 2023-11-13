@@ -356,6 +356,7 @@
 - job:
     name: infra-prod-install-helm-chart
     parent: infra-prod-service-base
+    timeout: 2700
     description: Install HELM instances on k8s clusters
     vars:
       playbook_name: install-helm-chart.yaml
