@@ -32,6 +32,7 @@
   /api/swr/swr_02_0028.html /software-repository-container/api-ref/api/querying_the_list_of_organizations.html;
   /api/swr/swr_02_0046.html /software-repository-container/api-ref/api/creating_image_permissions.html;
   /api/swr/swr_02_0073.html /software-repository-container/api-ref/api/checking_the_existence_of_an_account_used_for_image_sharing.html;
+  /bestpractice/swr/ /software-repository-container/best-practice/index.html;
   /usermanual/swr/ /software-repository-container/umn/index.html;
   /usermanual/swr/swr_01_0006.html /software-repository-container/umn/basics_of_the_container_engine.html;
   /usermanual/swr/swr_faq_index.html /software-repository-container/umn/faqs/index.html;
@@ -98,6 +99,7 @@
   /en-us/api/swr/swr_02_0028.html /software-repository-container/api-ref/api/querying_the_list_of_organizations.html;
   /en-us/api/swr/swr_02_0046.html /software-repository-container/api-ref/api/creating_image_permissions.html;
   /en-us/api/swr/swr_02_0073.html /software-repository-container/api-ref/api/checking_the_existence_of_an_account_used_for_image_sharing.html;
+  /en-us/bestpractice/swr/ /software-repository-container/best-practice/index.html;
   /en-us/usermanual/swr/ /software-repository-container/umn/index.html;
   /en-us/usermanual/swr/swr_01_0006.html /software-repository-container/umn/basics_of_the_container_engine.html;
   /en-us/usermanual/swr/swr_faq_index.html /software-repository-container/umn/faqs/index.html;

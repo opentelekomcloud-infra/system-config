@@ -1,7 +1,7 @@
   /api/obs/ /object-storage-service/api-ref/index.html;
   /api/obs/obs_04_0113.html /object-storage-service/api-ref/appendixes/index.html;
   /api/obs/obs_04_0114.html /object-storage-service/api-ref/appendixes/status_codes.html;
-  /api/obs/obs_04_0117.html /object-storage-service/api-ref/appendixes/obtaining_the_domain_id_and_user_id.html;
+  /api/obs/obs_04_0117.html /object-storage-service/api-ref/appendixes/obtaining_a_domain_id_and_a_user_id.html;
   /api/obs/obs_04_0116.html /object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html;
   /api/obs/obs_04_0118.html /object-storage-service/api-ref/appendixes/consistency_of_concurrent_operations.html;
   /api/obs/obs_04_0006.html /object-storage-service/api-ref/calling_apis/index.html;
@@ -22,6 +22,7 @@
   /api/obs/obs_04_0002.html /object-storage-service/api-ref/before_you_start/api_calling.html;
   /api/obs/obs_04_0018.html /object-storage-service/api-ref/apis/index.html;
   /api/obs/obs_04_0079.html /object-storage-service/api-ref/apis/operations_on_objects/index.html;
+  /api/obs/obs_04_0166.html /object-storage-service/api-ref/apis/operations_on_objects/configuring_worm_retention_for_an_object.html;
   /api/obs/obs_04_0092.html /object-storage-service/api-ref/apis/operations_on_objects/modifying_an_object.html;
   /api/obs/obs_04_0081.html /object-storage-service/api-ref/apis/operations_on_objects/uploading_objects_post.html;
   /api/obs/obs_04_0089.html /object-storage-service/api-ref/apis/operations_on_objects/configuring_an_object_acl.html;
@@ -41,6 +42,7 @@
   /api/obs/obs_04_0027.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_bucket_policy.html;
   /api/obs/obs_04_0036.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_lifecycle_rules.html;
   /api/obs/obs_04_0035.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_lifecycle_configuration.html;
+  /api/obs/obs_04_0168.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_default_worm_policy_of_a_bucket.html;
   /api/obs/obs_04_0032.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_logging_for_a_bucket.html;
   /api/obs/obs_04_0045.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_storage_class_information.html;
   /api/obs/obs_04_0052.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_bucket_storage_quota.html;
@@ -49,9 +51,9 @@
   /api/obs/obs_04_0051.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_tags.html;
   /api/obs/obs_04_0048.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_the_cross-region_replication_configuration_of_a_bucket.html;
   /api/obs/obs_04_0040.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_event_notification_configuration_of_a_bucket.html;
-  /api/obs/obs_04_0054.html /object-storage-service/api-ref/apis/advanced_bucket_settings/querying_information_about_used_space_in_a_bucket.html;
   /api/obs/obs_04_0031.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_acl_information.html;
   /api/obs/obs_04_0039.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_event_notification_for_a_bucket.html;
+  /api/obs/obs_04_0167.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_default_worm_policy_for_a_bucket.html;
   /api/obs/obs_04_0059.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_custom_domain_name_for_a_bucket.html;
   /api/obs/obs_04_0069.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_requester-pays_configuration_information_of_a_bucket.html;
   /api/obs/obs_04_0053.html /object-storage-service/api-ref/apis/advanced_bucket_settings/querying_bucket_storage_quota.html;
@@ -59,6 +61,7 @@
   /api/obs/obs_04_0046.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_cross-region_replication_for_a_bucket.html;
   /api/obs/obs_04_0063.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_encryption_configuration.html;
   /api/obs/obs_04_0029.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_a_bucket_policy.html;
+  /api/obs/obs_04_0054.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_storage_information_of_a_bucket.html;
   /api/obs/obs_04_0028.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_policy_information.html;
   /api/obs/obs_04_0044.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_storage_class_for_a_bucket.html;
   /api/obs/obs_04_0033.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_a_bucket_logging_configuration.html;
@@ -71,18 +74,18 @@
   /api/obs/obs_04_0049.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_tags_for_a_bucket.html;
   /api/obs/obs_04_0050.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_tags.html;
   /api/obs/obs_04_0096.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/index.html;
-  /api/obs/obs_04_0099.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/multipart_upload.html;
-  /api/obs/obs_04_0101.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_uploaded_parts_of_an_object.html;
-  /api/obs/obs_04_0100.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/uploading_a_part_of_an_object_copy.html;
   /api/obs/obs_04_0103.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/canceling_a_multipart_upload_task.html;
+  /api/obs/obs_04_0101.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_uploaded_parts.html;
+  /api/obs/obs_04_0099.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/uploading_parts.html;
   /api/obs/obs_04_0102.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/completing_a_multipart_upload.html;
+  /api/obs/obs_04_0100.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/copying_parts.html;
   /api/obs/obs_04_0097.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_initiated_multipart_uploads_in_a_bucket.html;
   /api/obs/obs_04_0098.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/initiating_a_multipart_upload.html;
   /api/obs/obs_04_0104.html /object-storage-service/api-ref/apis/server-side_encryption/index.html;
-  /api/obs/obs_04_0107.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_sse-c.html;
   /api/obs/obs_04_0105.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_overview.html;
   /api/obs/obs_04_0108.html /object-storage-service/api-ref/apis/server-side_encryption/api_operations_related_to_server-side_encryption.html;
-  /api/obs/obs_04_0106.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_sse-kms.html;
+  /api/obs/obs_04_0106.html /object-storage-service/api-ref/apis/server-side_encryption/sse-kms.html;
+  /api/obs/obs_04_0107.html /object-storage-service/api-ref/apis/server-side_encryption/sse-c.html;
   /api/obs/obs_04_0070.html /object-storage-service/api-ref/apis/static_website_hosting/index.html;
   /api/obs/obs_04_0074.html /object-storage-service/api-ref/apis/static_website_hosting/configuring_bucket_cors.html;
   /api/obs/obs_04_0075.html /object-storage-service/api-ref/apis/static_website_hosting/obtaining_the_cors_configuration_of_a_bucket.html;
@@ -104,6 +107,7 @@
   /api/obs/obs_04_0014.html /object-storage-service/api-ref/getting_started/index.html;
   /api/obs/obs_04_0016.html /object-storage-service/api-ref/getting_started/listing_buckets.html;
   /api/obs/obs_04_0015.html /object-storage-service/api-ref/getting_started/creating_a_bucket.html;
+  /bestpractice/obs/ /object-storage-service/best-practice/index.html;
   /pfs/obs/ /object-storage-service/parallel-file-system/index.html;
   /pfs/obs/obs_13_1000.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/index.html;
   /pfs/obs/obs_13_0002.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/creating_a_parallel_file_system.html;
@@ -434,7 +438,6 @@
   /usermanual/obs/obs_03_0100.html /object-storage-service/umn/faqs/obs_basics/what_are_factors_that_affect_the_upload_and_download_speed_of_obs.html;
   /usermanual/obs/obs_faq_0009.html /object-storage-service/umn/faqs/obs_basics/which_types_of_data_can_be_stored_in_obs.html;
   /usermanual/obs/obs_faq_0141.html /object-storage-service/umn/faqs/obs_basics/does_obs_provide_multi-az_reliability.html;
-  /usermanual/obs/obs_faq_0123.html /object-storage-service/umn/faqs/obs_basics/what_is_the_relationship_between_obs_bucket_names_and_obs_domain_names.html;
   /usermanual/obs/obs_03_0138.html /object-storage-service/umn/faqs/obs_basics/why_did_some_of_my_data_stored_on_obs_get_lost.html;
   /usermanual/obs/obs_faq_0124.html /object-storage-service/umn/faqs/obs_basics/how_do_i_obtain_an_obs_endpoint.html;
   /usermanual/obs/obs_faq_0032.html /object-storage-service/umn/faqs/obs_basics/how_can_i_get_started_using_obs.html;
@@ -634,7 +637,7 @@
   /usermanual/obs/obs_03_0096.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/authorizing_folder_access_permissions_to_anonymous_users.html;
   /usermanual/obs/obs_03_0081.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/granting_other_accounts_with_the_operation_permissions_for_a_specified_bucket.html;
   /usermanual/obs/obs_03_0131.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/configuring_the_start_time_and_end_time_of_access_to_objects_in_a_bucket.html;
-  /usermanual/obs/obs_03_0132.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/authorizing_access_permissions_to_anonymous_users.html;
+  /usermanual/obs/obs_03_0132.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/granting_object_access_permissions_to_anonymous_users.html;
   /usermanual/obs/obs_03_0328.html /object-storage-service/umn/obs_console_operation_guide/logging/index.html;
   /usermanual/obs/obs_03_0329.html /object-storage-service/umn/obs_console_operation_guide/logging/configuring_access_logging_for_a_bucket.html;
   /usermanual/obs/en-us_topic_0045853553.html /object-storage-service/umn/obs_console_operation_guide/logging/logging_overview.html;
@@ -665,7 +668,7 @@
   /en-us/api/obs/ /object-storage-service/api-ref/index.html;
   /en-us/api/obs/obs_04_0113.html /object-storage-service/api-ref/appendixes/index.html;
   /en-us/api/obs/obs_04_0114.html /object-storage-service/api-ref/appendixes/status_codes.html;
-  /en-us/api/obs/obs_04_0117.html /object-storage-service/api-ref/appendixes/obtaining_the_domain_id_and_user_id.html;
+  /en-us/api/obs/obs_04_0117.html /object-storage-service/api-ref/appendixes/obtaining_a_domain_id_and_a_user_id.html;
   /en-us/api/obs/obs_04_0116.html /object-storage-service/api-ref/appendixes/obtaining_access_keys_ak_sk.html;
   /en-us/api/obs/obs_04_0118.html /object-storage-service/api-ref/appendixes/consistency_of_concurrent_operations.html;
   /en-us/api/obs/obs_04_0006.html /object-storage-service/api-ref/calling_apis/index.html;
@@ -686,6 +689,7 @@
   /en-us/api/obs/obs_04_0002.html /object-storage-service/api-ref/before_you_start/api_calling.html;
   /en-us/api/obs/obs_04_0018.html /object-storage-service/api-ref/apis/index.html;
   /en-us/api/obs/obs_04_0079.html /object-storage-service/api-ref/apis/operations_on_objects/index.html;
+  /en-us/api/obs/obs_04_0166.html /object-storage-service/api-ref/apis/operations_on_objects/configuring_worm_retention_for_an_object.html;
   /en-us/api/obs/obs_04_0092.html /object-storage-service/api-ref/apis/operations_on_objects/modifying_an_object.html;
   /en-us/api/obs/obs_04_0081.html /object-storage-service/api-ref/apis/operations_on_objects/uploading_objects_post.html;
   /en-us/api/obs/obs_04_0089.html /object-storage-service/api-ref/apis/operations_on_objects/configuring_an_object_acl.html;
@@ -705,6 +709,7 @@
   /en-us/api/obs/obs_04_0027.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_bucket_policy.html;
   /en-us/api/obs/obs_04_0036.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_lifecycle_rules.html;
   /en-us/api/obs/obs_04_0035.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_lifecycle_configuration.html;
+  /en-us/api/obs/obs_04_0168.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_default_worm_policy_of_a_bucket.html;
   /en-us/api/obs/obs_04_0032.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_logging_for_a_bucket.html;
   /en-us/api/obs/obs_04_0045.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_storage_class_information.html;
   /en-us/api/obs/obs_04_0052.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_bucket_storage_quota.html;
@@ -713,9 +718,9 @@
   /en-us/api/obs/obs_04_0051.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_tags.html;
   /en-us/api/obs/obs_04_0048.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_the_cross-region_replication_configuration_of_a_bucket.html;
   /en-us/api/obs/obs_04_0040.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_event_notification_configuration_of_a_bucket.html;
-  /en-us/api/obs/obs_04_0054.html /object-storage-service/api-ref/apis/advanced_bucket_settings/querying_information_about_used_space_in_a_bucket.html;
   /en-us/api/obs/obs_04_0031.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_acl_information.html;
   /en-us/api/obs/obs_04_0039.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_event_notification_for_a_bucket.html;
+  /en-us/api/obs/obs_04_0167.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_default_worm_policy_for_a_bucket.html;
   /en-us/api/obs/obs_04_0059.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_a_custom_domain_name_for_a_bucket.html;
   /en-us/api/obs/obs_04_0069.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_the_requester-pays_configuration_information_of_a_bucket.html;
   /en-us/api/obs/obs_04_0053.html /object-storage-service/api-ref/apis/advanced_bucket_settings/querying_bucket_storage_quota.html;
@@ -723,6 +728,7 @@
   /en-us/api/obs/obs_04_0046.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_cross-region_replication_for_a_bucket.html;
   /en-us/api/obs/obs_04_0063.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_encryption_configuration.html;
   /en-us/api/obs/obs_04_0029.html /object-storage-service/api-ref/apis/advanced_bucket_settings/deleting_a_bucket_policy.html;
+  /en-us/api/obs/obs_04_0054.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_storage_information_of_a_bucket.html;
   /en-us/api/obs/obs_04_0028.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_policy_information.html;
   /en-us/api/obs/obs_04_0044.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_storage_class_for_a_bucket.html;
   /en-us/api/obs/obs_04_0033.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_a_bucket_logging_configuration.html;
@@ -735,18 +741,18 @@
   /en-us/api/obs/obs_04_0049.html /object-storage-service/api-ref/apis/advanced_bucket_settings/configuring_tags_for_a_bucket.html;
   /en-us/api/obs/obs_04_0050.html /object-storage-service/api-ref/apis/advanced_bucket_settings/obtaining_bucket_tags.html;
   /en-us/api/obs/obs_04_0096.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/index.html;
-  /en-us/api/obs/obs_04_0099.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/multipart_upload.html;
-  /en-us/api/obs/obs_04_0101.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_uploaded_parts_of_an_object.html;
-  /en-us/api/obs/obs_04_0100.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/uploading_a_part_of_an_object_copy.html;
   /en-us/api/obs/obs_04_0103.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/canceling_a_multipart_upload_task.html;
+  /en-us/api/obs/obs_04_0101.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_uploaded_parts.html;
+  /en-us/api/obs/obs_04_0099.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/uploading_parts.html;
   /en-us/api/obs/obs_04_0102.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/completing_a_multipart_upload.html;
+  /en-us/api/obs/obs_04_0100.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/copying_parts.html;
   /en-us/api/obs/obs_04_0097.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/listing_initiated_multipart_uploads_in_a_bucket.html;
   /en-us/api/obs/obs_04_0098.html /object-storage-service/api-ref/apis/operations_on_multipart_upload/initiating_a_multipart_upload.html;
   /en-us/api/obs/obs_04_0104.html /object-storage-service/api-ref/apis/server-side_encryption/index.html;
-  /en-us/api/obs/obs_04_0107.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_sse-c.html;
   /en-us/api/obs/obs_04_0105.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_overview.html;
   /en-us/api/obs/obs_04_0108.html /object-storage-service/api-ref/apis/server-side_encryption/api_operations_related_to_server-side_encryption.html;
-  /en-us/api/obs/obs_04_0106.html /object-storage-service/api-ref/apis/server-side_encryption/server-side_encryption_sse-kms.html;
+  /en-us/api/obs/obs_04_0106.html /object-storage-service/api-ref/apis/server-side_encryption/sse-kms.html;
+  /en-us/api/obs/obs_04_0107.html /object-storage-service/api-ref/apis/server-side_encryption/sse-c.html;
   /en-us/api/obs/obs_04_0070.html /object-storage-service/api-ref/apis/static_website_hosting/index.html;
   /en-us/api/obs/obs_04_0074.html /object-storage-service/api-ref/apis/static_website_hosting/configuring_bucket_cors.html;
   /en-us/api/obs/obs_04_0075.html /object-storage-service/api-ref/apis/static_website_hosting/obtaining_the_cors_configuration_of_a_bucket.html;
@@ -768,6 +774,7 @@
   /en-us/api/obs/obs_04_0014.html /object-storage-service/api-ref/getting_started/index.html;
   /en-us/api/obs/obs_04_0016.html /object-storage-service/api-ref/getting_started/listing_buckets.html;
   /en-us/api/obs/obs_04_0015.html /object-storage-service/api-ref/getting_started/creating_a_bucket.html;
+  /en-us/bestpractice/obs/ /object-storage-service/best-practice/index.html;
   /en-us/pfs/obs/ /object-storage-service/parallel-file-system/index.html;
   /en-us/pfs/obs/obs_13_1000.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/index.html;
   /en-us/pfs/obs/obs_13_0002.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/creating_a_parallel_file_system.html;
@@ -1098,7 +1105,6 @@
   /en-us/usermanual/obs/obs_03_0100.html /object-storage-service/umn/faqs/obs_basics/what_are_factors_that_affect_the_upload_and_download_speed_of_obs.html;
   /en-us/usermanual/obs/obs_faq_0009.html /object-storage-service/umn/faqs/obs_basics/which_types_of_data_can_be_stored_in_obs.html;
   /en-us/usermanual/obs/obs_faq_0141.html /object-storage-service/umn/faqs/obs_basics/does_obs_provide_multi-az_reliability.html;
-  /en-us/usermanual/obs/obs_faq_0123.html /object-storage-service/umn/faqs/obs_basics/what_is_the_relationship_between_obs_bucket_names_and_obs_domain_names.html;
   /en-us/usermanual/obs/obs_03_0138.html /object-storage-service/umn/faqs/obs_basics/why_did_some_of_my_data_stored_on_obs_get_lost.html;
   /en-us/usermanual/obs/obs_faq_0124.html /object-storage-service/umn/faqs/obs_basics/how_do_i_obtain_an_obs_endpoint.html;
   /en-us/usermanual/obs/obs_faq_0032.html /object-storage-service/umn/faqs/obs_basics/how_can_i_get_started_using_obs.html;
@@ -1298,7 +1304,7 @@
   /en-us/usermanual/obs/obs_03_0096.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/authorizing_folder_access_permissions_to_anonymous_users.html;
   /en-us/usermanual/obs/obs_03_0081.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/granting_other_accounts_with_the_operation_permissions_for_a_specified_bucket.html;
   /en-us/usermanual/obs/obs_03_0131.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/configuring_the_start_time_and_end_time_of_access_to_objects_in_a_bucket.html;
-  /en-us/usermanual/obs/obs_03_0132.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/authorizing_access_permissions_to_anonymous_users.html;
+  /en-us/usermanual/obs/obs_03_0132.html /object-storage-service/umn/obs_console_operation_guide/permission_control/application_cases/granting_object_access_permissions_to_anonymous_users.html;
   /en-us/usermanual/obs/obs_03_0328.html /object-storage-service/umn/obs_console_operation_guide/logging/index.html;
   /en-us/usermanual/obs/obs_03_0329.html /object-storage-service/umn/obs_console_operation_guide/logging/configuring_access_logging_for_a_bucket.html;
   /en-us/usermanual/obs/en-us_topic_0045853553.html /object-storage-service/umn/obs_console_operation_guide/logging/logging_overview.html;

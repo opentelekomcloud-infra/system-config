@@ -180,6 +180,7 @@
   /api/evs/evs_04_3049.html /elastic-volume-service/api-ref/unrecommended_apis/openstack_cinder_api_v3/evs_disk_actions/setting_bootable_flag_for_an_evs_disk.html;
   /api/evs/evs_04_0053.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/index.html;
   /api/evs/evs_04_0054.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/querying_task_status.html;
+  /bestpractice/evs/ /elastic-volume-service/best-practice/index.html;
   /devg/evs/evs_03_0003.html /elastic-volume-service/dev-guide/creating_evs_disks.html;
   /devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;
@@ -495,6 +496,7 @@
   /en-us/api/evs/evs_04_3049.html /elastic-volume-service/api-ref/unrecommended_apis/openstack_cinder_api_v3/evs_disk_actions/setting_bootable_flag_for_an_evs_disk.html;
   /en-us/api/evs/evs_04_0053.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/index.html;
   /en-us/api/evs/evs_04_0054.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/querying_task_status.html;
+  /en-us/bestpractice/evs/ /elastic-volume-service/best-practice/index.html;
   /en-us/devg/evs/evs_03_0003.html /elastic-volume-service/dev-guide/creating_evs_disks.html;
   /en-us/devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /en-us/devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;

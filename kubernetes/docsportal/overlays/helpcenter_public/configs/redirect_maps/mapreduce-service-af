@@ -1,3 +1,9 @@
+  /en-us/usermanual/mrs/mrs_08_0010.html /mapreduce-service/umn/overview/components/hbase/index.html;
+  /en-us/usermanual/mrs/mrs_08_00103.html /mapreduce-service/umn/overview/components/hbase/relationship_with_other_components.html;
+  /en-us/usermanual/mrs/mrs_08_00104.html /mapreduce-service/umn/overview/components/hbase/hbase_enhanced_open_source_features.html;
+  /en-us/usermanual/mrs/mrs_08_00101.html /mapreduce-service/umn/overview/components/hbase/hbase_basic_principles.html;
+  /en-us/usermanual/mrs/mrs_08_00102.html /mapreduce-service/umn/overview/components/hbase/hbase_ha_solution.html;
+  /en-us/usermanual/mrs/mrs_08_0066.html /mapreduce-service/umn/overview/components/manager/index.html;
   /en-us/usermanual/mrs/mrs_08_00661.html /mapreduce-service/umn/overview/components/manager/manager_basic_principles.html;
   /en-us/usermanual/mrs/mrs_08_00662.html /mapreduce-service/umn/overview/components/manager/manager_key_features.html;
   /en-us/usermanual/mrs/mrs_08_00681.html /mapreduce-service/umn/overview/components/hetuengine/hetuengine_product_overview.html;
@@ -992,9 +998,3 @@
   /en-us/usermanual/mrs/en-us_topic_0000001442653893.html /mapreduce-service/umn/faq/mrs_overview/is_the_storm_log_also_limited_to_20_gb_in_mrs_cluster_2.html;
   /en-us/usermanual/mrs/mrs_03_2022.html /mapreduce-service/umn/faq/mrs_overview/statement_about_the_public_ip_addresses_in_the_open-source_third-party_sdk_integrated_by_mrs.html;
   /en-us/usermanual/mrs/mrs_03_1202.html /mapreduce-service/umn/faq/mrs_overview/why_are_the_hdfs_yarn_and_mapreduce_components_unavailable_when_an_mrs_cluster_is_created.html;
-  /en-us/usermanual/mrs/mrs_03_1155.html /mapreduce-service/umn/faq/mrs_overview/can_i_clear_mrs_sudo_logs.html;
-  /en-us/usermanual/mrs/mrs_03_1221.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_enable_different_service_programs_to_use_different_yarn_queues.html;
-  /en-us/usermanual/mrs/mrs_03_1246.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_unbind_an_eip_from_an_mrs_cluster_node.html;
-  /en-us/usermanual/mrs/mrs_03_1065.html /mapreduce-service/umn/faq/mrs_overview/what_is_the_relationship_between_impala_and_other_components.html;
-  /en-us/usermanual/mrs/mrs_03_1204.html /mapreduce-service/umn/faq/mrs_overview/why_is_the_zookeeper_component_unavailable_when_an_mrs_cluster_is_created.html;
-  /en-us/usermanual/mrs/mrs_03_1012.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_create_an_mrs_cluster_using_a_custom_security_group.html;
