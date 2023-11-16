@@ -190,6 +190,7 @@
   /api/vpc/vpc_eip_0002.html /virtual-private-cloud/api-ref/apis/elastic_ip/querying_an_eip.html;
   /api/vpc/vpc_eip_0004.html /virtual-private-cloud/api-ref/apis/elastic_ip/updating_an_eip.html;
   /api/vpc/en-us_topic_0020090596.html /virtual-private-cloud/api-ref/apis/elastic_ip/assigning_an_eip.html;
+  /bestpractice/vpc/ /virtual-private-cloud/best-practice/index.html;
   /usermanual/vpc/vpc_route01_0000.html /virtual-private-cloud/umn/route_tables/index.html;
   /usermanual/vpc/vpc_route01_0010.html /virtual-private-cloud/umn/route_tables/deleting_a_route_table.html;
   /usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/exporting_route_table_information.html;
@@ -580,6 +581,7 @@
   /en-us/api/vpc/vpc_eip_0002.html /virtual-private-cloud/api-ref/apis/elastic_ip/querying_an_eip.html;
   /en-us/api/vpc/vpc_eip_0004.html /virtual-private-cloud/api-ref/apis/elastic_ip/updating_an_eip.html;
   /en-us/api/vpc/en-us_topic_0020090596.html /virtual-private-cloud/api-ref/apis/elastic_ip/assigning_an_eip.html;
+  /en-us/bestpractice/vpc/ /virtual-private-cloud/best-practice/index.html;
   /en-us/usermanual/vpc/vpc_route01_0000.html /virtual-private-cloud/umn/route_tables/index.html;
   /en-us/usermanual/vpc/vpc_route01_0010.html /virtual-private-cloud/umn/route_tables/deleting_a_route_table.html;
   /en-us/usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/exporting_route_table_information.html;

@@ -1,3 +1,9 @@
+  /en-us/cmpntguide-lts/mrs/mrs_01_1846.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/oozie_scheduled_tasks_are_not_executed_on_time.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1845.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/how_do_i_resolve_the_problem_that_the_oozie_client_fails_to_submit_a_mapreduce_job.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1812.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/index.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1814.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_spark2x_job.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1816.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_other_jobs.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_2392.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_distcp_job.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1815.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_loader_job.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1813.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_hive_job.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_0591.html /mapreduce-service/operation-guide-lts/using_flink/index.html;
@@ -992,9 +998,3 @@
   /en-us/usermanual/mrs/mrs_08_00122.html /mapreduce-service/umn/overview/components/hue/relationship_between_hue_and_other_components.html;
   /en-us/usermanual/mrs/mrs_08_00123.html /mapreduce-service/umn/overview/components/hue/hue_enhanced_open_source_features.html;
   /en-us/usermanual/mrs/mrs_08_00121.html /mapreduce-service/umn/overview/components/hue/hue_basic_principles.html;
-  /en-us/usermanual/mrs/mrs_08_0010.html /mapreduce-service/umn/overview/components/hbase/index.html;
-  /en-us/usermanual/mrs/mrs_08_00103.html /mapreduce-service/umn/overview/components/hbase/relationship_with_other_components.html;
-  /en-us/usermanual/mrs/mrs_08_00104.html /mapreduce-service/umn/overview/components/hbase/hbase_enhanced_open_source_features.html;
-  /en-us/usermanual/mrs/mrs_08_00101.html /mapreduce-service/umn/overview/components/hbase/hbase_basic_principles.html;
-  /en-us/usermanual/mrs/mrs_08_00102.html /mapreduce-service/umn/overview/components/hbase/hbase_ha_solution.html;
-  /en-us/usermanual/mrs/mrs_08_0066.html /mapreduce-service/umn/overview/components/manager/index.html;

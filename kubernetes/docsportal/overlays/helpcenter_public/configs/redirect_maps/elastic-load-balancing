@@ -204,6 +204,7 @@
   /api/elb/elb_zq_bq_0003.html /elastic-load-balancing/api-ref/apis_v2.html;
   /api/elb/elb_zq_bq_0008.html /elastic-load-balancing/api-ref/apis_v2.html;
   /api/elb/elb_zq_bq_0006.html /elastic-load-balancing/api-ref/apis_v2.html;
+  /bestpractice/elb/ /elastic-load-balancing/best-practice/index.html;
   /usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /usermanual/elb/elb_ug_jk_0000.html /elastic-load-balancing/umn/monitoring/index.html;
   /usermanual/elb/elb_ug_jk_0001.html /elastic-load-balancing/umn/monitoring/monitoring_metrics.html;
@@ -593,6 +594,7 @@
   /en-us/api/elb/elb_zq_bq_0003.html /elastic-load-balancing/api-ref/apis_v2.html;
   /en-us/api/elb/elb_zq_bq_0008.html /elastic-load-balancing/api-ref/apis_v2.html;
   /en-us/api/elb/elb_zq_bq_0006.html /elastic-load-balancing/api-ref/apis_v2.html;
+  /en-us/bestpractice/elb/ /elastic-load-balancing/best-practice/index.html;
   /en-us/usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /en-us/usermanual/elb/elb_ug_jk_0000.html /elastic-load-balancing/umn/monitoring/index.html;
   /en-us/usermanual/elb/elb_ug_jk_0001.html /elastic-load-balancing/umn/monitoring/monitoring_metrics.html;

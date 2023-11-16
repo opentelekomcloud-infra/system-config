@@ -176,6 +176,7 @@
   /api/iam/iam_02_0114.html /identity-access-management/api-ref/apis/tenant_management/querying_a_resource_quota.html;
   /api/iam/en-us_topic_0057845574.html /identity-access-management/api-ref/apis/tenant_management/querying_the_list_of_domains_accessible_to_users.html;
   /api/iam/iam_02_0113.html /identity-access-management/api-ref/apis/tenant_management/querying_the_password_strength_policy_by_option.html;
+  /bestpractice/iam/ /identity-access-management/best-practice/index.html;
   /usermanual/ac/ /identity-access-management/mycredential/index.html;
   /permissions/permissions.html /identity-access-management/permissions/permissions.html;
   /permissions/ /identity-access-management/permissions/index.html;
@@ -442,6 +443,7 @@
   /en-us/api/iam/iam_02_0114.html /identity-access-management/api-ref/apis/tenant_management/querying_a_resource_quota.html;
   /en-us/api/iam/en-us_topic_0057845574.html /identity-access-management/api-ref/apis/tenant_management/querying_the_list_of_domains_accessible_to_users.html;
   /en-us/api/iam/iam_02_0113.html /identity-access-management/api-ref/apis/tenant_management/querying_the_password_strength_policy_by_option.html;
+  /en-us/bestpractice/iam/ /identity-access-management/best-practice/index.html;
   /en-us/usermanual/ac/ /identity-access-management/mycredential/index.html;
   /en-us/permissions/permissions.html /identity-access-management/permissions/permissions.html;
   /en-us/permissions/ /identity-access-management/permissions/index.html;
