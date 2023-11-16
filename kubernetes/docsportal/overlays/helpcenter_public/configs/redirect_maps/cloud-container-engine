@@ -2,6 +2,7 @@
   /api2/cce/cce_02_0083.html /cloud-container-engine/api-ref/appendix/index.html;
   /api2/cce/cce_02_0342.html /cloud-container-engine/api-ref/appendix/obtaining_the_account_id.html;
   /api2/cce/cce_02_0271.html /cloud-container-engine/api-ref/appendix/how_to_obtain_parameters_in_the_api_uri.html;
+  /api2/cce/cce_02_0368.html /cloud-container-engine/api-ref/appendix/node_flavor_description.html;
   /api2/cce/cce_02_0341.html /cloud-container-engine/api-ref/appendix/obtaining_a_project_id.html;
   /api2/cce/cce_02_0272.html /cloud-container-engine/api-ref/appendix/api_permissions.html;
   /api2/cce/cce_02_0250.html /cloud-container-engine/api-ref/appendix/error_codes.html;
@@ -56,6 +57,7 @@
   /api2/cce/cce_02_0349.html /cloud-container-engine/api-ref/apis/api_version_query/querying_all_api_versions.html;
   /api2/cce/cce_02_0350.html /cloud-container-engine/api-ref/apis/api_version_query/querying_information_about_api_v3.html;
   /api2/cce/cce_02_0327.html /cloud-container-engine/api-ref/permissions_policies_and_supported_actions.html;
+  /bestpractice/cce/ /cloud-container-engine/best-practice/index.html;
   /usermanual2/cce/ /cloud-container-engine/umn/index.html;
   /usermanual2/cce/cce_bulletin_0000.html /cloud-container-engine/umn/product_bulletin/index.html;
   /usermanual2/cce/cce_bulletin_0068.html /cloud-container-engine/umn/product_bulletin/cce_cluster_version_release_notes.html;
@@ -447,6 +449,7 @@
   /en-us/api2/cce/cce_02_0083.html /cloud-container-engine/api-ref/appendix/index.html;
   /en-us/api2/cce/cce_02_0342.html /cloud-container-engine/api-ref/appendix/obtaining_the_account_id.html;
   /en-us/api2/cce/cce_02_0271.html /cloud-container-engine/api-ref/appendix/how_to_obtain_parameters_in_the_api_uri.html;
+  /en-us/api2/cce/cce_02_0368.html /cloud-container-engine/api-ref/appendix/node_flavor_description.html;
   /en-us/api2/cce/cce_02_0341.html /cloud-container-engine/api-ref/appendix/obtaining_a_project_id.html;
   /en-us/api2/cce/cce_02_0272.html /cloud-container-engine/api-ref/appendix/api_permissions.html;
   /en-us/api2/cce/cce_02_0250.html /cloud-container-engine/api-ref/appendix/error_codes.html;
@@ -501,6 +504,7 @@
   /en-us/api2/cce/cce_02_0349.html /cloud-container-engine/api-ref/apis/api_version_query/querying_all_api_versions.html;
   /en-us/api2/cce/cce_02_0350.html /cloud-container-engine/api-ref/apis/api_version_query/querying_information_about_api_v3.html;
   /en-us/api2/cce/cce_02_0327.html /cloud-container-engine/api-ref/permissions_policies_and_supported_actions.html;
+  /en-us/bestpractice/cce/ /cloud-container-engine/best-practice/index.html;
   /en-us/usermanual2/cce/ /cloud-container-engine/umn/index.html;
   /en-us/usermanual2/cce/cce_bulletin_0000.html /cloud-container-engine/umn/product_bulletin/index.html;
   /en-us/usermanual2/cce/cce_bulletin_0068.html /cloud-container-engine/umn/product_bulletin/cce_cluster_version_release_notes.html;

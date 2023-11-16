@@ -74,6 +74,7 @@
   /api/css/css_03_0034.html /cloud-search-service/api-ref/snapshot_management_apis/querying_the_list_of_snapshots.html;
   /api/css/css_03_0031.html /cloud-search-service/api-ref/snapshot_management_apis/setting_the_automatic_snapshot_creation_policy.html;
   /api/css/css_03_0065.html /cloud-search-service/api-ref/permissions_policies_and_supported_actions.html;
+  /bestpractice/css/ /cloud-search-service/best-practice/index.html;
   /usermanual/css/css_01_0149.html /cloud-search-service/umn/scaling_in_out_a_cluster/index.html;
   /usermanual/css/css_01_0074.html /cloud-search-service/umn/scaling_in_out_a_cluster/changing_specifications.html;
   /usermanual/css/css_01_0153.html /cloud-search-service/umn/scaling_in_out_a_cluster/scaling_in_a_cluster.html;
@@ -263,6 +264,7 @@
   /en-us/api/css/css_03_0034.html /cloud-search-service/api-ref/snapshot_management_apis/querying_the_list_of_snapshots.html;
   /en-us/api/css/css_03_0031.html /cloud-search-service/api-ref/snapshot_management_apis/setting_the_automatic_snapshot_creation_policy.html;
   /en-us/api/css/css_03_0065.html /cloud-search-service/api-ref/permissions_policies_and_supported_actions.html;
+  /en-us/bestpractice/css/ /cloud-search-service/best-practice/index.html;
   /en-us/usermanual/css/css_01_0149.html /cloud-search-service/umn/scaling_in_out_a_cluster/index.html;
   /en-us/usermanual/css/css_01_0074.html /cloud-search-service/umn/scaling_in_out_a_cluster/changing_specifications.html;
   /en-us/usermanual/css/css_01_0153.html /cloud-search-service/umn/scaling_in_out_a_cluster/scaling_in_a_cluster.html;

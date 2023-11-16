@@ -38,6 +38,7 @@
   /api/dcs/topic_300000009.html /distributed-cache-service/api-ref/network_security/index.html;
   /api/dcs/ShowIpWhitelist.html /distributed-cache-service/api-ref/network_security/querying_the_ip_whitelist_of_a_dcs_instance.html;
   /api/dcs/UpdateIpWhitelist.html /distributed-cache-service/api-ref/network_security/configuring_ip_whitelist_groups.html;
+  /bestpractice/dcs/ /distributed-cache-service/best-practice/index.html;
   /usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
   /usermanual/dcs/ /distributed-cache-service/umn/index.html;
   /usermanual/dcs/dcs-ug-0326016.html /distributed-cache-service/umn/monitoring/index.html;
@@ -265,6 +266,7 @@
   /en-us/api/dcs/topic_300000009.html /distributed-cache-service/api-ref/network_security/index.html;
   /en-us/api/dcs/ShowIpWhitelist.html /distributed-cache-service/api-ref/network_security/querying_the_ip_whitelist_of_a_dcs_instance.html;
   /en-us/api/dcs/UpdateIpWhitelist.html /distributed-cache-service/api-ref/network_security/configuring_ip_whitelist_groups.html;
+  /en-us/bestpractice/dcs/ /distributed-cache-service/best-practice/index.html;
   /en-us/usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
   /en-us/usermanual/dcs/ /distributed-cache-service/umn/index.html;
   /en-us/usermanual/dcs/dcs-ug-0326016.html /distributed-cache-service/umn/monitoring/index.html;
