@@ -63,9 +63,12 @@ configMapGenerator:
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
-  - name: "data-lake-insight"
+  - name: "data-lake-insight-aa"
     files:
-      - "configs/redirect_maps/data-lake-insight"
+      - "configs/redirect_maps/data-lake-insight-aa"
+  - name: "data-lake-insight-ab"
+    files:
+      - "configs/redirect_maps/data-lake-insight-ab"
   - name: "data-replication-service"
     files:
       - "configs/redirect_maps/data-replication-service"
@@ -171,15 +174,21 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
-  - name: "object-storage-service"
+  - name: "object-storage-service-aa"
     files:
-      - "configs/redirect_maps/object-storage-service"
+      - "configs/redirect_maps/object-storage-service-aa"
+  - name: "object-storage-service-ab"
+    files:
+      - "configs/redirect_maps/object-storage-service-ab"
   - name: "private-link-access-service"
     files:
       - "configs/redirect_maps/private-link-access-service"
-  - name: "relational-database-service"
+  - name: "relational-database-service-aa"
     files:
-      - "configs/redirect_maps/relational-database-service"
+      - "configs/redirect_maps/relational-database-service-aa"
+  - name: "relational-database-service-ab"
+    files:
+      - "configs/redirect_maps/relational-database-service-ab"
   - name: "resource-management-service"
     files:
       - "configs/redirect_maps/resource-management-service"
