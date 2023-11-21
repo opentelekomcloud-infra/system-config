@@ -139,6 +139,14 @@ prometheus:
         target_label: instance
       - target_label: __address__
         replacement: prometheus-blackbox-exporter:9115
+    - job_name: vault
+      static_configs:
+        - targets: ['vault-lb.eco.tsi-dev.otc-service.com:8200']
+      metrics_path: /v1/sys/metrics
+      scheme: https
+      params:
+        format: ["prometheus"]
+      bearer_token: "{{ chart.vault_metrics_token }}"
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:

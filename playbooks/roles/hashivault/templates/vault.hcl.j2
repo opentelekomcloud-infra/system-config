@@ -44,3 +44,10 @@ seal "transit" {
   mount_path         = "transit/"
 }
 {% endif %}
+
+{% if telemetry_enable | default(false) %}
+telemetry {
+  disable_hostname = true
+  prometheus_retention_time = "12h"
+}
+{% endif %}
