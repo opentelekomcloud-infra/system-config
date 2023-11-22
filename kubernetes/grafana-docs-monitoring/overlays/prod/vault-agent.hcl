@@ -1,5 +1,5 @@
 pid_file = "/home/vault/pidfile"
-
+exit_after_auth = true
 auto_auth {
     method "kubernetes" {
         mount_path = "auth/kubernetes_otcinfra2"
