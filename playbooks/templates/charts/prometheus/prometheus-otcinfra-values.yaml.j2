@@ -126,19 +126,6 @@ prometheus:
         target_label: instance
       - target_label: __address__
         replacement: prometheus-blackbox-exporter:9115
-    - job_name: blackbox_http_429
-      metrics_path: /probe
-      params:
-        module: [http_2xx_429]
-      static_configs:
-        - targets: {{ chart.prometheus_endpoints_429 }}
-      relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: prometheus-blackbox-exporter:9115
     - job_name: vault
       static_configs:
         - targets: ['vault-lb.eco.tsi-dev.otc-service.com:8200']
@@ -147,19 +134,121 @@ prometheus:
       params:
         format: ["prometheus"]
       bearer_token: "{{ chart.vault_metrics_token }}"
+      relabel_configs:
+      - target_label: instance
+        replacement: vault-lb.eco.tsi-dev.otc-service.com
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:
     - name: critical-rules
       rules:
-      - alert: ProbeFailing
-        expr: (up{job=~"blackbox_http.*"} == 0) or (probe_success{job=~"blackbox_http_.*"} == 0)
-        for: 2m
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 1m
         labels:
           severity: critical
         annotations:
-          summary: Endpoint Down
-          description: "Endpoint is Down\n {{ '{{ $labels.instance }}' }}"
+          summary: Blackbox probe failed
+          description: 'Probe failed for {{ $labels.instance }}'
+      - alert: BlackboxProbeHttpFailure
+        expr: (probe_http_status_code <= 199 OR probe_http_status_code >= 399) and probe_http_status_code{instance!="https://opensearch.eco.tsi-dev.otc-service.com/"}
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox probe HTTP failure
+          description: 'HTTP status code is not 200-399 for {{ $labels.instance }}'
+      - alert: BlackboxSslCertificateWillExpireSoon
+        expr: 0 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 3
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox SSL certificate will expire soon
+          description: 'SSL certificate expires in less than 3 days for {{ $labels.instance }}'
+      - alert: VaultSealed
+        annotations:
+          summary: Vault sealed instance
+          description: 'Vault instance  {{ $labels.instance }} is sealed'
+        expr: vault_core_unsealed == 0
+        for: 1m
+        labels:
+          severity: critical
+      - alert: VaultClusterHealth
+        annotations:
+          summary: Vault cluster health instance
+          description: 'Vault instance is not healthy: {{ $value | printf "%.2f"}}'
+        expr: sum(vault_core_active) / count(vault_core_active) <= 0.5
+        for: 1m
+        labels:
+          severity: critical
+      - alert: VaultInstanceDown
+        expr: up{job="vault"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Vault instance is down
+          description: 'The Vault instance {{ $labels.instance }} is not responding. This indicates that the instance might be down or unreachable.'
+    - name: warning-rules
+      rules:
+      - alert: BlackboxConfigurationReloadFailure
+        expr: blackbox_exporter_config_last_reload_successful != 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox configuration reload failure
+          description: 'Blackbox configuration reload failure'
+      - alert: BlackboxSlowProbe
+        expr: avg_over_time(probe_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox slow probe
+          description: 'Blackbox probe took more than 1s to complete for {{ $labels.instance }}'
+      - alert: BlackboxSslCertificateWillExpireSoon
+        expr: 3 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 20
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox SSL certificate will expire soon
+          description: 'SSL certificate expires in less than 20 days for {{ $labels.instance }}'
+      - alert: BlackboxProbeSlowHttp
+        expr: avg_over_time(probe_http_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox probe slow HTTP 
+          description: 'HTTP request took more than 1s for {{ $labels.instance }}'
+      - alert: BlackboxProbeSlowPing
+        expr: avg_over_time(probe_icmp_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox probe slow ping
+          description: 'Blackbox ping took more than 1s for {{ $labels.instance }}'
+      - alert: VaultTooManyPendingTokens
+        annotations:
+          summary: Vault too many pending tokens
+          description: 'Too many pending tokens for {{ $labels.instance }}: {{ $value }}'
+        expr: avg(vault_token_create_count - vault_token_store_count) > 0
+        for: 5m
+        labels:
+          severity: warning
+          instance: vault-lb.eco.tsi-dev.otc-service.com
+      - alert: VaultTooManyInfinityTokens
+        annotations:
+          summary: Vault too many infinity tokens
+          description: 'Too many infinity tokens for {{ $labels.instance }}: {{ $value }}'
+        expr: vault_token_count_by_ttl{creation_ttl="+Inf"} > 50
+        for: 5m
+        labels:
+          severity: warning
 grafana:
   ingress:
     enabled: true
