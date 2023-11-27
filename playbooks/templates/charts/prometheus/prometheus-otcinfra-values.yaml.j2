@@ -140,6 +140,7 @@ prometheus:
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:
+{%- raw %}
     - name: critical-rules
       rules:
       - alert: BlackboxProbeFailed
@@ -249,6 +250,7 @@ additionalPrometheusRulesMap:
         for: 5m
         labels:
           severity: warning
+{% endraw %}
 grafana:
   ingress:
     enabled: true
