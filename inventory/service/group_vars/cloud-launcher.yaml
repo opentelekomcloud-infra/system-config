@@ -552,6 +552,16 @@ cloud_peerings:
     remote_router: "eco-infra"
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.150.0/24"
+  # eco-infra2_de<=>zuul_de for argocd access
+  - cloud: "otc_vault_448_de_eco_infra2"
+    name: "eco_infra2_de-zuul_de"
+    local_router: "eco-infra"
+    local_project: "eu-de_eco_infra2"
+    local_cidr: "192.168.171.0/24"
+    remote_cloud: "otc_vault_448_de_zuul"
+    remote_router: "ci"
+    remote_project: "eu-de_zuul"
+    remote_cidr: "192.168.21.0/24"
   # domain2-infra-de<=>domain2-infra2-de
   - cloud: "otc_vault_448_de_eco_infra"
     name: "otcinfra2-domain2_infra_de"
@@ -626,6 +636,16 @@ cloud_peerings:
     remote_router: "eco-infra"
     remote_project: "eu-de_eco_infra"
     remote_cidr: "192.168.150.0/24"
+    # zuul_de<=>eco-infra2_de<=> for argocd access
+  - cloud: "otc_vault_448_de_zuul"
+    name: "zuul_de-eco_infra2_de"
+    local_router: "ci"
+    local_project: "eu-de_zuul"
+    local_cidr: "192.168.21.0/24"
+    remote_cloud: "otc_vault_448_de_eco_infra2"
+    remote_router: "eco-infra"
+    remote_project: "eu-de_eco_infra2"
+    remote_cidr: "192.168.171.0/24"
   # Zuul on infra
   # domain2-infra-de<=>zool-pool1
   - cloud: "otc_vault_448_de_eco_infra"
