@@ -237,11 +237,10 @@ additionalPrometheusRulesMap:
         annotations:
           summary: Vault too many pending tokens
           description: 'Too many pending tokens for {{ $labels.instance }}: {{ $value }}'
-        expr: avg(vault_token_create_count - vault_token_store_count) > 0
+        expr: avg(vault_token_create_count - vault_token_store_count) by (instance) > 0
         for: 5m
         labels:
           severity: warning
-          instance: vault-lb.eco.tsi-dev.otc-service.com
       - alert: VaultTooManyInfinityTokens
         annotations:
           summary: Vault too many infinity tokens
