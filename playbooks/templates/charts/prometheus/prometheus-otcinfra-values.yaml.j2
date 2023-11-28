@@ -175,14 +175,6 @@ additionalPrometheusRulesMap:
         for: 1m
         labels:
           severity: critical
-      - alert: VaultClusterHealth
-        annotations:
-          summary: Vault cluster health instance
-          description: 'Vault instance is not healthy: {{ $value | printf "%.2f"}}'
-        expr: sum(vault_core_active) / count(vault_core_active) <= 0.5
-        for: 1m
-        labels:
-          severity: critical
       - alert: VaultInstanceDown
         expr: up{job="vault"} == 0
         for: 5m
