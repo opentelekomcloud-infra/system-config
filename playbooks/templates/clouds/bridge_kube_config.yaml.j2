@@ -15,6 +15,14 @@ clusters:
     cluster: 
       server: {{ otcinfra2_k8s.server }}
       insecure-skip-tls-verify: true
+  - name: cloudmon-de
+    cluster: 
+      server: {{ cloudmon_de_k8s.server }}
+      certificate-authority-data: {{ cloudmon_de_k8s.secrets['certificate-authority-data'] | b64encode }}
+  - name: cloudmon-nl
+    cluster: 
+      server: {{ cloudmon_nl_k8s.server }}
+      certificate-authority-data: {{ cloudmon_nl_k8s.secrets['certificate-authority-data'] | b64encode }}
 contexts:
   - name: otcci
     context:
@@ -28,6 +36,14 @@ contexts:
     context:
       cluster: otcinfra2
       user: otcinfra2-admin
+  - name: cloudmon-de
+    context:
+      cluster: cloudmon-de
+      user: cloudmon-de
+  - name: cloudmon-nl
+    context:
+      cluster: cloudmon-nl
+      user: cloudmon-nl
 users:
   - name: otcci-admin
     user:
@@ -41,3 +57,11 @@ users:
     user:
       client-certificate-data: {{ otcinfra2_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ otcinfra2_k8s.secrets['client.key'] | b64encode }}
+  - name: cloudmon-de
+    user:
+      client-certificate-data: {{ cloudmon_de_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ cloudmon_de_k8s.secrets['client.key'] | b64encode }}
+  - name: cloudmon-nl
+    user:
+      client-certificate-data: {{ cloudmon_nl_k8s.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ cloudmon_nl_k8s.secrets['client.key'] | b64encode }}
