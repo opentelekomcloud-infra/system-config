@@ -268,7 +268,7 @@ helm_chart_instances:
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
   cloudmon_de_promtail:
-    context: otcci
+    context: cloudmon-de
     repo_url: https://grafana.github.io/helm-charts
     repo_name: grafana
     name: promtail
@@ -277,7 +277,7 @@ helm_chart_instances:
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-cloudmon-de-values.yaml.j2"
   cloudmon_nl_promtail:
-    context: otcci
+    context: cloudmon-nl
     repo_url: https://grafana.github.io/helm-charts
     repo_name: grafana
     name: promtail
@@ -453,7 +453,7 @@ helm_chart_instances:
     post_config_template: "templates/charts/prometheus/prometheus-cloudmon-de-go-neb-post-config.yaml.j2"
     go_neb_image: "{{ go_neb_image_stable }}"
   cloudmon_nl_prometheus:
-    context: otcci
+    context: cloudmon-nl
     repo_url: https://prometheus-community.github.io/helm-charts
     repo_name: prometheus-community
     name: prometheus
