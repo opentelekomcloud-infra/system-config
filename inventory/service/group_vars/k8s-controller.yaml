@@ -267,6 +267,24 @@ helm_chart_instances:
     version: 6.15.2
     namespace: promtail
     values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
+  cloudmon_de_promtail:
+    context: otcci
+    repo_url: https://grafana.github.io/helm-charts
+    repo_name: grafana
+    name: promtail
+    ref: grafana/promtail
+    version: 6.15.2
+    namespace: promtail
+    values_template: "templates/charts/promtail/promtail-cloudmon-de-values.yaml.j2"
+  cloudmon_nl_promtail:
+    context: otcci
+    repo_url: https://grafana.github.io/helm-charts
+    repo_name: grafana
+    name: promtail
+    ref: grafana/promtail
+    version: 6.15.2
+    namespace: promtail
+    values_template: "templates/charts/promtail/promtail-cloudmon-nl-values.yaml.j2"
   otcinfra_telegraf:
     context: otcinfra
     repo_url: https://helm.influxdata.com/
@@ -422,6 +440,28 @@ helm_chart_instances:
     namespace: monitoring
     values_template: "templates/charts/prometheus/prometheus-otcci-values.yaml.j2"
     post_config_template: "templates/charts/prometheus/prometheus-otcci-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
+  cloudmon_de_prometheus:
+    context: cloudmon-de
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-cloudmon-de-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-cloudmon-de-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
+  cloudmon_nl_prometheus:
+    context: otcci
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-cloudmon-nl-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-cloudmon-nl-go-neb-post-config.yaml.j2"
     go_neb_image: "{{ go_neb_image_stable }}"
 
 octavia_proxy_instances:
