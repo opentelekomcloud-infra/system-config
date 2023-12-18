@@ -303,7 +303,7 @@ panels:
         mode: single
     targets:
     - refId: A
-      target: aliasByNode(asPercent(stats.telegraf.otcci.*.kubernetes_pod_volume.*.*.*.*.used_bytes, stats.telegraf.otcci.*.kubernetes_pod_volume.*.*.*.*.capacity_bytes), 7, 8)
+      target: aliasByNode(reduce(map(stats.telegraf.otcci.*.kubernetes_pod_volume.*.*.*.*.*, 3),"asPercent", 9, "used_bytes", "capacity_bytes"), 7, 8)
     thresholds:
     - colorMode: critical
       op: gt
@@ -597,7 +597,7 @@ panels:
         mode: single
     targets:
     - refId: A
-      target: aliasByNode(asPercent(stats.telegraf.otcinfra.*.kubernetes_pod_volume.*.*.*.*.used_bytes, stats.telegraf.otcinfra.*.kubernetes_pod_volume.*.*.*.*.capacity_bytes), 7, 8)
+      target: aliasByNode(reduce(map(stats.telegraf.otcinfra.*.kubernetes_pod_volume.*.*.*.*.*, 3),"asPercent", 9, "used_bytes", "capacity_bytes"), 7, 8)
     thresholds:
     - colorMode: critical
       op: gt
@@ -891,7 +891,7 @@ panels:
         mode: single
     targets:
     - refId: A
-      target: aliasByNode(asPercent(stats.telegraf.otcinfra2.*.kubernetes_pod_volume.*.*.*.*.used_bytes, stats.telegraf.otcinfra2.*.kubernetes_pod_volume.*.*.*.*.capacity_bytes), 7, 8)
+      target: aliasByNode(reduce(map(stats.telegraf.otcinfra2.*.kubernetes_pod_volume.*.*.*.*.*, 3),"asPercent", 9, "used_bytes", "capacity_bytes"), 7, 8)
     thresholds:
     - colorMode: critical
       op: gt
