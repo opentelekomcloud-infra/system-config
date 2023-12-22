@@ -76,7 +76,7 @@ groups:
   carbonapi:
     # Bridge is here to allow k8 access to vars
     - bridge.eco.tsi-dev.otc-service.com
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
@@ -111,20 +111,20 @@ groups:
     - controller.swift.eco.tsi-dev.otc-service.com
 
   graphite:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   memcached:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Hosts in this group would build a cluster
   graphite-apimon:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
 
@@ -155,7 +155,7 @@ groups:
 
   ssl_certs:
     - bridge.eco.tsi-dev.otc-service.com
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
