@@ -44,6 +44,9 @@ proxy_backends:
       - name: "graphite4"
         address: "192.168.14.241:8082"
         opts: "cookie graphite4 backup"
+      - name: "graphite5"
+        address: "192.168.14.12:8082"
+        opts: "cookie graphite5 backup"
 
   - name: "dashboard"
     options:
@@ -174,7 +177,7 @@ proxy_backends:
         address: "192.168.150.123:8200"
         opts: "ssl verify none"
       - name: "vault3"
-        address: "192.168.151.123:8200"
+        address: "192.168.14.123:8200"
         opts: "ssl verify none"
 
   - name: "opensearch"

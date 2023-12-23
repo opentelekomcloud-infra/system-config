@@ -98,10 +98,10 @@ all:
         #  region: "eu-nl"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK+SKubrx+fxYz9uQ0abQWXdvWSbP22taXgMY4uGTpi2l99/O0ctElLBYEG0xHr0HF6XgT3fx15r9kkuaCeZvrw='
-    graphite4.apimon.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.151.12
+    graphite5.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.14.12
       ansible_user: automation
-      public_v4: 192.168.151.12
+      public_v4: 192.168.14.12
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
     graphite1.eco.tsi-dev.otc-service.com:
@@ -283,9 +283,9 @@ all:
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBNgVYQmU1AEzantVTjKpe1A6z22ve8/gMkdBFFwHgQicG6ppU+0L9LtVJsLd7xgSg8wnUGaZUotQ9sfKogwb2LQ='
     vault3.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.151.123
+      ansible_host: 192.168.14.123
       ansible_user: automation
-      public_v4: 192.168.151.123
+      public_v4: 192.168.14.123
       location:
         cloud: "otc_vault_449_nl_eco_infra"
         az: "eu-nl-01"
