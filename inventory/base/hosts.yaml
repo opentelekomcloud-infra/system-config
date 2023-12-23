@@ -102,6 +102,11 @@ all:
       ansible_host: 192.168.14.12
       ansible_user: automation
       public_v4: 192.168.14.12
+      location:
+        provider: "otc"
+        cloud: "otcinfra-domain2-database"
+        az: "eu-de-01"
+        region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
     graphite1.eco.tsi-dev.otc-service.com:
