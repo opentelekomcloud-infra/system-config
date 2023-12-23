@@ -3,7 +3,7 @@ flavor: "s3.xlarge.2"
 security_groups: ["common_sg", "graphite_sg"]
 nics:
   - fixed_ip: "192.168.14.12"
-    net-name: "apimon-infra-net"
+    net-name: "galera-internal-network"
 root_volume_size: 20
 auto_ip: false
 
