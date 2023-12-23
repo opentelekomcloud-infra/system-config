@@ -79,7 +79,7 @@ groups:
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
-    - graphite5.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Matrix server
