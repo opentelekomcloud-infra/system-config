@@ -177,7 +177,7 @@ proxy_backends:
         address: "192.168.150.123:8200"
         opts: "ssl verify none"
       - name: "vault3"
-        address: "192.168.14.123:8200"
+        address: "192.168.151.123:8200"
         opts: "ssl verify none"
 
   - name: "opensearch"
