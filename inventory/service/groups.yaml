@@ -79,6 +79,7 @@ groups:
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite4.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Matrix server
@@ -114,12 +115,14 @@ groups:
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite4.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   memcached:
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite4.cloudmon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Hosts in this group would build a cluster
@@ -127,6 +130,7 @@ groups:
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite4.cloudmon.eco.tsi-dev.otc-service.com
 
   database-launcher:
     - bridge.eco.tsi-dev.otc-service.com
@@ -174,6 +178,7 @@ groups:
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
     - graphite3.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite4.cloudmon.eco.tsi-dev.otc-service.com
 
   zookeeper: []
     # - zk1.zuul.eco.tsi-dev.otc-service.com
