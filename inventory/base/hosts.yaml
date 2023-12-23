@@ -108,7 +108,7 @@ all:
         az: "eu-de-01"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCHm4PACkOLwKvzhJTbMTtZJrDX2GW0x2mf/nKlTsZdTRJDcxs1I45WWO8j26cTOsxK6F1WxshKChp3VNw48y7s='
     graphite1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.241
       ansible_user: automation
