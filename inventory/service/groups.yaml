@@ -11,6 +11,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -23,6 +24,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com    
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -32,6 +34,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -39,6 +42,7 @@ groups:
   apimon-scheduler:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -46,6 +50,7 @@ groups:
   apimon-epmon:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -55,6 +60,7 @@ groups:
       #    - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
 
   # hyrdid instance of the apimon
@@ -93,6 +99,7 @@ groups:
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
@@ -105,6 +112,7 @@ groups:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com

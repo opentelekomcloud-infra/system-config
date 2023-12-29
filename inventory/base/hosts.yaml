@@ -56,6 +56,16 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBODGaSYNGnCUpVUvzzfzfRbn/Wn7qNQbzEHL9BF3/+uccsCp9+6F6tIM5l/D/GmszHmDodyYbB8GzoSEFL/yLqo='
+    executor5.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.195.120
+      ansible_user: automation
+      public_v4: 192.168.195.120
+      location:
+        cloud: "otc_vault_69979_swiss_apimon"
+        az: "eu-ch2a"
+        region: "eu-ch2"
+      host_keys:
+        - 'ssh-rsa AAAAB3NzaC'
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
