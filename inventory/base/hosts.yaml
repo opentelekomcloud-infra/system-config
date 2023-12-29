@@ -65,7 +65,7 @@ all:
         az: "eu-ch2a"
         region: "eu-ch2"
       host_keys:
-        - 'ssh-rsa AAAAB3NzaC'
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJJBag3yPtjV4n8Au3/mRA4+IiJtQv1EiYZhuMbpK/BJ5M+vMHNqj1NDsq/4TER3iXWfL5UFGQmkCr42McVeJ94='
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation

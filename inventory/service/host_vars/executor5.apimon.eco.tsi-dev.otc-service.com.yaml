@@ -1,0 +1,6 @@
+apimon_instance: production_swiss
+statsd_graphite_host: "192.168.151.11"
+
+telegraf_output_graphite_host: 192.168.151.11
+
+firewalld_extra_ports_enable: ["8125/udp"]
