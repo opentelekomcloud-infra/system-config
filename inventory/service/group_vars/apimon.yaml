@@ -315,7 +315,7 @@ apimon_instances:
                   mode: tcp
           statsd:
             server: 192.168.2.60:8125
-            prefix: cloudmon.production_eu-de.vcloud_muc
+            prefix: cloudmon.production_eu-de.swiss_bern
 
     # Endpoint monitoring configuration
     # (inventory/service/group_vars/apimon-epmon.yaml)
