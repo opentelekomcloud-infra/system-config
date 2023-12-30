@@ -63,6 +63,9 @@ groups:
     - executor5.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
 
+  apimon-production-swiss:
+    - executor5.apimon.eco.tsi-dev.otc-service.com
+
   # hyrdid instance of the apimon
   apimon-hybrid:
     - hybrid.apimon.eco.tsi-dev.otc-service.com
