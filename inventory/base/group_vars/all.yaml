@@ -112,7 +112,7 @@ disabled_distro_cloud_users:
   - admin
 # telegraf
 telegraf_image: "{{ telegraf_image_stable }}"
-telegraf_output_graphite_host: 192.168.14.159
+telegraf_output_graphite_host: 192.168.14.12
 telegraf_output_graphite_port: 2013
 telegraf_output_graphite_prefix: "stats.telegraf"
 # promtail

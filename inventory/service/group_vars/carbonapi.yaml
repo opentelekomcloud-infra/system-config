@@ -11,6 +11,7 @@ carbonapi_instances:
         protocol: "carbonapi_v3_pb"
         servers:
           - "http://192.168.14.159:8081"
+          - "http://192.168.14.12:8081"
           - "http://192.168.151.11:8081"
       - groupName: "zuul"
         lbMethod: "broadcast"
@@ -18,5 +19,6 @@ carbonapi_instances:
         servers:
           - "http://192.168.14.241:8081"
     memcache_hosts:
+      - "192.168.14.12:11211"
       - "192.168.14.159:11211"
       - "192.168.151.11:11211"
