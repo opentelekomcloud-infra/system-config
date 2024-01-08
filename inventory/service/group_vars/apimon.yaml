@@ -314,7 +314,7 @@ apimon_instances:
                 - port: 3333
                   mode: tcp
           statsd:
-            server: 192.168.2.60:8125
+            server: 192.168.195.120:8125
             prefix: cloudmon.production_eu-de.swiss_bern
 
     # Endpoint monitoring configuration
