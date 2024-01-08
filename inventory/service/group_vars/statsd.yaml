@@ -1,5 +1,5 @@
 statsd_image: "{{ statsd_image_stable }}"
-statsd_graphite_host: "192.168.14.159"
+statsd_graphite_host: "192.168.14.12"
 statsd_graphite_port: 2003
 statsd_graphite_port_pickle: 2014
 statsd_graphite_protocol: "pickle"

@@ -44,6 +44,9 @@ proxy_backends:
       - name: "graphite4"
         address: "192.168.14.241:8082"
         opts: "cookie graphite4 backup"
+      - name: "graphite5"
+        address: "192.168.14.12:8082"
+        opts: "cookie graphite5 backup"
 
   - name: "dashboard"
     options:
@@ -254,7 +257,7 @@ proxy_frontends:
     bind: "*:8200 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
     backend: "vault"
 
-statsd_host: "192.168.14.159"
+statsd_host: "192.168.14.12"
 statsd_port: "8125"
 
 haproxy_expose_ports: ['80', '443', '8086', '8200', '8448']
