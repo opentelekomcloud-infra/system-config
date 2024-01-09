@@ -337,7 +337,7 @@
       - playbooks/bootstrap-bridge.yaml
       - playbooks/service-proxy.yaml
       - playbooks/roles/haproxy
-      # - inventory/service/group_vars/proxy.yaml
+      - inventory/service/group_vars/proxy.yaml
 
 - job:
     name: system-config-run-vault
