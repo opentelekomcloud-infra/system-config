@@ -337,6 +337,7 @@
     description: Run service-vault.yaml playbook.
     vars:
       playbook_name: service-vault.yaml
+      infra_prod_playbook_collect_log: true
     files:
       - inventory/
       - playbooks/service-vault.yaml
