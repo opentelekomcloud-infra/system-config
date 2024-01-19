@@ -4,7 +4,7 @@ metadata:
   name: cpn-backend-ingress
 spec:
   rules:
-    - host: cpn.example.com
+    - host: strapi.partners.otc-service.com
       http:
         paths:
           - path: /
