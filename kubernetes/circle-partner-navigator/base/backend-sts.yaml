@@ -14,11 +14,39 @@ spec:
         app: cpn-backend
     spec:
       terminationGracePeriodSeconds: 10
+      initContainers:
+      - name: "vault-agent"
+        command:
+          - "sh"
+          - "-c"
+          - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
+        env:
+          - name: "VAULT_ADDR"
+            value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+        image: "hashicorp/vault"
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
+          requests:
+            cpu: "50m"
+            memory: "50Mi"
+        volumeMounts:
+          - mountPath: "/etc/vault"
+            name: "vault-agent-config"
+          - mountPath: "/secrets"
+            name: "secrets"
+          - mountPath: "/var/run/secrets/tokens"
+            name: "k8-tokens"
+            readOnly: true
       containers:
       - name: cpn-backend
         image: quay.io/opentelekomcloud/circle-partner-navigator-backend
         ports:
         - containerPort: 1337
+        volumeMounts:
+        - name: cpn-backend-persistent-storage
+          mountPath: /app/data
   volumeClaimTemplates:
   - metadata:
       name: cpn-backend-persistent-storage
