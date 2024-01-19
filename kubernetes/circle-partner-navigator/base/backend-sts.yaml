@@ -51,7 +51,7 @@ spec:
   - metadata:
       name: cpn-backend-persistent-storage
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
       resources:
         requests:
           storage: 300Gi
