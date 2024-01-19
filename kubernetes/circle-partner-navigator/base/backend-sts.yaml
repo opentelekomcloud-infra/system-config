@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cpn-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpn-backend
+  serviceName: cpn-backend-service
+  template:
+    metadata:
+      labels:
+        app: cpn-backend
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: cpn-backend
+        image: quay.io/opentelekomcloud/circle-partner-navigator-backend
+        ports:
+        - containerPort: 1337
+  volumeClaimTemplates:
+  - metadata:
+      name: cpn-backend-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 300Gi
