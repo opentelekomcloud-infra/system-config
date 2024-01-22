@@ -53,8 +53,8 @@ spec:
         - name: cpn-backend-persistent-storage
           mountPath: /opt/app/public/uploads
   volumeClaimTemplates:
-    - apiVersion: v1	
-      kind: PersistentVolumeClaim	
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
       metadata:
         name: cpn-backend-persistent-storage
       spec:
@@ -77,4 +77,3 @@ spec:
         - serviceAccountToken:
             expirationSeconds: 7200
             path: "vault-token"
-
