@@ -60,3 +60,18 @@ spec:
       resources:
         requests:
           storage: 300Gi
+  volumes:
+    - name: vault-agent-config
+      configMap:
+        defaultMode: 420
+        name: cpn-vault-config
+    - name: secrets
+      emptyDir: {}
+    - name: "k8-tokens"
+      projected:
+        defaultMode: 420
+        sources:
+        - serviceAccountToken:
+            expirationSeconds: 7200
+            path: "vault-token"
+
