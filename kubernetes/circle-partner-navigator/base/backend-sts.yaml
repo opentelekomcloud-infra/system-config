@@ -52,14 +52,16 @@ spec:
         - name: cpn-backend-persistent-storage
           mountPath: /opt/app/public/uploads
   volumeClaimTemplates:
-  - metadata:
-      name: cpn-backend-persistent-storage
-    spec:
-      StorageClassName: "csi-disk"
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 300Gi
+    - apiVersion: v1	
+      kind: PersistentVolumeClaim	
+      metadata:
+        name: cpn-backend-persistent-storage
+      spec:
+        StorageClassName: "csi-disk"
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 300Gi
   volumes:
     - name: vault-agent-config
       configMap:
