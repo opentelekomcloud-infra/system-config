@@ -13,6 +13,7 @@ spec:
       labels:
         app: cpn-backend
     spec:
+      serviceAccount: cpn
       terminationGracePeriodSeconds: 10
       initContainers:
       - name: "vault-agent"
