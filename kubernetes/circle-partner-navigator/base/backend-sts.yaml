@@ -55,6 +55,7 @@ spec:
   - metadata:
       name: cpn-backend-persistent-storage
     spec:
+      StorageClassName: "csi-disk"
       accessModes: ["ReadWriteOnce"]
       resources:
         requests:
