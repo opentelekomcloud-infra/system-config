@@ -45,13 +45,15 @@ spec:
         image: quay.io/opentelekomcloud/circle-partner-navigator-backend
         ports:
         - containerPort: 1337
-        command:
-        - "/bin/sh"
-        - "-c"
-        - "source /secrets/cpn-env; npm run start"
+        command: 
+          ["/bin/sh","-c"]
+        args:
+          ['source  /secrets/cpn-env && npm run start']
         volumeMounts:
         - name: cpn-backend-persistent-storage
           mountPath: /opt/app/public/uploads
+        - mountPath: "/secrets"
+          name: "secrets"
       volumes:
       - name: vault-agent-config
         configMap:
