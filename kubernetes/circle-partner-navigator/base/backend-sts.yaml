@@ -13,7 +13,7 @@ spec:
       labels:
         app: cpn-backend
     spec:
-      serviceAccount: cpn
+      serviceAccountName: cpn
       terminationGracePeriodSeconds: 10
       initContainers:
       - name: "vault-agent"
@@ -52,28 +52,29 @@ spec:
         volumeMounts:
         - name: cpn-backend-persistent-storage
           mountPath: /opt/app/public/uploads
+      volumes:
+      - name: vault-agent-config
+        configMap:
+          defaultMode: 420
+          name: cpn-vault-config
+      - name: secrets
+        emptyDir: {}
+      - name: "k8-tokens"
+        projected:
+          defaultMode: 420
+          sources:
+          - serviceAccountToken:
+              expirationSeconds: 7200
+              path: "vault-token"
   volumeClaimTemplates:
-    - apiVersion: v1
-      kind: PersistentVolumeClaim
+    - apiVersion: v1	
+      kind: PersistentVolumeClaim	
       metadata:
         name: cpn-backend-persistent-storage
       spec:
-        storageClassName: "csi-disk"
+        StorageClassName: "csi-disk"
         accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 300Gi
-  volumes:
-    - name: vault-agent-config
-      configMap:
-        defaultMode: 420
-        name: cpn-vault-config
-    - name: secrets
-      emptyDir: {}
-    - name: "k8-tokens"
-      projected:
-        defaultMode: 420
-        sources:
-        - serviceAccountToken:
-            expirationSeconds: 7200
-            path: "vault-token"
+
