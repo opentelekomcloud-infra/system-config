@@ -29,4 +29,6 @@ spec:
                 extraRelabelConfigs:
                 - replacement: otcci
                   target_label: cluster
+                pipelineStages:
+                - docker: {}
   syncPolicy: {}
