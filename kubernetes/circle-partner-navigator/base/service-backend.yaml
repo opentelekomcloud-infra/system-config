@@ -4,7 +4,7 @@ metadata:
   name: cpn-backend-service
 spec:
   selector:
-    app: backend
+    app: cpn-backend
   ports:
     - protocol: TCP
       port: 8080
