@@ -45,8 +45,8 @@ spec:
         image: quay.io/opentelekomcloud/circle-partner-navigator-backend
         ports:
         - containerPort: 1337
-        command: 
-          ["/bin/sh","-c"]
+        command:
+          ["/bin/sh", "-c"]
         args:
           ['source  /secrets/cpn-env && npm run start']
         volumeMounts:
@@ -69,8 +69,8 @@ spec:
               expirationSeconds: 7200
               path: "vault-token"
   volumeClaimTemplates:
-    - apiVersion: v1	
-      kind: PersistentVolumeClaim	
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
       metadata:
         name: cpn-backend-persistent-storage
       spec:
@@ -79,4 +79,3 @@ spec:
         resources:
           requests:
             storage: 300Gi
-
