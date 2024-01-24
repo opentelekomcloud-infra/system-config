@@ -16,7 +16,7 @@ spec:
               service:
                 name: cpn-backend-service
                 port:
-                  number: 1337
+                  number: 8080
   tls:
     - hosts:
         - strapi.partners.otc-service.com

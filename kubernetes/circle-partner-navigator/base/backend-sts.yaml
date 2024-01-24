@@ -44,7 +44,7 @@ spec:
       - name: cpn-backend
         image: quay.io/opentelekomcloud/circle-partner-navigator-backend
         ports:
-        - containerPort: 1337
+        - containerPort: 8080
         command:
           ["/bin/bash", "-c"]
         args:
