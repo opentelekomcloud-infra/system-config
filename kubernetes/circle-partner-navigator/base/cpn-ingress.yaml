@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cpn-backend-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: strapi.partners.otc-service.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: cpn-backend-service
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - strapi.partners.otc-service.com
+      secretName: cpn-backend-tls
