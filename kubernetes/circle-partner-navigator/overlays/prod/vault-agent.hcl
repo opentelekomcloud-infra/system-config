@@ -21,7 +21,7 @@ template {
 {{ with secret "secret/data/cpn" -}}
 export DATABASE_CLIENT={{ .Data.data.client }}
 export DATABASE_HOST={{ .Data.data.dbhost }}
-export DATABASE_PORT={{ .Data.data.port }}
+export DATABASE_PORT={{ .Data.data.dbport }}
 export DATABASE_NAME={{ .Data.data.dbname }}
 export DATABASE_USERNAME={{ .Data.data.username }}
 export DATABASE_PASSWORD={{ .Data.data.password }}
