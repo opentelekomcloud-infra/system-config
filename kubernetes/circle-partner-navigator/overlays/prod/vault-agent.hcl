@@ -30,6 +30,7 @@ export ADMIN_JWT_SECRET={{ .Data.data.adminjwssecret }}
 export APP_KEYS={{ .Data.data.appkeys }}
 export API_TOKEN_SALT={{ .Data.data.apitokensalt }}
 export TRANSFER_TOKEN_SALT={{ .Data.data.transfertokensalt }}
+export HOST={{ .Data.data.host }}
 {{- end }}
 
 EOT
