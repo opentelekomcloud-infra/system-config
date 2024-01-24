@@ -46,7 +46,7 @@ spec:
         ports:
         - containerPort: 1337
         command:
-          ["/bin/sh", "-c"]
+          ["/bin/bash", "-c"]
         args:
           ['source  /secrets/cpn-env && npm run start']
         volumeMounts:
