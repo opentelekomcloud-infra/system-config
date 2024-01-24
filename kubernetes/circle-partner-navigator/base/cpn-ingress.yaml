@@ -14,7 +14,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: cpn-backend
+                name: cpn-backend-service
                 port:
                   number: 1337
   tls:
