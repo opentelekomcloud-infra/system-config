@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+ name: promtail-app-of-apps
+ namespace: argocd
+spec:
+ project: default
+ source:
+   repoURL: https://github.com/opentelekomcloud-infra/system-config
+   targetRevision: main
+   path: kubernetes/argocd-apps/promtail
+   directory:
+     recurse: true
+ destination:
+   server: https://kubernetes.default.svc
+   namespace: argocd
+ syncPolicy:
+   automated:
+     prune: true
+     selfHeal: true

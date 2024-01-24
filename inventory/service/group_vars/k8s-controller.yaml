@@ -238,51 +238,51 @@ helm_chart_instances:
     version: 5.34.0
     namespace: loki
     values_template: "templates/charts/loki/loki-values.yaml.j2"
-  otcinfra_promtail:
-    context: otcinfra
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.15.2
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
-  otcinfra2_promtail:
-    context: otcinfra2
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.15.2
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
-  otcci_promtail:
-    context: otcci
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.15.2
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
-  cloudmon_de_promtail:
-    context: cloudmon-de
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.15.2
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-cloudmon-de-values.yaml.j2"
-  cloudmon_nl_promtail:
-    context: cloudmon-nl
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.15.2
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-cloudmon-nl-values.yaml.j2"
+# otcinfra_promtail:
+#   context: otcinfra
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
+# otcinfra2_promtail:
+#   context: otcinfra2
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
+# otcci_promtail:
+#   context: otcci
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
+# cloudmon_de_promtail:
+#   context: cloudmon-de
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-cloudmon-de-values.yaml.j2"
+# cloudmon_nl_promtail:
+#   context: cloudmon-nl
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-cloudmon-nl-values.yaml.j2"
   otcinfra_telegraf:
     context: otcinfra
     repo_url: https://helm.influxdata.com/
