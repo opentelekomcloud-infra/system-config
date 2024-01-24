@@ -20,7 +20,7 @@ template {
   contents = <<EOT
 {{ with secret "secret/data/cpn" -}}
 export DATABASE_CLIENT={{ .Data.data.client }}
-export DATABASE_HOST={{ .Data.data.host }}
+export DATABASE_HOST={{ .Data.data.dbhost }}
 export DATABASE_PORT={{ .Data.data.port }}
 export DATABASE_NAME={{ .Data.data.dbname }}
 export DATABASE_USERNAME={{ .Data.data.username }}
