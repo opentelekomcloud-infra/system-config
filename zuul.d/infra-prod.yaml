@@ -158,7 +158,12 @@
     vars:
       playbook_name: service-apimon-epmon.yaml
     files:
-      - inventory/
+      - ^inventory/service/group_vars/apimon.*
+      - system-config/inventory/base/hosts.yaml
+      - system-config/inventory/service/group_vars/all.yaml
+      - system-config/inventory/service/groups.yaml
+      - ^system-config/inventory/service/host_vars/executor.*
+      - ^system-config/inventory/service/host_vars/scheduler.*
       - playbooks/service-apimon-epmon.yaml
 
 - job:
@@ -168,7 +173,12 @@
     vars:
       playbook_name: service-apimon-scheduler.yaml
     files:
-      - inventory/
+      - ^inventory/service/group_vars/apimon.*
+      - system-config/inventory/base/hosts.yaml
+      - system-config/inventory/service/group_vars/all.yaml
+      - system-config/inventory/service/groups.yaml
+      - ^system-config/inventory/service/host_vars/executor.*
+      - ^system-config/inventory/service/host_vars/scheduler.*
       - playbooks/service-apimon-scheduler.yaml
 
 - job:
@@ -178,7 +188,12 @@
     vars:
       playbook_name: service-apimon-executor.yaml
     files:
-      - inventory/
+      - ^inventory/service/group_vars/apimon.*
+      - system-config/inventory/base/hosts.yaml
+      - system-config/inventory/service/group_vars/all.yaml
+      - system-config/inventory/service/groups.yaml
+      - ^system-config/inventory/service/host_vars/executor.*
+      - ^system-config/inventory/service/host_vars/scheduler.*
       - playbooks/service-apimon-executor.yaml
 
 - job:
