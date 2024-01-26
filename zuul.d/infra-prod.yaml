@@ -85,7 +85,7 @@
       playbook_name: base.yaml
       infra_prod_ansible_forks: 50
     files:
-      - inventory/
+      - ^inventory/.*
       - inventory/service/host_vars/
       - inventory/service/group_vars/
       - playbooks/base.yaml
@@ -106,7 +106,7 @@
     vars:
       playbook_name: base-ext.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/base-ext.yaml
       - playbooks/roles/base/audit/
 
@@ -117,7 +117,7 @@
     vars:
       playbook_name: service-bridge.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-bridge.yaml
       - inventory/service/host_vars/bridge.eco-tsi-dev.otc-service.com.yaml
       - playbooks/roles/logrotate/
@@ -135,7 +135,7 @@
     vars:
       playbook_name: service-statsd.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-statsd.yaml
       - inventory/service/group_vars/statsd.yaml
       - playbooks/roles/statsd/
@@ -147,7 +147,7 @@
     vars:
       playbook_name: x509-certs.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/x509-certs.yaml
       - playbooks/roles/x509_cert
 
@@ -158,7 +158,7 @@
     vars:
       playbook_name: service-apimon-epmon.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-apimon-epmon.yaml
 
 - job:
@@ -168,7 +168,7 @@
     vars:
       playbook_name: service-apimon-scheduler.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-apimon-scheduler.yaml
 
 - job:
@@ -178,7 +178,7 @@
     vars:
       playbook_name: service-apimon-executor.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-apimon-executor.yaml
 
 - job:
@@ -188,7 +188,7 @@
     vars:
       playbook_name: service-apimon-k8s.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-apimon-k8s.yaml
       - playbooks/roles/apimon_k8s
 
@@ -199,7 +199,7 @@
     vars:
       playbook_name: service-gitea.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-gitea.yaml
       - playbooks/roles/gitea/
 
@@ -219,7 +219,7 @@
     vars:
       playbook_name: service-graphite.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-graphite.yaml
       - playbooks/roles/graphite/
 
@@ -230,7 +230,7 @@
     vars:
       playbook_name: service-memcached.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-memcached.yaml
       - playbooks/roles/memcached/
 
@@ -241,7 +241,7 @@
     vars:
       playbook_name: service-alerta.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-alerta.yaml
       - playbooks/roles/alerta/
 
@@ -252,7 +252,7 @@
     vars:
       playbook_name: service-cloudmon.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-cloudmon.yaml
       - playbooks/roles/cloudmon_plugin
 
@@ -283,7 +283,7 @@
     vars:
       playbook_name: service-grafana.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-grafana.yaml
       - playbooks/roles/grafana/
 
@@ -294,7 +294,7 @@
     vars:
       playbook_name: acme-certs.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/acme-certs.yaml
       - playbooks/roles/acme
 
@@ -305,7 +305,7 @@
     vars:
       playbook_name: service-proxy.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-proxy.yaml
       - playbooks/roles/haproxy/
 
@@ -338,7 +338,7 @@
     vars:
       playbook_name: service-vault.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-vault.yaml
       - playbooks/roles/hashivault
 
@@ -349,7 +349,7 @@
     vars:
       playbook_name: service-zookeeper.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-zookeeper.yaml
       - playbooks/roles/zookeeper
 
@@ -361,7 +361,7 @@
     vars:
       playbook_name: install-helm-chart.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/install-helm-chart.yaml
       - playbooks/roles/install-helm-chart
 
@@ -407,7 +407,7 @@
     vars:
       playbook_name: service-opensearch.yaml
     files:
-      - inventory/
+      - ^inventory/.*
       - playbooks/service-opensearch.yaml
       - playbooks/roles/opensearch
 
