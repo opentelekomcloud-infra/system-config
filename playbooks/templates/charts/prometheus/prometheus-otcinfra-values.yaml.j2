@@ -59,7 +59,7 @@ alertmanager:
             {{- if .Annotations.description }}
             *Description:* {{ .Annotations.description }}
             {{- end }}
-            {{- if and .Labels.cce_cluster (not (match "blackbox_http_.*" .Labels.job)) }}
+            {{- if and .Labels.cce_cluster (not (match "blackbox_http_.*|patroni_cluster_metrics" .Labels.job)) }}
             *Cluster:* {{ .Labels.cce_cluster }}
             {{- end }}
           {{ end }}
@@ -137,6 +137,19 @@ prometheus:
       relabel_configs:
       - target_label: instance
         replacement: vault-lb.eco.tsi-dev.otc-service.com
+    - job_name: patroni_cluster_metrics
+      metrics_path: /metrics
+      scheme: http
+      static_configs:
+        - targets:
+          - db1.cloudmon.eco.tsi-dev.otc-service.com:8008
+          - db2.cloudmon.eco.tsi-dev.otc-service.com:8008
+          - db3.cloudmon.eco.tsi-dev.otc-service.com:8008
+      relabel_configs:
+      - source_labels: [__address__]
+        regex: '([^:]+):?.*'
+        target_label: instance
+        replacement: '$1'
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:
@@ -241,6 +254,32 @@ additionalPrometheusRulesMap:
         for: 5m
         labels:
           severity: warning
+    - name: patroni_alerts
+      rules:
+      - alert: PostgresNotRunning
+        expr: patroni_postgres_running{job="patroni_cluster_metrics"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Postgres is not running on {{ $labels.instance }} in {{ $labels.scope }} cluster."
+          description: "Postgres is not running for more than 1 minute on {{ $labels.instance }} in {{ $labels.scope }} cluster."
+      - alert: PatroniHasNoLeader
+        expr: (max by (scope) (patroni_master) < 1) and (max by (scope) (patroni_standby_leader) < 1)
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Patroni cluster has no Leader"
+          description: "A leader node (neither primary nor standby) cannot be found in {{ $labels.scope }} cluster."
+      - alert: PendingRestart
+        expr: patroni_pending_restart{job="patroni_cluster_metrics"} == 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Postgres Node pending restart on {{ $labels.instance }}"
+          description: "Node requires a restart."
 {% endraw %}
 grafana:
   ingress:
