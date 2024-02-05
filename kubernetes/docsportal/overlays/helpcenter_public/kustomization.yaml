@@ -36,9 +36,12 @@ configMapGenerator:
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
-  - name: "cloud-container-engine"
+  - name: "cloud-container-engine-aa"
     files:
-      - "configs/redirect_maps/cloud-container-engine"
+      - "configs/redirect_maps/cloud-container-engine-aa"
+  - name: "cloud-container-engine-ab"
+    files:
+      - "configs/redirect_maps/cloud-container-engine-ab"
   - name: "cloud-container-instance"
     files:
       - "configs/redirect_maps/cloud-container-instance"
@@ -81,6 +84,9 @@ configMapGenerator:
   - name: "data-warehouse-service-ac"
     files:
       - "configs/redirect_maps/data-warehouse-service-ac"
+  - name: "data-warehouse-service-ad"
+    files:
+      - "configs/redirect_maps/data-warehouse-service-ad"
   - name: "database-security-service"
     files:
       - "configs/redirect_maps/database-security-service"

@@ -1,3 +1,4 @@
+  /en-us/cmpntguide-lts/mrs/mrs_01_1847.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/the_update_of_the_share_lib_directory_of_oozie_does_not_take_effect.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1846.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/oozie_scheduled_tasks_are_not_executed_on_time.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1845.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/how_do_i_resolve_the_problem_that_the_oozie_client_fails_to_submit_a_mapreduce_job.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1812.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/index.html;
@@ -997,4 +998,3 @@
   /en-us/usermanual/mrs/mrs_08_0012.html /mapreduce-service/umn/overview/components/hue/index.html;
   /en-us/usermanual/mrs/mrs_08_00122.html /mapreduce-service/umn/overview/components/hue/relationship_between_hue_and_other_components.html;
   /en-us/usermanual/mrs/mrs_08_00123.html /mapreduce-service/umn/overview/components/hue/hue_enhanced_open_source_features.html;
-  /en-us/usermanual/mrs/mrs_08_00121.html /mapreduce-service/umn/overview/components/hue/hue_basic_principles.html;

@@ -39,12 +39,12 @@
   /api/iam/iam_02_0519.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_for_all_projects.html;
   /api/iam/en-us_topic_0057845603.html /identity-access-management/api-ref/apis/permission_management/querying_role_details.html;
   /api/iam/en-us_topic_0057845591.html /identity-access-management/api-ref/apis/permission_management/querying_a_role_list.html;
-  /api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments.html;
   /api/iam/en-us_topic_0057845620.html /identity-access-management/api-ref/apis/permission_management/querying_whether_a_user_group_corresponding_to_a_project_has_specific_permissions.html;
   /api/iam/en-us_topic_0057845623.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_of_a_domain.html;
   /api/iam/en-us_topic_0057845571.html /identity-access-management/api-ref/apis/permission_management/querying_permissions_of_a_user_group_under_a_domain.html;
   /api/iam/en-us_topic_0057845572.html /identity-access-management/api-ref/apis/permission_management/deleting_permissions_of_a_user_group_corresponding_to_a_project.html;
   /api/iam/iam_10_0011.html /identity-access-management/api-ref/apis/permission_management/querying_all_permissions_of_a_user_group.html;
+  /api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments_discarded.html;
   /api/iam/en-us_topic_0057845640.html /identity-access-management/api-ref/apis/permission_management/querying_permissions_of_a_user_group_corresponding_to_a_project.html;
   /api/iam/en-us_topic_0057845597.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_corresponding_to_a_project.html;
   /api/iam/en-us_topic_0057845604.html /identity-access-management/api-ref/apis/services_and_endpoints/index.html;
@@ -306,12 +306,12 @@
   /en-us/api/iam/iam_02_0519.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_for_all_projects.html;
   /en-us/api/iam/en-us_topic_0057845603.html /identity-access-management/api-ref/apis/permission_management/querying_role_details.html;
   /en-us/api/iam/en-us_topic_0057845591.html /identity-access-management/api-ref/apis/permission_management/querying_a_role_list.html;
-  /en-us/api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments.html;
   /en-us/api/iam/en-us_topic_0057845620.html /identity-access-management/api-ref/apis/permission_management/querying_whether_a_user_group_corresponding_to_a_project_has_specific_permissions.html;
   /en-us/api/iam/en-us_topic_0057845623.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_of_a_domain.html;
   /en-us/api/iam/en-us_topic_0057845571.html /identity-access-management/api-ref/apis/permission_management/querying_permissions_of_a_user_group_under_a_domain.html;
   /en-us/api/iam/en-us_topic_0057845572.html /identity-access-management/api-ref/apis/permission_management/deleting_permissions_of_a_user_group_corresponding_to_a_project.html;
   /en-us/api/iam/iam_10_0011.html /identity-access-management/api-ref/apis/permission_management/querying_all_permissions_of_a_user_group.html;
+  /en-us/api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments_discarded.html;
   /en-us/api/iam/en-us_topic_0057845640.html /identity-access-management/api-ref/apis/permission_management/querying_permissions_of_a_user_group_corresponding_to_a_project.html;
   /en-us/api/iam/en-us_topic_0057845597.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_corresponding_to_a_project.html;
   /en-us/api/iam/en-us_topic_0057845604.html /identity-access-management/api-ref/apis/services_and_endpoints/index.html;

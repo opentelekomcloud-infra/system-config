@@ -273,7 +273,6 @@
   /devg/dws/dws_04_0216.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_mrs_to_a_cluster/deleting_resources.html;
   /devg/dws/dws_04_0212.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_mrs_to_a_cluster/preparing_data_in_an_mrs_cluster.html;
   /devg/dws/dws_04_0213.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_mrs_to_a_cluster/manually_creating_a_foreign_server.html;
-  /devg/dws/dws_04_0208.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_the_gsql_meta-command_\copy_to_import_data.html;
   /devg/dws/dws_04_0203.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/running_the_copy_from_stdin_statement_to_import_data/index.html;
   /devg/dws/dws_04_0205.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/running_the_copy_from_stdin_statement_to_import_data/introduction_to_the_copymanager_class.html;
   /devg/dws/dws_04_0206.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/running_the_copy_from_stdin_statement_to_import_data/example_importing_and_exporting_data_through_local_files.html;
@@ -303,6 +302,7 @@
   /devg/dws/dws_04_0156.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_obs_in_parallel/importing_orc_carbondata_data_from_obs/supported_data_types.html;
   /devg/dws/dws_04_0244.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_obs_in_parallel/importing_orc_carbondata_data_from_obs/creating_a_foreign_server.html;
   /devg/dws/dws_04_0247.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/importing_data_from_obs_in_parallel/importing_orc_carbondata_data_from_obs/deleting_resources.html;
+  /devg/dws/dws_04_0208.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_import/using_the_gsql_meta-command_copy_to_import_data.html;
   /devg/dws/dws_04_0249.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/index.html;
   /devg/dws/dws_04_0159.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/exporting_orc_data_to_mrs/index.html;
   /devg/dws/dws_04_0163.html /data-warehouse-service/dev-guide/developer_guide/data_migration/data_export/exporting_orc_data_to_mrs/creating_a_foreign_table.html;
@@ -989,12 +989,12 @@
   /devg/dws/dws_06_0273.html /data-warehouse-service/dev-guide/sql_syntax_reference/gin_indexes/implementation.html;
   /devg/dws/dws_06_0272.html /data-warehouse-service/dev-guide/sql_syntax_reference/gin_indexes/scalability.html;
   /devg/dws/dws_06_0001.html /data-warehouse-service/dev-guide/sql_syntax_reference/gaussdbdws_sql.html;
+  /tg/dws/dws_07_0002.html /data-warehouse-service/tool-guide/downloading_related_tools.html;
   /tg/dws/ /data-warehouse-service/tool-guide/index.html;
   /tg/dws/dws_07_0001.html /data-warehouse-service/tool-guide/overview.html;
-  /tg/dws/DWS_DS_20.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/data_studio_gui.html;
-  /tg/dws/dws_ds_index.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/index.html;
-  /tg/dws/DWS_DS_146.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/index.html;
-  /tg/dws/DWS_DS_152.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/data_encryption_for_saved_data.html;
-  /tg/dws/DWS_DS_147.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/overview.html;
-  /tg/dws/DWS_DS_151.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/securing_the_application_in-memory_data.html;
-  /tg/dws/DWS_DS_154.html /data-warehouse-service/tool-guide/data_studio_integrated_database_development_tool/security_management/ssl_certificates.html;
+  /tg/dws/dws_gsql_index.html /data-warehouse-service/tool-guide/gsql/index.html;
+  /tg/dws/dws_gsql_006.html /data-warehouse-service/tool-guide/gsql/command_reference.html;
+  /tg/dws/dws_gsql_002.html /data-warehouse-service/tool-guide/gsql/overview.html;
+  /tg/dws/dws_gsql_003.html /data-warehouse-service/tool-guide/gsql/instruction.html;
+  /tg/dws/dws_gsql_007.html /data-warehouse-service/tool-guide/gsql/meta-command_reference.html;
+  /tg/dws/dws_gsql_008.html /data-warehouse-service/tool-guide/gsql/troubleshooting.html;

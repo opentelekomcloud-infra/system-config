@@ -1,3 +1,4 @@
+  /usermanual/mrs/admin_guide_000255.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000254.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000243.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000246.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
@@ -544,7 +545,6 @@
   /usermanual/mrs/mrs_01_0513.html /mapreduce-service/umn/configuring_a_cluster/creating_a_custom_cluster.html;
   /usermanual/mrs/mrs_01_0061.html /mapreduce-service/umn/configuring_a_cluster/configuring_an_auto_scaling_rule.html;
   /usermanual/mrs/mrs_01_0048.html /mapreduce-service/umn/configuring_a_cluster/adding_a_tag_to_a_cluster.html;
-  /usermanual/mrs/mrs_01_0497.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_kafka_streaming_cluster.html;
   /usermanual/mrs/mrs_01_24297.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/index.html;
   /usermanual/mrs/mrs_01_2355.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_real-time_analysis_cluster.html;
   /usermanual/mrs/mrs_01_0512.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_hadoop_analysis_cluster.html;

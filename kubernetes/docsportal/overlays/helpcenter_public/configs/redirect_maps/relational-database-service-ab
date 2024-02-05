@@ -1,3 +1,11 @@
+  /en-us/usermanual/rds/rds_01_0017.html /relational-database-service/umn/introduction/permissions_management.html;
+  /en-us/usermanual/rds/rds_01_0031.html /relational-database-service/umn/introduction/db_engine/index.html;
+  /en-us/usermanual/rds/rds_01_0018.html /relational-database-service/umn/introduction/db_engine/function_differences_of_rds_for_sql_server_instances_types_and_editions.html;
+  /en-us/usermanual/rds/rds_10_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/index.html;
+  /en-us/usermanual/rds/rds_sqlserver_05_0007.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/index.html;
+  /en-us/usermanual/rds/rds_sqlserver_task_0002.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/deleting_a_task_record.html;
+  /en-us/usermanual/rds/rds_sqlserver_task_0001.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/viewing_a_task.html;
+  /en-us/usermanual/rds/rds_sqlserver_05_0008.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/index.html;
   /en-us/usermanual/rds/rds_sqlserver_05_0023.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/changing_a_db_instance_type_from_single_to_primary_standby.html;
   /en-us/usermanual/rds/rds_sqlserver_switch_ha.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
   /en-us/usermanual/rds/rds_sqlserver_modify_instance_name.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/changing_a_db_instance_name.html;
@@ -38,6 +46,8 @@
   /en-us/usermanual/rds/rds_10_0103.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/comparing_parameter_templates.html;
   /en-us/usermanual/rds/rds_sqlserver_05_0018.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/applying_a_parameter_template.html;
   /en-us/usermanual/rds/rds_10_0106.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/modifying_a_parameter_template_description.html;
+  /en-us/usermanual/rds/rds_09_0001.html /relational-database-service/umn/working_with_rds_for_sql_server/usage_of_stored_procedures/index.html;
+  /en-us/usermanual/rds/rds_09_0009.html /relational-database-service/umn/working_with_rds_for_sql_server/usage_of_stored_procedures/updating_database_statistics.html;
   /en-us/usermanual/rds/rds_sqlserver_06_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/metrics_and_alarms/index.html;
   /en-us/usermanual/rds/rds_sqlserver_06_0003.html /relational-database-service/umn/working_with_rds_for_sql_server/metrics_and_alarms/viewing_monitoring_metrics.html;
   /en-us/usermanual/rds/rds_sqlserver_06_0001.html /relational-database-service/umn/working_with_rds_for_sql_server/metrics_and_alarms/configuring_displayed_metrics.html;
@@ -45,12 +55,12 @@
   /en-us/usermanual/rds/rds_sqlserver_05_0034.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/index.html;
   /en-us/usermanual/rds/rds_05_0044.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/restoring_from_backup_files_to_a_self-built_sql_server_database.html;
   /en-us/usermanual/rds/rds_10_0055.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/replicating_a_backup.html;
+  /en-us/usermanual/rds/rds_11_0031.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/configuring_an_intra-region_backup_policy.html;
   /en-us/usermanual/rds/rds_11_0022.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/restoring_a_db_instance_to_a_point_in_time.html;
   /en-us/usermanual/rds/rds_10_0101.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/deleting_a_manual_backup.html;
   /en-us/usermanual/rds/rds_sqlserver_backup_restore.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/working_with_backups.html;
   /en-us/usermanual/rds/rds_11_0010.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/creating_a_manual_backup.html;
   /en-us/usermanual/rds/rds_11_0023.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/restoring_from_backup_files_to_rds_for_sql_server.html;
-  /en-us/usermanual/rds/rds_11_0031.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/configuring_an_automated_backup_policy.html;
   /en-us/usermanual/rds/rds_11_0013.html /relational-database-service/umn/working_with_rds_for_sql_server/backups_and_restorations/downloading_a_backup_file.html;
   /en-us/usermanual/rds/rds_sqlserver_07_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/permissions_management/index.html;
   /en-us/usermanual/rds/rds_sqlserver_07_0002.html /relational-database-service/umn/working_with_rds_for_sql_server/permissions_management/creating_a_user_and_granting_permissions.html;
