@@ -1,0 +1,24 @@
+---
+- name: Query node-exporter metrics API /metrics
+  ansible.builtin.uri:
+    url: "http://localhost:9100/metrics"
+    user: {{ node_exporter_username }}
+    password: {{ node_exporter_password }}
+    timeout: 30
+    force_basic_auth: true
+  ignore_errors: true
+  register: res
+
+- block:
+  - name: Restart node-exporter in case metrics API fails
+    become: true
+    systemd:
+      name: "{{ node_exporter_systemd_service_name }}"
+      state: restarted
+      enabled: yes
+      daemon_reload: yes
+
+  - name: Log restart
+    become: true
+    shell: 'echo "$(date) - {{ node_exporter_systemd_service_name }} restarted by ansible monitoring" >> /var/log/ansible-monitor.log'
+  when: "res.status != 200"
