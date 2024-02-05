@@ -1,0 +1,9 @@
+---
+# defaults file for node-exporter
+node_exporter_systemd_service_name: "node-exporter.service"
+node_exporter_systemd_unit_path: "{{ '/etc/systemd/system/' + node_exporter_systemd_service_name }}"
+node_exporter_config_path: "/etc/node-exporter"
+node_exporter_username: "admin"
+node_exporter_password: "dummy"
+
+node_exporter_image: "docker.io/prom/node-exporter:v1.7.0"
