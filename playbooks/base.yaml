@@ -11,6 +11,7 @@
         - include_role: name=firewalld
         - include_role: name=telegraf
         - include_role: name=promtail
+        - include_role: name=node-exporter
       when:
         # K8 cluster
         - "ansible_connection is defined"
