@@ -63,6 +63,7 @@
   /api/mrs/mrs_02_0025.html /mapreduce-service/api-ref/apis/data_source_apis/querying_the_data_source_details.html;
   /api/mrs/mrs_02_0024.html /mapreduce-service/api-ref/apis/data_source_apis/querying_the_data_source_list.html;
   /api/mrs/mrs_02_0100.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/index.html;
+  /api/mrs/mrs_02_0201.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/changing_a_cluster_name.html;
   /api/mrs/mrs_02_0101.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/creating_clusters.html;
   /api/mrs/mrs_02_0070.html /mapreduce-service/api-ref/apis/tag_management_apis/index.html;
   /api/mrs/mrs_02_0074.html /mapreduce-service/api-ref/apis/tag_management_apis/adding_or_deleting_cluster_tags_in_batches.html;
@@ -80,6 +81,8 @@
   /api/mrs/mrs_02_0031.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/querying_cluster_details.html;
   /api/mrs/mrs_02_0029.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/resizing_a_cluster.html;
   /api/mrs/mrs_02_0028.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/creating_a_cluster_and_running_a_job.html;
+  /api/mrs/mrs_02_0200.html /mapreduce-service/api-ref/apis/auto_scaling_apis_v2/viewing_auto_scaling_policies.html;
+  /api/mrs/mrs_02_0199.html /mapreduce-service/api-ref/apis/auto_scaling_apis_v2/index.html;
   /api/mrs/mrs_02_0084.html /mapreduce-service/api-ref/apis/job_object_apis_v2/index.html;
   /api/mrs/mrs_02_0090.html /mapreduce-service/api-ref/apis/job_object_apis_v2/obtain_the_sql_result.html;
   /api/mrs/mrs_02_0085.html /mapreduce-service/api-ref/apis/job_object_apis_v2/adding_and_executing_a_job.html;
@@ -93,6 +96,7 @@
   /api/mrs/mrs_02_0034.html /mapreduce-service/api-ref/apis/job_binary_object_apis/creating_a_job_binary_object.html;
   /api/mrs/mrs_02_0037.html /mapreduce-service/api-ref/apis/job_binary_object_apis/querying_the_binary_object_details.html;
   /api/mrs/mrs_02_0038.html /mapreduce-service/api-ref/apis/job_binary_object_apis/deleting_a_job_binary_object.html;
+  /bestpractice/mrs/ /mapreduce-service/best-practice/index.html;
   /cmpntguide-lts/mrs/mrs_01_2122.html /mapreduce-service/operation-guide-lts/appendix/index.html;
   /cmpntguide-lts/mrs/mrs_01_0787.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/index.html;
   /cmpntguide-lts/mrs/mrs_01_0800.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/using_an_mrs_client_on_nodes_outside_a_mrs_cluster.html;
@@ -994,7 +998,3 @@
   /cmpntguide-lts/mrs/mrs_01_1569.html /mapreduce-service/operation-guide-lts/using_flink/flink_configuration_management/ssl.html;
   /cmpntguide-lts/mrs/mrs_01_0594.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/index.html;
   /cmpntguide-lts/mrs/mrs_01_1584.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/acl_control.html;
-  /cmpntguide-lts/mrs/mrs_01_1583.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/authentication_and_encryption.html;
-  /cmpntguide-lts/mrs/mrs_01_1585.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/web_security.html;
-  /cmpntguide-lts/mrs/mrs_01_0593.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/index.html;
-  /cmpntguide-lts/mrs/mrs_01_1580.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/configuring_kafka.html;

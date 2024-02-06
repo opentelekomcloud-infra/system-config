@@ -45,6 +45,7 @@
   /api/dwaf/CreateAnticrawlerRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_a_javascript_anti-crawler_rule.html;
   /api/dwaf/DeleteWhiteBlackIpRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/deleting_a_blacklist_or_whitelist_rule.html;
   /api/dwaf/CreateGeoipRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_a_geolocation_access_control_rule.html;
+  /api/dwaf/ShowValueList.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_reference_table.html;
   /api/dwaf/UpdateAnticrawlerRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/updating_a_javascript_anti-crawler_rule.html;
   /api/dwaf/ShowWhiteblackipRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_blacklist_or_whitelist_rule_by_id.html;
   /api/dwaf/ListGeoipRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_the_list_of_geolocation_access_control_rules.html;
@@ -59,7 +60,6 @@
   /api/dwaf/ListCustomRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_precise_protection_rules.html;
   /api/dwaf/ShowAntitamperRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_web_tamper_protection_rule_by_id.html;
   /api/dwaf/DeleteCcRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/deleting_a_cc_attack_protection_rule.html;
-  /api/dwaf/ShowValueList.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_reference_table_by_id.html;
   /api/dwaf/ListPrivacyRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_the_data_masking_rule_list.html;
   /api/dwaf/CreateAntileakageRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_an_information_leakage_protection_rule.html;
   /api/dwaf/ShowCcRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_cc_attack_protection_rule_by_id.html;
@@ -319,6 +319,7 @@
   /en-us/api/dwaf/CreateAnticrawlerRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_a_javascript_anti-crawler_rule.html;
   /en-us/api/dwaf/DeleteWhiteBlackIpRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/deleting_a_blacklist_or_whitelist_rule.html;
   /en-us/api/dwaf/CreateGeoipRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_a_geolocation_access_control_rule.html;
+  /en-us/api/dwaf/ShowValueList.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_reference_table.html;
   /en-us/api/dwaf/UpdateAnticrawlerRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/updating_a_javascript_anti-crawler_rule.html;
   /en-us/api/dwaf/ShowWhiteblackipRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_blacklist_or_whitelist_rule_by_id.html;
   /en-us/api/dwaf/ListGeoipRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_the_list_of_geolocation_access_control_rules.html;
@@ -333,7 +334,6 @@
   /en-us/api/dwaf/ListCustomRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_precise_protection_rules.html;
   /en-us/api/dwaf/ShowAntitamperRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_web_tamper_protection_rule_by_id.html;
   /en-us/api/dwaf/DeleteCcRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/deleting_a_cc_attack_protection_rule.html;
-  /en-us/api/dwaf/ShowValueList.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_reference_table_by_id.html;
   /en-us/api/dwaf/ListPrivacyRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_the_data_masking_rule_list.html;
   /en-us/api/dwaf/CreateAntileakageRules.html /web-application-firewall-dedicated/api-ref/apis/rule_management/creating_an_information_leakage_protection_rule.html;
   /en-us/api/dwaf/ShowCcRule.html /web-application-firewall-dedicated/api-ref/apis/rule_management/querying_a_cc_attack_protection_rule_by_id.html;
