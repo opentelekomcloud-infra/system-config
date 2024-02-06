@@ -66,10 +66,10 @@ configMapGenerator:
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
-  - name: "data-lake-insight"
+  - name: "data-lake-insight-aa"
     files:
       - "configs/redirect_maps/data-lake-insight-aa"
-  - name: "data-lake-insight"
+  - name: "data-lake-insight-ab"
     files:
       - "configs/redirect_maps/data-lake-insight-ab"
   - name: "data-replication-service"
