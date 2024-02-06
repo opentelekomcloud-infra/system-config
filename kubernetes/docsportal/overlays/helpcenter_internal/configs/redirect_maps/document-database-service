@@ -41,6 +41,8 @@
   /api/dds/dds_api_0099.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0095.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0100.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0070.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0075.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_connect_0001.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_connect_0003.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_connect_0002.html /document-database-service/api-ref/apis_v3.html;
@@ -78,6 +80,7 @@
   /api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
   /api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
   /api/dds/dds_api_0010.html /document-database-service/api-ref/environment_preparations/authentication.html;
+  /bestpractice/dds/ /document-database-service/best-practice/index.html;
   /usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /usermanual/dds/ /document-database-service/umn/index.html;
   /usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;
@@ -281,6 +284,8 @@
   /en-us/api/dds/dds_api_0099.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0095.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0100.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0070.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0075.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_connect_0001.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_connect_0003.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_connect_0002.html /document-database-service/api-ref/apis_v3.html;
@@ -318,6 +323,7 @@
   /en-us/api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
   /en-us/api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
   /en-us/api/dds/dds_api_0010.html /document-database-service/api-ref/environment_preparations/authentication.html;
+  /en-us/bestpractice/dds/ /document-database-service/best-practice/index.html;
   /en-us/usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /en-us/usermanual/dds/ /document-database-service/umn/index.html;
   /en-us/usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;

@@ -36,9 +36,12 @@ configMapGenerator:
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
-  - name: "cloud-container-engine"
+  - name: "cloud-container-engine-aa"
     files:
-      - "configs/redirect_maps/cloud-container-engine"
+      - "configs/redirect_maps/cloud-container-engine-aa"
+  - name: "cloud-container-engine-ab"
+    files:
+      - "configs/redirect_maps/cloud-container-engine-ab"
   - name: "cloud-container-instance"
     files:
       - "configs/redirect_maps/cloud-container-instance"
@@ -63,9 +66,12 @@ configMapGenerator:
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
-  - name: "data-lake-insight"
+  - name: "data-lake-insight-aa"
     files:
-      - "configs/redirect_maps/data-lake-insight"
+      - "configs/redirect_maps/data-lake-insight-aa"
+  - name: "data-lake-insight-ab"
+    files:
+      - "configs/redirect_maps/data-lake-insight-ab"
   - name: "data-replication-service"
     files:
       - "configs/redirect_maps/data-replication-service"
@@ -78,6 +84,9 @@ configMapGenerator:
   - name: "data-warehouse-service-ac"
     files:
       - "configs/redirect_maps/data-warehouse-service-ac"
+  - name: "data-warehouse-service-ad"
+    files:
+      - "configs/redirect_maps/data-warehouse-service-ad"
   - name: "database-security-service"
     files:
       - "configs/redirect_maps/database-security-service"
@@ -102,9 +111,12 @@ configMapGenerator:
   - name: "domain-name-service"
     files:
       - "configs/redirect_maps/domain-name-service"
-  - name: "elastic-cloud-server"
+  - name: "elastic-cloud-server-aa"
     files:
-      - "configs/redirect_maps/elastic-cloud-server"
+      - "configs/redirect_maps/elastic-cloud-server-aa"
+  - name: "elastic-cloud-server-ab"
+    files:
+      - "configs/redirect_maps/elastic-cloud-server-ab"
   - name: "elastic-ip"
     files:
       - "configs/redirect_maps/elastic-ip"
@@ -171,15 +183,24 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
-  - name: "object-storage-service"
+  - name: "object-storage-service-aa"
     files:
-      - "configs/redirect_maps/object-storage-service"
+      - "configs/redirect_maps/object-storage-service-aa"
+  - name: "object-storage-service-ab"
+    files:
+      - "configs/redirect_maps/object-storage-service-ab"
+  - name: "optical-character-recognition"
+    files:
+      - "configs/redirect_maps/optical-character-recognition"
   - name: "private-link-access-service"
     files:
       - "configs/redirect_maps/private-link-access-service"
-  - name: "relational-database-service"
+  - name: "relational-database-service-aa"
     files:
-      - "configs/redirect_maps/relational-database-service"
+      - "configs/redirect_maps/relational-database-service-aa"
+  - name: "relational-database-service-ab"
+    files:
+      - "configs/redirect_maps/relational-database-service-ab"
   - name: "resource-management-service"
     files:
       - "configs/redirect_maps/resource-management-service"
