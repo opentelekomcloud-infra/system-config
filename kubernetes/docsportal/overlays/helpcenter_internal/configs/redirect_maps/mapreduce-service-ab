@@ -1,3 +1,7 @@
+  /cmpntguide-lts/mrs/mrs_01_1583.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/authentication_and_encryption.html;
+  /cmpntguide-lts/mrs/mrs_01_1585.html /mapreduce-service/operation-guide-lts/using_flink/security_hardening/web_security.html;
+  /cmpntguide-lts/mrs/mrs_01_0593.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/index.html;
+  /cmpntguide-lts/mrs/mrs_01_1580.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/configuring_kafka.html;
   /cmpntguide-lts/mrs/mrs_01_1581.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/configuring_pipeline.html;
   /cmpntguide-lts/mrs/mrs_01_1579.html /mapreduce-service/operation-guide-lts/using_flink/security_configuration/security_features.html;
   /cmpntguide-lts/mrs/mrs_01_0473.html /mapreduce-service/operation-guide-lts/using_flink/using_flink_from_scratch.html;
@@ -994,7 +998,3 @@
   /usermanual/mrs/admin_guide_000256.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000253.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000257.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
-  /usermanual/mrs/admin_guide_000255.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
-  /usermanual/mrs/admin_guide_000254.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
-  /usermanual/mrs/admin_guide_000243.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
-  /usermanual/mrs/admin_guide_000246.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
