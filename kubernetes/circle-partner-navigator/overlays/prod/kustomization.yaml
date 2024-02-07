@@ -11,4 +11,4 @@ configMapGenerator:
 
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
-    newTag: "change_1_latest"
+    newTag: "change_11_latest"
