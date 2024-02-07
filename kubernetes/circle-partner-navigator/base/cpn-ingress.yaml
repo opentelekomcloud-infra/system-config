@@ -4,6 +4,7 @@ metadata:
   name: cpn-backend-ingress
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/proxy-body-size: 500m
 spec:
   ingressClassName: nginx
   rules:
