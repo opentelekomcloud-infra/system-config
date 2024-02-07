@@ -1,0 +1,10 @@
+---
+# handlers file for node-exporter
+
+- name: restart node-exporter
+  become: true
+  systemd:
+    name: "{{ node_exporter_systemd_service_name }}"
+    state: restarted
+    enabled: yes
+    daemon_reload: yes

@@ -124,7 +124,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs-beta.sc.otc.t-systems.com
+        value: docs.sc.otc.t-systems.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -133,7 +133,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs-beta.sc.otc.t-systems.com
+              - docs.sc.otc.t-systems.com
             secretName: helpcenter-swiss-public-cert
     target:
       group: networking.k8s.io
@@ -176,7 +176,6 @@ patches:
                 image: kiwigrid/k8s-sidecar
                 resources:
                   limits:
-                    cpu: "50m"
                     memory: "100Mi"
                   requests:
                     cpu: "10m"

@@ -9,13 +9,9 @@ proxy_backends:
 #      - "default-server check weight 100 inter 5s fall 5 rise 1"
 #    domain_names:
 #      - "graphite.eco.tsi-dev.otc-service.com"
-#      - "graphite1.eco.tsi-dev.otc-service.com"
 #      - "graphite2.eco.tsi-dev.otc-service.com"
 #      - "graphite3.eco.tsi-dev.otc-service.com"
 #    servers:
-#      - name: "graphite1"
-#        address: "192.168.191.55:80"
-#        opts: "cookie graphite1"
 #      - name: "graphite2"
 #        address: "192.168.14.159:443"
 #        opts: "ssl verify none cookie graphite2"
@@ -39,9 +35,6 @@ proxy_backends:
       - name: "graphite-otcinfra"
         address: "192.168.170.6:443"
         opts: "ssl verify none cookie graphite-otcinfra"
-      - name: "graphite1"
-        address: "192.168.191.55:8082"
-        opts: "cookie graphite1 backup"
       - name: "graphite2"
         address: "192.168.14.159:8082"
         opts: "cookie graphite2 backup"
@@ -51,6 +44,9 @@ proxy_backends:
       - name: "graphite4"
         address: "192.168.14.241:8082"
         opts: "cookie graphite4 backup"
+      - name: "graphite5"
+        address: "192.168.14.12:8082"
+        opts: "cookie graphite5 backup"
 
   - name: "dashboard"
     options:
@@ -261,7 +257,7 @@ proxy_frontends:
     bind: "*:8200 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
     backend: "vault"
 
-statsd_host: "192.168.14.159"
+statsd_host: "192.168.14.12"
 statsd_port: "8125"
 
 haproxy_expose_ports: ['80', '443', '8086', '8200', '8448']

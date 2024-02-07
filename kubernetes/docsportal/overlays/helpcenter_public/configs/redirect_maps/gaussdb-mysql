@@ -83,6 +83,7 @@
   /api/gaussdb/ListInstanceTags.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/querying_resource_tags.html;
   /api/gaussdb/gaussdb_06_0002.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/index.html;
   /api/gaussdb/gaussdb_06_0005.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/querying_an_automated_backup_policy.html;
+  /api/gaussdb/DeleteGaussMySqlBackup.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/deleting_a_manual_backup.html;
   /api/gaussdb/gaussdb_06_0004.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/querying_backups.html;
   /api/gaussdb/gaussdb_06_0006.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/modifying_an_automated_backup_policy.html;
   /api/gaussdb/gaussdb_06_0003.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/creating_a_manual_backup.html;
@@ -270,6 +271,7 @@
   /en-us/api/gaussdb/ListInstanceTags.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/querying_resource_tags.html;
   /en-us/api/gaussdb/gaussdb_06_0002.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/index.html;
   /en-us/api/gaussdb/gaussdb_06_0005.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/querying_an_automated_backup_policy.html;
+  /en-us/api/gaussdb/DeleteGaussMySqlBackup.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/deleting_a_manual_backup.html;
   /en-us/api/gaussdb/gaussdb_06_0004.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/querying_backups.html;
   /en-us/api/gaussdb/gaussdb_06_0006.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/modifying_an_automated_backup_policy.html;
   /en-us/api/gaussdb/gaussdb_06_0003.html /gaussdb-mysql/api-ref/apis_recommended/backup_management/creating_a_manual_backup.html;

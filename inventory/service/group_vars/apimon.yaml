@@ -147,6 +147,7 @@ apimon_instances:
           - scenario2a_ecs_az.yaml
           - scenario2c_coreos_az.yaml
           - scenario3_simple_evs.yaml
+          - scenario43_dcs_instance.yaml 
       - env: production_eu-de
         project: csm
         tasks:
@@ -280,6 +281,126 @@ apimon_instances:
         cloud: otcapimon_logs
       - name: production_eu-de-csm
         cloud: otcapimon_csm1
+
+  production_swiss:
+    statsd_host: 192.168.195.120
+    gearman_host: 192.168.195.120
+    zone: swiss_bern
+    image: "{{ apimon_image_stable }}"
+
+    plugins:
+      - name: cloudmon-plugin-loadbalancer
+        image: "{{ cloudmon_plugin_loadbalancer_image }}"
+        init_image: "{{ cloudmon_plugin_loadbalancer_init_image }}"
+        config:
+          interval: 5
+          timeout: 2
+          loadbalancers:
+            - address: lb-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv2
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
+            - address: lb3-eu-de.apimon.eco.tsi-dev.otc-service.com
+              name: elbv3
+              listeners:
+                - port: 80
+                  mode: http
+                - port: 443
+                  mode: https
+                - port: 3333
+                  mode: tcp
+          statsd:
+            server: 192.168.195.120:8125
+            prefix: cloudmon.production_eu-de.swiss_bern
+
+    # Endpoint monitoring configuration
+    # (inventory/service/group_vars/apimon-epmon.yaml)
+    epmon_clouds:
+      - production_eu-de:
+         service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
+            epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
+            epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
+            epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
+            epmon_kms, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
+            epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
+            epmon_smn] | combine }}"
+      - production_eu-nl:
+         service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
+            epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
+            epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
+            epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
+            epmon_kms_nl, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
+            epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
+            epmon_smn] | combine }}"
+
+    # Test projects
+    test_projects:
+      - name: apimon
+        repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+        repo_ref: master
+        scenarios_location: playbooks
+        exec_cmd: ansible-playbook -i inventory/production_external %s
+      - name: csm
+        repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
+        repo_ref: main
+        scenarios_location: playbooks
+        exec_cmd: ansible-playbook %s
+
+    # Test Environments
+    test_environments:
+      - name: production_eu-de
+        env:
+          OS_CLOUD: production_eu-de
+          CSM_CLOUD: production_eu-de-csm
+        clouds:
+          - production_eu-de
+      - name: production_eu-nl
+        env:
+          OS_CLOUD: production_eu-nl
+        clouds:
+          - production_eu-nl
+
+    # Test Matrix
+    test_matrix:
+      - env: production_eu-de
+        project: apimon
+      - env: production_eu-nl
+        project: apimon
+        tasks:
+          - scenario1_token.yaml
+          - scenario3a_evs_az.yaml
+          - scenario4_image.yaml
+          - scenario21_as.yaml
+          - scenario18_cce_info.yaml
+          - scenario18a_cluster.yaml
+          - scenario20_rds.yaml
+          - scenario19_simple_vpc.yaml
+          - scenario2_simple_ecs.yaml
+          - scenario2a_ecs_az.yaml
+          - scenario3_simple_evs.yaml
+          - scenario9_obs.yaml
+          - scenario43_dcs_instance.yaml 
+      - env: production_eu-de
+        project: csm
+        tasks:
+          - lb_monitoring.yaml
+
+    # Test clouds configuration
+    clouds:
+      - name: production_eu-de
+        cloud: otcapimon_probes12
+      - name: production_eu-nl
+        cloud: otcapimon_probes16
+      - name: swift
+        cloud: otcapimon_logs
+      - name: production_eu-de-csm
+        cloud: otcapimon_csm1
+
 
   preprod:
     statsd_host: 192.168.110.207

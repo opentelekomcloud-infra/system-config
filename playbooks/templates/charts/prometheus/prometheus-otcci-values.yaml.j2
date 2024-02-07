@@ -1,0 +1,127 @@
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-type: basic
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.alertmanager_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.alertmanager_fqdn }}"
+        secretName: alertmanager-mon
+  alertmanagerSpec:
+    externalUrl: "https://{{ chart.alertmanager_fqdn }}"
+  config:
+    route:
+      routes:
+      - matchers:
+        - alertname =~ "InfoInhibitor|Watchdog"
+        receiver: "null"
+        continue: false
+      - matchers:
+        - severity =~ "critical|warning"
+        receiver: matrix-webhook
+        continue: true
+      - receiver: slack-webhook
+    receivers:
+    - name: 'null'
+    - name: "matrix-webhook"
+      webhook_configs:
+      - url: "{{ chart.matrix_webhook_url }}"
+        send_resolved: true
+    - name: "slack-webhook"
+      slack_configs:
+      - api_url: "{{ chart.slack_webhook_url }}"
+        color: '{% raw %}{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}{% endraw %}'
+        link_names: false
+        send_resolved: true
+        short_fields: false
+{%- raw %}
+        text: |
+          {{ range .Alerts }}
+            {{- if .Annotations.summary }}
+            *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+            {{- end }}
+            {{- if .Annotations.description }}
+            *Description:* {{ .Annotations.description }}
+            {{- end }}
+            *Cluster:* {{ .Labels.cce_cluster }}
+          {{ end }}
+{% endraw %}
+        title: '{% raw %}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing }}{{ end }}] {{ .CommonLabels.alertname }}{% endraw %}'
+prometheus:
+  extraSecret:
+    name: basic-auth
+    data:
+      auth: "{{ chart.prometheus_basic_auth_credentials }}" 
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+      nginx.ingress.kubernetes.io/auth-secret: basic-auth
+      nginx.ingress.kubernetes.io/auth-type: basic
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.prometheus_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.prometheus_fqdn }}"
+        secretName: prometheus-mon
+  prometheusSpec:
+    externalLabels:
+      cce_cluster: otcci
+    externalUrl: "https://{{ chart.prometheus_fqdn }}"
+    retention: "7d"
+additionalPrometheusRulesMap:
+  endpoint-mon:
+    groups:
+    - name: critical-rules
+      rules:
+      - alert: ProbeFailing
+        expr: up{job="blackbox"} == 0 or probe_success{job="blackbox"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: Endpoint Down
+          description: "Endpoint is Down\n {{ '{{ $labels.instance }}' }}"
+grafana:
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    hosts:
+      - "{{ chart.grafana_fqdn }}"
+    paths:
+      - /
+    tls:
+      - hosts:
+        - "{{ chart.grafana_fqdn }}"
+        secretName: grafana-mon
+  adminPassword: "{{ chart.grafana_admin_password }}"
+defaultRules:
+  rules:
+    kubeScheduler: false
+    kubeProxy: false
+    kubeControllerManager: false
+    etcd: false
+kubeScheduler:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+kubeProxy:
+  enabled: false
+coreDns:
+  enabled: false

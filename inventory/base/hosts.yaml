@@ -56,6 +56,16 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBODGaSYNGnCUpVUvzzfzfRbn/Wn7qNQbzEHL9BF3/+uccsCp9+6F6tIM5l/D/GmszHmDodyYbB8GzoSEFL/yLqo='
+    executor5.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.195.120
+      ansible_user: automation
+      public_v4: 192.168.195.120
+      location:
+        cloud: "otc_vault_69979_swiss_apimon"
+        az: "eu-ch2a"
+        region: "eu-ch2"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBJJBag3yPtjV4n8Au3/mRA4+IiJtQv1EiYZhuMbpK/BJ5M+vMHNqj1NDsq/4TER3iXWfL5UFGQmkCr42McVeJ94='
     hybrid.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.249
       ansible_user: automation
@@ -98,6 +108,17 @@ all:
         #  region: "eu-nl"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBK+SKubrx+fxYz9uQ0abQWXdvWSbP22taXgMY4uGTpi2l99/O0ctElLBYEG0xHr0HF6XgT3fx15r9kkuaCeZvrw='
+    graphite5.apimon.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.14.12
+      ansible_user: automation
+      public_v4: 192.168.14.12
+      location:
+        provider: "otc"
+        cloud: "otcinfra-domain2-database"
+        az: "eu-de-01"
+        region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCHm4PACkOLwKvzhJTbMTtZJrDX2GW0x2mf/nKlTsZdTRJDcxs1I45WWO8j26cTOsxK6F1WxshKChp3VNw48y7s='
     graphite1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.241
       ansible_user: automation

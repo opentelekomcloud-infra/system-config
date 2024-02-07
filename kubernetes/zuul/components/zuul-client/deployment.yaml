@@ -33,11 +33,10 @@ spec:
 
           resources:
             limits:
-              cpu: "50m"
               memory: "128Mi"
             requests:
               cpu: "10m"
-              memory: "32Mi"
+              memory: "128Mi"
 
           securityContext:
             runAsUser: 10001

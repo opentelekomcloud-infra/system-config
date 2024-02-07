@@ -1,3 +1,6 @@
+  /usermanual/mrs/mrs_03_1018.html /mapreduce-service/umn/faq/cluster_management/can_i_expand_data_disk_capacity_for_mrs.html;
+  /usermanual/mrs/mrs_03_1004.html /mapreduce-service/umn/faq/cluster_management/how_do_i_view_cluster_configuration_information.html;
+  /usermanual/mrs/mrs_03_1028.html /mapreduce-service/umn/faq/cluster_management/can_i_delete_components_installed_in_an_mrs_cluster.html;
   /usermanual/mrs/mrs_03_1034.html /mapreduce-service/umn/faq/cluster_management/can_i_change_mrs_cluster_nodes_on_the_mrs_console.html;
   /usermanual/mrs/mrs_03_1002.html /mapreduce-service/umn/faq/cluster_management/how_do_i_view_all_clusters.html;
   /usermanual/mrs/mrs_03_1024.html /mapreduce-service/umn/faq/cluster_management/can_i_add_components_to_an_existing_cluster.html;
@@ -126,6 +129,7 @@
   /en-us/api/mrs/mrs_02_0025.html /mapreduce-service/api-ref/apis/data_source_apis/querying_the_data_source_details.html;
   /en-us/api/mrs/mrs_02_0024.html /mapreduce-service/api-ref/apis/data_source_apis/querying_the_data_source_list.html;
   /en-us/api/mrs/mrs_02_0100.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/index.html;
+  /en-us/api/mrs/mrs_02_0201.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/changing_a_cluster_name.html;
   /en-us/api/mrs/mrs_02_0101.html /mapreduce-service/api-ref/apis/cluster_management_apis_v2/creating_clusters.html;
   /en-us/api/mrs/mrs_02_0070.html /mapreduce-service/api-ref/apis/tag_management_apis/index.html;
   /en-us/api/mrs/mrs_02_0074.html /mapreduce-service/api-ref/apis/tag_management_apis/adding_or_deleting_cluster_tags_in_batches.html;
@@ -143,6 +147,8 @@
   /en-us/api/mrs/mrs_02_0031.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/querying_cluster_details.html;
   /en-us/api/mrs/mrs_02_0029.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/resizing_a_cluster.html;
   /en-us/api/mrs/mrs_02_0028.html /mapreduce-service/api-ref/apis/cluster_management_apis_v1/creating_a_cluster_and_running_a_job.html;
+  /en-us/api/mrs/mrs_02_0200.html /mapreduce-service/api-ref/apis/auto_scaling_apis_v2/viewing_auto_scaling_policies.html;
+  /en-us/api/mrs/mrs_02_0199.html /mapreduce-service/api-ref/apis/auto_scaling_apis_v2/index.html;
   /en-us/api/mrs/mrs_02_0084.html /mapreduce-service/api-ref/apis/job_object_apis_v2/index.html;
   /en-us/api/mrs/mrs_02_0090.html /mapreduce-service/api-ref/apis/job_object_apis_v2/obtain_the_sql_result.html;
   /en-us/api/mrs/mrs_02_0085.html /mapreduce-service/api-ref/apis/job_object_apis_v2/adding_and_executing_a_job.html;
@@ -156,6 +162,7 @@
   /en-us/api/mrs/mrs_02_0034.html /mapreduce-service/api-ref/apis/job_binary_object_apis/creating_a_job_binary_object.html;
   /en-us/api/mrs/mrs_02_0037.html /mapreduce-service/api-ref/apis/job_binary_object_apis/querying_the_binary_object_details.html;
   /en-us/api/mrs/mrs_02_0038.html /mapreduce-service/api-ref/apis/job_binary_object_apis/deleting_a_job_binary_object.html;
+  /en-us/bestpractice/mrs/ /mapreduce-service/best-practice/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_2122.html /mapreduce-service/operation-guide-lts/appendix/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_0787.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_0800.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/using_an_mrs_client_on_nodes_outside_a_mrs_cluster.html;
@@ -991,10 +998,3 @@
   /en-us/cmpntguide-lts/mrs/mrs_01_1808.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_from_scratch.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_24233.html /mapreduce-service/operation-guide-lts/using_oozie/enabling_oozie_high_availability_ha.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1844.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/index.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1847.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/the_update_of_the_share_lib_directory_of_oozie_does_not_take_effect.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1846.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/oozie_scheduled_tasks_are_not_executed_on_time.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1845.html /mapreduce-service/operation-guide-lts/using_oozie/common_issues_about_oozie/how_do_i_resolve_the_problem_that_the_oozie_client_fails_to_submit_a_mapreduce_job.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1812.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/index.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1814.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_spark2x_job.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1816.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_other_jobs.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_2392.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_distcp_job.html;

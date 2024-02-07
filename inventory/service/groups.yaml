@@ -11,6 +11,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -23,6 +24,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com    
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -32,6 +34,7 @@ groups:
     - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -39,6 +42,7 @@ groups:
   apimon-scheduler:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -46,6 +50,7 @@ groups:
   apimon-epmon:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -55,7 +60,11 @@ groups:
       #    - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
+
+  apimon-production-swiss:
+    - executor5.apimon.eco.tsi-dev.otc-service.com
 
   # hyrdid instance of the apimon
   apimon-hybrid:
@@ -76,9 +85,10 @@ groups:
   carbonapi:
     # Bridge is here to allow k8 access to vars
     - bridge.eco.tsi-dev.otc-service.com
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Matrix server
@@ -92,6 +102,7 @@ groups:
     - executor1.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
@@ -104,6 +115,7 @@ groups:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
     - executor2.apimon.eco.tsi-dev.otc-service.com
+    - executor5.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
@@ -111,22 +123,25 @@ groups:
     - controller.swift.eco.tsi-dev.otc-service.com
 
   graphite:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   memcached:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
 
   # Hosts in this group would build a cluster
   graphite-apimon:
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
 
   database-launcher:
     - bridge.eco.tsi-dev.otc-service.com
@@ -155,7 +170,7 @@ groups:
 
   ssl_certs:
     - bridge.eco.tsi-dev.otc-service.com
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - graphite2.apimon.eco.tsi-dev.otc-service.com
     - graphite3.apimon.eco.tsi-dev.otc-service.com
     - graphite1.eco.tsi-dev.otc-service.com
@@ -174,6 +189,7 @@ groups:
     - graphite1.cloudmon.eco.tsi-dev.otc-service.com
     - graphite2.cloudmon.eco.tsi-dev.otc-service.com
     - graphite3.cloudmon.eco.tsi-dev.otc-service.com
+    - graphite5.apimon.eco.tsi-dev.otc-service.com
 
   zookeeper: []
     # - zk1.zuul.eco.tsi-dev.otc-service.com

@@ -1,3 +1,9 @@
+  /en-us/usermanual/mrs/mrs_03_1155.html /mapreduce-service/umn/faq/mrs_overview/can_i_clear_mrs_sudo_logs.html;
+  /en-us/usermanual/mrs/mrs_03_1221.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_enable_different_service_programs_to_use_different_yarn_queues.html;
+  /en-us/usermanual/mrs/mrs_03_1246.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_unbind_an_eip_from_an_mrs_cluster_node.html;
+  /en-us/usermanual/mrs/mrs_03_1065.html /mapreduce-service/umn/faq/mrs_overview/what_is_the_relationship_between_impala_and_other_components.html;
+  /en-us/usermanual/mrs/mrs_03_1204.html /mapreduce-service/umn/faq/mrs_overview/why_is_the_zookeeper_component_unavailable_when_an_mrs_cluster_is_created.html;
+  /en-us/usermanual/mrs/mrs_03_1012.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_create_an_mrs_cluster_using_a_custom_security_group.html;
   /en-us/usermanual/mrs/mrs_03_1092.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_obtain_the_hadoop_pressure_test_tool.html;
   /en-us/usermanual/mrs/en-us_topic_0000001442773925.html /mapreduce-service/umn/faq/mrs_overview/what_is_spark_thriftserver.html;
   /en-us/usermanual/mrs/en-us_topic_0000001392255170.html /mapreduce-service/umn/faq/mrs_overview/what_is_the_compression_ratio_of_zstd.html;

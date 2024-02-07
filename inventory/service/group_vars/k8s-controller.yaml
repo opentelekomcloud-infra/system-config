@@ -3,11 +3,9 @@ graphite_web_instances:
     domain_name: "graphite.apimon.eco.tsi-dev.otc-service.com"
     graphite_cert: "graphite-apimon"
     cluster_servers:
-      - 'http://192.168.191.55:8080'
       - 'http://192.168.14.159:8080'
       - 'http://192.168.151.11:8080'
     memcache_host:
-      - '192.168.191.55:11211'
       - '192.168.14.159:11211'
       - '192.168.151.11:11211'
 
@@ -180,7 +178,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.1.0
+    version: 4.5.2
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
@@ -209,7 +207,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.1.0
+    version: 4.5.2
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
@@ -223,7 +221,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.1.0
+    version: 4.5.2
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
@@ -237,43 +235,61 @@ helm_chart_instances:
     repo_name: grafana
     name: loki
     ref: grafana/loki
-    version: 5.5.0
+    version: 5.34.0
     namespace: loki
     values_template: "templates/charts/loki/loki-values.yaml.j2"
-  otcinfra_promtail:
-    context: otcinfra
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.8.1
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
-  otcinfra2_promtail:
-    context: otcinfra2
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.8.1
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
-  otcci_promtail:
-    context: otcci
-    repo_url: https://grafana.github.io/helm-charts
-    repo_name: grafana
-    name: promtail
-    ref: grafana/promtail
-    version: 6.8.1
-    namespace: promtail
-    values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
+# otcinfra_promtail:
+#   context: otcinfra
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcinfra-values.yaml.j2"
+# otcinfra2_promtail:
+#   context: otcinfra2
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcinfra2-values.yaml.j2"
+# otcci_promtail:
+#   context: otcci
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-otcci-values.yaml.j2"
+# cloudmon_de_promtail:
+#   context: cloudmon-de
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-cloudmon-de-values.yaml.j2"
+# cloudmon_nl_promtail:
+#   context: cloudmon-nl
+#   repo_url: https://grafana.github.io/helm-charts
+#   repo_name: grafana
+#   name: promtail
+#   ref: grafana/promtail
+#   version: 6.15.2
+#   namespace: promtail
+#   values_template: "templates/charts/promtail/promtail-cloudmon-nl-values.yaml.j2"
   otcinfra_telegraf:
     context: otcinfra
     repo_url: https://helm.influxdata.com/
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
   otcinfra2_telegraf:
@@ -282,7 +298,7 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
   otcinfra_opensearch:
@@ -345,7 +361,7 @@ helm_chart_instances:
     repo_name: influxdata
     name: telegraf
     ref: influxdata/telegraf-ds
-    version: 1.1.0
+    version: 1.1.17
     namespace: telegraf
     values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
   otcinfra_falco:
@@ -378,7 +394,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus
     ref: prometheus-community/kube-prometheus-stack
-    version: 41.6.1
+    version: 51.8.1
     namespace: monitoring
     values_template: "templates/charts/prometheus/prometheus-otcinfra-values.yaml.j2"
     post_config_template: "templates/charts/prometheus/prometheus-otcinfra-go-neb-post-config.yaml.j2"
@@ -389,7 +405,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus-blackbox-exporter
     ref: prometheus-community/prometheus-blackbox-exporter
-    version: 7.1.3
+    version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra-values.yaml.j2"
   otcinfra2_prometheus:
@@ -398,7 +414,7 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus
     ref: prometheus-community/kube-prometheus-stack
-    version: 41.6.1
+    version: 51.8.1
     namespace: monitoring
     values_template: "templates/charts/prometheus/prometheus-otcinfra2-values.yaml.j2"
     post_config_template: "templates/charts/prometheus/prometheus-otcinfra2-go-neb-post-config.yaml.j2"
@@ -409,9 +425,42 @@ helm_chart_instances:
     repo_name: prometheus-community
     name: prometheus-blackbox-exporter
     ref: prometheus-community/prometheus-blackbox-exporter
-    version: 7.1.3
+    version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra2-values.yaml.j2"
+  otcci_prometheus:
+    context: otcci
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-otcci-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-otcci-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
+  cloudmon_de_prometheus:
+    context: cloudmon-de
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-cloudmon-de-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-cloudmon-de-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
+  cloudmon_nl_prometheus:
+    context: cloudmon-nl
+    repo_url: https://prometheus-community.github.io/helm-charts
+    repo_name: prometheus-community
+    name: prometheus
+    ref: prometheus-community/kube-prometheus-stack
+    version: 51.8.1
+    namespace: monitoring
+    values_template: "templates/charts/prometheus/prometheus-cloudmon-nl-values.yaml.j2"
+    post_config_template: "templates/charts/prometheus/prometheus-cloudmon-nl-go-neb-post-config.yaml.j2"
+    go_neb_image: "{{ go_neb_image_stable }}"
 
 octavia_proxy_instances:
   eu-nl:
