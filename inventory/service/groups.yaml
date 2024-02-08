@@ -8,7 +8,7 @@ groups:
     - bridge.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
     - executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com
@@ -21,7 +21,7 @@ groups:
     - bridge.eco.tsi-dev.otc-service.com
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com    
@@ -31,7 +31,7 @@ groups:
   # apimon-executor is where executors should be deployed
   apimon-executor:
     - executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor3.apimon.eco.tsi-dev.otc-service.com
     - executor4.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com
@@ -41,7 +41,7 @@ groups:
   # apimon-scheduler is where scheduler should be deployed
   apimon-scheduler:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
@@ -49,7 +49,7 @@ groups:
   # apimon-epmon is where epmon should be deployed
   apimon-epmon:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
@@ -114,7 +114,7 @@ groups:
   statsd:
     - scheduler1.apimon.eco.tsi-dev.otc-service.com
       #- executor1.apimon.eco.tsi-dev.otc-service.com
-    - executor2.apimon.eco.tsi-dev.otc-service.com
+    # - executor2.apimon.eco.tsi-dev.otc-service.com
     - executor5.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
@@ -153,11 +153,11 @@ groups:
     - bridge.eco.tsi-dev.otc-service.com
 
   alerta:
-    - web3.eco.tsi-dev.otc-service.com
+    # - web3.eco.tsi-dev.otc-service.com
     - bridge.eco.tsi-dev.otc-service.com
 
   grafana:
-    - web3.eco.tsi-dev.otc-service.com
+    # - web3.eco.tsi-dev.otc-service.com
     - bridge.eco.tsi-dev.otc-service.com
 
   grafana-controller:
@@ -166,7 +166,7 @@ groups:
   proxy:
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
-    - web3.eco.tsi-dev.otc-service.com
+    # - web3.eco.tsi-dev.otc-service.com
 
   ssl_certs:
     - bridge.eco.tsi-dev.otc-service.com
@@ -176,7 +176,7 @@ groups:
     - graphite1.eco.tsi-dev.otc-service.com
     - proxy1.eco.tsi-dev.otc-service.com
     - proxy2.eco.tsi-dev.otc-service.com
-    - web3.eco.tsi-dev.otc-service.com
+    # - web3.eco.tsi-dev.otc-service.com
     - vault1.eco.tsi-dev.otc-service.com
     - vault2.eco.tsi-dev.otc-service.com
     - vault3.eco.tsi-dev.otc-service.com
@@ -265,7 +265,7 @@ groups:
 
   disabled:
     # We can not manage coreos with ansible by default
-    - graphite1.apimon.eco.tsi-dev.otc-service.com
+    # - graphite1.apimon.eco.tsi-dev.otc-service.com
     - zk1.zuul.eco.tsi-dev.otc-service.com
     - zk2.zuul.eco.tsi-dev.otc-service.com
     - zk3.zuul.eco.tsi-dev.otc-service.com
