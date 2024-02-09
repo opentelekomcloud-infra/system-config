@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-failed-zuul
+  name: grafana-docs-monitoring-eco-issues
 spec:
   concurrencyPolicy: Forbid
   schedule: "0 10 * * *"
@@ -38,7 +38,7 @@ spec:
                   readOnly: true
 
           containers:
-            - name: grafana-docs-monitoring-failed-zuul
+            - name: grafana-docs-monitoring-eco-issues
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
