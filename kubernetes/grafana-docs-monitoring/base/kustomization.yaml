@@ -18,4 +18,5 @@ resources:
   - cronjob-lci.yaml
   - cronjob-oi.yaml
   - cronjob-servicesdict.yaml
+  - cronjob-ei.yaml
   - sa.yaml
