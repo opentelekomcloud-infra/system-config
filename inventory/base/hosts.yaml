@@ -30,12 +30,12 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBHjaOBm6r6ZutikCTQONG1QunfApsR4o/InT344055jZudZsD0vmag6Lv2JmaZRBMROyHVC4mROoFptZNT54z3w='
-    executor2.apimon.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.2.60
-      ansible_user: automation
-      public_v4: 192.168.2.60
-      host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
+    # executor2.apimon.eco.tsi-dev.otc-service.com:
+    #   ansible_host: 192.168.2.60
+    #   ansible_user: automation
+    #   public_v4: 192.168.2.60
+    #   host_keys:
+    #     - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
     executor3.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.145
       ansible_user: automation
@@ -86,12 +86,12 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBIvp6vPPhXzZCsJEMAiQSlUZQ+B/gsd4lV65SZRBSM9vYOX0NGJyWRf7Bo2lIQzpQnMW8oASCBMlwAVqrGi62lk='
-    graphite1.apimon.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.191.55
-      ansible_user: automation
-      public_v4: 192.168.191.55
-      host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
+    # graphite1.apimon.eco.tsi-dev.otc-service.com:
+    #  ansible_host: 192.168.191.55
+    #  ansible_user: automation
+    #  public_v4: 192.168.191.55
+    #  host_keys:
+    #    - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBI7WcncKZJ5Ydfk6IGYdavr/eHloW1/x4/z7CU2hkLo58TgZ2gSLIMjtOY9XBP0/m8cUi49Ku6dKSkpR4zH2G5o='
     graphite2.apimon.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.14.159
       ansible_user: automation
@@ -147,14 +147,14 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC85A2P8NFeLqXTFCYIZiGRQuotAtRlku7UiGAnh9y6gXBILGg/F3m34apKrY9PLk1Y0OLUD4zmx0vlLr+eq5LQ='
-    web3.eco.tsi-dev.otc-service.com:
-      ansible_host: 192.168.2.52
-      ansible_user: automation
-      public_v4: 192.168.2.52
-      location:
-        provider: vcloud
-      host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
+    # web3.eco.tsi-dev.otc-service.com:
+    #   ansible_host: 192.168.2.52
+    #   ansible_user: automation
+    #   public_v4: 192.168.2.52
+    #   location:
+    #     provider: vcloud
+    #   host_keys:
+    #     - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBP8dPd4/nsUDapT3wCvhYFMoLjYi71jjOVGU732dkvaZTNdu0dQhgRAorehPUFlbWkgRPTxs+GZ53z7KGUaseXk='
     bridge.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.110.29
       ansible_user: automation
