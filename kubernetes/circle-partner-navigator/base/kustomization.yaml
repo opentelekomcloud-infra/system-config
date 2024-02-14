@@ -5,6 +5,9 @@ resources:
 - cpn-ingress.yaml
 - service-backend.yaml
 - sa.yaml
+- service-front.yaml
+- cpn-front-ingress.yaml
+- front-deploy.yaml
 
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
