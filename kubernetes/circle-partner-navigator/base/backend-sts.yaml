@@ -48,7 +48,7 @@ spec:
         command:
           ["/bin/bash", "-c"]
         args:
-          ['source  /secrets/cpn-env && npm run start']
+          ['source /secrets/cpn-env && npm run start']
         volumeMounts:
         - name: cpn-backend-persistent-storage
           mountPath: /opt/app/public/uploads
