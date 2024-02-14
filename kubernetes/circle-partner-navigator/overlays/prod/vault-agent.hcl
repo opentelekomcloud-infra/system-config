@@ -32,7 +32,7 @@ export API_TOKEN_SALT={{ .Data.data.apitokensalt }}
 export TRANSFER_TOKEN_SALT={{ .Data.data.transfertokensalt }}
 export HOST={{ .Data.data.host }}
 export PORT={{ .Data.data.port }}
-export STRAPI_TELEMETRY_DISABLED = true
+export STRAPI_TELEMETRY_DISABLED=true
 {{- end }}
 
 EOT
