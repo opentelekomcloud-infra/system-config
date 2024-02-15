@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+ name: otcinfra2-infra-app-of-apps
+ namespace: argocd
+spec:
+ project: infra
+ source:
+   repoURL: https://github.com/opentelekomcloud-infra/system-config
+   targetRevision: main
+   path: kubernetes/argocd-apps/clusters/otcinfra2/infra
+   directory:
+     recurse: true
+ destination:
+   server: https://kubernetes.default.svc
+   namespace: argocd
+ syncPolicy:
+   automated:
+     prune: true
+     selfHeal: true

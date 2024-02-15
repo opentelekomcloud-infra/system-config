@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: falco-otcinfra2
+  namespace: argocd
+spec:
+  destination:
+    namespace: falco
+    name: otcinfra2
+  project: infra
+  source:
+    repoURL: https://falcosecurity.github.io/charts
+    targetRevision: 3.6.2
+    path: falcosecurity/falco
+    chart: falco
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
