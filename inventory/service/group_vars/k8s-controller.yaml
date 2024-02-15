@@ -283,24 +283,24 @@ helm_chart_instances:
 #   version: 6.15.2
 #   namespace: promtail
 #   values_template: "templates/charts/promtail/promtail-cloudmon-nl-values.yaml.j2"
-  otcinfra_telegraf:
-    context: otcinfra
-    repo_url: https://helm.influxdata.com/
-    repo_name: influxdata
-    name: telegraf
-    ref: influxdata/telegraf-ds
-    version: 1.1.17
-    namespace: telegraf
-    values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
-  otcinfra2_telegraf:
-    context: otcinfra2
-    repo_url: https://helm.influxdata.com/
-    repo_name: influxdata
-    name: telegraf
-    ref: influxdata/telegraf-ds
-    version: 1.1.17
-    namespace: telegraf
-    values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
+# otcinfra_telegraf:
+#   context: otcinfra
+#   repo_url: https://helm.influxdata.com/
+#   repo_name: influxdata
+#   name: telegraf
+#   ref: influxdata/telegraf-ds
+#   version: 1.1.17
+#   namespace: telegraf
+#   values_template: "templates/charts/telegraf/telegraf-otcinfra-values.yaml.j2"
+# otcinfra2_telegraf:
+#   context: otcinfra2
+#   repo_url: https://helm.influxdata.com/
+#   repo_name: influxdata
+#   name: telegraf
+#   ref: influxdata/telegraf-ds
+#   version: 1.1.17
+#   namespace: telegraf
+#   values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
   otcinfra_opensearch:
     context: otcinfra
     repo_url: https://opensearch-project.github.io/helm-charts/
@@ -355,39 +355,39 @@ helm_chart_instances:
 #    values_template: "templates/charts/opensearch/opensearch-stg-dashboard-otcinfra2-values.yaml.j2"
 #    opensearch_dashboard_tls_name: "{{ opensearch_instances.otcinfra2_opensearch_stg.opensearch_dashboard_tls_name }}"
 #    opensearch_dashboard_fqdn: "{{ opensearch_instances.otcinfra2_opensearch_stg.opensearch_dashboard_fqdn }}"
-  otcci_telegraf:
-    context: otcci
-    repo_url: https://helm.influxdata.com/
-    repo_name: influxdata
-    name: telegraf
-    ref: influxdata/telegraf-ds
-    version: 1.1.17
-    namespace: telegraf
-    values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
-  otcinfra_falco:
-    context: otcinfra
-    repo_url: https://falcosecurity.github.io/charts
-    repo_name: falcosecurity
-    name: falco
-    ref: falcosecurity/falco
-    version: 3.6.2
-    namespace: falco
-  otcinfra2_falco:
-    context: otcinfra2
-    repo_url: https://falcosecurity.github.io/charts
-    repo_name: falcosecurity
-    name: falco
-    ref: falcosecurity/falco
-    version: 3.6.2
-    namespace: falco
-  otcci_falco:
-    context: otcci
-    repo_url: https://falcosecurity.github.io/charts
-    repo_name: falcosecurity
-    name: falco
-    ref: falcosecurity/falco
-    version: 3.6.2
-    namespace: falco
+# otcci_telegraf:
+#   context: otcci
+#   repo_url: https://helm.influxdata.com/
+#   repo_name: influxdata
+#   name: telegraf
+#   ref: influxdata/telegraf-ds
+#   version: 1.1.17
+#   namespace: telegraf
+#   values_template: "templates/charts/telegraf/telegraf-otcci-values.yaml.j2"
+# otcinfra_falco:
+#   context: otcinfra
+#   repo_url: https://falcosecurity.github.io/charts
+#   repo_name: falcosecurity
+#   name: falco
+#   ref: falcosecurity/falco
+#   version: 3.6.2
+#   namespace: falco
+# otcinfra2_falco:
+#   context: otcinfra2
+#   repo_url: https://falcosecurity.github.io/charts
+#   repo_name: falcosecurity
+#   name: falco
+#   ref: falcosecurity/falco
+#   version: 3.6.2
+#   namespace: falco
+# otcci_falco:
+#   context: otcci
+#   repo_url: https://falcosecurity.github.io/charts
+#   repo_name: falcosecurity
+#   name: falco
+#   ref: falcosecurity/falco
+#   version: 3.6.2
+#   namespace: falco
   otcinfra_prometheus:
     context: otcinfra
     repo_url: https://prometheus-community.github.io/helm-charts

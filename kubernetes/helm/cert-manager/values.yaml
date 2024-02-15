@@ -1,0 +1,4 @@
+cert-manager:
+  installCRDs: true
+
+email: <path:secret/data/cert-manager#email>

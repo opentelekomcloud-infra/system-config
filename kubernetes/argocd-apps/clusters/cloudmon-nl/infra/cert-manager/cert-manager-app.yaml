@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: cert-manager-cloudmon-nl
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+    targetRevision: main
+    path: kubernetes/helm/cert-manager
+    plugin:
+      name: argocd-vault-plugin-helm
+  destination:
+    name: cloudmon-nl
+    namespace: cert-manager
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

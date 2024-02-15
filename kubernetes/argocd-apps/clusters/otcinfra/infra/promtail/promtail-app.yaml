@@ -7,7 +7,7 @@ spec:
   destination:
     namespace: promtail
     name: otcinfra
-  project: default
+  project: infra
   source:
     repoURL: https://grafana.github.io/helm-charts
     targetRevision: 6.15.2
@@ -31,4 +31,6 @@ spec:
                   target_label: cluster
                 pipelineStages:
                   - docker: {}
-  syncPolicy: {}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
