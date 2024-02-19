@@ -82,6 +82,25 @@ repoServer:
         - mountPath: /usr/local/bin/argocd-vault-plugin
           subPath: argocd-vault-plugin
           name: custom-tools
+    - name: avp-with-args
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v2.9.3
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-helm-with-args.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
   volumes: 
     - configMap:
         name: argocd-cmp-cm
@@ -110,7 +129,7 @@ configs:
 
   secret:
     createSecret: true
-    extra: 
+    extra:
       oidc.keycloak.clientSecret: {{ chart.secrets.keycloak_client_secret }}
       VAULT_ADDR: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
       AVP_AUTH_TYPE: "k8s"
@@ -147,4 +166,26 @@ configs:
               helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") . |
               argocd-vault-plugin generate -s argocd:argocd-secret -
         allowConcurrency: true
+        lockRepo: false
+      argocd-vault-plugin-helm-with-args:
+        allowConcurrency: true
+        discover:
+          find:
+            command:
+            - sh
+            - -c
+            - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+        generate:
+          command:
+          - bash
+          - -c
+          - |
+            helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . --include-crds |
+            argocd-vault-plugin generate -s argocd:argocd-secret -
+        init:
+          command:
+          - bash
+          - -c
+          - |
+            helm dependency build
         lockRepo: false
