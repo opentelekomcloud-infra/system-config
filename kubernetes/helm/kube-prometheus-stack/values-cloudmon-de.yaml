@@ -1,17 +1,17 @@
 kube-prometheus-stack:
   alertmanager:
     alertmanagerSpec:
-      externalUrl: https://alertmanager-nl.cloudmon.eco.tsi-dev.otc-service.com
+      externalUrl: https://alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
     config:
       receivers:
       - name: "null"
       - name: matrix-webhook
         webhook_configs:
         - send_resolved: true
-          url: <path:secret/data/prometheus/cloudmon-nl#matrix_webhook_url>
+          url: <path:secret/data/prometheus/cloudmon-de#matrix_webhook_url>
       - name: slack-webhook
         slack_configs:
-        - api_url: <path:secret/data/prometheus/cloudmon-nl#slack_webhook_url>
+        - api_url: <path:secret/data/prometheus/cloudmon-de#slack_webhook_url>
           color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
           link_names: false
           send_resolved: true
@@ -47,13 +47,13 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
       enabled: true
       hosts:
-      - alertmanager-nl.cloudmon.eco.tsi-dev.otc-service.com
+      - alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - alertmanager-nl.cloudmon.eco.tsi-dev.otc-service.com
+        - alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
         secretName: alertmanager-mon
   coreDns:
     enabled: false
@@ -64,19 +64,19 @@ kube-prometheus-stack:
       kubeProxy: false
       kubeScheduler: false
   grafana:
-    adminPassword: <path:secret/data/prometheus/cloudmon-nl#password>
+    adminPassword: <path:secret/data/prometheus/cloudmon-de#password>
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
       enabled: true
       hosts:
-      - grafana-nl.cloudmon.eco.tsi-dev.otc-service.com
+      - grafana-de.cloudmon.eco.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - grafana-nl.cloudmon.eco.tsi-dev.otc-service.com
+        - grafana-de.cloudmon.eco.tsi-dev.otc-service.com
         secretName: grafana-mon
   kubeControllerManager:
     enabled: false
@@ -89,7 +89,7 @@ kube-prometheus-stack:
   prometheus:
     extraSecret:
       data:
-        auth: <path:secret/data/prometheus/cloudmon-nl#basic_auth>
+        auth: <path:secret/data/prometheus/cloudmon-de#basic_auth>
       name: basic-auth
     ingress:
       annotations:
@@ -99,24 +99,24 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
       enabled: true
       hosts:
-      - prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
+      - prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
+        - prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
         secretName: prometheus-mon
     prometheusSpec:
       externalLabels:
-        cce_cluster: CLOUDMON-NL
-      externalUrl: https://prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
+        cce_cluster: CLOUDMON-DE
+      externalUrl: https://prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
       retention: 7d
 
 goNeb:
-  userId: <path:secret/data/prometheus/cloudmon-nl#go_neb_user_id>
-  accessToken: <path:secret/data/prometheus/cloudmon-nl#matrix_bot_access_token>
+  userId: <path:secret/data/prometheus/cloudmon-de#go_neb_user_id>
+  accessToken: <path:secret/data/prometheus/cloudmon-de#matrix_bot_access_token>
   homeserverURL: "https://matrix.org"
   displayName: "OpenTelekomCloud Bot"
-  roomId: <path:secret/data/prometheus/cloudmon-nl#go_neb_room_id>
+  roomId: <path:secret/data/prometheus/cloudmon-de#go_neb_room_id>
   image: "quay.io/opentelekomcloud/go-neb:master-2022-04-13"
