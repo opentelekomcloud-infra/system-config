@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-cloudmon-nl
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+    targetRevision: main
+    path: kubernetes/helm/kube-prometheus-stack
+    plugin:
+      name: argocd-vault-plugin-helm-with-args
+      env:
+        - name: HELM_ARGS
+          value: -f values-cloudmon-nl.yaml
+  destination:
+    name: cloudmon-nl
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
