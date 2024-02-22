@@ -13,6 +13,8 @@ spec:
     targetRevision: '3.6.2'
     path: falcosecurity/falco
     chart: falco
+    plugin:
+      name: argocd-vault-plugin-helm
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
