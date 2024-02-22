@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: go-neb
+  name: go-neb
+  namespace: monitoring
+spec:
+  ports:
+  - name: 4050-4050
+    port: 4050
+    protocol: TCP
+    targetPort: 4050
+  selector:
+    app: go-neb
+  type: ClusterIP

@@ -15,24 +15,56 @@ alertmanager:
       - hosts:
         - "{{ chart.alertmanager_fqdn }}"
         secretName: alertmanager-mon
-  alertamanagerSpec:
+  alertmanagerSpec:
     externalUrl: "https://{{ chart.alertmanager_fqdn }}"
+    storage:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: csi-disk
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 1Gi
   config:
     route:
       routes:
-        - receiver: 'null'
-          matchers:
-            - alertname =~ "InfoInhibitor|Watchdog"
-        - receiver: "matrix-webhook"
-          matchers:
-            - severity =~ "critical|warning"
-          continue: true
+      - matchers:
+        - alertname =~ "InfoInhibitor|Watchdog"
+        receiver: "null"
+        continue: false
+      - matchers:
+        - severity =~ "critical|warning"
+        receiver: matrix-webhook
+        continue: true
+      - receiver: slack-webhook
     receivers:
     - name: 'null'
     - name: "matrix-webhook"
       webhook_configs:
       - url: "{{ chart.matrix_webhook_url }}"
         send_resolved: true
+    - name: "slack-webhook"
+      slack_configs:
+      - api_url: "{{ chart.slack_webhook_url }}"
+        color: '{% raw %}{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}{% endraw %}'
+        link_names: false
+        send_resolved: true
+        short_fields: false
+{%- raw %}
+        text: |
+          {{ range .Alerts }}
+            {{- if .Annotations.summary }}
+            *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+            {{- end }}
+            {{- if .Annotations.description }}
+            *Description:* {{ .Annotations.description }}
+            {{- end }}
+            {{- if and .Labels.cce_cluster (not (match "blackbox_http_.*|patroni_cluster_metrics" .Labels.job)) }}
+            *Cluster:* {{ .Labels.cce_cluster }}
+            {{- end }}
+          {{ end }}
+{% endraw %}
+        title: '{% raw %}[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing }}{{ end }}] {{ .CommonLabels.alertname }}{% endraw %}'
 prometheus:
   extraSecret:
     name: basic-auth
@@ -55,8 +87,18 @@ prometheus:
         - "{{ chart.prometheus_fqdn }}"
         secretName: prometheus-mon
   prometheusSpec:
+    externalLabels:
+      cce_cluster: otcinfra
     externalUrl: "https://{{ chart.prometheus_fqdn }}"
-    retention: "7d"
+    retention: "14d"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: csi-disk
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 100Gi
     additionalScrapeConfigs:
     - job_name: blackbox_http_2xx
       metrics_path: /probe
@@ -84,32 +126,161 @@ prometheus:
         target_label: instance
       - target_label: __address__
         replacement: prometheus-blackbox-exporter:9115
-    - job_name: blackbox_http_429
-      metrics_path: /probe
-      params:
-        module: [http_2xx_429]
+    - job_name: vault
       static_configs:
-        - targets: {{ chart.prometheus_endpoints_429 }}
+        - targets: ['vault-lb.eco.tsi-dev.otc-service.com:8200']
+      metrics_path: /v1/sys/metrics
+      scheme: https
+      params:
+        format: ["prometheus"]
+      bearer_token: "{{ chart.vault_metrics_token }}"
+      relabel_configs:
+      - target_label: instance
+        replacement: vault-lb.eco.tsi-dev.otc-service.com
+    - job_name: patroni_cluster_metrics
+      metrics_path: /metrics
+      scheme: http
+      static_configs:
+        - targets:
+          - db1.cloudmon.eco.tsi-dev.otc-service.com:8008
+          - db2.cloudmon.eco.tsi-dev.otc-service.com:8008
+          - db3.cloudmon.eco.tsi-dev.otc-service.com:8008
       relabel_configs:
       - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
+        regex: '([^:]+):?.*'
         target_label: instance
-      - target_label: __address__
-        replacement: prometheus-blackbox-exporter:9115
+        replacement: '$1'
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:
+{%- raw %}
     - name: critical-rules
       rules:
-      - alert: ProbeFailing
-        expr: up{job="blackbox"} == 0 or probe_success{job="blackbox"} == 0
-        for: 2m
+      - alert: BlackboxProbeFailed
+        expr: probe_success == 0
+        for: 1m
         labels:
           severity: critical
         annotations:
-          summary: Endpoint Down
-          description: "Endpoint is Down\n {{ '{{ $labels.instance }}' }}"
+          summary: Blackbox probe failed
+          description: 'Probe failed for {{ $labels.instance }}'
+      - alert: BlackboxProbeHttpFailure
+        expr: (probe_http_status_code <= 199 OR probe_http_status_code >= 399) and probe_http_status_code{instance!="https://opensearch.eco.tsi-dev.otc-service.com/"}
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox probe HTTP failure
+          description: 'HTTP status code is not 200-399 for {{ $labels.instance }}'
+      - alert: BlackboxSslCertificateWillExpireSoon
+        expr: 0 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 3
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Blackbox SSL certificate will expire soon
+          description: 'SSL certificate expires in less than 3 days for {{ $labels.instance }}'
+      - alert: VaultSealed
+        annotations:
+          summary: Vault sealed instance
+          description: 'Vault instance  {{ $labels.instance }} is sealed'
+        expr: vault_core_unsealed == 0
+        for: 1m
+        labels:
+          severity: critical
+      - alert: VaultInstanceDown
+        expr: up{job="vault"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: Vault instance is down
+          description: 'The Vault instance {{ $labels.instance }} is not responding. This indicates that the instance might be down or unreachable.'
+    - name: warning-rules
+      rules:
+      - alert: BlackboxConfigurationReloadFailure
+        expr: blackbox_exporter_config_last_reload_successful != 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox configuration reload failure
+          description: 'Blackbox configuration reload failure'
+      - alert: BlackboxSlowProbe
+        expr: avg_over_time(probe_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox slow probe
+          description: 'Blackbox probe took more than 1s to complete for {{ $labels.instance }}'
+      - alert: BlackboxSslCertificateWillExpireSoon
+        expr: 3 <= round((last_over_time(probe_ssl_earliest_cert_expiry[10m]) - time()) / 86400, 0.1) < 20
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox SSL certificate will expire soon
+          description: 'SSL certificate expires in less than 20 days for {{ $labels.instance }}'
+      - alert: BlackboxProbeSlowHttp
+        expr: avg_over_time(probe_http_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox probe slow HTTP 
+          description: 'HTTP request took more than 1s for {{ $labels.instance }}'
+      - alert: BlackboxProbeSlowPing
+        expr: avg_over_time(probe_icmp_duration_seconds[1m]) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: Blackbox probe slow ping
+          description: 'Blackbox ping took more than 1s for {{ $labels.instance }}'
+      - alert: VaultTooManyPendingTokens
+        annotations:
+          summary: Vault too many pending tokens
+          description: 'Too many pending tokens for {{ $labels.instance }}: {{ $value }}'
+        expr: avg(vault_token_create_count - vault_token_store_count) by (instance) > 0
+        for: 5m
+        labels:
+          severity: warning
+      - alert: VaultTooManyInfinityTokens
+        annotations:
+          summary: Vault too many infinity tokens
+          description: 'Too many infinity tokens for {{ $labels.instance }}: {{ $value }}'
+        expr: vault_token_count_by_ttl{creation_ttl="+Inf"} > 50
+        for: 5m
+        labels:
+          severity: warning
+    - name: patroni_alerts
+      rules:
+      - alert: PostgresNotRunning
+        expr: patroni_postgres_running{job="patroni_cluster_metrics"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Postgres is not running on {{ $labels.instance }} in {{ $labels.scope }} cluster."
+          description: "Postgres is not running for more than 1 minute on {{ $labels.instance }} in {{ $labels.scope }} cluster."
+      - alert: PatroniHasNoLeader
+        expr: (max by (scope) (patroni_master) < 1) and (max by (scope) (patroni_standby_leader) < 1)
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Patroni cluster has no Leader"
+          description: "A leader node (neither primary nor standby) cannot be found in {{ $labels.scope }} cluster."
+      - alert: PendingRestart
+        expr: patroni_pending_restart{job="patroni_cluster_metrics"} == 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Postgres Node pending restart on {{ $labels.instance }}"
+          description: "Node requires a restart."
+{% endraw %}
 grafana:
   ingress:
     enabled: true
@@ -125,6 +296,11 @@ grafana:
         - "{{ chart.grafana_fqdn }}"
         secretName: grafana-mon
   adminPassword: "{{ chart.grafana_admin_password }}"
+  persistence:
+    enabled: true
+    storageClassName: csi-disk
+    size: 5Gi
+    accessModes: ["ReadWriteOnce"]
 defaultRules:
   rules:
     kubeScheduler: false

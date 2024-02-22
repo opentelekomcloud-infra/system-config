@@ -1,3 +1,7 @@
+  /usermanual/mrs/admin_guide_000255.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
+  /usermanual/mrs/admin_guide_000254.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
+  /usermanual/mrs/admin_guide_000243.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
+  /usermanual/mrs/admin_guide_000246.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000248.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000245.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
   /usermanual/mrs/admin_guide_000247.html /mapreduce-service/umn/fusioninsight_manager_operation_guide_applicable_to_3.html;
@@ -541,7 +545,6 @@
   /usermanual/mrs/mrs_01_0513.html /mapreduce-service/umn/configuring_a_cluster/creating_a_custom_cluster.html;
   /usermanual/mrs/mrs_01_0061.html /mapreduce-service/umn/configuring_a_cluster/configuring_an_auto_scaling_rule.html;
   /usermanual/mrs/mrs_01_0048.html /mapreduce-service/umn/configuring_a_cluster/adding_a_tag_to_a_cluster.html;
-  /usermanual/mrs/mrs_01_0497.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_kafka_streaming_cluster.html;
   /usermanual/mrs/mrs_01_24297.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/index.html;
   /usermanual/mrs/mrs_01_2355.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_real-time_analysis_cluster.html;
   /usermanual/mrs/mrs_01_0512.html /mapreduce-service/umn/configuring_a_cluster/quick_creation_of_a_cluster/quick_creation_of_a_hadoop_analysis_cluster.html;
@@ -995,6 +998,3 @@
   /usermanual/mrs/mrs_03_1212.html /mapreduce-service/umn/faq/cluster_management/how_do_i_do_if_trust_relationships_between_nodes_are_abnormal.html;
   /usermanual/mrs/mrs_03_1171.html /mapreduce-service/umn/faq/cluster_management/what_is_the_python_version_installed_for_an_mrs_cluster.html;
   /usermanual/mrs/mrs_03_1162.html /mapreduce-service/umn/faq/cluster_management/how_do_i_configure_the_knox_memory.html;
-  /usermanual/mrs/mrs_03_1018.html /mapreduce-service/umn/faq/cluster_management/can_i_expand_data_disk_capacity_for_mrs.html;
-  /usermanual/mrs/mrs_03_1004.html /mapreduce-service/umn/faq/cluster_management/how_do_i_view_cluster_configuration_information.html;
-  /usermanual/mrs/mrs_03_1028.html /mapreduce-service/umn/faq/cluster_management/can_i_delete_components_installed_in_an_mrs_cluster.html;

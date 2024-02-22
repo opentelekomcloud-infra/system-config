@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cpn-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cpn-backend
+  serviceName: cpn-backend-service
+  template:
+    metadata:
+      labels:
+        app: cpn-backend
+    spec:
+      serviceAccountName: cpn
+      terminationGracePeriodSeconds: 10
+      initContainers:
+      - name: "vault-agent"
+        command:
+          - "sh"
+          - "-c"
+          - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
+        env:
+          - name: "VAULT_ADDR"
+            value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+        image: "hashicorp/vault"
+        resources:
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
+          requests:
+            cpu: "50m"
+            memory: "50Mi"
+        volumeMounts:
+          - mountPath: "/etc/vault"
+            name: "vault-agent-config"
+          - mountPath: "/secrets"
+            name: "secrets"
+          - mountPath: "/var/run/secrets/tokens"
+            name: "k8-tokens"
+            readOnly: true
+      containers:
+      - name: cpn-backend
+        image: quay.io/opentelekomcloud/circle-partner-navigator-backend
+        ports:
+        - containerPort: 8080
+        command:
+          ["/bin/bash", "-c"]
+        args:
+          ['source /secrets/cpn-env && npm run start']
+        volumeMounts:
+        - name: cpn-backend-persistent-storage
+          mountPath: /opt/app/public/uploads
+        - mountPath: "/secrets"
+          name: "secrets"
+      volumes:
+      - name: vault-agent-config
+        configMap:
+          defaultMode: 420
+          name: cpn-vault-config
+      - name: secrets
+        emptyDir: {}
+      - name: "k8-tokens"
+        projected:
+          defaultMode: 420
+          sources:
+          - serviceAccountToken:
+              expirationSeconds: 7200
+              path: "vault-token"
+  volumeClaimTemplates:
+    - apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: cpn-backend-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 300Gi

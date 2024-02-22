@@ -21,14 +21,39 @@ read:
   replicas: 1
   persistence:
     storageClass: csi-disk
+  resources:
+    requests:
+      cpu: 200m
+      memory: 200Mi
+    limits:
+      memory: 4096Mi
 write:
   replicas: 1
   persistence:
     storageClass: csi-disk
+  resources:
+    requests:
+      cpu: 200m
+      memory: 3000Mi
+    limits:
+      memory: 3000Mi
 backend:
   persistence:
     storageClass: csi-disk
+  resources:
+    requests:
+      cpu: 200m
+      memory: 250Mi
+    limits:
+      memory: 250Mi
 monitoring:
+  lokiCanary:
+    resources:
+      requests:
+        cpu: 200m
+        memory: 200Mi
+      limits:
+        memory: 200Mi
   selfMonitoring:
     enabled: false
     lokiCanary:
@@ -81,6 +106,12 @@ gateway:
     enabled: true
     username: "{{ chart.loki_username }}"
     password: "{{ chart.loki_password }}"
+  resources:
+    requests:
+      cpu: 2500m
+      memory: 200Mi
+    limits:
+      memory: 200Mi
 
 minio:
   enabled: true
@@ -88,3 +119,9 @@ minio:
   persistence:
     size: 400Gi
     storageClass: csi-disk
+  resources:
+    requests:
+      cpu: 200m
+      memory: 7500Mi
+    limits:
+      memory: 7500Mi

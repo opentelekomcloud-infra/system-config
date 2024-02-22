@@ -180,6 +180,7 @@
   /api/evs/evs_04_3049.html /elastic-volume-service/api-ref/unrecommended_apis/openstack_cinder_api_v3/evs_disk_actions/setting_bootable_flag_for_an_evs_disk.html;
   /api/evs/evs_04_0053.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/index.html;
   /api/evs/evs_04_0054.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/querying_task_status.html;
+  /bestpractice/evs/ /elastic-volume-service/best-practice/index.html;
   /devg/evs/evs_03_0003.html /elastic-volume-service/dev-guide/creating_evs_disks.html;
   /devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;
@@ -305,8 +306,8 @@
   /usermanual/evs/evs_faq_0026.html /elastic-volume-service/umn/faq/capacity_expansion/can_i_reduce_or_temporarily_expand_the_disk_capacity.html;
   /usermanual/evs/evs_faq_0073.html /elastic-volume-service/umn/faq/capacity_expansion/how_do_i_extend_the_file_system_of_an_unpartitioned_data_disk_in_linux.html;
   /usermanual/evs/evs_01_0079.html /elastic-volume-service/umn/faq/detachment/index.html;
+  /usermanual/evs/evs_faq_0012.html /elastic-volume-service/umn/faq/detachment/if_i_detach_a_disk_will_i_lose_the_data_on_my_disk.html;
   /usermanual/evs/evs_faq_0056.html /elastic-volume-service/umn/faq/detachment/why_cant_i_detach_my_disk.html;
-  /usermanual/evs/evs_faq_0012.html /elastic-volume-service/umn/faq/detachment/if_i_detach_a_disk,_will_i_lose_the_data_on_my_disk.html;
   /usermanual/evs/evs_01_0084.html /elastic-volume-service/umn/faq/sharing/index.html;
   /usermanual/evs/evs_faq_0068.html /elastic-volume-service/umn/faq/sharing/can_a_shared_disk_be_attached_to_servers_that_belong_to_different_accounts.html;
   /usermanual/evs/evs_faq_0037.html /elastic-volume-service/umn/faq/sharing/how_many_servers_can_i_attach_a_shared_disk_to.html;
@@ -495,6 +496,7 @@
   /en-us/api/evs/evs_04_3049.html /elastic-volume-service/api-ref/unrecommended_apis/openstack_cinder_api_v3/evs_disk_actions/setting_bootable_flag_for_an_evs_disk.html;
   /en-us/api/evs/evs_04_0053.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/index.html;
   /en-us/api/evs/evs_04_0054.html /elastic-volume-service/api-ref/unrecommended_apis/api_v1/querying_task_status.html;
+  /en-us/bestpractice/evs/ /elastic-volume-service/best-practice/index.html;
   /en-us/devg/evs/evs_03_0003.html /elastic-volume-service/dev-guide/creating_evs_disks.html;
   /en-us/devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /en-us/devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;
@@ -620,8 +622,8 @@
   /en-us/usermanual/evs/evs_faq_0026.html /elastic-volume-service/umn/faq/capacity_expansion/can_i_reduce_or_temporarily_expand_the_disk_capacity.html;
   /en-us/usermanual/evs/evs_faq_0073.html /elastic-volume-service/umn/faq/capacity_expansion/how_do_i_extend_the_file_system_of_an_unpartitioned_data_disk_in_linux.html;
   /en-us/usermanual/evs/evs_01_0079.html /elastic-volume-service/umn/faq/detachment/index.html;
+  /en-us/usermanual/evs/evs_faq_0012.html /elastic-volume-service/umn/faq/detachment/if_i_detach_a_disk_will_i_lose_the_data_on_my_disk.html;
   /en-us/usermanual/evs/evs_faq_0056.html /elastic-volume-service/umn/faq/detachment/why_cant_i_detach_my_disk.html;
-  /en-us/usermanual/evs/evs_faq_0012.html /elastic-volume-service/umn/faq/detachment/if_i_detach_a_disk,_will_i_lose_the_data_on_my_disk.html;
   /en-us/usermanual/evs/evs_01_0084.html /elastic-volume-service/umn/faq/sharing/index.html;
   /en-us/usermanual/evs/evs_faq_0068.html /elastic-volume-service/umn/faq/sharing/can_a_shared_disk_be_attached_to_servers_that_belong_to_different_accounts.html;
   /en-us/usermanual/evs/evs_faq_0037.html /elastic-volume-service/umn/faq/sharing/how_many_servers_can_i_attach_a_shared_disk_to.html;

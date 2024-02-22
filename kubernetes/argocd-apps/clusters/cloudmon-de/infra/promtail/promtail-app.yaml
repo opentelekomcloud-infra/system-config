@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: promtail-cloudmon-de
+  namespace: argocd
+spec:
+  destination:
+    namespace: promtail
+    name: cloudmon-de
+  project: infra
+  source:
+    repoURL: https://grafana.github.io/helm-charts
+    targetRevision: 6.15.2
+    path: grafana/promtail
+    chart: promtail
+    plugin:
+      name: argocd-vault-plugin-helm
+      env:
+        - name: HELM_VALUES
+          value: |
+            config:
+              clients:
+              - basic_auth:
+                  password: <path:secret/data/promtail/main#password>
+                  username: <path:secret/data/promtail/main#username>
+                tenant_id: eco
+                url: https://loki.eco.tsi-dev.otc-service.com/loki/api/v1/push
+              snippets:
+                extraRelabelConfigs:
+                - replacement: cloudmon-de
+                  target_label: cluster
+                pipelineStages:
+                  - docker: {}
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true

@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- backend-sts.yaml
+- cpn-ingress.yaml
+- service-backend.yaml
+- sa.yaml
+- service-front.yaml
+- cpn-front-ingress.yaml
+- front-deploy.yaml
+
+images:
+  - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
+    newTag: "change_1_latest"
+  - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
+    newTag: "0.0.2"
