@@ -8,6 +8,9 @@ configMapGenerator:
   - name: cpn-vault-config
     files:
       - vault-agent.hcl
+  - name: cpn-front-nginx
+    files:
+      - cpn-front-nginx.conf
 
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
