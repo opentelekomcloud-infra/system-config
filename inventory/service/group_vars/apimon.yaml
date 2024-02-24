@@ -415,7 +415,8 @@ apimon_instances:
             epmon_dcs, epmon_dcs, epmon_dds, epmon_deh, epmon_skip_dis,
             epmon_dms, epmon_designate, epmon_dws, epmon_keystone, epmon_mrs,
             epmon_nat, epmon_network, epmon_swift, epmon_heat, epmon_rds,
-            epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn] | combine }}"
+            epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn, epmon_skip_wks,
+            epmon_skip_rts, epmon_skip_ief] | combine }}"
 
     test_projects:
       - name: apimon
@@ -811,3 +812,10 @@ epmon_cinder:
     - "/backups"
     - "/os-volume-transfer"
     - "/os-availability-zone"
+epmon_skip_wks:
+  wks: {}
+  workspace: {}
+epmon_skip_rts:
+  orchestration: {}
+epmon_skip_ief:
+  ief: {}
