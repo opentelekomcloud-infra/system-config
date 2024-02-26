@@ -31,6 +31,9 @@ export DB_ORPH={{ .Data.data.dborph }}
 export DB_CSV={{ .Data.data.dbname }}
 export DB_ZUUL={{ .Data.data.dbzuul }}
 {{- end }}
+{{ with secret "secret/data/helpcenter/monitoring/zulip" -}}
+export OTC_BOT_API={{ .Data.data.token }}
+{{- end }}
 {{ with secret "secret/data/helpcenter/monitoring/gitea" -}}
 export GITEA_TOKEN={{ .Data.data.token }}
 {{- end }}
