@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mcaptcha
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+    - host: mcaptcha.otc-service.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mcaptcha
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - mcaptcha.otc-service.com
+      secretName: mcaptcha-tls

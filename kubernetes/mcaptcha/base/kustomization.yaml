@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - ingress.yaml
+  - sa.yaml
+  - service.yaml
+
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: base
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: mcaptcha
+    app.kubernetes.io/version: 1.0.0
+
+images:
+  - name: "quay.io/opentelekomcloud/mcaptcha"
+    newTag: "0.0.2"
