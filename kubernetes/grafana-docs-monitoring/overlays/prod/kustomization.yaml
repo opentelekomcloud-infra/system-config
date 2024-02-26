@@ -11,4 +11,4 @@ configMapGenerator:
 
 images:
   - name: "quay.io/opentelekomcloud/grafana-docs-monitoring"
-    newTag: "release_0.1.13"
+    newTag: "release_0.1.14"
