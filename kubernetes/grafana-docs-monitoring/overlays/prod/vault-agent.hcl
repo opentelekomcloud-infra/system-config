@@ -30,6 +30,7 @@ export DB_PASSWORD={{ .Data.data.password }}
 export DB_ORPH={{ .Data.data.dborph }}
 export DB_CSV={{ .Data.data.dbname }}
 export DB_ZUUL={{ .Data.data.dbzuul }}
+export OTC_BOT_API={{ .Data.data.otcbotapi }}
 {{- end }}
 {{ with secret "secret/data/helpcenter/monitoring/gitea" -}}
 export GITEA_TOKEN={{ .Data.data.token }}
