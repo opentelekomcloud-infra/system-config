@@ -21,7 +21,7 @@ template {
 export MCAPTCHA_debug=false
 export MCAPTCHA_commercial=false
 export MCAPTCHA_source_code="https://github.com/opentelekomcloud-infra/mcaptcha"
-export MCAPTCHA_allow_registration=true
+export MCAPTCHA_allow_registration=false
 export MCAPTCHA_allow_demo=false
 export MCAPTCHA_database_POOL=4
 export MCAPTCHA_redis_POOL=4
