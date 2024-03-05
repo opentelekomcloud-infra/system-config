@@ -150,6 +150,25 @@ prometheus:
         regex: '([^:]+):?.*'
         target_label: instance
         replacement: '$1'
+    - job_name: node-exporter
+      basic_auth:
+        password: "{{ chart.prometheus_node_exporter_password }}"
+        username: "{{ chart.prometheus_node_exporter_username }}"
+      metrics_path: /metrics
+      relabel_configs:
+        - regex: ([^@]+)@(.*)
+          replacement: $2
+          source_labels:
+            - __address__
+          target_label: instance
+        - regex: ([^@]+)@(.*)
+          replacement: $1
+          source_labels:
+            - __address__
+          target_label: __address__
+      scheme: http
+      static_configs:
+        - targets: {{ chart.prometheus_node_exporter_endpoints }}
 additionalPrometheusRulesMap:
   endpoint-mon:
     groups:
