@@ -25,6 +25,7 @@ SMTP_DOMAIN={{ .Data.data.domain }}
 SMTP_PORT={{ .Data.data.port }}
 MAIL_RECIPIENT={{ .Data.data.recipient }}
 MCAPTCHA_SECRET={{ .Data.data.mcaptcha_secret }}
+MCAPTCHA_URL={{ .Data.data.mcaptcha_url }}
 {{- end }}
 
 EOT
