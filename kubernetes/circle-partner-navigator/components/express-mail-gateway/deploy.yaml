@@ -30,7 +30,7 @@ spec:
           - mountPath: "/secrets"
             name: "secrets"
           ports:
-            - containerPort: 3000
+            - containerPort: 6000
       initContainers:
         - name: "vault-agent"
           command:

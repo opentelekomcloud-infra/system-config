@@ -16,7 +16,7 @@ spec:
               service:
                 name: express-mail-gateway
                 port:
-                  number: 3000
+                  number: 6000
   tls:
     - hosts:
         - mail-gateway.otc-service.com
