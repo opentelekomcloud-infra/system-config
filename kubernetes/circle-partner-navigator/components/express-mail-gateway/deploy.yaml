@@ -21,7 +21,7 @@ spec:
           command:
             ["/bin/bash", "-c"]
           args:
-            ['source /secrets/emg-env && npm run start']
+            ['source /secrets/emg-env; npm run start']
           resources:
             limits:
               cpu: "100m"
