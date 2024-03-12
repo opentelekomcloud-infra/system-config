@@ -19,15 +19,14 @@ template {
   destination = "/secrets/emg-env"
   contents = <<EOT
 {{ with secret "secret/data/cpn/express-mail-gateway" -}}
-SMTP_USER={{ .Data.data.user }}
-SMTP_PASS={{ .Data.data.pass }}
-SMTP_DOMAIN={{ .Data.data.domain }}
-SMTP_PORT={{ .Data.data.port }}
-MAIL_RECIPIENT={{ .Data.data.recipient }}
-MCAPTCHA_SECRET={{ .Data.data.mcaptcha_secret }}
-MCAPTCHA_URL={{ .Data.data.mcaptcha_url }}
+SMTP_USER="{{ .Data.data.user }}"
+SMTP_PASS="{{ .Data.data.pass }}"
+SMTP_DOMAIN="{{ .Data.data.domain }}"
+SMTP_PORT="{{ .Data.data.port }}"
+MAIL_RECIPIENT="{{ .Data.data.recipient }}"
+MCAPTCHA_SECRET="{{ .Data.data.mcaptcha_secret }}"
+MCAPTCHA_URL="{{ .Data.data.mcaptcha_url }}"
 {{- end }}
-
 EOT
   perms = "0664"
 }
