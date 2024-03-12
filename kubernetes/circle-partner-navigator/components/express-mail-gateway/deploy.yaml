@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: express-mail-gateway
+  labels:
+    app: express-mail-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: express-mail-gateway
+  template:
+    metadata:
+      labels:
+        app: express-mail-gateway
+    spec:
+      serviceAccountName: cpn
+      containers:
+        - name: express-mail-gateway
+          image: quay.io/opentelekomcloud/express-mail-gateway:0.0.1
+          command:
+            ["/bin/bash", "-c"]
+          args:
+            ['cp /secrets/emg-env /usr/src/app/.env; npm run start']
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+          volumeMounts:
+          - mountPath: "/secrets"
+            name: "secrets"
+          ports:
+            - containerPort: 6000
+      initContainers:
+        - name: "vault-agent"
+          command:
+            - "sh"
+            - "-c"
+            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          image: "hashicorp/vault"
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: "/secrets"
+              name: "secrets"
+            - mountPath: "/var/run/secrets/tokens"
+              name: "k8-tokens"
+              readOnly: true
+      volumes:
+        - name: vault-agent-config
+          configMap:
+            defaultMode: 420
+            name: cpn-emg-vault-config
+        - name: secrets
+          emptyDir: {}
+        - name: "k8-tokens"
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: "vault-token"

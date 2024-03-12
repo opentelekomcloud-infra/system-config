@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: express-mail-gateway
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: mail-gateway.otc-service.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: express-mail-gateway
+                port:
+                  number: 6000
+  tls:
+    - hosts:
+        - mail-gateway.otc-service.com
+      secretName: express-mail-gateway-tls
