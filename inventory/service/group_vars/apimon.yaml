@@ -148,6 +148,7 @@ apimon_instances:
           - scenario2c_coreos_az.yaml
           - scenario3_simple_evs.yaml
           - scenario43_dcs_instance.yaml 
+          - scenario9_obs.yaml
       - env: production_eu-de
         project: csm
         tasks:
@@ -497,6 +498,7 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario3_simple_evs.yaml
+          - scenario9_obs.yaml
 
     # Test clouds configuration
     clouds:
