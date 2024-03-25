@@ -7,6 +7,99 @@ panels:
 
 {% include '_service_header.yaml.j2' %}
 
+  - datasource: cloudmon
+    fill: 1
+    gridPos:
+      h: 3
+      w: 24
+      x: 0
+      y: 6
+    fieldConfig: 
+      defaults: 
+        custom: 
+          lineWidth: 0
+          fillOpacity: 70
+          spanNulls: false
+        color: 
+          mode: "thresholds"
+        thresholds: 
+          mode: "absolute"
+          steps: 
+            - color: "green"
+              value: null
+            - color: "yellow"
+              value: 1
+            - color: "red"
+              value: 2
+        decimals: 0
+        max: 2
+        min: 0
+        unit: "short"
+    options: 
+      mergeValues: true,
+      showValue: "never"
+      alignValue: "left"
+      rowHeight: 0.9
+      legend: 
+        displayMode: "hidden"
+        placement: "bottom"
+      tooltip: 
+        mode: "none"
+        sort: "none"
+    targets:
+      - refId: A
+        target: health.$environment.compute
+        payload: ""
+    title: Service Health
+    type: state-timeline
+
+  - gridPos:
+      h: 6
+      w: 24
+      x: 0
+      y: 9
+    type: state-timeline
+    title: Status Indicators
+    datasource: cloudmon
+    description: Various statistical service indicators
+    fieldConfig:
+      defaults:
+        custom:
+          lineWidth: 0
+          fillOpacity: 70
+          spanNulls: false
+        color:
+          mode: thresholds
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 1
+        decimals: 0
+        max: 1
+        min: 0
+        unit: bool
+      overrides: []
+    options:
+      mergeValues: true
+      showValue: never
+      alignValue: left
+      rowHeight: 0.9
+      legend:
+        displayMode: hidden
+        placement: bottom
+      tooltip:
+        mode: none
+        sort: none
+    targets:
+      - datasource: cloudmon
+        refId: A
+        target: binary.$environment.compute.*
+        payload: ""
+
   - datasource: {{ grafana_ds | default('apimon') }}
     fill: 1
     gridPos:
@@ -27,7 +120,7 @@ panels:
       - refId: A
         target: groupByNode(stats.timers.apimon.metric.$environment.$zone.create_server.{default,eu*}.*.mean_90,
           7, 'avg')
-    title: Instance Boot duration (Fedora33)
+    title: Instance Boot duration (Fedora)
     type: graph
     xaxis:
       mode: time
@@ -180,6 +273,525 @@ panels:
 {{ mcr.service_failures(43) }}
 {{ mcr.service_results(44) }}
 
+  - gridPos:
+      h: 10
+      w: 24
+      x: 0
+      y: 77
+    type: timeseries
+    title: Robot Regression ECS Tests results
+    datasource: Robot
+    fieldConfig:
+      defaults:
+        custom:
+          drawStyle: line
+          lineInterpolation: linear
+          barAlignment: 0
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: none
+          spanNulls: false
+          showPoints: never
+          pointSize: 5
+          stacking:
+            mode: none
+            group: A
+          axisPlacement: auto
+          axisLabel: ''
+          scaleDistribution:
+            type: linear
+          hideFrom:
+            tooltip: false
+            viz: false
+            legend: false
+          thresholdsStyle:
+            mode: 'off'
+        color:
+          mode: palette-classic
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-red
+                mode: fixed
+        - matcher:
+            id: byName
+            options: passed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-green
+                mode: fixed
+    options:
+      tooltip:
+        mode: multi
+        sort: none
+      legend:
+        displayMode: table
+        placement: right
+        calcs: []
+    targets:
+      - alias: $tag_parent - $col
+        datasource: Robot
+        groupBy:
+          - params:
+              - $__interval
+            type: time
+          - params:
+              - parent
+            type: tag
+          - params:
+              - 'null'
+            type: fill
+        measurement: robot_test_suite
+        orderByTime: ASC
+        policy: default
+        query: SELECT sum("total_passed") AS "PASS", sum("total_failed") AS "FAIL" FROM
+          "robot_test_suite" WHERE ("topname" = 'OTC-Prod' AND ("name" =~ /.*ECS Lifecycle
+          KVM.*/ OR "name" = 'ECS SLA')) AND $timeFilter GROUP BY time($__interval), "parent"
+          fill(null)
+        rawQuery: false
+        refId: A
+        resultFormat: time_series
+        select:
+          - - params:
+                - total_passed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - PASS
+              type: alias
+          - - params:
+                - total_failed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - FAIL
+              type: alias
+        tags:
+          - key: topname
+            operator: '='
+            value: OTC-Prod
+          - condition: AND
+            key: name
+            operator: =~
+            value: /.*ECS Lifecycle KVM.*/
+          - condition: OR
+            key: name
+            operator: '='
+            value: ECS SLA New
+          - condition: OR
+            key: name
+            operator: '='
+            value: ECS Server Tags
+
+  - gridPos:
+      h: 10
+      w: 24
+      x: 0
+      y: 87
+    type: timeseries
+    title: Robot Regression Tests results
+    datasource: Robot
+    fieldConfig:
+      defaults:
+        custom:
+          drawStyle: line
+          lineInterpolation: linear
+          barAlignment: 0
+          lineWidth: 1
+          fillOpacity: 10
+          gradientMode: none
+          spanNulls: false
+          showPoints: never
+          pointSize: 5
+          stacking:
+            mode: none
+            group: A
+          axisPlacement: auto
+          axisLabel: ''
+          scaleDistribution:
+            type: linear
+          hideFrom:
+            tooltip: false
+            viz: false
+            legend: false
+          thresholdsStyle:
+            mode: 'off'
+        color:
+          mode: palette-classic
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-red
+                mode: fixed
+        - matcher:
+            id: byName
+            options: passed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-green
+                mode: fixed
+        - matcher:
+            id: byName
+            options: Ecs - PASS
+          properties:
+            - id: color
+              value:
+                fixedColor: dark-blue
+                mode: fixed
+        - matcher:
+            id: byName
+            options: Ecs - FAIL
+          properties:
+            - id: color
+              value:
+                fixedColor: dark-red
+                mode: fixed
+        - matcher:
+            id: byName
+            options: Ims - FAIL
+          properties:
+            - id: color
+              value:
+                fixedColor: super-light-red
+                mode: fixed
+    options:
+      tooltip:
+        mode: multi
+        sort: none
+      legend:
+        displayMode: table
+        placement: right
+        calcs: []
+    targets:
+      - alias: $tag_name - $col
+        datasource: Robot
+        groupBy:
+          - params:
+              - 2h
+            type: time
+          - params:
+              - name
+            type: tag
+          - params:
+              - 'null'
+            type: fill
+        measurement: robot_test_suite
+        orderByTime: ASC
+        policy: default
+        query: SELECT count("elapsedtime") FROM "robot_test_suite" WHERE ("topname" =
+          'OTC-Prod' AND "parent" =~ /^OTC-Prod$/) AND $timeFilter GROUP BY time(2h),
+          "name" fill(null)
+        rawQuery: false
+        refId: A
+        resultFormat: time_series
+        select:
+          - - params:
+                - total_passed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - PASS
+              type: alias
+          - - params:
+                - total_failed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - FAIL
+              type: alias
+        tags:
+          - key: topname
+            operator: '='
+            value: OTC-Prod
+          - condition: AND
+            key: parent
+            operator: =~
+            value: /^OTC-Prod$/
+          - condition: AND
+            key: name
+            operator: '='
+            value: Ecs
+          - condition: OR
+            key: name
+            operator: '='
+            value: As
+          - condition: OR
+            key: name
+            operator: '='
+            value: Deh
+          - condition: OR
+            key: name
+            operator: '='
+            value: Ims
+  
+  - gridPos:
+      h: 10
+      w: 24
+      x: 0
+      y: 97
+    type: table
+    title: Robot Regression Tests results
+    datasource:
+      type: influxdb
+      uid: '000000033'
+    pluginVersion: 8.5.3
+    fieldConfig:
+      defaults:
+        custom:
+          align: auto
+          displayMode: auto
+          inspect: false
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+        color:
+          mode: thresholds
+        unit: short
+      overrides:
+        - matcher:
+            id: byName
+            options: failed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-red
+                mode: fixed
+        - matcher:
+            id: byName
+            options: passed
+          properties:
+            - id: color
+              value:
+                fixedColor: semi-dark-green
+                mode: fixed
+    options:
+      showHeader: true
+      footer:
+        show: false
+        reducer:
+          - sum
+        fields: ''
+    targets:
+      - alias: $tag_name
+        datasource:
+          type: influxdb
+          uid: '000000033'
+        groupBy:
+          - params:
+              - 2h
+            type: time
+          - params:
+              - name
+            type: tag
+          - params:
+              - status
+            type: tag
+          - params:
+              - interval
+            type: tag
+          - params:
+              - '0'
+            type: fill
+        measurement: robot_test_suite
+        orderByTime: ASC
+        policy: default
+        query: SELECT count("elapsedtime") FROM "robot_test_suite" WHERE ("topname" =
+          'OTC-Prod' AND "parent" =~ /^OTC-Prod$/) AND $timeFilter GROUP BY time(2h),
+          "name" fill(null)
+        rawQuery: false
+        refId: A
+        resultFormat: table
+        select:
+          - - params:
+                - total_passed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Passed
+              type: alias
+          - - params:
+                - total_failed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Failed
+              type: alias
+          - - params:
+                - total_count
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Total
+              type: alias
+        tags:
+          - key: topname
+            operator: '='
+            value: OTC-Prod
+          - condition: AND
+            key: parent
+            operator: =~
+            value: /^OTC-Prod$/
+          - condition: AND
+            key: name
+            operator: '='
+            value: Ecs
+          - condition: OR
+            key: name
+            operator: '='
+            value: Deh
+          - condition: OR
+            key: name
+            operator: '='
+            value: As
+          - condition: OR
+            key: name
+            operator: '='
+            value: Ims
+     
+  - gridPos:
+      h: 8
+      w: 12
+      x: 0
+      y: 107
+    type: gauge
+    title: ECS Regression tests stats
+    datasource: Robot
+    pluginVersion: 8.5.3
+    fieldConfig:
+      defaults:
+        mappings: []
+        thresholds:
+          mode: absolute
+          steps:
+            - color: green
+              value: null
+            - color: red
+              value: 80
+        color:
+          mode: thresholds
+      overrides:
+        - matcher:
+            id: byName
+            options: Passed
+          properties:
+            - id: color
+              value:
+                fixedColor: green
+                mode: fixed
+        - matcher:
+            id: byName
+            options: Failed
+          properties:
+            - id: color
+              value:
+                fixedColor: red
+                mode: fixed
+        - matcher:
+            id: byName
+            options: Total
+          properties:
+            - id: color
+              value:
+                fixedColor: blue
+                mode: fixed
+    options:
+      reduceOptions:
+        values: false
+        calcs:
+          - lastNotNull
+        fields: ''
+      orientation: auto
+      showThresholdLabels: false
+      showThresholdMarkers: true
+    targets:
+      - alias: $col
+        datasource: Robot
+        groupBy:
+          - params:
+              - 24h
+            type: time
+          - params:
+              - 'null'
+            type: fill
+        measurement: robot_test_suite
+        orderByTime: ASC
+        policy: default
+        refId: A
+        resultFormat: time_series
+        select:
+          - - params:
+                - total_passed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Passed
+              type: alias
+          - - params:
+                - total_failed
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Failed
+              type: alias
+          - - params:
+                - total_count
+              type: field
+            - params: []
+              type: sum
+            - params:
+                - Total
+              type: alias
+        tags:
+          - key: topname
+            operator: =~
+            value: /^OTC-Prod.*/
+          - condition: AND
+            key: parent
+            operator: =~
+            value: /.*ECS.*/
+     
 refresh: false
 style: dark
 tags:
