@@ -1,30 +1,30 @@
-alerta_instance: "monitoring"
-alerta_instance_extra_vars: {}
-grafana_instance: "dashboard"
-grafana_instance_extra_vars: 
-  grafana_auth_generic_oauth_enable: false
-
-ssl_certs:
-  web3:
-    - "web3.eco.tsi-dev.otc-service.com"
-  dashboard3:
-    - "dashboard3.tsi-dev.otc-service.com"
-    - "dashboard.tsi-dev.otc-service.com"
-    - "apimon.tsi-dev.otc-service.com"
-  alerts3:
-    - "alerts3.eco.tsi-dev.otc-service.com"
-    - "alerts.eco.tsi-dev.otc-service.com"
-  graphite:
-    - "graphite.eco.tsi-dev.otc-service.com"
-    - "graphite-ca.eco.tsi-dev.otc-service.com"
-    - "graphite.apimon.eco.tsi-dev.otc-service.com"
-
-graphite_instance_group: "graphite-apimon"
-graphite_cert: "graphite"
-
-firewalld_extra_services_enable: ['http', 'https']
-firewalld_extra_ports_enable: ['3000/tcp', '8080/tcp', '8081/tcp']
-
-carbonapi_instance: "main"
-
-telegraf_output_graphite_host: 192.168.191.55
+# alerta_instance: "monitoring"
+# alerta_instance_extra_vars: {}
+# grafana_instance: "dashboard"
+# grafana_instance_extra_vars:
+#   grafana_auth_generic_oauth_enable: false
+#
+# ssl_certs:
+#   web3:
+#     - "web3.eco.tsi-dev.otc-service.com"
+#   dashboard3:
+#     - "dashboard3.tsi-dev.otc-service.com"
+#     - "dashboard.tsi-dev.otc-service.com"
+#     - "apimon.tsi-dev.otc-service.com"
+#   alerts3:
+#     - "alerts3.eco.tsi-dev.otc-service.com"
+#     - "alerts.eco.tsi-dev.otc-service.com"
+#   graphite:
+#     - "graphite.eco.tsi-dev.otc-service.com"
+#     - "graphite-ca.eco.tsi-dev.otc-service.com"
+#     - "graphite.apimon.eco.tsi-dev.otc-service.com"
+#
+# graphite_instance_group: "graphite-apimon"
+# graphite_cert: "graphite"
+#
+# firewalld_extra_services_enable: ['http', 'https']
+# firewalld_extra_ports_enable: ['3000/tcp', '8080/tcp', '8081/tcp']
+#
+# carbonapi_instance: "main"
+#
+# telegraf_output_graphite_host: 192.168.191.55
