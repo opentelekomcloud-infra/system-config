@@ -62,11 +62,6 @@
   /api/css/css_03_0099.html /cloud-search-service/api-ref/log_management/enabling_the_automatic_log_backup_policy.html;
   /api/css/css_03_0101.html /cloud-search-service/api-ref/log_management/backing_up_logs.html;
   /api/css/css_03_0095.html /cloud-search-service/api-ref/log_management/disabling_the_log_function.html;
-  /api/css/css_03_0132.html /cloud-search-service/api-ref/intelligent_o_and_m/index.html;
-  /api/css/css_03_0133.html /cloud-search-service/api-ref/intelligent_o_and_m/creating_a_cluster_detection_task.html;
-  /api/css/css_03_0135.html /cloud-search-service/api-ref/intelligent_o_and_m/deleting_a_detection_task.html;
-  /api/css/css_03_0136.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_smn_topics_available_for_intelligent_o_and_m_alarms.html;
-  /api/css/css_03_0134.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_the_intelligent_o_and_m_task_list_and_details.html;
   /api/css/css_03_0103.html /cloud-search-service/api-ref/public_network_access/index.html;
   /api/css/css_03_0106.html /cloud-search-service/api-ref/public_network_access/modifying_public_network_access_bandwidth.html;
   /api/css/css_03_0105.html /cloud-search-service/api-ref/public_network_access/disabling_public_network_access.html;
@@ -77,7 +72,6 @@
   /api/css/css_03_0053.html /cloud-search-service/api-ref/before_you_start/endpoints.html;
   /api/css/css_03_0051.html /cloud-search-service/api-ref/before_you_start/overview.html;
   /api/css/css_03_0056.html /cloud-search-service/api-ref/before_you_start/supported_cluster_versions.html;
-  /api/css/css_03_0055.html /cloud-search-service/api-ref/before_you_start/concepts.html;
   /api/css/css_03_0010.html /cloud-search-service/api-ref/snapshot_management_apis/index.html;
   /api/css/css_03_0037.html /cloud-search-service/api-ref/snapshot_management_apis/not_recommended_automatically_configuring_basic_settings_of_a_cluster_snapshot.html;
   /api/css/css_03_0035.html /cloud-search-service/api-ref/snapshot_management_apis/restoring_a_snapshot.html;
@@ -199,7 +193,6 @@
   /usermanual/css/css_01_0212.html /cloud-search-service/umn/elasticsearch/managing_plugins/index.html;
   /usermanual/css/css_01_0061.html /cloud-search-service/umn/elasticsearch/managing_plugins/using_the_open_distro_sql_plugin.html;
   /usermanual/css/css_01_0078.html /cloud-search-service/umn/elasticsearch/managing_plugins/viewing_the_default_plugin_list.html;
-  /usermanual/css/css_01_0186.html /cloud-search-service/umn/elasticsearch/upgrading_versions.html;
   /usermanual/css/css_01_0211.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/index.html;
   /usermanual/css/css_01_0080.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/configuring_yml_parameters.html;
   /usermanual/css/css_01_0091.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/managing_indexes/index.html;
@@ -266,7 +259,7 @@
   /usermanual/css/css_01_0229.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/index.html;
   /usermanual/css/css_01_0231.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/bulk_aggregation_optimization.html;
   /usermanual/css/css_01_0230.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/bulk_route_optimization.html;
-  /usermanual/css/css_01_0233.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/optimization_of_other_parameters.html;
+  /usermanual/css/css_01_0233_0.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/optimization_of_other_parameters.html;
   /usermanual/css/css_01_0232.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/text_index_acceleration.html;
   /usermanual/css/css_01_0227.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/index.html;
   /usermanual/css/css_01_0234.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/performance_data.html;
@@ -365,11 +358,6 @@
   /en-us/api/css/css_03_0099.html /cloud-search-service/api-ref/log_management/enabling_the_automatic_log_backup_policy.html;
   /en-us/api/css/css_03_0101.html /cloud-search-service/api-ref/log_management/backing_up_logs.html;
   /en-us/api/css/css_03_0095.html /cloud-search-service/api-ref/log_management/disabling_the_log_function.html;
-  /en-us/api/css/css_03_0132.html /cloud-search-service/api-ref/intelligent_o_and_m/index.html;
-  /en-us/api/css/css_03_0133.html /cloud-search-service/api-ref/intelligent_o_and_m/creating_a_cluster_detection_task.html;
-  /en-us/api/css/css_03_0135.html /cloud-search-service/api-ref/intelligent_o_and_m/deleting_a_detection_task.html;
-  /en-us/api/css/css_03_0136.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_smn_topics_available_for_intelligent_o_and_m_alarms.html;
-  /en-us/api/css/css_03_0134.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_the_intelligent_o_and_m_task_list_and_details.html;
   /en-us/api/css/css_03_0103.html /cloud-search-service/api-ref/public_network_access/index.html;
   /en-us/api/css/css_03_0106.html /cloud-search-service/api-ref/public_network_access/modifying_public_network_access_bandwidth.html;
   /en-us/api/css/css_03_0105.html /cloud-search-service/api-ref/public_network_access/disabling_public_network_access.html;
@@ -380,7 +368,6 @@
   /en-us/api/css/css_03_0053.html /cloud-search-service/api-ref/before_you_start/endpoints.html;
   /en-us/api/css/css_03_0051.html /cloud-search-service/api-ref/before_you_start/overview.html;
   /en-us/api/css/css_03_0056.html /cloud-search-service/api-ref/before_you_start/supported_cluster_versions.html;
-  /en-us/api/css/css_03_0055.html /cloud-search-service/api-ref/before_you_start/concepts.html;
   /en-us/api/css/css_03_0010.html /cloud-search-service/api-ref/snapshot_management_apis/index.html;
   /en-us/api/css/css_03_0037.html /cloud-search-service/api-ref/snapshot_management_apis/not_recommended_automatically_configuring_basic_settings_of_a_cluster_snapshot.html;
   /en-us/api/css/css_03_0035.html /cloud-search-service/api-ref/snapshot_management_apis/restoring_a_snapshot.html;
@@ -502,7 +489,6 @@
   /en-us/usermanual/css/css_01_0212.html /cloud-search-service/umn/elasticsearch/managing_plugins/index.html;
   /en-us/usermanual/css/css_01_0061.html /cloud-search-service/umn/elasticsearch/managing_plugins/using_the_open_distro_sql_plugin.html;
   /en-us/usermanual/css/css_01_0078.html /cloud-search-service/umn/elasticsearch/managing_plugins/viewing_the_default_plugin_list.html;
-  /en-us/usermanual/css/css_01_0186.html /cloud-search-service/umn/elasticsearch/upgrading_versions.html;
   /en-us/usermanual/css/css_01_0211.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/index.html;
   /en-us/usermanual/css/css_01_0080.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/configuring_yml_parameters.html;
   /en-us/usermanual/css/css_01_0091.html /cloud-search-service/umn/elasticsearch/configuring_an_elasticsearch_cluster/managing_indexes/index.html;
@@ -569,7 +555,7 @@
   /en-us/usermanual/css/css_01_0229.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/index.html;
   /en-us/usermanual/css/css_01_0231.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/bulk_aggregation_optimization.html;
   /en-us/usermanual/css/css_01_0230.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/bulk_route_optimization.html;
-  /en-us/usermanual/css/css_01_0233.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/optimization_of_other_parameters.html;
+  /en-us/usermanual/css/css_01_0233_0.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/optimization_of_other_parameters.html;
   /en-us/usermanual/css/css_01_0232.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/instructions/text_index_acceleration.html;
   /en-us/usermanual/css/css_01_0227.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/index.html;
   /en-us/usermanual/css/css_01_0234.html /cloud-search-service/umn/elasticsearch/enhanced_cluster_features/enhanced_import_performance/performance_data.html;

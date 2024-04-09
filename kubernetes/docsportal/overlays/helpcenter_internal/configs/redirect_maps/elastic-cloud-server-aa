@@ -452,6 +452,7 @@
   /usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/instances/ecs_lifecycle.html;
   /usermanual/ecs/en-us_topic_0041169567.html /elastic-cloud-server/umn/change_history.html;
   /usermanual/ecs/en-us_topic_0183016706.html /elastic-cloud-server/umn/resources_and_tags/index.html;
+  /usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/resources_and_tags/searching_for_ecss.html;
   /usermanual/ecs/en-us_topic_0183019668.html /elastic-cloud-server/umn/resources_and_tags/tag_management/index.html;
   /usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_a_tag.html;
   /usermanual/ecs/en-us_topic_0092499768.html /elastic-cloud-server/umn/resources_and_tags/tag_management/overview.html;
@@ -490,10 +491,10 @@
   /usermanual/ecs/en-us_topic_0170265914.html /elastic-cloud-server/umn/permissions_management/ecs_custom_policies.html;
   /usermanual/ecs/en-us_topic_0013771097.html /elastic-cloud-server/umn/instances/index.html;
   /usermanual/ecs/en-us_topic_0030831990.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/index.html;
-  /usermanual/ecs/en-us_topic_0017955633.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_using_an_ssh_password.html;
+  /usermanual/ecs/en-us_topic_0017955380.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/remotely_logging_in_to_a_linux_ecs_using_an_ssh_key_pair.html;
   /usermanual/ecs/en-us_topic_0013771089.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_overview.html;
-  /usermanual/ecs/en-us_topic_0093263550.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_using_vnc.html;
-  /usermanual/ecs/en-us_topic_0017955380.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_using_an_ssh_key.html;
+  /usermanual/ecs/en-us_topic_0017955633.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/remotely_logging_in_to_a_linux_ecs_using_an_ssh_password.html;
+  /usermanual/ecs/en-us_topic_0093263550.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/remotely_logging_in_to_a_linux_ecs_using_vnc.html;
   /usermanual/ecs/en-us_topic_0140313879.html /elastic-cloud-server/umn/instances/obtaining_metadata_and_passing_user_data/index.html;
   /usermanual/ecs/en-us_topic_0042400609.html /elastic-cloud-server/umn/instances/obtaining_metadata_and_passing_user_data/obtaining_metadata.html;
   /usermanual/ecs/en-us_topic_0032380449.html /elastic-cloud-server/umn/instances/obtaining_metadata_and_passing_user_data/passing_user_data_to_ecss.html;
@@ -516,9 +517,9 @@
   /usermanual/ecs/en-us_topic_0074752335.html /elastic-cloud-server/umn/instances/optional_configuring_mapping_between_hostnames_and_ip_addresses.html;
   /usermanual/ecs/en-us_topic_0030888079.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/index.html;
   /usermanual/ecs/en-us_topic_0092494943.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/login_overview.html;
-  /usermanual/ecs/en-us_topic_0017955381.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/login_using_mstsc.html;
-  /usermanual/ecs/en-us_topic_0027268511.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/login_using_vnc.html;
-  /usermanual/ecs/en-us_topic_0275383051.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/logging_in_to_a_windows_ecs_from_a_linux_computer.html;
+  /usermanual/ecs/en-us_topic_0017955381.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/remotely_logging_in_to_a_windows_ecs_using_mstsc.html;
+  /usermanual/ecs/en-us_topic_0027268511.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/remotely_logging_in_to_a_windows_ecs_using_vnc.html;
+  /usermanual/ecs/en-us_topic_0275383051.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/remotely_logging_in_to_a_windows_ecs_from_a_linux_computer.html;
   /usermanual/ecs/en-us_topic_0030893661.html /elastic-cloud-server/umn/instances/viewing_ecs_information/index.html;
   /usermanual/ecs/en-us_topic_0017130261.html /elastic-cloud-server/umn/instances/viewing_ecs_information/viewing_ecs_details_list_view.html;
   /usermanual/ecs/en-us_topic_0060610074.html /elastic-cloud-server/umn/instances/viewing_ecs_information/exporting_ecs_information.html;
@@ -986,6 +987,7 @@
   /en-us/usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/instances/ecs_lifecycle.html;
   /en-us/usermanual/ecs/en-us_topic_0041169567.html /elastic-cloud-server/umn/change_history.html;
   /en-us/usermanual/ecs/en-us_topic_0183016706.html /elastic-cloud-server/umn/resources_and_tags/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/resources_and_tags/searching_for_ecss.html;
   /en-us/usermanual/ecs/en-us_topic_0183019668.html /elastic-cloud-server/umn/resources_and_tags/tag_management/index.html;
   /en-us/usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_a_tag.html;
   /en-us/usermanual/ecs/en-us_topic_0092499768.html /elastic-cloud-server/umn/resources_and_tags/tag_management/overview.html;
@@ -996,5 +998,3 @@
   /en-us/usermanual/ecs/en-us_topic_0000001128445638.html /elastic-cloud-server/umn/backup_using_cbr/overview.html;
   /en-us/usermanual/ecs/en-us_topic_0000001128604648.html /elastic-cloud-server/umn/backup_using_cbr/backing_up_an_ecs_data.html;
   /en-us/usermanual/ecs/en-us_topic_0092497777.html /elastic-cloud-server/umn/nics/index.html;
-  /en-us/usermanual/ecs/en-us_topic_0058758453.html /elastic-cloud-server/umn/nics/enabling_nic_multi-queue.html;
-  /en-us/usermanual/ecs/en-us_topic_0093492518.html /elastic-cloud-server/umn/nics/adding_a_network_interface.html;

@@ -15,7 +15,6 @@
   /api/antiddos/antiddos_02_0002.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_all_api_versions.html;
   /api/antiddos/antiddos_02_0018.html /anti-ddos/api-ref/api/anti-ddos_apis/enabling_anti-ddos.html;
   /api/antiddos/antiddos_02_0007.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_a_specified_api_version.html;
-  /api/antiddos/antiddos_02_0019.html /anti-ddos/api-ref/api/anti-ddos_apis/disabling_anti-ddos.html;
   /api/antiddos/antiddos_02_0037.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_the_default_protection_policy_configured_for_the_newly_purchased_public_ip_addresses.html;
   /api/antiddos/antiddos_02_0017.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_optional_anti-ddos_defense_policies.html;
   /api/antiddos/antiddos_02_0022.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_anti-ddos_tasks.html;
@@ -66,7 +65,6 @@
   /en-us/api/antiddos/antiddos_02_0002.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_all_api_versions.html;
   /en-us/api/antiddos/antiddos_02_0018.html /anti-ddos/api-ref/api/anti-ddos_apis/enabling_anti-ddos.html;
   /en-us/api/antiddos/antiddos_02_0007.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_a_specified_api_version.html;
-  /en-us/api/antiddos/antiddos_02_0019.html /anti-ddos/api-ref/api/anti-ddos_apis/disabling_anti-ddos.html;
   /en-us/api/antiddos/antiddos_02_0037.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_the_default_protection_policy_configured_for_the_newly_purchased_public_ip_addresses.html;
   /en-us/api/antiddos/antiddos_02_0017.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_optional_anti-ddos_defense_policies.html;
   /en-us/api/antiddos/antiddos_02_0022.html /anti-ddos/api-ref/api/anti-ddos_apis/querying_anti-ddos_tasks.html;
