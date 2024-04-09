@@ -23,7 +23,7 @@ ExecStart=/usr/bin/podman run \
           --cgroups=no-conmon \
           -d \
           --name promtail \
-          --log-opt=path=/dev/null \
+          --log-driver=journald \
           --security-opt label=disable \
           -v /etc/promtail/config.yml:/etc/promtail/config.yml:ro \
           -v /var/log/journal:/var/log/journal:ro \
@@ -60,6 +60,7 @@ ExecStart=/usr/bin/docker run  \
           -v /var/log/journal:/var/log/journal:ro \
           -v /var/log/audit:/var/log/audit:ro \
           -v promtail-run:/run/promtail:rw \
+          --log-driver=journald \
           -p 3101:3101 \
           {{ promtail_image }}
 
