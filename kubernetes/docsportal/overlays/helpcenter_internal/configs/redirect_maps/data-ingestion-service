@@ -120,7 +120,9 @@
   /usermanual/dis/dis_01_0605.html /data-ingestion-service/umn/getting_started/creating_an_iam_agency.html;
   /usermanual/dis/dis_01_0603.html /data-ingestion-service/umn/getting_started/step_3_sending_data_to_dis.html;
   /usermanual/dis/dis_01_0010.html /data-ingestion-service/umn/managing_dis_streams/index.html;
+  /usermanual/dis/dis_01_0076.html /data-ingestion-service/umn/managing_dis_streams/managing_applications.html;
   /usermanual/dis/dis_01_0050.html /data-ingestion-service/umn/managing_dis_streams/managing_stream_tags.html;
+  /usermanual/dis/dis_01_0401.html /data-ingestion-service/umn/managing_dis_streams/scaling_up_down_a_stream.html;
   /usermanual/dis/dis_01_0012.html /data-ingestion-service/umn/managing_dis_streams/viewing_stream_monitoring_metrics.html;
   /usermanual/dis/dis_01_0011.html /data-ingestion-service/umn/managing_dis_streams/listing_dis_streams.html;
   /usermanual/dis/dis_01_0013.html /data-ingestion-service/umn/managing_dis_streams/deleting_a_stream.html;
@@ -246,7 +248,9 @@
   /en-us/usermanual/dis/dis_01_0605.html /data-ingestion-service/umn/getting_started/creating_an_iam_agency.html;
   /en-us/usermanual/dis/dis_01_0603.html /data-ingestion-service/umn/getting_started/step_3_sending_data_to_dis.html;
   /en-us/usermanual/dis/dis_01_0010.html /data-ingestion-service/umn/managing_dis_streams/index.html;
+  /en-us/usermanual/dis/dis_01_0076.html /data-ingestion-service/umn/managing_dis_streams/managing_applications.html;
   /en-us/usermanual/dis/dis_01_0050.html /data-ingestion-service/umn/managing_dis_streams/managing_stream_tags.html;
+  /en-us/usermanual/dis/dis_01_0401.html /data-ingestion-service/umn/managing_dis_streams/scaling_up_down_a_stream.html;
   /en-us/usermanual/dis/dis_01_0012.html /data-ingestion-service/umn/managing_dis_streams/viewing_stream_monitoring_metrics.html;
   /en-us/usermanual/dis/dis_01_0011.html /data-ingestion-service/umn/managing_dis_streams/listing_dis_streams.html;
   /en-us/usermanual/dis/dis_01_0013.html /data-ingestion-service/umn/managing_dis_streams/deleting_a_stream.html;
