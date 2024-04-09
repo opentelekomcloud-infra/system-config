@@ -1,3 +1,17 @@
+  /en-us/usermanual/rds/rds_02_0002.html /relational-database-service/umn/introduction/constraints/mysql_constraints.html;
+  /en-us/usermanual/rds/rds_02_0012.html /relational-database-service/umn/introduction/constraints/postgresql_constraints.html;
+  /en-us/usermanual/rds/rds_01_0015.html /relational-database-service/umn/introduction/basic_concepts.html;
+  /en-us/usermanual/rds/rds_01_0028.html /relational-database-service/umn/introduction/db_instance_description/index.html;
+  /en-us/usermanual/rds/en-us_topic_0043898356.html /relational-database-service/umn/introduction/db_instance_description/db_engines_and_versions.html;
+  /en-us/usermanual/rds/rds_01_0016.html /relational-database-service/umn/introduction/db_instance_description/db_instance_types.html;
+  /en-us/usermanual/rds/rds_01_0029.html /relational-database-service/umn/introduction/db_instance_description/db_instance_classes.html;
+  /en-us/usermanual/rds/rds_01_0023.html /relational-database-service/umn/introduction/db_instance_description/db_instance_statuses.html;
+  /en-us/usermanual/rds/en-us_topic_dashboard.html /relational-database-service/umn/introduction/what_is_rds.html;
+  /en-us/usermanual/rds/rds_01_0001.html /relational-database-service/umn/introduction/advantages/index.html;
+  /en-us/usermanual/rds/rds_01_0005.html /relational-database-service/umn/introduction/advantages/high_reliability.html;
+  /en-us/usermanual/rds/rds_01_0004.html /relational-database-service/umn/introduction/advantages/high_security.html;
+  /en-us/usermanual/rds/rds_01_0006.html /relational-database-service/umn/introduction/advantages/comparison_between_rds_and_self-built_databases.html;
+  /en-us/usermanual/rds/rds_01_0002.html /relational-database-service/umn/introduction/advantages/easy_management.html;
   /en-us/usermanual/rds/rds_01_0017.html /relational-database-service/umn/introduction/permissions_management.html;
   /en-us/usermanual/rds/rds_01_0031.html /relational-database-service/umn/introduction/db_engine/index.html;
   /en-us/usermanual/rds/rds_01_0018.html /relational-database-service/umn/introduction/db_engine/function_differences_of_rds_for_sql_server_instances_types_and_editions.html;
