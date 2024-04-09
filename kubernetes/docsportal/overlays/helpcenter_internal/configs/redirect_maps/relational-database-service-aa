@@ -383,7 +383,6 @@
   /usermanual/rds/rds_pg_10_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/suggestions_on_postgresql_parameter_tuning.html;
   /usermanual/rds/rds_pg_05_0001_02.html /relational-database-service/umn/working_with_rds_for_postgresql/data_migration/index.html;
   /usermanual/rds/rds_09_0023.html /relational-database-service/umn/working_with_rds_for_postgresql/data_migration/migrating_data_to_rds_for_postgresql_using_psql.html;
-  /usermanual/rds/rds_pg_08_0043.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/importing_a_parameter_template.html;
   /usermanual/rds/rds_09_0034.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/index.html;
   /usermanual/rds/rds_pg_08_0042.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/exporting_a_parameter_template.html;
   /usermanual/rds/rds_pg_parameter_group.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/creating_a_parameter_template.html;
@@ -934,7 +933,6 @@
   /en-us/usermanual/rds/rds_pg_10_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/suggestions_on_postgresql_parameter_tuning.html;
   /en-us/usermanual/rds/rds_pg_05_0001_02.html /relational-database-service/umn/working_with_rds_for_postgresql/data_migration/index.html;
   /en-us/usermanual/rds/rds_09_0023.html /relational-database-service/umn/working_with_rds_for_postgresql/data_migration/migrating_data_to_rds_for_postgresql_using_psql.html;
-  /en-us/usermanual/rds/rds_pg_08_0043.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/importing_a_parameter_template.html;
   /en-us/usermanual/rds/rds_09_0034.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/index.html;
   /en-us/usermanual/rds/rds_pg_08_0042.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/exporting_a_parameter_template.html;
   /en-us/usermanual/rds/rds_pg_parameter_group.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/creating_a_parameter_template.html;
@@ -998,3 +996,5 @@
   /en-us/usermanual/rds/rds_01_0027.html /relational-database-service/umn/introduction/related_services.html;
   /en-us/usermanual/rds/rds_01_0026.html /relational-database-service/umn/introduction/constraints/index.html;
   /en-us/usermanual/rds/rds_03_0003.html /relational-database-service/umn/introduction/constraints/microsoft_sql_server_constraints.html;
+  /en-us/usermanual/rds/rds_02_0002.html /relational-database-service/umn/introduction/constraints/mysql_constraints.html;
+  /en-us/usermanual/rds/rds_02_0012.html /relational-database-service/umn/introduction/constraints/postgresql_constraints.html;
