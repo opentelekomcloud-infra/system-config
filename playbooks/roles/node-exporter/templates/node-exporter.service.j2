@@ -27,7 +27,7 @@ ExecStart=/usr/bin/podman run \
           -v /sys:/host/sys:ro \
           -v /:/rootfs:ro \
           -v {{ node_exporter_config_path }}/web-config.yml:/web-config.yml:ro \
-          --log-driver=journald \
+          --log-opt=path=/dev/null \
           {{ node_exporter_image }} \
           --path.procfs=/host/proc \
           --path.sysfs=/host/sys \
@@ -64,7 +64,6 @@ ExecStart=/usr/bin/docker run \
           -v /sys:/host/sys:ro \
           -v /:/rootfs:ro \
           -v {{ node_exporter_config_path }}/web-config.yml:/web-config.yml:ro \
-          --log-driver=journald \
           {{ node_exporter_image }} \
           --path.procfs=/host/proc \
           --path.sysfs=/host/sys \
