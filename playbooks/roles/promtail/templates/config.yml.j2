@@ -23,6 +23,8 @@ scrape_configs:
     relabel_configs:
       - source_labels: ['__journal__systemd_unit']
         target_label: 'unit'
+        regex: '(.+)\.service'
+        replacement: '$1'
       - source_labels: ['__journal_container_name']
         target_label: 'container_name'
   - job_name: audit
@@ -41,3 +43,12 @@ scrape_configs:
           job: audit
           hostname: {{ inventory_hostname }}
           __path__: /var/log/audit/audit.log
+
+  - job_name: system
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        hostname: {{ inventory_hostname }}
+        __path__: /var/log/*.log
