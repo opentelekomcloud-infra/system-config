@@ -261,7 +261,7 @@ additionalPrometheusRulesMap:
         annotations:
           summary: Vault too many pending tokens
           description: 'Too many pending tokens for {{ $labels.instance }}: {{ $value }}'
-        expr: avg(vault_token_create_count - vault_token_store_count) by (instance) > 0
+        expr: avg(vault_token_create_count - vault_token_store_count) by (instance) > 1000
         for: 5m
         labels:
           severity: warning
