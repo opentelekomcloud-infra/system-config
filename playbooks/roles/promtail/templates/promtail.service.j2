@@ -26,8 +26,7 @@ ExecStart=/usr/bin/podman run \
           --log-opt=path=/dev/null \
           --security-opt label=disable \
           -v /etc/promtail/config.yml:/etc/promtail/config.yml:ro \
-          -v /var/log/journal:/var/log/journal:ro \
-          -v /var/log/audit:/var/log/audit:ro \
+          -v /var/log:/var/log:ro \
           -v promtail-run:/run/promtail:rw \
           -p 3101:3101 \
           {{ promtail_image }}
