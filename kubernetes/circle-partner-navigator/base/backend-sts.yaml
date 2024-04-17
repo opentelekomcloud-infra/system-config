@@ -46,7 +46,7 @@ spec:
         ports:
         - containerPort: 8080
         command:
-          ["/bin/bash", "-c"]
+          ["/bin/sh", "-c"]
         args:
           ['source /secrets/cpn-env && npm run start']
         volumeMounts:
