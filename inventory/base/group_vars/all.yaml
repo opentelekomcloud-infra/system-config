@@ -70,6 +70,12 @@ all_users:
     uid: 2005
     gid: 2005
 
+  mujan:
+    comment: Muneeb Hafeez Jan
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSTC+S714elHMMNzNN8ahqfD8x1060vr+Ngyzz1eT86 a117905694@RDDE03UM
+    uid: 2006
+    gid: 2006
+
   stackmon:
     comment: StackMon deployment process
     key: ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBVg7FNubIv5nFEs+lAsPawMq9p5szDpxcMFA18hxDo3BgeZ7ZjnKrQRCgfhLW3jIu70obo0Q/mtrvRlKi+N8aA=
