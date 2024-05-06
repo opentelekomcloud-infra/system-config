@@ -90,7 +90,7 @@ kube-prometheus-stack:
     extraSecret:
       data:
         auth: <path:secret/data/prometheus/cloudmon-de#basic_auth>
-        vmauth_admin: <path:secret/data/prometheus/cloudmon-de#vmauth_username>
+        vmauth_username: <path:secret/data/prometheus/cloudmon-de#vmauth_username>
         vmauth_password: <path:secret/data/prometheus/cloudmon-de#vmauth_password>
       name: basic-auth
     ingress:
@@ -127,7 +127,6 @@ kube-prometheus-stack:
             password:
               name: basic-auth
               key: vmauth_password
-
 
 goNeb:
   userId: <path:secret/data/prometheus/cloudmon-de#go_neb_user_id>
