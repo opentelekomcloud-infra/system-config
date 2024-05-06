@@ -128,7 +128,6 @@ kube-prometheus-stack:
               name: basic-auth
               key: vmauth_password
 
-
 goNeb:
   userId: <path:secret/data/prometheus/cloudmon-de#go_neb_user_id>
   accessToken: <path:secret/data/prometheus/cloudmon-de#matrix_bot_access_token>
