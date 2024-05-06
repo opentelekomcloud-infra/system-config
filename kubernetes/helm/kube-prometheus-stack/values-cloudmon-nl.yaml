@@ -115,14 +115,14 @@ kube-prometheus-stack:
       externalUrl: https://prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
       retention: 7d
       remoteWrite:
-      - url: "https://vm.eco.tsi-dev.otc-service.com/api/v1/write"
-        basicAuth:
-          username:
-            name: basic-auth
-            key: vmauth_username
-          password:
-            name: basic-auth
-            key: vmauth_password
+        - url: "https://vm.eco.tsi-dev.otc-service.com/api/v1/write"
+          basicAuth:
+            username:
+              name: basic-auth
+              key: vmauth_username
+            password:
+              name: basic-auth
+              key: vmauth_password
 
 goNeb:
   userId: <path:secret/data/prometheus/cloudmon-nl#go_neb_user_id>
