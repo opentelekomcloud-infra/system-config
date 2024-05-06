@@ -7,7 +7,7 @@ spec:
   project: infra
   source:
     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-    targetRevision: add-vm-single-and-vmauth
+    targetRevision: main
     path: kubernetes/helm/victoria-metrics-cluster
     plugin:
       name: argocd-vault-plugin-helm-with-args
