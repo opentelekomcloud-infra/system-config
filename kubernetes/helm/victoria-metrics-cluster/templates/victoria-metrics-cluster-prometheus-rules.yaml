@@ -1,0 +1,14 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ template "victoria-metrics.fullname" . }}
+  labels:
+    {{- include "victoria-metrics.common.metaLabels" . | nindent 4 }}
+    release: prometheus
+spec:
+  groups:
+  - name: vm-health
+    rules: {{ toYaml .Values.prometheusRules.vmHealth | nindent 6 }}
+  - name: vm-cluster
+    rules: {{ toYaml .Values.prometheusRules.vmCluster | nindent 6 }}

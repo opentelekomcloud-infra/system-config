@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: victoria-metrics-cluster-otcinfra
+  namespace: argocd
+spec:
+  project: infra
+  source:
+    repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+    targetRevision: add-vm-single-and-vmauth
+    path: kubernetes/helm/victoria-metrics-cluster
+    plugin:
+      name: argocd-vault-plugin-helm-with-args
+      env:
+        - name: HELM_ARGS
+          value: -f values-otcinfra.yaml
+  destination:
+    name: otcinfra
+    namespace: monitoring
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
