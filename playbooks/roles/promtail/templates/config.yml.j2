@@ -25,8 +25,16 @@ scrape_configs:
         target_label: 'unit'
         regex: '(.+)\.service'
         replacement: '$1'
-      - source_labels: ['__journal_container_name']
-        target_label: 'container_name'
+{% if 'apimon' in groups and inventory_hostname in groups['apimon'] %}
+      - source_labels: ['unit']
+        regex: 'user@3000'
+        target_label: 'unit'
+        replacement: 'apimon'
+      - source_labels: ['unit']
+        regex: 'user@3001'
+        target_label: 'unit'
+        replacement: 'cloudmon'
+{% endif %}
   - job_name: audit
     pipeline_stages:
     - match:
