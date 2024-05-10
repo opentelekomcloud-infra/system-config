@@ -17,6 +17,6 @@ configMapGenerator:
 
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
-    newTag: "change_15_latest"
+    newTag: "change_18_latest"
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "sha-ce1825c"
+    newTag: "sha-4e583b7"
