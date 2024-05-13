@@ -50,6 +50,7 @@
   /api/dns/dns_api_66003.html /domain-name-service/api-ref/apis/ptr_record_management/querying_a_ptr_record.html;
   /api/dns/dns_api_66004.html /domain-name-service/api-ref/apis/ptr_record_management/querying_all_ptr_records.html;
   /bestpractice/dns/ /domain-name-service/best-practice/index.html;
+  /bestpractice/dns/dns_bestprac_0002.html /domain-name-service/best-practice/configuring_private_domain_names_for_ecss.html;
   /usermanual/dns/dns_usermanual_0050.html /domain-name-service/umn/glossary.html;
   /usermanual/dns/dns_usermanual_0042.html /domain-name-service/umn/key_operations_recorded_by_cts/index.html;
   /usermanual/dns/dns_usermanual_0044.html /domain-name-service/umn/key_operations_recorded_by_cts/viewing_traces.html;
@@ -168,6 +169,7 @@
   /en-us/api/dns/dns_api_66003.html /domain-name-service/api-ref/apis/ptr_record_management/querying_a_ptr_record.html;
   /en-us/api/dns/dns_api_66004.html /domain-name-service/api-ref/apis/ptr_record_management/querying_all_ptr_records.html;
   /en-us/bestpractice/dns/ /domain-name-service/best-practice/index.html;
+  /en-us/bestpractice/dns/dns_bestprac_0002.html /domain-name-service/best-practice/configuring_private_domain_names_for_ecss.html;
   /en-us/usermanual/dns/dns_usermanual_0050.html /domain-name-service/umn/glossary.html;
   /en-us/usermanual/dns/dns_usermanual_0042.html /domain-name-service/umn/key_operations_recorded_by_cts/index.html;
   /en-us/usermanual/dns/dns_usermanual_0044.html /domain-name-service/umn/key_operations_recorded_by_cts/viewing_traces.html;

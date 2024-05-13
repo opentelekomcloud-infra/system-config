@@ -58,6 +58,11 @@
   /api/drs/drs_03_0147.html /data-replication-service/api-ref/api/real-time_synchronization_management/performing_a_switchover.html;
   /bestpractice/drs/ /data-replication-service/best-practice/index.html;
   /usermanual/drs/ /data-replication-service/umn/index.html;
+  /usermanual/drs/drs_02_0470.html /data-replication-service/umn/preparations/index.html;
+  /usermanual/drs/drs_02_0471.html /data-replication-service/umn/preparations/overview.html;
+  /usermanual/drs/drs_08_0010.html /data-replication-service/umn/preparations/permissions_management/index.html;
+  /usermanual/drs/drs_08_0012.html /data-replication-service/umn/preparations/permissions_management/creating_a_user_and_granting_permissions.html;
+  /usermanual/drs/drs_08_0088.html /data-replication-service/umn/preparations/permissions_management/creating_a_custom_policy.html;
   /usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /usermanual/drs/drs_04_0007.html /data-replication-service/umn/backup_migration/task_management/index.html;
   /usermanual/drs/drs_04_0003.html /data-replication-service/umn/backup_migration/task_management/viewing_migration_logs.html;
@@ -117,15 +122,14 @@
   /usermanual/drs/drs_04_0033.html /data-replication-service/umn/faqs/real-time_disaster_recovery/what_are_rpo_and_rto_of_drs_disaster_recovery.html;
   /usermanual/drs/drs_16_1126.html /data-replication-service/umn/faqs/real-time_disaster_recovery/can_real-time_dr_be_performed_for_specified_databases.html;
   /usermanual/drs/drs_16_1156.html /data-replication-service/umn/faqs/delay/index.html;
-  /usermanual/drs/drs_16_1157.html /data-replication-service/umn/faqs/delay/why_is_the_delay_high_in_mongodb_replication_scenarios.html;
   /usermanual/drs/drs_16_1148.html /data-replication-service/umn/faqs/delay/why_does_the_delay_of_dr_tasks_increase.html;
+  /usermanual/drs/drs_16_1157.html /data-replication-service/umn/faqs/delay/why_is_the_delay_high_in_migration_from_mongodb_to_dds.html;
   /usermanual/drs/drs_14_0001.html /data-replication-service/umn/faqs/data-level_comparison/index.html;
   /usermanual/drs/drs_16_1162.html /data-replication-service/umn/faqs/data-level_comparison/how_long_does_a_drs_comparison_task_take.html;
   /usermanual/drs/drs_16_1161.html /data-replication-service/umn/faqs/data-level_comparison/what_impact_does_a_drs_comparison_task_have_on_databases.html;
   /usermanual/drs/drs_16_1130.html /data-replication-service/umn/faqs/data-level_comparison/which_of_the_following_data_types_are_not_supported_by_value_comparison.html;
   /usermanual/drs/drs_04_0025.html /data-replication-service/umn/faqs/real-time_migration/index.html;
   /usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.html;
-  /usermanual/drs/drs_15_0100.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_oom_occurs_during_the_migration_of_mongodb_databases.html;
   /usermanual/drs/drs_14_0002.html /data-replication-service/umn/faqs/real-time_migration/how_can_i_migrate_databases_or_tables_whose_names_contain_uppercase_letters.html;
   /usermanual/drs/drs_16_0123.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_scheduled_task_failed_to_start_leaving_message_can_not_get_agency_token.html;
   /usermanual/drs/drs_16_0001.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_disable_the_balancer.html;
@@ -135,6 +139,7 @@
   /usermanual/drs/drs_16_0121.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_the_invoking_permission_problem_occurs_after_the_mysql_stored_procedure_is_migrated_to_the_cloud.html;
   /usermanual/drs/drs_04_0020.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_ensure_that_all_services_on_the_database_are_stopped.html;
   /usermanual/drs/drs_09_0101.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_delete_orphaned_documents_in_mongodb_sharded_clusters.html;
+  /usermanual/drs/drs_15_0100.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_oom_occurs_during_the_migration_from_mongodb_to_dds.html;
   /usermanual/drs/drs_04_0032.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_myisam_tables_are_not_supported_by_rds_for_mysql.html;
   /usermanual/drs/drs_16_1155.html /data-replication-service/umn/faqs/real-time_synchronization/how_do_i_check_supplemental_logging_of_the_source_oracle_database.html;
   /usermanual/drs/drs_04_0026.html /data-replication-service/umn/faqs/real-time_synchronization/index.html;
@@ -171,6 +176,7 @@
   /usermanual/drs/drs_01_0012.html /data-replication-service/umn/service_overview/security_suggestions.html;
   /usermanual/drs/drs_01_0021.html /data-replication-service/umn/service_overview/accessing_drs.html;
   /usermanual/drs/drs_01_0318.html /data-replication-service/umn/service_overview/compliance_description.html;
+  /usermanual/drs/drs_01_0201.html /data-replication-service/umn/service_overview/permissions_management.html;
   /usermanual/drs/drs_change_history.html /data-replication-service/umn/change_history.html;
   /usermanual/drs/drs_02_0017.html /data-replication-service/umn/real-time_migration/index.html;
   /usermanual/drs/drs_04_0010.html /data-replication-service/umn/real-time_migration/task_management/index.html;
@@ -210,6 +216,7 @@
   /usermanual/drs/drs_10_0009.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/editing_synchronization_objects.html;
   /usermanual/drs/drs_10_0100.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/viewing_synchronization_mapping_information.html;
   /usermanual/drs/drs_10_0015.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/mapping_object_names.html;
+  /usermanual/drs/drs_10_0402.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/importing_synchronization_objects.html;
   /usermanual/drs/drs_03_0035.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/processing_data.html;
   /usermanual/drs/drs_10_0012.html /data-replication-service/umn/real-time_synchronization/task_management/step_4_compare_synchronization_items.html;
   /usermanual/drs/drs_10_0008.html /data-replication-service/umn/real-time_synchronization/task_management/step_3_view_synchronization_logs.html;
@@ -394,6 +401,11 @@
   /en-us/api/drs/drs_03_0147.html /data-replication-service/api-ref/api/real-time_synchronization_management/performing_a_switchover.html;
   /en-us/bestpractice/drs/ /data-replication-service/best-practice/index.html;
   /en-us/usermanual/drs/ /data-replication-service/umn/index.html;
+  /en-us/usermanual/drs/drs_02_0470.html /data-replication-service/umn/preparations/index.html;
+  /en-us/usermanual/drs/drs_02_0471.html /data-replication-service/umn/preparations/overview.html;
+  /en-us/usermanual/drs/drs_08_0010.html /data-replication-service/umn/preparations/permissions_management/index.html;
+  /en-us/usermanual/drs/drs_08_0012.html /data-replication-service/umn/preparations/permissions_management/creating_a_user_and_granting_permissions.html;
+  /en-us/usermanual/drs/drs_08_0088.html /data-replication-service/umn/preparations/permissions_management/creating_a_custom_policy.html;
   /en-us/usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /en-us/usermanual/drs/drs_04_0007.html /data-replication-service/umn/backup_migration/task_management/index.html;
   /en-us/usermanual/drs/drs_04_0003.html /data-replication-service/umn/backup_migration/task_management/viewing_migration_logs.html;
@@ -453,15 +465,14 @@
   /en-us/usermanual/drs/drs_04_0033.html /data-replication-service/umn/faqs/real-time_disaster_recovery/what_are_rpo_and_rto_of_drs_disaster_recovery.html;
   /en-us/usermanual/drs/drs_16_1126.html /data-replication-service/umn/faqs/real-time_disaster_recovery/can_real-time_dr_be_performed_for_specified_databases.html;
   /en-us/usermanual/drs/drs_16_1156.html /data-replication-service/umn/faqs/delay/index.html;
-  /en-us/usermanual/drs/drs_16_1157.html /data-replication-service/umn/faqs/delay/why_is_the_delay_high_in_mongodb_replication_scenarios.html;
   /en-us/usermanual/drs/drs_16_1148.html /data-replication-service/umn/faqs/delay/why_does_the_delay_of_dr_tasks_increase.html;
+  /en-us/usermanual/drs/drs_16_1157.html /data-replication-service/umn/faqs/delay/why_is_the_delay_high_in_migration_from_mongodb_to_dds.html;
   /en-us/usermanual/drs/drs_14_0001.html /data-replication-service/umn/faqs/data-level_comparison/index.html;
   /en-us/usermanual/drs/drs_16_1162.html /data-replication-service/umn/faqs/data-level_comparison/how_long_does_a_drs_comparison_task_take.html;
   /en-us/usermanual/drs/drs_16_1161.html /data-replication-service/umn/faqs/data-level_comparison/what_impact_does_a_drs_comparison_task_have_on_databases.html;
   /en-us/usermanual/drs/drs_16_1130.html /data-replication-service/umn/faqs/data-level_comparison/which_of_the_following_data_types_are_not_supported_by_value_comparison.html;
   /en-us/usermanual/drs/drs_04_0025.html /data-replication-service/umn/faqs/real-time_migration/index.html;
   /en-us/usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.html;
-  /en-us/usermanual/drs/drs_15_0100.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_oom_occurs_during_the_migration_of_mongodb_databases.html;
   /en-us/usermanual/drs/drs_14_0002.html /data-replication-service/umn/faqs/real-time_migration/how_can_i_migrate_databases_or_tables_whose_names_contain_uppercase_letters.html;
   /en-us/usermanual/drs/drs_16_0123.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_scheduled_task_failed_to_start_leaving_message_can_not_get_agency_token.html;
   /en-us/usermanual/drs/drs_16_0001.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_disable_the_balancer.html;
@@ -471,6 +482,7 @@
   /en-us/usermanual/drs/drs_16_0121.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_the_invoking_permission_problem_occurs_after_the_mysql_stored_procedure_is_migrated_to_the_cloud.html;
   /en-us/usermanual/drs/drs_04_0020.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_ensure_that_all_services_on_the_database_are_stopped.html;
   /en-us/usermanual/drs/drs_09_0101.html /data-replication-service/umn/faqs/real-time_migration/how_do_i_delete_orphaned_documents_in_mongodb_sharded_clusters.html;
+  /en-us/usermanual/drs/drs_15_0100.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_when_oom_occurs_during_the_migration_from_mongodb_to_dds.html;
   /en-us/usermanual/drs/drs_04_0032.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_myisam_tables_are_not_supported_by_rds_for_mysql.html;
   /en-us/usermanual/drs/drs_16_1155.html /data-replication-service/umn/faqs/real-time_synchronization/how_do_i_check_supplemental_logging_of_the_source_oracle_database.html;
   /en-us/usermanual/drs/drs_04_0026.html /data-replication-service/umn/faqs/real-time_synchronization/index.html;
@@ -507,6 +519,7 @@
   /en-us/usermanual/drs/drs_01_0012.html /data-replication-service/umn/service_overview/security_suggestions.html;
   /en-us/usermanual/drs/drs_01_0021.html /data-replication-service/umn/service_overview/accessing_drs.html;
   /en-us/usermanual/drs/drs_01_0318.html /data-replication-service/umn/service_overview/compliance_description.html;
+  /en-us/usermanual/drs/drs_01_0201.html /data-replication-service/umn/service_overview/permissions_management.html;
   /en-us/usermanual/drs/drs_change_history.html /data-replication-service/umn/change_history.html;
   /en-us/usermanual/drs/drs_02_0017.html /data-replication-service/umn/real-time_migration/index.html;
   /en-us/usermanual/drs/drs_04_0010.html /data-replication-service/umn/real-time_migration/task_management/index.html;
@@ -546,6 +559,7 @@
   /en-us/usermanual/drs/drs_10_0009.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/editing_synchronization_objects.html;
   /en-us/usermanual/drs/drs_10_0100.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/viewing_synchronization_mapping_information.html;
   /en-us/usermanual/drs/drs_10_0015.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/mapping_object_names.html;
+  /en-us/usermanual/drs/drs_10_0402.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/importing_synchronization_objects.html;
   /en-us/usermanual/drs/drs_03_0035.html /data-replication-service/umn/real-time_synchronization/task_management/managing_objects/processing_data.html;
   /en-us/usermanual/drs/drs_10_0012.html /data-replication-service/umn/real-time_synchronization/task_management/step_4_compare_synchronization_items.html;
   /en-us/usermanual/drs/drs_10_0008.html /data-replication-service/umn/real-time_synchronization/task_management/step_3_view_synchronization_logs.html;

@@ -81,6 +81,8 @@
   /api/dms/UpdateInstanceTopic.html /distributed-message-service/api-ref/apis_v2_recommended/topic_management/modifying_topics_of_a_kafka_instance.html;
   /api/dms/kafka-api-0034672268.html /distributed-message-service/api-ref/change_history.html;
   /bestpractice/dms/ /distributed-message-service/best-practice/index.html;
+  /bestpractice/dms/Kafka-bp-0002.html /distributed-message-service/best-practice/using_mirrormaker_to_synchronize_data_across_clusters.html;
+  /bestpractice/dms/kafka-bp-migration.html /distributed-message-service/best-practice/migrating_kafka_services.html;
   /devg/dms/ /distributed-message-service/dev-guide/index.html;
   /devg/dms/kafka-java.html /distributed-message-service/dev-guide/java/index.html;
   /devg/dms/Kafka-java-demo.html /distributed-message-service/dev-guide/java/configuring_kafka_clients_in_java.html;
@@ -304,6 +306,8 @@
   /en-us/api/dms/UpdateInstanceTopic.html /distributed-message-service/api-ref/apis_v2_recommended/topic_management/modifying_topics_of_a_kafka_instance.html;
   /en-us/api/dms/kafka-api-0034672268.html /distributed-message-service/api-ref/change_history.html;
   /en-us/bestpractice/dms/ /distributed-message-service/best-practice/index.html;
+  /en-us/bestpractice/dms/Kafka-bp-0002.html /distributed-message-service/best-practice/using_mirrormaker_to_synchronize_data_across_clusters.html;
+  /en-us/bestpractice/dms/kafka-bp-migration.html /distributed-message-service/best-practice/migrating_kafka_services.html;
   /en-us/devg/dms/ /distributed-message-service/dev-guide/index.html;
   /en-us/devg/dms/kafka-java.html /distributed-message-service/dev-guide/java/index.html;
   /en-us/devg/dms/Kafka-java-demo.html /distributed-message-service/dev-guide/java/configuring_kafka_clients_in_java.html;
