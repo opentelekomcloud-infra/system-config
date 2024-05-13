@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-app-of-apps-infra
+  namespace: argocd
+spec:
+  destination:
+    namespace: argocd
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: kubernetes/argocd-apps/bootstrap/infra/app-of-apps-infra
+    repoURL: https://github.com/opentelekomcloud-infra/system-config
+    targetRevision: main
+  syncPolicy:
+    syncOptions:
+      - PruneLast=true
