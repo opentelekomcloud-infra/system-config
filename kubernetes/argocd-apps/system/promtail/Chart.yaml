@@ -1,0 +1,8 @@
+apiVersion: v2
+name: promtail
+description: A Helm chart for Kubernetes that includes promtail
+version: 0.1.0
+dependencies:
+  - name: promtail
+    version: "6.15.2"
+    repository: "https://grafana.github.io/helm-charts"

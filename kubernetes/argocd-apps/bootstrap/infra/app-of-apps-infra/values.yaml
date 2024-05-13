@@ -1,0 +1,86 @@
+global:
+  argocdNamespace: argocd
+  infraProject: infra
+
+clusters:
+  - name: otcinfra
+  - name: otcinfra2
+  - name: otcci
+  - name: cloudmon-de
+  - name: cloudmon-nl
+
+projects:
+  - name: infra
+    description: "Infrastructure project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: []
+
+applications:
+  - name: victoria-metrics-cluster
+    clusters: [otcinfra]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/victoria-metrics-cluster
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: victoria-metrics-auth
+    clusters: [otcinfra]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/victoria-metrics-auth
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: falco
+    clusters: [otcinfra, otcinfra2, otcci]
+    config:
+      namespace: falco
+      repoURL: 'https://falcosecurity.github.io/charts'
+      targetRevision: '3.6.2'
+      path: falcosecurity/falco
+      chart: falco
+      pluginName: argocd-vault-plugin-helm
+
+  - name: promtail
+    clusters: [otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, otcci]
+    config:
+      namespace: promtail
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/promtail
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: prometheus
+    clusters: [cloudmon-de, cloudmon-nl]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/kube-prometheus-stack
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: cert-manager
+    clusters: [cloudmon-de, cloudmon-nl]
+    config:
+      namespace: cert-manager
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/cert-manager
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
