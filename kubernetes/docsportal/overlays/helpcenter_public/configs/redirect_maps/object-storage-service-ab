@@ -1,3 +1,4 @@
+  /en-us/api_swift/obs/obs_03_0042.html /object-storage-service/swiftapi/operations_on_containers/create_update_delete_container_metadata/request.html;
   /en-us/api_swift/obs/obs_03_0044.html /object-storage-service/swiftapi/operations_on_containers/create_update_delete_container_metadata/examples.html;
   /en-us/api_swift/obs/obs_03_0049.html /object-storage-service/swiftapi/operations_on_containers/batch_delete_containers/index.html;
   /en-us/api_swift/obs/obs_03_0051.html /object-storage-service/swiftapi/operations_on_containers/batch_delete_containers/response.html;
@@ -299,6 +300,7 @@
   /en-us/usermanual/obs/obs_faq_0029.html /object-storage-service/umn/faq/how_do_i_use_static_website_hosting/which_types_of_websites_can_i_use_obs_to_host.html;
   /en-us/usermanual/obs/obs_faq_0030.html /object-storage-service/umn/faq/how_do_i_use_static_website_hosting/how_do_i_obtain_the_static_website_hosting_address_of_a_bucket.html;
   /en-us/usermanual/obs/obs_faq_0028.html /object-storage-service/umn/faq/how_do_i_use_static_website_hosting/can_obs_host_my_static_websites.html;
+  /en-us/usermanual/obs/obs_faq_static_website_hosting_content_type.html /object-storage-service/umn/faq/how_do_i_use_static_website_hosting/why_is_the_website_file_downloaded_instead_of_displaying_the_page.html;
   /en-us/usermanual/obs/obs_faq_0200.html /object-storage-service/umn/faq/security/index.html;
   /en-us/usermanual/obs/obs_faq_0040.html /object-storage-service/umn/faq/security/can_engineers_export_my_data_from_the_background_of_obs.html;
   /en-us/usermanual/obs/obs_faq_0038.html /object-storage-service/umn/faq/security/how_is_data_security_ensured_in_obs.html;
