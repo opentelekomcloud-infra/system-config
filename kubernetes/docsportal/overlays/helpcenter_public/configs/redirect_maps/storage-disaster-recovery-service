@@ -68,6 +68,7 @@
   /usermanual/sdrs/ /storage-disaster-recovery-service/umn/index.html;
   /usermanual/sdrs/sdrs_06_0400.html /storage-disaster-recovery-service/umn/faqs/index.html;
   /usermanual/sdrs/sdrs_06_0440.html /storage-disaster-recovery-service/umn/faqs/what_are_rpo_and_rto.html;
+  /usermanual/sdrs/sdrs_faq_win_login_restrictions.html /storage-disaster-recovery-service/umn/faqs/why_can_i_not_get_the_password_for_a_windows_dr_server_before_the_first_failover.html;
   /usermanual/sdrs/sdrs_faq_0007.html /storage-disaster-recovery-service/umn/faqs/does_sdrs_support_automatic_failover.html;
   /usermanual/sdrs/en-us_topic_0109956554.html /storage-disaster-recovery-service/umn/faqs/what_are_the_differences_between_dr_and_backup.html;
   /usermanual/sdrs/sdrs_faq_0004.html /storage-disaster-recovery-service/umn/faqs/why_nics_of_dr_site_servers_are_not_displayed_after_i_perform_a_failover.html;
@@ -191,6 +192,7 @@
   /en-us/usermanual/sdrs/ /storage-disaster-recovery-service/umn/index.html;
   /en-us/usermanual/sdrs/sdrs_06_0400.html /storage-disaster-recovery-service/umn/faqs/index.html;
   /en-us/usermanual/sdrs/sdrs_06_0440.html /storage-disaster-recovery-service/umn/faqs/what_are_rpo_and_rto.html;
+  /en-us/usermanual/sdrs/sdrs_faq_win_login_restrictions.html /storage-disaster-recovery-service/umn/faqs/why_can_i_not_get_the_password_for_a_windows_dr_server_before_the_first_failover.html;
   /en-us/usermanual/sdrs/sdrs_faq_0007.html /storage-disaster-recovery-service/umn/faqs/does_sdrs_support_automatic_failover.html;
   /en-us/usermanual/sdrs/en-us_topic_0109956554.html /storage-disaster-recovery-service/umn/faqs/what_are_the_differences_between_dr_and_backup.html;
   /en-us/usermanual/sdrs/sdrs_faq_0004.html /storage-disaster-recovery-service/umn/faqs/why_nics_of_dr_site_servers_are_not_displayed_after_i_perform_a_failover.html;
