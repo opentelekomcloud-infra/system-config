@@ -111,9 +111,12 @@ configMapGenerator:
   - name: "domain-name-service"
     files:
       - "configs/redirect_maps/domain-name-service"
-  - name: "elastic-cloud-server"
+  - name: "elastic-cloud-server-aa"
     files:
-      - "configs/redirect_maps/elastic-cloud-server"
+      - "configs/redirect_maps/elastic-cloud-server-aa"
+  - name: "elastic-cloud-server-ab"
+    files:
+      - "configs/redirect_maps/elastic-cloud-server-ab"
   - name: "elastic-ip"
     files:
       - "configs/redirect_maps/elastic-ip"
@@ -186,6 +189,9 @@ configMapGenerator:
   - name: "object-storage-service-ab"
     files:
       - "configs/redirect_maps/object-storage-service-ab"
+  - name: "optical-character-recognition"
+    files:
+      - "configs/redirect_maps/optical-character-recognition"
   - name: "private-link-access-service"
     files:
       - "configs/redirect_maps/private-link-access-service"

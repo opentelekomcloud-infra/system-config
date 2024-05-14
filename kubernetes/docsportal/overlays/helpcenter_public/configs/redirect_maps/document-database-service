@@ -221,6 +221,7 @@
   /usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
   /usermanual/dds/dds_01_0002.html /document-database-service/umn/introduction/basic_concepts/cluster.html;
   /usermanual/dds/dds_01_0005.html /document-database-service/umn/introduction/basic_concepts/database_parameter_template.html;
+  /usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
   /usermanual/dds/dds_01_0006.html /document-database-service/umn/introduction/functions_and_features.html;
   /usermanual/dds/dds_01_0022.html /document-database-service/umn/introduction/constraints_and_recommendations.html;
   /usermanual/dds/dds_01_0016.html /document-database-service/umn/introduction/related_services.html;
@@ -464,6 +465,7 @@
   /en-us/usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
   /en-us/usermanual/dds/dds_01_0002.html /document-database-service/umn/introduction/basic_concepts/cluster.html;
   /en-us/usermanual/dds/dds_01_0005.html /document-database-service/umn/introduction/basic_concepts/database_parameter_template.html;
+  /en-us/usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
   /en-us/usermanual/dds/dds_01_0006.html /document-database-service/umn/introduction/functions_and_features.html;
   /en-us/usermanual/dds/dds_01_0022.html /document-database-service/umn/introduction/constraints_and_recommendations.html;
   /en-us/usermanual/dds/dds_01_0016.html /document-database-service/umn/introduction/related_services.html;
