@@ -140,7 +140,6 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
-          - scenario18a_cluster.yaml
           - scenario20_rds.yaml
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
@@ -416,8 +415,9 @@ apimon_instances:
             epmon_dcs, epmon_dcs, epmon_dds, epmon_deh, epmon_skip_dis,
             epmon_dms, epmon_designate, epmon_dws, epmon_keystone, epmon_mrs,
             epmon_nat, epmon_network, epmon_swift, epmon_heat, epmon_rds,
-            epmon_rest, epmon_sdrs, epmon_sfs, epmon_skip_smn, epmon_skip_wks,
-            epmon_skip_rts, epmon_skip_ief] | combine }}"
+            epmon_rest, epmon_sfs, epmon_skip_octavia, epmon_skip_sdrs,
+            epmon_skip_smn, epmon_skip_wks, epmon_skip_rts,
+            epmon_skip_ief] | combine }}"
 
     test_projects:
       - name: apimon
@@ -801,6 +801,10 @@ epmon_smn:
       - "/notifications/subscriptions"
       - "/notifications/message_template"
   smnv2: {}
+epmon_skip_octavia:
+  octavia: {}
+epmon_skip_sdrs:
+  sdrs: {}
 epmon_skip_smn:
   smn: {}
   smnv2: {}
