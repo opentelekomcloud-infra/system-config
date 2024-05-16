@@ -35,6 +35,16 @@ applications:
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
+  - name: grafana
+    clusters: [otcinfra]
+    config:
+      namespace: grafana-infra
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/grafana
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
   - name: victoria-metrics-auth
     clusters: [otcinfra]
     config:
