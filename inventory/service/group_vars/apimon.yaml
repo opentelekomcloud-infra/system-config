@@ -91,7 +91,7 @@ apimon_instances:
             epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
             epmon_kms, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
             epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
-            epmon_smn] | combine }}"
+            epmon_skip_wks, epmon_smn] | combine }}"
       - production_eu-nl:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
@@ -328,7 +328,7 @@ apimon_instances:
             epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
             epmon_kms, epmon_mrs, epmon_nat, epmon_network, epmon_swift,
             epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
-            epmon_smn] | combine }}"
+            epmon_skip_wks, epmon_smn] | combine }}"
       - production_eu-nl:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
@@ -377,7 +377,6 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
-          - scenario18a_cluster.yaml
           - scenario20_rds.yaml
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
@@ -802,7 +801,7 @@ epmon_smn:
       - "/notifications/message_template"
   smnv2: {}
 epmon_skip_octavia:
-  octavia: {}
+  load-balancer: {}
 epmon_skip_sdrs:
   sdrs: {}
 epmon_skip_smn:
