@@ -123,7 +123,7 @@ grafana:
     path: /metrics
     namespace: monitoring
     labels:
-      release: prometheus
+      release: prometheus-otcinfra
     interval: 30s
     scheme: http
     scrapeTimeout: 30s
