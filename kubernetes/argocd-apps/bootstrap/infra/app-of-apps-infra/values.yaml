@@ -76,7 +76,7 @@ applications:
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
   - name: prometheus
-    clusters: [cloudmon-de, cloudmon-nl]
+    clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'

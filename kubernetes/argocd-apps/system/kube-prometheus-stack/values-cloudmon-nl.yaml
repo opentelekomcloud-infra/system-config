@@ -24,7 +24,7 @@ kube-prometheus-stack:
               {{- if .Annotations.description }}
               *Description:* {{ .Annotations.description }}
               {{- end }}
-              *Cluster:* {{ .Labels.cce_cluster }}
+              *Cluster:* {{ .Labels.cluster }}
             {{ end }}
           title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing
             }}{{ end }}] {{ .CommonLabels.alertname }}'
@@ -111,7 +111,7 @@ kube-prometheus-stack:
         secretName: prometheus-mon
     prometheusSpec:
       externalLabels:
-        cce_cluster: CLOUDMON-NL
+        cluster: cloudmon-nl
       externalUrl: https://prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
       retention: 7d
       remoteWrite:
