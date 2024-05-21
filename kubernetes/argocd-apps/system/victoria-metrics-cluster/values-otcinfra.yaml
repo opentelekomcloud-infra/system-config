@@ -97,7 +97,7 @@ victoria-metrics-cluster:
       enabled: true
       namespace: monitoring
       extraLabels:
-        release: prometheus
+        release: prometheus-otcinfra
       interval: 30s
       scheme: http
 
@@ -155,7 +155,7 @@ victoria-metrics-cluster:
       enabled: true
       namespace: monitoring
       extraLabels:
-        release: prometheus
+        release: prometheus-otcinfra
       interval: 30s
       scheme: http
 
