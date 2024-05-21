@@ -388,17 +388,17 @@ helm_chart_instances:
 #   ref: falcosecurity/falco
 #   version: 3.6.2
 #   namespace: falco
-  otcinfra_prometheus:
-    context: otcinfra
-    repo_url: https://prometheus-community.github.io/helm-charts
-    repo_name: prometheus-community
-    name: prometheus
-    ref: prometheus-community/kube-prometheus-stack
-    version: 51.8.1
-    namespace: monitoring
-    values_template: "templates/charts/prometheus/prometheus-otcinfra-values.yaml.j2"
-    post_config_template: "templates/charts/prometheus/prometheus-otcinfra-go-neb-post-config.yaml.j2"
-    go_neb_image: "{{ go_neb_image_stable }}"
+# otcinfra_prometheus:
+#   context: otcinfra
+#   repo_url: https://prometheus-community.github.io/helm-charts
+#   repo_name: prometheus-community
+#   name: prometheus
+#   ref: prometheus-community/kube-prometheus-stack
+#   version: 51.8.1
+#   namespace: monitoring
+#   values_template: "templates/charts/prometheus/prometheus-otcinfra-values.yaml.j2"
+#   post_config_template: "templates/charts/prometheus/prometheus-otcinfra-go-neb-post-config.yaml.j2"
+#   go_neb_image: "{{ go_neb_image_stable }}"
   otcinfra_prometheus-blackbox:
     context: otcinfra
     repo_url: https://prometheus-community.github.io/helm-charts
@@ -408,37 +408,37 @@ helm_chart_instances:
     version: 8.4.0
     namespace: monitoring
     values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra-values.yaml.j2"
-  otcinfra2_prometheus:
-    context: otcinfra2
-    repo_url: https://prometheus-community.github.io/helm-charts
-    repo_name: prometheus-community
-    name: prometheus
-    ref: prometheus-community/kube-prometheus-stack
-    version: 51.8.1
-    namespace: monitoring
-    values_template: "templates/charts/prometheus/prometheus-otcinfra2-values.yaml.j2"
-    post_config_template: "templates/charts/prometheus/prometheus-otcinfra2-go-neb-post-config.yaml.j2"
-    go_neb_image: "{{ go_neb_image_stable }}"
-  otcinfra2_prometheus-blackbox:
-    context: otcinfra2
-    repo_url: https://prometheus-community.github.io/helm-charts
-    repo_name: prometheus-community
-    name: prometheus-blackbox-exporter
-    ref: prometheus-community/prometheus-blackbox-exporter
-    version: 8.4.0
-    namespace: monitoring
-    values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra2-values.yaml.j2"
-  otcci_prometheus:
-    context: otcci
-    repo_url: https://prometheus-community.github.io/helm-charts
-    repo_name: prometheus-community
-    name: prometheus
-    ref: prometheus-community/kube-prometheus-stack
-    version: 51.8.1
-    namespace: monitoring
-    values_template: "templates/charts/prometheus/prometheus-otcci-values.yaml.j2"
-    post_config_template: "templates/charts/prometheus/prometheus-otcci-go-neb-post-config.yaml.j2"
-    go_neb_image: "{{ go_neb_image_stable }}"
+# otcinfra2_prometheus:
+#   context: otcinfra2
+#   repo_url: https://prometheus-community.github.io/helm-charts
+#   repo_name: prometheus-community
+#   name: prometheus
+#   ref: prometheus-community/kube-prometheus-stack
+#   version: 51.8.1
+#   namespace: monitoring
+#   values_template: "templates/charts/prometheus/prometheus-otcinfra2-values.yaml.j2"
+#   post_config_template: "templates/charts/prometheus/prometheus-otcinfra2-go-neb-post-config.yaml.j2"
+#   go_neb_image: "{{ go_neb_image_stable }}"
+# otcinfra2_prometheus-blackbox:
+#   context: otcinfra2
+#   repo_url: https://prometheus-community.github.io/helm-charts
+#   repo_name: prometheus-community
+#   name: prometheus-blackbox-exporter
+#   ref: prometheus-community/prometheus-blackbox-exporter
+#   version: 8.4.0
+#   namespace: monitoring
+#   values_template: "templates/charts/prometheus-blackbox/prometheus-blackbox-otcinfra2-values.yaml.j2"
+# otcci_prometheus:
+#   context: otcci
+#   repo_url: https://prometheus-community.github.io/helm-charts
+#   repo_name: prometheus-community
+#   name: prometheus
+#   ref: prometheus-community/kube-prometheus-stack
+#   version: 51.8.1
+#   namespace: monitoring
+#   values_template: "templates/charts/prometheus/prometheus-otcci-values.yaml.j2"
+#   post_config_template: "templates/charts/prometheus/prometheus-otcci-go-neb-post-config.yaml.j2"
+#   go_neb_image: "{{ go_neb_image_stable }}"
 # cloudmon_de_prometheus:
 #   context: cloudmon-de
 #   repo_url: https://prometheus-community.github.io/helm-charts

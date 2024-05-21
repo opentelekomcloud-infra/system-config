@@ -1,17 +1,17 @@
 kube-prometheus-stack:
   alertmanager:
     alertmanagerSpec:
-      externalUrl: https://alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
+      externalUrl: https://alertamanager-mon.infra2.eco.tsi-dev.otc-service.com
     config:
       receivers:
       - name: "null"
       - name: matrix-webhook
         webhook_configs:
         - send_resolved: true
-          url: <path:secret/data/prometheus/cloudmon-de#matrix_webhook_url>
+          url: <path:secret/data/prometheus/infra2#matrix_webhook_url>
       - name: slack-webhook
         slack_configs:
-        - api_url: <path:secret/data/prometheus/cloudmon-de#slack_webhook_url>
+        - api_url: <path:secret/data/prometheus/infra2#slack_webhook_url>
           color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
           link_names: false
           send_resolved: true
@@ -47,13 +47,13 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
       enabled: true
       hosts:
-      - alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
+      - alertamanager-mon.infra2.eco.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - alertmanager-de.cloudmon.eco.tsi-dev.otc-service.com
+        - alertamanager-mon.infra2.eco.tsi-dev.otc-service.com
         secretName: alertmanager-mon
   coreDns:
     enabled: false
@@ -63,21 +63,6 @@ kube-prometheus-stack:
       kubeControllerManager: false
       kubeProxy: false
       kubeScheduler: false
-  grafana:
-    adminPassword: <path:secret/data/prometheus/cloudmon-de#password>
-    ingress:
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      enabled: true
-      hosts:
-      - grafana-de.cloudmon.eco.tsi-dev.otc-service.com
-      ingressClassName: nginx
-      paths:
-      - /
-      tls:
-      - hosts:
-        - grafana-de.cloudmon.eco.tsi-dev.otc-service.com
-        secretName: grafana-mon
   kubeControllerManager:
     enabled: false
   kubeEtcd:
@@ -89,9 +74,9 @@ kube-prometheus-stack:
   prometheus:
     extraSecret:
       data:
-        auth: <path:secret/data/prometheus/cloudmon-de#basic_auth>
-        vmauth_username: <path:secret/data/prometheus/cloudmon-de#vmauth_username>
-        vmauth_password: <path:secret/data/prometheus/cloudmon-de#vmauth_password>
+        auth: <path:secret/data/prometheus/infra2#basic_auth>
+        vmauth_username: <path:secret/data/prometheus/infra2#vmauth_username>
+        vmauth_password: <path:secret/data/prometheus/infra2#vmauth_password>
       name: basic-auth
     ingress:
       annotations:
@@ -101,18 +86,18 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
       enabled: true
       hosts:
-      - prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
+      - prometheus-mon.infra2.eco.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
+        - prometheus-mon.infra2.eco.tsi-dev.otc-service.com
         secretName: prometheus-mon
     prometheusSpec:
       externalLabels:
-        cluster: cloudmon-de
-      externalUrl: https://prometheus-de.cloudmon.eco.tsi-dev.otc-service.com
+        cluster: otcinfra2
+      externalUrl: https://prometheus-mon.infra2.eco.tsi-dev.otc-service.com
       retention: 7d
       remoteWrite:
         - url: "https://vm.eco.tsi-dev.otc-service.com/api/v1/write"
@@ -130,9 +115,9 @@ kube-prometheus-stack:
 
 goNeb:
   enabled: true
-  userId: <path:secret/data/prometheus/cloudmon-de#go_neb_user_id>
-  accessToken: <path:secret/data/prometheus/cloudmon-de#matrix_bot_access_token>
+  userId: <path:secret/data/prometheus/infra2#go_neb_user_id>
+  accessToken: <path:secret/data/prometheus/infra2#matrix_bot_access_token>
   homeserverURL: "https://matrix.org"
   displayName: "OpenTelekomCloud Bot"
-  roomId: <path:secret/data/prometheus/cloudmon-de#go_neb_room_id>
+  roomId: <path:secret/data/prometheus/infra2#go_neb_room_id>
   image: "quay.io/opentelekomcloud/go-neb:master-2022-04-13"
