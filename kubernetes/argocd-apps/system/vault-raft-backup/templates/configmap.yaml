@@ -1,0 +1,12 @@
+{{- range .Values.vaults }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "vault-raft-backup.fullname" $ }}-{{ .name }}
+  labels:
+    {{- include "vault-raft-backup.labels" $ | nindent 4 }}
+data:
+  config.yaml: |
+    {{- .config | nindent 4 }}
+{{- end }}

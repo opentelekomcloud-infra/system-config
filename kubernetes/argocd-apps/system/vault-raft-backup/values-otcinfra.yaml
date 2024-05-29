@@ -1,0 +1,37 @@
+resources:
+  requests:
+    memory: "64Mi"
+    cpu: "250m"
+  limits:
+    memory: "128Mi"
+
+image: quay.io/opentelekomcloud/vault-raft-backup:0.0.1
+schedule: "0 0 * * *"
+
+vaults:
+  - name: bridge
+    config: |
+      obs-bucket-name: <path:secret/data/vault/bridge/otcinfra#obs_bucket_name>
+      obs-object-name: <path:secret/data/vault/bridge/otcinfra#obs_object_name>
+      os-access-key: <path:secret/data/vault/bridge/otcinfra#os_access_key>
+      os-secret-key: <path:secret/data/vault/bridge/otcinfra#os_secret_key>
+      os-auth-url: "https://iam.eu-de.otc.t-systems.com/v3"
+      os-domain-name: <path:secret/data/vault/bridge/otcinfra#os_domain_name>
+      os-project-name: "eu-de"
+      vault-address: <path:secret/data/vault/bridge/otcinfra#vault_address>
+      vault-role-id: <path:secret/data/vault/bridge/otcinfra#vault_role_id>
+      vault-secret-id: <path:secret/data/vault/bridge/otcinfra#vault_secret_id>
+      vault-timeout: "60s"
+  - name: prod
+    config: |
+      obs-bucket-name: <path:secret/data/vault/prod/otcinfra#obs_bucket_name>
+      obs-object-name: <path:secret/data/vault/prod/otcinfra#obs_object_name>
+      os-access-key: <path:secret/data/vault/prod/otcinfra#os_access_key>
+      os-secret-key: <path:secret/data/vault/prod/otcinfra#os_secret_key>
+      os-auth-url: "https://iam.eu-de.otc.t-systems.com/v3"
+      os-domain-name: <path:secret/data/vault/prod/otcinfra#os_domain_name>
+      os-project-name: "eu-de"
+      vault-address: <path:secret/data/vault/prod/otcinfra#vault_address>
+      vault-role-id: <path:secret/data/vault/prod/otcinfra#vault_role_id>
+      vault-secret-id: <path:secret/data/vault/prod/otcinfra#vault_secret_id>
+      vault-timeout: "60s"

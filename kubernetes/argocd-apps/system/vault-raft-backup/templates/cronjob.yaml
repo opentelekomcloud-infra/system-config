@@ -1,0 +1,35 @@
+{{- range .Values.vaults }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "vault-raft-backup.fullname" $ }}-{{ .name }}
+  labels:
+    {{- include "vault-raft-backup.labels" $ | nindent 4 }}
+spec:
+  schedule: "{{ $.Values.schedule }}"
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            {{- include "vault-raft-backup.labels" $ | nindent 12 }}
+        spec:
+          containers:
+          - name: {{ .name }}
+            image: {{ $.Values.image }}
+            args:
+              - "backup"
+              - "--config"
+              - "/etc/vault-raft-backup/config.yaml"
+            volumeMounts:
+              - name: config
+                mountPath: /etc/vault-raft-backup
+            resources:
+              {{- toYaml $.Values.resources | nindent 14 }}
+          restartPolicy: OnFailure
+          volumes:
+            - name: config
+              configMap:
+                name: {{ include "vault-raft-backup.fullname" $ }}-{{ .name }}
+{{- end }}
