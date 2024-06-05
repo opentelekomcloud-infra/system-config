@@ -88,8 +88,8 @@ apimon_instances:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
             epmon_cts, epmon_dcs, epmon_dds, epmon_deh, epmon_dis, epmon_dms,
-            epmon_designate, epmon_dws, epmon_glance, epmon_keystone,
-            epmon_kms, epmon_mrs, epmon_nat, epmon_network,
+            epmon_designate, epmon_dws, epmon_ed, epmon_glance,
+            epmon_keystone, epmon_kms, epmon_mrs, epmon_nat, epmon_network,
             epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
             epmon_skip_wks, epmon_smn] | combine }}"
       - production_eu-nl:
@@ -692,6 +692,13 @@ epmon_dws:
       - "/clusters"
       - "/snaphosts"
   dwsv1: {}
+epmon_ed:
+  enteprise-dashboard:
+    urls:
+      - "/api/health"
+  enteprise-dashboard-v1:
+    urls:
+      - "/v1/consumption/health"
 epmon_keystone:
   identity:
     urls:
