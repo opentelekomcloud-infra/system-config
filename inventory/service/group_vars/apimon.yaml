@@ -694,6 +694,7 @@ epmon_dws:
   dwsv1: {}
 epmon_ed:
   enteprise-dashboard:
+    service: enteprise-dashboard
     urls:
       - "/api/health"
   enteprise-dashboard-v1:
