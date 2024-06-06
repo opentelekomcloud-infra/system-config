@@ -693,10 +693,10 @@ epmon_dws:
       - "/snaphosts"
   dwsv1: {}
 epmon_ed:
-  enteprise-dashboard:
+  enterprise-dashboard:
     urls:
       - "/api/health"
-  enteprise-dashboard-v1:
+  enterprise-dashboard-v1:
     urls:
       - "/v1/consumption/health"
 epmon_keystone:
