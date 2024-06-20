@@ -31,6 +31,17 @@ app:
   baseUrl: https://backstage.eco.tsi-dev.otc-service.com
 
 backend:
+  auth:
+  # TODO: once plugins have been migrated we can remove this, but right now it
+  # is require for the backend-next to work in this repo
+    dangerouslyDisableDefaultAuthPolicy: true
+  # Used for enabling authentication, secret is shared by all backend plugins
+  # See https://backstage.io/docs/auth/service-to-service-auth for
+  # information on the format
+  # auth:
+  #   keys:
+  #     - secret: ${BACKEND_SECRET}
+
   baseUrl: https://backstage.eco.tsi-dev.otc-service.com
   listen:
     port: 7007
