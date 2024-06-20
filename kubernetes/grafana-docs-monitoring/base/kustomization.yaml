@@ -20,4 +20,5 @@ resources:
   - cronjob-servicesdict.yaml
   - cronjob-ei.yaml
   - cronjob-scheduler.yaml
+  - cronjob-rch.yaml
   - sa.yaml
