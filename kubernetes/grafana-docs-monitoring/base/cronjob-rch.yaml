@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-request-changes
 spec:
   concurrencyPolicy: Forbid
-  schedule: "17,47 * * *"
+  schedule: "17,47 * * * *"
   jobTemplate:
     spec:
       template:
