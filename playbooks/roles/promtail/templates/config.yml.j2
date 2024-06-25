@@ -60,3 +60,14 @@ scrape_configs:
         job: varlogs
         hostname: {{ inventory_hostname }}
         __path__: /var/log/*.log
+
+{% if 'gitea' in groups and inventory_hostname in groups['gitea'] %}
+  - job_name: gitea
+    static_configs:
+    - targets:
+        - localhost
+      labels:
+        job: varlogs
+        hostname: {{ inventory_hostname }}
+        __path__: /var/lib/gitea/log/*.log
+  {% endif %}
