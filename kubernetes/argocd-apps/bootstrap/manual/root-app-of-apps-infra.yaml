@@ -9,9 +9,12 @@ spec:
     server: https://kubernetes.default.svc
   project: infra
   source:
-    path: kubernetes/argocd-apps/bootstrap/infra/app-of-apps-infra
     repoURL: https://github.com/opentelekomcloud-infra/system-config
     targetRevision: main
+    path: kubernetes/argocd-apps/bootstrap/app-of-apps
+    helm:
+      valueFiles:
+        - infrastructure.yaml
   syncPolicy:
     syncOptions:
       - PruneLast=true

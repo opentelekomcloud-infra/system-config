@@ -2,13 +2,6 @@ global:
   argocdNamespace: argocd
   infraProject: infra
 
-clusters:
-  - name: otcinfra
-  - name: otcinfra2
-  - name: otcci
-  - name: cloudmon-de
-  - name: cloudmon-nl
-
 projects:
   - name: infra
     description: "Infrastructure project"

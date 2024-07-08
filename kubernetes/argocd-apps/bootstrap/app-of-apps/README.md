@@ -1,10 +1,10 @@
-# ArgoCD App-of-Apps Infra
+# ArgoCD App-of-Apps
 
-Our ArgoCD app-of-apps-infra Helm charts implement the [Argo CD app-of-apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern), designed to deploy Argo CD Application resources. These charts facilitate the configuration of multiple applications that are related or complement each other in functionality.
+Our ArgoCD app-of-apps Helm charts implement the [Argo CD app-of-apps pattern](https://argo-cd.readthedocs.io/en/stable/operator-manual/cluster-bootstrapping/#app-of-apps-pattern), designed to deploy Argo CD Application resources. These charts facilitate the configuration of multiple applications that are related or complement each other in functionality.
 
 ## Overview
 
-The `app-of-apps-infra` chart does not deploy applications directly but configures Argo CD to manage deployments across multiple environments. It leverages Helm to orchestrate the deployment process, ensuring that applications are deployed consistently as per the defined configurations.
+The `app-of-apps` chart does not deploy applications directly but configures Argo CD to manage deployments across multiple environments. It leverages Helm to orchestrate the deployment process, ensuring that applications are deployed consistently as per the defined configurations.
 
 ## Features
 
@@ -46,14 +46,7 @@ To add a new application to be managed by Argo CD through this Helm chart:
            kind: '*'
        namespaceResourceBlacklist: []
 
-2. **Define Clusters in `values.yaml`:**
-   Add the new cluster details in the `values.yaml` file under the `clusters` section:
-   ```yaml
-   clusters:
-     - name: dev-cluster
-     - name: prod-cluster
-
-3. **Define Applications in `values.yaml`:**
+2. **Define Applications in `values.yaml`:**
    Add the new application's details in the `values.yaml` file under the `applications` section:
    ```yaml
    applications:
@@ -80,6 +73,6 @@ For scenarios that require granular control over deployments, such as initial se
    ```bash
    cd path-to-your-repo/kubernetes/argocd-apps/bootstrap/manual
    argocd app create -f root-app-of-apps-infra.yaml
-   argocd app sync root-app-of-apps-infra
+   argocd app sync root-app-of-apps
    argocd app list
-   argocd app get root-app-of-apps-infra
+   argocd app get root-app-of-apps
