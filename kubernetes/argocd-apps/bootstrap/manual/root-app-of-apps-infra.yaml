@@ -16,8 +16,5 @@ spec:
       valueFiles:
         - infrastructure.yaml
   syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
     syncOptions:
       - PruneLast=true
