@@ -14,7 +14,7 @@ spec:
     path: kubernetes/argocd-apps/bootstrap/app-of-apps
     helm:
       valueFiles:
-        - test.yaml
+        - infrastructure.yaml
   syncPolicy:
     automated:
       prune: true
