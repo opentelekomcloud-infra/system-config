@@ -10,7 +10,7 @@ spec:
   project: infra
   source:
     repoURL: https://github.com/opentelekomcloud-infra/system-config
-    targetRevision: refactor-app-of-apps-structure
+    targetRevision: main
     path: kubernetes/argocd-apps/bootstrap/app-of-apps
     helm:
       valueFiles:
