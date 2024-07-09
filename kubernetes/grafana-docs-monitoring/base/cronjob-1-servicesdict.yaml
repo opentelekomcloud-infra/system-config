@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-failed-zuul
+  name: grafana-docs-monitoring-servicesdict
 spec:
   concurrencyPolicy: Forbid
-  schedule: "13,43 * * * *"
+  schedule: "0 8 * * *"
   jobTemplate:
     spec:
       template:
@@ -36,15 +36,14 @@ spec:
                 - mountPath: "/var/run/secrets/tokens"
                   name: "k8-tokens"
                   readOnly: true
-
           containers:
-            - name: grafana-docs-monitoring-failed-zuul
+            - name: grafana-docs-monitoring-servicesdict
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 failed_zuul.py"
+              - "source /secrets/gdm-env; python3 1_otc_services_dict.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"

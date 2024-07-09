@@ -12,13 +12,13 @@ images:
     newTag: "release_0.0.1"
 
 resources:
-  - cronjob-fz.yaml
-  - cronjob-gh.yaml
-  - cronjob-gt.yaml
-  - cronjob-lci.yaml
-  - cronjob-oi.yaml
-  - cronjob-servicesdict.yaml
-  - cronjob-ei.yaml
-  - cronjob-scheduler.yaml
-  - cronjob-rch.yaml
+  - cronjob-1-servicesdict.yaml
+  - cronjob-2-gt.yaml
+  - cronjob-3-gh.yaml
+  - cronjob-4-fz.yaml
+  - cronjob-5-oi.yaml
+  - cronjob-6-lci.yaml
+  - cronjob-7-rch.yaml
+  - cronjob-8-ei.yaml
+  - cronjob-9-scheduler.yaml
   - sa.yaml
