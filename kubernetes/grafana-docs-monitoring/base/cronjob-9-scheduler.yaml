@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-github
+  name: grafana-docs-monitoring-scheduler
 spec:
   concurrencyPolicy: Forbid
-  schedule: "10,40 * * * *"
+  schedule: "0 9 * * *"
   jobTemplate:
     spec:
       template:
@@ -36,15 +36,14 @@ spec:
                 - mountPath: "/var/run/secrets/tokens"
                   name: "k8-tokens"
                   readOnly: true
-
           containers:
-            - name: grafana-docs-monitoring-github
+            - name: grafana-docs-monitoring-scheduler
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 github_info.py"
+              - "source /secrets/gdm-env; python3 9_scheduler.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"

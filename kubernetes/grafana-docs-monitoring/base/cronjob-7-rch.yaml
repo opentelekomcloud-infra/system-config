@@ -4,7 +4,7 @@ metadata:
   name: grafana-docs-monitoring-request-changes
 spec:
   concurrencyPolicy: Forbid
-  schedule: "17,47 * * * *"
+  schedule: "45 * * * *"
   jobTemplate:
     spec:
       template:
@@ -44,7 +44,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 request_changes.py"
+              - "source /secrets/gdm-env; python3 7_request_changes.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
