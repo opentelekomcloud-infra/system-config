@@ -1,10 +1,10 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-last-commit
+  name: grafana-docs-monitoring-gitea
 spec:
   concurrencyPolicy: Forbid
-  schedule: "30 */6 * * *"
+  schedule: "5 * * * *"
   jobTemplate:
     spec:
       template:
@@ -38,13 +38,13 @@ spec:
                   readOnly: true
 
           containers:
-            - name: grafana-docs-monitoring-last-commit
+            - name: grafana-docs-monitoring-gitea
               image: quay.io/opentelekomcloud/grafana-docs-monitoring
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 last_commit_info.py"
+              - "source /secrets/gdm-env; python3 2_gitea_info.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
