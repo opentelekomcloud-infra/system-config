@@ -43,7 +43,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 9_scheduler.py"
+              - "source /secrets/gdm-env; python3 scheduler.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"

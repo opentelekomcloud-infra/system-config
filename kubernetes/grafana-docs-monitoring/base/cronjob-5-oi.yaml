@@ -43,7 +43,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 5_open_issues.py"
+              - "source /secrets/gdm-env; python3 open_issues.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"

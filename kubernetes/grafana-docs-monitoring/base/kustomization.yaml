@@ -18,7 +18,6 @@ resources:
   - cronjob-4-fz.yaml
   - cronjob-5-oi.yaml
   - cronjob-6-lci.yaml
-  - cronjob-7-rch.yaml
   - cronjob-8-ei.yaml
   - cronjob-9-scheduler.yaml
   - sa.yaml
