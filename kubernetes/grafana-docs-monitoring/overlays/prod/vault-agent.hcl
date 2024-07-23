@@ -20,6 +20,7 @@ template {
   contents = <<EOT
 {{ with secret "secret/data/helpcenter/monitoring/github" -}}
 export GITHUB_TOKEN={{ .Data.data.token }}
+export GITHUB_FALLBACK_TOKEN={{ .Data.data.fallback_token }}
 {{- end }}
 {{ with secret "secret/data/helpcenter/monitoring/postgresql" -}}
 export DB_HOST={{ .Data.data.host }}
