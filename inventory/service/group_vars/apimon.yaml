@@ -257,7 +257,6 @@ apimon_instances:
         tasks:
           - scenario1_token.yaml
           - scenario3a_evs_az.yaml
-          - scenario3b_evs_az.yaml
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
@@ -498,6 +497,7 @@ apimon_instances:
           - scenario2_simple_ecs.yaml
           - scenario30_domains.yaml
           - scenario3a_evs_az.yaml
+          - scenario3b_evs_az.yaml
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario3_simple_evs.yaml
