@@ -702,7 +702,7 @@ epmon_ed:
       - "/api/health"
   enterprise-dashboard-v1:
     urls:
-      - "/v1/consumption/health"
+      - "/consumption/health"
 epmon_keystone:
   identity:
     urls:
