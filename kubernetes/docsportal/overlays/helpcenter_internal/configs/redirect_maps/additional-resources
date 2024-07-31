@@ -141,3 +141,4 @@
   /en-us/waf/index.html /web-application-firewall/umn/;
   /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /services.html /index.html;
+  /docsportal /index.html;
