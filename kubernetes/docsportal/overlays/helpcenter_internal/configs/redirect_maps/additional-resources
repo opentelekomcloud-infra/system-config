@@ -1,4 +1,3 @@
-  /glossary/index.html /additional/glossary.html;
   /permissions/index.html /additional/permissions.html;
   /endpoint/index.html /additional/endpoints.html;
   /sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
@@ -19,7 +18,6 @@
   /usermanual/ecs/en-us_topic_0014250631.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
   /usermanual/ac/ca_01_0002.html /identity-access-management/mycredential/;
   /en-us/index.html /index.html;
-  /en-us/glossary/index.html /additional/glossary.html;
   /en-us/permissions/index.html /additional/permissions.html;
   /en-us/endpoint/index.html /additional/endpoints.html;
   /en-us/sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
@@ -141,3 +139,4 @@
   /en-us/waf/index.html /web-application-firewall/umn/;
   /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /services.html /index.html;
+  /docsportal /index.html;
