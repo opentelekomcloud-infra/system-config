@@ -80,7 +80,7 @@ grafana_image_stable: quay.io/opentelekomcloud/grafana:10.1.0
 grafana_image_latest: quay.io/opentelekomcloud/grafana:10.1.0
 grafana_renderer_image_stable: quay.io/opentelekomcloud/grafana-image-renderer:3.7.1
 grafana_renderer_image_latest: quay.io/opentelekomcloud/grafana-image-renderer:3.7.1
-apimon_image_stable: quay.io/stackmon/apimon:change_54_latest
+apimon_image_stable: quay.io/stackmon/apimon:change_55_latest
 apimon_image_latest: quay.io/stackmon/apimon:change_51_latest
 cloudmon_metrics_image: quay.io/opentelekomcloud/cloudmon-metrics:change_4_latest
 cloudmon_plugin_smtp_image: quay.io/opentelekomcloud/cloudmon-plugin-smtp:change_6_latest
