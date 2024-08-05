@@ -72,6 +72,9 @@ configMapGenerator:
   - name: "data-lake-insight-ab"
     files:
       - "configs/redirect_maps/data-lake-insight-ab"
+  - name: "data-lake-insight-ac"
+    files:
+      - "configs/redirect_maps/data-lake-insight-ac"
   - name: "data-replication-service"
     files:
       - "configs/redirect_maps/data-replication-service"

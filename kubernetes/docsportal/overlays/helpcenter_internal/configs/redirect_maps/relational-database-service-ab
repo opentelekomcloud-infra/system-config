@@ -1,3 +1,10 @@
+  /en-us/usermanual/rds/rds_00_0011.html /relational-database-service/umn/introduction/product_series/function_comparison.html;
+  /en-us/usermanual/rds/rds_01_0010.html /relational-database-service/umn/introduction/product_series/db_instance_introduction.html;
+  /en-us/usermanual/rds/rds_01_0027.html /relational-database-service/umn/introduction/related_services.html;
+  /en-us/usermanual/rds/rds_01_0026.html /relational-database-service/umn/introduction/constraints/index.html;
+  /en-us/usermanual/rds/rds_03_0003.html /relational-database-service/umn/introduction/constraints/microsoft_sql_server_constraints.html;
+  /en-us/usermanual/rds/rds_02_0002.html /relational-database-service/umn/introduction/constraints/mysql_constraints.html;
+  /en-us/usermanual/rds/rds_02_0012.html /relational-database-service/umn/introduction/constraints/postgresql_constraints.html;
   /en-us/usermanual/rds/rds_01_0015.html /relational-database-service/umn/introduction/basic_concepts.html;
   /en-us/usermanual/rds/rds_01_0028.html /relational-database-service/umn/introduction/db_instance_description/index.html;
   /en-us/usermanual/rds/en-us_topic_0043898356.html /relational-database-service/umn/introduction/db_instance_description/db_engines_and_versions.html;
@@ -77,6 +84,7 @@
   /en-us/usermanual/rds/rds_sqlserver_07_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/permissions_management/index.html;
   /en-us/usermanual/rds/rds_sqlserver_07_0002.html /relational-database-service/umn/working_with_rds_for_sql_server/permissions_management/creating_a_user_and_granting_permissions.html;
   /en-us/usermanual/rds/rds_sqlserver_07_0003.html /relational-database-service/umn/working_with_rds_for_sql_server/permissions_management/rds_custom_policies.html;
+  /en-us/usermanual/rds/rds_mssql_10_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/suggestions_on_using_rds_for_sql_server.html;
   /en-us/usermanual/rds/rds_sqlserver_05_0000.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/index.html;
   /en-us/usermanual/rds/rds_sqlserver_05_0017.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/exporting_db_instance_information.html;
   /en-us/usermanual/rds/rds_11_0006.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/rebooting_db_instances_or_read_replicas.html;
