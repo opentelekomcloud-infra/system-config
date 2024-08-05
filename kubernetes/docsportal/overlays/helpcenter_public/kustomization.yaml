@@ -72,6 +72,9 @@ configMapGenerator:
   - name: "data-lake-insight-ab"
     files:
       - "configs/redirect_maps/data-lake-insight-ab"
+  - name: "data-lake-insight-ac"
+    files:
+      - "configs/redirect_maps/data-lake-insight-ac"
   - name: "data-replication-service"
     files:
       - "configs/redirect_maps/data-replication-service"
@@ -177,9 +180,12 @@ configMapGenerator:
   - name: "mapreduce-service-ag"
     files:
       - "configs/redirect_maps/mapreduce-service-ag"
-  - name: "modelarts"
+  - name: "modelarts-aa"
     files:
-      - "configs/redirect_maps/modelarts"
+      - "configs/redirect_maps/modelarts-aa"
+  - name: "modelarts-ab"
+    files:
+      - "configs/redirect_maps/modelarts-ab"
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
