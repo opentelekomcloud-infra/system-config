@@ -173,6 +173,7 @@
   /api/apig/apig-api-190529267.html /api-gateway/api-ref/before_you_start/concepts.html;
   /api/apig/apig-api-190529264.html /api-gateway/api-ref/before_you_start/api_calling.html;
   /api/apig/api-grant-policy.html /api-gateway/api-ref/permissions_policies_and_supported_actions.html;
+  /devg/apig/ /api-gateway/dev-guide/index.html;
   /usermanual/apig/apig-ug-0020.html /api-gateway/umn/key_operations_recorded_by_cts/index.html;
   /usermanual/apig/apig-en-ug-180307058.html /api-gateway/umn/key_operations_recorded_by_cts/apig_operations_that_can_be_recorded_by_cts.html;
   /usermanual/apig/apig-ug-0021.html /api-gateway/umn/key_operations_recorded_by_cts/querying_audit_logs.html;
@@ -514,6 +515,7 @@
   /en-us/api/apig/apig-api-190529267.html /api-gateway/api-ref/before_you_start/concepts.html;
   /en-us/api/apig/apig-api-190529264.html /api-gateway/api-ref/before_you_start/api_calling.html;
   /en-us/api/apig/api-grant-policy.html /api-gateway/api-ref/permissions_policies_and_supported_actions.html;
+  /en-us/devg/apig/ /api-gateway/dev-guide/index.html;
   /en-us/usermanual/apig/apig-ug-0020.html /api-gateway/umn/key_operations_recorded_by_cts/index.html;
   /en-us/usermanual/apig/apig-en-ug-180307058.html /api-gateway/umn/key_operations_recorded_by_cts/apig_operations_that_can_be_recorded_by_cts.html;
   /en-us/usermanual/apig/apig-ug-0021.html /api-gateway/umn/key_operations_recorded_by_cts/querying_audit_logs.html;
