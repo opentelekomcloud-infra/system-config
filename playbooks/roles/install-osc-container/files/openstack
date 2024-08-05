@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-exec docker run -it --rm \
+exec docker run -i --rm \
   -v/etc/openstack:/etc/openstack \
   quay.io/opentelekomcloud/python-openstackclient \
   openstack $@
