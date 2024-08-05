@@ -94,6 +94,7 @@
   /api_obs/obs/en-us_topic_0125560476.html /object-storage-service/s3api/glossary.html;
   /api_obs/obs/ /object-storage-service/s3api/index.html;
   /api_obs/obs/en-us_topic_0125560489.html /object-storage-service/s3api/operations_on_objects/index.html;
+  /api_obs/obs/en-us_topic_0000001806154009.html /object-storage-service/s3api/operations_on_objects/configuring_worm_retention_for_an_object.html;
   /api_obs/obs/en-us_topic_0125560263.html /object-storage-service/s3api/operations_on_objects/post_object.html;
   /api_obs/obs/en-us_topic_0125560402.html /object-storage-service/s3api/operations_on_objects/abort_multipart_upload.html;
   /api_obs/obs/en-us_topic_0125560348.html /object-storage-service/s3api/operations_on_objects/put_object_copy.html;
@@ -146,6 +147,7 @@
   /api_obs/obs/en-us_topic_0125560292.html /object-storage-service/s3api/operations_on_buckets/list_multipart_uploads.html;
   /api_obs/obs/en-us_topic_0125560369.html /object-storage-service/s3api/operations_on_buckets/get_bucket_policy.html;
   /api_obs/obs/en-us_topic_0125560321.html /object-storage-service/s3api/operations_on_buckets/put_bucket_website.html;
+  /api_obs/obs/en-us_topic_0000001759314566.html /object-storage-service/s3api/operations_on_buckets/obtaining_the_default_worm_policy_of_a_bucket.html;
   /api_obs/obs/en-us_topic_0125560248.html /object-storage-service/s3api/operations_on_buckets/put_bucket_notification.html;
   /api_obs/obs/en-us_topic_0125560258.html /object-storage-service/s3api/operations_on_buckets/get_bucket_cors.html;
   /api_obs/obs/en-us_topic_0000001243597437.html /object-storage-service/s3api/operations_on_buckets/delete_bucket_inventory.html;
@@ -160,6 +162,7 @@
   /api_obs/obs/en-us_topic_0125560329.html /object-storage-service/s3api/operations_on_buckets/put_bucket_quota.html;
   /api_obs/obs/en-us_topic_0125560316.html /object-storage-service/s3api/operations_on_buckets/put_bucket_policy.html;
   /api_obs/obs/en-us_topic_0125560427.html /object-storage-service/s3api/operations_on_buckets/delete_bucket_policy.html;
+  /api_obs/obs/en-us_topic_0000001806313033.html /object-storage-service/s3api/operations_on_buckets/configuring_a_default_worm_policy_for_a_bucket.html;
   /api_obs/obs/en-us_topic_0125560273.html /object-storage-service/s3api/operations_on_buckets/get_bucket_object_versions.html;
   /api_obs/obs/en-us_topic_0125560472.html /object-storage-service/s3api/operations_on_buckets/delete_bucket.html;
   /api_obs/obs/en-us_topic_0125560237.html /object-storage-service/s3api/operations_on_buckets/get_bucket_list_objects.html;
@@ -191,8 +194,8 @@
   /browsertg/obs/obs_03_1024.html /object-storage-service/tool-guide/faqs/index.html;
   /browsertg/obs/obs_03_1010.html /object-storage-service/tool-guide/faqs/does_obs_browser_support_the_migration_of_account_and_task_information_from_obs_browser.html;
   /browsertg/obs/obs_03_1012.html /object-storage-service/tool-guide/faqs/why_are_the_displayed_number_of_objects_and_used_storage_capacity_different_from_the_actual_number_of_objects_and_storage_capacity.html;
+  /browsertg/obs/obs_03_1082.html /object-storage-service/tool-guide/faqs/can_obs_browser_list_objects_with_special_characters_in_their_names.html;
   /browsertg/obs/obs_03_1009.html /object-storage-service/tool-guide/faqs/what_are_the_differences_between_obs_browser_and_obs_browser.html;
-  /browsertg/obs/obs_03_1038.html /object-storage-service/tool-guide/faqs/can_i_query_the_number_and_size_of_files_in_a_folder.html;
   /browsertg/obs/obs_03_1037.html /object-storage-service/tool-guide/faqs/can_i_cancel_the_directory_sharing_after_a_directory_has_been_shared_with_others.html;
   /browsertg/obs/obs_03_1035.html /object-storage-service/tool-guide/faqs/how_can_i_permanently_share_files_or_folders_with_other_users.html;
   /browsertg/obs/obs_03_1036.html /object-storage-service/tool-guide/faqs/how_can_i_access_a_specific_bucket_or_directory.html;
@@ -472,6 +475,7 @@
   /en-us/api_obs/obs/en-us_topic_0125560476.html /object-storage-service/s3api/glossary.html;
   /en-us/api_obs/obs/ /object-storage-service/s3api/index.html;
   /en-us/api_obs/obs/en-us_topic_0125560489.html /object-storage-service/s3api/operations_on_objects/index.html;
+  /en-us/api_obs/obs/en-us_topic_0000001806154009.html /object-storage-service/s3api/operations_on_objects/configuring_worm_retention_for_an_object.html;
   /en-us/api_obs/obs/en-us_topic_0125560263.html /object-storage-service/s3api/operations_on_objects/post_object.html;
   /en-us/api_obs/obs/en-us_topic_0125560402.html /object-storage-service/s3api/operations_on_objects/abort_multipart_upload.html;
   /en-us/api_obs/obs/en-us_topic_0125560348.html /object-storage-service/s3api/operations_on_objects/put_object_copy.html;
@@ -524,6 +528,7 @@
   /en-us/api_obs/obs/en-us_topic_0125560292.html /object-storage-service/s3api/operations_on_buckets/list_multipart_uploads.html;
   /en-us/api_obs/obs/en-us_topic_0125560369.html /object-storage-service/s3api/operations_on_buckets/get_bucket_policy.html;
   /en-us/api_obs/obs/en-us_topic_0125560321.html /object-storage-service/s3api/operations_on_buckets/put_bucket_website.html;
+  /en-us/api_obs/obs/en-us_topic_0000001759314566.html /object-storage-service/s3api/operations_on_buckets/obtaining_the_default_worm_policy_of_a_bucket.html;
   /en-us/api_obs/obs/en-us_topic_0125560248.html /object-storage-service/s3api/operations_on_buckets/put_bucket_notification.html;
   /en-us/api_obs/obs/en-us_topic_0125560258.html /object-storage-service/s3api/operations_on_buckets/get_bucket_cors.html;
   /en-us/api_obs/obs/en-us_topic_0000001243597437.html /object-storage-service/s3api/operations_on_buckets/delete_bucket_inventory.html;
@@ -538,6 +543,7 @@
   /en-us/api_obs/obs/en-us_topic_0125560329.html /object-storage-service/s3api/operations_on_buckets/put_bucket_quota.html;
   /en-us/api_obs/obs/en-us_topic_0125560316.html /object-storage-service/s3api/operations_on_buckets/put_bucket_policy.html;
   /en-us/api_obs/obs/en-us_topic_0125560427.html /object-storage-service/s3api/operations_on_buckets/delete_bucket_policy.html;
+  /en-us/api_obs/obs/en-us_topic_0000001806313033.html /object-storage-service/s3api/operations_on_buckets/configuring_a_default_worm_policy_for_a_bucket.html;
   /en-us/api_obs/obs/en-us_topic_0125560273.html /object-storage-service/s3api/operations_on_buckets/get_bucket_object_versions.html;
   /en-us/api_obs/obs/en-us_topic_0125560472.html /object-storage-service/s3api/operations_on_buckets/delete_bucket.html;
   /en-us/api_obs/obs/en-us_topic_0125560237.html /object-storage-service/s3api/operations_on_buckets/get_bucket_list_objects.html;
@@ -569,8 +575,8 @@
   /en-us/browsertg/obs/obs_03_1024.html /object-storage-service/tool-guide/faqs/index.html;
   /en-us/browsertg/obs/obs_03_1010.html /object-storage-service/tool-guide/faqs/does_obs_browser_support_the_migration_of_account_and_task_information_from_obs_browser.html;
   /en-us/browsertg/obs/obs_03_1012.html /object-storage-service/tool-guide/faqs/why_are_the_displayed_number_of_objects_and_used_storage_capacity_different_from_the_actual_number_of_objects_and_storage_capacity.html;
+  /en-us/browsertg/obs/obs_03_1082.html /object-storage-service/tool-guide/faqs/can_obs_browser_list_objects_with_special_characters_in_their_names.html;
   /en-us/browsertg/obs/obs_03_1009.html /object-storage-service/tool-guide/faqs/what_are_the_differences_between_obs_browser_and_obs_browser.html;
-  /en-us/browsertg/obs/obs_03_1038.html /object-storage-service/tool-guide/faqs/can_i_query_the_number_and_size_of_files_in_a_folder.html;
   /en-us/browsertg/obs/obs_03_1037.html /object-storage-service/tool-guide/faqs/can_i_cancel_the_directory_sharing_after_a_directory_has_been_shared_with_others.html;
   /en-us/browsertg/obs/obs_03_1035.html /object-storage-service/tool-guide/faqs/how_can_i_permanently_share_files_or_folders_with_other_users.html;
   /en-us/browsertg/obs/obs_03_1036.html /object-storage-service/tool-guide/faqs/how_can_i_access_a_specific_bucket_or_directory.html;
