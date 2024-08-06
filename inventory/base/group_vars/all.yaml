@@ -99,12 +99,19 @@ all_users:
     uid: 2032
     gid: 2032
 
+  yustina:
+    comment: Yustina Kvrivishvili
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB1lH/ys0iubRq+IyDJeGC/S7RozWSrDjcHJVPgnlqLg yustina
+    uid: 2033
+    gid: 2033
+
 # List of users to install on all hosts
 base_users:
   - gtema
   - vhasko
   - enrrou
   - ashakhba
+  - yustina
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
