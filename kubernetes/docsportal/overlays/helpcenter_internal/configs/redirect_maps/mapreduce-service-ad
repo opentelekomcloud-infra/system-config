@@ -1,3 +1,7 @@
+  /usermanual/mrs/mrs_01_0312.html /mapreduce-service/umn/managing_clusters/tenant_management/deleting_a_resource_pool.html;
+  /usermanual/mrs/mrs_01_0315.html /mapreduce-service/umn/managing_clusters/tenant_management/clearing_configuration_of_a_queue.html;
+  /usermanual/mrs/mrs_01_0309.html /mapreduce-service/umn/managing_clusters/tenant_management/restoring_tenant_data.html;
+  /usermanual/mrs/mrs_01_0310.html /mapreduce-service/umn/managing_clusters/tenant_management/creating_a_resource_pool.html;
   /usermanual/mrs/mrs_01_0314.html /mapreduce-service/umn/managing_clusters/tenant_management/configuring_the_queue_capacity_policy_of_a_resource_pool.html;
   /usermanual/mrs/mrs_01_0313.html /mapreduce-service/umn/managing_clusters/tenant_management/configuring_a_queue.html;
   /usermanual/mrs/mrs_01_0307.html /mapreduce-service/umn/managing_clusters/tenant_management/deleting_a_tenant.html;
@@ -40,19 +44,19 @@
   /usermanual/mrs/mrs_03_0002.html /mapreduce-service/umn/faq/mrs_overview/index.html;
   /usermanual/mrs/mrs_03_0001.html /mapreduce-service/umn/faq/mrs_overview/what_is_mrs_used_for.html;
   /usermanual/mrs/mrs_03_1019.html /mapreduce-service/umn/faq/mrs_overview/does_mrs_support_change_of_the_network_segment.html;
+  /usermanual/mrs/mrs_03_1202.html /mapreduce-service/umn/faq/mrs_overview/createdwhy_are_the_hdfs_yarn_and_mapreduce_components_unavailable_when_an_mrs_cluster_is_boughtcreated.html;
   /usermanual/mrs/mrs_03_1137.html /mapreduce-service/umn/faq/mrs_overview/can_i_change_the_ip_address_of_dbservice.html;
   /usermanual/mrs/mrs_03_1013.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_use_mrs.html;
+  /usermanual/mrs/mrs_03_1204.html /mapreduce-service/umn/faq/mrs_overview/createdwhy_is_the_zookeeper_component_unavailable_when_an_mrs_cluster_is_boughtcreated.html;
   /usermanual/mrs/mrs_03_1066.html /mapreduce-service/umn/faq/mrs_overview/what_is_the_relationship_between_kudu_and_hbase.html;
   /usermanual/mrs/mrs_03_1125.html /mapreduce-service/umn/faq/mrs_overview/can_i_downgrade_the_specifications_of_an_mrs_cluster_node.html;
   /usermanual/mrs/mrs_03_1062.html /mapreduce-service/umn/faq/mrs_overview/what_are_the_differences_between_obs_and_hdfs_in_data_storage.html;
   /usermanual/mrs/en-us_topic_0000001442653893.html /mapreduce-service/umn/faq/mrs_overview/is_the_storm_log_also_limited_to_20_gb_in_mrs_cluster_2.html;
   /usermanual/mrs/mrs_03_2022.html /mapreduce-service/umn/faq/mrs_overview/statement_about_the_public_ip_addresses_in_the_open-source_third-party_sdk_integrated_by_mrs.html;
-  /usermanual/mrs/mrs_03_1202.html /mapreduce-service/umn/faq/mrs_overview/why_are_the_hdfs_yarn_and_mapreduce_components_unavailable_when_an_mrs_cluster_is_created.html;
   /usermanual/mrs/mrs_03_1155.html /mapreduce-service/umn/faq/mrs_overview/can_i_clear_mrs_sudo_logs.html;
   /usermanual/mrs/mrs_03_1221.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_enable_different_service_programs_to_use_different_yarn_queues.html;
   /usermanual/mrs/mrs_03_1246.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_unbind_an_eip_from_an_mrs_cluster_node.html;
   /usermanual/mrs/mrs_03_1065.html /mapreduce-service/umn/faq/mrs_overview/what_is_the_relationship_between_impala_and_other_components.html;
-  /usermanual/mrs/mrs_03_1204.html /mapreduce-service/umn/faq/mrs_overview/why_is_the_zookeeper_component_unavailable_when_an_mrs_cluster_is_created.html;
   /usermanual/mrs/mrs_03_1012.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_create_an_mrs_cluster_using_a_custom_security_group.html;
   /usermanual/mrs/mrs_03_1092.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_obtain_the_hadoop_pressure_test_tool.html;
   /usermanual/mrs/en-us_topic_0000001442773925.html /mapreduce-service/umn/faq/mrs_overview/what_is_spark_thriftserver.html;
@@ -85,7 +89,6 @@
   /usermanual/mrs/mrs_03_1147.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_configure_other_data_sources_on_presto.html;
   /usermanual/mrs/mrs_03_1127.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_specify_a_log_path_when_submitting_a_task_in_an_mrs_storm_cluster.html;
   /usermanual/mrs/mrs_03_1149.html /mapreduce-service/umn/faq/big_data_service_development/can_i_export_the_query_result_of_hive_data.html;
-  /usermanual/mrs/mrs_03_1194.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_do_if_an_error_occurs_when_hive_runs_the_beeline_-e_command_to_execute_multiple_statements.html;
   /usermanual/mrs/mrs_03_1069.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_view_kudu_logs.html;
   /usermanual/mrs/mrs_03_1140.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_set_the_ttl_for_an_hbase_table.html;
   /usermanual/mrs/mrs_03_1049.html /mapreduce-service/umn/faq/big_data_service_development/can_the_hive_driver_be_interconnected_with_dbcp2.html;
@@ -95,6 +98,7 @@
   /usermanual/mrs/mrs_03_1061.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_change_the_number_of_hdfs_replicas.html;
   /usermanual/mrs/mrs_03_1200.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_do_if_a_hivesql_hivescript_job_fails_to_submit_after_hive_is_added.html;
   /usermanual/mrs/mrs_03_1045.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_view_hbase_logs.html;
+  /usermanual/mrs/mrs_03_1194.html /mapreduce-service/umn/faq/big_data_service_development/beeline_-ehow_do_i_do_if_an_error_occurs_when_hive_runs_the_beeline_-e_command_to_execute_multiple_statements.html;
   /usermanual/mrs/mrs_03_1070.html /mapreduce-service/umn/faq/big_data_service_development/does_opentsdb_support_python_apis.html;
   /usermanual/mrs/mrs_03_1197.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_do_if_error_message_not_authorized_to_access_group_xxx_is_displayed_when_a_kafka_topic_is_consumed.html;
   /usermanual/mrs/mrs_03_1058.html /mapreduce-service/umn/faq/big_data_service_development/how_do_i_change_flumeclient_logs_to_standard_logs.html;
@@ -994,7 +998,3 @@
   /en-us/cmpntguide-lts/mrs/mrs_01_1450.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/api.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_24046.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/operation_concurrent_execution.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1443.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/delete_segment_by_date.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1437.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/index.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1444.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/show_segments.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1440.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/delete_records_from_carbon_table.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1447.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/drop_secondary_index.html;
