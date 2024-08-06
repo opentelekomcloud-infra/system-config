@@ -63,6 +63,7 @@
   /api/gaussdb/gaussdb_04_0020.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_db_instance_specifications.html;
   /api/gaussdb/gaussdb_04_0003.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/index.html;
   /api/gaussdb/gaussdb_04_0004.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/creating_a_db_instance.html;
+  /api/gaussdb/UpdateGaussMySqlInstancePort.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_a_database_port.html;
   /api/gaussdb/gaussdb_04_0018.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_a_db_instance_name.html;
   /api/gaussdb/gaussdb_04_0006.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/querying_details_of_a_db_instance.html;
   /api/gaussdb/gaussdb_04_0007.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/deleting_a_db_instance.html;
@@ -77,6 +78,12 @@
   /api/gaussdb/ListGaussMySqlErrorLog.html /gaussdb-mysql/api-ref/apis_recommended/log_management/querying_database_error_logs.html;
   /api/gaussdb/gaussdb_04_0008.html /gaussdb-mysql/api-ref/apis_recommended/parameter_template_management/index.html;
   /api/gaussdb/gaussdb_04_0009.html /gaussdb-mysql/api-ref/apis_recommended/parameter_template_management/querying_parameter_templates.html;
+  /api/gaussdb/topic_300000012.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/index.html;
+  /api/gaussdb/ShowSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/querying_concurrency_control_rules_of_sql_statements.html;
+  /api/gaussdb/DeleteSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/deleting_concurrency_control_rules_of_sql_statements.html;
+  /api/gaussdb/SetSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/configuring_concurrency_control_rules_of_sql_statements.html;
+  /api/gaussdb/ShowSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/querying_whether_sql_statement_concurrency_control_is_enabled.html;
+  /api/gaussdb/UpdateSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/enabling_or_disabling_sql_statement_concurrency_control.html;
   /api/gaussdb/topic_300000009.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/index.html;
   /api/gaussdb/BatchTagAction.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/adding_or_deleting_tags_in_batches.html;
   /api/gaussdb/ListProjectTags.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/querying_project_tags.html;
@@ -149,6 +156,7 @@
   /usermanual/gaussdb/gaussdb_08_0012.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/parameter_template_management/comparing_a_parameter_template.html;
   /usermanual/gaussdb/gaussdb_03_0055.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/index.html;
   /usermanual/gaussdb/gaussdb_03_0068.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/deleting_a_manual_backup.html;
+  /usermanual/gaussdb/gaussdb_03_0069.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/backup_space_and_billing.html;
   /usermanual/gaussdb/gaussdb_03_0056.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/working_with_backups.html;
   /usermanual/gaussdb/gaussdb_03_0063.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/restoring_data_from_a_backup.html;
   /usermanual/gaussdb/gaussdb_03_0058.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/creating_a_manual_backup.html;
@@ -251,6 +259,7 @@
   /en-us/api/gaussdb/gaussdb_04_0020.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_db_instance_specifications.html;
   /en-us/api/gaussdb/gaussdb_04_0003.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/index.html;
   /en-us/api/gaussdb/gaussdb_04_0004.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/creating_a_db_instance.html;
+  /en-us/api/gaussdb/UpdateGaussMySqlInstancePort.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_a_database_port.html;
   /en-us/api/gaussdb/gaussdb_04_0018.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_a_db_instance_name.html;
   /en-us/api/gaussdb/gaussdb_04_0006.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/querying_details_of_a_db_instance.html;
   /en-us/api/gaussdb/gaussdb_04_0007.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/deleting_a_db_instance.html;
@@ -265,6 +274,12 @@
   /en-us/api/gaussdb/ListGaussMySqlErrorLog.html /gaussdb-mysql/api-ref/apis_recommended/log_management/querying_database_error_logs.html;
   /en-us/api/gaussdb/gaussdb_04_0008.html /gaussdb-mysql/api-ref/apis_recommended/parameter_template_management/index.html;
   /en-us/api/gaussdb/gaussdb_04_0009.html /gaussdb-mysql/api-ref/apis_recommended/parameter_template_management/querying_parameter_templates.html;
+  /en-us/api/gaussdb/topic_300000012.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/index.html;
+  /en-us/api/gaussdb/ShowSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/querying_concurrency_control_rules_of_sql_statements.html;
+  /en-us/api/gaussdb/DeleteSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/deleting_concurrency_control_rules_of_sql_statements.html;
+  /en-us/api/gaussdb/SetSqlFilterRule.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/configuring_concurrency_control_rules_of_sql_statements.html;
+  /en-us/api/gaussdb/ShowSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/querying_whether_sql_statement_concurrency_control_is_enabled.html;
+  /en-us/api/gaussdb/UpdateSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/enabling_or_disabling_sql_statement_concurrency_control.html;
   /en-us/api/gaussdb/topic_300000009.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/index.html;
   /en-us/api/gaussdb/BatchTagAction.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/adding_or_deleting_tags_in_batches.html;
   /en-us/api/gaussdb/ListProjectTags.html /gaussdb-mysql/api-ref/apis_recommended/tag_management/querying_project_tags.html;
@@ -337,6 +352,7 @@
   /en-us/usermanual/gaussdb/gaussdb_08_0012.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/parameter_template_management/comparing_a_parameter_template.html;
   /en-us/usermanual/gaussdb/gaussdb_03_0055.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/index.html;
   /en-us/usermanual/gaussdb/gaussdb_03_0068.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/deleting_a_manual_backup.html;
+  /en-us/usermanual/gaussdb/gaussdb_03_0069.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/backup_space_and_billing.html;
   /en-us/usermanual/gaussdb/gaussdb_03_0056.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/working_with_backups.html;
   /en-us/usermanual/gaussdb/gaussdb_03_0063.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/restoring_data_from_a_backup.html;
   /en-us/usermanual/gaussdb/gaussdb_03_0058.html /gaussdb-mysql/umn/working_with_gaussdbfor_mysql/backups_and_restorations/creating_a_manual_backup.html;
