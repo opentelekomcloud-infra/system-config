@@ -243,6 +243,7 @@
   /usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /usermanual/drs/drs_04_0104.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdb_distributed.html;
   /usermanual/drs/drs_04_0107.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_postgresql_to_postgresql.html;
+  /usermanual/drs/drs_04_0465.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_ddm.html;
   /usermanual/drs/drs_04_0102.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_mysql.html;
   /usermanual/drs/drs_03_1124.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdbfor_mysql_primary_standby.html;
   /usermanual/drs/drs_11_0457.html /data-replication-service/umn/real-time_synchronization/data_synchronization_topologies.html;
@@ -586,6 +587,7 @@
   /en-us/usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /en-us/usermanual/drs/drs_04_0104.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdb_distributed.html;
   /en-us/usermanual/drs/drs_04_0107.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_postgresql_to_postgresql.html;
+  /en-us/usermanual/drs/drs_04_0465.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_ddm.html;
   /en-us/usermanual/drs/drs_04_0102.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_mysql.html;
   /en-us/usermanual/drs/drs_03_1124.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdbfor_mysql_primary_standby.html;
   /en-us/usermanual/drs/drs_11_0457.html /data-replication-service/umn/real-time_synchronization/data_synchronization_topologies.html;
