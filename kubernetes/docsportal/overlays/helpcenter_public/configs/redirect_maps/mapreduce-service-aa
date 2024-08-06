@@ -96,7 +96,6 @@
   /api/mrs/mrs_02_0034.html /mapreduce-service/api-ref/apis/job_binary_object_apis/creating_a_job_binary_object.html;
   /api/mrs/mrs_02_0037.html /mapreduce-service/api-ref/apis/job_binary_object_apis/querying_the_binary_object_details.html;
   /api/mrs/mrs_02_0038.html /mapreduce-service/api-ref/apis/job_binary_object_apis/deleting_a_job_binary_object.html;
-  /bestpractice/mrs/ /mapreduce-service/best-practice/index.html;
   /cmpntguide-lts/mrs/mrs_01_2122.html /mapreduce-service/operation-guide-lts/appendix/index.html;
   /cmpntguide-lts/mrs/mrs_01_0787.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/index.html;
   /cmpntguide-lts/mrs/mrs_01_0800.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/using_an_mrs_client_on_nodes_outside_a_mrs_cluster.html;
@@ -998,3 +997,4 @@
   /cmpntguide-lts/mrs/mrs_01_2339.html /mapreduce-service/operation-guide-lts/using_hetuengine/function_and_udf_development_and_application/hetuengine_function_plugin_development_and_application.html;
   /cmpntguide-lts/mrs/mrs_01_1747.html /mapreduce-service/operation-guide-lts/using_hetuengine/common_issues_about_hetuengine/index.html;
   /cmpntguide-lts/mrs/mrs_01_2323.html /mapreduce-service/operation-guide-lts/using_hetuengine/common_issues_about_hetuengine/how_do_i_handle_data_source_loss.html;
+  /cmpntguide-lts/mrs/mrs_01_2329.html /mapreduce-service/operation-guide-lts/using_hetuengine/common_issues_about_hetuengine/how_do_i_handle_hetuengine_alarms.html;
