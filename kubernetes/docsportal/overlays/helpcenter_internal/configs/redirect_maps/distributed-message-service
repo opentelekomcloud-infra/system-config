@@ -251,7 +251,6 @@
   /usermanual/dms/kafka-trouble-0709001.html /distributed-message-service/umn/troubleshooting/troubleshooting_6-min_latency_between_message_creation_and_retrieval.html;
   /usermanual/dms/kafka-faq-0604001.html /distributed-message-service/umn/troubleshooting/troubleshooting_kafka_connection_exceptions.html;
   /usermanual/dms/kafka-trouble-0002.html /distributed-message-service/umn/troubleshooting/troubleshooting_topic_deletion_failures.html;
-  /usermanual/dms/kafka-trouble-0004.html /distributed-message-service/umn/troubleshooting/troubleshooting_error_topic_{{topic_name}}_not_present_in_metadata_after_60000_ms_during_message_production_or_consumption.html;
   /usermanual/dms/kafka-ug190605003.html /distributed-message-service/umn/connecting_to_an_instance/index.html;
   /usermanual/dms/kafka-ug-0059.html /distributed-message-service/umn/connecting_to_an_instance/configuring_kafka_network_connections/index.html;
   /usermanual/dms/kafka-ug-180604012.html /distributed-message-service/umn/connecting_to_an_instance/configuring_kafka_network_connections/kafka_network_connection_conditions.html;
@@ -520,7 +519,6 @@
   /en-us/usermanual/dms/kafka-trouble-0709001.html /distributed-message-service/umn/troubleshooting/troubleshooting_6-min_latency_between_message_creation_and_retrieval.html;
   /en-us/usermanual/dms/kafka-faq-0604001.html /distributed-message-service/umn/troubleshooting/troubleshooting_kafka_connection_exceptions.html;
   /en-us/usermanual/dms/kafka-trouble-0002.html /distributed-message-service/umn/troubleshooting/troubleshooting_topic_deletion_failures.html;
-  /en-us/usermanual/dms/kafka-trouble-0004.html /distributed-message-service/umn/troubleshooting/troubleshooting_error_topic_{{topic_name}}_not_present_in_metadata_after_60000_ms_during_message_production_or_consumption.html;
   /en-us/usermanual/dms/kafka-ug190605003.html /distributed-message-service/umn/connecting_to_an_instance/index.html;
   /en-us/usermanual/dms/kafka-ug-0059.html /distributed-message-service/umn/connecting_to_an_instance/configuring_kafka_network_connections/index.html;
   /en-us/usermanual/dms/kafka-ug-180604012.html /distributed-message-service/umn/connecting_to_an_instance/configuring_kafka_network_connections/kafka_network_connection_conditions.html;
