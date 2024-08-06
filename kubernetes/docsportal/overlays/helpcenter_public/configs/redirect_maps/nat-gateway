@@ -39,7 +39,6 @@
   /api/nat/nat_api_0024.html /nat-gateway/api-ref/api_v2.html;
   /api/nat/nat_api_0025.html /nat-gateway/api-ref/api_v2.html;
   /api/nat/nat_api_0026.html /nat-gateway/api-ref/api_v2.html;
-  /bestpractice/natgw/ /nat-gateway/best-practice/index.html;
   /usermanual/nat/nat_gls_0000.html /nat-gateway/umn/glossary.html;
   /usermanual/nat/ /nat-gateway/umn/index.html;
   /usermanual/nat/nat_dnat_0000.html /nat-gateway/umn/managing_dnat_rules/index.html;
@@ -159,7 +158,6 @@
   /en-us/api/nat/nat_api_0024.html /nat-gateway/api-ref/api_v2.html;
   /en-us/api/nat/nat_api_0025.html /nat-gateway/api-ref/api_v2.html;
   /en-us/api/nat/nat_api_0026.html /nat-gateway/api-ref/api_v2.html;
-  /en-us/bestpractice/natgw/ /nat-gateway/best-practice/index.html;
   /en-us/usermanual/nat/nat_gls_0000.html /nat-gateway/umn/glossary.html;
   /en-us/usermanual/nat/ /nat-gateway/umn/index.html;
   /en-us/usermanual/nat/nat_dnat_0000.html /nat-gateway/umn/managing_dnat_rules/index.html;
