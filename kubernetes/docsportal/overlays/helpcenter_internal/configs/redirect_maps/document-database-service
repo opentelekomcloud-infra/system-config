@@ -17,6 +17,11 @@
   /api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0117.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0118.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0085.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0089.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0088.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0108.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0107.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_database_version.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_backup_restore.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0083.html /document-database-service/api-ref/apis_v3.html;
@@ -264,6 +269,11 @@
   /en-us/api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0117.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0118.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0085.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0089.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0088.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0108.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0107.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_database_version.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_backup_restore.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0083.html /document-database-service/api-ref/apis_v3.html;
