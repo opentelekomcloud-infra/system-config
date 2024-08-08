@@ -68,6 +68,7 @@
   /ma/index.html /modelarts/umn/;
   /nat/index.html /nat-gateway/umn/;
   /obs/index.html /object-storage-service/umn/;
+  /permissions/index.html /identity-access-management/permissions/;
   /plas/index.html /private-link-access-service/umn/;
   /rds/index.html /relational-database-service/umn/;
   /rms/index.html /resource-management-service/umn/;
