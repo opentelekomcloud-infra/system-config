@@ -108,6 +108,7 @@
   /en-us/elb/index.html /elastic-load-balancing/umn/;
   /en-us/evs/index.html /elastic-volume-service/umn/;
   /en-us/gaussdb/index.html /gaussdb-mysql/umn/;
+  /en-us/glossary/index.html /glossary/;
   /en-us/nosql/index.html /gaussdb-nosql/umn/;
   /en-us/opengauss/index.html /gaussdb-opengauss/umn/;
   /en-us/iam/index.html /identity-access-management/umn/;
@@ -118,6 +119,7 @@
   /en-us/ma/index.html /modelarts/umn/;
   /en-us/nat/index.html /nat-gateway/umn/;
   /en-us/obs/index.html /object-storage-service/umn/;
+  /en-us/permissions/index.html /identity-access-management/permissions/;
   /en-us/plas/index.html /private-link-access-service/umn/;
   /en-us/rds/index.html /relational-database-service/umn/;
   /en-us/rms/index.html /resource-management-service/umn/;
@@ -135,3 +137,5 @@
   /en-us/dwaf/index.html /web-application-firewall-dedicated/umn/;
   /en-us/waf/index.html /web-application-firewall/umn/;
   /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
+  /services.html /index.html;
+  /docsportal /index.html;
