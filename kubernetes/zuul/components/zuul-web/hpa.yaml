@@ -13,7 +13,7 @@ spec:
     name: "zuul-web"
     apiVersion: "apps/v1"
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 5
   metrics:
     - type: "Resource"
       resource:

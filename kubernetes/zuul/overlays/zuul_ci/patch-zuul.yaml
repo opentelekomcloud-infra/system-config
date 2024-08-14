@@ -40,10 +40,10 @@ spec:
             runAsUser: 10001
           resources:
             limits:
-              memory: 128Mi
+              memory: 1Gi
             requests:
               cpu: 5m
-              memory: 128Mi
+              memory: 1Gi
           volumeMounts:
             - mountPath: "/home/vault"
               name: "home-init"
