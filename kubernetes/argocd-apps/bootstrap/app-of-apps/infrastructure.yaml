@@ -79,14 +79,14 @@ applications:
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
   - name: cert-manager
-    clusters: [cloudmon-de, cloudmon-nl]
+    clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
       path: kubernetes/argocd-apps/system/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      pluginEnv: '-f values.yaml'
 
   - name: vault-raft-backup
     clusters: [otcinfra]
