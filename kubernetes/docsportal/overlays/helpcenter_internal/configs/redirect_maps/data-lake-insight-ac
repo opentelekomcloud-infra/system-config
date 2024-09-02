@@ -1,11 +1,9 @@
-  /en-us/usermanual/dli/dli_03_0119.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_the_submission_fail_due_to_flink_jar_file_conflict.html;
-  /en-us/usermanual/dli/dli_03_0044.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/does_a_flink_jar_job_support_configuration_file_upload_how_do_i_upload_a_configuration_file.html;
-  /en-us/usermanual/dli/dli_03_0266.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_connect_a_flink_jar_job_to_sasl_ssl.html;
   /en-us/usermanual/dli/dli_03_0165.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_is_error_message_authentication_failed_displayed_during_flink_jar_job_running.html;
   /en-us/usermanual/dli/dli_03_0161.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_a_flink_jar_job_fail_to_access_gaussdbdws_and_a_message_is_displayed_indicating_too_many_client_connections.html;
+  /en-us/usermanual/dli/dli_03_0119.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_a_flink_jar_package_conflict_result_in_submission_failure.html;
   /en-us/usermanual/dli/dli_03_0233.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_is_error_invalid_obs_bucket_name_reported_after_a_flink_job_submission_failed.html;
-  /en-us/usermanual/dli/dli_03_0038.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_configure_checkpoints_for_flink_jar_jobs_and_save_the_checkpoints_to_obs.html;
   /en-us/usermanual/dli/dli_03_0234.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_the_flink_submission_fail_due_to_hadoop_jar_file_conflict.html;
+  /en-us/usermanual/dli/dli_03_0044.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/can_i_upload_configuration_files_for_flink_jar_jobs.html;
   /en-us/usermanual/dli/dli_03_0037.html /data-lake-insight/umn/faq/flink_jobs/index.html;
   /en-us/usermanual/dli/dli_03_0048.html /data-lake-insight/umn/faq/flink_jobs/performance_tuning/how_do_i_write_data_to_different_elasticsearch_clusters_in_a_flink_job.html;
   /en-us/usermanual/dli/dli_03_0133.html /data-lake-insight/umn/faq/flink_jobs/performance_tuning/index.html;

@@ -1,4 +1,3 @@
-  /usermanual/mrs/mrs_01_0312.html /mapreduce-service/umn/managing_clusters/tenant_management/deleting_a_resource_pool.html;
   /usermanual/mrs/mrs_01_0315.html /mapreduce-service/umn/managing_clusters/tenant_management/clearing_configuration_of_a_queue.html;
   /usermanual/mrs/mrs_01_0309.html /mapreduce-service/umn/managing_clusters/tenant_management/restoring_tenant_data.html;
   /usermanual/mrs/mrs_01_0310.html /mapreduce-service/umn/managing_clusters/tenant_management/creating_a_resource_pool.html;
@@ -282,7 +281,6 @@
   /en-us/api/mrs/mrs_02_0034.html /mapreduce-service/api-ref/apis/job_binary_object_apis/creating_a_job_binary_object.html;
   /en-us/api/mrs/mrs_02_0037.html /mapreduce-service/api-ref/apis/job_binary_object_apis/querying_the_binary_object_details.html;
   /en-us/api/mrs/mrs_02_0038.html /mapreduce-service/api-ref/apis/job_binary_object_apis/deleting_a_job_binary_object.html;
-  /en-us/bestpractice/mrs/ /mapreduce-service/best-practice/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_2122.html /mapreduce-service/operation-guide-lts/appendix/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_0787.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_0800.html /mapreduce-service/operation-guide-lts/appendix/using_an_mrs_client/using_an_mrs_client_on_nodes_outside_a_mrs_cluster.html;
@@ -998,3 +996,5 @@
   /en-us/cmpntguide-lts/mrs/mrs_01_1450.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/api.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_24046.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/operation_concurrent_execution.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1443.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/delete_segment_by_date.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1437.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/index.html;
+  /en-us/cmpntguide-lts/mrs/mrs_01_1444.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/show_segments.html;
