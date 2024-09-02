@@ -19,4 +19,4 @@ images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
     newTag: "change_18_latest"
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "sha-e960c87"
+    newTag: "sha-0356a9d"

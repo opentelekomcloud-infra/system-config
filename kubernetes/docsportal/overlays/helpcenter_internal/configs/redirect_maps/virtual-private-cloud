@@ -214,10 +214,6 @@
   /api/vpc/vpc_privateip_0002.html /virtual-private-cloud/api-ref/apis/private_ip_address/querying_private_ip_address_details.html;
   /api/vpc/vpc_privateip_0001.html /virtual-private-cloud/api-ref/apis/private_ip_address/assigning_a_private_ip_address.html;
   /api/vpc/vpc_privateip_0004.html /virtual-private-cloud/api-ref/apis/private_ip_address/deleting_a_private_ip_address.html;
-  /bestpractice/vpc/ /virtual-private-cloud/best-practice/index.html;
-  /bestpractice/vpc/bestpractice_0001.html /virtual-private-cloud/best-practice/best_practice/index.html;
-  /bestpractice/vpc/bestpractice_0002.html /virtual-private-cloud/best-practice/best_practice/vpc_and_subnet_planning_suggestions.html;
-  /bestpractice/vpc/bestpractice_0013.html /virtual-private-cloud/best-practice/best_practice/using_ip_address_groups_to_reduce_the_number_of_security_group_rules.html;
   /usermanual/vpc/vpc_route01_0000.html /virtual-private-cloud/umn/route_tables/index.html;
   /usermanual/vpc/vpc_route01_0001.html /virtual-private-cloud/umn/route_tables/route_tables_and_routes.html;
   /usermanual/vpc/vpc_route01_0017.html /virtual-private-cloud/umn/route_tables/managing_routes/index.html;
@@ -644,10 +640,6 @@
   /en-us/api/vpc/vpc_privateip_0002.html /virtual-private-cloud/api-ref/apis/private_ip_address/querying_private_ip_address_details.html;
   /en-us/api/vpc/vpc_privateip_0001.html /virtual-private-cloud/api-ref/apis/private_ip_address/assigning_a_private_ip_address.html;
   /en-us/api/vpc/vpc_privateip_0004.html /virtual-private-cloud/api-ref/apis/private_ip_address/deleting_a_private_ip_address.html;
-  /en-us/bestpractice/vpc/ /virtual-private-cloud/best-practice/index.html;
-  /en-us/bestpractice/vpc/bestpractice_0001.html /virtual-private-cloud/best-practice/best_practice/index.html;
-  /en-us/bestpractice/vpc/bestpractice_0002.html /virtual-private-cloud/best-practice/best_practice/vpc_and_subnet_planning_suggestions.html;
-  /en-us/bestpractice/vpc/bestpractice_0013.html /virtual-private-cloud/best-practice/best_practice/using_ip_address_groups_to_reduce_the_number_of_security_group_rules.html;
   /en-us/usermanual/vpc/vpc_route01_0000.html /virtual-private-cloud/umn/route_tables/index.html;
   /en-us/usermanual/vpc/vpc_route01_0001.html /virtual-private-cloud/umn/route_tables/route_tables_and_routes.html;
   /en-us/usermanual/vpc/vpc_route01_0017.html /virtual-private-cloud/umn/route_tables/managing_routes/index.html;

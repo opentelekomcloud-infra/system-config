@@ -1,6 +1,3 @@
-  /glossary/index.html /additional/glossary.html;
-  /permissions/index.html /additional/permissions.html;
-  /endpoint/index.html /additional/endpoints.html;
   /sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /api/apiug/apig-en-api-180328001.html /developer/api_guidelines/index.html;
   /api/apiug/apig-en-api-180328002.html /developer/api_guidelines/overview_of_rest_apis.html;
@@ -20,9 +17,6 @@
   /usermanual/ac/ca_01_0002.html /identity-access-management/mycredential/;
   /en-us/ /;
   /en-us/index.html /index.html;
-  /en-us/glossary/index.html /additional/glossary.html;
-  /en-us/permissions/index.html /additional/permissions.html;
-  /en-us/endpoint/index.html /additional/endpoints.html;
   /en-us/sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /en-us/api/apiug/apig-en-api-180328001.html /developer/api_guidelines/index.html;
   /en-us/api/apiug/apig-en-api-180328002.html /developer/api_guidelines/overview_of_rest_apis.html;
@@ -74,6 +68,7 @@
   /ma/index.html /modelarts/umn/;
   /nat/index.html /nat-gateway/umn/;
   /obs/index.html /object-storage-service/umn/;
+  /permissions/index.html /identity-access-management/permissions/;
   /plas/index.html /private-link-access-service/umn/;
   /rds/index.html /relational-database-service/umn/;
   /rms/index.html /resource-management-service/umn/;
@@ -114,6 +109,7 @@
   /en-us/elb/index.html /elastic-load-balancing/umn/;
   /en-us/evs/index.html /elastic-volume-service/umn/;
   /en-us/gaussdb/index.html /gaussdb-mysql/umn/;
+  /en-us/glossary/index.html /glossary/;
   /en-us/nosql/index.html /gaussdb-nosql/umn/;
   /en-us/opengauss/index.html /gaussdb-opengauss/umn/;
   /en-us/iam/index.html /identity-access-management/umn/;
@@ -124,6 +120,7 @@
   /en-us/ma/index.html /modelarts/umn/;
   /en-us/nat/index.html /nat-gateway/umn/;
   /en-us/obs/index.html /object-storage-service/umn/;
+  /en-us/permissions/index.html /identity-access-management/permissions/;
   /en-us/plas/index.html /private-link-access-service/umn/;
   /en-us/rds/index.html /relational-database-service/umn/;
   /en-us/rms/index.html /resource-management-service/umn/;
@@ -141,3 +138,5 @@
   /en-us/dwaf/index.html /web-application-firewall-dedicated/umn/;
   /en-us/waf/index.html /web-application-firewall/umn/;
   /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
+  /services.html /index.html;
+  /docsportal /index.html;

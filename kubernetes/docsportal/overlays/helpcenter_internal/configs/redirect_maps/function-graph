@@ -94,7 +94,6 @@
   /api/functiongraph/functiongraph_06_0138.html /function-graph/api-ref/apis/function_metrics/querying_metrics_in_a_specified_period.html;
   /api/functiongraph/FunctionMetrics.html /function-graph/api-ref/apis/function_metrics/index.html;
   /api/functiongraph/functiongraph_06_0139.html /function-graph/api-ref/apis/function_metrics/querying_tenant-level_function_statistics.html;
-  /bestpractice/functiongraph/ /function-graph/best-practice/index.html;
   /devg/functiongraph/ /function-graph/dev-guide/index.html;
   /usermanual/functiongraph/ /function-graph/umn/index.html;
   /usermanual/functiongraph/functiongraph_01_0390_01.html /function-graph/umn/monitoring/index.html;
@@ -357,7 +356,6 @@
   /en-us/api/functiongraph/functiongraph_06_0138.html /function-graph/api-ref/apis/function_metrics/querying_metrics_in_a_specified_period.html;
   /en-us/api/functiongraph/FunctionMetrics.html /function-graph/api-ref/apis/function_metrics/index.html;
   /en-us/api/functiongraph/functiongraph_06_0139.html /function-graph/api-ref/apis/function_metrics/querying_tenant-level_function_statistics.html;
-  /en-us/bestpractice/functiongraph/ /function-graph/best-practice/index.html;
   /en-us/devg/functiongraph/ /function-graph/dev-guide/index.html;
   /en-us/usermanual/functiongraph/ /function-graph/umn/index.html;
   /en-us/usermanual/functiongraph/functiongraph_01_0390_01.html /function-graph/umn/monitoring/index.html;

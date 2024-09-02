@@ -65,7 +65,6 @@
   /api/sfs/sfs_02_0017.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/index.html;
   /api/sfs/sfs_02_0018.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/querying_all_api_versions.html;
   /api/sfs/sfs_02_0019.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/querying_details_about_an_api_version.html;
-  /bestpractice/sfs/ /scalable-file-service/best-practice/index.html;
   /usermanual/sfs/sfs_01_0105.html /scalable-file-service/umn/glossary.html;
   /usermanual/sfs/ /scalable-file-service/umn/index.html;
   /usermanual/sfs/sfs_01_0065.html /scalable-file-service/umn/faqs/index.html;
@@ -216,7 +215,6 @@
   /en-us/api/sfs/sfs_02_0017.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/index.html;
   /en-us/api/sfs/sfs_02_0018.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/querying_all_api_versions.html;
   /en-us/api/sfs/sfs_02_0019.html /scalable-file-service/api-ref/sfs_capacity-oriented_apis/api_version_queries/querying_details_about_an_api_version.html;
-  /en-us/bestpractice/sfs/ /scalable-file-service/best-practice/index.html;
   /en-us/usermanual/sfs/sfs_01_0105.html /scalable-file-service/umn/glossary.html;
   /en-us/usermanual/sfs/ /scalable-file-service/umn/index.html;
   /en-us/usermanual/sfs/sfs_01_0065.html /scalable-file-service/umn/faqs/index.html;

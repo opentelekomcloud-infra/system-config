@@ -82,9 +82,8 @@ catalog:
         clientId: {{ .Data.data.client_id }}
         clientSecret: {{ .Data.data.client_secret }}
 {{- end }}
-  readonly: true
   rules:
-    - allow: [Component, System, API, Resource, Location, Group, User]
+    - allow: [Component, System, API, Resource, Location, Group, User, Template]
   locations:
     # General
     - type: url

@@ -17,6 +17,11 @@
   /api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0117.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0118.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0085.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0089.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0088.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0108.html /document-database-service/api-ref/apis_v3.html;
+  /api/dds/dds_api_0107.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_database_version.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_backup_restore.html /document-database-service/api-ref/apis_v3.html;
   /api/dds/dds_api_0083.html /document-database-service/api-ref/apis_v3.html;
@@ -80,10 +85,6 @@
   /api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
   /api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
   /api/dds/dds_api_0010.html /document-database-service/api-ref/environment_preparations/authentication.html;
-  /bestpractice/dds/ /document-database-service/best-practice/index.html;
-  /bestpractice/dds/dds_0013.html /document-database-service/best-practice/from_ecs-hosted_mongodb_to_dds.html;
-  /bestpractice/dds/dds_0016.html /document-database-service/best-practice/from_other_cloud_mongodb_to_dds.html;
-  /bestpractice/dds/dds_0014.html /document-database-service/best-practice/from_on-premises_mongodb_to_dds.html;
   /usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /usermanual/dds/ /document-database-service/umn/index.html;
   /usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;
@@ -264,6 +265,11 @@
   /en-us/api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0117.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0118.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0085.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0089.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0088.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0108.html /document-database-service/api-ref/apis_v3.html;
+  /en-us/api/dds/dds_api_0107.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_database_version.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_backup_restore.html /document-database-service/api-ref/apis_v3.html;
   /en-us/api/dds/dds_api_0083.html /document-database-service/api-ref/apis_v3.html;
@@ -327,10 +333,6 @@
   /en-us/api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
   /en-us/api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
   /en-us/api/dds/dds_api_0010.html /document-database-service/api-ref/environment_preparations/authentication.html;
-  /en-us/bestpractice/dds/ /document-database-service/best-practice/index.html;
-  /en-us/bestpractice/dds/dds_0013.html /document-database-service/best-practice/from_ecs-hosted_mongodb_to_dds.html;
-  /en-us/bestpractice/dds/dds_0016.html /document-database-service/best-practice/from_other_cloud_mongodb_to_dds.html;
-  /en-us/bestpractice/dds/dds_0014.html /document-database-service/best-practice/from_on-premises_mongodb_to_dds.html;
   /en-us/usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /en-us/usermanual/dds/ /document-database-service/umn/index.html;
   /en-us/usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;

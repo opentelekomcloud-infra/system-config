@@ -90,6 +90,7 @@
   check_mode: no
   when: 
     - configure_privileged_commands | default(true)
+  ignore_errors: true
 
 - name: Configure logging for priviledged commands
   ansible.builtin.lineinfile:
@@ -100,6 +101,7 @@
   notify: restart auditd
   when: 
     - configure_privileged_commands | default(true)
+  ignore_errors: true
 
 - name: Make audit configuration immutable
   ansible.builtin.lineinfile:

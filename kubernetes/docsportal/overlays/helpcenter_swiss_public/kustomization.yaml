@@ -24,9 +24,12 @@ configMapGenerator:
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
-  - name: "cloud-container-engine"
+  - name: "cloud-container-engine-aa"
     files:
-      - "configs/redirect_maps/cloud-container-engine"
+      - "configs/redirect_maps/cloud-container-engine-aa"
+  - name: "cloud-container-engine-ab"
+    files:
+      - "configs/redirect_maps/cloud-container-engine-ab"
   - name: "cloud-eye"
     files:
       - "configs/redirect_maps/cloud-eye"

@@ -99,12 +99,27 @@ all_users:
     uid: 2032
     gid: 2032
 
+  yustina:
+    comment: Yustina Kvrivishvili
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB1lH/ys0iubRq+IyDJeGC/S7RozWSrDjcHJVPgnlqLg yustina
+    uid: 2033
+    gid: 2033
+
+  smartynov:
+    comment: Sergei Martynov
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpHyuVlTQDcE+YBqHj40ci7kBXMI7qnytu3kv2KhlUqAa/nrl1rSz52bY1ON+3e+rUNL+qtPHTfd9ryQHXviYZ20atxeP9yx4OmAtvf8QiBbCO8C+LPDWU9TGSl1RB4AiArZbS3y9lQI+7OooI4zGeqvfed00sqVDgCKrbqdUqWofz56Cqst587KJfZlXjl7YGfU6W3JmpynyIH3krxwFtqyfPxBuo0iR5FSP82SdAcka0PR5Dcji9QQ5fA7BSjnGZPDg9esBGmGnaXQB/6E9G78utenQ6uHeOoH+qAgkAbZxjGuJcuLmXjXPQQD7IEsTdkMGvQbs8wAJ08JQDVKbj smartynov
+    uid: 2034
+    gid: 2034
+
 # List of users to install on all hosts
 base_users:
   - gtema
   - vhasko
   - enrrou
   - ashakhba
+  - yustina
+  - smartynov
+
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
 # Users who should be removed
