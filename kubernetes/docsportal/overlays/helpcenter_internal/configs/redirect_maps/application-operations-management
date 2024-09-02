@@ -2,7 +2,7 @@
   /api/aom/aom_04_0018.html /application-operations-management/api-ref/appendix/status_codes.html;
   /api/aom/aom_04_0009.html /application-operations-management/api-ref/appendix/common_response_headers.html;
   /api/aom/ErrorCode.html /application-operations-management/api-ref/appendix/error_codes.html;
-  /api/aom/aom_04_0070.html /application-operations-management/api-ref/appendix/obtaining_an_account_id_and_project_id.html;
+  /api/aom/en-us_topic_0000001409328750.html /application-operations-management/api-ref/appendix/obtaining_an_account_id_and_project_id.html;
   /api/aom/aom_04_0008.html /application-operations-management/api-ref/appendix/common_request_headers.html;
   /api/aom/ /application-operations-management/api-ref/index.html;
   /api/aom/aom_04_0061.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/index.html;
@@ -10,7 +10,7 @@
   /api/aom/aom_04_0022.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /api/aom/aom_04_0064.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/log_actions.html;
   /api/aom/aom_04_0065.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/alarm_actions.html;
-  /api/aom/aom_04_0000.html /application-operations-management/api-ref/api_usage_guidelines.html;
+  /api/aom/en-us_topic_0000001409488734.html /application-operations-management/api-ref/api_usage_guidelines.html;
   /api/aom/aom_04_0020.html /application-operations-management/api-ref/change_history.html;
   /api/aom/aom_04_0010.html /application-operations-management/api-ref/api/index.html;
   /api/aom/aom_04_0045.html /application-operations-management/api-ref/api/monitoring/index.html;
@@ -139,7 +139,7 @@
   /en-us/api/aom/aom_04_0018.html /application-operations-management/api-ref/appendix/status_codes.html;
   /en-us/api/aom/aom_04_0009.html /application-operations-management/api-ref/appendix/common_response_headers.html;
   /en-us/api/aom/ErrorCode.html /application-operations-management/api-ref/appendix/error_codes.html;
-  /en-us/api/aom/aom_04_0070.html /application-operations-management/api-ref/appendix/obtaining_an_account_id_and_project_id.html;
+  /en-us/api/aom/en-us_topic_0000001409328750.html /application-operations-management/api-ref/appendix/obtaining_an_account_id_and_project_id.html;
   /en-us/api/aom/aom_04_0008.html /application-operations-management/api-ref/appendix/common_request_headers.html;
   /en-us/api/aom/ /application-operations-management/api-ref/index.html;
   /en-us/api/aom/aom_04_0061.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/index.html;
@@ -147,7 +147,7 @@
   /en-us/api/aom/aom_04_0022.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /en-us/api/aom/aom_04_0064.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/log_actions.html;
   /en-us/api/aom/aom_04_0065.html /application-operations-management/api-ref/permissions_policies_and_supported_actions/alarm_actions.html;
-  /en-us/api/aom/aom_04_0000.html /application-operations-management/api-ref/api_usage_guidelines.html;
+  /en-us/api/aom/en-us_topic_0000001409488734.html /application-operations-management/api-ref/api_usage_guidelines.html;
   /en-us/api/aom/aom_04_0020.html /application-operations-management/api-ref/change_history.html;
   /en-us/api/aom/aom_04_0010.html /application-operations-management/api-ref/api/index.html;
   /en-us/api/aom/aom_04_0045.html /application-operations-management/api-ref/api/monitoring/index.html;

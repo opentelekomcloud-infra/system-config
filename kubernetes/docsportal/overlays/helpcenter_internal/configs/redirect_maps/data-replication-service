@@ -56,7 +56,6 @@
   /api/drs/drs_03_0149.html /data-replication-service/api-ref/api/real-time_synchronization_management/configuring_synchronization_policies_in_batches.html;
   /api/drs/drs_03_0148.html /data-replication-service/api-ref/api/real-time_synchronization_management/querying_the_switchover_result.html;
   /api/drs/drs_03_0147.html /data-replication-service/api-ref/api/real-time_synchronization_management/performing_a_switchover.html;
-  /bestpractice/drs/ /data-replication-service/best-practice/index.html;
   /usermanual/drs/ /data-replication-service/umn/index.html;
   /usermanual/drs/drs_02_0470.html /data-replication-service/umn/preparations/index.html;
   /usermanual/drs/drs_02_0471.html /data-replication-service/umn/preparations/overview.html;
@@ -400,7 +399,6 @@
   /en-us/api/drs/drs_03_0149.html /data-replication-service/api-ref/api/real-time_synchronization_management/configuring_synchronization_policies_in_batches.html;
   /en-us/api/drs/drs_03_0148.html /data-replication-service/api-ref/api/real-time_synchronization_management/querying_the_switchover_result.html;
   /en-us/api/drs/drs_03_0147.html /data-replication-service/api-ref/api/real-time_synchronization_management/performing_a_switchover.html;
-  /en-us/bestpractice/drs/ /data-replication-service/best-practice/index.html;
   /en-us/usermanual/drs/ /data-replication-service/umn/index.html;
   /en-us/usermanual/drs/drs_02_0470.html /data-replication-service/umn/preparations/index.html;
   /en-us/usermanual/drs/drs_02_0471.html /data-replication-service/umn/preparations/overview.html;

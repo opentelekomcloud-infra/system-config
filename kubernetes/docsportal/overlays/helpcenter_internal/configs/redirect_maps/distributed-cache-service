@@ -127,7 +127,6 @@
   /api/dcs/en-us_topic_0000001693875369.html /distributed-cache-service/api-ref/api_version_query/index.html;
   /api/dcs/en-us_topic_0000001645635650.html /distributed-cache-service/api-ref/api_version_query/querying_the_list_of_api_versions.html;
   /api/dcs/en-us_topic_0000001693796125.html /distributed-cache-service/api-ref/api_version_query/querying_information_of_an_api_version.html;
-  /bestpractice/dcs/ /distributed-cache-service/best-practice/index.html;
   /usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
   /usermanual/dcs/ /distributed-cache-service/umn/index.html;
   /usermanual/dcs/dcs-ug-0326016.html /distributed-cache-service/umn/monitoring/index.html;
@@ -482,7 +481,6 @@
   /en-us/api/dcs/en-us_topic_0000001693875369.html /distributed-cache-service/api-ref/api_version_query/index.html;
   /en-us/api/dcs/en-us_topic_0000001645635650.html /distributed-cache-service/api-ref/api_version_query/querying_the_list_of_api_versions.html;
   /en-us/api/dcs/en-us_topic_0000001693796125.html /distributed-cache-service/api-ref/api_version_query/querying_information_of_an_api_version.html;
-  /en-us/bestpractice/dcs/ /distributed-cache-service/best-practice/index.html;
   /en-us/usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
   /en-us/usermanual/dcs/ /distributed-cache-service/umn/index.html;
   /en-us/usermanual/dcs/dcs-ug-0326016.html /distributed-cache-service/umn/monitoring/index.html;

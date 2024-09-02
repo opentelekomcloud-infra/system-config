@@ -354,6 +354,7 @@
   /usermanual/rds/rds_09_0048.html /relational-database-service/umn/working_with_rds_for_postgresql/major_version_upgrade/index.html;
   /usermanual/rds/rds_pg_05_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/major_version_upgrade/upgrading_the_major_version_of_a_db_instance_on_the_console.html;
   /usermanual/rds/rds_pg_05_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/index.html;
+  /usermanual/rds/en-us_topic_0000001989983141.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/storage_autoscaling.html;
   /usermanual/rds/rds_pg_05_0038.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/changing_the_maintenance_window.html;
   /usermanual/rds/rds_pg_05_0023.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/changing_a_db_instance_type_from_single_to_primary_standby.html;
   /usermanual/rds/rds_pg_switch_ha.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
@@ -458,6 +459,8 @@
   /usermanual/rds/rds_01_0029.html /relational-database-service/umn/introduction/db_instance_description/db_instance_classes.html;
   /usermanual/rds/rds_01_0023.html /relational-database-service/umn/introduction/db_instance_description/db_instance_statuses.html;
   /usermanual/rds/en-us_topic_dashboard.html /relational-database-service/umn/introduction/what_is_rds.html;
+  /usermanual/rds/en-us_topic_0000001987302910.html /relational-database-service/umn/introduction/product_release_notes/index.html;
+  /usermanual/rds/en-us_topic_0000002023864553.html /relational-database-service/umn/introduction/product_release_notes/rds_for_postgresql_versioning_policy.html;
   /usermanual/rds/rds_01_0001.html /relational-database-service/umn/introduction/advantages/index.html;
   /usermanual/rds/rds_01_0005.html /relational-database-service/umn/introduction/advantages/high_reliability.html;
   /usermanual/rds/rds_01_0004.html /relational-database-service/umn/introduction/advantages/high_security.html;
@@ -471,6 +474,7 @@
   /usermanual/rds/rds_sqlserver_task_0002.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/deleting_a_task_record.html;
   /usermanual/rds/rds_sqlserver_task_0001.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/viewing_a_task.html;
   /usermanual/rds/rds_sqlserver_05_0008.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/index.html;
+  /usermanual/rds/en-us_topic_0000001990102985.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/configuring_autoscaling.html;
   /usermanual/rds/rds_sqlserver_05_0023.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/changing_a_db_instance_type_from_single_to_primary_standby.html;
   /usermanual/rds/rds_sqlserver_switch_ha.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
   /usermanual/rds/rds_sqlserver_modify_instance_name.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/changing_a_db_instance_name.html;
@@ -908,6 +912,7 @@
   /en-us/usermanual/rds/rds_09_0048.html /relational-database-service/umn/working_with_rds_for_postgresql/major_version_upgrade/index.html;
   /en-us/usermanual/rds/rds_pg_05_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/major_version_upgrade/upgrading_the_major_version_of_a_db_instance_on_the_console.html;
   /en-us/usermanual/rds/rds_pg_05_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/index.html;
+  /en-us/usermanual/rds/en-us_topic_0000001989983141.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/storage_autoscaling.html;
   /en-us/usermanual/rds/rds_pg_05_0038.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/changing_the_maintenance_window.html;
   /en-us/usermanual/rds/rds_pg_05_0023.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/changing_a_db_instance_type_from_single_to_primary_standby.html;
   /en-us/usermanual/rds/rds_pg_switch_ha.html /relational-database-service/umn/working_with_rds_for_postgresql/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
@@ -993,8 +998,3 @@
   /en-us/usermanual/rds/rds_03_0007.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/connecting_to_a_db_instance_through_a_public_network.html;
   /en-us/usermanual/rds/rds_04_0060.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_db_instance.html;
   /en-us/usermanual/rds/rds_04_0061.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_1_create_a_db_instance.html;
-  /en-us/usermanual/rds/rds_01_0000.html /relational-database-service/umn/introduction/index.html;
-  /en-us/usermanual/rds/rds_01_0024.html /relational-database-service/umn/introduction/typical_applications/index.html;
-  /en-us/usermanual/rds/rds_01_0013.html /relational-database-service/umn/introduction/typical_applications/diversified_data_storage.html;
-  /en-us/usermanual/rds/rds_01_0012.html /relational-database-service/umn/introduction/typical_applications/read_write_splitting.html;
-  /en-us/usermanual/rds/rds_01_0009.html /relational-database-service/umn/introduction/product_series/index.html;
