@@ -115,7 +115,6 @@
   /api/obs/obs_04_0014.html /object-storage-service/api-ref/getting_started/index.html;
   /api/obs/obs_04_0016.html /object-storage-service/api-ref/getting_started/listing_buckets.html;
   /api/obs/obs_04_0015.html /object-storage-service/api-ref/getting_started/creating_a_bucket.html;
-  /bestpractice/obs/ /object-storage-service/best-practice/index.html;
   /pfs/obs/ /object-storage-service/parallel-file-system/index.html;
   /pfs/obs/obs_13_1000.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/index.html;
   /pfs/obs/obs_13_0002.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/creating_a_parallel_file_system.html;
@@ -803,7 +802,6 @@
   /en-us/api/obs/obs_04_0014.html /object-storage-service/api-ref/getting_started/index.html;
   /en-us/api/obs/obs_04_0016.html /object-storage-service/api-ref/getting_started/listing_buckets.html;
   /en-us/api/obs/obs_04_0015.html /object-storage-service/api-ref/getting_started/creating_a_bucket.html;
-  /en-us/bestpractice/obs/ /object-storage-service/best-practice/index.html;
   /en-us/pfs/obs/ /object-storage-service/parallel-file-system/index.html;
   /en-us/pfs/obs/obs_13_1000.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/index.html;
   /en-us/pfs/obs/obs_13_0002.html /object-storage-service/parallel-file-system/managing_parallel_file_systems_on_obs_console/creating_a_parallel_file_system.html;
@@ -998,3 +996,5 @@
   /en-us/api_swift/obs/obs_03_0013.html /object-storage-service/swiftapi/error_responses/error_code_list.html;
   /en-us/api_swift/obs/obs_03_0001.html /object-storage-service/swiftapi/overview/index.html;
   /en-us/api_swift/obs/obs_03_0005.html /object-storage-service/swiftapi/overview/suggestions_on_container_performance_tuning.html;
+  /en-us/api_swift/obs/obs_03_0002.html /object-storage-service/swiftapi/overview/functions.html;
+  /en-us/api_swift/obs/obs_03_0003.html /object-storage-service/swiftapi/overview/api_overview.html;

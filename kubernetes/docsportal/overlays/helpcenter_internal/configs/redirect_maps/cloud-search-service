@@ -99,8 +99,6 @@
   /api/css/css_03_0121.html /cloud-search-service/api-ref/kibana_public_network_access/disabling_kibana_public_access.html;
   /api/css/css_03_0124.html /cloud-search-service/api-ref/kibana_public_network_access/disabling_kibana_public_network_access_control.html;
   /api/css/css_03_0065.html /cloud-search-service/api-ref/permissions_policies_and_supported_actions.html;
-  /bestpractice/css/ /cloud-search-service/best-practice/index.html;
-  /bestpractice/css/css_07_0024.html /cloud-search-service/best-practice/using_css_to_accelerate_database_query_and_analysis.html;
   /usermanual/css/ /cloud-search-service/umn/index.html;
   /usermanual/css/en-us_topic_0000001477419740.html /cloud-search-service/umn/monitoring/index.html;
   /usermanual/css/en-us_topic_0000001528659133.html /cloud-search-service/umn/monitoring/monitoring_metrics_of_clusters.html;
@@ -450,8 +448,6 @@
   /en-us/api/css/css_03_0121.html /cloud-search-service/api-ref/kibana_public_network_access/disabling_kibana_public_access.html;
   /en-us/api/css/css_03_0124.html /cloud-search-service/api-ref/kibana_public_network_access/disabling_kibana_public_network_access_control.html;
   /en-us/api/css/css_03_0065.html /cloud-search-service/api-ref/permissions_policies_and_supported_actions.html;
-  /en-us/bestpractice/css/ /cloud-search-service/best-practice/index.html;
-  /en-us/bestpractice/css/css_07_0024.html /cloud-search-service/best-practice/using_css_to_accelerate_database_query_and_analysis.html;
   /en-us/usermanual/css/ /cloud-search-service/umn/index.html;
   /en-us/usermanual/css/en-us_topic_0000001477419740.html /cloud-search-service/umn/monitoring/index.html;
   /en-us/usermanual/css/en-us_topic_0000001528659133.html /cloud-search-service/umn/monitoring/monitoring_metrics_of_clusters.html;

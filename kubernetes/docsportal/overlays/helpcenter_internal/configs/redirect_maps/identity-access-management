@@ -180,7 +180,6 @@
   /api/iam/iam_02_0114.html /identity-access-management/api-ref/apis/tenant_management/querying_a_resource_quota.html;
   /api/iam/en-us_topic_0057845574.html /identity-access-management/api-ref/apis/tenant_management/querying_the_list_of_domains_accessible_to_users.html;
   /api/iam/iam_02_0113.html /identity-access-management/api-ref/apis/tenant_management/querying_the_password_strength_policy_by_option.html;
-  /bestpractice/iam/ /identity-access-management/best-practice/index.html;
   /permissions/permissions.html /identity-access-management/permissions/permissions.html;
   /permissions/ /identity-access-management/permissions/index.html;
   /usermanual/iam/ /identity-access-management/umn/index.html;
@@ -199,7 +198,7 @@
   /usermanual/iam/iam_01_0655.html /identity-access-management/umn/user_guide/user_groups_and_authorization/index.html;
   /usermanual/iam/en-us_topic_0046611269.html /identity-access-management/umn/user_guide/user_groups_and_authorization/creating_a_user_group_and_assigning_permissions.html;
   /usermanual/iam/iam_03_0004.html /identity-access-management/umn/user_guide/user_groups_and_authorization/revoking_permissions_of_a_user_group.html;
-  /usermanual/iam/iam_01_0430.html /identity-access-management/umn/user_guide/user_groups_and_authorization/deleting_a_user_group.html;
+  /usermanual/iam/iam_01_0430.html /identity-access-management/umn/user_guide/user_groups_and_authorization/deleting_user_groups.html;
   /usermanual/iam/en-us_topic_0085605493.html /identity-access-management/umn/user_guide/user_groups_and_authorization/viewing_and_modifying_user_group_information.html;
   /usermanual/iam/iam_01_0657.html /identity-access-management/umn/user_guide/user_groups_and_authorization/assigning_dependency_roles.html;
   /usermanual/iam/iam_01_0015.html /identity-access-management/umn/user_guide/permissions/index.html;
@@ -240,12 +239,12 @@
   /usermanual/iam/iam_01_0703.html /identity-access-management/umn/user_guide/security_settings/basic_information.html;
   /usermanual/iam/en-us_topic_0066738518.html /identity-access-management/umn/user_guide/projects.html;
   /usermanual/iam/en-us_topic_0079496986.html /identity-access-management/umn/user_guide/agencies/index.html;
-  /usermanual/iam/iam_06_0004.html /identity-access-management/umn/user_guide/agencies/cloud_service_delegation.html;
   /usermanual/iam/iam_01_0054.html /identity-access-management/umn/user_guide/agencies/account_delegation/index.html;
   /usermanual/iam/iam_06_0001.html /identity-access-management/umn/user_guide/agencies/account_delegation/delegating_resource_access_to_another_account.html;
   /usermanual/iam/en-us_topic_0046613147.html /identity-access-management/umn/user_guide/agencies/account_delegation/creating_an_agency_by_a_delegating_party.html;
   /usermanual/iam/en-us_topic_0046613148.html /identity-access-management/umn/user_guide/agencies/account_delegation/switching_roles_by_a_delegated_party.html;
   /usermanual/iam/iam_01_0063.html /identity-access-management/umn/user_guide/agencies/account_delegation/optional_assigning_permissions_to_an_iam_user_by_a_delegated_party.html;
+  /usermanual/iam/iam_06_0004.html /identity-access-management/umn/user_guide/agencies/cloud_service_agency.html;
   /usermanual/iam/iam_01_0730.html /identity-access-management/umn/user_guide/agencies/deleting_or_modifying_agencies.html;
   /usermanual/iam/iam_01_0011.html /identity-access-management/umn/user_guide/auditing/index.html;
   /usermanual/iam/iam_01_0012.html /identity-access-management/umn/user_guide/auditing/iam_operations_that_can_be_recorded_by_cts.html;
@@ -450,7 +449,6 @@
   /en-us/api/iam/iam_02_0114.html /identity-access-management/api-ref/apis/tenant_management/querying_a_resource_quota.html;
   /en-us/api/iam/en-us_topic_0057845574.html /identity-access-management/api-ref/apis/tenant_management/querying_the_list_of_domains_accessible_to_users.html;
   /en-us/api/iam/iam_02_0113.html /identity-access-management/api-ref/apis/tenant_management/querying_the_password_strength_policy_by_option.html;
-  /en-us/bestpractice/iam/ /identity-access-management/best-practice/index.html;
   /en-us/permissions/permissions.html /identity-access-management/permissions/permissions.html;
   /en-us/permissions/ /identity-access-management/permissions/index.html;
   /en-us/usermanual/iam/ /identity-access-management/umn/index.html;
@@ -469,7 +467,7 @@
   /en-us/usermanual/iam/iam_01_0655.html /identity-access-management/umn/user_guide/user_groups_and_authorization/index.html;
   /en-us/usermanual/iam/en-us_topic_0046611269.html /identity-access-management/umn/user_guide/user_groups_and_authorization/creating_a_user_group_and_assigning_permissions.html;
   /en-us/usermanual/iam/iam_03_0004.html /identity-access-management/umn/user_guide/user_groups_and_authorization/revoking_permissions_of_a_user_group.html;
-  /en-us/usermanual/iam/iam_01_0430.html /identity-access-management/umn/user_guide/user_groups_and_authorization/deleting_a_user_group.html;
+  /en-us/usermanual/iam/iam_01_0430.html /identity-access-management/umn/user_guide/user_groups_and_authorization/deleting_user_groups.html;
   /en-us/usermanual/iam/en-us_topic_0085605493.html /identity-access-management/umn/user_guide/user_groups_and_authorization/viewing_and_modifying_user_group_information.html;
   /en-us/usermanual/iam/iam_01_0657.html /identity-access-management/umn/user_guide/user_groups_and_authorization/assigning_dependency_roles.html;
   /en-us/usermanual/iam/iam_01_0015.html /identity-access-management/umn/user_guide/permissions/index.html;
@@ -510,12 +508,12 @@
   /en-us/usermanual/iam/iam_01_0703.html /identity-access-management/umn/user_guide/security_settings/basic_information.html;
   /en-us/usermanual/iam/en-us_topic_0066738518.html /identity-access-management/umn/user_guide/projects.html;
   /en-us/usermanual/iam/en-us_topic_0079496986.html /identity-access-management/umn/user_guide/agencies/index.html;
-  /en-us/usermanual/iam/iam_06_0004.html /identity-access-management/umn/user_guide/agencies/cloud_service_delegation.html;
   /en-us/usermanual/iam/iam_01_0054.html /identity-access-management/umn/user_guide/agencies/account_delegation/index.html;
   /en-us/usermanual/iam/iam_06_0001.html /identity-access-management/umn/user_guide/agencies/account_delegation/delegating_resource_access_to_another_account.html;
   /en-us/usermanual/iam/en-us_topic_0046613147.html /identity-access-management/umn/user_guide/agencies/account_delegation/creating_an_agency_by_a_delegating_party.html;
   /en-us/usermanual/iam/en-us_topic_0046613148.html /identity-access-management/umn/user_guide/agencies/account_delegation/switching_roles_by_a_delegated_party.html;
   /en-us/usermanual/iam/iam_01_0063.html /identity-access-management/umn/user_guide/agencies/account_delegation/optional_assigning_permissions_to_an_iam_user_by_a_delegated_party.html;
+  /en-us/usermanual/iam/iam_06_0004.html /identity-access-management/umn/user_guide/agencies/cloud_service_agency.html;
   /en-us/usermanual/iam/iam_01_0730.html /identity-access-management/umn/user_guide/agencies/deleting_or_modifying_agencies.html;
   /en-us/usermanual/iam/iam_01_0011.html /identity-access-management/umn/user_guide/auditing/index.html;
   /en-us/usermanual/iam/iam_01_0012.html /identity-access-management/umn/user_guide/auditing/iam_operations_that_can_be_recorded_by_cts.html;

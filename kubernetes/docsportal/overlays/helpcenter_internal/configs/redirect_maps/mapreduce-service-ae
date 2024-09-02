@@ -1,5 +1,3 @@
-  /en-us/cmpntguide-lts/mrs/mrs_01_1437.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/index.html;
-  /en-us/cmpntguide-lts/mrs/mrs_01_1444.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/show_segments.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1440.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/delete_records_from_carbon_table.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1447.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/drop_secondary_index.html;
   /en-us/cmpntguide-lts/mrs/mrs_01_1445.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_syntax_reference/dml/create_secondary_index.html;
@@ -998,3 +996,5 @@
   /en-us/cmpntguide/mrs/mrs_01_1707.html /mapreduce-service/operation-guide/using_hdfs/faq/when_does_a_balance_process_in_hdfs_shut_down_and_fail_to_be_executed_again.html;
   /en-us/cmpntguide/mrs/mrs_01_1695.html /mapreduce-service/operation-guide/using_hdfs/faq/why_does_the_distcp_command_fail_in_the_secure_cluster_causing_an_exception.html;
   /en-us/cmpntguide/mrs/mrs_01_1700.html /mapreduce-service/operation-guide/using_hdfs/faq/why_does_array_border-crossing_occur_during_fileinputformat_split.html;
+  /en-us/cmpntguide/mrs/mrs_01_1706.html /mapreduce-service/operation-guide/using_hdfs/faq/why_are_there_two_standby_namenodes_after_the_active_namenode_is_restarted.html;
+  /en-us/cmpntguide/mrs/mrs_01_1703.html /mapreduce-service/operation-guide/using_hdfs/faq/can_i_delete_or_modify_the_data_storage_directory_in_datanode.html;

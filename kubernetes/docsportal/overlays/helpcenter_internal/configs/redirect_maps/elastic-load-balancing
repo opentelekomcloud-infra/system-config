@@ -203,12 +203,6 @@
   /api/elb/elb_sq_lb_0006.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/api_actions_v2/forwarding_policy.html;
   /api/elb/elb_sq_lb_0004.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/api_actions_v2/backend_server.html;
   /api/elb/elb_sq_0001.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/introduction.html;
-  /bestpractice/elb/ /elastic-load-balancing/best-practice/index.html;
-  /bestpractice/elb/elb_bp_0300.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/index.html;
-  /bestpractice/elb/elb_bp_0301.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/overview.html;
-  /bestpractice/elb/elb_bp_0302.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/routing_traffic_to_backend_servers_in_different_vpcs_from_the_load_balancer.html;
-  /bestpractice/elb/elb_bp_0303.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/routing_traffic_to_backend_servers_in_the_same_vpc_as_the_load_balancer.html;
-  /bestpractice/elb/elb_bp_0400.html /elastic-load-balancing/best-practice/using_advanced_forwarding_for_application_iteration.html;
   /usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /usermanual/elb/elb_ug_jk_0000.html /elastic-load-balancing/umn/monitoring/index.html;
   /usermanual/elb/elb_ug_jk_0001.html /elastic-load-balancing/umn/monitoring/monitoring_metrics.html;
@@ -631,12 +625,6 @@
   /en-us/api/elb/elb_sq_lb_0006.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/api_actions_v2/forwarding_policy.html;
   /en-us/api/elb/elb_sq_lb_0004.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/api_actions_v2/backend_server.html;
   /en-us/api/elb/elb_sq_0001.html /elastic-load-balancing/api-ref/permissions_and_supported_actions/introduction.html;
-  /en-us/bestpractice/elb/ /elastic-load-balancing/best-practice/index.html;
-  /en-us/bestpractice/elb/elb_bp_0300.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/index.html;
-  /en-us/bestpractice/elb/elb_bp_0301.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/overview.html;
-  /en-us/bestpractice/elb/elb_bp_0302.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/routing_traffic_to_backend_servers_in_different_vpcs_from_the_load_balancer.html;
-  /en-us/bestpractice/elb/elb_bp_0303.html /elastic-load-balancing/best-practice/routing_traffic_to_backend_servers_in_different_vpcs/routing_traffic_to_backend_servers_in_the_same_vpc_as_the_load_balancer.html;
-  /en-us/bestpractice/elb/elb_bp_0400.html /elastic-load-balancing/best-practice/using_advanced_forwarding_for_application_iteration.html;
   /en-us/usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /en-us/usermanual/elb/elb_ug_jk_0000.html /elastic-load-balancing/umn/monitoring/index.html;
   /en-us/usermanual/elb/elb_ug_jk_0001.html /elastic-load-balancing/umn/monitoring/monitoring_metrics.html;

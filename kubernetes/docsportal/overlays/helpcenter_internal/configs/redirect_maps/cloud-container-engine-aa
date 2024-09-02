@@ -57,7 +57,6 @@
   /api2/cce/cce_02_0349.html /cloud-container-engine/api-ref/apis/api_version_query/querying_all_api_versions.html;
   /api2/cce/cce_02_0350.html /cloud-container-engine/api-ref/apis/api_version_query/querying_information_about_api_v3.html;
   /api2/cce/cce_02_0327.html /cloud-container-engine/api-ref/permissions_policies_and_supported_actions.html;
-  /bestpractice/cce/ /cloud-container-engine/best-practice/index.html;
   /usermanual2/cce/ /cloud-container-engine/umn/index.html;
   /usermanual2/cce/cce_bulletin_0000.html /cloud-container-engine/umn/product_bulletin/index.html;
   /usermanual2/cce/cce_bulletin_0061.html /cloud-container-engine/umn/product_bulletin/cce_console_upgrade.html;
@@ -663,7 +662,6 @@
   /en-us/api2/cce/cce_02_0349.html /cloud-container-engine/api-ref/apis/api_version_query/querying_all_api_versions.html;
   /en-us/api2/cce/cce_02_0350.html /cloud-container-engine/api-ref/apis/api_version_query/querying_information_about_api_v3.html;
   /en-us/api2/cce/cce_02_0327.html /cloud-container-engine/api-ref/permissions_policies_and_supported_actions.html;
-  /en-us/bestpractice/cce/ /cloud-container-engine/best-practice/index.html;
   /en-us/usermanual2/cce/ /cloud-container-engine/umn/index.html;
   /en-us/usermanual2/cce/cce_bulletin_0000.html /cloud-container-engine/umn/product_bulletin/index.html;
   /en-us/usermanual2/cce/cce_bulletin_0061.html /cloud-container-engine/umn/product_bulletin/cce_console_upgrade.html;
@@ -998,3 +996,5 @@
   /en-us/usermanual2/cce/cce_10_0105.html /cloud-container-engine/umn/workloads/configuring_a_container/configuring_container_lifecycle_parameters.html;
   /en-us/usermanual2/cce/cce_10_0397.html /cloud-container-engine/umn/workloads/configuring_a_container/workload_upgrade_policies.html;
   /en-us/usermanual2/cce/cce_10_0673.html /cloud-container-engine/umn/workloads/creating_a_workload/index.html;
+  /en-us/usermanual2/cce/cce_10_0047.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_deployment.html;
+  /en-us/usermanual2/cce/cce_10_0151.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_cron_job.html;
