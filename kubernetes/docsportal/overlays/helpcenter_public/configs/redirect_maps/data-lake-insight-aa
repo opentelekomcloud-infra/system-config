@@ -742,10 +742,11 @@
   /usermanual/dli/dli_01_0018.html /data-lake-insight/umn/enhanced_datasource_connections/enhanced_connection_permission_management.html;
   /usermanual/dli/dli_01_0003.html /data-lake-insight/umn/enhanced_datasource_connections/overview.html;
   /usermanual/dli/dli_01_0019.html /data-lake-insight/umn/enhanced_datasource_connections/enhanced_datasource_connection_tag_management.html;
-  /usermanual/dli/dli_01_0013.html /data-lake-insight/umn/enhanced_datasource_connections/modifying_host_information.html;
   /usermanual/dli/dli_01_0556.html /data-lake-insight/umn/enhanced_datasource_connections/deleting_a_route.html;
+  /usermanual/dli/dli_01_0013.html /data-lake-insight/umn/enhanced_datasource_connections/modifying_host_information_in_an_elastic_resource_pool.html;
   /usermanual/dli/dli_01_0006.html /data-lake-insight/umn/enhanced_datasource_connections/creating_an_enhanced_datasource_connection.html;
   /usermanual/dli/dli_01_0410.html /data-lake-insight/umn/enhanced_datasource_connections/cross-source_analysis_development_methods.html;
+  /usermanual/dli/dli_01_0624.html /data-lake-insight/umn/enhanced_datasource_connections/establishing_a_network_connection_between_dli_and_resources_in_a_shared_vpc.html;
   /usermanual/dli/dli_01_0514.html /data-lake-insight/umn/enhanced_datasource_connections/binding_and_unbinding_a_queue.html;
   /usermanual/dli/dli_01_0014.html /data-lake-insight/umn/enhanced_datasource_connections/adding_a_route.html;
   /usermanual/dli/dli_01_0553.html /data-lake-insight/umn/enhanced_datasource_connections/deleting_an_enhanced_datasource_connection.html;
@@ -776,7 +777,7 @@
   /usermanual/dli/dli_01_0538.html /data-lake-insight/umn/service_overview/index.html;
   /usermanual/dli/dli_07_0007.html /data-lake-insight/umn/service_overview/advantages.html;
   /usermanual/dli/dli_01_0378.html /data-lake-insight/umn/service_overview/what_is_data_lake_insight.html;
-  /usermanual/dli/dli_07_0005.html /data-lake-insight/umn/service_overview/constraints_and_limitations.html;
+  /usermanual/dli/dli_07_0005.html /data-lake-insight/umn/service_overview/notes_and_constraints.html;
   /usermanual/dli/dli_07_0003.html /data-lake-insight/umn/service_overview/basic_concepts.html;
   /usermanual/dli/dli_07_0002.html /data-lake-insight/umn/service_overview/application_scenarios.html;
   /usermanual/dli/dli_07_0009.html /data-lake-insight/umn/service_overview/quotas.html;
@@ -819,11 +820,11 @@
   /usermanual/dli/dli_01_0015.html /data-lake-insight/umn/queue_management/queue_permission_management.html;
   /usermanual/dli/dli_01_0421.html /data-lake-insight/umn/queue_management/creating_an_smn_topic.html;
   /usermanual/dli/dli_01_0443.html /data-lake-insight/umn/queue_management/modifying_the_cidr_block.html;
-  /usermanual/dli/dli_01_0487.html /data-lake-insight/umn/queue_management/elastic_queue_scaling.html;
   /usermanual/dli/dli_01_0565.html /data-lake-insight/umn/queue_management/allocating_a_queue_to_an_enterprise_project.html;
   /usermanual/dli/dli_01_0489.html /data-lake-insight/umn/queue_management/testing_address_connectivity.html;
   /usermanual/dli/dli_01_0363.html /data-lake-insight/umn/queue_management/creating_a_queue.html;
   /usermanual/dli/dli_01_0488.html /data-lake-insight/umn/queue_management/scheduling_cu_changes.html;
+  /usermanual/dli/dli_01_0487.html /data-lake-insight/umn/queue_management/elastic_scaling_of_queues.html;
   /usermanual/dli/dli_01_0022.html /data-lake-insight/umn/queue_management/managing_queue_tags.html;
   /usermanual/dli/dli_01_0375.html /data-lake-insight/umn/getting_started/creating_and_submitting_a_spark_jar_job.html;
   /usermanual/dli/dli_01_0220.html /data-lake-insight/umn/getting_started/index.html;
@@ -851,9 +852,9 @@
   /usermanual/dli/dli_03_0145.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_there_should_be_at_least_one_partition_pruning_predicate_on_partitioned_table_xx.html;
   /usermanual/dli/dli_03_0208.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_dli.html;
   /usermanual/dli/dli_03_0172.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_uquery_connector_0001invoke_dli_service_api_failed_reported_in_the_job_log_when_i_use_cdm_to_migrate_data_to_dli.html;
-  /usermanual/dli/dli_03_0209.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_dli.html;
   /usermanual/dli/dli_03_0169.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_illegalargumentexception_buffer_size_too_small.html;
   /usermanual/dli/dli_03_0173.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_org.html;
+  /usermanual/dli/dli_03_0209.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_dli.html;
   /usermanual/dli/dli_03_0210.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_the_current_account_does_not_have_permission_to_perform_this_operationthe_current_account_was_restricted.html;
   /usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.html;
   /usermanual/dli/dli_03_0190.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_cant_i_query_data_after_i_manually_add_data_to_the_partition_directory_of_an_obs_table.html;
@@ -865,9 +866,9 @@
   /usermanual/dli/dli_03_0213.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_is_a_sql_job_stuck_in_the_submitting_state.html;
   /usermanual/dli/dli_03_0013.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/the_compression_ratio_of_obs_tables_is_too_high.html;
   /usermanual/dli/dli_03_0181.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/how_do_i_fix_the_data_error_caused_by_crlf_characters_in_a_field_of_the_obs_file_used_to_create_an_external_obs_table.html;
-  /usermanual/dli/dli_03_0093.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/how_do_i_eliminate_data_skew_by_configuring_ae_parameters.html;
   /usermanual/dli/dli_03_0231.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_is_the_data_volume_changes_when_data_is_imported_from_dli_to_obs.html;
   /usermanual/dli/dli_03_0177.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_cant_i_query_table_data_after_data_is_imported_to_a_dli_partitioned_table_because_the_file_to_be_imported_does_not_contain_data_in_the_partitioning_column.html;
+  /usermanual/dli/dli_03_0093.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/how_do_i_do_when_data_skew_occurs_during_the_execution_of_a_sql_job.html;
   /usermanual/dli/dli_03_0182.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_does_a_sql_job_that_has_join_operations_stay_in_the_running_state.html;
   /usermanual/dli/dli_03_0212.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_is_all_data_overwritten_when_insert_overwrite_is_used_to_overwrite_partitioned_table.html;
   /usermanual/dli/dli_03_0196.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/how_do_i_troubleshoot_slow_sql_jobs.html;
@@ -936,7 +937,6 @@
   /usermanual/dli/dli_03_0115.html /data-lake-insight/umn/faq/product_consultation/usage/what_are_the_differences_between_mrs_spark_and_dli_spark.html;
   /usermanual/dli/dli_03_0025.html /data-lake-insight/umn/faq/product_consultation/usage/which_data_formats_does_dli_support.html;
   /usermanual/dli/dli_03_0010.html /data-lake-insight/umn/faq/product_consultation/usage/how_can_i_use_dli_if_data_is_not_uploaded_to_obs.html;
-  /usermanual/dli/dli_03_0002.html /data-lake-insight/umn/faq/product_consultation/usage/what_is_dli.html;
   /usermanual/dli/dli_03_0264.html /data-lake-insight/umn/faq/product_consultation/usage/why_is_error_failed_to_create_the_database.html;
   /usermanual/dli/dli_03_0117.html /data-lake-insight/umn/faq/product_consultation/usage/what_are_the_differences_between_dli_tables_and_obs_tables.html;
   /usermanual/dli/dli_03_0029.html /data-lake-insight/umn/faq/product_consultation/usage/where_can_dli_data_be_stored.html;
@@ -950,14 +950,13 @@
   /usermanual/dli/dli_03_0031.html /data-lake-insight/umn/faq/quota/how_do_i_view_my_quotas.html;
   /usermanual/dli/dli_03_0032.html /data-lake-insight/umn/faq/quota/how_do_i_increase_a_quota.html;
   /usermanual/dli/dli_03_0132.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/index.html;
-  /usermanual/dli/dli_03_0119.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_the_submission_fail_due_to_flink_jar_file_conflict.html;
-  /usermanual/dli/dli_03_0044.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/does_a_flink_jar_job_support_configuration_file_upload_how_do_i_upload_a_configuration_file.html;
   /usermanual/dli/dli_03_0266.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_connect_a_flink_jar_job_to_sasl_ssl.html;
   /usermanual/dli/dli_03_0165.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_is_error_message_authentication_failed_displayed_during_flink_jar_job_running.html;
   /usermanual/dli/dli_03_0161.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_a_flink_jar_job_fail_to_access_gaussdbdws_and_a_message_is_displayed_indicating_too_many_client_connections.html;
+  /usermanual/dli/dli_03_0119.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_a_flink_jar_package_conflict_result_in_submission_failure.html;
   /usermanual/dli/dli_03_0233.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_is_error_invalid_obs_bucket_name_reported_after_a_flink_job_submission_failed.html;
-  /usermanual/dli/dli_03_0038.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_configure_checkpoints_for_flink_jar_jobs_and_save_the_checkpoints_to_obs.html;
   /usermanual/dli/dli_03_0234.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/why_does_the_flink_submission_fail_due_to_hadoop_jar_file_conflict.html;
+  /usermanual/dli/dli_03_0044.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/can_i_upload_configuration_files_for_flink_jar_jobs.html;
   /usermanual/dli/dli_03_0037.html /data-lake-insight/umn/faq/flink_jobs/index.html;
   /usermanual/dli/dli_03_0048.html /data-lake-insight/umn/faq/flink_jobs/performance_tuning/how_do_i_write_data_to_different_elasticsearch_clusters_in_a_flink_job.html;
   /usermanual/dli/dli_03_0133.html /data-lake-insight/umn/faq/flink_jobs/performance_tuning/index.html;
@@ -998,3 +997,4 @@
   /usermanual/dli/dli_03_0170.html /data-lake-insight/umn/faq/queue/usage/how_does_dli_ensure_the_reliability_of_spark_jobs_when_a_queue_is_abnormal.html;
   /usermanual/dli/dli_03_0166.html /data-lake-insight/umn/faq/queue/usage/will_table_data_in_my_database_be_lost_if_i_delete_a_queue.html;
   /usermanual/dli/dli_03_0098.html /data-lake-insight/umn/faq/queue/usage/how_do_i_monitor_queue_exceptions.html;
+  /usermanual/dli/dli_03_0109.html /data-lake-insight/umn/faq/queue/usage/does_the_description_of_a_dli_queue_can_be_modified.html;
