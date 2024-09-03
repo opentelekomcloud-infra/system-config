@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-failed-zuul
+  name: eyes-on-docs-last-commit
 spec:
   concurrencyPolicy: Forbid
-  schedule: "20 * * * *"
+  schedule: "35 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
-          serviceAccount: "grafana-docs-monitoring"
+          serviceAccount: "eyes-on-docs"
           restartPolicy: OnFailure
           initContainers:
             - name: "vault-agent"
@@ -38,13 +38,13 @@ spec:
                   readOnly: true
 
           containers:
-            - name: grafana-docs-monitoring-failed-zuul
-              image: quay.io/opentelekomcloud/grafana-docs-monitoring
+            - name: eyes-on-docs-last-commit
+              image: quay.io/opentelekomcloud/eyes-on-docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 4_failed_zuul.py"
+              - "source /secrets/gdm-env; python3 6_last_commit_info.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
@@ -52,7 +52,7 @@ spec:
             - name: vault-agent-config
               configMap:
                 defaultMode: 420
-                name: grafana-docs-monitoring-vault-config
+                name: eyes-on-docs-vault-config
             - name: secrets
               emptyDir: {}
             - name: "k8-tokens"

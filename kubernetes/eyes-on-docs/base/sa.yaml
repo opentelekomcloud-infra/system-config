@@ -1,17 +1,17 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: grafana-docs-monitoring
+  name: eyes-on-docs
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: gdm-role-tokenreview-binding
+  name: eod-role-tokenreview-binding
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: system:auth-delegator
 subjects:
 - kind: ServiceAccount
-  name: grafana-docs-monitoring
-  namespace: grafana-docs-monitoring
+  name: eyes-on-docs
+  namespace: eyes-on-docs
