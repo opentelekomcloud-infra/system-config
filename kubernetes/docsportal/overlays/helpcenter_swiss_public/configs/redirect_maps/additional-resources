@@ -89,6 +89,7 @@
   /vpcep/index.html /vpc-endpoint/umn/;
   /dwaf/index.html /web-application-firewall-dedicated/umn/;
   /waf/index.html /web-application-firewall/umn/;
+  /compute.html /computing.html;
   /en-us/antiddos/index.html /anti-ddos/umn/;
   /en-us/aom/index.html /application-operations-management/umn/;
   /en-us/as/index.html /auto-scaling/umn/;
@@ -139,4 +140,5 @@
   /en-us/vpcep/index.html /vpc-endpoint/umn/;
   /en-us/dwaf/index.html /web-application-firewall-dedicated/umn/;
   /en-us/waf/index.html /web-application-firewall/umn/;
+  /en-us/compute.html /computing.html;
   /sd/doc/download/pdf/sd-usermanual.pdf /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
