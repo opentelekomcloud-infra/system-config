@@ -22,46 +22,46 @@ example usage:
     ./redirect_github.sh -d /opt/github-services/ -m /opt/otc-metadata/ -s /opt/system-config/ -g github -e public"
 
 while [[ $# -gt 0 ]]; do
-  case $1 in
-    -d|--doc-path)
-      DOC_PATH="$2"
-      shift # past argument
-      shift # past value
-      ;;
-    -m|--meta-path)
-      META_PATH="$2"
-      META_PATH=${META_PATH%/}
-      shift # past argument
-      shift # past value
-      ;;
-    -g|--git-hosting)
-      GIT_HOSTING="$2"
-      shift # past argument
-      shift # past value
-      ;;
-    -s|--systemconfig-path)
-      SYSTEM_CONFIG_PATH="$2"
-      shift # past argument
-      shift # past value
-      ;;
-    -e|--environment)
-      ENVIRONMENT="$2"
-      shift # past argument
-      shift # past value
-      ;;
-    --default)
-      DEFAULT=YES
-      shift # past argument
-      ;;
-    -h|--help)
-      echo "$usage"
-      exit
-      ;;
-    -*|--*)
-      echo "Unknown option $1"
-      exit 1
-      ;;
-  esac
+    case $1 in
+        -d|--doc-path)
+            DOC_PATH="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -m|--meta-path)
+            META_PATH="$2"
+            META_PATH=${META_PATH%/}
+            shift # past argument
+            shift # past value
+            ;;
+        -g|--git-hosting)
+            GIT_HOSTING="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -s|--systemconfig-path)
+            SYSTEM_CONFIG_PATH="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        -e|--environment)
+            ENVIRONMENT="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        --default)
+            DEFAULT=YES
+            shift # past argument
+            ;;
+        -h|--help)
+            echo "$usage"
+            exit
+            ;;
+        -*|--*)
+            echo "Unknown option $1"
+            exit 1
+            ;;
+    esac
 done
 
 # Environmental Variables
@@ -90,7 +90,7 @@ if [[ ! $options =~ (^|,)$ENVIRONMENT($|,) ]]; then
     exit 1
 fi
 
-if [ ! -d $DOC_PATH ]; then 
+if [ ! -d $DOC_PATH ]; then
     echo "Directory $DOC_PATH doesn't exist!"
     exit 1
 fi
@@ -118,7 +118,7 @@ cd $META_PATH
 if ! git diff --exit-code &> /dev/null; then
     echo Metadata repository contains local changes, exiting! ;
     exit 1;
-fi 
+fi
 
 git checkout main
 git pull
@@ -153,7 +153,7 @@ cd $SYSTEM_CONFIG_PATH;
 if ! git diff --exit-code &> /dev/null; then
     echo System Config repository contains local changes, exiting! ;
     exit 1;
-fi 
+fi
 
 git checkout main
 git pull
@@ -166,11 +166,11 @@ rm -f *.map
 rm -f *.map.new
 shopt -s nullglob
 
-for row in $(cat $META_PATH/documents/*.yaml | yq . |jq -r '.| @base64') ; do 
-    decode=$(echo $row |base64 --decode); 
-    echo $row; 
-    echo $decode; 
-    service_name=$(echo $decode | jq -r .link | cut -f2 -d"/") ; 
+for row in $(cat $META_PATH/documents/*.yaml | yq . |jq -r '.| @base64') ; do
+    decode=$(echo $row |base64 --decode);
+    echo $row;
+    echo $decode;
+    service_name=$(echo $decode | jq -r .link | cut -f2 -d"/") ;
     service_type=$(echo $decode | jq -r .service_type);
     doc_type=$(echo $decode | jq -r .type);
     echo $doc_type
@@ -185,15 +185,15 @@ for row in $(cat $META_PATH/documents/*.yaml | yq . |jq -r '.| @base64') ; do
         echo skipping service $service_type and document $doc_type
         continue ;
     fi
-    hc_old_location=$(echo $decode | jq -r .hc_location); 
-    rst_location=$(echo $decode | jq -r .rst_location); 
-    hc_new_location=$(echo $decode | jq -r .link) ; 
-    echo $service_name $hc_old_location $rst_location $hc_new_location; 
+    hc_old_location=$(echo $decode | jq -r .hc_location);
+    rst_location=$(echo $decode | jq -r .rst_location);
+    hc_new_location=$(echo $decode | jq -r .link) ;
+    echo $service_name $hc_old_location $rst_location $hc_new_location;
     if cd $DOC_PATH/$service_name/$rst_location; then
-        for file in $(find .  -name \*.rst); do 
-            hc_old_name=$(grep original_name $file | cut -f2 -d" ");  
+        for file in $(find .  -name \*.rst); do
+            hc_old_name=$(grep original_name $file | cut -f2 -d" ");
             hc_new_name=$(echo $file | cut -f2 -d"."| cut -f2- -d"/");
-            echo \ \ /$hc_old_location/$hc_old_name $hc_new_location$hc_new_name.html\; >> $DOC_PATH/redirect-$service_name.map; 
+            echo \ \ /$hc_old_location/$hc_old_name $hc_new_location$hc_new_name.html\; >> $DOC_PATH/redirect-$service_name.map;
         done;
     fi
 done
@@ -208,7 +208,7 @@ for i in *.map ; do
         pattern=$(echo $duplicate|cut -f2 -d" ")
         echo Found duplicate source for redirection: $pattern which would break redirection, forciblly removing them!
         echo $pattern
-        sed -i "\:$pattern:d" $i 
+        sed -i "\:$pattern:d" $i
     fi
 done
 
