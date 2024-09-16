@@ -15,4 +15,3 @@ subjects:
 - kind: ServiceAccount
   name: eyes-on-docs
   namespace: eyes-on-docs
-  
