@@ -8,7 +8,7 @@ labels:
       app.kubernetes.io/managed-by: "kustomize"
 
 images:
-  - name: "quay.io/opentelekomcloud/grafana-docs-monitoring"
+  - name: "quay.io/opentelekomcloud/eyes-on-docs"
     newTag: "release_0.0.1"
 
 resources:

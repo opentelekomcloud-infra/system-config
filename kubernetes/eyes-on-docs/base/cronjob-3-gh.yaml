@@ -1,15 +1,15 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-scheduler
+  name: eyes-on-docs-github
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 9 * * *"
+  schedule: "15 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
-          serviceAccount: "grafana-docs-monitoring"
+          serviceAccount: "eyes-on-docs"
           restartPolicy: OnFailure
           initContainers:
             - name: "vault-agent"
@@ -36,14 +36,15 @@ spec:
                 - mountPath: "/var/run/secrets/tokens"
                   name: "k8-tokens"
                   readOnly: true
+
           containers:
-            - name: grafana-docs-monitoring-scheduler
-              image: quay.io/opentelekomcloud/grafana-docs-monitoring
+            - name: eyes-on-docs-github
+              image: quay.io/opentelekomcloud/eyes-on-docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 9_scheduler.py"
+              - "source /secrets/gdm-env; python3 3_github_info.py"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
@@ -51,7 +52,7 @@ spec:
             - name: vault-agent-config
               configMap:
                 defaultMode: 420
-                name: grafana-docs-monitoring-vault-config
+                name: eyes-on-docs-vault-config
             - name: secrets
               emptyDir: {}
             - name: "k8-tokens"
