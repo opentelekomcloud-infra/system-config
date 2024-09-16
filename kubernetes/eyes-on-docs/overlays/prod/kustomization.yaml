@@ -10,5 +10,5 @@ configMapGenerator:
       - vault-agent.hcl
 
 images:
-  - name: "quay.io/opentelekomcloud/grafana-docs-monitoring"
+  - name: "quay.io/opentelekomcloud/eyes-on-docs"
     newTag: "release_0.1.25"
