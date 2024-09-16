@@ -5,7 +5,7 @@ resources:
   - ../../base
 
 configMapGenerator:
-  - name: grafana-docs-monitoring-vault-config
+  - name: eyes-on-docs-vault-config
     files:
       - vault-agent.hcl
 
