@@ -141,7 +141,7 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
-          - scenario20_rds.yaml
+          - scenario44_rds_instance.yaml
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
@@ -261,7 +261,7 @@ apimon_instances:
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
           - scenario18a_cluster.yaml
-          - scenario20_rds.yaml
+          - scenario44_rds_instance.yaml
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
@@ -379,7 +379,7 @@ apimon_instances:
           - scenario4_image.yaml
           - scenario21_as.yaml
           - scenario18_cce_info.yaml
-          - scenario20_rds.yaml
+          - scenario44_rds_instance.yaml
           - scenario19_simple_vpc.yaml
           - scenario2_simple_ecs.yaml
           - scenario2a_ecs_az.yaml
@@ -492,7 +492,7 @@ apimon_instances:
           - scenario1_token.yaml
           - scenario2a_ecs_az.yaml
           - scenario19_simple_vpc.yaml
-          - scenario20_rds.yaml
+          - scenario44_rds_instance.yaml
           - scenario23_ces.yaml
           - scenario2_simple_ecs.yaml
           - scenario30_domains.yaml
