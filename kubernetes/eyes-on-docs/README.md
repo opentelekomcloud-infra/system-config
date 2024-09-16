@@ -1,1 +1,1 @@
-# grafana-docs-monitoring
+# eyes-on-docs

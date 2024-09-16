@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: grafana-docs-monitoring-openissues
+  name: eyes-on-docs-openissues
 spec:
   concurrencyPolicy: Forbid
   schedule: "25 * * * *"
@@ -9,7 +9,7 @@ spec:
     spec:
       template:
         spec:
-          serviceAccount: "grafana-docs-monitoring"
+          serviceAccount: "eyes-on-docs"
           restartPolicy: OnFailure
           initContainers:
             - name: "vault-agent"
@@ -37,8 +37,8 @@ spec:
                   name: "k8-tokens"
                   readOnly: true
           containers:
-            - name: grafana-docs-monitoring-openissues
-              image: quay.io/opentelekomcloud/grafana-docs-monitoring
+            - name: eyes-on-docs-openissues
+              image: quay.io/opentelekomcloud/eyes-on-docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
@@ -51,7 +51,7 @@ spec:
             - name: vault-agent-config
               configMap:
                 defaultMode: 420
-                name: grafana-docs-monitoring-vault-config
+                name: eyes-on-docs-vault-config
             - name: secrets
               emptyDir: {}
             - name: "k8-tokens"

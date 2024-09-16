@@ -4,7 +4,7 @@ auto_auth {
     method "kubernetes" {
         mount_path = "auth/kubernetes_otcinfra2"
         config = {
-            role = "grafana-docs-monitoring"
+            role = "eyes-on-docs"
             token_path = "/var/run/secrets/tokens/vault-token"
         }
     }
