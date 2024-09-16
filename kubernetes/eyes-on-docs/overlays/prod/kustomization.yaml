@@ -5,10 +5,10 @@ resources:
   - ../../base
 
 configMapGenerator:
-  - name: grafana-docs-monitoring-vault-config
+  - name: eyes-on-docs-vault-config
     files:
       - vault-agent.hcl
 
 images:
-  - name: "quay.io/opentelekomcloud/grafana-docs-monitoring"
+  - name: "quay.io/opentelekomcloud/eyes-on-docs"
     newTag: "release_0.1.24"
