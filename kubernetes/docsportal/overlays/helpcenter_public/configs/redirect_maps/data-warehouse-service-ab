@@ -665,7 +665,7 @@
   /usermanual/dws/dws_03_0089.html /data-warehouse-service/umn/faqs/database_usage/do_i_need_to_run_vacuum_full_and_analyze_on_common_tables_periodically.html;
   /usermanual/dws/dws_03_0078.html /data-warehouse-service/umn/faqs/database_usage/how_can_i_export_the_table_structure.html;
   /usermanual/dws/dws_03_1004.html /data-warehouse-service/umn/faqs/database_usage/how_do_i_delete_duplicate_table_data.html;
-  /usermanual/dws/dws_03_2106.html /data-warehouse-service/umn/faqs/database_usage/what_are_the_schemas_starting_with_pg_toast_temp*_or_pg_temp*.html;
+  /usermanual/dws/dws_03_2106.html
   /usermanual/dws/dws_03_2124.html /data-warehouse-service/umn/faqs/database_usage/how_do_i_view_foreign_table_information.html;
   /usermanual/dws/dws_03_0186.html /data-warehouse-service/umn/faqs/database_usage/what_do_i_do_if_date_type_is_automatically_converted_to_the_timestamp_type_during_table_creation.html;
   /usermanual/dws/dws_03_0075.html /data-warehouse-service/umn/faqs/database_usage/do_i_need_to_set_a_distribution_key_after_setting_a_primary_key.html;

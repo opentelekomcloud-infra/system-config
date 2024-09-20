@@ -854,7 +854,6 @@
   /usermanual/dli/dli_03_0172.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_uquery_connector_0001invoke_dli_service_api_failed_reported_in_the_job_log_when_i_use_cdm_to_migrate_data_to_dli.html;
   /usermanual/dli/dli_03_0169.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_illegalargumentexception_buffer_size_too_small.html;
   /usermanual/dli/dli_03_0173.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_org.html;
-  /usermanual/dli/dli_03_0209.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_dli.html;
   /usermanual/dli/dli_03_0210.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_the_current_account_does_not_have_permission_to_perform_this_operationthe_current_account_was_restricted.html;
   /usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.html;
   /usermanual/dli/dli_03_0190.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/o_and_m_guide/why_cant_i_query_data_after_i_manually_add_data_to_the_partition_directory_of_an_obs_table.html;
@@ -893,7 +892,6 @@
   /usermanual/dli/dli_03_0218.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/index.html;
   /usermanual/dli/dli_03_0157.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/why_is_a_job_running_timeout_reported_when_a_spark_job_runs_a_large_amount_of_data.html;
   /usermanual/dli/dli_03_0192.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/why_does_the_job_fail_to_be_executed_due_to_insufficient_database_and_table_permissions.html;
-  /usermanual/dli/dli_03_0164.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/why_is_error_verifybucketexists_on_xxxx_status_[403]_reported_when_i_use_a_spark_job_to_access_an_obs_bucket_that_i_have_access_permission.html;
   /usermanual/dli/dli_03_0156.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/why_are_errors_responsecode_403_and_responsestatus_forbidden_reported_when_a_spark_job_accesses_obs_data.html;
   /usermanual/dli/dli_03_0188.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_o_and_m_errors/why_does_the_job_fail_to_be_executed_and_the_log_shows_that_the_file_directory_is_abnormal_when_i_use_a_spark_job_to_access_files_in_sftp.html;
   /usermanual/dli/dli_03_0219.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/o_and_m_guide/index.html;
@@ -998,3 +996,5 @@
   /usermanual/dli/dli_03_0166.html /data-lake-insight/umn/faq/queue/usage/will_table_data_in_my_database_be_lost_if_i_delete_a_queue.html;
   /usermanual/dli/dli_03_0098.html /data-lake-insight/umn/faq/queue/usage/how_do_i_monitor_queue_exceptions.html;
   /usermanual/dli/dli_03_0109.html /data-lake-insight/umn/faq/queue/usage/does_the_description_of_a_dli_queue_can_be_modified.html;
+  /usermanual/dli/dli_03_0230.html /data-lake-insight/umn/faq/queue/o_and_m_guide/index.html;
+  /usermanual/dli/dli_03_0065.html /data-lake-insight/umn/faq/queue/o_and_m_guide/how_do_i_switch_an_earlier-version_spark_queue_to_a_general-purpose_queue.html;
