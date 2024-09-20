@@ -21,6 +21,9 @@ configMapGenerator:
   - name: "api-gateway"
     files:
       - "configs/redirect_maps/api-gateway"
+  - name: "api-usage"
+    files:
+      - "configs/redirect_maps/api-usage"
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
