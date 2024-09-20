@@ -175,6 +175,7 @@
   /usermanual/er/er_01_0064.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_2_create_an_enterprise_router.html;
   /usermanual/er/er_01_0065.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_3_optional_create_vpcs_and_ecss.html;
   /usermanual/er/er_01_0067.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_5_optional_add_routes_to_vpc_route_tables.html;
+  /usermanual/er/er_01_0129.html /enterprise-router/umn/getting_started/selecting_a_networking_scheme.html;
   /usermanual/er/er_01_0045.html /enterprise-router/umn/permissions_management/index.html;
   /usermanual/er/er_01_0047.html /enterprise-router/umn/permissions_management/enterprise_router_custom_policies.html;
   /usermanual/er/er_01_0046.html /enterprise-router/umn/permissions_management/creating_a_user_and_granting_permissions.html;
@@ -365,6 +366,7 @@
   /en-us/usermanual/er/er_01_0064.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_2_create_an_enterprise_router.html;
   /en-us/usermanual/er/er_01_0065.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_3_optional_create_vpcs_and_ecss.html;
   /en-us/usermanual/er/er_01_0067.html /enterprise-router/umn/getting_started/using_an_enterprise_router_to_enable_communications_between_vpcs_in_the_same_region/step_5_optional_add_routes_to_vpc_route_tables.html;
+  /en-us/usermanual/er/er_01_0129.html /enterprise-router/umn/getting_started/selecting_a_networking_scheme.html;
   /en-us/usermanual/er/er_01_0045.html /enterprise-router/umn/permissions_management/index.html;
   /en-us/usermanual/er/er_01_0047.html /enterprise-router/umn/permissions_management/enterprise_router_custom_policies.html;
   /en-us/usermanual/er/er_01_0046.html /enterprise-router/umn/permissions_management/creating_a_user_and_granting_permissions.html;
