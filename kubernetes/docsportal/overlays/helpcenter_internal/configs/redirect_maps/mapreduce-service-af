@@ -1,7 +1,3 @@
-  /en-us/cmpntguide/mrs/mrs_01_1701.html /mapreduce-service/operation-guide/using_hdfs/faq/why_is_the_storage_type_of_file_copies_disk_when_the_tiered_storage_policy_is_lazy_persist.html;
-  /en-us/cmpntguide/mrs/mrs_01_0794.html /mapreduce-service/operation-guide/using_hdfs/running_the_distcp_command.html;
-  /en-us/cmpntguide/mrs/mrs_01_1673.html /mapreduce-service/operation-guide/using_hdfs/optimizing_hdfs_datanode_rpc_qos.html;
-  /en-us/cmpntguide/mrs/mrs_01_2356.html /mapreduce-service/operation-guide/using_dbservice/index.html;
   /en-us/cmpntguide/mrs/mrs_01_0789.html /mapreduce-service/operation-guide/using_dbservice/dbservice_log_overview.html;
   /en-us/cmpntguide/mrs/mrs_01_1807.html /mapreduce-service/operation-guide/using_oozie/index.html;
   /en-us/cmpntguide/mrs/mrs_01_1843.html /mapreduce-service/operation-guide/using_oozie/oozie_log_overview.html;
@@ -998,3 +994,7 @@
   /en-us/usermanual/mrs/ALM-12064.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
   /en-us/usermanual/mrs/ALM-16045.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
   /en-us/usermanual/mrs/ALM-12038.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
+  /en-us/usermanual/mrs/ALM-12089.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
+  /en-us/usermanual/mrs/ALM-13001.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
+  /en-us/usermanual/mrs/ALM-45595.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;
+  /en-us/usermanual/mrs/ALM-43009.html /mapreduce-service/umn/mrs_manager_operation_guide_applicable_to_3.html;

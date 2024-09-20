@@ -1,5 +1,3 @@
-  /usermanual/mrs/mrs_08_00141.html /mapreduce-service/umn/overview/components/storm/storm_basic_principles.html;
-  /usermanual/mrs/mrs_08_00142.html /mapreduce-service/umn/overview/components/storm/relationship_between_storm_and_other_components.html;
   /usermanual/mrs/mrs_08_00143.html /mapreduce-service/umn/overview/components/storm/storm_enhanced_open_source_features.html;
   /usermanual/mrs/mrs_08_0097.html /mapreduce-service/umn/overview/components/cdl/index.html;
   /usermanual/mrs/mrs_08_0099.html /mapreduce-service/umn/overview/components/cdl/relationship_between_cdl_and_other_components.html;
@@ -998,3 +996,5 @@
   /usermanual/mrs/mrs_01_0303.html /mapreduce-service/umn/managing_clusters/tenant_management/index.html;
   /usermanual/mrs/mrs_01_0304.html /mapreduce-service/umn/managing_clusters/tenant_management/overview.html;
   /usermanual/mrs/mrs_01_0312.html /mapreduce-service/umn/managing_clusters/tenant_management/deleting_a_resource_pool.html;
+  /usermanual/mrs/mrs_01_0315.html /mapreduce-service/umn/managing_clusters/tenant_management/clearing_configuration_of_a_queue.html;
+  /usermanual/mrs/mrs_01_0309.html /mapreduce-service/umn/managing_clusters/tenant_management/restoring_tenant_data.html;
