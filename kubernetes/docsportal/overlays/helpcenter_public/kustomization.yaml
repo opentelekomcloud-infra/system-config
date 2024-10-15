@@ -350,3 +350,7 @@ patches:
 
 resources:
   - ../../base
+
+replicas:
+  - name: document-hosting
+    count: 3
