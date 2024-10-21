@@ -45,10 +45,10 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "128Mi"
+        memory: "1Gi"
       requests:
-        cpu: "100m"
-        memory: "128Mi"
+        cpu: "1000m"
+        memory: "1Gi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
@@ -89,10 +89,10 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "256Mi"
+        memory: "1Gi"
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "1000m"
+        memory: "1Gi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
