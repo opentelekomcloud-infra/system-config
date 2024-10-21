@@ -930,7 +930,6 @@
   /usermanual/mrs/mrs_01_0392.html /mapreduce-service/umn/appendix/installing_the_flume_client/index.html;
   /usermanual/mrs/mrs_01_1595.html /mapreduce-service/umn/appendix/installing_the_flume_client/installing_the_flume_client_on_mrs_3.html;
   /usermanual/mrs/mrs_01_1594.html /mapreduce-service/umn/appendix/installing_the_flume_client/installing_the_flume_client_on_clusters_of_versions_earlier_than_mrs_3.html;
-  /usermanual/mrs/en-us_topic_0000001296775220.html /mapreduce-service/umn/glossary.html;
   /usermanual/mrs/ /mapreduce-service/umn/index.html;
   /usermanual/mrs/en-us_topic_0037341503.html /mapreduce-service/umn/overview/index.html;
   /usermanual/mrs/mrs_08_0027.html /mapreduce-service/umn/overview/constraints.html;
@@ -976,6 +975,9 @@
   /usermanual/mrs/mrs_08_007108.html /mapreduce-service/umn/overview/components/spark2x/spark2x_enhanced_open_source_features/carbondata_overview.html;
   /usermanual/mrs/mrs_08_007109.html /mapreduce-service/umn/overview/components/spark2x/spark2x_enhanced_open_source_features/optimizing_sql_query_of_data_of_multiple_sources.html;
   /usermanual/mrs/mrs_08_007101.html /mapreduce-service/umn/overview/components/spark2x/basic_principles_of_spark2x.html;
+  /usermanual/mrs/mrs_08_0149.html /mapreduce-service/umn/overview/components/jobgateway/index.html;
+  /usermanual/mrs/mrs_08_0150.html /mapreduce-service/umn/overview/components/jobgateway/jobgateway_basic_principles.html;
+  /usermanual/mrs/mrs_08_0152.html /mapreduce-service/umn/overview/components/jobgateway/relationships_between_jobgateway_and_other_components.html;
   /usermanual/mrs/mrs_08_0041.html /mapreduce-service/umn/overview/components/ranger/index.html;
   /usermanual/mrs/mrs_08_004102.html /mapreduce-service/umn/overview/components/ranger/relationship_between_ranger_and_other_components.html;
   /usermanual/mrs/mrs_08_00411.html /mapreduce-service/umn/overview/components/ranger/ranger_basic_principles.html;
@@ -996,5 +998,3 @@
   /usermanual/mrs/mrs_08_00133.html /mapreduce-service/umn/overview/components/kafka/kafka_enhanced_open_source_features.html;
   /usermanual/mrs/mrs_08_00131.html /mapreduce-service/umn/overview/components/kafka/kafka_basic_principles.html;
   /usermanual/mrs/mrs_08_0014.html /mapreduce-service/umn/overview/components/storm/index.html;
-  /usermanual/mrs/mrs_08_00141.html /mapreduce-service/umn/overview/components/storm/storm_basic_principles.html;
-  /usermanual/mrs/mrs_08_00142.html /mapreduce-service/umn/overview/components/storm/relationship_between_storm_and_other_components.html;
