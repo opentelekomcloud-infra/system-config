@@ -1,3 +1,17 @@
+  /en-us/usermanual/rds/rds_03_0010.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/operation_guide.html;
+  /en-us/usermanual/rds/rds_03_0014.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/index.html;
+  /en-us/usermanual/rds/en-us_topic_0053089697.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/index.html;
+  /en-us/usermanual/rds/rds_03_0008.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_private_network/index.html;
+  /en-us/usermanual/rds/rds_03_0001.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_private_network/overview.html;
+  /en-us/usermanual/rds/rds_03_0005.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_private_network/configuring_security_group_rules.html;
+  /en-us/usermanual/rds/rds_03_0013.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_private_network/connecting_to_a_db_instance_through_a_private_network.html;
+  /en-us/usermanual/rds/rds_03_0052.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/index.html;
+  /en-us/usermanual/rds/rds_03_0066.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/overview.html;
+  /en-us/usermanual/rds/rds_03_0006.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/binding_an_eip.html;
+  /en-us/usermanual/rds/rds_03_0051.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/configuring_security_group_rules.html;
+  /en-us/usermanual/rds/rds_03_0007.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_sql_server_db_instance_through_a_public_network/connecting_to_a_db_instance_through_a_public_network.html;
+  /en-us/usermanual/rds/rds_04_0060.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/connecting_to_a_db_instance.html;
+  /en-us/usermanual/rds/rds_04_0061.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_1_create_a_db_instance.html;
   /en-us/usermanual/rds/rds_01_0000.html /relational-database-service/umn/introduction/index.html;
   /en-us/usermanual/rds/rds_01_0024.html /relational-database-service/umn/introduction/typical_applications/index.html;
   /en-us/usermanual/rds/rds_01_0013.html /relational-database-service/umn/introduction/typical_applications/diversified_data_storage.html;
