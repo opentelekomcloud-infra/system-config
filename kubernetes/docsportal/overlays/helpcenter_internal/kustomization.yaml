@@ -360,3 +360,7 @@ resources:
 components:
   - components/oauth-proxy
   - components/redis
+
+replicas:
+  - name: document-hosting
+    count: 3
