@@ -44,7 +44,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 3_github_info.py"
+              - "source /secrets/gdm-env; python3 main.py --eod3"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
