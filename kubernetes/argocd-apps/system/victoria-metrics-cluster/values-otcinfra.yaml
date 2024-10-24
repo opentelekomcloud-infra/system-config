@@ -17,7 +17,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vmselect
-      tag: v1.101.0-cluster
+      tag: v1.105.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"
@@ -45,10 +45,10 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "128Mi"
+        memory: "1Gi"
       requests:
-        cpu: "100m"
-        memory: "128Mi"
+        cpu: "1000m"
+        memory: "1Gi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
@@ -62,7 +62,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vminsert
-      tag: v1.101.0-cluster
+      tag: v1.105.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"
@@ -89,10 +89,10 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "256Mi"
+        memory: "1Gi"
       requests:
-        cpu: "100m"
-        memory: "256Mi"
+        cpu: "1000m"
+        memory: "1Gi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
@@ -106,7 +106,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vmstorage
-      tag: v1.101.0-cluster
+      tag: v1.105.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"

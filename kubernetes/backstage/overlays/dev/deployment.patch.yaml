@@ -1,31 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: swift-proxy
+  name: backstage
 spec:
   template:
     spec:
-      serviceAccountName: "swift-proxy-swiss"
+      serviceAccount: "backstage"
       initContainers:
         - name: "vault-agent"
           command:
             - "sh"
             - "-c"
-            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true -log-level=debug"
+            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
           env:
             - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
           image: "vault"
-
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-                - ALL
-            readOnlyRootFilesystem: true
-            runAsGroup: 10001
-            runAsNonRoot: true
-            runAsUser: 10001
           resources:
             limits:
               cpu: "100m"
@@ -42,31 +32,33 @@ spec:
             - mountPath: "/var/run/secrets/tokens"
               name: "k8-tokens"
               readOnly: true
-            - mountPath: "/home/vault"
-              name: "home-init"
 
       containers:
-        - name: "swift-proxy"
+        - name: backstage
+          args:
+            - "node"
+            - "packages/backend"
+            - "--config"
+            - "app-config.yaml"
+            - "--config"
+            - "/secrets/app-config.production.yaml"
           volumeMounts:
-            - mountPath: "/etc/openstack"
-              name: "secrets"
+           - mountPath: "/secrets"
+             name: "secrets"
 
       volumes:
-        - emptyDir:
-            medium: "Memory"
-          name: "home-init"
-        - name: "vault-agent-config"
+        - name: vault-agent-config
           configMap:
             defaultMode: 420
-            name: "swift-proxy-vault-config"
+            name: backstage-vault-config
 
-        - name: "secrets"
+        - name: secrets
           emptyDir: {}
 
         - name: "k8-tokens"
           projected:
             defaultMode: 420
             sources:
-              - serviceAccountToken:
-                  expirationSeconds: 7200
-                  path: "vault-token"
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: "vault-token"

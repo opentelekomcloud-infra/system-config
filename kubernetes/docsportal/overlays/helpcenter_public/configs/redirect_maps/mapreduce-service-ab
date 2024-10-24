@@ -220,7 +220,6 @@
   /cmpntguide/mrs/mrs_01_1750.html /mapreduce-service/operation-guide/using_hive/switching_the_hive_execution_engine_to_tez.html;
   /cmpntguide/mrs/mrs_01_0954.html /mapreduce-service/operation-guide/using_hive/using_the_hive_column_encryption_function.html;
   /cmpntguide/mrs/mrs_01_0969.html /mapreduce-service/operation-guide/using_hive/creating_databases_and_creating_tables_in_the_default_database_only_as_the_hive_administrator.html;
-  /cmpntguide/mrs/mrs_01_2311.html /mapreduce-service/operation-guide/using_hive/hive_materialized_view.html;
   /cmpntguide/mrs/mrs_01_0582.html /mapreduce-service/operation-guide/using_hive/configuring_hive_parameters.html;
   /cmpntguide/mrs/mrs_01_0974.html /mapreduce-service/operation-guide/using_hive/hiveserver_lease_isolation.html;
   /cmpntguide/mrs/mrs_01_0975.html /mapreduce-service/operation-guide/using_hive/hive_supporting_transactions.html;
@@ -747,7 +746,6 @@
   /cmpntguide/mrs/mrs_01_1016.html /mapreduce-service/operation-guide/using_hbase/hbase_performance_tuning/optimizing_put_and_scan_performance.html;
   /cmpntguide/mrs/mrs_01_1636.html /mapreduce-service/operation-guide/using_hbase/hbase_performance_tuning/improving_the_bulkload_efficiency.html;
   /cmpntguide/mrs/mrs_01_1018.html /mapreduce-service/operation-guide/using_hbase/hbase_performance_tuning/improving_real-time_data_read_performance.html;
-  /cmpntguide/mrs/mrs_01_24119.html /mapreduce-service/operation-guide/using_hbase/geomesa_command_line.html;
   /cmpntguide/mrs/mrs_01_0443.html /mapreduce-service/operation-guide/using_hbase/configuring_hbase_parameters.html;
   /cmpntguide/mrs/mrs_01_0589.html /mapreduce-service/operation-guide/using_spark/index.html;
   /cmpntguide/mrs/mrs_01_0584.html /mapreduce-service/operation-guide/using_spark/interconnecting_spark_with_opentsdb/index.html;
@@ -932,7 +930,6 @@
   /usermanual/mrs/mrs_01_0392.html /mapreduce-service/umn/appendix/installing_the_flume_client/index.html;
   /usermanual/mrs/mrs_01_1595.html /mapreduce-service/umn/appendix/installing_the_flume_client/installing_the_flume_client_on_mrs_3.html;
   /usermanual/mrs/mrs_01_1594.html /mapreduce-service/umn/appendix/installing_the_flume_client/installing_the_flume_client_on_clusters_of_versions_earlier_than_mrs_3.html;
-  /usermanual/mrs/en-us_topic_0000001296775220.html /mapreduce-service/umn/glossary.html;
   /usermanual/mrs/ /mapreduce-service/umn/index.html;
   /usermanual/mrs/en-us_topic_0037341503.html /mapreduce-service/umn/overview/index.html;
   /usermanual/mrs/mrs_08_0027.html /mapreduce-service/umn/overview/constraints.html;
@@ -978,6 +975,9 @@
   /usermanual/mrs/mrs_08_007108.html /mapreduce-service/umn/overview/components/spark2x/spark2x_enhanced_open_source_features/carbondata_overview.html;
   /usermanual/mrs/mrs_08_007109.html /mapreduce-service/umn/overview/components/spark2x/spark2x_enhanced_open_source_features/optimizing_sql_query_of_data_of_multiple_sources.html;
   /usermanual/mrs/mrs_08_007101.html /mapreduce-service/umn/overview/components/spark2x/basic_principles_of_spark2x.html;
+  /usermanual/mrs/mrs_08_0149.html /mapreduce-service/umn/overview/components/jobgateway/index.html;
+  /usermanual/mrs/mrs_08_0150.html /mapreduce-service/umn/overview/components/jobgateway/jobgateway_basic_principles.html;
+  /usermanual/mrs/mrs_08_0152.html /mapreduce-service/umn/overview/components/jobgateway/relationships_between_jobgateway_and_other_components.html;
   /usermanual/mrs/mrs_08_0041.html /mapreduce-service/umn/overview/components/ranger/index.html;
   /usermanual/mrs/mrs_08_004102.html /mapreduce-service/umn/overview/components/ranger/relationship_between_ranger_and_other_components.html;
   /usermanual/mrs/mrs_08_00411.html /mapreduce-service/umn/overview/components/ranger/ranger_basic_principles.html;
