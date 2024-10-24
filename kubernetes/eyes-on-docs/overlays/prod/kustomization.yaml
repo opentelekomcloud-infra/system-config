@@ -10,5 +10,5 @@ configMapGenerator:
       - vault-agent.hcl
 
 images:
-  - name: "quay.io/opentelekomcloud/eyes-on-docs"
+  - name: "quay.io/opentelekomcloud/eyes_on_docs"
     newTag: "release_0.1.29"
