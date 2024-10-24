@@ -44,7 +44,7 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 4_failed_zuul.py"
+              - "source /secrets/gdm-env; python3 main.py --eod4"
               volumeMounts:
                 - mountPath: "/secrets"
                   name: "secrets"
