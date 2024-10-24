@@ -16,8 +16,8 @@ labels:
 
 images:
   - name: "docker.io/nginxinc/nginx-unprivileged"
-    newName: "quay.io/opentelekomcloud/nginx-unprivileged"
-    newTag: "1.21.6-alpine"
+    newName: "nginx"
+    newTag: "alpine3.20"
 
 patches:
   - patch: |-
