@@ -240,11 +240,11 @@ labels:
 
 images:
   - name: "docker.io/nginxinc/nginx-unprivileged"
-    newName: "quay.io/opentelekomcloud/nginx-unprivileged"
-    newTag: "1.21.6-alpine"
+    newName: "nginx"
+    newTag: "alpine3.20"
   - name: "kiwigrid/k8s-sidecar"
     newName: "quay.io/kiwigrid/k8s-sidecar"
-    newTag: "1.19.2"
+    newTag: "1.28.0"
 
 patches:
   - patch: |-
