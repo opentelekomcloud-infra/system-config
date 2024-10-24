@@ -126,5 +126,11 @@ spec:
         - name: "zuul-trusted-ro"
           emptyDir: {}
 
-        - name: "zuul-var"
-          emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: zuul-var
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 300Gi
