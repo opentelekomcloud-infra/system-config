@@ -9,7 +9,7 @@ labels:
 
 images:
   - name: "quay.io/opentelekomcloud/eyes_on_docs"
-    newTag: "release_0.0.1"
+    newTag: "0.0.1"
 
 resources:
   - cronjob-1-servicesdict.yaml
