@@ -130,7 +130,7 @@ spec:
   - metadata:
       name: zuul-var
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes: ["ReadWriteOnce"]
       resources:
         requests:
           storage: 300Gi
