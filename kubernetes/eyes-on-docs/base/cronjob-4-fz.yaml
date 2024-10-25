@@ -39,7 +39,7 @@ spec:
 
           containers:
             - name: eyes-on-docs-failed-zuul
-              image: quay.io/opentelekomcloud/eyes-on-docs
+              image: quay.io/opentelekomcloud/eyes_on_docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
