@@ -3,7 +3,7 @@ gitea_os_group: git
 gitea_os_user: git
 
 gitea_version: "1.22.3"
-gitea_checksum: "sha256:557713a50b99af8073a3607aa837091a481d12c496d0932351d2a91c0ce0054b"
+gitea_checksum: "sha256:a720ff937912a6eb6c0cacf6ebcdd774deed5197cd945ecc34f5744cb5c517e8"
 
 arch_translation:
   amd64: amd64
