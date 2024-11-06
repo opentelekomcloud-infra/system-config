@@ -27,6 +27,9 @@ configMapGenerator:
   - name: "application-performance-management"
     files:
       - "configs/redirect_maps/application-performance-management"
+  - name: "application-service-mesh"
+    files:
+      - "configs/redirect_maps/application-service-mesh"
   - name: "auto-scaling"
     files:
       - "configs/redirect_maps/auto-scaling"
@@ -60,6 +63,9 @@ configMapGenerator:
   - name: "cloud-trace-service"
     files:
       - "configs/redirect_maps/cloud-trace-service"
+  - name: "config"
+    files:
+      - "configs/redirect_maps/config"
   - name: "data-arts-studio"
     files:
       - "configs/redirect_maps/data-arts-studio"
@@ -144,6 +150,9 @@ configMapGenerator:
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
+  - name: "geminidb"
+    files:
+      - "configs/redirect_maps/geminidb"
   - name: "host-security-service"
     files:
       - "configs/redirect_maps/host-security-service"
