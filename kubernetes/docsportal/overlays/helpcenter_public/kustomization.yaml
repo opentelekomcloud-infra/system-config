@@ -144,12 +144,12 @@ configMapGenerator:
   - name: "gaussdb-mysql"
     files:
       - "configs/redirect_maps/gaussdb-mysql"
-  - name: "gaussdb-nosql"
-    files:
-      - "configs/redirect_maps/gaussdb-nosql"
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
+  - name: "geminidb"
+    files:
+      - "configs/redirect_maps/geminidb"
   - name: "host-security-service"
     files:
       - "configs/redirect_maps/host-security-service"
