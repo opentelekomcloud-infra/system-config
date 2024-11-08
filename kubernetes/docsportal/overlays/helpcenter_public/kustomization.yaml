@@ -150,9 +150,6 @@ configMapGenerator:
   - name: "gaussdb-opengauss"
     files:
       - "configs/redirect_maps/gaussdb-opengauss"
-  - name: "geminidb"
-    files:
-      - "configs/redirect_maps/geminidb"
   - name: "host-security-service"
     files:
       - "configs/redirect_maps/host-security-service"
@@ -216,9 +213,6 @@ configMapGenerator:
   - name: "relational-database-service-ab"
     files:
       - "configs/redirect_maps/relational-database-service-ab"
-  - name: "resource-management-service"
-    files:
-      - "configs/redirect_maps/resource-management-service"
   - name: "resource-template-service"
     files:
       - "configs/redirect_maps/resource-template-service"
