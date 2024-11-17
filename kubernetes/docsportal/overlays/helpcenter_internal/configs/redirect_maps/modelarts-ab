@@ -314,7 +314,7 @@
   /usermanual/modelarts/modelarts_05_0084.html /modelarts/umn/faqs/notebook_new_version/constraints/does_modelarts_support_the_caffe_engine.html;
   /usermanual/modelarts/modelarts_05_0085.html /modelarts/umn/faqs/notebook_new_version/data_storage/how_do_i_rename_an_obs_file.html;
   /usermanual/modelarts/modelarts_05_0086.html /modelarts/umn/faqs/training_jobs/compiling_the_training_code/what_is_the_common_file_path_for_training_jobs.html;
-  /usermanual/modelarts/modelarts_05_0088.html /modelarts/umn/faqs/training_jobs/compiling_the_training_code/how_do_i_install_a_library_that_c_depends_on.html;
+  /usermanual/modelarts/modelarts_05_0088.html /modelarts/umn/faqs/training_jobs/compiling_the_training_code/how_do_i_install_a_library_that_c_plus_plus_depends_on.html;
   /usermanual/modelarts/modelarts_05_0089.html /modelarts/umn/faqs/training_jobs/viewing_job_details/how_do_i_check_resource_usage_of_a_training_job.html;
   /usermanual/modelarts/modelarts_05_0090.html /modelarts/umn/faqs/training_jobs/creating_a_training_job/what_are_sizes_of_the_cache_directories_for_different_resource_specifications_in_the_training_environment.html;
   /usermanual/modelarts/modelarts_05_0091.html /modelarts/umn/faqs/training_jobs/compiling_the_training_code/how_do_i_load_some_well_trained_parameters_during_job_training.html;
