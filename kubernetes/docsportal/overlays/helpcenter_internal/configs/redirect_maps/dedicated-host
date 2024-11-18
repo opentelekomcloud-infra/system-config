@@ -77,7 +77,6 @@
   /en-us/usermanual/deh/deh_01_0026.html /dedicated-host/umn/product_introduction/basic_concepts.html;
   /en-us/usermanual/deh/deh_01_0027.html /dedicated-host/umn/product_introduction/differences_between_ecss_in_resource_pools_and_ecss_on_dehs.html;
   /en-us/usermanual/deh/deh_01_0028.html /dedicated-host/umn/ecs_management/modifying_the_specifications_of_an_ecs_on_a_deh.html;
-  /en-us/usermanual/deh/deh_01_0031.html /dedicated-host/umn/product_introduction/categories_and_types/general_computing-plus_dehs.html;
   /en-us/usermanual/deh/deh_01_0032.html /dedicated-host/umn/product_introduction/product_advantages.html;
   /en-us/usermanual/deh/deh_01_0033.html /dedicated-host/umn/ecs_management/migrating_ecss.html;
   /en-us/usermanual/deh/deh_01_0034.html /dedicated-host/umn/deh_management/adjusting_deh_resource_quotas.html;
@@ -89,7 +88,7 @@
   /en-us/usermanual/deh/deh_01_0050.html /dedicated-host/umn/permission_management/index.html;
   /en-us/usermanual/deh/deh_01_0051.html /dedicated-host/umn/permission_management/creating_a_user_and_granting_permissions.html;
   /en-us/usermanual/deh/deh_01_0052.html /dedicated-host/umn/permission_management/creating_a_custom_policy.html;
-  /en-us/usermanual/deh/deh_01_0055.html /dedicated-host/umn/product_introduction/categories_and_types/ultra-high_i_o_dehs.html;
+  /en-us/usermanual/deh/deh_01_0055.html /dedicated-host/umn/product_introduction/categories_and_types/disk-intensive_dehs.html;
   /en-us/usermanual/deh/deh_01_0056.html /dedicated-host/umn/product_introduction/categories_and_types/index.html;
   /en-us/usermanual/deh/deh_07_0000.html /dedicated-host/umn/managing_enterprise_projects.html;
   /en-us/usermanual/deh/deh_09_0000.html /dedicated-host/umn/appendixes/index.html;
@@ -147,7 +146,6 @@
   /usermanual/deh/deh_01_0026.html /dedicated-host/umn/product_introduction/basic_concepts.html;
   /usermanual/deh/deh_01_0027.html /dedicated-host/umn/product_introduction/differences_between_ecss_in_resource_pools_and_ecss_on_dehs.html;
   /usermanual/deh/deh_01_0028.html /dedicated-host/umn/ecs_management/modifying_the_specifications_of_an_ecs_on_a_deh.html;
-  /usermanual/deh/deh_01_0031.html /dedicated-host/umn/product_introduction/categories_and_types/general_computing-plus_dehs.html;
   /usermanual/deh/deh_01_0032.html /dedicated-host/umn/product_introduction/product_advantages.html;
   /usermanual/deh/deh_01_0033.html /dedicated-host/umn/ecs_management/migrating_ecss.html;
   /usermanual/deh/deh_01_0034.html /dedicated-host/umn/deh_management/adjusting_deh_resource_quotas.html;
@@ -159,7 +157,7 @@
   /usermanual/deh/deh_01_0050.html /dedicated-host/umn/permission_management/index.html;
   /usermanual/deh/deh_01_0051.html /dedicated-host/umn/permission_management/creating_a_user_and_granting_permissions.html;
   /usermanual/deh/deh_01_0052.html /dedicated-host/umn/permission_management/creating_a_custom_policy.html;
-  /usermanual/deh/deh_01_0055.html /dedicated-host/umn/product_introduction/categories_and_types/ultra-high_i_o_dehs.html;
+  /usermanual/deh/deh_01_0055.html /dedicated-host/umn/product_introduction/categories_and_types/disk-intensive_dehs.html;
   /usermanual/deh/deh_01_0056.html /dedicated-host/umn/product_introduction/categories_and_types/index.html;
   /usermanual/deh/deh_07_0000.html /dedicated-host/umn/managing_enterprise_projects.html;
   /usermanual/deh/deh_09_0000.html /dedicated-host/umn/appendixes/index.html;
