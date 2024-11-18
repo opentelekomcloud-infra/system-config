@@ -23,7 +23,7 @@ RUN  git config --global user.email "zuul@otc-service.com" && \
 
 RUN git clone https://opendev.org/zuul/zuul zuul_src && \
     cd /zuul_src && \
-    git pull https://review.opendev.org/zuul/zuul refs/changes/22/908722/1
+    git pull https://review.opendev.org/zuul/zuul refs/changes/40/859940/19
 
 FROM docker.io/library/node:16-bookworm as js-builder
 
