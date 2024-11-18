@@ -20,6 +20,7 @@ RUN apt-get update \
 
 RUN  git config --global user.email "zuul@otc-service.com" && \
      git config --global user.name "SystemConfig"
+     git config --global pull.ff only
 
 RUN git clone https://opendev.org/zuul/zuul zuul_src && \
     cd /zuul_src && \
