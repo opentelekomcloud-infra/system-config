@@ -46,7 +46,7 @@
   /api/iam/en-us_topic_0057845609.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/protocol/updating_a_protocol.html;
   /api/iam/en-us_topic_0057845611.html /identity-access-management/api-ref/apis/user_management/modifying_user_information.html;
   /api/iam/en-us_topic_0057845612.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/updating_a_saml_identity_provider.html;
-  /api/iam/en-us_topic_0057845613.html /identity-access-management/api-ref/apis/version_information_management/querying_information_about_keystone_api_version_3.html;
+  /api/iam/en-us_topic_0057845613.html /identity-access-management/api-ref/apis/version_information_management/querying_information_about_keystone_api_version_3.0.html;
   /api/iam/en-us_topic_0057845615.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/metadata/importing_a_metadata_file.html;
   /api/iam/en-us_topic_0057845616.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/protocol/querying_a_protocol.html;
   /api/iam/en-us_topic_0057845618.html /identity-access-management/api-ref/apis/user_group_management/querying_user_group_details.html;
@@ -233,7 +233,7 @@
   /en-us/api/iam/en-us_topic_0057845609.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/protocol/updating_a_protocol.html;
   /en-us/api/iam/en-us_topic_0057845611.html /identity-access-management/api-ref/apis/user_management/modifying_user_information.html;
   /en-us/api/iam/en-us_topic_0057845612.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/updating_a_saml_identity_provider.html;
-  /en-us/api/iam/en-us_topic_0057845613.html /identity-access-management/api-ref/apis/version_information_management/querying_information_about_keystone_api_version_3.html;
+  /en-us/api/iam/en-us_topic_0057845613.html /identity-access-management/api-ref/apis/version_information_management/querying_information_about_keystone_api_version_3.0.html;
   /en-us/api/iam/en-us_topic_0057845615.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/metadata/importing_a_metadata_file.html;
   /en-us/api/iam/en-us_topic_0057845616.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/protocol/querying_a_protocol.html;
   /en-us/api/iam/en-us_topic_0057845618.html /identity-access-management/api-ref/apis/user_group_management/querying_user_group_details.html;
