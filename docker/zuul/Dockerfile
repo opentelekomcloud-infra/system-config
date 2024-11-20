@@ -24,8 +24,9 @@ RUN  git config --global user.email "zuul@otc-service.com" && \
 
 RUN git clone https://opendev.org/zuul/zuul zuul_src && \
     cd /zuul_src && \
-    git pull https://review.opendev.org/zuul/zuul refs/changes/39/859939/15
+    git pull https://review.opendev.org/zuul/zuul refs/changes/39/859939/16
 
+ARG IMAGE_FLAVOR=
 FROM docker.io/library/node:16-bookworm as js-builder
 
 COPY --from=base /zuul_src/web /tmp/src
