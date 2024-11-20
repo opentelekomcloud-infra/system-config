@@ -50,7 +50,7 @@
   /tg/dws/dws_07_0107.html /data-warehouse-service/tool-guide/server_tool/gds_uninstall.html;
   /tg/dws/dws_07_0108.html /data-warehouse-service/tool-guide/server_tool/gs_sshexkey.html;
   /tg/dws/dws_07_0128.html /data-warehouse-service/tool-guide/gds/stopping_gds.html;
-  /tg/dws/dws_07_0129.html /data-warehouse-service/tool-guide/gds/gds_ctl.html;
+  /tg/dws/dws_07_0129.html /data-warehouse-service/tool-guide/gds/gds_ctl.py.html;
   /tg/dws/dws_07_0173.html /data-warehouse-service/tool-guide/change_history.html;
   /tg/dws/dws_07_0682.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/netezza_syntax_migration/index.html;
   /tg/dws/dws_07_0692.html /data-warehouse-service/tool-guide/gds/example_of_importing_data_using_gds.html;
@@ -136,9 +136,9 @@
   /tg/dws/dws_16_0076.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/migrating_views.html;
   /tg/dws/dws_16_0077.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/collect_statistics.html;
   /tg/dws/dws_16_0078.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/access_lock.html;
-  /tg/dws/dws_16_0079.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.html;
-  /tg/dws/dws_16_0080.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.html;
-  /tg/dws/dws_16_0081.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.html;
+  /tg/dws/dws_16_0079.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.columns.html;
+  /tg/dws/dws_16_0080.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.tables.html;
+  /tg/dws/dws_16_0081.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/dbc.indices.html;
   /tg/dws/dws_16_0082.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/show_stats_values_sequenced.html;
   /tg/dws/dws_16_0083.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/schema_objects_and_data_definition_language_ddl/comment.html;
   /tg/dws/dws_16_0084.html /data-warehouse-service/tool-guide/dsc/sql_syntax_migration_reference/teradata_syntax_migration/data_manipulation_language_dml/index.html;

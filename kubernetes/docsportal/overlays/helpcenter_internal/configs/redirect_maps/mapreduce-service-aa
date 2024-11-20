@@ -263,7 +263,7 @@
   /cmpntguide-lts/mrs/mrs_01_1044.html /mapreduce-service/operation-guide-lts/using_kafka/performance_tuning/kafka_performance_tuning.html;
   /cmpntguide-lts/mrs/mrs_01_1056.html /mapreduce-service/operation-guide-lts/using_hbase/hbase_log_overview.html;
   /cmpntguide-lts/mrs/mrs_01_1057.html /mapreduce-service/operation-guide-lts/using_flume/flume_service_configuration_guide.html;
-  /cmpntguide-lts/mrs/mrs_01_1058.html /mapreduce-service/operation-guide-lts/using_flume/using_environment_variables_in_the_properties.html;
+  /cmpntguide-lts/mrs/mrs_01_1058.html /mapreduce-service/operation-guide-lts/using_flume/using_environment_variables_in_the_properties.properties_file.html;
   /cmpntguide-lts/mrs/mrs_01_1059.html /mapreduce-service/operation-guide-lts/using_flume/non-encrypted_transmission/index.html;
   /cmpntguide-lts/mrs/mrs_01_1060.html /mapreduce-service/operation-guide-lts/using_flume/non-encrypted_transmission/configuring_non-encrypted_transmission.html;
   /cmpntguide-lts/mrs/mrs_01_1061.html /mapreduce-service/operation-guide-lts/using_flume/non-encrypted_transmission/typical_scenario_collecting_local_static_logs_and_uploading_them_to_kafka.html;
@@ -430,7 +430,7 @@
   /cmpntguide-lts/mrs/mrs_01_1471.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_faq/why_the_update_command_cannot_be_executed_in_spark_shell.html;
   /cmpntguide-lts/mrs/mrs_01_1472.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_faq/how_do_i_configure_unsafe_memory_in_carbondata.html;
   /cmpntguide-lts/mrs/mrs_01_1473.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_faq/why_exception_occurs_in_carbondata_when_disk_space_quota_is_set_for_storage_directory_in_hdfs.html;
-  /cmpntguide-lts/mrs/mrs_01_1474.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_faq/why_does_data_query_or_loading_fail_and_org.html;
+  /cmpntguide-lts/mrs/mrs_01_1474.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_faq/why_does_data_query_or_loading_fail_and_org.apache.carbondata.core.memory.memoryexception_not_enough_memory_is_displayed.html;
   /cmpntguide-lts/mrs/mrs_01_1565.html /mapreduce-service/operation-guide-lts/using_flink/flink_configuration_management/configuring_parameter_paths.html;
   /cmpntguide-lts/mrs/mrs_01_1566.html /mapreduce-service/operation-guide-lts/using_flink/flink_configuration_management/jobmanager_and_taskmanager.html;
   /cmpntguide-lts/mrs/mrs_01_1567.html /mapreduce-service/operation-guide-lts/using_flink/flink_configuration_management/blob.html;
@@ -481,7 +481,7 @@
   /cmpntguide-lts/mrs/mrs_01_1645.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_does_hmaster_exits_due_to_timeout_when_waiting_for_the_namespace_table_to_go_online.html;
   /cmpntguide-lts/mrs/mrs_01_1646.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_does_sockettimeoutexception_occur_when_a_client_queries_hbase.html;
   /cmpntguide-lts/mrs/mrs_01_1647.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_modified_and_deleted_data_can_still_be_queried_by_using_the_scan_command.html;
-  /cmpntguide-lts/mrs/mrs_01_1648.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_java.html;
+  /cmpntguide-lts/mrs/mrs_01_1648.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_java.lang.unsatisfiedlinkerror_permission_denied_exception_thrown_while_starting_hbase_shell.html;
   /cmpntguide-lts/mrs/mrs_01_1649.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/when_does_the_regionservers_listed_under_dead_region_servers_on_hmaster_webui_gets_cleared.html;
   /cmpntguide-lts/mrs/mrs_01_1650.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_are_different_query_results_returned_after_i_use_same_query_criteria_to_query_data_successfully_imported_by_hbase_bulkload.html;
   /cmpntguide-lts/mrs/mrs_01_1651.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/what_should_i_do_if_i_fail_to_create_tables_due_to_the_failed_open_state_of_regions.html;
@@ -515,8 +515,8 @@
   /cmpntguide-lts/mrs/mrs_01_1693.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/datanode_is_normal_but_cannot_report_data_blocks.html;
   /cmpntguide-lts/mrs/mrs_01_1694.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/hdfs_webui_cannot_properly_update_information_about_damaged_data.html;
   /cmpntguide-lts/mrs/mrs_01_1695.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_the_distcp_command_fail_in_the_secure_cluster_causing_an_exception.html;
-  /cmpntguide-lts/mrs/mrs_01_1696.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_datanode_fail_to_start_when_the_number_of_disks_specified_by_dfs.html;
-  /cmpntguide-lts/mrs/mrs_01_1697.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_an_error_occur_during_datanode_capacity_calculation_when_multiple_data.html;
+  /cmpntguide-lts/mrs/mrs_01_1696.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_datanode_fail_to_start_when_the_number_of_disks_specified_by_dfs.datanode.data.dir_equals_dfs.datanode.failed.volumes.tolerated.html;
+  /cmpntguide-lts/mrs/mrs_01_1697.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_an_error_occur_during_datanode_capacity_calculation_when_multiple_data.dir_are_configured_in_a_partition.html;
   /cmpntguide-lts/mrs/mrs_01_1698.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/standby_namenode_fails_to_be_restarted_when_the_system_is_powered_off_during_metadata_namespace_storage.html;
   /cmpntguide-lts/mrs/mrs_01_1699.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_data_in_the_buffer_is_lost_if_a_power_outage_occurs_during_storage_of_small_files.html;
   /cmpntguide-lts/mrs/mrs_01_1700.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_does_array_border-crossing_occur_during_fileinputformat_split.html;
@@ -524,7 +524,7 @@
   /cmpntguide-lts/mrs/mrs_01_1702.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/the_hdfs_client_is_unresponsive_when_the_namenode_is_overloaded_for_a_long_time.html;
   /cmpntguide-lts/mrs/mrs_01_1703.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/can_i_delete_or_modify_the_data_storage_directory_in_datanode.html;
   /cmpntguide-lts/mrs/mrs_01_1704.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/blocks_miss_on_the_namenode_ui_after_the_successful_rollback.html;
-  /cmpntguide-lts/mrs/mrs_01_1705.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_is_java.html;
+  /cmpntguide-lts/mrs/mrs_01_1705.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_is_java.net.socketexception_no_buffer_space_available_reported_when_data_is_written_to_hdfs.html;
   /cmpntguide-lts/mrs/mrs_01_1706.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/why_are_there_two_standby_namenodes_after_the_active_namenode_is_restarted.html;
   /cmpntguide-lts/mrs/mrs_01_1707.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/when_does_a_balance_process_in_hdfs_shut_down_and_fail_to_be_executed_again.html;
   /cmpntguide-lts/mrs/mrs_01_1708.html /mapreduce-service/operation-guide-lts/using_hdfs/faq/this_page_cant_be_displayed_is_displayed_when_internet_explorer_fails_to_access_the_native_hdfs_ui.html;
@@ -696,7 +696,7 @@
   /cmpntguide-lts/mrs/mrs_01_1986.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_the_spark_sql_join_operation.html;
   /cmpntguide-lts/mrs/mrs_01_1987.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/improving_spark_sql_calculation_performance_under_data_skew.html;
   /cmpntguide-lts/mrs/mrs_01_1988.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_spark_sql_performance_in_the_small_file_scenario.html;
-  /cmpntguide-lts/mrs/mrs_01_1989.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_the_insert.html;
+  /cmpntguide-lts/mrs/mrs_01_1989.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_the_insert...select_operation.html;
   /cmpntguide-lts/mrs/mrs_01_1990.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/multiple_jdbc_clients_concurrently_connecting_to_jdbcserver.html;
   /cmpntguide-lts/mrs/mrs_01_1992.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_memory_when_data_is_inserted_into_dynamic_partitioned_tables.html;
   /cmpntguide-lts/mrs/mrs_01_1995.html /mapreduce-service/operation-guide-lts/using_spark2x/spark2x_performance_tuning/spark_sql_and_dataframe_tuning/optimizing_small_files.html;
@@ -744,10 +744,10 @@
   /cmpntguide-lts/mrs/mrs_01_2039.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_no_result_is_found_when_2016-6-30_is_set_in_the_date_field_as_the_filter_condition.html;
   /cmpntguide-lts/mrs/mrs_01_2040.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_does_the_--hivevar_option_i_specified_in_the_command_for_starting_spark-beeline_fail_to_take_effect.html;
   /cmpntguide-lts/mrs/mrs_01_2041.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_does_the_permission_denied_exception_occur_when_i_create_a_temporary_table_or_view_in_spark-beeline.html;
-  /cmpntguide-lts/mrs/mrs_01_2042.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_is_the_code_of_method_.html;
+  /cmpntguide-lts/mrs/mrs_01_2042.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_is_the_code_of_method_..._grows_beyond_64_kb_error_message_displayed_when_i_run_complex_sql_statements.html;
   /cmpntguide-lts/mrs/mrs_01_2043.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_is_memory_insufficient_if_10_terabytes_of_tpcds_test_suites_are_consecutively_run_in_beeline_jdbcserver_mode.html;
   /cmpntguide-lts/mrs/mrs_01_2044.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_are_some_functions_not_available_when_another_jdbcserver_is_connected.html;
-  /cmpntguide-lts/mrs/mrs_01_2046.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_does_spark2x_have_no_access_to_datasource_tables_created_by_spark1.html;
+  /cmpntguide-lts/mrs/mrs_01_2046.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_does_spark2x_have_no_access_to_datasource_tables_created_by_spark1.5.html;
   /cmpntguide-lts/mrs/mrs_01_2047.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_sql_and_dataframe/why_does_spark-beeline_fail_to_run_and_error_message_failed_to_create_thriftservice_instance_is_displayed.html;
   /cmpntguide-lts/mrs/mrs_01_2048.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_streaming/index.html;
   /cmpntguide-lts/mrs/mrs_01_2050.html /mapreduce-service/operation-guide-lts/using_spark2x/common_issues_about_spark2x/spark_streaming/what_can_i_do_if_spark_streaming_tasks_are_blocked.html;
@@ -804,7 +804,7 @@
   /cmpntguide-lts/mrs/mrs_01_2106.html /mapreduce-service/operation-guide-lts/using_zookeeper/zookeeper_log_overview.html;
   /cmpntguide-lts/mrs/mrs_01_2107.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/index.html;
   /cmpntguide-lts/mrs/mrs_01_2108.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/why_do_zookeeper_servers_fail_to_start_after_many_znodes_are_created.html;
-  /cmpntguide-lts/mrs/mrs_01_2109.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/why_does_the_zookeeper_server_display_the_java.html;
+  /cmpntguide-lts/mrs/mrs_01_2109.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/why_does_the_zookeeper_server_display_the_java.io.ioexception_len_error_log.html;
   /cmpntguide-lts/mrs/mrs_01_2110.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/why_four_letter_commands_dont_work_with_linux_netcat_command_when_secure_netty_configurations_are_enabled_at_zookeeper_server.html;
   /cmpntguide-lts/mrs/mrs_01_2111.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/how_do_i_check_which_zookeeper_instance_is_a_leader.html;
   /cmpntguide-lts/mrs/mrs_01_2112.html /mapreduce-service/operation-guide-lts/using_zookeeper/common_issues_about_zookeeper/why_cannot_the_client_connect_to_zookeeper_using_the_ibm_jdk.html;
@@ -816,7 +816,7 @@
   /cmpntguide-lts/mrs/mrs_01_2211.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/how_do_i_deal_with_the_restrictions_of_the_phoenix_bulkload_tool.html;
   /cmpntguide-lts/mrs/mrs_01_2212.html /mapreduce-service/operation-guide-lts/using_hbase/common_issues_about_hbase/why_a_message_is_displayed_indicating_that_the_permission_is_insufficient_when_ctbase_connects_to_the_ranger_plug-ins.html;
   /cmpntguide-lts/mrs/mrs_01_2300.html /mapreduce-service/operation-guide-lts/using_ranger/common_issues_about_ranger/why_cannot_a_new_user_log_in_to_ranger_after_changing_the_password.html;
-  /cmpntguide-lts/mrs/mrs_01_2301.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_operation_guide/migrating_data_on_carbondata_from_spark1.html;
+  /cmpntguide-lts/mrs/mrs_01_2301.html /mapreduce-service/operation-guide-lts/using_carbondata/carbondata_operation_guide/migrating_data_on_carbondata_from_spark1.5_to_spark2x.html;
   /cmpntguide-lts/mrs/mrs_01_2302.html /mapreduce-service/operation-guide-lts/using_hive/redis-based_cachestore_of_hivemetastore.html;
   /cmpntguide-lts/mrs/mrs_01_2309.html /mapreduce-service/operation-guide-lts/using_hive/common_issues_about_hive/why_cannot_data_be_queried_after_the_mapreduce_engine_is_switched_after_the_tez_engine_is_used_to_execute_union-related_statements.html;
   /cmpntguide-lts/mrs/mrs_01_2310.html /mapreduce-service/operation-guide-lts/using_hive/common_issues_about_hive/why_does_hive_not_support_concurrent_data_writing_to_the_same_table_or_partition.html;
@@ -858,7 +858,7 @@
   /cmpntguide-lts/mrs/mrs_01_2392.html /mapreduce-service/operation-guide-lts/using_oozie/using_oozie_client_to_submit_an_oozie_job/submitting_a_distcp_job_with_oozie_client.html;
   /cmpntguide-lts/mrs/mrs_01_2393.html /mapreduce-service/operation-guide-lts/using_ranger/enabling_ranger_authentication.html;
   /cmpntguide-lts/mrs/mrs_01_2394.html /mapreduce-service/operation-guide-lts/using_ranger/changing_the_ranger_data_source_to_ldap_for_a_normal_cluster.html;
-  /cmpntguide-lts/mrs/mrs_01_2395.html /mapreduce-service/operation-guide-lts/using_clickhouse/user_management_and_authentication/configuring_the_password_of_the_default_account_of_a_clickhouse_clusterfor_mrs_3.html;
+  /cmpntguide-lts/mrs/mrs_01_2395.html /mapreduce-service/operation-guide-lts/using_clickhouse/user_management_and_authentication/configuring_the_password_of_the_default_account_of_a_clickhouse_clusterfor_mrs_3.1.2.html;
   /cmpntguide-lts/mrs/mrs_01_2398.html /mapreduce-service/operation-guide-lts/using_clickhouse/creating_a_clickhouse_table.html;
   /cmpntguide-lts/mrs/mrs_01_2399.html /mapreduce-service/operation-guide-lts/using_clickhouse/clickhouse_log_overview.html;
   /cmpntguide-lts/mrs/mrs_01_24010.html /mapreduce-service/operation-guide-lts/using_hetuengine/using_a_third-party_visualization_tool_to_access_hetuengine/using_tableau_to_access_hetuengine.html;
@@ -895,7 +895,7 @@
   /cmpntguide-lts/mrs/mrs_01_24057.html /mapreduce-service/operation-guide-lts/using_clickhouse/user_management_and_authentication/clickhouse_user_and_permission_management.html;
   /cmpntguide-lts/mrs/mrs_01_24061.html /mapreduce-service/operation-guide-lts/using_hetuengine/managing_data_sources/managing_an_external_data_source.html;
   /cmpntguide-lts/mrs/mrs_01_24062.html /mapreduce-service/operation-guide-lts/using_hudi/basic_operations/index.html;
-  /cmpntguide-lts/mrs/mrs_01_24063.html /mapreduce-service/operation-guide-lts/using_hudi/basic_operations/using_the_hudi_client/operating_a_hudi_table_using_hudi-cli.html;
+  /cmpntguide-lts/mrs/mrs_01_24063.html /mapreduce-service/operation-guide-lts/using_hudi/basic_operations/using_the_hudi_client/operating_a_hudi_table_using_hudi-cli.sh.html;
   /cmpntguide-lts/mrs/mrs_01_24064.html /mapreduce-service/operation-guide-lts/using_hudi/basic_operations/write/synchronizing_hudi_table_data_to_hive.html;
   /cmpntguide-lts/mrs/mrs_01_24065.html /mapreduce-service/operation-guide-lts/using_hudi/common_issues_about_hudi/index.html;
   /cmpntguide-lts/mrs/mrs_01_24069.html /mapreduce-service/operation-guide-lts/using_hudi/basic_operations/write/bootstrapping.html;
