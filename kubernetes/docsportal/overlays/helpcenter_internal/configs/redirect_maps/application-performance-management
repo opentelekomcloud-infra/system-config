@@ -78,7 +78,7 @@
   /en-us/usermanual/apm/apm_02_0003.html /application-performance-management/umn/getting_started/monitoring_java_applications/connecting_agents.html;
   /en-us/usermanual/apm/apm_02_0004.html /application-performance-management/umn/getting_started/monitoring_java_applications/manually_installing_agents_for_java_applications.html;
   /en-us/usermanual/apm/apm_02_0007.html /application-performance-management/umn/getting_started/javaagent_download_addresses.html;
-  /en-us/usermanual/apm/apm_02_0008.html /application-performance-management/umn/getting_started/access_address_master.html;
+  /en-us/usermanual/apm/apm_02_0008.html /application-performance-management/umn/getting_started/access_address_master.address.html;
   /en-us/usermanual/apm/apm_02_1002.html /application-performance-management/umn/getting_started/index.html;
   /en-us/usermanual/apm/apm_03_0001.html /application-performance-management/umn/faqs/are_apm_agents_compatible_with_other_agents_such_as_pinpoint.html;
   /en-us/usermanual/apm/apm_03_0002.html /application-performance-management/umn/faqs/what_is_apms_metric_data_sampling_policy.html;
@@ -226,7 +226,7 @@
   /usermanual/apm/apm_02_0003.html /application-performance-management/umn/getting_started/monitoring_java_applications/connecting_agents.html;
   /usermanual/apm/apm_02_0004.html /application-performance-management/umn/getting_started/monitoring_java_applications/manually_installing_agents_for_java_applications.html;
   /usermanual/apm/apm_02_0007.html /application-performance-management/umn/getting_started/javaagent_download_addresses.html;
-  /usermanual/apm/apm_02_0008.html /application-performance-management/umn/getting_started/access_address_master.html;
+  /usermanual/apm/apm_02_0008.html /application-performance-management/umn/getting_started/access_address_master.address.html;
   /usermanual/apm/apm_02_1002.html /application-performance-management/umn/getting_started/index.html;
   /usermanual/apm/apm_03_0001.html /application-performance-management/umn/faqs/are_apm_agents_compatible_with_other_agents_such_as_pinpoint.html;
   /usermanual/apm/apm_03_0002.html /application-performance-management/umn/faqs/what_is_apms_metric_data_sampling_policy.html;

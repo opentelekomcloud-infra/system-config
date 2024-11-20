@@ -209,7 +209,7 @@
   /en-us/usermanual/drs/drs_04_0026.html /data-replication-service/umn/faqs/real-time_synchronization/index.html;
   /en-us/usermanual/drs/drs_04_0028.html /data-replication-service/umn/faqs/real-time_disaster_recovery/index.html;
   /en-us/usermanual/drs/drs_04_0029.html /data-replication-service/umn/faqs/general_operations/index.html;
-  /en-us/usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.html;
+  /en-us/usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.0.html;
   /en-us/usermanual/drs/drs_04_0031.html /data-replication-service/umn/faqs/product_consulting/does_drs_support_resumable_uploads.html;
   /en-us/usermanual/drs/drs_04_0032.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_myisam_tables_are_not_supported_by_rds_for_mysql.html;
   /en-us/usermanual/drs/drs_04_0033.html /data-replication-service/umn/faqs/real-time_disaster_recovery/what_are_rpo_and_rto_of_drs_disaster_recovery.html;
@@ -494,7 +494,7 @@
   /usermanual/drs/drs_04_0026.html /data-replication-service/umn/faqs/real-time_synchronization/index.html;
   /usermanual/drs/drs_04_0028.html /data-replication-service/umn/faqs/real-time_disaster_recovery/index.html;
   /usermanual/drs/drs_04_0029.html /data-replication-service/umn/faqs/general_operations/index.html;
-  /usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.html;
+  /usermanual/drs/drs_04_0030.html /data-replication-service/umn/faqs/real-time_migration/what_are_the_precautions_for_migrating_data_from_an_earlier_version_mysql_to_mysql_8.0.html;
   /usermanual/drs/drs_04_0031.html /data-replication-service/umn/faqs/product_consulting/does_drs_support_resumable_uploads.html;
   /usermanual/drs/drs_04_0032.html /data-replication-service/umn/faqs/real-time_migration/what_can_i_do_if_myisam_tables_are_not_supported_by_rds_for_mysql.html;
   /usermanual/drs/drs_04_0033.html /data-replication-service/umn/faqs/real-time_disaster_recovery/what_are_rpo_and_rto_of_drs_disaster_recovery.html;
