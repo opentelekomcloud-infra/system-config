@@ -87,7 +87,7 @@
   /en-us/usermanual/dli/dli_03_0061.html /data-lake-insight/umn/faq/flink_jobs/flink_sql/does_data_in_the_temporary_stream_of_flink_sql_need_to_be_cleared_periodically_how_do_i_clear_the_data.html;
   /en-us/usermanual/dli/dli_03_0064.html /data-lake-insight/umn/faq/flink_jobs/o_and_m_guide/why_are_logs_not_written_to_the_obs_bucket_after_a_dli_flink_job_fails_to_be_submitted_for_running.html;
   /en-us/usermanual/dli/dli_03_0065.html /data-lake-insight/umn/faq/queue/o_and_m_guide/how_do_i_switch_an_earlier-version_spark_queue_to_a_general-purpose_queue.html;
-  /en-us/usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.id_is_ambiguous_could_be_t.id_t.id.;_displayed_when_two_tables_are_joined.html;
+  /en-us/usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.id_is_ambiguous_could_be_t.id_t.id._displayed_when_two_tables_are_joined.html;
   /en-us/usermanual/dli/dli_03_0067.html /data-lake-insight/umn/faq/permission/o_and_m_guide/why_cant_i_query_a_view_after_im_granted_the_select_table_permission_on_the_view.html;
   /en-us/usermanual/dli/dli_03_0068.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_development/how_do_i_use_jdbc_to_set_the_spark.sql.shuffle.partitions_parameter_to_improve_the_task_concurrency.html;
   /en-us/usermanual/dli/dli_03_0069.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_development/how_can_i_use_the_count_function_to_perform_aggregation.html;
@@ -228,7 +228,7 @@
   /en-us/usermanual/dli/dli_03_0260.html /data-lake-insight/umn/faq/product_consultation/privacy_and_security/does_dli_have_the_apache_spark_command_injection_vulnerability_cve-2022-33891.html;
   /en-us/usermanual/dli/dli_03_0261.html /data-lake-insight/umn/faq/product_consultation/privacy_and_security/index.html;
   /en-us/usermanual/dli/dli_03_0263.html /data-lake-insight/umn/faq/product_consultation/usage/can_a_member_account_use_global_variables_created_by_other_member_accounts.html;
-  /en-us/usermanual/dli/dli_03_0264.html /data-lake-insight/umn/faq/product_consultation/usage/why_is_error_failed_to_create_the_database._error_codedli.1028;error_msgalready_reached_the_maximum_quota_of_databasesxxx._reported.html;
+  /en-us/usermanual/dli/dli_03_0264.html /data-lake-insight/umn/faq/product_consultation/usage/why_is_error_failed_to_create_the_database._error_codedli.1028_error_msgalready_reached_the_maximum_quota_of_databasesxxx._reported.html;
   /en-us/usermanual/dli/dli_03_0265.html /data-lake-insight/umn/faq/flink_jobs/o_and_m_guide/why_is_error_timeout_expired_while_fetching_topic_metadata_repeatedly_reported_in_flink_jobmanager_logs.html;
   /en-us/usermanual/dli/dli_03_0266.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_connect_a_flink_jar_job_to_sasl_ssl.html;
   /en-us/usermanual/dli/dli_03_0276.html /data-lake-insight/umn/faq/queue/o_and_m_guide/how_can_i_check_the_actual_and_used_cus_for_an_elastic_resource_pool_as_well_as_the_required_cus_for_a_job.html;
@@ -937,7 +937,7 @@
   /usermanual/dli/dli_03_0061.html /data-lake-insight/umn/faq/flink_jobs/flink_sql/does_data_in_the_temporary_stream_of_flink_sql_need_to_be_cleared_periodically_how_do_i_clear_the_data.html;
   /usermanual/dli/dli_03_0064.html /data-lake-insight/umn/faq/flink_jobs/o_and_m_guide/why_are_logs_not_written_to_the_obs_bucket_after_a_dli_flink_job_fails_to_be_submitted_for_running.html;
   /usermanual/dli/dli_03_0065.html /data-lake-insight/umn/faq/queue/o_and_m_guide/how_do_i_switch_an_earlier-version_spark_queue_to_a_general-purpose_queue.html;
-  /usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.id_is_ambiguous_could_be_t.id_t.id.;_displayed_when_two_tables_are_joined.html;
+  /usermanual/dli/dli_03_0066.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_o_and_m_errors/why_is_error_sql_analysis_error_reference_t.id_is_ambiguous_could_be_t.id_t.id._displayed_when_two_tables_are_joined.html;
   /usermanual/dli/dli_03_0067.html /data-lake-insight/umn/faq/permission/o_and_m_guide/why_cant_i_query_a_view_after_im_granted_the_select_table_permission_on_the_view.html;
   /usermanual/dli/dli_03_0068.html /data-lake-insight/umn/faq/problems_related_to_spark_jobs/job_development/how_do_i_use_jdbc_to_set_the_spark.sql.shuffle.partitions_parameter_to_improve_the_task_concurrency.html;
   /usermanual/dli/dli_03_0069.html /data-lake-insight/umn/faq/problems_related_to_sql_jobs/job_development/how_can_i_use_the_count_function_to_perform_aggregation.html;
