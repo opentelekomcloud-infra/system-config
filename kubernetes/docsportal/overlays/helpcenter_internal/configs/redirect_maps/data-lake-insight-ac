@@ -78,7 +78,7 @@
   /usermanual/dli/dli_03_0260.html /data-lake-insight/umn/faq/product_consultation/privacy_and_security/does_dli_have_the_apache_spark_command_injection_vulnerability_cve-2022-33891.html;
   /usermanual/dli/dli_03_0261.html /data-lake-insight/umn/faq/product_consultation/privacy_and_security/index.html;
   /usermanual/dli/dli_03_0263.html /data-lake-insight/umn/faq/product_consultation/usage/can_a_member_account_use_global_variables_created_by_other_member_accounts.html;
-  /usermanual/dli/dli_03_0264.html /data-lake-insight/umn/faq/product_consultation/usage/why_is_error_failed_to_create_the_database._error_codedli.1028;error_msgalready_reached_the_maximum_quota_of_databasesxxx._reported.html;
+  /usermanual/dli/dli_03_0264.html /data-lake-insight/umn/faq/product_consultation/usage/why_is_error_failed_to_create_the_database._error_codedli.1028_error_msgalready_reached_the_maximum_quota_of_databasesxxx._reported.html;
   /usermanual/dli/dli_03_0265.html /data-lake-insight/umn/faq/flink_jobs/o_and_m_guide/why_is_error_timeout_expired_while_fetching_topic_metadata_repeatedly_reported_in_flink_jobmanager_logs.html;
   /usermanual/dli/dli_03_0266.html /data-lake-insight/umn/faq/flink_jobs/flink_jar_jobs/how_do_i_connect_a_flink_jar_job_to_sasl_ssl.html;
   /usermanual/dli/dli_03_0276.html /data-lake-insight/umn/faq/queue/o_and_m_guide/how_can_i_check_the_actual_and_used_cus_for_an_elastic_resource_pool_as_well_as_the_required_cus_for_a_job.html;
