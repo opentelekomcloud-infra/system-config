@@ -374,7 +374,7 @@
   /en-us/usermanual/dms/kafka_faq_0054.html /distributed-message-service/umn/faqs/specification_modification/will_data_migration_be_involved_when_i_increase_specifications.html;
   /en-us/usermanual/dms/kafka_faq_0056.html /distributed-message-service/umn/faqs/specification_modification/why_does_message_production_fail_during_scaling.html;
   /en-us/usermanual/dms/kafka_faq_0057.html /distributed-message-service/umn/faqs/specification_modification/what_can_i_do_when_i_fail_to_increase_specifications_due_to_insufficient_resources.html;
-  /en-us/usermanual/dms/kafka_faq_0058.html /distributed-message-service/umn/faqs/messages/how_do_i_modify_message.html;
+  /en-us/usermanual/dms/kafka_faq_0058.html /distributed-message-service/umn/faqs/messages/how_do_i_modify_message.max.bytes.html;
   /en-us/usermanual/dms/kafka_faq_0059.html /distributed-message-service/umn/faqs/consumer_groups/why_does_a_deleted_consumer_group_still_exist.html;
   /en-us/usermanual/dms/kafka_faq_0060.html /distributed-message-service/umn/faqs/consumer_groups/why_cant_i_view_consumers_when_instance_consumption_is_normal.html;
   /en-us/usermanual/dms/kafka_faq_0061.html /distributed-message-service/umn/faqs/connections/why_is_it_not_recommended_to_use_a_sarama_client_for_messaging.html;
@@ -545,7 +545,7 @@
   /usermanual/dms/kafka_faq_0054.html /distributed-message-service/umn/faqs/specification_modification/will_data_migration_be_involved_when_i_increase_specifications.html;
   /usermanual/dms/kafka_faq_0056.html /distributed-message-service/umn/faqs/specification_modification/why_does_message_production_fail_during_scaling.html;
   /usermanual/dms/kafka_faq_0057.html /distributed-message-service/umn/faqs/specification_modification/what_can_i_do_when_i_fail_to_increase_specifications_due_to_insufficient_resources.html;
-  /usermanual/dms/kafka_faq_0058.html /distributed-message-service/umn/faqs/messages/how_do_i_modify_message.html;
+  /usermanual/dms/kafka_faq_0058.html /distributed-message-service/umn/faqs/messages/how_do_i_modify_message.max.bytes.html;
   /usermanual/dms/kafka_faq_0059.html /distributed-message-service/umn/faqs/consumer_groups/why_does_a_deleted_consumer_group_still_exist.html;
   /usermanual/dms/kafka_faq_0060.html /distributed-message-service/umn/faqs/consumer_groups/why_cant_i_view_consumers_when_instance_consumption_is_normal.html;
   /usermanual/dms/kafka_faq_0061.html /distributed-message-service/umn/faqs/connections/why_is_it_not_recommended_to_use_a_sarama_client_for_messaging.html;
