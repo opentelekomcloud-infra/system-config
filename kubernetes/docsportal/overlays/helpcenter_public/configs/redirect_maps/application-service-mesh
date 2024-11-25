@@ -35,10 +35,10 @@
   /en-us/usermanual/asm/asm_01_0087.html /application-service-mesh/umn/user_guide/security/index.html;
   /en-us/usermanual/asm/asm_01_0088.html /application-service-mesh/umn/user_guide/security/configuring_a_security_policy.html;
   /en-us/usermanual/asm/asm_01_0091.html /application-service-mesh/umn/user_guide/mesh_configuration/istio_resource_management/index.html;
-  /en-us/usermanual/asm/asm_01_0095.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.html;
+  /en-us/usermanual/asm/asm_01_0095.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.15.html;
   /en-us/usermanual/asm/asm_01_0096.html /application-service-mesh/umn/user_guide/security/jwt_authentication_principles.html;
   /en-us/usermanual/asm/asm_01_0097.html /application-service-mesh/umn/user_guide/security/authenticating_jwt_requests_on_the_ingress_gateway_using_asm.html;
-  /en-us/usermanual/asm/asm_01_0124.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.html;
+  /en-us/usermanual/asm/asm_01_0124.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.18.html;
   /en-us/usermanual/asm/asm_01_0133.html /application-service-mesh/umn/user_guide/mesh_management/service_mesh_events.html;
   /en-us/usermanual/asm/asm_bestpractice_0003.html /application-service-mesh/umn/best_practices/upgrading_data_plane_sidecars_without_service_interruption.html;
   /en-us/usermanual/asm/asm_bestpractice_1009.html /application-service-mesh/umn/best_practices/how_do_i_create_a_service_mesh_with_ipv4_ipv6_dual_stack_enabled.html;
@@ -136,10 +136,10 @@
   /usermanual/asm/asm_01_0087.html /application-service-mesh/umn/user_guide/security/index.html;
   /usermanual/asm/asm_01_0088.html /application-service-mesh/umn/user_guide/security/configuring_a_security_policy.html;
   /usermanual/asm/asm_01_0091.html /application-service-mesh/umn/user_guide/mesh_configuration/istio_resource_management/index.html;
-  /usermanual/asm/asm_01_0095.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.html;
+  /usermanual/asm/asm_01_0095.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.15.html;
   /usermanual/asm/asm_01_0096.html /application-service-mesh/umn/user_guide/security/jwt_authentication_principles.html;
   /usermanual/asm/asm_01_0097.html /application-service-mesh/umn/user_guide/security/authenticating_jwt_requests_on_the_ingress_gateway_using_asm.html;
-  /usermanual/asm/asm_01_0124.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.html;
+  /usermanual/asm/asm_01_0124.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/features_in_v1.18.html;
   /usermanual/asm/asm_01_0133.html /application-service-mesh/umn/user_guide/mesh_management/service_mesh_events.html;
   /usermanual/asm/asm_bestpractice_0003.html /application-service-mesh/umn/best_practices/upgrading_data_plane_sidecars_without_service_interruption.html;
   /usermanual/asm/asm_bestpractice_1009.html /application-service-mesh/umn/best_practices/how_do_i_create_a_service_mesh_with_ipv4_ipv6_dual_stack_enabled.html;

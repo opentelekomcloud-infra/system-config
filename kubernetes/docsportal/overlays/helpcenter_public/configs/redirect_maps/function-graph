@@ -74,7 +74,7 @@
   /api/functiongraph/functiongraph_06_0220.html /function-graph/api-ref/calling_apis/response.html;
   /api/functiongraph/functiongraph_06_0230.html /function-graph/api-ref/calling_apis/authentication.html;
   /api/functiongraph/functiongraph_06_0260.html /function-graph/api-ref/appendix/obtaining_a_project_id.html;
-  /api/functiongraph/functiongraph_06_1018.html /function-graph/api-ref/apis/function_lifecycle_management/updating_max.html;
+  /api/functiongraph/functiongraph_06_1018.html /function-graph/api-ref/apis/function_lifecycle_management/updating_max._instances_of_a_function.html;
   /api/functiongraph/functiongraph_06_1021.html /function-graph/api-ref/apis/function_lifecycle_management/querying_resources.html;
   /api/functiongraph/functiongraph_06_1022.html /function-graph/api-ref/apis/function_lifecycle_management/querying_resource_tags.html;
   /api/functiongraph/functiongraph_06_1023.html /function-graph/api-ref/apis/function_lifecycle_management/creating_resource_tags.html;
@@ -171,7 +171,7 @@
   /en-us/api/functiongraph/functiongraph_06_0220.html /function-graph/api-ref/calling_apis/response.html;
   /en-us/api/functiongraph/functiongraph_06_0230.html /function-graph/api-ref/calling_apis/authentication.html;
   /en-us/api/functiongraph/functiongraph_06_0260.html /function-graph/api-ref/appendix/obtaining_a_project_id.html;
-  /en-us/api/functiongraph/functiongraph_06_1018.html /function-graph/api-ref/apis/function_lifecycle_management/updating_max.html;
+  /en-us/api/functiongraph/functiongraph_06_1018.html /function-graph/api-ref/apis/function_lifecycle_management/updating_max._instances_of_a_function.html;
   /en-us/api/functiongraph/functiongraph_06_1021.html /function-graph/api-ref/apis/function_lifecycle_management/querying_resources.html;
   /en-us/api/functiongraph/functiongraph_06_1022.html /function-graph/api-ref/apis/function_lifecycle_management/querying_resource_tags.html;
   /en-us/api/functiongraph/functiongraph_06_1023.html /function-graph/api-ref/apis/function_lifecycle_management/creating_resource_tags.html;
@@ -252,7 +252,7 @@
   /en-us/usermanual/functiongraph/functiongraph_01_1441.html /function-graph/umn/building_functions/creating_a_function_from_scratch/creating_an_event_function.html;
   /en-us/usermanual/functiongraph/functiongraph_01_1442.html /function-graph/umn/building_functions/creating_a_function_from_scratch/creating_an_http_function.html;
   /en-us/usermanual/functiongraph/functiongraph_01_1814.html /function-graph/umn/invoking_the_function/retry_mechanism.html;
-  /en-us/usermanual/functiongraph/functiongraph_01_1822.html /function-graph/umn/before_you_start/supported_programming_languages/node.html;
+  /en-us/usermanual/functiongraph/functiongraph_01_1822.html /function-graph/umn/before_you_start/supported_programming_languages/node.js.html;
   /en-us/usermanual/functiongraph/functiongraph_01_1823.html /function-graph/umn/before_you_start/supported_programming_languages/python.html;
   /en-us/usermanual/functiongraph/functiongraph_01_1824.html /function-graph/umn/before_you_start/supported_programming_languages/java.html;
   /en-us/usermanual/functiongraph/functiongraph_01_1825.html /function-graph/umn/before_you_start/supported_programming_languages/go.html;
@@ -328,9 +328,9 @@
   /en-us/usermanual/functiongraph/functiongraph_03_0846.html /function-graph/umn/faqs/general_faqs/how_do_i_obtain_uploaded_files.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0847.html /function-graph/umn/faqs/dependency_management_faqs/what_are_the_precautions_for_using_a_dependency.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0848.html /function-graph/umn/faqs/general_faqs/why_cant_i_receive_responses_for_synchronous_invocation.html;
-  /en-us/usermanual/functiongraph/functiongraph_03_0849.html /function-graph/umn/faqs/general_faqs/what_should_i_do_if_the_os.html;
+  /en-us/usermanual/functiongraph/functiongraph_03_0849.html /function-graph/umn/faqs/general_faqs/what_should_i_do_if_the_os.systemcommand_and_execution_logs_are_not_collected.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0855.html /function-graph/umn/faqs/general_faqs/which_directories_can_be_accessed_when_a_custom_runtime_is_used.html;
-  /en-us/usermanual/functiongraph/functiongraph_03_0856.html /function-graph/umn/faqs/general_faqs/which_minor_versions_of_python_3.html;
+  /en-us/usermanual/functiongraph/functiongraph_03_0856.html /function-graph/umn/faqs/general_faqs/which_minor_versions_of_python_3.6_and_3.9_are_supported.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0857.html /function-graph/umn/faqs/general_faqs/which_actions_can_be_used_instead_of_a_vpc_administrator_agency_for_vpc_access.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0858.html /function-graph/umn/faqs/general_faqs/can_i_change_a_functions_name.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0859.html /function-graph/umn/faqs/general_faqs/what_are_the_possible_causes_for_function_timeout.html;
@@ -341,7 +341,7 @@
   /en-us/usermanual/functiongraph/functiongraph_03_0871.html /function-graph/umn/faqs/general_faqs/how_do_i_obtain_the_code_of_a_function.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0872.html /function-graph/umn/faqs/general_faqs/how_does_a_container_image_based_function_resolve_a_private_dns_domain_name.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0874.html /function-graph/umn/faqs/trigger_management_faqs/can_i_create_an_obs_trigger_with_an_existing_bucket.html;
-  /en-us/usermanual/functiongraph/functiongraph_03_0875.html /function-graph/umn/faqs/function_execution_faqs/after_i_updated_an_image_with_the_same_name_reserved_instances_still_use_the_old_image.html;
+  /en-us/usermanual/functiongraph/functiongraph_03_0875.html /function-graph/umn/faqs/function_execution_faqs/after_i_updated_an_image_with_the_same_name_reserved_instances_still_use_the_old_image._what_can_i_do.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0882.html /function-graph/umn/faqs/general_faqs/do_you_have_sample_code_for_initializers.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0883.html /function-graph/umn/faqs/dependency_management_faqs/index.html;
   /en-us/usermanual/functiongraph/functiongraph_03_0884.html /function-graph/umn/faqs/general_faqs/how_do_i_enable_structured_log_query.html;
@@ -417,7 +417,7 @@
   /usermanual/functiongraph/functiongraph_01_1441.html /function-graph/umn/building_functions/creating_a_function_from_scratch/creating_an_event_function.html;
   /usermanual/functiongraph/functiongraph_01_1442.html /function-graph/umn/building_functions/creating_a_function_from_scratch/creating_an_http_function.html;
   /usermanual/functiongraph/functiongraph_01_1814.html /function-graph/umn/invoking_the_function/retry_mechanism.html;
-  /usermanual/functiongraph/functiongraph_01_1822.html /function-graph/umn/before_you_start/supported_programming_languages/node.html;
+  /usermanual/functiongraph/functiongraph_01_1822.html /function-graph/umn/before_you_start/supported_programming_languages/node.js.html;
   /usermanual/functiongraph/functiongraph_01_1823.html /function-graph/umn/before_you_start/supported_programming_languages/python.html;
   /usermanual/functiongraph/functiongraph_01_1824.html /function-graph/umn/before_you_start/supported_programming_languages/java.html;
   /usermanual/functiongraph/functiongraph_01_1825.html /function-graph/umn/before_you_start/supported_programming_languages/go.html;
@@ -493,9 +493,9 @@
   /usermanual/functiongraph/functiongraph_03_0846.html /function-graph/umn/faqs/general_faqs/how_do_i_obtain_uploaded_files.html;
   /usermanual/functiongraph/functiongraph_03_0847.html /function-graph/umn/faqs/dependency_management_faqs/what_are_the_precautions_for_using_a_dependency.html;
   /usermanual/functiongraph/functiongraph_03_0848.html /function-graph/umn/faqs/general_faqs/why_cant_i_receive_responses_for_synchronous_invocation.html;
-  /usermanual/functiongraph/functiongraph_03_0849.html /function-graph/umn/faqs/general_faqs/what_should_i_do_if_the_os.html;
+  /usermanual/functiongraph/functiongraph_03_0849.html /function-graph/umn/faqs/general_faqs/what_should_i_do_if_the_os.systemcommand_and_execution_logs_are_not_collected.html;
   /usermanual/functiongraph/functiongraph_03_0855.html /function-graph/umn/faqs/general_faqs/which_directories_can_be_accessed_when_a_custom_runtime_is_used.html;
-  /usermanual/functiongraph/functiongraph_03_0856.html /function-graph/umn/faqs/general_faqs/which_minor_versions_of_python_3.html;
+  /usermanual/functiongraph/functiongraph_03_0856.html /function-graph/umn/faqs/general_faqs/which_minor_versions_of_python_3.6_and_3.9_are_supported.html;
   /usermanual/functiongraph/functiongraph_03_0857.html /function-graph/umn/faqs/general_faqs/which_actions_can_be_used_instead_of_a_vpc_administrator_agency_for_vpc_access.html;
   /usermanual/functiongraph/functiongraph_03_0858.html /function-graph/umn/faqs/general_faqs/can_i_change_a_functions_name.html;
   /usermanual/functiongraph/functiongraph_03_0859.html /function-graph/umn/faqs/general_faqs/what_are_the_possible_causes_for_function_timeout.html;
@@ -506,7 +506,7 @@
   /usermanual/functiongraph/functiongraph_03_0871.html /function-graph/umn/faqs/general_faqs/how_do_i_obtain_the_code_of_a_function.html;
   /usermanual/functiongraph/functiongraph_03_0872.html /function-graph/umn/faqs/general_faqs/how_does_a_container_image_based_function_resolve_a_private_dns_domain_name.html;
   /usermanual/functiongraph/functiongraph_03_0874.html /function-graph/umn/faqs/trigger_management_faqs/can_i_create_an_obs_trigger_with_an_existing_bucket.html;
-  /usermanual/functiongraph/functiongraph_03_0875.html /function-graph/umn/faqs/function_execution_faqs/after_i_updated_an_image_with_the_same_name_reserved_instances_still_use_the_old_image.html;
+  /usermanual/functiongraph/functiongraph_03_0875.html /function-graph/umn/faqs/function_execution_faqs/after_i_updated_an_image_with_the_same_name_reserved_instances_still_use_the_old_image._what_can_i_do.html;
   /usermanual/functiongraph/functiongraph_03_0882.html /function-graph/umn/faqs/general_faqs/do_you_have_sample_code_for_initializers.html;
   /usermanual/functiongraph/functiongraph_03_0883.html /function-graph/umn/faqs/dependency_management_faqs/index.html;
   /usermanual/functiongraph/functiongraph_03_0884.html /function-graph/umn/faqs/general_faqs/how_do_i_enable_structured_log_query.html;

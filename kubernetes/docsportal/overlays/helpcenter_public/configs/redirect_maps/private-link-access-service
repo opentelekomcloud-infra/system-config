@@ -40,7 +40,7 @@
   /en-us/usermanual/plas/en-us_topic_0092087628.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_ethernet_vpn_global_aka_plas_scc_or_plas_ethernet_connect_international.html;
   /en-us/usermanual/plas/en-us_topic_0092087629.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_mpls_aka_plas_vpn.html;
   /en-us/usermanual/plas/en-us_topic_0092087630.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_cloud_exchange_aka_plas_cx.html;
-  /en-us/usermanual/plas/en-us_topic_0092087631.html /private-link-access-service/umn/faqs/plas_options/i_need_a_full_10g_link_from_my_data_center_to_open_telekom_cloud.html;
+  /en-us/usermanual/plas/en-us_topic_0092087631.html /private-link-access-service/umn/faqs/plas_options/i_need_a_full_10g_link_from_my_data_center_to_open_telekom_cloud._how_can_i_do_this.html;
   /en-us/usermanual/plas/en-us_topic_0092087632.html /private-link-access-service/umn/faqs/plas_options/i_need_access_with_100_gbit_s_capacity.html;
   /en-us/usermanual/plas/en-us_topic_0092087633.html /private-link-access-service/umn/faqs/plas_options/what_bandwidths_are_available_to_order.html;
   /en-us/usermanual/plas/en-us_topic_0092087634.html /private-link-access-service/umn/faqs/plas_options/can_i_get_access_to_other_cloud_providers_via_plas.html;
@@ -51,7 +51,7 @@
   /en-us/usermanual/plas/en-us_topic_0092087639.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_secure_cloud_connect.html;
   /en-us/usermanual/plas/en-us_topic_0092087640.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_intraselect_cloud_connect.html;
   /en-us/usermanual/plas/en-us_topic_0092087641.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_bandwidths_are_provided_by_plas_mpls_and_intraselect_cloud_connect.html;
-  /en-us/usermanual/plas/en-us_topic_0092087642.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/there_are_two_different_pops_in_the_plas_mpls_dialog.html;
+  /en-us/usermanual/plas/en-us_topic_0092087642.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/there_are_two_different_pops_in_the_plas_mpls_dialog._can_i_use_both_for_redundancy.html;
   /en-us/usermanual/plas/en-us_topic_0092087643.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_equinix_cloud_exchange.html;
   /en-us/usermanual/plas/en-us_topic_0092087644.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/is_it_possible_to_work_with_my_preferred_network_provider_and_not_with_deutsche_telekom_products.html;
   /en-us/usermanual/plas/en-us_topic_0092087645.html /private-link-access-service/umn/faqs/architectural_details/index.html;
@@ -125,7 +125,7 @@
   /usermanual/plas/en-us_topic_0092087628.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_ethernet_vpn_global_aka_plas_scc_or_plas_ethernet_connect_international.html;
   /usermanual/plas/en-us_topic_0092087629.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_mpls_aka_plas_vpn.html;
   /usermanual/plas/en-us_topic_0092087630.html /private-link-access-service/umn/faqs/plas_options/what_is_plas_cloud_exchange_aka_plas_cx.html;
-  /usermanual/plas/en-us_topic_0092087631.html /private-link-access-service/umn/faqs/plas_options/i_need_a_full_10g_link_from_my_data_center_to_open_telekom_cloud.html;
+  /usermanual/plas/en-us_topic_0092087631.html /private-link-access-service/umn/faqs/plas_options/i_need_a_full_10g_link_from_my_data_center_to_open_telekom_cloud._how_can_i_do_this.html;
   /usermanual/plas/en-us_topic_0092087632.html /private-link-access-service/umn/faqs/plas_options/i_need_access_with_100_gbit_s_capacity.html;
   /usermanual/plas/en-us_topic_0092087633.html /private-link-access-service/umn/faqs/plas_options/what_bandwidths_are_available_to_order.html;
   /usermanual/plas/en-us_topic_0092087634.html /private-link-access-service/umn/faqs/plas_options/can_i_get_access_to_other_cloud_providers_via_plas.html;
@@ -136,7 +136,7 @@
   /usermanual/plas/en-us_topic_0092087639.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_secure_cloud_connect.html;
   /usermanual/plas/en-us_topic_0092087640.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_intraselect_cloud_connect.html;
   /usermanual/plas/en-us_topic_0092087641.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_bandwidths_are_provided_by_plas_mpls_and_intraselect_cloud_connect.html;
-  /usermanual/plas/en-us_topic_0092087642.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/there_are_two_different_pops_in_the_plas_mpls_dialog.html;
+  /usermanual/plas/en-us_topic_0092087642.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/there_are_two_different_pops_in_the_plas_mpls_dialog._can_i_use_both_for_redundancy.html;
   /usermanual/plas/en-us_topic_0092087643.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/what_is_equinix_cloud_exchange.html;
   /usermanual/plas/en-us_topic_0092087644.html /private-link-access-service/umn/faqs/network_products_that_can_be_used_to_connect_to_open_telekom_cloud/is_it_possible_to_work_with_my_preferred_network_provider_and_not_with_deutsche_telekom_products.html;
   /usermanual/plas/en-us_topic_0092087645.html /private-link-access-service/umn/faqs/architectural_details/index.html;

@@ -8,7 +8,7 @@
   /usermanual2/cce/cce_10_0674.html /cloud-container-engine/umn/scheduling/index.html;
   /usermanual2/cce/cce_10_0675.html /cloud-container-engine/umn/network/container_network/pod_network_settings/index.html;
   /usermanual2/cce/cce_10_0677.html /cloud-container-engine/umn/network/container_network/tunnel_network_settings/index.html;
-  /usermanual2/cce/cce_10_0678.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.html;
+  /usermanual2/cce/cce_10_0678.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.0_settings/index.html;
   /usermanual2/cce/cce_10_0680.html /cloud-container-engine/umn/network/container_network/vpc_network_settings/adding_a_container_cidr_block_for_a_cluster.html;
   /usermanual2/cce/cce_10_0681.html /cloud-container-engine/umn/network/service/loadbalancer/creating_a_loadbalancer_service.html;
   /usermanual2/cce/cce_10_0683.html /cloud-container-engine/umn/network/service/loadbalancer/configuring_http_https_for_a_loadbalancer_service.html;
@@ -34,7 +34,7 @@
   /usermanual2/cce/cce_10_0728.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_tolerance_policies.html;
   /usermanual2/cce/cce_10_0729.html /cloud-container-engine/umn/network/service/loadbalancer/configuring_timeout_for_a_loadbalancer_service.html;
   /usermanual2/cce/cce_10_0730.html /cloud-container-engine/umn/network/ingresses/loadbalancer_ingresses/configuring_timeout_for_a_loadbalancer_ingress.html;
-  /usermanual2/cce/cce_10_0734.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.html;
+  /usermanual2/cce/cce_10_0734.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.0_settings/configuring_an_eip_for_a_pod.html;
   /usermanual2/cce/cce_10_0766.html /cloud-container-engine/umn/scheduling/volcano_scheduling/resource_usage-based_scheduling/descheduling.html;
   /usermanual2/cce/cce_10_0767.html /cloud-container-engine/umn/scheduling/volcano_scheduling/resource_usage-based_scheduling/node_pool_affinity.html;
   /usermanual2/cce/cce_10_0768.html /cloud-container-engine/umn/scheduling/volcano_scheduling/resource_usage-based_scheduling/index.html;
@@ -59,9 +59,9 @@
   /usermanual2/cce/cce_10_0883.html /cloud-container-engine/umn/nodes/node_o_and_m/differences_between_cce_node_mountpath_configurations_and_community_native_configurations.html;
   /usermanual2/cce/cce_10_0886.html /cloud-container-engine/umn/node_pools/managing_a_node_pool/accepting_nodes_in_a_node_pool.html;
   /usermanual2/cce/cce_10_0896.html /cloud-container-engine/umn/network/ingresses/loadbalancer_ingresses/configuring_a_custom_header_forwarding_policy_for_a_loadbalancer_ingress.html;
-  /usermanual2/cce/cce_10_0897.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.html;
+  /usermanual2/cce/cce_10_0897.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.0_settings/binding_a_security_group_to_a_pod_using_an_annotation.html;
   /usermanual2/cce/cce_10_0904.html /cloud-container-engine/umn/network/container_network/vpc_network_settings/index.html;
-  /usermanual2/cce/cce_10_0906.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.html;
+  /usermanual2/cce/cce_10_0906.html /cloud-container-engine/umn/network/container_network/cloud_native_network_2.0_settings/adding_a_pod_subnet_for_a_cluster.html;
   /usermanual2/cce/cce_10_0907.html /cloud-container-engine/umn/add-ons/scheduling_and_elasticity_add-ons/index.html;
   /usermanual2/cce/cce_10_0908.html /cloud-container-engine/umn/add-ons/cloud_native_observability_add-ons/index.html;
   /usermanual2/cce/cce_10_0909.html /cloud-container-engine/umn/add-ons/cloud_native_heterogeneous_computing_add-ons/index.html;
@@ -108,7 +108,7 @@
   /usermanual2/cce/cce_bestpractice_0055.html /cloud-container-engine/umn/best_practice/permission/index.html;
   /usermanual2/cce/cce_bestpractice_0059.html /cloud-container-engine/umn/best_practice/migration/migrating_kubernetes_clusters_to_cce/procedure/migrating_resources_outside_a_cluster.html;
   /usermanual2/cce/cce_bestpractice_0090.html /cloud-container-engine/umn/best_practice/auto_scaling/index.html;
-  /usermanual2/cce/cce_bestpractice_0107.html /cloud-container-engine/umn/best_practice/storage/changing_the_storage_class_used_by_a_cluster_of_v1.html;
+  /usermanual2/cce/cce_bestpractice_0107.html /cloud-container-engine/umn/best_practice/storage/changing_the_storage_class_used_by_a_cluster_of_v1.15_from_flexvolume_to_csi_everest.html;
   /usermanual2/cce/cce_bestpractice_0307.html /cloud-container-engine/umn/best_practice/migration/migrating_kubernetes_clusters_to_cce/solution_overview.html;
   /usermanual2/cce/cce_bestpractice_0310.html /cloud-container-engine/umn/best_practice/migration/migrating_kubernetes_clusters_to_cce/procedure/installing_the_migration_tool.html;
   /usermanual2/cce/cce_bestpractice_0312.html /cloud-container-engine/umn/best_practice/migration/migrating_kubernetes_clusters_to_cce/procedure/updating_resources_accordingly.html;
@@ -153,14 +153,14 @@
   /usermanual2/cce/cce_bestpractice_10041.html /cloud-container-engine/umn/best_practice/networking/retaining_the_original_ip_address_of_a_pod.html;
   /usermanual2/cce/cce_bulletin_0000.html /cloud-container-engine/umn/product_bulletin/index.html;
   /usermanual2/cce/cce_bulletin_0011.html /cloud-container-engine/umn/product_bulletin/security_vulnerability_responses/vulnerability_fixing_policies.html;
-  /usermanual2/cce/cce_bulletin_0026.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
-  /usermanual2/cce/cce_bulletin_0027.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
+  /usermanual2/cce/cce_bulletin_0026.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.21_eom_release_notes.html;
+  /usermanual2/cce/cce_bulletin_0027.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.23_release_notes.html;
   /usermanual2/cce/cce_bulletin_0033.html /cloud-container-engine/umn/product_bulletin/kubernetes_version_policy.html;
-  /usermanual2/cce/cce_bulletin_0058.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
-  /usermanual2/cce/cce_bulletin_0059.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
+  /usermanual2/cce/cce_bulletin_0058.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.25_release_notes.html;
+  /usermanual2/cce/cce_bulletin_0059.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.27_release_notes.html;
   /usermanual2/cce/cce_bulletin_0061.html /cloud-container-engine/umn/product_bulletin/cce_console_upgrade.html;
-  /usermanual2/cce/cce_bulletin_0068.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
-  /usermanual2/cce/cce_bulletin_0089.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
+  /usermanual2/cce/cce_bulletin_0068.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.28_release_notes.html;
+  /usermanual2/cce/cce_bulletin_0089.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.29_release_notes.html;
   /usermanual2/cce/cce_bulletin_0169.html /cloud-container-engine/umn/product_bulletin/security_vulnerability_responses/index.html;
   /usermanual2/cce/cce_bulletin_0206.html /cloud-container-engine/umn/product_bulletin/security_vulnerability_responses/notice_on_fixing_linux_kernel_sack_vulnerabilities.html;
   /usermanual2/cce/cce_faq_0000.html /cloud-container-engine/umn/faqs/index.html;
@@ -296,5 +296,5 @@
   /usermanual2/cce/cce_qs_0007.html /cloud-container-engine/umn/getting_started/deploying_wordpress_and_mysql_that_depend_on_each_other/index.html;
   /usermanual2/cce/cce_qs_0008.html /cloud-container-engine/umn/getting_started/creating_a_kubernetes_cluster.html;
   /usermanual2/cce/cce_qs_0009.html /cloud-container-engine/umn/getting_started/deploying_wordpress_and_mysql_that_depend_on_each_other/overview.html;
-  /usermanual2/cce/cce_whsnew_0007.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
-  /usermanual2/cce/cce_whsnew_0010.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.html;
+  /usermanual2/cce/cce_whsnew_0007.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.17_eom_release_notes.html;
+  /usermanual2/cce/cce_whsnew_0010.html /cloud-container-engine/umn/clusters/cluster_overview/kubernetes_version_release_notes/kubernetes_1.19_eom_release_notes.html;
