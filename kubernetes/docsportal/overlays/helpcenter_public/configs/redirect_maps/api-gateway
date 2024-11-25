@@ -591,7 +591,7 @@
   /en-us/usermanual/apig/apig-faq-19122003.html /api-gateway/umn/faqs/api_calling/is_there_a_limit_on_the_size_of_the_response_to_an_api_request.html;
   /en-us/usermanual/apig/apig-faq-19122004.html /api-gateway/umn/faqs/api_calling/why_doesnt_modification_of_the_backend_timeout_parameter_take_effect.html;
   /en-us/usermanual/apig/apig-faq-19123001.html /api-gateway/umn/faqs/api_calling/how_will_the_requests_for_an_api_with_multiple_backend_policies_be_matched_and_executed.html;
-  /en-us/usermanual/apig/apig-faq-19123002.html /api-gateway/umn/faqs/api_calling/what_should_i_do_if_the_api_does_not_exist_or_has_not_been_published_in_the_environment.html;
+  /en-us/usermanual/apig/apig-faq-19123002.html /api-gateway/umn/faqs/api_calling/what_should_i_do_if_the_api_does_not_exist_or_has_not_been_published_in_the_environment._is_displayed.html;
   /en-us/usermanual/apig/apig-faq-2005001.html /api-gateway/umn/faqs/api_creation/how_do_i_define_response_codes_for_an_api.html;
   /en-us/usermanual/apig/apig-faq-2005002.html /api-gateway/umn/faqs/api_creation/how_do_i_specify_the_host_port_for_a_vpc_channel_or_load_balance_channel.html;
   /en-us/usermanual/apig/apig-faq-2005003.html /api-gateway/umn/faqs/api_creation/can_i_specify_a_private_network_load_balancer_address_for_the_backend_service.html;
@@ -757,7 +757,7 @@
   /usermanual/apig/apig-faq-19122003.html /api-gateway/umn/faqs/api_calling/is_there_a_limit_on_the_size_of_the_response_to_an_api_request.html;
   /usermanual/apig/apig-faq-19122004.html /api-gateway/umn/faqs/api_calling/why_doesnt_modification_of_the_backend_timeout_parameter_take_effect.html;
   /usermanual/apig/apig-faq-19123001.html /api-gateway/umn/faqs/api_calling/how_will_the_requests_for_an_api_with_multiple_backend_policies_be_matched_and_executed.html;
-  /usermanual/apig/apig-faq-19123002.html /api-gateway/umn/faqs/api_calling/what_should_i_do_if_the_api_does_not_exist_or_has_not_been_published_in_the_environment.html;
+  /usermanual/apig/apig-faq-19123002.html /api-gateway/umn/faqs/api_calling/what_should_i_do_if_the_api_does_not_exist_or_has_not_been_published_in_the_environment._is_displayed.html;
   /usermanual/apig/apig-faq-2005001.html /api-gateway/umn/faqs/api_creation/how_do_i_define_response_codes_for_an_api.html;
   /usermanual/apig/apig-faq-2005002.html /api-gateway/umn/faqs/api_creation/how_do_i_specify_the_host_port_for_a_vpc_channel_or_load_balance_channel.html;
   /usermanual/apig/apig-faq-2005003.html /api-gateway/umn/faqs/api_creation/can_i_specify_a_private_network_load_balancer_address_for_the_backend_service.html;

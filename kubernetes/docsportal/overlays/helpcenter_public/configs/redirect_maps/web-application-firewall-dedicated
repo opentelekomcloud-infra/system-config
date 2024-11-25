@@ -336,7 +336,7 @@
   /en-us/usermanual/dwaf/waf_01_1311.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/what_do_i_do_if_the_protocol_is_not_supported_and_the_client_and_server_do_not_support_common_ssl_protocol_versions_or_cipher_suites.html;
   /en-us/usermanual/dwaf/waf_01_1346.html /web-application-firewall-dedicated/umn/connecting_a_website_to_waf/connecting_a_website_to_waf_dedicated_mode/step_5_test_dedicated_waf_instances.html;
   /en-us/usermanual/dwaf/waf_01_1372.html /web-application-firewall-dedicated/umn/monitoring_and_auditing/monitored_metrics.html;
-  /en-us/usermanual/dwaf/waf_01_3243.html /web-application-firewall-dedicated/umn/faqs/website_connect_issues/why_am_i_seeing_the_someone_else_has_already_added_this_domain_name.html;
+  /en-us/usermanual/dwaf/waf_01_3243.html /web-application-firewall-dedicated/umn/faqs/website_connect_issues/why_am_i_seeing_the_someone_else_has_already_added_this_domain_name._please_confirm_that_the_domain_name_belongs_to_you_error_message.html;
   /en-us/usermanual/dwaf/waf_01_3271.html /web-application-firewall-dedicated/umn/configuring_protection_policies/condition_field_description.html;
   /en-us/usermanual/dwaf/waf_01_3274.html /web-application-firewall-dedicated/umn/website_settings/recommended_configurations_after_website_connection/index.html;
   /en-us/usermanual/dwaf/waf_01_3276.html /web-application-firewall-dedicated/umn/object_management/index.html;
@@ -479,7 +479,7 @@
   /usermanual/dwaf/waf_01_1311.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/what_do_i_do_if_the_protocol_is_not_supported_and_the_client_and_server_do_not_support_common_ssl_protocol_versions_or_cipher_suites.html;
   /usermanual/dwaf/waf_01_1346.html /web-application-firewall-dedicated/umn/connecting_a_website_to_waf/connecting_a_website_to_waf_dedicated_mode/step_5_test_dedicated_waf_instances.html;
   /usermanual/dwaf/waf_01_1372.html /web-application-firewall-dedicated/umn/monitoring_and_auditing/monitored_metrics.html;
-  /usermanual/dwaf/waf_01_3243.html /web-application-firewall-dedicated/umn/faqs/website_connect_issues/why_am_i_seeing_the_someone_else_has_already_added_this_domain_name.html;
+  /usermanual/dwaf/waf_01_3243.html /web-application-firewall-dedicated/umn/faqs/website_connect_issues/why_am_i_seeing_the_someone_else_has_already_added_this_domain_name._please_confirm_that_the_domain_name_belongs_to_you_error_message.html;
   /usermanual/dwaf/waf_01_3271.html /web-application-firewall-dedicated/umn/configuring_protection_policies/condition_field_description.html;
   /usermanual/dwaf/waf_01_3274.html /web-application-firewall-dedicated/umn/website_settings/recommended_configurations_after_website_connection/index.html;
   /usermanual/dwaf/waf_01_3276.html /web-application-firewall-dedicated/umn/object_management/index.html;

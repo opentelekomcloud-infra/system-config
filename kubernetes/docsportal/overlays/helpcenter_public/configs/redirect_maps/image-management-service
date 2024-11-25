@@ -37,9 +37,9 @@
   /api/ims/en-us_topic_0060804959.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_images_native_openstack_api.html;
   /api/ims/en-us_topic_0060804960.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/updating_image_information_native_openstack_api.html;
   /api/ims/en-us_topic_0066978719.html /image-management-service/api-ref/native_openstack_apis/api_version_query_native_openstack_api/querying_api_versions_native_openstack_api.html;
-  /api/ims/en-us_topic_0066978720.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_details_native_openstack_api_v1.html;
+  /api/ims/en-us_topic_0066978720.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_details_native_openstack_api_v1.1_abandoned_and_not_recommended.html;
   /api/ims/en-us_topic_0066978721.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_metadata_native_openstack_api_v1_abandoned_and_not_recommended.html;
-  /api/ims/en-us_topic_0066978722.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/deleting_an_image_native_openstack_api_v1.html;
+  /api/ims/en-us_topic_0066978722.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/deleting_an_image_native_openstack_api_v1.1_abandoned_and_not_recommended.html;
   /api/ims/en-us_topic_0067360381.html /image-management-service/api-ref/ims_apis/image_tagging/adding_or_modifying_a_tag.html;
   /api/ims/en-us_topic_0067360382.html /image-management-service/api-ref/ims_apis/image_tagging/querying_tags.html;
   /api/ims/en-us_topic_0083905788.html /image-management-service/api-ref/ims_apis/image/creating_a_data_disk_image_using_an_external_image_file.html;
@@ -139,9 +139,9 @@
   /en-us/api/ims/en-us_topic_0060804959.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_images_native_openstack_api.html;
   /en-us/api/ims/en-us_topic_0060804960.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/updating_image_information_native_openstack_api.html;
   /en-us/api/ims/en-us_topic_0066978719.html /image-management-service/api-ref/native_openstack_apis/api_version_query_native_openstack_api/querying_api_versions_native_openstack_api.html;
-  /en-us/api/ims/en-us_topic_0066978720.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_details_native_openstack_api_v1.html;
+  /en-us/api/ims/en-us_topic_0066978720.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_details_native_openstack_api_v1.1_abandoned_and_not_recommended.html;
   /en-us/api/ims/en-us_topic_0066978721.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/querying_image_metadata_native_openstack_api_v1_abandoned_and_not_recommended.html;
-  /en-us/api/ims/en-us_topic_0066978722.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/deleting_an_image_native_openstack_api_v1.html;
+  /en-us/api/ims/en-us_topic_0066978722.html /image-management-service/api-ref/native_openstack_apis/image_native_openstack_apis/deleting_an_image_native_openstack_api_v1.1_abandoned_and_not_recommended.html;
   /en-us/api/ims/en-us_topic_0067360381.html /image-management-service/api-ref/ims_apis/image_tagging/adding_or_modifying_a_tag.html;
   /en-us/api/ims/en-us_topic_0067360382.html /image-management-service/api-ref/ims_apis/image_tagging/querying_tags.html;
   /en-us/api/ims/en-us_topic_0083905788.html /image-management-service/api-ref/ims_apis/image/creating_a_data_disk_image_using_an_external_image_file.html;
