@@ -61,7 +61,8 @@ RUN /output/install-from-bindep \
   && curl -L $OPENSHIFT_URL -o /tmp/openshift-install/openshift-client.tgz \
   && cd /tmp/openshift-install/ \
   && echo $OPENSHIFT_SHA /tmp/openshift-install/openshift-client.tgz | sha256sum --check \
-  && tar xvfz openshift-client.tgz --strip-components=1 -C /tmp/openshift-install
+  && tar xvfz openshift-client.tgz --strip-components=1 -C /tmp/openshift-install \
+  && ls -l /tmp/openshift-install
 
 FROM docker.io/opendevorg/python-base:3.11-bookworm as zuul
 ENV DEBIAN_FRONTEND=noninteractive
