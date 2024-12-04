@@ -40,7 +40,7 @@ RUN cd /tmp/src && yarn install -d && yarn build
 
 # We need skopeo >=v1.14.0 to negotioate with newer docker; once this
 # is available in debian we can drop the custom build.
-FROM golang:1.22-bookworm as go-builder
+FROM docker.io/library/golang:1.22-bookworm as go-builder
 
 # Keep this in sync with zuul-jobs ensure-skopeo
 ARG SKOPEO_VERSION=v1.14.2
