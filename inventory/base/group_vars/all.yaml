@@ -89,9 +89,7 @@ all_users:
 
   yustina:
     comment: Yustina Kvrivishvili
-    key:
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB1lH/ys0iubRq+IyDJeGC/S7RozWSrDjcHJVPgnlqLg yustina
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFwzTUNRK7xx0DnHcOSzV1Jex6etN+kQ7ekDZ3uLI4Z yustina@RDES00PD
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFwzTUNRK7xx0DnHcOSzV1Jex6etN+kQ7ekDZ3uLI4Z yustina@RDES00PD
     uid: 2033
     gid: 2033
 
