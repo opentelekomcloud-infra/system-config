@@ -54,11 +54,11 @@ images:
     newTag: "change_1157_change_859940"
 
   - name: "zuul/nodepool-builder"
-    newName: "quay.io/opentelekomcloud/nodepool-builder"
+    newName: "quay.io/zuul-ci/nodepool-launcher"
     newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
-    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newName: "quay.io/zuul-ci/nodepool-launcher"
     newTag: "11.0.0"
 
 patches:
