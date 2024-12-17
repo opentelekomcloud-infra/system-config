@@ -1,0 +1,59 @@
+---
+# In order to enable access to HashiCorp Vault inside jobs it is required to
+# provide a base vault token in the executor. It is done by spinning additional
+# vault-agent sidecar container which only writes vault access token with
+# specified role (and strictly limited privileges) to the specified location,
+# from which trusted jobs can read it and further use as defined by jobs.
+apiVersion: apps/v1
+kind: not-used
+metadata:
+  name: not-used
+spec:
+  template:
+    spec:
+      containers:
+        - name: "vault-agent-executor-base"
+          args:
+            - vault agent -config=/vault/configs/executor-base-vault-agent.hcl
+          command:
+            - "/bin/sh"
+            - "-ec"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+            - name: "VAULT_LOG_LEVEL"
+              value: "debug"
+            - name: "VAULT_LOG_FORMAT"
+              value: "standard"
+          image: "hashicorp/vault"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            # For some weird reason we need to have content as root, otherwise
+            # zuul executor (ansible) is not able to access file
+          resources:
+            limits:
+              memory: "64Mi"
+            requests:
+              cpu: "5m"
+              memory: "64Mi"
+          volumeMounts:
+            - mountPath: "/home/vault"
+              name: "home-vault-base"
+            - mountPath: "/var/run/secrets/kubernetes.io/serviceaccount"
+              name: "kube-api-access"
+              readOnly: true
+            - mountPath: "/vault/configs"
+              name: "vault-config"
+              readOnly: true
+            - mountPath: "/var/run/zuul/trusted-ro"
+              # since we want to populate it - no readonly
+              name: "zuul-trusted-ro"
+
+      volumes:
+        - name: "home-vault-base"
+          emptyDir:
+            medium: "Memory"
