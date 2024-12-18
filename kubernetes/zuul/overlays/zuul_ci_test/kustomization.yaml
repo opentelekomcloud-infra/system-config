@@ -54,7 +54,7 @@ images:
     newTag: "change_1157_change_859940"
 
   - name: "zuul/nodepool-builder"
-    newName: "quay.io/zuul-ci/nodepool-launcher"
+    newName: "quay.io/zuul-ci/nodepool-builder"
     newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
