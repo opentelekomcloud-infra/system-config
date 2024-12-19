@@ -46,7 +46,7 @@ variables=/var/run/zuul/vars/site-vars.yaml
 prometheus_port=9091
 
 [database]
-{{- with secret "database/static-creds/zuul-static" }}
+{{- with secret "database/static-creds/zuul-static-test" }}
 dburi=postgresql://{{ .Data.username }}:{{ .Data.password }}@192.168.21.196:5432/zuul?sslmode=require
 {{- end }}
 
