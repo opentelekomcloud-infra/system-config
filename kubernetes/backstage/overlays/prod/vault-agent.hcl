@@ -111,7 +111,7 @@ integrations:
 {{- with secret "secret/data/backstage/gitea" }}
     - host: gitea.eco.tsi-dev.otc-service.com
       username: {{ .Data.data.username }}
-      password: {{ .Data.data.token }}
+      password: {{ .Data.data.botToken }}
 {{- end }}
   github:
     - host: github.com
