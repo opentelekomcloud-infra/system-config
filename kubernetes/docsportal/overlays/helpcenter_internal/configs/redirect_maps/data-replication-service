@@ -194,6 +194,7 @@
   /en-us/usermanual/drs/drs_03_1131.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/forcibly_stopping_synchronization_of_gaussdb_distributed.html;
   /en-us/usermanual/drs/drs_03_1134.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/editing_subscription_task_information.html;
   /en-us/usermanual/drs/drs_03_1135.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/modifying_connection_information.html;
+  /en-us/usermanual/drs/drs_03_1138.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/modifying_connection_information.html;
   /en-us/usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /en-us/usermanual/drs/drs_04_0002.html /data-replication-service/umn/backup_migration/task_management/viewing_task_details.html;
   /en-us/usermanual/drs/drs_04_0003.html /data-replication-service/umn/backup_migration/task_management/viewing_migration_logs.html;
@@ -218,6 +219,7 @@
   /en-us/usermanual/drs/drs_04_0041.html /data-replication-service/umn/faqs/backup_migration/what_should_i_do_if_the_last_backup_file_is_incorrectly_selected_in_the_backup_migration_scenario.html;
   /en-us/usermanual/drs/drs_04_0087.html /data-replication-service/umn/faqs/product_consulting/what_are_the_differences_between_real-time_migration_real-time_dr_and_real-time_synchronization.html;
   /en-us/usermanual/drs/drs_04_0088.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_mysql.html;
+  /en-us/usermanual/drs/drs_04_0089.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_ddm.html;
   /en-us/usermanual/drs/drs_04_0090.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_gaussdbfor_mysql_primary_standby.html;
   /en-us/usermanual/drs/drs_04_0095.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mongodb_to_dds.html;
   /en-us/usermanual/drs/drs_04_0100.html /data-replication-service/umn/real-time_migration/out_of_the_cloud/from_mysql_to_mysql.html;
@@ -225,6 +227,7 @@
   /en-us/usermanual/drs/drs_04_0102.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_mysql.html;
   /en-us/usermanual/drs/drs_04_0104.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdb_distributed.html;
   /en-us/usermanual/drs/drs_04_0107.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_postgresql_to_postgresql.html;
+  /en-us/usermanual/drs/drs_04_0115.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_mysql.html;
   /en-us/usermanual/drs/drs_04_0117.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_mysql_to_mysql.html;
   /en-us/usermanual/drs/drs_04_0118.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_mysql_to_kafka.html;
   /en-us/usermanual/drs/drs_04_0121.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_gaussdb_distributed_to_mysql.html;
@@ -235,6 +238,7 @@
   /en-us/usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /en-us/usermanual/drs/drs_04_0451.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/index.html;
   /en-us/usermanual/drs/drs_04_0452.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/index.html;
+  /en-us/usermanual/drs/drs_04_0453.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_ddm_to_mysql.html;
   /en-us/usermanual/drs/drs_04_0457.html /data-replication-service/umn/faqs/backup_migration/index.html;
   /en-us/usermanual/drs/drs_04_0458.html /data-replication-service/umn/faqs/backup_migration/manual_configuration.html;
   /en-us/usermanual/drs/drs_04_0465.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_ddm.html;
@@ -479,6 +483,7 @@
   /usermanual/drs/drs_03_1131.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/forcibly_stopping_synchronization_of_gaussdb_distributed.html;
   /usermanual/drs/drs_03_1134.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/editing_subscription_task_information.html;
   /usermanual/drs/drs_03_1135.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/modifying_connection_information.html;
+  /usermanual/drs/drs_03_1138.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/modifying_connection_information.html;
   /usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /usermanual/drs/drs_04_0002.html /data-replication-service/umn/backup_migration/task_management/viewing_task_details.html;
   /usermanual/drs/drs_04_0003.html /data-replication-service/umn/backup_migration/task_management/viewing_migration_logs.html;
@@ -503,6 +508,7 @@
   /usermanual/drs/drs_04_0041.html /data-replication-service/umn/faqs/backup_migration/what_should_i_do_if_the_last_backup_file_is_incorrectly_selected_in_the_backup_migration_scenario.html;
   /usermanual/drs/drs_04_0087.html /data-replication-service/umn/faqs/product_consulting/what_are_the_differences_between_real-time_migration_real-time_dr_and_real-time_synchronization.html;
   /usermanual/drs/drs_04_0088.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_mysql.html;
+  /usermanual/drs/drs_04_0089.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_ddm.html;
   /usermanual/drs/drs_04_0090.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mysql_to_gaussdbfor_mysql_primary_standby.html;
   /usermanual/drs/drs_04_0095.html /data-replication-service/umn/real-time_migration/to_the_cloud/from_mongodb_to_dds.html;
   /usermanual/drs/drs_04_0100.html /data-replication-service/umn/real-time_migration/out_of_the_cloud/from_mysql_to_mysql.html;
@@ -510,6 +516,7 @@
   /usermanual/drs/drs_04_0102.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_mysql.html;
   /usermanual/drs/drs_04_0104.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_gaussdb_distributed.html;
   /usermanual/drs/drs_04_0107.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_postgresql_to_postgresql.html;
+  /usermanual/drs/drs_04_0115.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_mysql.html;
   /usermanual/drs/drs_04_0117.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_mysql_to_mysql.html;
   /usermanual/drs/drs_04_0118.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_mysql_to_kafka.html;
   /usermanual/drs/drs_04_0121.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_gaussdb_distributed_to_mysql.html;
@@ -520,6 +527,7 @@
   /usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /usermanual/drs/drs_04_0451.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/index.html;
   /usermanual/drs/drs_04_0452.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/index.html;
+  /usermanual/drs/drs_04_0453.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/from_ddm_to_mysql.html;
   /usermanual/drs/drs_04_0457.html /data-replication-service/umn/faqs/backup_migration/index.html;
   /usermanual/drs/drs_04_0458.html /data-replication-service/umn/faqs/backup_migration/manual_configuration.html;
   /usermanual/drs/drs_04_0465.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_ddm_to_ddm.html;

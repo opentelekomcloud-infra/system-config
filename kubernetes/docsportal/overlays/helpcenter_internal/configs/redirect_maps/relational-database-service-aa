@@ -493,6 +493,7 @@
   /en-us/usermanual/rds/rds_10_0105.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/resetting_a_parameter_template.html;
   /en-us/usermanual/rds/rds_10_0106.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/modifying_a_parameter_template_description.html;
   /en-us/usermanual/rds/rds_10_0107.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/deleting_a_parameter_template.html;
+  /en-us/usermanual/rds/rds_11_0000.html /relational-database-service/umn/best_practices/index.html;
   /en-us/usermanual/rds/rds_11_0004.html /relational-database-service/umn/working_with_rds_for_sql_server/data_security/configuring_the_tde_function.html;
   /en-us/usermanual/rds/rds_11_0006.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/rebooting_db_instances_or_read_replicas.html;
   /en-us/usermanual/rds/rds_11_0009.html /relational-database-service/umn/working_with_rds_for_mysql/connection_management/configuring_a_security_group_rule.html;
@@ -644,10 +645,13 @@
   /en-us/usermanual/rds/rds_pg_08_0042.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/exporting_a_parameter_template.html;
   /en-us/usermanual/rds/rds_pg_10_0000.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/index.html;
   /en-us/usermanual/rds/rds_pg_10_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/suggestions_on_postgresql_parameter_tuning.html;
+  /en-us/usermanual/rds/rds_pg_11_0000.html /relational-database-service/umn/best_practices/rds_for_postgresql/index.html;
   /en-us/usermanual/rds/rds_pg_11_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/index.html;
   /en-us/usermanual/rds/rds_pg_11_0002.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/introducing_read_replicas.html;
   /en-us/usermanual/rds/rds_pg_11_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/managing_a_read_replica.html;
   /en-us/usermanual/rds/rds_pg_11_0005.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/connecting_to_a_db_instance_through_pgadmin.html;
+  /en-us/usermanual/rds/rds_pg_11_0011.html /relational-database-service/umn/best_practices/rds_for_postgresql/security_best_practices.html;
+  /en-us/usermanual/rds/rds_pg_11_0029.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/configuring_ssl_encryption.html;
   /en-us/usermanual/rds/rds_pg_backup_restore.html /relational-database-service/umn/working_with_rds_for_postgresql/backups_and_restorations/working_with_backups.html;
   /en-us/usermanual/rds/rds_pg_change_database_port.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/changing_a_database_port.html;
   /en-us/usermanual/rds/rds_pg_configuration.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/modifying_instance_parameters.html;
@@ -901,6 +905,7 @@
   /usermanual/rds/rds_10_0105.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/resetting_a_parameter_template.html;
   /usermanual/rds/rds_10_0106.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/modifying_a_parameter_template_description.html;
   /usermanual/rds/rds_10_0107.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_template_management/deleting_a_parameter_template.html;
+  /usermanual/rds/rds_11_0000.html /relational-database-service/umn/best_practices/index.html;
   /usermanual/rds/rds_11_0004.html /relational-database-service/umn/working_with_rds_for_sql_server/data_security/configuring_the_tde_function.html;
   /usermanual/rds/rds_11_0006.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/rebooting_db_instances_or_read_replicas.html;
   /usermanual/rds/rds_11_0009.html /relational-database-service/umn/working_with_rds_for_mysql/connection_management/configuring_a_security_group_rule.html;
@@ -993,8 +998,3 @@
   /usermanual/rds/rds_faq_0082.html /relational-database-service/umn/faqs/resource_and_disk_management/how_much_storage_space_is_required_for_ddl_operations.html;
   /usermanual/rds/rds_faq_0092.html /relational-database-service/umn/faqs/database_parameter_modification/where_should_i_store_the_ndf_files_for_microsoft_sql_server.html;
   /usermanual/rds/rds_faq_0094.html /relational-database-service/umn/faqs/product_consulting/why_is_an_error_reported_when_i_attempt_to_delete_a_database_from_rds_sql_server_primary_standby_db_instances.html;
-  /usermanual/rds/rds_faq_0098.html /relational-database-service/umn/faqs/backup_and_restoration/index.html;
-  /usermanual/rds/rds_faq_0100.html /relational-database-service/umn/faqs/database_connection/what_should_i_do_if_an_rds_microsoft_sql_server_db_instance_failed_to_be_connected.html;
-  /usermanual/rds/rds_faq_0101.html /relational-database-service/umn/faqs/database_connection/can_i_access_an_rds_db_instance_over_an_intranet_connection_across_regions.html;
-  /usermanual/rds/rds_faq_0104.html /relational-database-service/umn/faqs/product_consulting/can_rds_primary_standby_db_instances_be_changed_to_single_db_instances.html;
-  /usermanual/rds/rds_faq_0110.html /relational-database-service/umn/faqs/product_consulting/what_should_i_do_if_garbled_characters_are_displayed_after_sql_query_results_are_exported_to_an_excel_file.html;
