@@ -9,7 +9,7 @@
   /api/smn/en-us_topic_0173593943.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/template_operations.html;
   /api/smn/en-us_topic_0173593944.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/message_publishing.html;
   /api/smn/en-us_topic_0173593946.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/tag_operations.html;
-  /api/smn/en-us_topic_0173593949.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/sending_an_application_message.html;
+  /api/smn/en-us_topic_0173593949.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/sending_an_application_message_deprecated.html;
   /api/smn/smn_api_50000.html /simple-message-notification/api-ref/apis/index.html;
   /api/smn/smn_api_51000.html /simple-message-notification/api-ref/apis/topic_operations/index.html;
   /api/smn/smn_api_510000.html /simple-message-notification/api-ref/apis/version_querying/index.html;
@@ -63,7 +63,7 @@
   /en-us/api/smn/en-us_topic_0173593943.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/template_operations.html;
   /en-us/api/smn/en-us_topic_0173593944.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/message_publishing.html;
   /en-us/api/smn/en-us_topic_0173593946.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/tag_operations.html;
-  /en-us/api/smn/en-us_topic_0173593949.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/sending_an_application_message.html;
+  /en-us/api/smn/en-us_topic_0173593949.html /simple-message-notification/api-ref/permissions_policies_and_supported_actions/sending_an_application_message_deprecated.html;
   /en-us/api/smn/smn_api_50000.html /simple-message-notification/api-ref/apis/index.html;
   /en-us/api/smn/smn_api_51000.html /simple-message-notification/api-ref/apis/topic_operations/index.html;
   /en-us/api/smn/smn_api_510000.html /simple-message-notification/api-ref/apis/version_querying/index.html;
