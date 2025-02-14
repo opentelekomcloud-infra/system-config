@@ -197,6 +197,7 @@
   /en-us/usermanual/sfs/sfs_01_0066.html /scalable-file-service/umn/faqs/concepts/index.html;
   /en-us/usermanual/sfs/sfs_01_0067.html /scalable-file-service/umn/faqs/concepts/what_is_sfs.html;
   /en-us/usermanual/sfs/sfs_01_0068.html /scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html;
+  /en-us/usermanual/sfs/sfs_01_0069.html /scalable-file-service/umn/faqs/concepts/what_are_the_differences_between_sfs_obs_and_evs.html;
   /en-us/usermanual/sfs/sfs_01_0070.html /scalable-file-service/umn/faqs/specifications/index.html;
   /en-us/usermanual/sfs/sfs_01_0071.html /scalable-file-service/umn/faqs/specifications/what_is_the_maximum_size_of_a_file_that_can_be_stored_in_a_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0072.html /scalable-file-service/umn/faqs/specifications/what_access_protocols_are_supported_by_sfs.html;
@@ -204,9 +205,12 @@
   /en-us/usermanual/sfs/sfs_01_0074.html /scalable-file-service/umn/faqs/specifications/how_many_servers_can_a_file_system_be_mounted_to.html;
   /en-us/usermanual/sfs/sfs_01_0075.html /scalable-file-service/umn/faqs/restrictions/index.html;
   /en-us/usermanual/sfs/sfs_01_0076.html /scalable-file-service/umn/faqs/restrictions/can_the_capacity_of_a_file_system_be_expanded.html;
+  /en-us/usermanual/sfs/sfs_01_0077.html /scalable-file-service/umn/faqs/restrictions/can_i_migrate_my_file_system_data_to_another_region.html;
+  /en-us/usermanual/sfs/sfs_01_0078.html /scalable-file-service/umn/faqs/restrictions/can_a_file_system_be_mounted_to_multiple_accounts.html;
   /en-us/usermanual/sfs/sfs_01_0079.html /scalable-file-service/umn/faqs/networks/index.html;
   /en-us/usermanual/sfs/sfs_01_0080.html /scalable-file-service/umn/faqs/networks/can_a_file_system_be_accessed_across_vpcs.html;
   /en-us/usermanual/sfs/sfs_01_0081.html /scalable-file-service/umn/faqs/networks/does_the_security_group_of_a_vpc_affect_sfs.html;
+  /en-us/usermanual/sfs/sfs_01_0082.html /scalable-file-service/umn/faqs/networks/what_can_i_do_if_data_of_my_file_system_is_not_the_same_when_accessed_from_two_client_servers.html;
   /en-us/usermanual/sfs/sfs_01_0091.html /scalable-file-service/umn/faqs/others/index.html;
   /en-us/usermanual/sfs/sfs_01_0092.html /scalable-file-service/umn/faqs/others/how_do_i_access_a_file_system_from_a_server.html;
   /en-us/usermanual/sfs/sfs_01_0093.html /scalable-file-service/umn/faqs/others/how_do_i_check_whether_a_file_system_on_a_linux_server_is_available.html;
@@ -217,6 +221,7 @@
   /en-us/usermanual/sfs/sfs_01_0104.html /scalable-file-service/umn/change_history.html;
   /en-us/usermanual/sfs/sfs_01_0105.html /scalable-file-service/umn/glossary.html;
   /en-us/usermanual/sfs/sfs_01_0107.html /scalable-file-service/umn/getting_started/index.html;
+  /en-us/usermanual/sfs/sfs_01_0111.html /scalable-file-service/umn/faqs/networks/does_sfs_support_cross-region_mounting.html;
   /en-us/usermanual/sfs/sfs_01_0117.html /scalable-file-service/umn/other_operations/data_migration/migrating_data_between_file_systems.html;
   /en-us/usermanual/sfs/sfs_01_0118.html /scalable-file-service/umn/troubleshooting/failed_to_create_an_sfs_turbo_file_system.html;
   /en-us/usermanual/sfs/sfs_01_0119.html /scalable-file-service/umn/troubleshooting/a_file_system_is_automatically_disconnected_from_the_server.html;
@@ -282,6 +287,7 @@
   /usermanual/sfs/sfs_01_0066.html /scalable-file-service/umn/faqs/concepts/index.html;
   /usermanual/sfs/sfs_01_0067.html /scalable-file-service/umn/faqs/concepts/what_is_sfs.html;
   /usermanual/sfs/sfs_01_0068.html /scalable-file-service/umn/faqs/concepts/what_is_sfs_turbo.html;
+  /usermanual/sfs/sfs_01_0069.html /scalable-file-service/umn/faqs/concepts/what_are_the_differences_between_sfs_obs_and_evs.html;
   /usermanual/sfs/sfs_01_0070.html /scalable-file-service/umn/faqs/specifications/index.html;
   /usermanual/sfs/sfs_01_0071.html /scalable-file-service/umn/faqs/specifications/what_is_the_maximum_size_of_a_file_that_can_be_stored_in_a_file_system.html;
   /usermanual/sfs/sfs_01_0072.html /scalable-file-service/umn/faqs/specifications/what_access_protocols_are_supported_by_sfs.html;
@@ -289,9 +295,12 @@
   /usermanual/sfs/sfs_01_0074.html /scalable-file-service/umn/faqs/specifications/how_many_servers_can_a_file_system_be_mounted_to.html;
   /usermanual/sfs/sfs_01_0075.html /scalable-file-service/umn/faqs/restrictions/index.html;
   /usermanual/sfs/sfs_01_0076.html /scalable-file-service/umn/faqs/restrictions/can_the_capacity_of_a_file_system_be_expanded.html;
+  /usermanual/sfs/sfs_01_0077.html /scalable-file-service/umn/faqs/restrictions/can_i_migrate_my_file_system_data_to_another_region.html;
+  /usermanual/sfs/sfs_01_0078.html /scalable-file-service/umn/faqs/restrictions/can_a_file_system_be_mounted_to_multiple_accounts.html;
   /usermanual/sfs/sfs_01_0079.html /scalable-file-service/umn/faqs/networks/index.html;
   /usermanual/sfs/sfs_01_0080.html /scalable-file-service/umn/faqs/networks/can_a_file_system_be_accessed_across_vpcs.html;
   /usermanual/sfs/sfs_01_0081.html /scalable-file-service/umn/faqs/networks/does_the_security_group_of_a_vpc_affect_sfs.html;
+  /usermanual/sfs/sfs_01_0082.html /scalable-file-service/umn/faqs/networks/what_can_i_do_if_data_of_my_file_system_is_not_the_same_when_accessed_from_two_client_servers.html;
   /usermanual/sfs/sfs_01_0091.html /scalable-file-service/umn/faqs/others/index.html;
   /usermanual/sfs/sfs_01_0092.html /scalable-file-service/umn/faqs/others/how_do_i_access_a_file_system_from_a_server.html;
   /usermanual/sfs/sfs_01_0093.html /scalable-file-service/umn/faqs/others/how_do_i_check_whether_a_file_system_on_a_linux_server_is_available.html;
@@ -302,6 +311,7 @@
   /usermanual/sfs/sfs_01_0104.html /scalable-file-service/umn/change_history.html;
   /usermanual/sfs/sfs_01_0105.html /scalable-file-service/umn/glossary.html;
   /usermanual/sfs/sfs_01_0107.html /scalable-file-service/umn/getting_started/index.html;
+  /usermanual/sfs/sfs_01_0111.html /scalable-file-service/umn/faqs/networks/does_sfs_support_cross-region_mounting.html;
   /usermanual/sfs/sfs_01_0117.html /scalable-file-service/umn/other_operations/data_migration/migrating_data_between_file_systems.html;
   /usermanual/sfs/sfs_01_0118.html /scalable-file-service/umn/troubleshooting/failed_to_create_an_sfs_turbo_file_system.html;
   /usermanual/sfs/sfs_01_0119.html /scalable-file-service/umn/troubleshooting/a_file_system_is_automatically_disconnected_from_the_server.html;
