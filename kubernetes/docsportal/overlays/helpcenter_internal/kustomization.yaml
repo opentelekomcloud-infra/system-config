@@ -54,6 +54,9 @@ configMapGenerator:
   - name: "cloud-eye"
     files:
       - "configs/redirect_maps/cloud-eye"
+  - name: "cloud-firewall"
+    files:
+      - "configs/redirect_maps/cloud-firewall"
   - name: "cloud-search-service"
     files:
       - "configs/redirect_maps/cloud-search-service"

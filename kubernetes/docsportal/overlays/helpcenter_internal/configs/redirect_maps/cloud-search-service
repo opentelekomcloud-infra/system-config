@@ -90,6 +90,11 @@
   /api/css/css_03_0129.html /cloud-search-service/api-ref/load_balancing/obtaining_the_elb_information_and_health_check_status.html;
   /api/css/css_03_0130.html /cloud-search-service/api-ref/load_balancing/updating_an_es_listener.html;
   /api/css/css_03_0131.html /cloud-search-service/api-ref/load_balancing/querying_the_certificate_list.html;
+  /api/css/css_03_0132.html /cloud-search-service/api-ref/intelligent_o_and_m/index.html;
+  /api/css/css_03_0133.html /cloud-search-service/api-ref/intelligent_o_and_m/creating_a_cluster_detection_task.html;
+  /api/css/css_03_0134.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_the_intelligent_o_and_m_task_list_and_details.html;
+  /api/css/css_03_0135.html /cloud-search-service/api-ref/intelligent_o_and_m/deleting_a_detection_task_record.html;
+  /api/css/css_03_0136.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_smn_topics_available_for_intelligent_o_and_m_alarms.html;
   /api/css/css_03_0137.html /cloud-search-service/api-ref/calling_apis/index.html;
   /api/css/css_03_0138.html /cloud-search-service/api-ref/calling_apis/making_an_api_request.html;
   /api/css/css_03_0139.html /cloud-search-service/api-ref/calling_apis/authentication.html;
@@ -186,6 +191,11 @@
   /en-us/api/css/css_03_0129.html /cloud-search-service/api-ref/load_balancing/obtaining_the_elb_information_and_health_check_status.html;
   /en-us/api/css/css_03_0130.html /cloud-search-service/api-ref/load_balancing/updating_an_es_listener.html;
   /en-us/api/css/css_03_0131.html /cloud-search-service/api-ref/load_balancing/querying_the_certificate_list.html;
+  /en-us/api/css/css_03_0132.html /cloud-search-service/api-ref/intelligent_o_and_m/index.html;
+  /en-us/api/css/css_03_0133.html /cloud-search-service/api-ref/intelligent_o_and_m/creating_a_cluster_detection_task.html;
+  /en-us/api/css/css_03_0134.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_the_intelligent_o_and_m_task_list_and_details.html;
+  /en-us/api/css/css_03_0135.html /cloud-search-service/api-ref/intelligent_o_and_m/deleting_a_detection_task_record.html;
+  /en-us/api/css/css_03_0136.html /cloud-search-service/api-ref/intelligent_o_and_m/obtaining_smn_topics_available_for_intelligent_o_and_m_alarms.html;
   /en-us/api/css/css_03_0137.html /cloud-search-service/api-ref/calling_apis/index.html;
   /en-us/api/css/css_03_0138.html /cloud-search-service/api-ref/calling_apis/making_an_api_request.html;
   /en-us/api/css/css_03_0139.html /cloud-search-service/api-ref/calling_apis/authentication.html;
