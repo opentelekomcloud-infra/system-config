@@ -2,3 +2,8 @@ cert-manager:
   installCRDs: true
 
 email: <path:secret/data/cert-manager#email>
+
+prometheus:
+  enabled: true
+  servicemonitor:
+    enabled: true
