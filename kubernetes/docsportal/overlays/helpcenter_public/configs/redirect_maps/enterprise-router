@@ -1,5 +1,6 @@
   /api/er/ /enterprise-router/api-ref/index.html;
   /api/er/APIChangeHistory.html /enterprise-router/api-ref/change_history.html;
+  /api/er/AcceptAttachment.html /enterprise-router/api-ref/apis/attachments/accepting_a_shared_attachment.html;
   /api/er/AssociateRouteTable.html /enterprise-router/api-ref/apis/associations/creating_a_route_association.html;
   /api/er/Association.html /enterprise-router/api-ref/apis/associations/index.html;
   /api/er/Attachments.html /enterprise-router/api-ref/apis/attachments/index.html;
@@ -37,6 +38,7 @@
   /api/er/ListVpcAttachments.html /enterprise-router/api-ref/apis/vpc_attachments/querying_vpc_attachments.html;
   /api/er/Propagation.html /enterprise-router/api-ref/apis/propagations/index.html;
   /api/er/QuotaManager.html /enterprise-router/api-ref/apis/quota_management/index.html;
+  /api/er/RejectAttachment.html /enterprise-router/api-ref/apis/attachments/rejecting_a_shared_attachment.html;
   /api/er/Route.html /enterprise-router/api-ref/apis/routes/index.html;
   /api/er/RouteTable.html /enterprise-router/api-ref/apis/route_tables/index.html;
   /api/er/ShowAttachment.html /enterprise-router/api-ref/apis/attachments/querying_details_about_an_attachment.html;
@@ -62,7 +64,7 @@
   /api/er/er_02_0016.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /api/er/er_02_0017.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/enterprise_routers.html;
   /api/er/er_02_0018.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/vpc_attachments.html;
-  /api/er/er_02_0019.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/attachments.html;
+  /api/er/er_02_0019.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/other_types_of_attachments.html;
   /api/er/er_02_0020.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/route_tables.html;
   /api/er/er_02_0021.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/associations.html;
   /api/er/er_02_0022.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/propagations.html;
@@ -74,6 +76,7 @@
   /api/er/er_02_appendix.html /enterprise-router/api-ref/appendixes/index.html;
   /en-us/api/er/ /enterprise-router/api-ref/index.html;
   /en-us/api/er/APIChangeHistory.html /enterprise-router/api-ref/change_history.html;
+  /en-us/api/er/AcceptAttachment.html /enterprise-router/api-ref/apis/attachments/accepting_a_shared_attachment.html;
   /en-us/api/er/AssociateRouteTable.html /enterprise-router/api-ref/apis/associations/creating_a_route_association.html;
   /en-us/api/er/Association.html /enterprise-router/api-ref/apis/associations/index.html;
   /en-us/api/er/Attachments.html /enterprise-router/api-ref/apis/attachments/index.html;
@@ -111,6 +114,7 @@
   /en-us/api/er/ListVpcAttachments.html /enterprise-router/api-ref/apis/vpc_attachments/querying_vpc_attachments.html;
   /en-us/api/er/Propagation.html /enterprise-router/api-ref/apis/propagations/index.html;
   /en-us/api/er/QuotaManager.html /enterprise-router/api-ref/apis/quota_management/index.html;
+  /en-us/api/er/RejectAttachment.html /enterprise-router/api-ref/apis/attachments/rejecting_a_shared_attachment.html;
   /en-us/api/er/Route.html /enterprise-router/api-ref/apis/routes/index.html;
   /en-us/api/er/RouteTable.html /enterprise-router/api-ref/apis/route_tables/index.html;
   /en-us/api/er/ShowAttachment.html /enterprise-router/api-ref/apis/attachments/querying_details_about_an_attachment.html;
@@ -136,7 +140,7 @@
   /en-us/api/er/er_02_0016.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/introduction.html;
   /en-us/api/er/er_02_0017.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/enterprise_routers.html;
   /en-us/api/er/er_02_0018.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/vpc_attachments.html;
-  /en-us/api/er/er_02_0019.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/attachments.html;
+  /en-us/api/er/er_02_0019.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/other_types_of_attachments.html;
   /en-us/api/er/er_02_0020.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/route_tables.html;
   /en-us/api/er/er_02_0021.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/associations.html;
   /en-us/api/er/er_02_0022.html /enterprise-router/api-ref/permissions_policies_and_supported_actions/propagations.html;
