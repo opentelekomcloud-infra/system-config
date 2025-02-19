@@ -1,7 +1,7 @@
-cert-manager:
-  installCRDs: true
+crds:
+  keep: true
 
-email: <path:secret/data/cert-manager#email>
+#email: <path:secret/data/cert-manager#email>
 
 prometheus:
   enabled: true
