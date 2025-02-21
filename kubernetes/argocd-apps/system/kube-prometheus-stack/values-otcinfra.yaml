@@ -449,6 +449,8 @@ kube-prometheus-stack:
               name: basic-auth
               key: vmauth_password
       retention: 7d
+      serviceMonitorSelector: {}
+      podMonitorSelector: {}
 
 goNeb:
   enabled: true
