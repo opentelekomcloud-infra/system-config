@@ -127,6 +127,8 @@ kube-prometheus-stack:
             password:
               name: basic-auth
               key: vmauth_password
+      serviceMonitorSelector: {}
+      podMonitorSelector: {}
 
 goNeb:
   enabled: true
