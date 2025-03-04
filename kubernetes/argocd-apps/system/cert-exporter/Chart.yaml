@@ -5,4 +5,4 @@ version: 0.1.0
 dependencies:
   - name: cert-exporter
     version: "3.10.0"
-    repository: "https://joe-elliott.github.io"
+    repository: "https://joe-elliott.github.io/cert-exporter/"
