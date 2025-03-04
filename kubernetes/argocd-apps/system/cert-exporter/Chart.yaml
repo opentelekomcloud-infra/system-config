@@ -1,0 +1,8 @@
+apiVersion: v2
+name: cert-exporter
+description: Monitors and exposes PKI information as Prometheus metrics
+version: 0.1.0
+dependencies:
+  - name: cert-exporter
+    version: "3.10.0"
+    repository: "https://joe-elliott.github.io"
