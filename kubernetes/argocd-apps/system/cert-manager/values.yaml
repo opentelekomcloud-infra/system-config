@@ -7,3 +7,7 @@ prometheus:
   enabled: true
   servicemonitor:
     enabled: true
+
+extraArgs:
+  - --feature-gates=AdditionalCertificateOutputFormats=true
+  - --enable-certificate-metrics=true
