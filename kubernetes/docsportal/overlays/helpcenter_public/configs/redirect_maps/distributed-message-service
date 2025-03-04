@@ -228,7 +228,6 @@
   /en-us/usermanual/dms/ProductDescPrivilegeManagement.html /distributed-message-service/umn/service_overview/permission.html;
   /en-us/usermanual/dms/TagManagement.html /distributed-message-service/umn/managing_instances/configuring_kafka_instance_tags.html;
   /en-us/usermanual/dms/UserPrivilegeManagement.html /distributed-message-service/umn/permission_management/index.html;
-  /en-us/usermanual/dms/dms-ug-001.html /distributed-message-service/umn/service_overview/best_practices.html;
   /en-us/usermanual/dms/dms-ug-0312114.html /distributed-message-service/umn/glossary.html;
   /en-us/usermanual/dms/glossary-kafka.html /distributed-message-service/umn/service_overview/basic_concepts.html;
   /en-us/usermanual/dms/kafka-advantage.html /distributed-message-service/umn/service_overview/product_advantages.html;
@@ -251,7 +250,7 @@
   /en-us/usermanual/dms/kafka-faq-0028.html /distributed-message-service/umn/faqs/connections/what_are_the_differences_between_jks_and_crt_certificates.html;
   /en-us/usermanual/dms/kafka-faq-0029.html /distributed-message-service/umn/faqs/connections/which_tls_version_does_dms_for_kafka_support.html;
   /en-us/usermanual/dms/kafka-faq-0030.html /distributed-message-service/umn/faqs/instances/do_kafka_instances_support_disk_encryption.html;
-  /en-us/usermanual/dms/kafka-faq-0031.html /distributed-message-service/umn/faqs/topics_and_partitions/can_i_delete_unnecessary_topics_in_a_consumer_group.html;
+  /en-us/usermanual/dms/kafka-faq-0031.html /distributed-message-service/umn/faqs/consumer_groups/can_i_delete_unnecessary_topics_in_a_consumer_group.html;
   /en-us/usermanual/dms/kafka-faq-0033.html /distributed-message-service/umn/faqs/connections/is_there_a_limit_on_the_number_of_client_connections_to_a_kafka_instance.html;
   /en-us/usermanual/dms/kafka-faq-0034.html /distributed-message-service/umn/faqs/connections/how_many_connections_are_allowed_from_each_ip_address.html;
   /en-us/usermanual/dms/kafka-faq-0035.html /distributed-message-service/umn/faqs/specification_modification/does_specification_modification_affect_services.html;
@@ -399,7 +398,6 @@
   /usermanual/dms/ProductDescPrivilegeManagement.html /distributed-message-service/umn/service_overview/permission.html;
   /usermanual/dms/TagManagement.html /distributed-message-service/umn/managing_instances/configuring_kafka_instance_tags.html;
   /usermanual/dms/UserPrivilegeManagement.html /distributed-message-service/umn/permission_management/index.html;
-  /usermanual/dms/dms-ug-001.html /distributed-message-service/umn/service_overview/best_practices.html;
   /usermanual/dms/dms-ug-0312114.html /distributed-message-service/umn/glossary.html;
   /usermanual/dms/glossary-kafka.html /distributed-message-service/umn/service_overview/basic_concepts.html;
   /usermanual/dms/kafka-advantage.html /distributed-message-service/umn/service_overview/product_advantages.html;
@@ -422,7 +420,7 @@
   /usermanual/dms/kafka-faq-0028.html /distributed-message-service/umn/faqs/connections/what_are_the_differences_between_jks_and_crt_certificates.html;
   /usermanual/dms/kafka-faq-0029.html /distributed-message-service/umn/faqs/connections/which_tls_version_does_dms_for_kafka_support.html;
   /usermanual/dms/kafka-faq-0030.html /distributed-message-service/umn/faqs/instances/do_kafka_instances_support_disk_encryption.html;
-  /usermanual/dms/kafka-faq-0031.html /distributed-message-service/umn/faqs/topics_and_partitions/can_i_delete_unnecessary_topics_in_a_consumer_group.html;
+  /usermanual/dms/kafka-faq-0031.html /distributed-message-service/umn/faqs/consumer_groups/can_i_delete_unnecessary_topics_in_a_consumer_group.html;
   /usermanual/dms/kafka-faq-0033.html /distributed-message-service/umn/faqs/connections/is_there_a_limit_on_the_number_of_client_connections_to_a_kafka_instance.html;
   /usermanual/dms/kafka-faq-0034.html /distributed-message-service/umn/faqs/connections/how_many_connections_are_allowed_from_each_ip_address.html;
   /usermanual/dms/kafka-faq-0035.html /distributed-message-service/umn/faqs/specification_modification/does_specification_modification_affect_services.html;

@@ -1,3 +1,18 @@
+  /usermanual/rds/rds_faq_0110.html /relational-database-service/umn/faqs/product_consulting/what_should_i_do_if_garbled_characters_are_displayed_after_sql_query_results_are_exported_to_an_excel_file.html;
+  /usermanual/rds/rds_faq_0111.html /relational-database-service/umn/faqs/database_connection/is_an_ssl_connection_to_a_db_instance_interrupted_after_a_primary_standby_switchover_or_failover.html;
+  /usermanual/rds/rds_faq_0119.html /relational-database-service/umn/faqs/database_parameter_modification/does_rds_for_postgresql_support_the_test_decoding_plugin.html;
+  /usermanual/rds/rds_faq_0120.html /relational-database-service/umn/faqs/log_management/can_i_export_statistics_on_rds_slow_query_logs.html;
+  /usermanual/rds/rds_faq_0141.html /relational-database-service/umn/faqs/database_connection/index.html;
+  /usermanual/rds/rds_faq_0142.html /relational-database-service/umn/faqs/database_parameter_modification/index.html;
+  /usermanual/rds/rds_faq_0143.html /relational-database-service/umn/faqs/network_security/index.html;
+  /usermanual/rds/rds_faq_0144.html /relational-database-service/umn/faqs/database_storage/index.html;
+  /usermanual/rds/rds_faq_0145.html /relational-database-service/umn/faqs/resource_and_disk_management/index.html;
+  /usermanual/rds/rds_faq_0146.html /relational-database-service/umn/faqs/product_consulting/index.html;
+  /usermanual/rds/rds_faq_0149.html /relational-database-service/umn/faqs/log_management/index.html;
+  /usermanual/rds/rds_faq_0150.html /relational-database-service/umn/faqs/capacity_expansion_and_specification_change/index.html;
+  /usermanual/rds/rds_faq_0151.html /relational-database-service/umn/faqs/database_monitoring/index.html;
+  /usermanual/rds/rds_faq_0152.html /relational-database-service/umn/faqs/client_installation/index.html;
+  /usermanual/rds/rds_faq_0154.html /relational-database-service/umn/faqs/database_permission/index.html;
   /usermanual/rds/rds_faq_0155.html /relational-database-service/umn/faqs/database_migration/index.html;
   /usermanual/rds/rds_glossary_0001.html /relational-database-service/umn/glossary.html;
   /usermanual/rds/rds_migration_mysql.html /relational-database-service/umn/working_with_rds_for_mysql/data_migration/migrating_data_to_rds_for_mysql_using_mysqldump.html;
@@ -42,6 +57,7 @@
   /usermanual/rds/rds_pg_11_0002.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/introducing_read_replicas.html;
   /usermanual/rds/rds_pg_11_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/managing_a_read_replica.html;
   /usermanual/rds/rds_pg_11_0005.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/connecting_to_a_db_instance_through_pgadmin.html;
+  /usermanual/rds/rds_pg_11_0029.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/configuring_ssl_encryption.html;
   /usermanual/rds/rds_pg_backup_restore.html /relational-database-service/umn/working_with_rds_for_postgresql/backups_and_restorations/working_with_backups.html;
   /usermanual/rds/rds_pg_change_database_port.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/changing_a_database_port.html;
   /usermanual/rds/rds_pg_configuration.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/modifying_instance_parameters.html;

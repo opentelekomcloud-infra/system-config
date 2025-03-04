@@ -524,6 +524,7 @@
   /en-us/devg/bms/en-us_topic_0137081413.html /bare-metal-server/dev-guide/appendix/status_codes.html;
   /en-us/usermanual/bms/ /bare-metal-server/umn/index.html;
   /en-us/usermanual/bms/en-us_topic_0000001170719651.html /bare-metal-server/umn/faqs/os_faq/how_do_i_update_the_disk_metadata_after_the_lvm_volume_is_remounted.html;
+  /en-us/usermanual/bms/en-us_topic_0000002080466209.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/index.html;
   /en-us/usermanual/bms/en-us_topic_0053536887.html /bare-metal-server/umn/faqs/general_faq/how_are_bmss_different_from_ecss.html;
   /en-us/usermanual/bms/en-us_topic_0053536889.html /bare-metal-server/umn/security/security_group/adding_security_group_rules.html;
   /en-us/usermanual/bms/en-us_topic_0053536890.html /bare-metal-server/umn/image/private_image_overview.html;
@@ -580,7 +581,7 @@
   /en-us/usermanual/bms/en-us_topic_0083157921.html /bare-metal-server/umn/faqs/os_faq/how_can_i_handle_the_eight-hour_difference_between_the_windows_bms_and_local_time.html;
   /en-us/usermanual/bms/en-us_topic_0083737000.html /bare-metal-server/umn/instance/managing_bmss/changing_the_name_of_a_bms.html;
   /en-us/usermanual/bms/en-us_topic_0083737002.html /bare-metal-server/umn/overview/related_services.html;
-  /en-us/usermanual/bms/en-us_topic_0083737005.html /bare-metal-server/umn/getting_started/making_preparations.html;
+  /en-us/usermanual/bms/en-us_topic_0083737005.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/making_preparations.html;
   /en-us/usermanual/bms/en-us_topic_0083737006.html /bare-metal-server/umn/key_pair_and_password/using_an_ssh_key_pair.html;
   /en-us/usermanual/bms/en-us_topic_0083737009.html /bare-metal-server/umn/disk/initializing_data_disks/initializing_a_linux_data_disk_fdisk.html;
   /en-us/usermanual/bms/en-us_topic_0083737011.html /bare-metal-server/umn/instance/user_data_and_metadata/injecting_user_data.html;
@@ -591,7 +592,7 @@
   /en-us/usermanual/bms/en-us_topic_0083745258.html /bare-metal-server/umn/overview/instance/instance_family.html;
   /en-us/usermanual/bms/en-us_topic_0083745259.html /bare-metal-server/umn/overview/region_and_az.html;
   /en-us/usermanual/bms/en-us_topic_0083745260.html /bare-metal-server/umn/overview/evs_disk.html;
-  /en-us/usermanual/bms/en-us_topic_0083745261.html /bare-metal-server/umn/getting_started/step_3_deploy_an_application.html;
+  /en-us/usermanual/bms/en-us_topic_0083745261.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_3_deploy_an_application.html;
   /en-us/usermanual/bms/en-us_topic_0083745262.html /bare-metal-server/umn/overview/security/license_type.html;
   /en-us/usermanual/bms/en-us_topic_0083745263.html /bare-metal-server/umn/overview/security/cloud-init.html;
   /en-us/usermanual/bms/en-us_topic_0084166750.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_a_key_pair_created_using_puttygen_cannot_be_imported_to_the_management_console.html;
@@ -654,10 +655,10 @@
   /en-us/usermanual/bms/en-us_topic_0131781857.html /bare-metal-server/umn/key_pair_and_password/deleting_the_password_of_a_windows_bms.html;
   /en-us/usermanual/bms/en-us_topic_0140735212.html /bare-metal-server/umn/overview/instance/index.html;
   /en-us/usermanual/bms/en-us_topic_0140735213.html /bare-metal-server/umn/overview/instance/lifecycle.html;
-  /en-us/usermanual/bms/en-us_topic_0140737433.html /bare-metal-server/umn/getting_started/quick_start.html;
-  /en-us/usermanual/bms/en-us_topic_0140737434.html /bare-metal-server/umn/getting_started/step_1_create_a_bms.html;
-  /en-us/usermanual/bms/en-us_topic_0140737435.html /bare-metal-server/umn/getting_started/step_2_log_in_to_the_bms.html;
-  /en-us/usermanual/bms/en-us_topic_0140737436.html /bare-metal-server/umn/getting_started/step_4_release_the_bms.html;
+  /en-us/usermanual/bms/en-us_topic_0140737433.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/quick_start.html;
+  /en-us/usermanual/bms/en-us_topic_0140737434.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_1_create_a_bms.html;
+  /en-us/usermanual/bms/en-us_topic_0140737435.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_2_log_in_to_the_bms.html;
+  /en-us/usermanual/bms/en-us_topic_0140737436.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_4_release_the_bms.html;
   /en-us/usermanual/bms/en-us_topic_0140737437.html /bare-metal-server/umn/instance/creating_a_bms/index.html;
   /en-us/usermanual/bms/en-us_topic_0140737793.html /bare-metal-server/umn/instance/creating_a_bms/creating_a_bms_from_a_private_image.html;
   /en-us/usermanual/bms/en-us_topic_0140737794.html /bare-metal-server/umn/instance/viewing_bms_information/index.html;
@@ -709,6 +710,7 @@
   /en-us/usermanual/bms/en-us_topic_0263802108.html /bare-metal-server/umn/overview/image/oss_supported_by_different_types_of_bmss.html;
   /usermanual/bms/ /bare-metal-server/umn/index.html;
   /usermanual/bms/en-us_topic_0000001170719651.html /bare-metal-server/umn/faqs/os_faq/how_do_i_update_the_disk_metadata_after_the_lvm_volume_is_remounted.html;
+  /usermanual/bms/en-us_topic_0000002080466209.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/index.html;
   /usermanual/bms/en-us_topic_0053536887.html /bare-metal-server/umn/faqs/general_faq/how_are_bmss_different_from_ecss.html;
   /usermanual/bms/en-us_topic_0053536889.html /bare-metal-server/umn/security/security_group/adding_security_group_rules.html;
   /usermanual/bms/en-us_topic_0053536890.html /bare-metal-server/umn/image/private_image_overview.html;
@@ -765,7 +767,7 @@
   /usermanual/bms/en-us_topic_0083157921.html /bare-metal-server/umn/faqs/os_faq/how_can_i_handle_the_eight-hour_difference_between_the_windows_bms_and_local_time.html;
   /usermanual/bms/en-us_topic_0083737000.html /bare-metal-server/umn/instance/managing_bmss/changing_the_name_of_a_bms.html;
   /usermanual/bms/en-us_topic_0083737002.html /bare-metal-server/umn/overview/related_services.html;
-  /usermanual/bms/en-us_topic_0083737005.html /bare-metal-server/umn/getting_started/making_preparations.html;
+  /usermanual/bms/en-us_topic_0083737005.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/making_preparations.html;
   /usermanual/bms/en-us_topic_0083737006.html /bare-metal-server/umn/key_pair_and_password/using_an_ssh_key_pair.html;
   /usermanual/bms/en-us_topic_0083737009.html /bare-metal-server/umn/disk/initializing_data_disks/initializing_a_linux_data_disk_fdisk.html;
   /usermanual/bms/en-us_topic_0083737011.html /bare-metal-server/umn/instance/user_data_and_metadata/injecting_user_data.html;
@@ -776,7 +778,7 @@
   /usermanual/bms/en-us_topic_0083745258.html /bare-metal-server/umn/overview/instance/instance_family.html;
   /usermanual/bms/en-us_topic_0083745259.html /bare-metal-server/umn/overview/region_and_az.html;
   /usermanual/bms/en-us_topic_0083745260.html /bare-metal-server/umn/overview/evs_disk.html;
-  /usermanual/bms/en-us_topic_0083745261.html /bare-metal-server/umn/getting_started/step_3_deploy_an_application.html;
+  /usermanual/bms/en-us_topic_0083745261.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_3_deploy_an_application.html;
   /usermanual/bms/en-us_topic_0083745262.html /bare-metal-server/umn/overview/security/license_type.html;
   /usermanual/bms/en-us_topic_0083745263.html /bare-metal-server/umn/overview/security/cloud-init.html;
   /usermanual/bms/en-us_topic_0084166750.html /bare-metal-server/umn/troubleshooting/what_do_i_do_if_a_key_pair_created_using_puttygen_cannot_be_imported_to_the_management_console.html;
@@ -839,10 +841,10 @@
   /usermanual/bms/en-us_topic_0131781857.html /bare-metal-server/umn/key_pair_and_password/deleting_the_password_of_a_windows_bms.html;
   /usermanual/bms/en-us_topic_0140735212.html /bare-metal-server/umn/overview/instance/index.html;
   /usermanual/bms/en-us_topic_0140735213.html /bare-metal-server/umn/overview/instance/lifecycle.html;
-  /usermanual/bms/en-us_topic_0140737433.html /bare-metal-server/umn/getting_started/quick_start.html;
-  /usermanual/bms/en-us_topic_0140737434.html /bare-metal-server/umn/getting_started/step_1_create_a_bms.html;
-  /usermanual/bms/en-us_topic_0140737435.html /bare-metal-server/umn/getting_started/step_2_log_in_to_the_bms.html;
-  /usermanual/bms/en-us_topic_0140737436.html /bare-metal-server/umn/getting_started/step_4_release_the_bms.html;
+  /usermanual/bms/en-us_topic_0140737433.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/quick_start.html;
+  /usermanual/bms/en-us_topic_0140737434.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_1_create_a_bms.html;
+  /usermanual/bms/en-us_topic_0140737435.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_2_log_in_to_the_bms.html;
+  /usermanual/bms/en-us_topic_0140737436.html /bare-metal-server/umn/getting_started/purchasing_and_logging_in_to_a_linux_bms/step_4_release_the_bms.html;
   /usermanual/bms/en-us_topic_0140737437.html /bare-metal-server/umn/instance/creating_a_bms/index.html;
   /usermanual/bms/en-us_topic_0140737793.html /bare-metal-server/umn/instance/creating_a_bms/creating_a_bms_from_a_private_image.html;
   /usermanual/bms/en-us_topic_0140737794.html /bare-metal-server/umn/instance/viewing_bms_information/index.html;

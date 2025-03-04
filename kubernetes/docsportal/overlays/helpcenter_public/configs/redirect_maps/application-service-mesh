@@ -3,6 +3,7 @@
   /en-us/usermanual/asm/ /application-service-mesh/umn/index.html;
   /en-us/usermanual/asm/asm_01_0016.html /application-service-mesh/umn/user_guide/application_service_mesh.html;
   /en-us/usermanual/asm/asm_01_0017.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/index.html;
+  /en-us/usermanual/asm/asm_01_0020.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/creating_a_service_mesh.html;
   /en-us/usermanual/asm/asm_01_0023.html /application-service-mesh/umn/user_guide/mesh_management/index.html;
   /en-us/usermanual/asm/asm_01_0029.html /application-service-mesh/umn/user_guide/service_management/index.html;
   /en-us/usermanual/asm/asm_01_0031.html /application-service-mesh/umn/user_guide/service_management/configuration_diagnosis.html;
@@ -29,7 +30,6 @@
   /en-us/usermanual/asm/asm_01_0067.html /application-service-mesh/umn/user_guide/service_management/auto_fixing_items/the_service_selector_cannot_contain_version_labels.html;
   /en-us/usermanual/asm/asm_01_0069.html /application-service-mesh/umn/user_guide/service_management/auto_fixing_items/the_service_is_configured_with_a_default-version_route_and_the_route_configuration_is_correct.html;
   /en-us/usermanual/asm/asm_01_0082.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/index.html;
-  /en-us/usermanual/asm/asm_01_0084.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/creating_a_service_mesh.html;
   /en-us/usermanual/asm/asm_01_0085.html /application-service-mesh/umn/user_guide/traffic_management/index.html;
   /en-us/usermanual/asm/asm_01_0086.html /application-service-mesh/umn/user_guide/mesh_management/uninstalling_a_service_mesh.html;
   /en-us/usermanual/asm/asm_01_0087.html /application-service-mesh/umn/user_guide/security/index.html;
@@ -104,6 +104,7 @@
   /usermanual/asm/ /application-service-mesh/umn/index.html;
   /usermanual/asm/asm_01_0016.html /application-service-mesh/umn/user_guide/application_service_mesh.html;
   /usermanual/asm/asm_01_0017.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/index.html;
+  /usermanual/asm/asm_01_0020.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/creating_a_service_mesh.html;
   /usermanual/asm/asm_01_0023.html /application-service-mesh/umn/user_guide/mesh_management/index.html;
   /usermanual/asm/asm_01_0029.html /application-service-mesh/umn/user_guide/service_management/index.html;
   /usermanual/asm/asm_01_0031.html /application-service-mesh/umn/user_guide/service_management/configuration_diagnosis.html;
@@ -130,7 +131,6 @@
   /usermanual/asm/asm_01_0067.html /application-service-mesh/umn/user_guide/service_management/auto_fixing_items/the_service_selector_cannot_contain_version_labels.html;
   /usermanual/asm/asm_01_0069.html /application-service-mesh/umn/user_guide/service_management/auto_fixing_items/the_service_is_configured_with_a_default-version_route_and_the_route_configuration_is_correct.html;
   /usermanual/asm/asm_01_0082.html /application-service-mesh/umn/user_guide/mesh_configuration/upgrades/index.html;
-  /usermanual/asm/asm_01_0084.html /application-service-mesh/umn/user_guide/creating_a_service_mesh/creating_a_service_mesh.html;
   /usermanual/asm/asm_01_0085.html /application-service-mesh/umn/user_guide/traffic_management/index.html;
   /usermanual/asm/asm_01_0086.html /application-service-mesh/umn/user_guide/mesh_management/uninstalling_a_service_mesh.html;
   /usermanual/asm/asm_01_0087.html /application-service-mesh/umn/user_guide/security/index.html;
