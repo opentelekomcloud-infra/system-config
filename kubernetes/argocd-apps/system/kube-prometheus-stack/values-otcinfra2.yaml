@@ -1,4 +1,6 @@
 kube-prometheus-stack:
+  crds:
+    enabled: true
   alertmanager:
     alertmanagerSpec:
       externalUrl: https://alertamanager-mon.infra2.eco.tsi-dev.otc-service.com
