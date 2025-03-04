@@ -1,0 +1,3 @@
+service:
+  serviceMonitor:
+    create: true
