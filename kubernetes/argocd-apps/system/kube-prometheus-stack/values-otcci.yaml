@@ -1,4 +1,6 @@
 kube-prometheus-stack:
+  crds:
+    enabled: true
   alertmanager:
     alertmanagerSpec:
       externalUrl: https://alertmanager-mon.zuul.otc-service.com
