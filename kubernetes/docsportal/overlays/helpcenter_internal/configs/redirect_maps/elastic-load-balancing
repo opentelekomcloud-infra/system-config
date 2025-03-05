@@ -410,6 +410,7 @@
   /en-us/api/elb/module_versions.html /elastic-load-balancing/api-ref/apis_v3/api_version/index.html;
   /en-us/usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /en-us/usermanual/elb/elb_03_0003.html /elastic-load-balancing/umn/access_control/access_control.html;
+  /en-us/usermanual/elb/elb_billing_0003.html /elastic-load-balancing/umn/service_overview/billing_items_dedicated_load_balancers.html;
   /en-us/usermanual/elb/elb_faq_0000.html /elastic-load-balancing/umn/faq/index.html;
   /en-us/usermanual/elb/elb_faq_0001.html /elastic-load-balancing/umn/faq/backend_servers/when_is_a_backend_server_considered_healthy.html;
   /en-us/usermanual/elb/elb_faq_0002.html /elastic-load-balancing/umn/faq/health_checks/when_does_a_health_check_start.html;
@@ -627,6 +628,7 @@
   /en-us/usermanual/elb/en_us_elb_03_0006.html /elastic-load-balancing/umn/advanced_features_of_http_https_listeners/mutual_authentication.html;
   /usermanual/elb/ /elastic-load-balancing/umn/index.html;
   /usermanual/elb/elb_03_0003.html /elastic-load-balancing/umn/access_control/access_control.html;
+  /usermanual/elb/elb_billing_0003.html /elastic-load-balancing/umn/service_overview/billing_items_dedicated_load_balancers.html;
   /usermanual/elb/elb_faq_0000.html /elastic-load-balancing/umn/faq/index.html;
   /usermanual/elb/elb_faq_0001.html /elastic-load-balancing/umn/faq/backend_servers/when_is_a_backend_server_considered_healthy.html;
   /usermanual/elb/elb_faq_0002.html /elastic-load-balancing/umn/faq/health_checks/when_does_a_health_check_start.html;

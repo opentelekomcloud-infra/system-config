@@ -85,6 +85,9 @@
   /api/dds/dds_public_parameters.html /document-database-service/api-ref/appendix/index.html;
   /api/dds/dds_status_code.html /document-database-service/api-ref/appendix/status_code.html;
   /api/dds/dds_tag_mgmt.html /document-database-service/api-ref/apis_v3.0_recommended/tag_management/index.html;
+  /api/dds/en-us_topic_0000002107112644.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
+  /api/dds/en-us_topic_0000002107272436.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
+  /api/dds/en-us_topic_0000002142831253.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
   /en-us/api/dds/ /document-database-service/api-ref/index.html;
   /en-us/api/dds/dds_api_0006.html /document-database-service/api-ref/api_overview.html;
   /en-us/api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
@@ -172,6 +175,9 @@
   /en-us/api/dds/dds_public_parameters.html /document-database-service/api-ref/appendix/index.html;
   /en-us/api/dds/dds_status_code.html /document-database-service/api-ref/appendix/status_code.html;
   /en-us/api/dds/dds_tag_mgmt.html /document-database-service/api-ref/apis_v3.0_recommended/tag_management/index.html;
+  /en-us/api/dds/en-us_topic_0000002107112644.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
+  /en-us/api/dds/en-us_topic_0000002107272436.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
+  /en-us/api/dds/en-us_topic_0000002142831253.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
   /en-us/usermanual/dds/ /document-database-service/umn/index.html;
   /en-us/usermanual/dds/dds_01_0001.html /document-database-service/umn/introduction/basic_concepts/index.html;
   /en-us/usermanual/dds/dds_01_0002.html /document-database-service/umn/introduction/basic_concepts/cluster.html;
@@ -192,6 +198,7 @@
   /en-us/usermanual/dds/dds_01_0026.html /document-database-service/umn/introduction/dds_db_instance/db_instance_status.html;
   /en-us/usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
   /en-us/usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
+  /en-us/usermanual/dds/dds_01_0061.html /document-database-service/umn/introduction/version_information.html;
   /en-us/usermanual/dds/dds_02_0001.html /document-database-service/umn/getting_started_with_clusters/connection_methods.html;
   /en-us/usermanual/dds/dds_02_0006.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_public_networks/connecting_to_a_cluster_instance_over_public_networks.html;
   /en-us/usermanual/dds/dds_02_0009.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/index.html;
@@ -278,6 +285,10 @@
   /en-us/usermanual/dds/dds_03_0110.html /document-database-service/umn/parameter_template_management/viewing_parameter_change_history.html;
   /en-us/usermanual/dds/dds_03_0111.html /document-database-service/umn/parameter_template_management/exporting_a_parameter_template.html;
   /en-us/usermanual/dds/dds_03_0113.html /document-database-service/umn/parameter_template_management/viewing_application_records_of_a_parameter_template.html;
+  /en-us/usermanual/dds/dds_03_0168.html /document-database-service/umn/log_management/audit_logs/index.html;
+  /en-us/usermanual/dds/dds_03_0266.html /document-database-service/umn/log_management/audit_logs/viewing_audit_logs_on_the_dds_console.html;
+  /en-us/usermanual/dds/dds_03_0267.html /document-database-service/umn/log_management/audit_logs/viewing_audit_logs_on_the_lts_console.html;
+  /en-us/usermanual/dds/dds_03_0291.html /document-database-service/umn/log_management/audit_logs/audit_log_policy_management.html;
   /en-us/usermanual/dds/dds_03_change_database_port.html /document-database-service/umn/connection_management/changing_the_database_port.html;
   /en-us/usermanual/dds/dds_03_change_security_group.html /document-database-service/umn/connection_management/changing_a_security_group.html;
   /en-us/usermanual/dds/dds_03_reset_password.html /document-database-service/umn/account_management/resetting_the_administrator_password.html;
@@ -318,6 +329,7 @@
   /en-us/usermanual/dds/dds_faq_0112.html /document-database-service/umn/faqs/log_management/index.html;
   /en-us/usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /en-us/usermanual/dds/en-us_topic_0000001159335385.html /document-database-service/umn/instance_management/changing_the_db_instance_class/index.html;
+  /en-us/usermanual/dds/en-us_topic_0000002142634625.html /document-database-service/umn/log_management/log_reporting.html;
   /en-us/usermanual/dds/en-us_topic_0044018333.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/creating_a_cluster_instance.html;
   /en-us/usermanual/dds/en-us_topic_0044018334.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/connecting_to_a_cluster_instance_over_private_networks.html;
   /en-us/usermanual/dds/en-us_topic_0104472218.html /document-database-service/umn/instance_management/changing_the_db_instance_class/changing_a_cluster_db_instance_class.html;
@@ -331,7 +343,7 @@
   /en-us/usermanual/dds/en-us_topic_increase_storage.html /document-database-service/umn/instance_management/scaling_up_storage_space.html;
   /en-us/usermanual/dds/en-us_topic_introduction.html /document-database-service/umn/introduction/what_is_dds.html;
   /en-us/usermanual/dds/en-us_topic_parameter_group.html /document-database-service/umn/parameter_template_management/creating_a_parameter_template.html;
-  /en-us/usermanual/dds/en-us_topic_slow_query_log.html /document-database-service/umn/log_management/slow_query_log.html;
+  /en-us/usermanual/dds/en-us_topic_slow_query_log.html /document-database-service/umn/log_management/slow_query_logs.html;
   /en-us/usermanual/dds/en-us_topic_user_guide.html /document-database-service/umn/introduction/index.html;
   /usermanual/dds/ /document-database-service/umn/index.html;
   /usermanual/dds/dds_01_0001.html /document-database-service/umn/introduction/basic_concepts/index.html;
@@ -353,6 +365,7 @@
   /usermanual/dds/dds_01_0026.html /document-database-service/umn/introduction/dds_db_instance/db_instance_status.html;
   /usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
   /usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
+  /usermanual/dds/dds_01_0061.html /document-database-service/umn/introduction/version_information.html;
   /usermanual/dds/dds_02_0001.html /document-database-service/umn/getting_started_with_clusters/connection_methods.html;
   /usermanual/dds/dds_02_0006.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_public_networks/connecting_to_a_cluster_instance_over_public_networks.html;
   /usermanual/dds/dds_02_0009.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/index.html;
@@ -439,6 +452,10 @@
   /usermanual/dds/dds_03_0110.html /document-database-service/umn/parameter_template_management/viewing_parameter_change_history.html;
   /usermanual/dds/dds_03_0111.html /document-database-service/umn/parameter_template_management/exporting_a_parameter_template.html;
   /usermanual/dds/dds_03_0113.html /document-database-service/umn/parameter_template_management/viewing_application_records_of_a_parameter_template.html;
+  /usermanual/dds/dds_03_0168.html /document-database-service/umn/log_management/audit_logs/index.html;
+  /usermanual/dds/dds_03_0266.html /document-database-service/umn/log_management/audit_logs/viewing_audit_logs_on_the_dds_console.html;
+  /usermanual/dds/dds_03_0267.html /document-database-service/umn/log_management/audit_logs/viewing_audit_logs_on_the_lts_console.html;
+  /usermanual/dds/dds_03_0291.html /document-database-service/umn/log_management/audit_logs/audit_log_policy_management.html;
   /usermanual/dds/dds_03_change_database_port.html /document-database-service/umn/connection_management/changing_the_database_port.html;
   /usermanual/dds/dds_03_change_security_group.html /document-database-service/umn/connection_management/changing_a_security_group.html;
   /usermanual/dds/dds_03_reset_password.html /document-database-service/umn/account_management/resetting_the_administrator_password.html;
@@ -479,6 +496,7 @@
   /usermanual/dds/dds_faq_0112.html /document-database-service/umn/faqs/log_management/index.html;
   /usermanual/dds/dds_glossary.html /document-database-service/umn/glossary.html;
   /usermanual/dds/en-us_topic_0000001159335385.html /document-database-service/umn/instance_management/changing_the_db_instance_class/index.html;
+  /usermanual/dds/en-us_topic_0000002142634625.html /document-database-service/umn/log_management/log_reporting.html;
   /usermanual/dds/en-us_topic_0044018333.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/creating_a_cluster_instance.html;
   /usermanual/dds/en-us_topic_0044018334.html /document-database-service/umn/getting_started_with_clusters/connecting_to_a_cluster_instance_over_private_networks/connecting_to_a_cluster_instance_over_private_networks.html;
   /usermanual/dds/en-us_topic_0104472218.html /document-database-service/umn/instance_management/changing_the_db_instance_class/changing_a_cluster_db_instance_class.html;
@@ -492,5 +510,5 @@
   /usermanual/dds/en-us_topic_increase_storage.html /document-database-service/umn/instance_management/scaling_up_storage_space.html;
   /usermanual/dds/en-us_topic_introduction.html /document-database-service/umn/introduction/what_is_dds.html;
   /usermanual/dds/en-us_topic_parameter_group.html /document-database-service/umn/parameter_template_management/creating_a_parameter_template.html;
-  /usermanual/dds/en-us_topic_slow_query_log.html /document-database-service/umn/log_management/slow_query_log.html;
+  /usermanual/dds/en-us_topic_slow_query_log.html /document-database-service/umn/log_management/slow_query_logs.html;
   /usermanual/dds/en-us_topic_user_guide.html /document-database-service/umn/introduction/index.html;

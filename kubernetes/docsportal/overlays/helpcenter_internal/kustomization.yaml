@@ -219,6 +219,9 @@ configMapGenerator:
   - name: "relational-database-service-ab"
     files:
       - "configs/redirect_maps/relational-database-service-ab"
+  - name: "resource-formation-service"
+    files:
+      - "configs/redirect_maps/resource-formation-service"
   - name: "resource-template-service"
     files:
       - "configs/redirect_maps/resource-template-service"
