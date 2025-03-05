@@ -6,16 +6,18 @@ usage="$(basename "$0") [-h] [-d path] [-m path] [-s path] [-g git hosting] [-e 
 where:
     -h  show this help text
     -d  path to document repositories
+    -c  clone all repositories (optional)
     -m  path to otc metadata repository
     -s  path to system-config repository
     -g  set the git hostying type (gitea, github)
     -e  set the environment (internal, public, swiss_public)
+    -p  product name (only single service will be processed)
 
 environment variables:
-    DOC_PATH            path to document repositories
-    META_PATH           path to otc metadata repository
+    DOC_PATH            full path to document repositories
+    META_PATH           full path to otc metadata repository
     GIT_HOSTING         set the git hostying type (gitea, github)
-    SYSTEM_CONFIG_PATH  path to system-config repository
+    SYSTEM_CONFIG_PATH  full path to system-config repository
     ENVIRONMENT         set the environment (internal, public, swiss_public)
 
 example usage:
@@ -27,6 +29,10 @@ while [[ $# -gt 0 ]]; do
             DOC_PATH="$2"
             shift # past argument
             shift # past value
+            ;;
+        -c|--clone-repos)
+            CLONE_REPOS=YES
+            shift # past argument
             ;;
         -m|--meta-path)
             META_PATH="$2"
@@ -69,13 +75,17 @@ DOC_PATH=${DOC_PATH:-"/opt/github/services"}
 DOC_PATH=${DOC_PATH%/}
 META_PATH=${META_PATH:-"/opt/otc-metadata"}
 META_PATH=${META_PATH%/}
-META_PATH=${META_PATH}/otc_metadata/data
 GIT_HOSTING=${GIT_HOSTING:-"github"}
 SYSTEM_CONFIG_PATH=${SYSTEM_CONFIG_PATH:-"/opt/system-config"}
 SYSTEM_CONFIG_PATH=${SYSTEM_CONFIG_PATH%/}
 ENVIRONMENT=${ENVIRONMENT:-"public"}
 DEFAULT=${DEFAULT:-"NO"}
+CLONE_REPOS=${CLONE_REPOS:-""}
 TARGET_REDIR_PATH="${SYSTEM_CONFIG_PATH}/kubernetes/docsportal/overlays/helpcenter_${ENVIRONMENT}"
+
+# Local Variables
+gitea_link="ssh://git@gitea.eco.tsi-dev.otc-service.com:2222/"
+github_link="git@github.com:"
 
 # Pre-checks
 options="gitea,github"
@@ -88,6 +98,18 @@ options="internal,public,swiss_public"
 if [[ ! $options =~ (^|,)$ENVIRONMENT($|,) ]]; then
     echo "choose one of the allowed options: ($options)"
     exit 1
+fi
+
+if [ "${CLONE_REPOS}" ]; then
+    if [ ! -d $DOC_PATH ]; then
+        mkdir -p $DOC_PATH
+    fi
+    if [ ! -d $META_PATH ]; then
+        mkdir -p $META_PATH
+    fi
+    if [ ! -d $SYSTEM_CONFIG_PATH ]; then
+        mkdir -p $SYSTEM_CONFIG_PATH
+    fi
 fi
 
 if [ ! -d $DOC_PATH ]; then
@@ -111,9 +133,37 @@ echo "METADATA PATH        = ${META_PATH}"
 echo "SYSTEM CONFIG PATH   = ${SYSTEM_CONFIG_PATH}"
 echo "ENVIRONMENT          = ${ENVIRONMENT}"
 echo "GIT HOSTING          = ${GIT_HOSTING}"
+echo "CLONE REPOSITORIES   = ${CLONE_REPOS}"
 echo "DEFAULT              = ${DEFAULT}"
 
+# Clone All Repositories
+if [ "${CLONE_REPOS}" ]; then
+    git clone ${github_link}opentelekomcloud-infra/system-config.git $SYSTEM_CONFIG_PATH
+    if [[ ${ENVIRONMENT} == "swiss_public" ]]; then
+        git clone ${gitea_link}infra/otc-metadata-swiss.git ${META_PATH}
+    else
+        git clone ${gitea_link}infra/otc-metadata.git ${META_PATH}
+    fi
+
+    [ "$ENVIRONMENT" == "internal" ] && var=$ENVIRONMENT || var="public"
+    [ "$GIT_HOSTING" == "gitea" ] && repo_link=${gitea_link} || repo_link=${github_link}
+
+    for i in $META_PATH/otc_metadata/data/services/* ; do
+        echo $i
+        # env=$(yq .environment $i)
+        # if [[ "$env" =~ $ENVIRONMENT ]]; then
+        repo=$(yq -o json -r '.repositories[] | select(.environment=="'"$var"'").repo' $i)
+        if [ "${repo}" ]; then
+            echo $repo_link
+            echo $repo
+            echo $DOC_PATH
+            echo git clone ${repo_link}${repo}.git ${DOC_PATH}/${repo/*\//}
+            git clone ${repo_link}${repo}.git ${DOC_PATH}/${repo/*\//}
+        fi
+    done
+fi
 # Update metadata
+META_PATH=${META_PATH}/otc_metadata/data
 cd $META_PATH
 if ! git diff --exit-code &> /dev/null; then
     echo Metadata repository contains local changes, exiting! ;
@@ -166,7 +216,7 @@ rm -f *.map
 rm -f *.map.new
 shopt -s nullglob
 
-for row in $(cat $META_PATH/documents/*.yaml | yq . |jq -r '.| @base64') ; do
+for row in $(cat $META_PATH/documents/*.yaml | yq . -o json |jq -r '.| @base64') ; do
     decode=$(echo $row |base64 --decode);
     echo $row;
     echo $decode;
@@ -192,7 +242,7 @@ for row in $(cat $META_PATH/documents/*.yaml | yq . |jq -r '.| @base64') ; do
     if cd $DOC_PATH/$service_name/$rst_location; then
         for file in $(find .  -name \*.rst); do
             hc_old_name=$(grep original_name $file | cut -f2 -d" ");
-            hc_new_name=$(echo $file | cut -f2 -d"."| cut -f2- -d"/");
+            hc_new_name=$(echo ${file:1:-4} | cut -f2- -d"/");
             echo \ \ /$hc_old_location/$hc_old_name $hc_new_location$hc_new_name.html\; >> $DOC_PATH/redirect-$service_name.map;
         done;
     fi
@@ -216,13 +266,15 @@ done
 cd $DOC_PATH
 sed -i '/\/null\//d' *.map
 
-# Add en-us redirections
+# Add en-us redirections and sort
 cd $DOC_PATH
 for i in *.map; do
     echo $i;
     sed 's/  \(.*\)/  \/en-us\1/g' $i >> $i.new;
     cat $i.new >> $i;
     rm $i.new
+    sort -n $i > $i.tmp
+    mv $i.tmp $i
 done
 
 # Move files to system-config
