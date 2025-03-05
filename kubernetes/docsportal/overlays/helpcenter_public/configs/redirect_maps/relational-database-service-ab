@@ -1,3 +1,7 @@
+  /usermanual/rds/rds_faq_0098.html /relational-database-service/umn/faqs/backup_and_restoration/index.html;
+  /usermanual/rds/rds_faq_0100.html /relational-database-service/umn/faqs/database_connection/what_should_i_do_if_an_rds_microsoft_sql_server_db_instance_failed_to_be_connected.html;
+  /usermanual/rds/rds_faq_0101.html /relational-database-service/umn/faqs/database_connection/can_i_access_an_rds_db_instance_over_an_intranet_connection_across_regions.html;
+  /usermanual/rds/rds_faq_0104.html /relational-database-service/umn/faqs/product_consulting/can_rds_primary_standby_db_instances_be_changed_to_single_db_instances.html;
   /usermanual/rds/rds_faq_0110.html /relational-database-service/umn/faqs/product_consulting/what_should_i_do_if_garbled_characters_are_displayed_after_sql_query_results_are_exported_to_an_excel_file.html;
   /usermanual/rds/rds_faq_0111.html /relational-database-service/umn/faqs/database_connection/is_an_ssl_connection_to_a_db_instance_interrupted_after_a_primary_standby_switchover_or_failover.html;
   /usermanual/rds/rds_faq_0119.html /relational-database-service/umn/faqs/database_parameter_modification/does_rds_for_postgresql_support_the_test_decoding_plugin.html;
@@ -53,10 +57,12 @@
   /usermanual/rds/rds_pg_08_0042.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/exporting_a_parameter_template.html;
   /usermanual/rds/rds_pg_10_0000.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/index.html;
   /usermanual/rds/rds_pg_10_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/suggestions_on_postgresql_parameter_tuning.html;
+  /usermanual/rds/rds_pg_11_0000.html /relational-database-service/umn/best_practices/rds_for_postgresql/index.html;
   /usermanual/rds/rds_pg_11_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/index.html;
   /usermanual/rds/rds_pg_11_0002.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/introducing_read_replicas.html;
   /usermanual/rds/rds_pg_11_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/read_replicas/managing_a_read_replica.html;
   /usermanual/rds/rds_pg_11_0005.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/connecting_to_a_db_instance_through_pgadmin.html;
+  /usermanual/rds/rds_pg_11_0011.html /relational-database-service/umn/best_practices/rds_for_postgresql/security_best_practices.html;
   /usermanual/rds/rds_pg_11_0029.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/configuring_ssl_encryption.html;
   /usermanual/rds/rds_pg_backup_restore.html /relational-database-service/umn/working_with_rds_for_postgresql/backups_and_restorations/working_with_backups.html;
   /usermanual/rds/rds_pg_change_database_port.html /relational-database-service/umn/working_with_rds_for_postgresql/connection_management/changing_a_database_port.html;
