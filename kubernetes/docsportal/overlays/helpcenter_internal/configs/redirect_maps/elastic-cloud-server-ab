@@ -1,9 +1,7 @@
-  /usermanual/ecs/en-us_topic_0149470468.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/manually_installing_a_tesla_driver_on_a_gpu-accelerated_ecs.html;
-  /usermanual/ecs/en-us_topic_0149610914.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/manually_installing_a_grid_driver_on_a_gpu-accelerated_ecs.html;
   /usermanual/ecs/en-us_topic_0152643976.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_attach_a_snapshot-based_system_disk_to_an_ecs_as_its_data_disk.html;
   /usermanual/ecs/en-us_topic_0155136013.html /elastic-cloud-server/umn/faqs/os/index.html;
   /usermanual/ecs/en-us_topic_0155136016.html /elastic-cloud-server/umn/faqs/os/how_can_i_install_a_gui_on_an_ecs_running_ubuntu.html;
-  /usermanual/ecs/en-us_topic_0160672219.html /elastic-cloud-server/umn/faqs/ecs_creation/what_is_the_creation_time_and_startup_time_of_an_ecs.html;
+  /usermanual/ecs/en-us_topic_0160672219.html /elastic-cloud-server/umn/faqs/ecs_creation/what_is_the_creation_time_and_launch_time_of_an_ecs.html;
   /usermanual/ecs/en-us_topic_0163572588.html /elastic-cloud-server/umn/getting_started/creating_an_ecs/overview.html;
   /usermanual/ecs/en-us_topic_0163572589.html /elastic-cloud-server/umn/getting_started/creating_an_ecs/step_1_configure_basic_settings.html;
   /usermanual/ecs/en-us_topic_0163572590.html /elastic-cloud-server/umn/getting_started/creating_an_ecs/step_2_configure_network.html;
@@ -18,7 +16,7 @@
   /usermanual/ecs/en-us_topic_0170139797.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/what_should_i_do_if_the_connection_between_the_client_and_the_server_times_out_when_i_upload_a_file_using_ftp.html;
   /usermanual/ecs/en-us_topic_0170139798.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/what_should_i_do_if_writing_data_failed_when_i_upload_a_file_using_ftp.html;
   /usermanual/ecs/en-us_topic_0170158381.html /elastic-cloud-server/umn/faqs/ecs_deletion_and_unsubscription/can_a_deleted_ecs_be_restored.html;
-  /usermanual/ecs/en-us_topic_0170232209.html /elastic-cloud-server/umn/service_overview/permissions_management.html;
+  /usermanual/ecs/en-us_topic_0170232209.html /elastic-cloud-server/umn/service_overview/permissions.html;
   /usermanual/ecs/en-us_topic_0170265910.html /elastic-cloud-server/umn/using_iam_to_grant_access_to_ecs/index.html;
   /usermanual/ecs/en-us_topic_0170265913.html /elastic-cloud-server/umn/using_iam_to_grant_access_to_ecs/creating_a_user_and_granting_ecs_permissions.html;
   /usermanual/ecs/en-us_topic_0170265914.html /elastic-cloud-server/umn/using_iam_to_grant_access_to_ecs/ecs_custom_policies.html;
@@ -34,7 +32,7 @@
   /usermanual/ecs/en-us_topic_0183019670.html /elastic-cloud-server/umn/resources_and_tags/tag_management/searching_for_resources_by_tag.html;
   /usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_a_tag.html;
   /usermanual/ecs/en-us_topic_0186645877.html /elastic-cloud-server/umn/service_overview/region_and_az.html;
-  /usermanual/ecs/en-us_topic_0189943259.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_add_an_ecs_with_local_disks_attached_to_an_ecs_group.html;
+  /usermanual/ecs/en-us_topic_0189943259.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_add_ecss_using_local_disks_to_an_ecs_group.html;
   /usermanual/ecs/en-us_topic_0198270920.html /elastic-cloud-server/umn/faqs/network_configuration/how_do_i_configure_dns_for_an_ecs.html;
   /usermanual/ecs/en-us_topic_0206596990.html /elastic-cloud-server/umn/security/hss.html;
   /usermanual/ecs/en-us_topic_0208785174.html /elastic-cloud-server/umn/faqs/ecs_creation/index.html;
@@ -50,7 +48,7 @@
   /usermanual/ecs/en-us_topic_0214940106.html /elastic-cloud-server/umn/faqs/specification_modification/why_does_the_disk_attachment_of_a_linux_ecs_fail_after_i_modify_the_ecs_specifications.html;
   /usermanual/ecs/en-us_topic_0234802636.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/gpu_driver.html;
   /usermanual/ecs/en-us_topic_0236302789.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_do_i_upload_files_to_my_ecs.html;
-  /usermanual/ecs/en-us_topic_0236308363.html /elastic-cloud-server/umn/faqs/region_and_az/can_i_migrate_an_ecs_to_another_region_az_or_account.html;
+  /usermanual/ecs/en-us_topic_0236308363.html /elastic-cloud-server/umn/faqs/region_and_az/can_i_migrate_an_ecs_to_another_az_or_account.html;
   /usermanual/ecs/en-us_topic_0238302634.html /elastic-cloud-server/umn/faqs/ecs_creation/what_do_i_do_if_i_selected_an_incorrect_image_for_my_ecs.html;
   /usermanual/ecs/en-us_topic_0240543420.html /elastic-cloud-server/umn/eips/unbinding_an_eip.html;
   /usermanual/ecs/en-us_topic_0240708481.html /elastic-cloud-server/umn/faqs/remote_login/remote_login_errors_on_linux/index.html;

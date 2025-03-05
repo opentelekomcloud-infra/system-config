@@ -1,5 +1,5 @@
   /api/evs/ /elastic-volume-service/api-ref/index.html;
-  /api/evs/evs_04_0001.html /elastic-volume-service/api-ref/api_usage_guidelines.html;
+  /api/evs/evs_04_0002.html /elastic-volume-service/api-ref/api_usage_guidelines.html;
   /api/evs/evs_04_0018.html /elastic-volume-service/api-ref/api_version_description_and_usage_instructions.html;
   /api/evs/evs_04_0020.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/querying_information_of_api_versions.html;
   /api/evs/evs_04_0021.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/querying_information_of_an_api_version.html;
@@ -163,6 +163,7 @@
   /api/evs/evs_04_4003.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/az_query/index.html;
   /api/evs/evs_04_4005.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/disk_metadata_management/index.html;
   /api/evs/evs_04_4007.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/index.html;
+  /api/evs/evs_04_4008.html /elastic-volume-service/api-ref/apis_recommended/disk_management/changing_the_evs_disk_type.html;
   /api/evs/evs_06_0400.html /elastic-volume-service/api-ref/apis_recommended/task_management/index.html;
   /devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;
@@ -175,7 +176,7 @@
   /devg/evs/evs_03_0008.html /elastic-volume-service/dev-guide/rolling_back_a_snapshot_to_an_evs_disk.html;
   /devg/evs/evs_03_0010.html /elastic-volume-service/dev-guide/change_history.html;
   /en-us/api/evs/ /elastic-volume-service/api-ref/index.html;
-  /en-us/api/evs/evs_04_0001.html /elastic-volume-service/api-ref/api_usage_guidelines.html;
+  /en-us/api/evs/evs_04_0002.html /elastic-volume-service/api-ref/api_usage_guidelines.html;
   /en-us/api/evs/evs_04_0018.html /elastic-volume-service/api-ref/api_version_description_and_usage_instructions.html;
   /en-us/api/evs/evs_04_0020.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/querying_information_of_api_versions.html;
   /en-us/api/evs/evs_04_0021.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/querying_information_of_an_api_version.html;
@@ -339,6 +340,7 @@
   /en-us/api/evs/evs_04_4003.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/az_query/index.html;
   /en-us/api/evs/evs_04_4005.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/disk_metadata_management/index.html;
   /en-us/api/evs/evs_04_4007.html /elastic-volume-service/api-ref/openstack_cinder_apis_recommended/api_version_query/index.html;
+  /en-us/api/evs/evs_04_4008.html /elastic-volume-service/api-ref/apis_recommended/disk_management/changing_the_evs_disk_type.html;
   /en-us/api/evs/evs_06_0400.html /elastic-volume-service/api-ref/apis_recommended/task_management/index.html;
   /en-us/devg/evs/ /elastic-volume-service/dev-guide/index.html;
   /en-us/devg/evs/evs_03_0001.html /elastic-volume-service/dev-guide/overview.html;
