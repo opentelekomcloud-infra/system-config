@@ -1,6 +1,5 @@
   /glossary/index.html /additional/glossary.html;
   /permissions/index.html /additional/permissions.html;
-  /endpoint/index.html /additional/endpoints.html;
   /sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /api/apiug/apig-en-api-180328001.html /developer/api_guidelines/index.html;
   /api/apiug/apig-en-api-180328002.html /developer/api_guidelines/overview_of_rest_apis.html;
@@ -21,7 +20,7 @@
   /en-us/index.html /index.html;
   /en-us/glossary/index.html /additional/glossary.html;
   /en-us/permissions/index.html /additional/permissions.html;
-  /en-us/endpoint/index.html /additional/endpoints.html;
+  /en-us/endpoint/index.html /regions-and-endpoints/index.html;
   /en-us/sd/index.html /status-dashboard/umn/_static/OTC_Status_Dashboard_User_Guide.pdf;
   /en-us/api/apiug/apig-en-api-180328001.html /developer/api_guidelines/index.html;
   /en-us/api/apiug/apig-en-api-180328002.html /developer/api_guidelines/overview_of_rest_apis.html;
