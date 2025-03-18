@@ -37,7 +37,7 @@ spec:
                   name: "k8-tokens"
                   readOnly: true
           containers:
-            - name: eyes-on-docs-scheduler
+            - name: eyes-on-docs-huawei
               image: quay.io/opentelekomcloud/eyes_on_docs
               imagePullPolicy: IfNotPresent
               command:
