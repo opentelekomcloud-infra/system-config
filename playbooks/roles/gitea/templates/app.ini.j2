@@ -83,11 +83,13 @@ SUCCESSFUL_TOKENS_CACHE_SIZE = 20
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
 ;; Enables OAuth2 provider
-ENABLE = true
+ENABLED = true
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [log]
+MODE = "console, file"
+LEVEL = Debug
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Root path for the log files - defaults to %(GITEA_WORK_DIR)/log
@@ -127,7 +129,11 @@ ROUTER = console
 ;;
 ;; Access Logger (Creates log in NCSA common log format)
 ;;
-ENABLE_ACCESS_LOG = true
+[log.logger.access]
+MODE = console, file
+
+[log.logger.router]
+MODE = console
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;
@@ -143,6 +149,14 @@ MAX_GIT_DIFF_FILES = 50
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [service]
+DISABLE_REGISTRATION = true
+ALLOW_ONLY_INTERNAL_REGISTRATION = false
+REQUIRE_SIGNIN_VIEW = true
+ENABLE_NOTIFY_MAIL = true
+DEFAULT_KEEP_EMAIL_PRIVATE = true
+SHOW_REGISTRATION_BUTTON = false
+DEFAULT_ORG_VISIBILITY = limited
+DEFAULT_USER_VISIBILITY = limited
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;EMAIL_DOMAIN_WHITELIST =
@@ -168,7 +182,7 @@ DEFAULT_USER_VISIBILITY = limited
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 DISABLE_USERS_PAGE = true
-REQUIRE_SIGNIN_VIEW = false
+REQUIRE_SIGNIN_VIEW = true
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -182,6 +196,11 @@ REQUIRE_SIGNIN_VIEW = false
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;[repository]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+REQUIRE_SIGNIN_VIEW = true
+ACCESS_CONTROL_ALLOW_ORIGIN = 
+ENABLE_PUSH_CREATE_USER = false
+ENABLE_PUSH_CREATE_ORG = false
+DEFAULT_PRIVATE = true
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -399,7 +418,8 @@ PROVIDER = db
 ;[api]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;ENABLE_SWAGGER = true
+ENABLE_SWAGGER = false
+REQUIRE_SIGNIN_VIEW = true
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
