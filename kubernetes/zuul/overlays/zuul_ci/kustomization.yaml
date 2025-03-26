@@ -147,6 +147,8 @@ patches:
         path: /metadata/annotations
         value:
           cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
       - op: replace
         path: /spec/tls
         value:

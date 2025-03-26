@@ -23,6 +23,8 @@ patches:
         value:
           nginx.ingress.kubernetes.io/proxy-body-size: "50m"
           cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
       - op: replace
         path: /spec/tls
         value:
