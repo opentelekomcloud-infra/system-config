@@ -133,6 +133,8 @@ grafana:
     ingressClassName: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
     path: /
     port: http
     pathType: Prefix

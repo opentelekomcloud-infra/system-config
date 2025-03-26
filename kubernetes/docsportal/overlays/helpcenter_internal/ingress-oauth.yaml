@@ -3,6 +3,8 @@ kind: Ingress
 metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
   labels:
     app.kubernetes.io/instance: helpcenter-internal-oauth
     app.kubernetes.io/managed-by: kustomize

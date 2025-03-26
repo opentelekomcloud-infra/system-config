@@ -5,6 +5,8 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
 spec:
   ingressClassName: nginx
   rules:

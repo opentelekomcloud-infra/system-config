@@ -30,6 +30,8 @@ server:
       nginx.ingress.kubernetes.io/backend-protocol: HTTPS
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
     ingressClassName: "nginx"
 
     hosts:
