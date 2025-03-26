@@ -47,6 +47,8 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-realm: Authentication Required
         nginx.ingress.kubernetes.io/auth-secret: basic-auth
         nginx.ingress.kubernetes.io/auth-type: basic
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
       enabled: true
       hosts:
       - alertmanager-nl.cloudmon.eco.tsi-dev.otc-service.com
@@ -70,6 +72,8 @@ kube-prometheus-stack:
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
       enabled: true
       hosts:
       - grafana-nl.cloudmon.eco.tsi-dev.otc-service.com
@@ -101,6 +105,8 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-realm: Authentication Required
         nginx.ingress.kubernetes.io/auth-secret: basic-auth
         nginx.ingress.kubernetes.io/auth-type: basic
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
       enabled: true
       hosts:
       - prometheus-nl.cloudmon.eco.tsi-dev.otc-service.com
