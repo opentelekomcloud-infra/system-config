@@ -5,6 +5,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
   labels:
     app.kubernetes.io/instance: helpcenter-internal-oauth
     app.kubernetes.io/managed-by: kustomize

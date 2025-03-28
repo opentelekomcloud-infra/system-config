@@ -32,6 +32,7 @@ server:
       nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       cert-manager.io/private-key-algorithm: RSA
       cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
     ingressClassName: "nginx"
 
     hosts:
