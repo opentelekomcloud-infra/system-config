@@ -203,6 +203,7 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
         cert-manager.io/private-key-algorithm: RSA
         cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
       enabled: true
       hosts:
       - alertamanager-mon.infra.eco.tsi-dev.otc-service.com
@@ -244,6 +245,7 @@ kube-prometheus-stack:
         nginx.ingress.kubernetes.io/auth-type: basic
         cert-manager.io/private-key-algorithm: RSA
         cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
       enabled: true
       hosts:
       - prometheus-mon.infra.eco.tsi-dev.otc-service.com
