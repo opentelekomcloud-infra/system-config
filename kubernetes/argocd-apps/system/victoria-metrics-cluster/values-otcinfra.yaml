@@ -1,4 +1,210 @@
-victoria-metrics-cluster:
+global:
+  image:
+    vm:
+      tag: "v1.114.0-cluster"
+  compatibility:
+    openshift:
+      adaptSecurityContext: "auto"
+  cluster:
+    dnsDomain: cluster.local
+
+printNotes: true
+
+serviceAccount:
+  create: true
+  automountToken: true
+
+vmselect:
+  enabled: true
+  name: ""
+  image:
+    repository: victoriametrics/vmselect
+    tag: "v1.114.0-cluster"
+    pullPolicy: IfNotPresent
+    variant: cluster
+  ports:
+    name: "http"
+  suppressStorageFQDNsRender: false
+  terminationGracePeriodSeconds: 60
+  extraArgs:
+    envflag.enable: true
+    envflag.prefix: VM_
+    loggerFormat: json
+    httpListenAddr: :8481
+    dedup.minScrapeInterval: "30s"
+    replicationFactor: "2"
+  probe:
+    readiness:
+      httpGet: {}
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 10
+    liveness:
+      tcpSocket: {}
+      initialDelaySeconds: 5
+      periodSeconds: 15
+      timeoutSeconds: 5
+      failureThreshold: 3
+  replicaCount: 2
+  resources:
+    limits:
+      memory: "1Gi"
+    requests:
+      cpu: "1000m"
+      memory: "1Gi"
+  cacheMountPath: /cache
+  service:
+    enabled: true
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+    externalIPs: []
+    extraPorts: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    servicePort: 8481
+    targetPort: http
+    type: ClusterIP
+    healthCheckNodePort: ""
+    externalTrafficPolicy: ""
+    ipFamilyPolicy: ""
+    ipFamilies: []
+  mode: deployment
+  statefulSet:
+    spec:
+      podManagementPolicy: OrderedReady
+  emptyDir: {}
+  persistentVolume:
+    enabled: false
+    accessModes:
+      - ReadWriteOnce
+    size: 2Gi
+    subPath: ""
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    extraLabels:
+      release: prometheus-otcinfra
+
+vminsert:
+  enabled: true
+  image:
+    repository: victoriametrics/vminsert
+    tag: "v1.114.0-cluster"
+    pullPolicy: IfNotPresent
+    variant: cluster
+  ports:
+    name: "http"
+  extraArgs:
+    envflag.enable: true
+    envflag.prefix: VM_
+    loggerFormat: json
+    httpListenAddr: :8480
+    replicationFactor: "2"
+  resources:
+    limits:
+      memory: "1Gi"
+    requests:
+      cpu: "1000m"
+      memory: "1Gi"
+  service:
+    enabled: true
+    annotations: {}
+    labels: {}
+    clusterIP: ""
+    externalIPs: []
+    extraPorts: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    servicePort: 8480
+    targetPort: http
+    type: ClusterIP
+    udp: false
+    healthCheckNodePort: ""
+    externalTrafficPolicy: ""
+    ipFamilyPolicy: ""
+    ipFamilies: []
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    extraLabels:
+      release: prometheus-otcinfra
+    annotations: {}
+    basicAuth: {}
+    relabelings: []
+    metricRelabelings: []
+
+vmstorage:
+  enabled: true
+  image:
+    repository: victoriametrics/vmstorage
+    tag: "v1.114.0-cluster"
+    pullPolicy: IfNotPresent
+    variant: cluster
+  ports:
+    name: "http"
+  retentionPeriod: 12
+  extraArgs:
+    envflag.enable: true
+    envflag.prefix: VM_
+    loggerFormat: json
+    httpListenAddr: :8482
+    dedup.minScrapeInterval: "30s"
+  persistentVolume:
+    enabled: true
+    name: vmstorage-volume
+    accessModes:
+      - ReadWriteOnce
+    annotations: {}
+    labels: {}
+    storageClassName: "csi-disk"
+    existingClaim: ""
+    mountPath: /storage
+    size: 300Gi
+    subPath: ""
+  replicaCount: 2
+  containerWorkingDir: ""
+  podManagementPolicy: OrderedReady
+  resources:
+    limits:
+      memory: "2Gi"
+    requests:
+      cpu: "500m"
+      memory: "2Gi"
+  securityContext:
+    enabled: false
+  podSecurityContext:
+    enabled: false
+  service:
+    enabled: true
+    type: ClusterIP
+    servicePort: 8482
+    vminsertPort: 8400
+    vmselectPort: 8401
+  terminationGracePeriodSeconds: 60
+  minReadySeconds: 5
+  probe:
+    readiness:
+      httpGet:
+        path: /health
+        port: http
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      failureThreshold: 10
+    startup: {}
+
+  serviceMonitor:
+    enabled: true
+    namespace: monitoring
+    extraLabels:
+      release: prometheus-otcinfra
+    annotations: {}
+    basicAuth: {}
+    relabelings: []
+    metricRelabelings: []
+
 
   clusterDomainSuffix: cluster.local
   printNotes: true
