@@ -11,6 +11,9 @@ crds:
 dex:
   enabled: false
 
+global:
+  domain: argocd.eco.tsi-dev.otc-service.com
+
 ## Server
 server:
   extensions:
@@ -34,16 +37,8 @@ server:
       cert-manager.io/private-key-size: "4096"
       cert-manager.io/private-key-rotation-policy: Always
     ingressClassName: "nginx"
-
-    hosts:
-      - argocd.eco.tsi-dev.otc-service.com
-    paths:
-      - /
-    tls:
-      - secretName: argocd-cert
-        hosts:
-          - argocd.eco.tsi-dev.otc-service.com
-    https: true
+    path: /
+    tls: true
 
 repoServer:
   env:
