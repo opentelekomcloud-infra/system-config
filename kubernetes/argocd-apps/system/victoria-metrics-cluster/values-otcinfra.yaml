@@ -17,7 +17,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vmselect
-      tag: v1.105.0-cluster
+      tag: v1.107.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"
@@ -62,7 +62,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vminsert
-      tag: v1.105.0-cluster
+      tag: v1.107.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"
@@ -106,7 +106,7 @@ victoria-metrics-cluster:
     replicaCount: 2
     image:
       repository: victoriametrics/vmstorage
-      tag: v1.105.0-cluster
+      tag: v1.107.0-cluster
       pullPolicy: IfNotPresent
     ports:
       name: "http"
