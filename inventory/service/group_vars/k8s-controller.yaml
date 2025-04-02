@@ -49,7 +49,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.5.2
+    version: 4.12.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
@@ -63,7 +63,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-intern
     ref: ingress-nginx/ingress-nginx
-    version: 4.1.0
+    version: 4.12.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     class_name: "ingress-intern"
@@ -78,7 +78,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.5.2
+    version: 4.12.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
@@ -92,7 +92,7 @@ helm_chart_instances:
     repo_name: ingress-nginx
     name: ingress-nginx
     ref: ingress-nginx/ingress-nginx
-    version: 4.5.2
+    version: 4.12.1
     namespace: default
     values_template: "templates/charts/ingress-nginx/ingress-nginx-values.yaml.j2"
     is_default: true
