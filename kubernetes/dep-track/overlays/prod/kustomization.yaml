@@ -81,3 +81,6 @@ configMapGenerator:
 resources:
   - ../../base
   - sa.yaml
+
+components:
+  - ../../components/postgres
