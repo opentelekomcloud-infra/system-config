@@ -26,7 +26,7 @@ spec:
           env:
             - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-          image: "vault"
+          image: "hashicorp/vault"
           resources:
             limits:
               cpu: "100m"
