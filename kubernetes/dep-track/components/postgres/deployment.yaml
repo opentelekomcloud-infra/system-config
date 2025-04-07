@@ -57,6 +57,8 @@ spec:
               value: "/secrets/postgres-passwd"
             - name: "POSTGRES_USER_NAME"
               value: "dependencytrack"
+            - name: "PGDATA"
+              value: "/var/lib/postgresql/data/pgdata"
           readinessProbe:
             tcpSocket:
               port: 5432
