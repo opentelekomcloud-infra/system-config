@@ -19,4 +19,4 @@ images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
     newTag: "change_21_latest"
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "0.5.1"
+    newTag: "0.5.2"
