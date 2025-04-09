@@ -11,4 +11,4 @@ configMapGenerator:
 
 images:
   - name: "quay.io/opentelekomcloud/eyes_on_docs"
-    newTag: "0.1.32"
+    newTag: "0.1.33"
