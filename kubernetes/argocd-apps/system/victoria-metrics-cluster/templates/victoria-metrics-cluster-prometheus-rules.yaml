@@ -2,9 +2,8 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: {{ template "victoria-metrics.fullname" . }}
+  name: {{ template "vm.plain.fullname"  . }}
   labels:
-    {{- include "victoria-metrics.common.metaLabels" . | nindent 4 }}
     release: prometheus
 spec:
   groups:
