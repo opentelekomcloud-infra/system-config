@@ -136,7 +136,8 @@ configs:
       AVP_MOUNT_PATH: "auth/kubernetes_otcinfra2"
 
   rbac:
-    policy.default: role:readonly
+    #most expensive fault
+    #policy.default: role:readonly
     policy.csv: |
       g, /argocd-admin, role:admin
 
