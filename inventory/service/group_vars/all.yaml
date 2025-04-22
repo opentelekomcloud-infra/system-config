@@ -102,9 +102,9 @@ telegraf_image_latest: quay.io/opentelekomcloud/telegraf:1.24.4-alpine
 vault_image_stable: quay.io/opentelekomcloud/vault:change_668_latest
 vault_image_latest: quay.io/opentelekomcloud/vault:change_668_latest
 influxdb_image_stable: quay.io/opentelekomcloud/influxdb:2.1.1
-keycloak_image_stable: quay.io/keycloak/keycloak:20.0
-keycloak_image_latest: quay.io/keycloak/keycloak:20.0
-keycloak_postgres_image_stable: quay.io/opentelekomcloud/postgres:15.1
-keycloak_postgres_image_latest: quay.io/opentelekomcloud/postgres:15.1
+keycloak_image_stable: quay.io/keycloak/keycloak:26.2
+keycloak_image_latest: quay.io/keycloak/keycloak:26.2
+keycloak_postgres_image_stable: quay.io/opentelekomcloud/postgres:15.12
+keycloak_postgres_image_latest: quay.io/opentelekomcloud/postgres:15.12
 go_neb_image_stable: quay.io/opentelekomcloud/go-neb:master-2022-04-13
 go_neb_image_latest: quay.io/opentelekomcloud/go-neb:master-2022-04-13
