@@ -26,7 +26,7 @@ ExecStart={{ container_runtime }} run \
     -v /etc/ssl/{{ inventory_hostname }}/keycloak:/opt/keycloak/ssl:ro,Z \
 {% endif %}
 {% if keycloak_auth_ldap_certificate is defined and keycloak_auth_ldap_certificate|length > 0 %}
-    ${KEYCLOAK_IMAGE} start --proxy reencrypt --spi-truststore-file-file=/opt/keycloak/data/cacerts-otc --spi-truststore-file-password={{ keycloak_keystore_pass }} --spi-truststore-file-hostname-verification-policy=ANY
+    ${KEYCLOAK_IMAGE} start --proxy-headers=xforwarded --spi-truststore-file-file=/opt/keycloak/data/cacerts-otc --spi-truststore-file-password={{ keycloak_keystore_pass }}
 {% else %}
     ${KEYCLOAK_IMAGE} start --proxy reencrypt
 {% endif %}
