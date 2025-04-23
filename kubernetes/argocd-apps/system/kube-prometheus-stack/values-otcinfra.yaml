@@ -281,7 +281,7 @@ kube-prometheus-stack:
           - https://alerts.eco.tsi-dev.otc-service.com/api/
           - https://dashboard.tsi-dev.otc-service.com/login
           - https://graphite-ca.eco.tsi-dev.otc-service.com/lb_check
-          - https://keycloak.eco.tsi-dev.otc-service.com/health
+          - https://keycloak.eco.tsi-dev.otc-service.com/admin/master/console
           - https://gitea.eco.tsi-dev.otc-service.com/
           - https://influx1.eco.tsi-dev.otc-service.com/
           - https://opensearch-dashboard.eco.tsi-dev.otc-service.com/
