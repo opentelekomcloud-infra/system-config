@@ -9,7 +9,7 @@ configMapGenerator:
 images:
   - name: postgres
     newName: "postgres"
-    newTag: "15.2-alpine"
+    newTag: "15.12-bullseye"
 
 resources:
   - deployment.yaml
