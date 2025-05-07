@@ -100,13 +100,13 @@ all_users:
     gid: 2035
 
   sgode:
-    commnet: S. G.
+    comment: S. G.
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAghnbnj6n9ZWXtBDUiHnqBl2yC3REMPFYWEimW7Ao6E sgode-eco-infra
     uid: 2036
     gid: 2036
 
   lcuper:
-    commnet: L. C.
+    comment: L. C.
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBrioFxInmU3lhbsOTTHJieHZ7h4G+dR6/OJNHyQv+3m
     uid: 2037
     gid: 2037
