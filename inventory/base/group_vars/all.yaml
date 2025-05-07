@@ -39,7 +39,7 @@ unbound_forward_zones: []
 # fill in holes in the middle of the range.
 all_users:
   gtema:
-    comment: Artem Goncharov
+    comment: A. G.
     key: |
       ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDBBVL8LJ14SfFPK2zNeuO8rglURUJ32LFQXn0IzinZ7Y3ic8vtmF+UBvg+h8th56GZ3/DR9b+zcXfbA+0cdfTr+BWlDCYwcLab2vgU/S9FyQBzYr7ZWxtEFOmb5ztVp2b5wFt/DD7YBfyJNzM9SpVQDO4furwNZDq5af0+D67KOsV2BPLXL4/zMGkLR3TSFNzdJCSLrWML96NWK1FvpEjDroyKXFTVVcLBTgtBnFtpjpUzmlJSntaUxTQq1htiWLTGQL3ApLqx7YYctxDDkeBrWGSQPZgFppqhk5U8sWE9ieGztGuVyYzAhvz8YO9nm8M26izVebjwe+9u1hqa3Pk9 artem.goncharov
       sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIFhfujbhx20AzKf2okw9WnduPe2keIWkFDhsSLNlvMd6AAAABHNzaDo= gtema@yubikey
@@ -47,25 +47,25 @@ all_users:
     gid: 2000
 
   vhasko:
-    comment: Vladimir Hasko
+    comment: V. H.
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvurvAWz7ourNA8rGKFK94qP4qNtSGO28hd5mx76LdbFoNAj0vMj+Uwsxjz00zQjGvWWoL8aRVP/It5P/eAz4C/kzhQcB5s+mOSKcwus5bZMtefyusEN1jr2035bOVpdrV5h8OpNUZ4WJRxfUNb46sz89Y/C49dUPsWY+ZpwDFk4xrYmihPQQyogEJ5PDXvdtNbcW/QA2gj4U+HFWY7vnmiC7tfViX1d3Ne0d4pb1XKiTMiFyQH0jRAF4ydIku4kIG7sqw9HAKoDeOzIbh+LYBO6qbefpH8jF/VVJyc+jmBx49VFAfiNfOg58QwrnKmXWF640O5J1UhDrvoAT8A2y1 vladimir.hasko
     uid: 2002
     gid: 2002
 
   enrrou:
-    comment: Vladimir Vshivkov
+    comment: V. V.
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDF0YWXjTSh8DOgVH8nZPEP+9ZaTvRP3TF4qTUxZ7knHM1H6Rx0IROHa60l19J4+X7Cmu7dsNtSVslXAAVCEO5Wcrm5cU8IbczBPQKoGYpAvGaYqneuzl9Yp8MH3HpPs6nJ1REA3lwB1TcmuyDJklb2sG86Iug4+D3EnovMnzrv+75ypuEOTMxQzj2h7f3twSKX5DFulrKsHW0+HWRhTXMD/k/HnJrXsbm/H9KAg+916zbykUitggRl1pznlUzjD5zm1cvg6bO0mnb8dE9KoE28cXJacMOV/8/KKIpL0EU4WAIcRKmjZ3k/gNSrl6ONvP2OxyeESyjN0BSobspsu71V enrrou@MacBookProEnrrou.local
     uid: 2003
     gid: 2003
 
   ibakhter:
-    comment: Ilia Bakhterev
+    comment: I. B.
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPcpgCsi22OOoMNuzQG04YFU3pb2W0ZU/iLsFCWbrtkH ibakhter
     uid: 2005
     gid: 2005
 
   mujan:
-    comment: Muneeb Hafeez Jan
+    comment: M. H. J.
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMSTC+S714elHMMNzNN8ahqfD8x1060vr+Ngyzz1eT86 a117905694@RDDE03UM
     uid: 2006
     gid: 2006
@@ -88,17 +88,29 @@ all_users:
     gid: 2031
 
   smartynov:
-    comment: Sergei Martynov
+    comment: S. M.
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpHyuVlTQDcE+YBqHj40ci7kBXMI7qnytu3kv2KhlUqAa/nrl1rSz52bY1ON+3e+rUNL+qtPHTfd9ryQHXviYZ20atxeP9yx4OmAtvf8QiBbCO8C+LPDWU9TGSl1RB4AiArZbS3y9lQI+7OooI4zGeqvfed00sqVDgCKrbqdUqWofz56Cqst587KJfZlXjl7YGfU6W3JmpynyIH3krxwFtqyfPxBuo0iR5FSP82SdAcka0PR5Dcji9QQ5fA7BSjnGZPDg9esBGmGnaXQB/6E9G78utenQ6uHeOoH+qAgkAbZxjGuJcuLmXjXPQQD7IEsTdkMGvQbs8wAJ08JQDVKbj smartynov
     uid: 2034
     gid: 2034
   
   magnus:
-    comment: Nils Magnus
+    comment: N. M.
     key: ssh-rsa AAAAB3NzaC1yc2EAAAAEQAAAgQAAAQEAosSxGuQH2SWqZugOMGiw4F3HzdORT9ZO1m+9p48IjQVzf57N6o08NLJFvRWTFHR8VxI1Y5o2w1fsCEPL3njtKl6MpIDSbvBDXugEK9pHcVZDMUllbKYtD8v6UHSJ70FqeE9VpAVHN/+/RklpsfPfmfxdScqJsrCSmFGCSYPj1bl6SVlYefKfu7NXYBK8seWp4l+iiVbX0M1D0R90xq2oPRkdlW5TntvTW5TJDPwxhd6y/qfQsSOmPUTHMc7XnzqcdPaHalzU3Uuvo+1PXeap9b6q3EA1/Jnu+QnNrZ6K0aCDrfIVtpB8ZtuLWUR2IcyTAN/gQLwHv5U7zn2O7/HRzw==
     uid: 2035
     gid: 2035
 
+  sgode:
+    comment: S. G.
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAghnbnj6n9ZWXtBDUiHnqBl2yC3REMPFYWEimW7Ao6E sgode-eco-infra
+    uid: 2036
+    gid: 2036
+
+  lcuper:
+    comment: L. C.
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBrioFxInmU3lhbsOTTHJieHZ7h4G+dR6/OJNHyQv+3m
+    uid: 2037
+    gid: 2037
+    
 # List of users to install on all hosts
 base_users:
   - gtema
@@ -106,6 +118,8 @@ base_users:
   - enrrou
   - smartynov
   - magnus
+  - sgode
+  - lcuper
 
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
