@@ -14,11 +14,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Helm
         uses: azure/setup-helm@v3
         with:
           version: 'latest'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -43,30 +47,42 @@ jobs:
           # Get info from matrix
           MATRIX='${{ steps.dependency-check.outputs.matrix }}'
           
-          # Use vars for further tasks
-          APPS=($(echo $MATRIX | jq -r '.include[].app_name'))
-          BRANCHES=($(echo $MATRIX | jq -r '.include[].branch_name'))
-          PR_TITLES=($(echo $MATRIX | jq -r '.include[].pr_title'))
-          UPDATE_DETAILS=($(echo $MATRIX | jq -r '.include[].update_details'))
+          # Install Github cli
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+          echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+          sudo apt update
+          sudo apt install gh
           
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
+          echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+          
+          # Use vars for further tasks
+          APP_NAMES=($(echo $MATRIX | jq -r '.include[].app_name'))
+          BRANCH_NAMES=($(echo $MATRIX | jq -r '.include[].branch_name'))
+          PR_TITLES=($(echo $MATRIX | jq -r '.include[].pr_title'))
+          UPDATE_DETAILS=($(echo $MATRIX | jq -r '.include[].update_details'))
           
           # Use vars for each app!
-          for i in "${!APPS[@]}"; do
-            APP=${APPS[$i]}
-            BRANCH=${BRANCHES[$i]}
+          for i in "${!APP_NAMES[@]}"; do
+            APP=${APP_NAMES[$i]}
+            BRANCH=${BRANCH_NAMES[$i]}
             TITLE=${PR_TITLES[$i]}
             DETAILS=${UPDATE_DETAILS[$i]}
             
             echo "Processing $APP..."
-            
+          
             git checkout -b $BRANCH
             git add kubernetes/argocd-apps/system/$APP/Chart.yaml
-            git commit -m "Update Helm chart dependencies for $APP"
-            git push origin $BRANCH
-            gh pr create --base main --head $BRANCH --title "$TITLE" --body "$DETAILS" --label "dependencies,helm-charts,$APP"
+            if [[ $(git diff --cached --name-only | wc -l) -gt 0 ]]; then
+              git commit -m "Update Helm chart dependencies for $APP"
+              git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git $BRANCH
+              gh pr create --base main --head $BRANCH --title "$TITLE" --body "$DETAILS" --label "dependencies,helm-charts,$APP"
+            else
+              echo "No changes for $APP, skipping PR creation"
+            fi
+            
             git checkout main
           done
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
