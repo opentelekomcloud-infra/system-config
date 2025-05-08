@@ -56,7 +56,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - name: Check for changes
+        id: git-check
+        run: |
+          git status
+          git diff
+          CHANGES=$(git status --porcelain | wc -l)
+          echo "has_changes=$CHANGES" >> $GITHUB_OUTPUT
+
+      - name: Commit changes if any
+        if: steps.git-check.outputs.has_changes != '0'
+        run: |
+          git config --global user.name 'GitHub Action'
+          git config --global user.email 'action@github.com'
+          git add .
+          git commit -m "Update helm chart dependencies for ${{ matrix.app_name }}"
+
       - name: Create Pull Request
+        if: steps.git-check.outputs.has_changes != '0'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
