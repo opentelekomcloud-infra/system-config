@@ -4,10 +4,10 @@ on:
 #  schedule:
 #    - cron: '0 9 * * 1'
   workflow_dispatch:
-   push:
-     branches: [ main ]
-     paths:
-       - 'kubernetes/argocd-apps/system/**/Chart.yaml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'kubernetes/argocd-apps/system/**/Chart.yaml'
 
 jobs:
   check-helm-dependencies:
@@ -60,8 +60,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message:
-                  ${{ format('chore: update {0} helm chart dependencies', matrix.app_name) }}
+          commit-message: ${{ format('chore: update {0} helm chart dependencies', matrix.app_name) }}
           title: ${{ matrix.pr_title }}
           body: ${{ matrix.update_details }}
           branch: ${{ matrix.branch_name }}
