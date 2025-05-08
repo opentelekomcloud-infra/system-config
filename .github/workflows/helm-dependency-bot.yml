@@ -1,8 +1,6 @@
 name: Helm Chart Dependencies Check
 
 on:
-#  schedule:
-#    - cron: '0 9 * * 1'
   workflow_dispatch:
   push:
     branches: [ main ]
@@ -10,11 +8,8 @@ on:
       - 'kubernetes/argocd-apps/system/**/Chart.yaml'
 
 jobs:
-  check-helm-dependencies:
+  check-and-create-prs:
     runs-on: ubuntu-latest
-    outputs:
-      has_updates: ${{ steps.dependency-check.outputs.has_updates }}
-      matrix: ${{ steps.dependency-check.outputs.matrix }}
 
     steps:
       - name: Checkout repository
@@ -42,44 +37,36 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHART_PATH: "kubernetes/argocd-apps/system"
 
-  # Job for dedicated PR create for each app
-  create-prs:
-    needs: check-helm-dependencies
-    if: ${{ fromJSON(needs.check-helm-dependencies.outputs.has_updates) }}
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix: ${{ fromJSON(needs.check-helm-dependencies.outputs.matrix) }}
-      fail-fast: false
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Check for changes
-        id: git-check
+      - name: Check for changes and create PRs
+        if: ${{ fromJSON(steps.dependency-check.outputs.has_updates) }}
         run: |
-          git status
-          git diff
-          CHANGES=$(git status --porcelain | wc -l)
-          echo "has_changes=$CHANGES" >> $GITHUB_OUTPUT
-
-      - name: Commit changes if any
-        if: steps.git-check.outputs.has_changes != '0'
-        run: |
+          # Get info from matrix
+          MATRIX='${{ steps.dependency-check.outputs.matrix }}'
+          
+          # Use vars for further tasks
+          APPS=($(echo $MATRIX | jq -r '.include[].app_name'))
+          BRANCHES=($(echo $MATRIX | jq -r '.include[].branch_name'))
+          PR_TITLES=($(echo $MATRIX | jq -r '.include[].pr_title'))
+          UPDATE_DETAILS=($(echo $MATRIX | jq -r '.include[].update_details'))
+          
           git config --global user.name 'GitHub Action'
           git config --global user.email 'action@github.com'
-          git add .
-          git commit -m "Update helm chart dependencies for ${{ matrix.app_name }}"
-
-      - name: Create Pull Request
-        if: steps.git-check.outputs.has_changes != '0'
-        uses: peter-evans/create-pull-request@v5
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: "chore: update ${{ matrix.app_name }} helm chart dependencies"
-          title: ${{ matrix.pr_title }}
-          body: ${{ matrix.update_details }}
-          branch: ${{ matrix.branch_name }}
-          delete-branch: true
-          labels: dependencies, helm-charts, ${{ matrix.app_name }}
+          
+          # Use vars for each app!
+          for i in "${!APPS[@]}"; do
+            APP=${APPS[$i]}
+            BRANCH=${BRANCHES[$i]}
+            TITLE=${PR_TITLES[$i]}
+            DETAILS=${UPDATE_DETAILS[$i]}
+            
+            echo "Processing $APP..."
+            
+            git checkout -b $BRANCH
+            git add kubernetes/argocd-apps/system/$APP/Chart.yaml
+            git commit -m "Update Helm chart dependencies for $APP"
+            git push origin $BRANCH
+            gh pr create --base main --head $BRANCH --title "$TITLE" --body "$DETAILS" --label "dependencies,helm-charts,$APP"
+            git checkout main
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
