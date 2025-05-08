@@ -165,22 +165,27 @@ def update_chart_dependencies_for_app(app_data):
 
     for dep in updates:
         file_path = dep['file_path']
+        current_version = dep['current_version']
+        latest_version = dep['latest_version']
 
         try:
             with open(file_path, 'r') as f:
-                content = f.read()
+                lines = f.readlines()
 
-            # Since versions have double quotes, use only double-quote pattern
-            pattern = fr'(dependencies:\s*(?:.*\s*)*?- name: {re.escape(dep["name"])}\s*(?:.*\s*)*?version: ")({re.escape(dep["current_version"])})(")'
+            updated_lines = []
+            for line in lines:
+                if f'name: {dep["name"]}' in line:
+                    updated_lines.append(line)
+                elif 'version:' in line and len(updated_lines) > 0 and f'name: {dep["name"]}' in updated_lines[-1]:
+                    updated_line = line.replace(f'"{current_version}"', f'"{latest_version}"')
+                    updated_lines.append(updated_line)
+                else:
+                    updated_lines.append(line)
 
-            updated_content = re.sub(pattern, fr'\1{dep["latest_version"]}\3', content, flags=re.MULTILINE)
+            with open(file_path, 'w') as f:
+                f.writelines(updated_lines)
 
-            if content != updated_content:
-                with open(file_path, 'w') as f:
-                    f.write(updated_content)
-                logging.info("Version has been updated for %s in %s", dep['name'], file_path)
-            else:
-                logging.info("No updates for %s in %s", dep['name'], file_path)
+            logging.info("Version has been updated for %s in %s", dep['name'], file_path)
 
         except Exception as e:
             logging.error("Error during update %s in %s: %s", dep['name'], file_path, str(e))
