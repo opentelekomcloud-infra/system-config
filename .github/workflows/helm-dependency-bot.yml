@@ -41,7 +41,6 @@ jobs:
           CHART_PATH: "kubernetes/argocd-apps/system"
 
       - name: Create Pull Request
-        if: ${{ fromJSON(steps.dependency-check.outputs.has_updates) }}
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -50,5 +49,6 @@ jobs:
           body: "Automatically updated helm chart dependencies"
           branch: helm-dep-updates
           delete-branch: true
-          path: kubernetes/argocd-apps/system
+          add-paths: |
+            kubernetes/argocd-apps/system/**/*
           labels: dependencies, helm-charts
