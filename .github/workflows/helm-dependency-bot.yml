@@ -49,7 +49,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update helm chart dependencies"
           title: "Update helm chart dependencies"
-          body: "Automatically updated helm chart dependencies"
+          body: ${{ steps.dependency-check.outputs.update_summary }}
           branch: helm-dep-updates
           delete-branch: true
           add-paths: |
