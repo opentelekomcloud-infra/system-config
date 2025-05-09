@@ -189,28 +189,6 @@ def update_chart_dependencies_for_app(app_data):
             logging.error("Error during update %s in %s: %s", dep['name'], file_path, str(e))
 
 
-def create_update_summary(app_updates_list):
-    """
-    Create a summary of all updates for the PR description
-    """
-    summary = ["# Helm Dependencies Updates\n"]
-
-    for app_data in app_updates_list:
-        app_name = app_data['app_name']
-        chart_name = app_data['chart_name']
-
-        summary.append(f"## {app_name} ({chart_name})")
-
-        for update in app_data['updates']:
-            summary.append(f"- `{update['name']}`: {update['current_version']} → {update['latest_version']}")
-
-        summary.append("")
-
-    summary.append("Automatically created PR for helm chart dependencies updates. Please check before merge!!!")
-
-    return "\n".join(summary)
-
-
 def main():
     has_updates, app_updates_list = check_helm_dependencies()
 
@@ -222,14 +200,29 @@ def main():
             logging.info("Updating dependencies for %s...", app_name)
             update_chart_dependencies_for_app(app_data)
 
-        # Create a summary of all updates
-        update_summary = create_update_summary(app_updates_list)
+        # Create simple PR description
+        summary_lines = ["# Helm Chart Dependencies Updates\n"]
+
+        for app_data in app_updates_list:
+            app_name = app_data['app_name']
+            chart_name = app_data['chart_name']
+
+            summary_lines.append(f"### {app_name} ({chart_name})")
+
+            for update in app_data['updates']:
+                summary_lines.append(f"- `{update['name']}`: {update['current_version']} → {update['latest_version']}")
+
+            summary_lines.append("")
+
+        summary_lines.append("Automatically created PR for helm chart dependencies updates. Please check before merge!")
+
+        # Convert to JSON for safe passing to GitHub Actions
+        update_summary_json = json.dumps("\n".join(summary_lines))
 
         # Output information for GitHub Actions
         with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
             f.write("has_updates=true\n")
-            # Add update summary for PR body
-            f.write(f"update_summary={update_summary}\n")
+            f.write(f"update_summary={update_summary_json}\n")
 
     else:
         logging.info("All Helm chart dependencies are up to date.")
