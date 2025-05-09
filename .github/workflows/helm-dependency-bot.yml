@@ -1,6 +1,8 @@
 name: Helm Chart Dependencies Check
 
 on:
+  scheduler:
+    - cron: '0 9 * * 1'
   workflow_dispatch:
   push:
     branches: [ main ]
@@ -41,6 +43,7 @@ jobs:
           CHART_PATH: "kubernetes/argocd-apps/system"
 
       - name: Create Pull Request
+        if: steps.dependency-check.outputs.has_updates == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
