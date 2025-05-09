@@ -3,7 +3,6 @@ import yaml
 import subprocess
 import glob
 import json
-import re
 import logging
 from packaging import version
 
@@ -77,8 +76,7 @@ def compare_versions(current, latest):
         return version.parse(latest) > version.parse(current)
     except Exception as e:
         logging.error("Error in version comparison %s and %s: %s", current, latest, str(e))
-        # Simple comparison as a workaround
-        return latest != current and latest > current
+        return False
 
 
 def check_helm_dependencies():
@@ -191,79 +189,46 @@ def update_chart_dependencies_for_app(app_data):
             logging.error("Error during update %s in %s: %s", dep['name'], file_path, str(e))
 
 
-def create_app_update_summary(app_data):
-    summary = []
-
-    app_name = app_data['app_name']
-    chart_name = app_data['chart_name']
-
-    summary.append(f"### App: {app_name}")
-    summary.append(f"### Helm chart: {chart_name}")
-    summary.append("")
-
-    for dep in app_data['updates']:
-        summary.append(f"- `{dep['name']}`: {dep['current_version']} → {dep['latest_version']}")
-
-    summary.append("")
-    summary.append("Automatically created PR for helm chart dependencies updates. Please check before merge!!!")
-
-    return "\n".join(summary)
-
-
-def prepare_github_output(app_updates_list):
-    """
-    Prepare data for output to Github Actions workflow
-    """
-    if not app_updates_list:
-        return "false", "[]", "[]"
-
-    app_names = [app['app_name'] for app in app_updates_list]
-    update_details = [create_app_update_summary(app) for app in app_updates_list]
-
-    return "true", json.dumps(app_names), json.dumps(update_details)
-
-
 def main():
     has_updates, app_updates_list = check_helm_dependencies()
 
     if has_updates and app_updates_list:
         logging.info("Found updates for %s applications", len(app_updates_list))
 
-        # Create matrix for GitHub Actions
-        matrix = {"include": []}
+        for app_data in app_updates_list:
+            app_name = app_data['app_name']
+            logging.info("Updating dependencies for %s...", app_name)
+            update_chart_dependencies_for_app(app_data)
+
+        # Create simple PR description
+        summary_lines = ["# Helm Chart Dependencies Updates\n"]
 
         for app_data in app_updates_list:
             app_name = app_data['app_name']
-            logging.info("Preparing data for %s...", app_name)
+            chart_name = app_data['chart_name']
 
-            update_chart_dependencies_for_app(app_data)
+            summary_lines.append(f"### {app_name} ({chart_name})")
 
-            summary = create_app_update_summary(app_data)
+            for update in app_data['updates']:
+                summary_lines.append(f"- `{update['name']}`: {update['current_version']} → {update['latest_version']}")
 
-            matrix["include"].append({
-                "app_name": app_name,
-                "update_details": summary,
-                "branch_name": f"helm-dep-update-{app_name}",
-                "pr_title": f"Update {app_name} helm chart dependencies"
-            })
+            summary_lines.append("")
 
-            logging.info("Prepared data for PR %s", app_name)
+        summary_lines.append("Automatically created PR for helm chart dependencies updates. Please check before merge!")
+
+        # Convert to JSON for safe passing to GitHub Actions
+        update_summary_json = json.dumps("\n".join(summary_lines))
 
         # Output information for GitHub Actions
         with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
-            f.write(f"has_updates=true\n")
-            f.write(f"matrix={json.dumps(matrix)}\n")
-            f.write(f"app_names={json.dumps([app['app_name'] for app in app_updates_list])}\n")
-            f.write(f"update_details={json.dumps([create_app_update_summary(app) for app in app_updates_list])}\n")
+            f.write("has_updates=true\n")
+            f.write(f"update_summary={update_summary_json}\n")
 
     else:
         logging.info("All Helm chart dependencies are up to date.")
 
         with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
             f.write("has_updates=false\n")
-            f.write("matrix={\"include\":[]}\n")
-            f.write("app_names=[]\n")
-            f.write("update_details=[]\n")
 
 
 if __name__ == "__main__":
