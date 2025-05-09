@@ -1,6 +1,8 @@
 name: Helm Chart Dependencies Check
 
 on:
+  schedule:
+    - cron: '0 9 * * 1'
   workflow_dispatch:
   push:
     branches: [ main ]
