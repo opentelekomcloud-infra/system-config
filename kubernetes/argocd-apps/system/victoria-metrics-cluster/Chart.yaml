@@ -1,8 +1,9 @@
-  apiVersion: v2
-  name: victoria-metrics-cluster
-  description: A Helm chart for Kubernetes that includes Victoria Metrics Cluster
-  version: 0.1.0
-  dependencies:
-    - name: victoria-metrics-cluster
-      version: "0.21.0"
-      repository: https://victoriametrics.github.io/helm-charts
+apiVersion: v2
+name: victoria-metrics-cluster
+description: A Helm chart for Kubernetes that includes Victoria Metrics Cluster
+version: 0.1.0
+type: application
+dependencies:
+- name: victoria-metrics-cluster
+  version: 0.21.0
+  repository: https://victoriametrics.github.io/helm-charts
