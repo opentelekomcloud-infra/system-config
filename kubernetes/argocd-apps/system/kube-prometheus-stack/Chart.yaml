@@ -4,5 +4,5 @@ description: A Helm chart for Kubernetes that includes kube-prometheus-stack and
 version: 0.1.0
 dependencies:
   - name: kube-prometheus-stack
-    version: "69.7.2"
+    version: "72.3.0"
     repository: "https://prometheus-community.github.io/helm-charts"
