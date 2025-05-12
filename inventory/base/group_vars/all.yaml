@@ -87,25 +87,25 @@ all_users:
     uid: 2031
     gid: 2031
 
-  yustina:
-    comment: Yustina Kvrivishvili
-    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHFwzTUNRK7xx0DnHcOSzV1Jex6etN+kQ7ekDZ3uLI4Z yustina@RDES00PD
-    uid: 2033
-    gid: 2033
-
   smartynov:
     comment: Sergei Martynov
     key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCpHyuVlTQDcE+YBqHj40ci7kBXMI7qnytu3kv2KhlUqAa/nrl1rSz52bY1ON+3e+rUNL+qtPHTfd9ryQHXviYZ20atxeP9yx4OmAtvf8QiBbCO8C+LPDWU9TGSl1RB4AiArZbS3y9lQI+7OooI4zGeqvfed00sqVDgCKrbqdUqWofz56Cqst587KJfZlXjl7YGfU6W3JmpynyIH3krxwFtqyfPxBuo0iR5FSP82SdAcka0PR5Dcji9QQ5fA7BSjnGZPDg9esBGmGnaXQB/6E9G78utenQ6uHeOoH+qAgkAbZxjGuJcuLmXjXPQQD7IEsTdkMGvQbs8wAJ08JQDVKbj smartynov
     uid: 2034
     gid: 2034
+  
+  magnus:
+    comment: Nils Magnus
+    key: ssh-rsa AAAAB3NzaC1yc2EAAAAEQAAAgQAAAQEAosSxGuQH2SWqZugOMGiw4F3HzdORT9ZO1m+9p48IjQVzf57N6o08NLJFvRWTFHR8VxI1Y5o2w1fsCEPL3njtKl6MpIDSbvBDXugEK9pHcVZDMUllbKYtD8v6UHSJ70FqeE9VpAVHN/+/RklpsfPfmfxdScqJsrCSmFGCSYPj1bl6SVlYefKfu7NXYBK8seWp4l+iiVbX0M1D0R90xq2oPRkdlW5TntvTW5TJDPwxhd6y/qfQsSOmPUTHMc7XnzqcdPaHalzU3Uuvo+1PXeap9b6q3EA1/Jnu+QnNrZ6K0aCDrfIVtpB8ZtuLWUR2IcyTAN/gQLwHv5U7zn2O7/HRzw==
+    uid: 2035
+    gid: 2035
 
 # List of users to install on all hosts
 base_users:
   - gtema
   - vhasko
   - enrrou
-  - yustina
   - smartynov
+  - magnus
 
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
@@ -113,6 +113,7 @@ extra_users: []
 disabled_users:
   - kucerakk
   - ashakhba
+  - yustina
 # Default distro cloud image names to remove
 disabled_distro_cloud_users:
   - ubuntu

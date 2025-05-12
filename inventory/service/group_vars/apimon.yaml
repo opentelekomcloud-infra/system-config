@@ -700,9 +700,7 @@ epmon_ed:
   enterprise-dashboard:
     urls:
       - "/api/health"
-  enterprise-dashboard-v1:
-    urls:
-      - "/consumption/health"
+  enterprise-dashboard-v1: {}
 epmon_keystone:
   identity:
     urls:

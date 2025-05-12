@@ -22,4 +22,6 @@ resources:
   - cronjob-8-ei.yaml
   - cronjob-9-scheduler.yaml
   - cronjob-10-huawei.yaml
+  - cronjob-11-hotc.yaml
+  - cronjob-12-filin.yaml
   - sa.yaml
