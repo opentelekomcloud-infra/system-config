@@ -6,3 +6,10 @@ updates:
       interval: "daily"
     commit-message:
       prefix: "[helm] "
+  - package-ecosystem: "docker"
+    directory: "/docker"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "[docker] "
+
