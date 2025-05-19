@@ -1,0 +1,465 @@
+name: Bug Report
+description: Report a bug or issue that needs to be fixed
+title: "[BUG]: "
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide all the required information to help us understand and process your issue efficiently.
+
+  - type: dropdown
+    id: issue_type
+    attributes:
+      label: Issue Type
+      description: Select the type of issue
+      options:
+        - Bug
+        - Demand
+    validations:
+      required: true
+
+  - type: dropdown
+    id: master_component
+    attributes:
+      label: Master Component
+      description: Select the project component this issue should be assigned to
+      options:
+        - ACCESSCONTROL
+        - AGB
+        - ALERTA
+        - ALERTMAN
+        - ALKAID
+        - ANET
+        - ANSIBLE
+        - ANTIDDOS
+        - AOM
+        - APICOM
+        - APIGT
+        - APIGW
+        - APIMON
+        - APM
+        - AS
+        - ASM
+        - AUDIT
+        - AUTOMATION
+        - AUTOSQUAD
+        - AVV
+        - AWX
+        - BENCHMARK
+        - BIGDATAAI
+        - BILLING
+        - BITWARDEN
+        - BMS
+        - BMSUPGRADE
+        - BR
+        - BRIM
+        - BSG
+        - BSSOSS
+        - BUGMANAGEMENT
+        - BUSDASH
+        - CAC
+        - CAD
+        - CALCULATOR
+        - CANHELPER
+        - CAPACITY
+        - CAR
+        - CASCADINGNODES
+        - CBR
+        - CCE
+        - CCI
+        - CCR
+        - CDAS
+        - CDC
+        - CDK
+        - CERTIFICATION
+        - CES
+        - CFW
+        - CHANGE
+        - CICD
+        - CLOUDAGENT
+        - CLOUDBILLING
+        - CLOUDCAPACITY
+        - CLOUDCONFIGCENTER
+        - CLOUDCONNECT
+        - CLOUDMONITORSONAR
+        - CLOUDOPSAUTH
+        - CLOUDOPSPORTAL
+        - CLOUDOSBORN
+        - CLOUDOSMGMT
+        - CLOUDSCOPE
+        - CLOUDSECUREMGMT
+        - CLS
+        - CMA
+        - CMC
+        - CMDB
+        - CMS
+        - CNC
+        - COMMUNITYPORTAL
+        - COMPUTELIFECYCLEMANAGEMENT
+        - COMROS
+        - CONFIG
+        - CONFLUENCE
+        - CONSOLE
+        - CONSOLEFRAMEWORK
+        - CONTAINER
+        - CONTRACTS
+        - COST
+        - CPQ
+        - CPS
+        - CROSSCONNECT
+        - CSBS
+        - CSE
+        - CSS
+        - CTS
+        - CUSTOMERIMPEDIMENT
+        - CVM
+        - DARTS
+        - DAS
+        - DASHBOARD
+        - DATAMIGRATION
+        - DBS
+        - DBSS
+        - DCS
+        - DDM
+        - DDS
+        - DEH
+        - DFV
+        - DIRECTCONNECT
+        - DIS
+        - DLINKAFKA
+        - DMSROCKETMQ
+        - DNS
+        - DNSFORWARDERS
+        - DRS
+        - DSS
+        - DWDM
+        - DWS
+        - EAZYBI
+        - EBACKUP
+        - ECOSYSTEM
+        - ECS
+        - EDB
+        - EFS
+        - EIP
+        - ELB
+        - ENTDASH
+        - ENTERPRISEROUTER
+        - EPS
+        - ESCH
+        - ESIGHT
+        - ETCDCOMMONMIDDLEWAREPARTS
+        - ETHERPAD
+        - EULEROS
+        - EULEROSCOMMONPARTS
+        - EVS
+        - FG
+        - FINDASH
+        - FIREWALLPHYSICAL
+        - FIREWALLRULES
+        - FUSIONCOMPUTE
+        - FUSIONDIRECTOR
+        - FUSIONINSIGHT
+        - FWAAS
+        - GAUSSDB
+        - GAUSSDBCOMMONMIDDLEWAREPARTS
+        - GAUSSDBFORINFLUX
+        - GAUSSDBFORMYSQL
+        - GEMINIDB
+        - GITLAB
+        - GSLB
+        - HAPROXY
+        - HARDWAREASSET
+        - HARDWAREDELIVERY
+        - HARDWAREMAINTENACE
+        - HASHICORPVAULT
+        - HBTEOL
+        - HELPCENTER
+        - HSM
+        - HSP
+        - HSS
+        - HUAWEI
+        - HYBRID
+        - IAM
+        - IDS
+        - IEF
+        - IMAGES
+        - IMS
+        - INCIDENTMANAGEMENT
+        - INFLUXDB
+        - INTERNALPROXY
+        - INTERNALREPOSERVER
+        - INTERNETPROVIDERCONNECT
+        - IPS
+        - ISS
+        - JENKINS
+        - JIRA
+        - JIRA2OTIP
+        - JRECOMMONMIDDLEWAREPARTS
+        - JUMPUNIX
+        - JUMPWINDOWS
+        - KAFKACOMMONMIDDLEWAREPARTS
+        - KMS
+        - LACE
+        - LDAPPROXY
+        - LICENSES
+        - LIFECYCLEMANAGEMENT
+        - LTS
+        - LUOSHU
+        - LVSCOMMONMIDDLEWAREPARTS
+        - MA
+        - MAGENTALAYER
+        - MAGENTALAYERDEV
+        - MAILRELAY
+        - MARKETINGCAMPAIGNS
+        - MARKETINGEVENTS
+        - MARKETINGMATERIALS
+        - MARKETPLACE
+        - MASMEETING
+        - MFT
+        - MGBRESHUFFLE
+        - MNET
+        - MONITOR
+        - MRS
+        - MSS
+        - MYSQLCOMMONMIDDLEWAREPARTS
+        - MYWORKPLACE
+        - NAS
+        - NAT
+        - NATGW
+        - NDR
+        - NETBOX
+        - NEXTCLOUD
+        - NGINX
+        - NGINXCOMMONMIDDLEWAREPARTS
+        - NMAPSCANNER
+        - NOTEXISTING
+        - NTP
+        - NVIDIALICENSE
+        - NWCLIFECYCLEMANAGEMENT
+        - NWSLIFECYCLEMANAGEMENT
+        - OBS
+        - OBSB
+        - OCR
+        - OMZONE
+        - ONCROS
+        - ONSROS
+        - OPENSTACKBASICFRAMEWORK
+        - OPERATIONSMANAGEMENT
+        - OPSIMAGEMGMT
+        - OSS
+        - OSSDK
+        - OSTICKET
+        - OTCBRANDING
+        - OTCCCONSOLE
+        - OTCLDAP
+        - OTCWEBSITE
+        - PAAS
+        - PASSWORDMANAGEMENT
+        - PATCHMGMT
+        - PECADO
+        - PEP
+        - PLAS
+        - PLATFORMWAF
+        - PLAYGROUND
+        - PRESSMEDIA
+        - PRICING
+        - PROBLEMMANAGEMENT
+        - PROCESS
+        - PRODUCTANDSERVICESTEERING
+        - PROMETHEUS
+        - PUBLICSTATUSDASHBOARD
+        - QUALYS
+        - RADIUS
+        - RDS
+        - REDISCOMMONMIDDLEWAREPARTS
+        - REPLACEMENTPREPROD
+        - REPLACEMENTPROD
+        - REPOSERVER
+        - RFS
+        - RMS
+        - ROADMAP
+        - ROS
+        - ROUTER
+        - RTS
+        - SALESPACKAGE
+        - SDR
+        - SDRS
+        - SDTOOL
+        - SECURITY
+        - SECURITYENABLEMENT
+        - SECURITYPATCHING
+        - SECURITYSERVICES
+        - SERVICECM
+        - SERVICEDELIVERY
+        - SERVICEDESCRIPTION
+        - SFS
+        - SFS3
+        - SFSTURBO
+        - SMN
+        - SOCIALMEDIA
+        - SRESQUAD
+        - STODEVOPS
+        - STORAGELIFECYCLEMANAGEMENT
+        - STORAGEROS
+        - SVN
+        - SWISSCLOUD
+        - SWITCH
+        - SWR
+        - TASKCENTER
+        - TASTEOS
+        - TENANTSUPPORTCENTER
+        - TEST
+        - TEST1
+        - TEST2
+        - TEST3
+        - TEST4
+        - TEST5
+        - TEST6
+        - TEST7
+        - TMS
+        - TOMCATCOMMONMIDDLEWAREPARTS
+        - TOOLSK8SBACKEND
+        - TOPOLOGYDESIGNER
+        - UCS
+        - UGO
+        - UIUX
+        - UPDATETOOL
+        - VBS
+        - VPC
+        - VPCEP
+        - VPN
+        - VROUTER
+        - WAF
+        - WAFAAS
+        - WEBSITE
+        - YAM
+        - ZABBIX
+        - ZOOKEEPERCOMMONMIDDLEWAREPARTS
+        - ZULIP
+        - ZUUL
+    validations:
+      required: true
+
+  - type: textarea
+    id: users_impact
+    attributes:
+      label: User's Impact
+      description: Describe how this issue impacts users
+      placeholder: "Example: Users cannot access their data when..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_locations
+    attributes:
+      label: Affected Location(s)
+      description: Select the affected locations
+      multiple: true
+      options:
+        - "EU-DE-01 AZ1 (Germany/Biere)"
+        - "EU-DE-02 AZ2 (Germany/Magdeburg)"
+        - "EU-DE-03 AZ3 (Germany/Biere)"
+        - "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
+        - "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
+        - "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
+        - "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
+        - "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
+        - "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: test_category
+    attributes:
+      label: Test Category
+      description: Select the testing category that applies to this issue
+      options:
+        - QA
+        - UAT
+        - Security
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level of this issue
+      options:
+        - Block
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: dropdown
+    id: bug_type
+    attributes:
+      label: Bug Type
+      description: Select the type of bug
+      options:
+        - Documentation
+        - API
+        - UI
+        - Billing
+        - Platform
+        - Security
+        - "Price Calculator"
+        - "External TSI"
+        - "API Standardization"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_areas
+    attributes:
+      label: Affected Area(s)
+      description: Select areas affected by this issue
+      multiple: true
+      options:
+        - Production
+        - PreProd
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Please provide detailed information about the bug
+      value: |
+        **Bug detail description**
+        Describe the bug in detail.
+
+        **Preconditions**
+        Specific configuration or resource setup needed to reproduce
+
+        **How to reproduce**
+        Describe the simplest way to reproduce the scenario.
+
+        **IDs of used resources**
+        Describe all relevant and impacted resources from the bug. The affected tenant and project IDs should be described.
+
+        **Result of the issue**
+        Describe the issue results.
+
+        **Expected result**
+
+        **Documentation (optional)**
+        To add additional documentation is use case depended. It should help to understand the bug faster from R&D.
+
+        **Workaround (optional)**
+        Described the workaround when exists. This information is important for the service approval KPIs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (logs, screenshots, etc.)
+      placeholder: "Logs, error messages, screenshots, environment details..."
+    validations:
+      required: false
