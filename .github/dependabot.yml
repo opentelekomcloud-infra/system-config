@@ -1,15 +1,32 @@
+---
 version: 2
 updates:
+
   - package-ecosystem: "helm"
-    directory: "/kubernetes"
+    directories:
+      - "/"
+      - "/helm"
     schedule:
       interval: "daily"
+      time: "09:00"
     commit-message:
       prefix: "[helm] "
+
   - package-ecosystem: "docker"
-    directory: "/docker"
+    directories:
+      - "/"
+      - "/docker"
     schedule:
       interval: "daily"
+      time: "09:00"
     commit-message:
       prefix: "[docker] "
 
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "09:00"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
