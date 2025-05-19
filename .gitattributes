@@ -1,1 +1,1 @@
-data/test/** filter=git-crypt diff=git-crypt
+data/test1/** filter=git-crypt diff=git-crypt
