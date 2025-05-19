@@ -1,12 +1,13 @@
-name: Bug Report
-description: Report a bug or issue that needs to be fixed
+name: Issue Report
+description: Report a bug or request a new feature
 title: "[BUG]: "
+labels: ["bug"]
 
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this bug report! Please provide all the required information to help us understand and process your issue efficiently.
+        Thanks for taking the time to fill out this issue report! Please provide all the required information to help us understand and process your issue efficiently.
 
   - type: dropdown
     id: issue_type
@@ -16,6 +17,28 @@ body:
       options:
         - Bug
         - Demand
+    validations:
+      required: true
+
+  - type: dropdown
+    id: project_key
+    attributes:
+      label: Project Key
+      description: For Bug issues, this is automatically set to BM (Bug Management). For Demand issues, please select the appropriate squad.
+      options:
+        - BM (Bug Management)
+        - ES (Ecosystem Squad)
+        - OTCCAL (OSS/BSS Squad)
+        - OTCDB (Database Squad)
+        - OTCBIGDAI (Big Data and AI Squad)
+        - OCS (Compute Squad)
+        - OTCSEC (Security Services Squad)
+        - OTCCMS (CMS Squad)
+        - OTCPAAS (PaaS Squad)
+        - STO (Storage Squad)
+        - CONT (Container Squad)
+        - ONC (Network Squad)
+      default: 0
     validations:
       required: true
 
@@ -350,22 +373,21 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: checkboxes
     id: affected_locations
     attributes:
       label: Affected Location(s)
       description: Select the affected locations
-      multiple: true
       options:
-        - "EU-DE-01 AZ1 (Germany/Biere)"
-        - "EU-DE-02 AZ2 (Germany/Magdeburg)"
-        - "EU-DE-03 AZ3 (Germany/Biere)"
-        - "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
-        - "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
-        - "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
-        - "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
-        - "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
-        - "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
+        - label: "EU-DE-01 AZ1 (Germany/Biere)"
+        - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
+        - label: "EU-DE-03 AZ3 (Germany/Biere)"
+        - label: "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
+        - label: "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
+        - label: "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
+        - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
     validations:
       required: true
 
@@ -394,33 +416,32 @@ body:
     validations:
       required: true
 
-  - type: dropdown
+  - type: checkboxes
     id: bug_type
     attributes:
       label: Bug Type
       description: Select the type of bug
       options:
-        - Documentation
-        - API
-        - UI
-        - Billing
-        - Platform
-        - Security
-        - "Price Calculator"
-        - "External TSI"
-        - "API Standardization"
+        - label: Documentation
+        - label: API
+        - label: UI
+        - label: Billing
+        - label: Platform
+        - label: Security
+        - label: "Price Calculator"
+        - label: "External TSI"
+        - label: "API Standardization"
     validations:
       required: true
 
-  - type: dropdown
+  - type: checkboxes
     id: affected_areas
     attributes:
       label: Affected Area(s)
       description: Select areas affected by this issue
-      multiple: true
       options:
-        - Production
-        - PreProd
+        - label: Production
+        - label: PreProd
     validations:
       required: true
 
