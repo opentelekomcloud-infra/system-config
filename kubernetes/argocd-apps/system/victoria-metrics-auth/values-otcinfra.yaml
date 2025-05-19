@@ -1,8 +1,9 @@
 victoria-metrics-auth:
   replicaCount: 2
+
   image:
     repository: victoriametrics/vmauth
-    tag: v1.100.1
+    tag: v1.116.0
     pullPolicy: IfNotPresent
   containerWorkingDir: "/"
   rbac:
