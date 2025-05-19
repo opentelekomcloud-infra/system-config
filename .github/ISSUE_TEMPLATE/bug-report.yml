@@ -378,7 +378,7 @@ body:
       label: Priority
       description: Select the priority level of this issue
       options:
-        - Block
+        - Blocker
         - Low
         - Medium
         - High
