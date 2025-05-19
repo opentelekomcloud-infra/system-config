@@ -1,5 +1,5 @@
-name: Issue Report
-description: Report a bug or request a new feature
+name: Bug Report
+description: Report a bug that needs to be fixed
 title: "[BUG]: "
 labels: ["bug"]
 
@@ -7,40 +7,9 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to fill out this issue report! Please provide all the required information to help us understand and process your issue efficiently.
-
-  - type: dropdown
-    id: issue_type
-    attributes:
-      label: Issue Type
-      description: Select the type of issue
-      options:
-        - Bug
-        - Demand
-    validations:
-      required: true
-
-  - type: dropdown
-    id: project_key
-    attributes:
-      label: Project Key
-      description: For Bug issues, this is automatically set to BM (Bug Management). For Demand issues, please select the appropriate squad.
-      options:
-        - BM (Bug Management)
-        - ES (Ecosystem Squad)
-        - OTCCAL (OSS/BSS Squad)
-        - OTCDB (Database Squad)
-        - OTCBIGDAI (Big Data and AI Squad)
-        - OCS (Compute Squad)
-        - OTCSEC (Security Services Squad)
-        - OTCCMS (CMS Squad)
-        - OTCPAAS (PaaS Squad)
-        - STO (Storage Squad)
-        - CONT (Container Squad)
-        - ONC (Network Squad)
-      default: 0
-    validations:
-      required: true
+        Thanks for taking the time to fill out this bug report! Please provide all the required information to help us understand and process your issue efficiently.
+        
+        This bug will be automatically assigned to the Bug Management (BM) project.
 
   - type: dropdown
     id: master_component

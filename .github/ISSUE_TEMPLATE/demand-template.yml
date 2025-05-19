@@ -1,0 +1,421 @@
+name: Feature Demand
+description: Request a new feature or enhancement
+title: "[DEMAND]: "
+labels: ["demand"]
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature demand! Please provide all the required information to help us understand and process your request efficiently.
+
+  - type: dropdown
+    id: project_key
+    attributes:
+      label: Project Key
+      description: Select the squad this demand should be assigned to
+      options:
+        - "ES (Ecosystem Squad)"
+        - "OTCCAL (OSS/BSS Squad)"
+        - "OTCDB (Database Squad)"
+        - "OTCBIGDAI (Big Data and AI Squad)"
+        - "OCS (Compute Squad)"
+        - "OTCSEC (Security Services Squad)"
+        - "OTCCMS (CMS Squad)"
+        - "OTCPAAS (PaaS Squad)"
+        - "STO (Storage Squad)"
+        - "CONT (Container Squad)"
+        - "ONC (Network Squad)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: master_component
+    attributes:
+      label: Master Component
+      description: Select the project component this issue should be assigned to
+      options:
+        - ACCESSCONTROL
+        - AGB
+        - ALERTA
+        - ALERTMAN
+        - ALKAID
+        - ANET
+        - ANSIBLE
+        - ANTIDDOS
+        - AOM
+        - APICOM
+        - APIGT
+        - APIGW
+        - APIMON
+        - APM
+        - AS
+        - ASM
+        - AUDIT
+        - AUTOMATION
+        - AUTOSQUAD
+        - AVV
+        - AWX
+        - BENCHMARK
+        - BIGDATAAI
+        - BILLING
+        - BITWARDEN
+        - BMS
+        - BMSUPGRADE
+        - BR
+        - BRIM
+        - BSG
+        - BSSOSS
+        - BUGMANAGEMENT
+        - BUSDASH
+        - CAC
+        - CAD
+        - CALCULATOR
+        - CANHELPER
+        - CAPACITY
+        - CAR
+        - CASCADINGNODES
+        - CBR
+        - CCE
+        - CCI
+        - CCR
+        - CDAS
+        - CDC
+        - CDK
+        - CERTIFICATION
+        - CES
+        - CFW
+        - CHANGE
+        - CICD
+        - CLOUDAGENT
+        - CLOUDBILLING
+        - CLOUDCAPACITY
+        - CLOUDCONFIGCENTER
+        - CLOUDCONNECT
+        - CLOUDMONITORSONAR
+        - CLOUDOPSAUTH
+        - CLOUDOPSPORTAL
+        - CLOUDOSBORN
+        - CLOUDOSMGMT
+        - CLOUDSCOPE
+        - CLOUDSECUREMGMT
+        - CLS
+        - CMA
+        - CMC
+        - CMDB
+        - CMS
+        - CNC
+        - COMMUNITYPORTAL
+        - COMPUTELIFECYCLEMANAGEMENT
+        - COMROS
+        - CONFIG
+        - CONFLUENCE
+        - CONSOLE
+        - CONSOLEFRAMEWORK
+        - CONTAINER
+        - CONTRACTS
+        - COST
+        - CPQ
+        - CPS
+        - CROSSCONNECT
+        - CSBS
+        - CSE
+        - CSS
+        - CTS
+        - CUSTOMERIMPEDIMENT
+        - CVM
+        - DARTS
+        - DAS
+        - DASHBOARD
+        - DATAMIGRATION
+        - DBS
+        - DBSS
+        - DCS
+        - DDM
+        - DDS
+        - DEH
+        - DFV
+        - DIRECTCONNECT
+        - DIS
+        - DLINKAFKA
+        - DMSROCKETMQ
+        - DNS
+        - DNSFORWARDERS
+        - DRS
+        - DSS
+        - DWDM
+        - DWS
+        - EAZYBI
+        - EBACKUP
+        - ECOSYSTEM
+        - ECS
+        - EDB
+        - EFS
+        - EIP
+        - ELB
+        - ENTDASH
+        - ENTERPRISEROUTER
+        - EPS
+        - ESCH
+        - ESIGHT
+        - ETCDCOMMONMIDDLEWAREPARTS
+        - ETHERPAD
+        - EULEROS
+        - EULEROSCOMMONPARTS
+        - EVS
+        - FG
+        - FINDASH
+        - FIREWALLPHYSICAL
+        - FIREWALLRULES
+        - FUSIONCOMPUTE
+        - FUSIONDIRECTOR
+        - FUSIONINSIGHT
+        - FWAAS
+        - GAUSSDB
+        - GAUSSDBCOMMONMIDDLEWAREPARTS
+        - GAUSSDBFORINFLUX
+        - GAUSSDBFORMYSQL
+        - GEMINIDB
+        - GITLAB
+        - GSLB
+        - HAPROXY
+        - HARDWAREASSET
+        - HARDWAREDELIVERY
+        - HARDWAREMAINTENACE
+        - HASHICORPVAULT
+        - HBTEOL
+        - HELPCENTER
+        - HSM
+        - HSP
+        - HSS
+        - HUAWEI
+        - HYBRID
+        - IAM
+        - IDS
+        - IEF
+        - IMAGES
+        - IMS
+        - INCIDENTMANAGEMENT
+        - INFLUXDB
+        - INTERNALPROXY
+        - INTERNALREPOSERVER
+        - INTERNETPROVIDERCONNECT
+        - IPS
+        - ISS
+        - JENKINS
+        - JIRA
+        - JIRA2OTIP
+        - JRECOMMONMIDDLEWAREPARTS
+        - JUMPUNIX
+        - JUMPWINDOWS
+        - KAFKACOMMONMIDDLEWAREPARTS
+        - KMS
+        - LACE
+        - LDAPPROXY
+        - LICENSES
+        - LIFECYCLEMANAGEMENT
+        - LTS
+        - LUOSHU
+        - LVSCOMMONMIDDLEWAREPARTS
+        - MA
+        - MAGENTALAYER
+        - MAGENTALAYERDEV
+        - MAILRELAY
+        - MARKETINGCAMPAIGNS
+        - MARKETINGEVENTS
+        - MARKETINGMATERIALS
+        - MARKETPLACE
+        - MASMEETING
+        - MFT
+        - MGBRESHUFFLE
+        - MNET
+        - MONITOR
+        - MRS
+        - MSS
+        - MYSQLCOMMONMIDDLEWAREPARTS
+        - MYWORKPLACE
+        - NAS
+        - NAT
+        - NATGW
+        - NDR
+        - NETBOX
+        - NEXTCLOUD
+        - NGINX
+        - NGINXCOMMONMIDDLEWAREPARTS
+        - NMAPSCANNER
+        - NOTEXISTING
+        - NTP
+        - NVIDIALICENSE
+        - NWCLIFECYCLEMANAGEMENT
+        - NWSLIFECYCLEMANAGEMENT
+        - OBS
+        - OBSB
+        - OCR
+        - OMZONE
+        - ONCROS
+        - ONSROS
+        - OPENSTACKBASICFRAMEWORK
+        - OPERATIONSMANAGEMENT
+        - OPSIMAGEMGMT
+        - OSS
+        - OSSDK
+        - OSTICKET
+        - OTCBRANDING
+        - OTCCCONSOLE
+        - OTCLDAP
+        - OTCWEBSITE
+        - PAAS
+        - PASSWORDMANAGEMENT
+        - PATCHMGMT
+        - PECADO
+        - PEP
+        - PLAS
+        - PLATFORMWAF
+        - PLAYGROUND
+        - PRESSMEDIA
+        - PRICING
+        - PROBLEMMANAGEMENT
+        - PROCESS
+        - PRODUCTANDSERVICESTEERING
+        - PROMETHEUS
+        - PUBLICSTATUSDASHBOARD
+        - QUALYS
+        - RADIUS
+        - RDS
+        - REDISCOMMONMIDDLEWAREPARTS
+        - REPLACEMENTPREPROD
+        - REPLACEMENTPROD
+        - REPOSERVER
+        - RFS
+        - RMS
+        - ROADMAP
+        - ROS
+        - ROUTER
+        - RTS
+        - SALESPACKAGE
+        - SDR
+        - SDRS
+        - SDTOOL
+        - SECURITY
+        - SECURITYENABLEMENT
+        - SECURITYPATCHING
+        - SECURITYSERVICES
+        - SERVICECM
+        - SERVICEDELIVERY
+        - SERVICEDESCRIPTION
+        - SFS
+        - SFS3
+        - SFSTURBO
+        - SMN
+        - SOCIALMEDIA
+        - SRESQUAD
+        - STODEVOPS
+        - STORAGELIFECYCLEMANAGEMENT
+        - STORAGEROS
+        - SVN
+        - SWISSCLOUD
+        - SWITCH
+        - SWR
+        - TASKCENTER
+        - TASTEOS
+        - TENANTSUPPORTCENTER
+        - TEST
+        - TEST1
+        - TEST2
+        - TEST3
+        - TEST4
+        - TEST5
+        - TEST6
+        - TEST7
+        - TMS
+        - TOMCATCOMMONMIDDLEWAREPARTS
+        - TOOLSK8SBACKEND
+        - TOPOLOGYDESIGNER
+        - UCS
+        - UGO
+        - UIUX
+        - UPDATETOOL
+        - VBS
+        - VPC
+        - VPCEP
+        - VPN
+        - VROUTER
+        - WAF
+        - WAFAAS
+        - WEBSITE
+        - YAM
+        - ZABBIX
+        - ZOOKEEPERCOMMONMIDDLEWAREPARTS
+        - ZULIP
+        - ZUUL
+    validations:
+      required: true
+
+  - type: textarea
+    id: feature_description
+    attributes:
+      label: Feature Description
+      description: Please provide a clear and detailed description of the feature you're requesting
+      placeholder: "Describe the feature you'd like to see implemented..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: business_justification
+    attributes:
+      label: Business Justification
+      description: Explain why this feature is important and what business value it provides
+      placeholder: "Example: This feature would improve user experience by..."
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: affected_locations
+    attributes:
+      label: Affected Location(s)
+      description: Select the locations where this feature should be implemented
+      options:
+        - label: "EU-DE-01 AZ1 (Germany/Biere)"
+        - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
+        - label: "EU-DE-03 AZ3 (Germany/Biere)"
+        - label: "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
+        - label: "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
+        - label: "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
+        - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level of this demand
+      options:
+        - Block
+        - Low
+        - Medium
+        - High
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: affected_areas
+    attributes:
+      label: Affected Area(s)
+      description: Select areas affected by this feature
+      options:
+        - label: Production
+        - label: PreProd
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the feature request here (technical details, mockups, etc.)
+      placeholder: "Additional details, mockups, examples..."
+    validations:
+      required: false
