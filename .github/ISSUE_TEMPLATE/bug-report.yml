@@ -17,7 +17,7 @@ body:
       label: Master Component
       description: Select the project component this issue should be assigned to
       options:
-        - ACCESSCONTROL
+        - ACCESSCONTROL - BackendAccessAndIntegration
         - AGB
         - ALERTA
         - ALERTMAN
