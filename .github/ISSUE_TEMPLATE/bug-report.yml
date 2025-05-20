@@ -419,7 +419,7 @@ body:
     attributes:
       label: Description
       description: Please provide detailed information about the bug
-      value: 111
+      value: test
     validations:
       required: true
 
