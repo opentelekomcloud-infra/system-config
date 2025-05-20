@@ -39,7 +39,7 @@ body:
         - AVV
         - AWX
         - BENCHMARK
-        - BIGDATAAI
+        - BIGDATAAI - BigData
         - BILLING
         - BITWARDEN
         - BMS
@@ -329,7 +329,7 @@ body:
         - ZABBIX
         - ZOOKEEPERCOMMONMIDDLEWAREPARTS
         - ZULIP
-        - ZUUL
+        - ZUUL - Ecosystem
     validations:
       required: true
 
