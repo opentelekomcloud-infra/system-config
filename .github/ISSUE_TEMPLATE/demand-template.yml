@@ -9,33 +9,33 @@ body:
       value: |
         Thanks for taking the time to fill out this feature demand! Please provide all the required information to help us understand and process your request efficiently.
 
-#  - type: input
-#    id: project_key
-#    attributes:
-#      label: Project Key
-#      value: OTCPR
-#    validations:
-#      required: true
-
-  - type: dropdown
+  - type: input
     id: project_key
     attributes:
       label: Project Key
-      description: Select the squad this demand should be assigned to
-      options:
-        - "ES (Ecosystem Squad)"
-        - "OTCCAL (OSS/BSS Squad)"
-        - "OTCDB (Database Squad)"
-        - "OTCBIGDAI (Big Data and AI Squad)"
-        - "OCS (Compute Squad)"
-        - "OTCSEC (Security Services Squad)"
-        - "OTCCMS (CMS Squad)"
-        - "OTCPAAS (PaaS Squad)"
-        - "STO (Storage Squad)"
-        - "CONT (Container Squad)"
-        - "ONC (Network Squad)"
+      value: OTCPR
     validations:
       required: true
+
+#  - type: dropdown
+#    id: project_key
+#    attributes:
+#      label: Project Key
+#      description: Select the squad this demand should be assigned to
+#      options:
+#        - "ES (Ecosystem Squad)"
+#        - "OTCCAL (OSS/BSS Squad)"
+#        - "OTCDB (Database Squad)"
+#        - "OTCBIGDAI (Big Data and AI Squad)"
+#        - "OCS (Compute Squad)"
+#        - "OTCSEC (Security Services Squad)"
+#        - "OTCCMS (CMS Squad)"
+#        - "OTCPAAS (PaaS Squad)"
+#        - "STO (Storage Squad)"
+#        - "CONT (Container Squad)"
+#        - "ONC (Network Squad)"
+#    validations:
+#      required: true
 
   - type: dropdown
     id: master_component
