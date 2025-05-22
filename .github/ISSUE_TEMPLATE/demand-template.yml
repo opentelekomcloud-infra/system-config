@@ -9,33 +9,27 @@ body:
       value: |
         Thanks for taking the time to fill out this feature demand! Please provide all the required information to help us understand and process your request efficiently.
 
-  - type: input
-    id: project_key
+  - type: dropdown
+    id: issue_type
     attributes:
-      label: Project Key
-      value: OTCPR
+      label: Issue Type
+      description: Select issue type
+      options:
+        - "Change"
+        - "Demand"
+        - "Develop"
+        - "Release"
     validations:
       required: true
 
-#  - type: dropdown
-#    id: project_key
-#    attributes:
-#      label: Project Key
-#      description: Select the squad this demand should be assigned to
-#      options:
-#        - "ES (Ecosystem Squad)"
-#        - "OTCCAL (OSS/BSS Squad)"
-#        - "OTCDB (Database Squad)"
-#        - "OTCBIGDAI (Big Data and AI Squad)"
-#        - "OCS (Compute Squad)"
-#        - "OTCSEC (Security Services Squad)"
-#        - "OTCCMS (CMS Squad)"
-#        - "OTCPAAS (PaaS Squad)"
-#        - "STO (Storage Squad)"
-#        - "CONT (Container Squad)"
-#        - "ONC (Network Squad)"
-#    validations:
-#      required: true
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Please provide a short summary to your request
+      placeholder: "Please..."
+    validations:
+      required: true
 
   - type: dropdown
     id: master_component
@@ -50,20 +44,11 @@ body:
       required: true
 
   - type: textarea
-    id: feature_description
+    id: description
     attributes:
       label: Feature Description
       description: Please provide a clear and detailed description of the feature you're requesting
       placeholder: "Describe the feature you'd like to see implemented..."
-    validations:
-      required: true
-
-  - type: textarea
-    id: business_justification
-    attributes:
-      label: Business Justification
-      description: Explain why this feature is important and what business value it provides
-      placeholder: "Example: This feature would improve user experience by..."
     validations:
       required: true
 
@@ -91,29 +76,59 @@ body:
       label: Priority
       description: Select the priority level of this demand
       options:
-        - Block
+        - Blocker
+        - Minor
+        - Lowest
         - Low
         - Medium
         - High
+        - Highest
+    validations:
+      required: true
+
+  - type: dropdown
+    id: estimated_effort
+    attributes:
+      label: Estimated implementation effort
+      description: Select the estimated complexity of the task
+      options:
+        - XS
+        - S
+        - M
+        - L
+        - XL
+        - Call Chuck Norris
+    validations:
+      required: true
+
+  - type: dropdown
+    id: tier
+    attributes:
+      label: Tier
+      description: Demand/Release/Change classification
+      options:
+        - Tier 1 - High Complexity
+        - Tier 2 - Medium Complexity
+        - Tier 3 - Low Complexity
+        - NoTestNoDoc
+        - Internal Tier
     validations:
       required: true
 
   - type: checkboxes
-    id: affected_areas
+    id: pays_into
     attributes:
-      label: Affected Area(s)
-      description: Select areas affected by this feature
+      label: Pays-Into
+      description: Please set the strategic goals
       options:
-        - label: Production
-        - label: PreProd
+        - label: Architectual surroundings
+        - label: Audit/Compliance
+        - label: Knowledge Management
+        - label: New Services / New business models
+        - label: Operational surroundings
+        - label: Portfolio Hardening
+        - label: Service delivery
+        - label: Security
+        - label: Technical debts
     validations:
       required: true
-
-  - type: textarea
-    id: additional_context
-    attributes:
-      label: Additional Context
-      description: Add any other context about the feature request here (technical details, mockups, etc.)
-      placeholder: "Additional details, mockups, examples..."
-    validations:
-      required: false
