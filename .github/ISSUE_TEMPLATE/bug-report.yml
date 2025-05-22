@@ -8,8 +8,14 @@ body:
     attributes:
       value: |
         Thanks for taking the time to fill out this bug report! Please provide all the required information to help us understand and process your issue efficiently.
-        
-        This bug will be automatically assigned to the Bug Management (BM) project.
+
+#  - type: input
+#    id: project_key
+#    attributes:
+#      label: Project Key
+#      value: BM
+#    validations:
+#      required: true
 
   - type: dropdown
     id: master_component
