@@ -24,6 +24,8 @@ body:
       label: Master Component
       description: Select the project component this issue should be assigned to
       options:
+        - ACCESSCONTROL
+        - ANSIBLE
         - APIGW
         - CCE
         - ECS
