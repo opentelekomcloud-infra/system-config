@@ -9,19 +9,6 @@ body:
       value: |
         Thanks for taking the time to fill out this feature demand! Please provide all the required information to help us understand and process your request efficiently.
 
-  - type: dropdown
-    id: issue_type
-    attributes:
-      label: Issue Type
-      description: Select issue type
-      options:
-        - "Change"
-        - "Demand"
-        - "Develop"
-        - "Release"
-    validations:
-      required: true
-
   - type: textarea
     id: summary
     attributes:
@@ -37,6 +24,8 @@ body:
       label: Master Component
       description: Select the project component this issue should be assigned to
       options:
+        - ACCESSCONTROL
+        - ANSIBLE
         - APIGW
         - CCE
         - ECS
