@@ -63,9 +63,9 @@ body:
       label: Capacity Expansion
       description: Please set the capacity expansion
       options:
-        - No
-        - Yes - Existing Flavor
-        - Yes - New Flavor
+        - "No"
+        - "Yes - Existing Flavor"
+        - "Yes - New Flavor"
     validations:
       required: true
 
@@ -75,8 +75,8 @@ body:
       label: Night Time Change
       description: If this change must be scheduled and executed during non-business hours
       options:
-        - No
-        - Yes
+        - "No"
+        - "Yes"
     validations:
       required: true
 
@@ -86,8 +86,8 @@ body:
       label: Customer Impact
       description: Change classification
       options:
-        - No
-        - Yes
+        - "No"
+        - "Yes"
     validations:
       required: true
 
