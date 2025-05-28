@@ -148,4 +148,4 @@ goNeb:
   homeserverURL: "https://matrix.org"
   displayName: "OpenTelekomCloud Bot"
   roomId: <path:secret/data/prometheus/cloudmon-de#go_neb_room_id>
-  image: "quay.io/opentelekomcloud/go-neb:master-2022-04-13"
+  image: "quay.io/opentelekomcloud/go-neb:sha-edd292a"
