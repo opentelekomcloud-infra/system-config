@@ -123,6 +123,19 @@ body:
     validations:
       required: true
 
+
+  - type: checkboxes
+    id: affected_areas
+    attributes:
+      label: Affected Area(s)
+      description: Select areas affected by this issue
+      options:
+        - label: Production
+        - label: PreProd
+    validations:
+      required: true
+
+
   - type: checkboxes
     id: affected_locations
     attributes:
