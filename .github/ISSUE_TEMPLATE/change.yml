@@ -131,7 +131,7 @@ body:
       description: Select areas affected by this issue
       options:
         - label: Production
-        - label: PreProd
+        - label: PreProduction
     validations:
       required: true
 
