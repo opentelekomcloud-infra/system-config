@@ -53,6 +53,9 @@ spec:
             - name: "nodepool-lib"
               mountPath: "/var/lib/nodepool"
 
+      nodeSelector:
+        dedicated: zuul-ci
+
       serviceAccountName: "zuul"
       volumes:
         - name: "nodepool-config"
