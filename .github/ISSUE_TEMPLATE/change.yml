@@ -140,19 +140,3 @@ body:
         - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
     validations:
       required: true
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      description: Select the priority level of this demand
-      options:
-        - Blocker
-        - Minor
-        - Lowest
-        - Low
-        - Medium
-        - High
-        - Highest
-    validations:
-      required: true
