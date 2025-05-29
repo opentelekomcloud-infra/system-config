@@ -122,3 +122,37 @@ body:
       description: Change Scope
     validations:
       required: true
+
+  - type: checkboxes
+    id: affected_locations
+    attributes:
+      label: Affected Location(s)
+      description: Select the locations where this feature should be implemented
+      options:
+        - label: "EU-DE-01 AZ1 (Germany/Biere)"
+        - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
+        - label: "EU-DE-03 AZ3 (Germany/Biere)"
+        - label: "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
+        - label: "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
+        - label: "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
+        - label: "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
+        - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level of this demand
+      options:
+        - Blocker
+        - Minor
+        - Lowest
+        - Low
+        - Medium
+        - High
+        - Highest
+    validations:
+      required: true
