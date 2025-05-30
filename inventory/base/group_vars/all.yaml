@@ -99,6 +99,12 @@ all_users:
     uid: 2035
     gid: 2035
 
+  yustina:
+    comment: Y. K.
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBHiwas8hgDdrzhmFVhXi/XVjH/t40vVyMN+IOD+km7E yustina@yustina-workstation
+    uid: 2323
+    gid: 2323
+
   sgode:
     comment: S. G.
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAghnbnj6n9ZWXtBDUiHnqBl2yC3REMPFYWEimW7Ao6E sgode-eco-infra
@@ -110,7 +116,7 @@ all_users:
     key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBrioFxInmU3lhbsOTTHJieHZ7h4G+dR6/OJNHyQv+3m
     uid: 2037
     gid: 2037
-    
+
 # List of users to install on all hosts
 base_users:
   - gtema
@@ -118,6 +124,7 @@ base_users:
   - enrrou
   - smartynov
   - magnus
+  - yustina
   - sgode
   - lcuper
 
@@ -127,7 +134,7 @@ extra_users: []
 disabled_users:
   - kucerakk
   - ashakhba
-  - yustina
+
 # Default distro cloud image names to remove
 disabled_distro_cloud_users:
   - ubuntu
