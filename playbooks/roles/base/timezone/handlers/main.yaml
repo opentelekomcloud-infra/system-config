@@ -1,4 +1,10 @@
-- name: restart cron
+- name: Restart cron
   service:
     name: "{{ cron_service_name }}"
     state: restarted
+
+- name: Restart chrony 
+  ansible.builtin.service:
+    name: "{{ 'chrony' if ansible_os_family == 'Debian' else 'chronyd' }}"
+    state: started
+    enabled: yes
