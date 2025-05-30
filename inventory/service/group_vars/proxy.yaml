@@ -142,7 +142,7 @@ proxy_backends:
   - name: "keycloak"
     options:
       - "option forwardfor"
-      - "option httpchk GET /health"
+      - "option httpchk GET /admin/master/console"
       - "default-server check inter 5s fall 5 rise 1"
       - "acl get_post_method method GET POST"
       - "http-response set-header Access-Control-Allow-Origin * if get_post_method"
