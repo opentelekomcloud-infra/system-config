@@ -42,7 +42,7 @@ helm_chart_instances:
     repo_name: argocd
     name: argocd
     ref: argocd/argo-cd
-    version: 7.8.15
+    version: 8.0.13
     namespace: argocd
     values_template: "templates/charts/argocd/argocd-values.yaml.j2"
   otcinfra_nginx-ingress:
