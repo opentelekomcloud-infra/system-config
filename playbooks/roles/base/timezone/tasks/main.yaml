@@ -18,4 +18,4 @@
     name: chrony
     state: present
   notify:
-    - chrony
+    - Restart chrony
