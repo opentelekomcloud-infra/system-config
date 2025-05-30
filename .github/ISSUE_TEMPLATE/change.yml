@@ -130,6 +130,7 @@ body:
       label: Affected Area(s)
       description: Select areas affected by this issue
       options:
+        - label: None
         - label: Production
         - label: PreProduction
     validations:
