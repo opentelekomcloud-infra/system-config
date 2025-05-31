@@ -11,4 +11,4 @@
     name: Etc/UTC
   # The timezone Ansible module recommends restarting cron after tz change.
   notify:
-    - restart cron
+    - Restart cron

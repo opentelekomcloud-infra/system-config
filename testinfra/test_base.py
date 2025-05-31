@@ -43,12 +43,12 @@ def test_ntp(host):
     else:
         assert not package.is_installed
 
-        service = host.service('systemd-timesyncd')
+        service = host.service('chronyd')
         assert service.is_running
 
         # Focal updates the status string to just say NTP
         if host.system_info.codename == 'bionic':
-            stdout_string = 'systemd-timesyncd.service active'
+            stdout_string = 'chronyd.service active'
         else:
             stdout_string = 'NTP service: active'
         cmd = host.run("timedatectl status")
