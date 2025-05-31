@@ -12,10 +12,3 @@
   # The timezone Ansible module recommends restarting cron after tz change.
   notify:
     - Restart cron
-
-- name: Install Chrony package
-  ansible.builtin.package:
-    name: chrony
-    state: present
-  notify:
-    - Restart chrony
