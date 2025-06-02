@@ -33,8 +33,8 @@ body:
   - type: checkboxes
     id: affected_locations
     attributes:
-      label: Affected Location(s)
-      description: Select the affected locations
+      label: Affected Location(s) ⭐ REQUIRED
+      description: Select the affected locations (at least one must be selected)
       options:
         - label: "EU-DE-01 AZ1 (Germany/Biere)"
         - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
@@ -76,8 +76,8 @@ body:
   - type: checkboxes
     id: bug_type
     attributes:
-      label: Bug Type
-      description: Select the type of bug
+      label: Bug Type ⭐ REQUIRED
+      description: Select the type of bug (at least one must be selected)
       options:
         - label: Documentation
         - label: API
@@ -94,8 +94,8 @@ body:
   - type: checkboxes
     id: affected_areas
     attributes:
-      label: Affected Area(s)
-      description: Select areas affected by this issue
+      label: Affected Area(s) ⭐ REQUIRED
+      description: Select areas affected by this issue (at least one must be selected)
       options:
         - label: Production
         - label: PreProd

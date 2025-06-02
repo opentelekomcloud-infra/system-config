@@ -44,8 +44,8 @@ body:
   - type: checkboxes
     id: affected_locations
     attributes:
-      label: Affected Location(s)
-      description: Select the locations where this feature should be implemented
+      label: Affected Location(s) ⭐ REQUIRED
+      description: Select the locations where this feature should be implemented (at least one must be selected)
       options:
         - label: "EU-DE-01 AZ1 (Germany/Biere)"
         - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
@@ -107,8 +107,8 @@ body:
   - type: checkboxes
     id: pays_into
     attributes:
-      label: Pays-Into
-      description: Please set the strategic goals
+      label: Pays-Into ⭐ REQUIRED
+      description: Please set the strategic goals (at least one must be selected)
       options:
         - label: Architectual surroundings
         - label: Audit/Compliance

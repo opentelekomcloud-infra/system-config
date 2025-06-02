@@ -127,8 +127,8 @@ body:
   - type: checkboxes
     id: affected_areas
     attributes:
-      label: Affected Area(s)
-      description: Select areas affected by this issue
+      label: Affected Area(s) ⭐ REQUIRED
+      description: Select areas affected by this issue (at least one must be selected)
       options:
         - label: None
         - label: Production
@@ -140,8 +140,8 @@ body:
   - type: checkboxes
     id: affected_locations
     attributes:
-      label: Affected Location(s)
-      description: Select the locations where this feature should be implemented
+      label: Affected Location(s) ⭐ REQUIRED
+      description: Select the locations where this feature should be implemented (at least one must be selected)
       options:
         - label: "EU-DE-01 AZ1 (Germany/Biere)"
         - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
