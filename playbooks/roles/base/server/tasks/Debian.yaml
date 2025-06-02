@@ -13,9 +13,9 @@
         name: ntp
         state: absent
 
-    - name: Ensure systemd-timesyncd is running
+    - name: Ensure chronyd is running
       service:
-        name: systemd-timesyncd
+        name: chronyd
         enabled: yes
         state: started
 

@@ -7,7 +7,7 @@ distro_packages:
   - unattended-upgrades
   - mailutils
   - gnupg
-  - systemd-timesyncd
+  - chrony
   - apparmor-utils
 sftp_path: /usr/lib/openssh/sftp-server
 ssh_service_name: ssh
