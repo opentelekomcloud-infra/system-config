@@ -113,7 +113,7 @@ victoria-metrics-cluster:
       envflag.prefix: VM_
       loggerFormat: json
       dedup.minScrapeInterval: "30s"
-    retentionPeriod: 12
+    retentionPeriod: 30d
     persistentVolume:
       enabled: true
       name: vmstorage-volume
