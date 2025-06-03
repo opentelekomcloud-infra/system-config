@@ -169,7 +169,7 @@
     state: "present"
     namespace: "{{ namespace }}"
     name: "graphite-web-{{ instance }}"
-    api_version: "autoscaling/v2beta2"
+    api_version: "autoscaling/v2"
     kind: "HorizontalPodAutoscaler"
     apply: "yes"
     definition:
