@@ -104,6 +104,9 @@ spec:
               mountPath: "/var/run/zuul/trusted-ro"
               readOnly: true
 
+      nodeSelector:
+        dedicated: zuul-ci
+
       serviceAccountName: "zuul"
       terminationGracePeriodSeconds: 120
       volumes:

@@ -86,6 +86,9 @@ spec:
             - name: "zuul-var"
               mountPath: "/var/lib/zuul"
 
+      nodeSelector:
+        dedicated: zuul-ci
+
       serviceAccountName: "zuul"
       terminationGracePeriodSeconds: 120
       volumes:

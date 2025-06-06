@@ -81,11 +81,11 @@ spec:
 
           postgresql:
             enabled: false
-          
+
           externalPostgresql:
             databaseUrl:
               file: "/vault/secrets/database_url"
-          
+
           redis:
             enabled: true
             mode: local

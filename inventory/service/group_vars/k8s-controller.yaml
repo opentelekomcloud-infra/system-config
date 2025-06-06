@@ -34,13 +34,15 @@ maubot_k8s_instances:
     namespace: "matrix"
 
 helm_chart_instances:
+  # make sure also upgrade all argocd images in helm chart values 
+  # file: playbooks/templates/charts/argocd/argocd-values.yaml.j2
   otcinfra2_argocd:
     context: otcinfra2
     repo_url: https://argoproj.github.io/argo-helm
     repo_name: argocd
     name: argocd
     ref: argocd/argo-cd
-    version: 7.8.15
+    version: 8.0.13
     namespace: argocd
     values_template: "templates/charts/argocd/argocd-values.yaml.j2"
   otcinfra_nginx-ingress:
