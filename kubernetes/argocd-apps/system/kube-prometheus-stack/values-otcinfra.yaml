@@ -188,6 +188,16 @@ kube-prometheus-stack:
         routes:
         - continue: false
           matchers:
+          - alertname = "NodeClockNotSynchronising"
+          - instance = "192.168.170.81:9100" # first worker node from otcinfra for test
+          receiver: "null"
+        - continue: false
+          matchers:
+          - alertname = "NodeClockNotSynchronising"
+          - instance = "192.168.170.57:9100" # and second
+          receiver: "null"
+        - continue: false
+          matchers:
           - alertname =~ "InfoInhibitor|Watchdog"
           receiver: "null"
         - continue: true
