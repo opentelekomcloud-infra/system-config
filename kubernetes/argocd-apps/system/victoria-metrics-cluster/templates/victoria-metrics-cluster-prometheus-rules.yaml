@@ -8,6 +8,8 @@ metadata:
 spec:
   groups:
   - name: vm-health
-    rules: {{ toYaml .Values.prometheusRules.vmHealth | nindent 6 }}
+    rules:
+{{- toYaml .Values.prometheusRules.vmHealth | nindent 6 }}
   - name: vm-cluster
-    rules: {{ toYaml .Values.prometheusRules.vmCluster | nindent 6 }}
+    rules:
+{{- toYaml .Values.prometheusRules.vmCluster | nindent 6 }}
