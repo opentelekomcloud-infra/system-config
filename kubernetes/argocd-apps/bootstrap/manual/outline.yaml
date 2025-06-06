@@ -16,42 +16,42 @@ spec:
 
     helm:
       values: |
-        podAnnotations:
-          vault.hashicorp.com/agent-inject: "true"
-          vault.hashicorp.com/role: "outline-app-prod"
-          vault.hashicorp.com/agent-run-as-user: "1001"
+        # podAnnotations:
+        #   vault.hashicorp.com/agent-inject: "true"
+        #   vault.hashicorp.com/role: "outline-app-prod"
+        #   vault.hashicorp.com/agent-run-as-user: "1001"
 
-          vault.hashicorp.com/agent-inject-secret-oidc: "secret/data/outline/oidc-prod"
-          vault.hashicorp.com/agent-inject-template-oidc: |
-            {{- with secret "secret/data/outline/oidc-prod" -}}
-            {{ .Data.data.clientSecret | writeFile "/vault/secrets/oidc_client_secret" }}
-            {{- if .Data.data.clientId }}{{ .Data.data.clientId | writeFile "/vault/secrets/oidc_client_id" }}{{- end }}
-            {{- end }}
-          vault.hashicorp.com/agent-inject-secret-db: "secret/data/outline/db-prod"
-          vault.hashicorp.com/agent-inject-template-db: |
-            {{- with secret "secret/data/outline/db-prod" -}}
-            {{ .Data.data.database_url | writeFile "/vault/secrets/database_url" }}
-            {{- end }}
-          vault.hashicorp.com/agent-inject-secret-redis: "secret/data/outline/redis-prod"
-          vault.hashicorp.com/agent-inject-template-redis: |
-            {{- with secret "secret/data/outline/redis-prod" -}}
-            {{ .Data.data.redis_url | writeFile "/vault/secrets/redis_url" }}
-            {{- end }}
-          vault.hashicorp.com/agent-inject-secret-app: "secret/data/outline/app-secrets-prod"
-          vault.hashicorp.com/agent-inject-template-app: |
-            {{- with secret "secret/data/outline/app-secrets-prod" -}}
-            {{ .Data.data.secret_key | writeFile "/vault/secrets/secret_key" }}
-            {{ .Data.data.utils_secret | writeFile "/vault/secrets/utils_secret" }}
-            {{- end }}
-          vault.hashicorp.com/agent-inject-secret-storage: "secret/data/outline/storage-prod"
-          vault.hashicorp.com/agent-inject-template-storage: |
-            {{- with secret "secret/data/outline/storage-prod" -}}
-            {{ .Data.data.accessKeyId | writeFile "/vault/secrets/storage_access_key_id" }}
-            {{ .Data.data.secretAccessKey | writeFile "/vault/secrets/storage_secret_access_key" }}
-            {{ .Data.data.bucket | writeFile "/vault/secrets/storage_bucket" }}
-            {{ .Data.data.region | writeFile "/vault/secrets/storage_region" }}
-            {{- if .Data.data.endpoint }}{{ .Data.data.endpoint | writeFile "/vault/secrets/storage_endpoint" }}{{- end }}
-            {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-oidc: "secret/data/outline/oidc-prod"
+        #   vault.hashicorp.com/agent-inject-template-oidc: |
+        #     {{- with secret "secret/data/outline/oidc-prod" -}}
+        #     {{ .Data.data.clientSecret | writeFile "/vault/secrets/oidc_client_secret" }}
+        #     {{- if .Data.data.clientId }}{{ .Data.data.clientId | writeFile "/vault/secrets/oidc_client_id" }}{{- end }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-db: "secret/data/outline/db-prod"
+        #   vault.hashicorp.com/agent-inject-template-db: |
+        #     {{- with secret "secret/data/outline/db-prod" -}}
+        #     {{ .Data.data.database_url | writeFile "/vault/secrets/database_url" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-redis: "secret/data/outline/redis-prod"
+        #   vault.hashicorp.com/agent-inject-template-redis: |
+        #     {{- with secret "secret/data/outline/redis-prod" -}}
+        #     {{ .Data.data.redis_url | writeFile "/vault/secrets/redis_url" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-app: "secret/data/outline/app-secrets-prod"
+        #   vault.hashicorp.com/agent-inject-template-app: |
+        #     {{- with secret "secret/data/outline/app-secrets-prod" -}}
+        #     {{ .Data.data.secret_key | writeFile "/vault/secrets/secret_key" }}
+        #     {{ .Data.data.utils_secret | writeFile "/vault/secrets/utils_secret" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-storage: "secret/data/outline/storage-prod"
+        #   vault.hashicorp.com/agent-inject-template-storage: |
+        #     {{- with secret "secret/data/outline/storage-prod" -}}
+        #     {{ .Data.data.accessKeyId | writeFile "/vault/secrets/storage_access_key_id" }}
+        #     {{ .Data.data.secretAccessKey | writeFile "/vault/secrets/storage_secret_access_key" }}
+        #     {{ .Data.data.bucket | writeFile "/vault/secrets/storage_bucket" }}
+        #     {{ .Data.data.region | writeFile "/vault/secrets/storage_region" }}
+        #     {{- if .Data.data.endpoint }}{{ .Data.data.endpoint | writeFile "/vault/secrets/storage_endpoint" }}{{- end }}
+        #     {{- end }}
 
         ingress:
           enabled: true
@@ -96,7 +96,7 @@ spec:
 
           image:
             repository: outline/outline
-            tag: "v0.83.0"
+            tag: "v0.84.0"
             pullPolicy: IfNotPresent
 
           resources:
