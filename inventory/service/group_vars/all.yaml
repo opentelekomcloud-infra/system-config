@@ -106,5 +106,5 @@ keycloak_image_stable: quay.io/keycloak/keycloak:26.2
 keycloak_image_latest: quay.io/keycloak/keycloak:26.2
 keycloak_postgres_image_stable: quay.io/opentelekomcloud/postgres:15.12
 keycloak_postgres_image_latest: quay.io/opentelekomcloud/postgres:15.12
-go_neb_image_stable: quay.io/opentelekomcloud/go-neb:master-2022-04-13
-go_neb_image_latest: quay.io/opentelekomcloud/go-neb:master-2022-04-13
+go_neb_image_stable: quay.io/opentelekomcloud/go-neb:sha-edd292a
+go_neb_image_latest: quay.io/opentelekomcloud/go-neb:sha-edd292a
