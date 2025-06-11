@@ -189,12 +189,7 @@ kube-prometheus-stack:
         - continue: false
           matchers:
           - alertname = "NodeClockNotSynchronising"
-          - instance = "192.168.170.81:9100" # first worker node from otcinfra for test
-          receiver: "null"
-        - continue: false
-          matchers:
-          - alertname = "NodeClockNotSynchronising"
-          - instance = "192.168.170.57:9100" # and second
+          - instance =~ "192\.168\.21\..*:9100" # disabling node clock sync for worker nodes subnet
           receiver: "null"
         - continue: false
           matchers:
