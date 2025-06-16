@@ -45,7 +45,7 @@ body:
   - type: checkboxes
     id: affected_locations
     attributes:
-      label: Affected Location(s) ⭐ REQUIRED
+      label: Affected Location(s)
       description: Select the locations where this feature should be implemented (at least one must be selected)
       options:
         - label: "EU-DE-01 AZ1 (Germany/Biere)"
