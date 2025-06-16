@@ -18,21 +18,6 @@ body:
     validations:
       required: true
 
-  - type: dropdown
-    id: master_component
-    attributes:
-      label: Master Component
-      description: Select the project component this issue should be assigned to
-      options:
-        - ACCESSCONTROL
-        - ANSIBLE
-        - APIGW
-        - CCE
-        - ECS
-        - CLOUDCAPACITY
-    validations:
-      required: true
-
   - type: textarea
     id: description
     attributes:
@@ -42,83 +27,22 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
-    id: affected_locations
+  - type: textarea
+    id: url
     attributes:
-      label: Affected Location(s)
-      description: Select the locations where this feature should be implemented (at least one must be selected)
-      options:
-        - label: "EU-DE-01 AZ1 (Germany/Biere)"
-        - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
-        - label: "EU-DE-03 AZ3 (Germany/Biere)"
-        - label: "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
-        - label: "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
-        - label: "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
-        - label: "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
-        - label: "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
-        - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
-    validations:
-      required: true
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      description: Select the priority level of this demand
-      options:
-        - Blocker
-        - Minor
-        - Lowest
-        - Low
-        - Medium
-        - High
-        - Highest
-    validations:
-      required: true
-
-  - type: dropdown
-    id: estimated_effort
-    attributes:
-      label: Estimated implementation effort
-      description: Select the estimated complexity of the task
-      options:
-        - XS
-        - S
-        - M
-        - L
-        - XL
-        - Call Chuck Norris
-    validations:
-      required: true
-
-  - type: dropdown
-    id: tier
-    attributes:
-      label: Tier
-      description: Demand/Release/Change classification
-      options:
-        - Tier 1 - High Complexity
-        - Tier 2 - Medium Complexity
-        - Tier 3 - Low Complexity
-        - NoTestNoDoc
-        - Internal Tier
+      label: Document URL
+      description: Please provide a URL to affected document
+      placeholder: "https://..."
     validations:
       required: true
 
   - type: checkboxes
-    id: pays_into
+    id: doc_type
     attributes:
-      label: Pays-Into
-      description: Please set the strategic goals (at least one must be selected)
+      label: Documents Requested
+      description: Select affected document type (at least one or both)
       options:
-        - label: Architectual surroundings
-        - label: Audit/Compliance
-        - label: Knowledge Management
-        - label: New Services / New business models
-        - label: Operational surroundings
-        - label: Portfolio Hardening
-        - label: Service delivery
-        - label: Security
-        - label: Technical debts
+        - label: "API"
+        - label: "UMN"
     validations:
       required: true
