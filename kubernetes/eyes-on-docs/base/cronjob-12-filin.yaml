@@ -7,6 +7,8 @@ spec:
   schedule: "55 * * * *"
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 900
+      backoffLimit: 3
       template:
         spec:
           serviceAccount: "eyes-on-docs"
