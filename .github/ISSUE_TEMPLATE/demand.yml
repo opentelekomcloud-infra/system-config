@@ -29,6 +29,7 @@ body:
         - APIGW
         - CCE
         - ECS
+        - CLOUDCAPACITY
     validations:
       required: true
 
