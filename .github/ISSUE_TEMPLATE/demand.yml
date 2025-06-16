@@ -108,7 +108,7 @@ body:
   - type: checkboxes
     id: pays_into
     attributes:
-      label: Pays-Into ⭐ REQUIRED
+      label: Pays-Into
       description: Please set the strategic goals (at least one must be selected)
       options:
         - label: Architectual surroundings
