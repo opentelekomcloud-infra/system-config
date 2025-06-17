@@ -87,3 +87,13 @@ applications:
       path: kubernetes/argocd-apps/system/cert-exporter
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
+
+  - name: sealed-secrets
+    clusters: [otcinfra2]
+    config:
+      namespace: sealed-secrets
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/argocd-apps/system/sealed-secrets
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
