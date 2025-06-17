@@ -49,7 +49,7 @@ applications:
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
   - name: falco
-    clusters: [otcinfra, otcinfra2, otcci]
+    clusters: []
     config:
       namespace: falco
       repoURL: 'https://falcosecurity.github.io/charts'
