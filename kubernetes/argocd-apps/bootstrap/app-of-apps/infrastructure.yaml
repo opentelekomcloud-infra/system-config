@@ -78,16 +78,6 @@ applications:
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
 
-  - name: vault-raft-backup
-    clusters: [otcinfra]
-    config:
-      namespace: vault-raft-backup
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
-      path: kubernetes/argocd-apps/system/vault-raft-backup
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-
   - name: cert-exporter
     clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
     config:
