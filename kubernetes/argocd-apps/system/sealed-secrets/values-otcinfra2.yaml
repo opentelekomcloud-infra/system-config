@@ -1,0 +1,82 @@
+## Enable strict security context
+podSecurityContext:
+  enabled: true
+  fsGroup: 65534
+
+containerSecurityContext:
+  enabled: true
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  runAsUser: 1001
+  capabilities:
+    drop:
+      - ALL
+  # Adding security enhancements beyond defaults
+  allowPrivilegeEscalation: false
+  seccompProfile:
+    type: RuntimeDefault
+
+# Configure networking for better security
+networkPolicy:
+  enabled: true
+  egress:
+    enabled: true
+    kubeapiCidr: ""
+    kubeapiPort: ""
+
+# Use more restricted RBAC configuration
+rbac:
+  create: true
+  clusterRole: true
+  serviceProxier:
+    create: true
+    bind: true
+    subjects: |
+      - apiGroup: rbac.authorization.k8s.io
+        kind: ServiceAccount
+        name: sealed-secrets-controller
+        namespace: kube-system
+
+# Ensure probes are properly configured
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+# Enable monitoring
+metrics:
+  serviceMonitor:
+    enabled: true
+    honorLabels: true
+    interval: "30s"
+
+  service:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "8081"
+
+# Add appropriate resource limits
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Update command arguments for better security
+args:
+  - "--update-status"
+  - "--log-level=info"
+  - "--log-format=json"
