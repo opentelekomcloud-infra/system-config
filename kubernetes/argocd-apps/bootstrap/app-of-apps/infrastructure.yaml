@@ -48,16 +48,6 @@ applications:
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
-  - name: falco
-    clusters: []
-    config:
-      namespace: falco
-      repoURL: 'https://falcosecurity.github.io/charts'
-      targetRevision: '3.6.2'
-      path: falcosecurity/falco
-      chart: falco
-      pluginName: argocd-vault-plugin-helm
-
   - name: promtail
     clusters: [otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, otcci]
     config:
