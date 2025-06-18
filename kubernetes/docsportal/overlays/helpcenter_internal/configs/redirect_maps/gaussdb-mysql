@@ -23,6 +23,9 @@
   /api/gaussdb/UpdateInstanceMonitor.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_the_collection_period_of_monitoring_by_seconds.html;
   /api/gaussdb/UpdateSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/enabling_or_disabling_sql_statement_concurrency_control.html;
   /api/gaussdb/changeHistory.html /gaussdb-mysql/api-ref/change_history.html;
+  /api/gaussdb/en-us_topic_0000002200308556.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/querying_a_specified_api_version.html;
+  /api/gaussdb/en-us_topic_0000002235108869.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/index.html;
+  /api/gaussdb/en-us_topic_0000002235229005.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/querying_api_versions.html;
   /api/gaussdb/gaussdb_00_0001.html /gaussdb-mysql/api-ref/before_you_start/overview.html;
   /api/gaussdb/gaussdb_00_0002.html /gaussdb-mysql/api-ref/before_you_start/api_calling.html;
   /api/gaussdb/gaussdb_00_0003.html /gaussdb-mysql/api-ref/before_you_start/endpoints.html;
@@ -64,7 +67,7 @@
   /api/gaussdb/gaussdb_10_0002.html /gaussdb-mysql/api-ref/appendix/status_codes.html;
   /api/gaussdb/gaussdb_10_0003.html /gaussdb-mysql/api-ref/appendix/error_codes.html;
   /api/gaussdb/gaussdb_10_0004.html /gaussdb-mysql/api-ref/appendix/obtaining_a_project_id.html;
-  /api/gaussdb/gaussdb_10_0006.html /gaussdb-mysql/api-ref/appendix/gaussdbfor_mysql_monitoring_metrics.html;
+  /api/gaussdb/gaussdb_10_0006.html /gaussdb-mysql/api-ref/appendix/gaussdbfor_mysql_metrics.html;
   /api/gaussdb/gaussdb_11_0000.html /gaussdb-mysql/api-ref/apis_unavailable_soon/index.html;
   /api/gaussdb/gaussdb_11_0001.html /gaussdb-mysql/api-ref/apis_unavailable_soon/querying_version_information_about_a_db_engine.html;
   /api/gaussdb/gaussdb_11_0002.html /gaussdb-mysql/api-ref/apis_unavailable_soon/querying_database_specifications.html;
@@ -119,6 +122,9 @@
   /en-us/api/gaussdb/UpdateInstanceMonitor.html /gaussdb-mysql/api-ref/apis_recommended/managing_db_instances/changing_the_collection_period_of_monitoring_by_seconds.html;
   /en-us/api/gaussdb/UpdateSqlFilterControl.html /gaussdb-mysql/api-ref/apis_recommended/sql_statement_concurrency_control/enabling_or_disabling_sql_statement_concurrency_control.html;
   /en-us/api/gaussdb/changeHistory.html /gaussdb-mysql/api-ref/change_history.html;
+  /en-us/api/gaussdb/en-us_topic_0000002200308556.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/querying_a_specified_api_version.html;
+  /en-us/api/gaussdb/en-us_topic_0000002235108869.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/index.html;
+  /en-us/api/gaussdb/en-us_topic_0000002235229005.html /gaussdb-mysql/api-ref/apis_recommended/api_version_queries/querying_api_versions.html;
   /en-us/api/gaussdb/gaussdb_00_0001.html /gaussdb-mysql/api-ref/before_you_start/overview.html;
   /en-us/api/gaussdb/gaussdb_00_0002.html /gaussdb-mysql/api-ref/before_you_start/api_calling.html;
   /en-us/api/gaussdb/gaussdb_00_0003.html /gaussdb-mysql/api-ref/before_you_start/endpoints.html;
@@ -160,7 +166,7 @@
   /en-us/api/gaussdb/gaussdb_10_0002.html /gaussdb-mysql/api-ref/appendix/status_codes.html;
   /en-us/api/gaussdb/gaussdb_10_0003.html /gaussdb-mysql/api-ref/appendix/error_codes.html;
   /en-us/api/gaussdb/gaussdb_10_0004.html /gaussdb-mysql/api-ref/appendix/obtaining_a_project_id.html;
-  /en-us/api/gaussdb/gaussdb_10_0006.html /gaussdb-mysql/api-ref/appendix/gaussdbfor_mysql_monitoring_metrics.html;
+  /en-us/api/gaussdb/gaussdb_10_0006.html /gaussdb-mysql/api-ref/appendix/gaussdbfor_mysql_metrics.html;
   /en-us/api/gaussdb/gaussdb_11_0000.html /gaussdb-mysql/api-ref/apis_unavailable_soon/index.html;
   /en-us/api/gaussdb/gaussdb_11_0001.html /gaussdb-mysql/api-ref/apis_unavailable_soon/querying_version_information_about_a_db_engine.html;
   /en-us/api/gaussdb/gaussdb_11_0002.html /gaussdb-mysql/api-ref/apis_unavailable_soon/querying_database_specifications.html;

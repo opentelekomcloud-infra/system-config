@@ -163,7 +163,7 @@
   /en-us/usermanual/nosql/nosql_03_0018.html /geminidb/umn/working_with_geminidb_cassandra_api/auditing/querying_traces.html;
   /en-us/usermanual/nosql/nosql_03_0019.html /geminidb/umn/working_with_geminidb_cassandra_api/auditing/index.html;
   /en-us/usermanual/nosql/nosql_03_0025.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_a_db_instance_name.html;
-  /en-us/usermanual/nosql/nosql_03_0026.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_a_db_instance_class.html;
+  /en-us/usermanual/nosql/nosql_03_0026.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_the_cpu_and_memory_of_an_instance.html;
   /en-us/usermanual/nosql/nosql_03_0027.html /geminidb/umn/working_with_geminidb_cassandra_api/log_management/index.html;
   /en-us/usermanual/nosql/nosql_03_0028.html /geminidb/umn/working_with_geminidb_cassandra_api/log_management/slow_query_logs.html;
   /en-us/usermanual/nosql/nosql_04_change_history.html /geminidb/umn/change_history.html;
@@ -227,7 +227,7 @@
   /usermanual/nosql/nosql_03_0018.html /geminidb/umn/working_with_geminidb_cassandra_api/auditing/querying_traces.html;
   /usermanual/nosql/nosql_03_0019.html /geminidb/umn/working_with_geminidb_cassandra_api/auditing/index.html;
   /usermanual/nosql/nosql_03_0025.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_a_db_instance_name.html;
-  /usermanual/nosql/nosql_03_0026.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_a_db_instance_class.html;
+  /usermanual/nosql/nosql_03_0026.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/changing_the_cpu_and_memory_of_an_instance.html;
   /usermanual/nosql/nosql_03_0027.html /geminidb/umn/working_with_geminidb_cassandra_api/log_management/index.html;
   /usermanual/nosql/nosql_03_0028.html /geminidb/umn/working_with_geminidb_cassandra_api/log_management/slow_query_logs.html;
   /usermanual/nosql/nosql_04_change_history.html /geminidb/umn/change_history.html;
