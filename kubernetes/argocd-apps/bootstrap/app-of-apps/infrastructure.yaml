@@ -48,16 +48,6 @@ applications:
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
-  - name: falco
-    clusters: [otcinfra, otcinfra2, otcci]
-    config:
-      namespace: falco
-      repoURL: 'https://falcosecurity.github.io/charts'
-      targetRevision: '3.6.2'
-      path: falcosecurity/falco
-      chart: falco
-      pluginName: argocd-vault-plugin-helm
-
   - name: promtail
     clusters: [otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, otcci]
     config:
@@ -87,16 +77,6 @@ applications:
       path: kubernetes/argocd-apps/system/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
-
-  - name: vault-raft-backup
-    clusters: [otcinfra]
-    config:
-      namespace: vault-raft-backup
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
-      path: kubernetes/argocd-apps/system/vault-raft-backup
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
   - name: cert-exporter
     clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
