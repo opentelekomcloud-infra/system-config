@@ -17,6 +17,46 @@ projects:
         kind: '*'
     namespaceResourceBlacklist: []
 
+  - name: cloudmon
+    description: "Common cloudmon project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: '*'
+        namespace: '*'
+        server: https://80.158.77.76:5443
+      - name: '*'
+        namespace: '*'
+        server: https://80.158.32.132:5443
+      - name: '*'
+        namespace: '*'
+        server: https://192.168.170.211:5443
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'
+
+  - name: acr
+    description: "Architecture Center project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: '*'
+        namespace: '*'
+        server: '*'
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'
+
 applications:
   - name: victoria-metrics-cluster
     clusters: [otcinfra]
@@ -87,3 +127,23 @@ applications:
       path: kubernetes/argocd-apps/system/cert-exporter
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
+
+applicationSets:
+  - name: argocd-stack
+    applications:
+      - name: argocd
+        namespace: argocd
+        repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+        path: kubernetes/helm_charts/upstream/argo-cd
+        pluginName: argocd-vault-plugin-helm-with-args
+        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+        server: https://kubernetes.default.svc
+      - name: argocd-additional-manifests
+        namespace: argocd
+        repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+        path: github/system-config/kubernetes/helm_charts/local/argo-cd
+        pluginName: argocd-vault-plugin-helm-with-args
+        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+        server: https://kubernetes.default.svc

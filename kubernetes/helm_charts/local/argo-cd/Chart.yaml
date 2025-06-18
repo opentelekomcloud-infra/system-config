@@ -1,0 +1,4 @@
+apiVersion: v2
+name: additional-argocd-manifests
+description: A custom Helm chart for additional-argocd-manifests
+version: 0.0.1
