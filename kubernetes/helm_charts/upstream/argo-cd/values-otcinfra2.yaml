@@ -82,7 +82,7 @@ configs:
     policy.csv: |
       # Format: g, <group/user>, <role>
       g, /argocd-admin, role:admin
-    policy.default: "role:readonly"
+    policy.default: ""
     policy.matchMode: "glob"
     scopes: "[groups]"
 
