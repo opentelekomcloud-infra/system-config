@@ -94,6 +94,6 @@ applications:
       namespace: sealed-secrets
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/argocd-apps/system/sealed-secrets
+      path: github/system-config/kubernetes/helm_charts/upstream/sealed-secrets
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
