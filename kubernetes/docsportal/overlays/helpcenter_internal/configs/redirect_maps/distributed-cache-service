@@ -59,6 +59,7 @@
   /api/dcs/NetworkSecurityManagement.html /distributed-cache-service/api-ref/apis_v2_recommended/network_security/index.html;
   /api/dcs/OtherInterface.html /distributed-cache-service/api-ref/apis_v2_recommended/other_apis/index.html;
   /api/dcs/ParamManagement.html /distributed-cache-service/api-ref/apis_v2_recommended/parameter_management/index.html;
+  /api/dcs/ResetPassword.html /distributed-cache-service/api-ref/apis_v2_recommended/instance_management/resetting_a_password.html;
   /api/dcs/ResizeInstance.html /distributed-cache-service/api-ref/apis_v2_recommended/lifecycle_management/modifying_instance_specifications.html;
   /api/dcs/RestartOrFlushInstances.html /distributed-cache-service/api-ref/apis_v2_recommended/instance_management/restarting_dcs_instances_or_clearing_dcs_instance_data.html;
   /api/dcs/RestoreInstance.html /distributed-cache-service/api-ref/apis_v2_recommended/backup_and_restoration/restoring_a_dcs_instance.html;
@@ -188,6 +189,7 @@
   /en-us/api/dcs/NetworkSecurityManagement.html /distributed-cache-service/api-ref/apis_v2_recommended/network_security/index.html;
   /en-us/api/dcs/OtherInterface.html /distributed-cache-service/api-ref/apis_v2_recommended/other_apis/index.html;
   /en-us/api/dcs/ParamManagement.html /distributed-cache-service/api-ref/apis_v2_recommended/parameter_management/index.html;
+  /en-us/api/dcs/ResetPassword.html /distributed-cache-service/api-ref/apis_v2_recommended/instance_management/resetting_a_password.html;
   /en-us/api/dcs/ResizeInstance.html /distributed-cache-service/api-ref/apis_v2_recommended/lifecycle_management/modifying_instance_specifications.html;
   /en-us/api/dcs/RestartOrFlushInstances.html /distributed-cache-service/api-ref/apis_v2_recommended/instance_management/restarting_dcs_instances_or_clearing_dcs_instance_data.html;
   /en-us/api/dcs/RestoreInstance.html /distributed-cache-service/api-ref/apis_v2_recommended/backup_and_restoration/restoring_a_dcs_instance.html;

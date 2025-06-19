@@ -187,6 +187,7 @@
   /en-us/usermanual/ddm/ddm_05_0014.html /distributed-database-middleware/umn/parameter_template_management/viewing_application_records_of_a_parameter_template.html;
   /en-us/usermanual/ddm/ddm_05_0015.html /distributed-database-middleware/umn/parameter_template_management/modifying_the_description_of_a_parameter_template.html;
   /en-us/usermanual/ddm/ddm_05_0016.html /distributed-database-middleware/umn/parameter_template_management/deleting_a_parameter_template.html;
+  /en-us/usermanual/ddm/ddm_05_0017.html /distributed-database-middleware/umn/parameter_template_management/instance_parameters.html;
   /en-us/usermanual/ddm/ddm_05_0021.html /distributed-database-middleware/umn/permissions_management/database_accounts_and_permissions.html;
   /en-us/usermanual/ddm/ddm_05_0133.html /distributed-database-middleware/umn/account_management/modifying_an_account.html;
   /en-us/usermanual/ddm/ddm_05_0134.html /distributed-database-middleware/umn/account_management/deleting_an_account.html;
@@ -361,6 +362,7 @@
   /usermanual/ddm/ddm_05_0014.html /distributed-database-middleware/umn/parameter_template_management/viewing_application_records_of_a_parameter_template.html;
   /usermanual/ddm/ddm_05_0015.html /distributed-database-middleware/umn/parameter_template_management/modifying_the_description_of_a_parameter_template.html;
   /usermanual/ddm/ddm_05_0016.html /distributed-database-middleware/umn/parameter_template_management/deleting_a_parameter_template.html;
+  /usermanual/ddm/ddm_05_0017.html /distributed-database-middleware/umn/parameter_template_management/instance_parameters.html;
   /usermanual/ddm/ddm_05_0021.html /distributed-database-middleware/umn/permissions_management/database_accounts_and_permissions.html;
   /usermanual/ddm/ddm_05_0133.html /distributed-database-middleware/umn/account_management/modifying_an_account.html;
   /usermanual/ddm/ddm_05_0134.html /distributed-database-middleware/umn/account_management/deleting_an_account.html;
