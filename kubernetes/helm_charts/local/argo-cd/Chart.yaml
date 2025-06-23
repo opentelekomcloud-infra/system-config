@@ -1,4 +1,4 @@
 apiVersion: v2
-name: additional-argocd-manifests
-description: A custom Helm chart for additional-argocd-manifests
-version: 0.0.1
+name: argocd-additional-manifests
+description: A custom/local Helm Chart used for deployement of ArgoCD additional manifests
+version: 0.1.0

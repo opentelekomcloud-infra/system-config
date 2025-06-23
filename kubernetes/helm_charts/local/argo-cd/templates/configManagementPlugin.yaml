@@ -1,0 +1,38 @@
+{{- if .Values.configManagementPlugin.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cmp-cm
+  namespace: {{ .Values.global.argocdNamespace | default "argocd" }}
+data:
+{{- range .Values.configManagementPlugin.plugins }}
+  {{ .name }}.yaml: |
+    apiVersion: argoproj.io/v1alpha1
+    kind: ConfigManagementPlugin
+    metadata:
+      name: {{ .name }}
+    spec:
+      allowConcurrency: {{ .allowConcurrency | default false }}
+      lockRepo: {{ .lockRepo | default false }}
+      {{- if .init }}
+      init:
+        command:
+          {{- toYaml .init.command | nindent 10 }}
+      {{- end }}
+      {{- if .generate }}
+      generate:
+        command:
+          {{- toYaml .generate.command | nindent 10 }}
+        {{- if .generate.args }}
+        args:
+          {{- toYaml .generate.args | nindent 10 }}
+        {{- end }}
+      {{- end }}
+      {{- if .discover }}
+      discover:
+        find:
+          command:
+            {{- toYaml .discover.find.command | nindent 12 }}
+      {{- end }}
+{{- end }}
+{{- end }}

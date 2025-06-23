@@ -1,8 +1,0 @@
-apiVersion: v2
-name: grafana
-description: A Helm chart for Grafana that includes pre-defined dashboards and datasources
-version: 0.1.0
-dependencies:
-  - name: grafana
-    version: "9.2.1"
-    repository: "https://grafana.github.io/helm-charts"
