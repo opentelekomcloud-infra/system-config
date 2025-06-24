@@ -85,7 +85,7 @@
   /en-us/usermanual/apm/apm_02_1002.html /application-performance-management/umn/getting_started/index.html;
   /en-us/usermanual/apm/apm_03_0001.html /application-performance-management/umn/faqs/are_apm_agents_compatible_with_other_agents_such_as_pinpoint.html;
   /en-us/usermanual/apm/apm_03_0002.html /application-performance-management/umn/faqs/what_is_apms_metric_data_sampling_policy.html;
-  /en-us/usermanual/apm/apm_03_0004.html /application-performance-management/umn/faqs/why_does_metric_data_collection_fail.html;
+  /en-us/usermanual/apm/apm_03_0004.html /application-performance-management/umn/faqs/why_does_apm_metric_collection_fail.html;
   /en-us/usermanual/apm/apm_07_0001.html /application-performance-management/umn/before_you_start.html;
   /en-us/usermanual/apm/apm_07_0002.html /application-performance-management/umn/application_list.html;
   /en-us/usermanual/apm/apm_07_0003.html /application-performance-management/umn/application_metric_monitoring/index.html;
@@ -113,7 +113,7 @@
   /en-us/usermanual/apm/apm_07_0025.html /application-performance-management/umn/alarm_management/alarm_policies/creating_a_custom_alarm_policy.html;
   /en-us/usermanual/apm/apm_07_0026.html /application-performance-management/umn/alarm_management/alarm_notification.html;
   /en-us/usermanual/apm/apm_07_0027.html /application-performance-management/umn/agent_management/index.html;
-  /en-us/usermanual/apm/apm_07_0028.html /application-performance-management/umn/agent_management/operating_agents.html;
+  /en-us/usermanual/apm/apm_07_0028.html /application-performance-management/umn/agent_management/performing_operations_on_agents.html;
   /en-us/usermanual/apm/apm_07_0029.html /application-performance-management/umn/agent_management/upgrading_agents.html;
   /en-us/usermanual/apm/apm_07_0030.html /application-performance-management/umn/configuration_management/index.html;
   /en-us/usermanual/apm/apm_07_0031.html /application-performance-management/umn/configuration_management/collection_center.html;
@@ -238,7 +238,7 @@
   /usermanual/apm/apm_02_1002.html /application-performance-management/umn/getting_started/index.html;
   /usermanual/apm/apm_03_0001.html /application-performance-management/umn/faqs/are_apm_agents_compatible_with_other_agents_such_as_pinpoint.html;
   /usermanual/apm/apm_03_0002.html /application-performance-management/umn/faqs/what_is_apms_metric_data_sampling_policy.html;
-  /usermanual/apm/apm_03_0004.html /application-performance-management/umn/faqs/why_does_metric_data_collection_fail.html;
+  /usermanual/apm/apm_03_0004.html /application-performance-management/umn/faqs/why_does_apm_metric_collection_fail.html;
   /usermanual/apm/apm_07_0001.html /application-performance-management/umn/before_you_start.html;
   /usermanual/apm/apm_07_0002.html /application-performance-management/umn/application_list.html;
   /usermanual/apm/apm_07_0003.html /application-performance-management/umn/application_metric_monitoring/index.html;
@@ -266,7 +266,7 @@
   /usermanual/apm/apm_07_0025.html /application-performance-management/umn/alarm_management/alarm_policies/creating_a_custom_alarm_policy.html;
   /usermanual/apm/apm_07_0026.html /application-performance-management/umn/alarm_management/alarm_notification.html;
   /usermanual/apm/apm_07_0027.html /application-performance-management/umn/agent_management/index.html;
-  /usermanual/apm/apm_07_0028.html /application-performance-management/umn/agent_management/operating_agents.html;
+  /usermanual/apm/apm_07_0028.html /application-performance-management/umn/agent_management/performing_operations_on_agents.html;
   /usermanual/apm/apm_07_0029.html /application-performance-management/umn/agent_management/upgrading_agents.html;
   /usermanual/apm/apm_07_0030.html /application-performance-management/umn/configuration_management/index.html;
   /usermanual/apm/apm_07_0031.html /application-performance-management/umn/configuration_management/collection_center.html;

@@ -1,6 +1,8 @@
+  /usermanual/obs/obs_03_0003.html /object-storage-service/umn/obs_console_operation_guide/cross-region_replication/configuring_cross-region_replication.html;
+  /usermanual/obs/obs_03_0008.html /object-storage-service/umn/obs_console_operation_guide/monitoring/index.html;
   /usermanual/obs/obs_03_0009.html /object-storage-service/umn/obs_console_operation_guide/monitoring/monitoring_obs.html;
   /usermanual/obs/obs_03_0010.html /object-storage-service/umn/obs_console_operation_guide/monitoring/obs_monitoring_metrics.html;
-  /usermanual/obs/obs_03_0012.html /object-storage-service/umn/obs_browser_operation_guide/storage_classes_overview.html;
+  /usermanual/obs/obs_03_0012.html /object-storage-service/umn/obs_browser_operation_guide/storage_classes.html;
   /usermanual/obs/obs_03_0016.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/index.html;
   /usermanual/obs/obs_03_0017.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/will_an_object_deletion_in_a_source_bucket_be_synchronized_to_the_destination_bucket.html;
   /usermanual/obs/obs_03_0018.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/what_are_the_application_scenarios_of_cross-region_replication.html;
@@ -168,6 +170,7 @@
   /usermanual/obs/obs_03_100528.html /object-storage-service/umn/faq/buckets_and_objects/what_is_the_best_practice_to_delete_objects_and_deal_with_versioning.html;
   /usermanual/obs/obs_03_9998.html /object-storage-service/umn/glossary.html;
   /usermanual/obs/obs_03_9999.html /object-storage-service/umn/change_history.html;
+  /usermanual/obs/obs_41_0054.html /object-storage-service/umn/obs_console_operation_guide/tags/adding_tags_to_an_object.html;
   /usermanual/obs/obs_faq_0006.html /object-storage-service/umn/faq/obs_basics/what_are_the_advantages_of_object_storage_over_san_and_nas_storage.html;
   /usermanual/obs/obs_faq_0009.html /object-storage-service/umn/faq/obs_basics/which_types_of_data_can_be_stored_in_obs.html;
   /usermanual/obs/obs_faq_0010.html /object-storage-service/umn/faq/obs_basics/how_much_data_can_i_store_in_obs.html;
@@ -222,5 +225,6 @@
   /usermanual/obs/obs_faq_10000.html /object-storage-service/umn/faq/index.html;
   /usermanual/obs/obs_faq_1008.html /object-storage-service/umn/faq/server-side_encryption/index.html;
   /usermanual/obs/obs_faq_101704.html /object-storage-service/umn/faq/how_do_i_use_static_website_hosting/why_does_my_browser_try_to_download_instead_of_displaying_the_website_file.html;
+  /usermanual/obs/obs_faq_101803.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/why_does_storage_differ_between_source_and_destination_buckets_for_multipart_upload_replication_without_versioning.html;
   /usermanual/obs/obs_faq_1100.html /object-storage-service/umn/faq/access_control/index.html;
   /usermanual/obs/obs_faq_1200.html /object-storage-service/umn/faq/buckets_and_objects/index.html;

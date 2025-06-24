@@ -114,6 +114,7 @@
   /en-us/usermanual/vpcep/vpcep_03_0202.html /vpc-endpoint/umn/vpc_endpoints/querying_and_accessing_a_vpc_endpoint.html;
   /en-us/usermanual/vpcep/vpcep_03_0203.html /vpc-endpoint/umn/vpc_endpoints/deleting_a_vpc_endpoint.html;
   /en-us/usermanual/vpcep/vpcep_03_0204.html /vpc-endpoint/umn/vpc_endpoints/vpc_endpoint_overview.html;
+  /en-us/usermanual/vpcep/vpcep_03_0205.html /vpc-endpoint/umn/vpc_endpoints/configuring_access_control_for_a_vpc_endpoint.html;
   /en-us/usermanual/vpcep/vpcep_03_0206.html /vpc-endpoint/umn/vpc_endpoints/managing_tags_of_a_vpc_endpoint.html;
   /en-us/usermanual/vpcep/vpcep_03_0500.html /vpc-endpoint/umn/quotas.html;
   /en-us/usermanual/vpcep/vpcep_04_0000.html /vpc-endpoint/umn/faq/index.html;
@@ -172,6 +173,7 @@
   /usermanual/vpcep/vpcep_03_0202.html /vpc-endpoint/umn/vpc_endpoints/querying_and_accessing_a_vpc_endpoint.html;
   /usermanual/vpcep/vpcep_03_0203.html /vpc-endpoint/umn/vpc_endpoints/deleting_a_vpc_endpoint.html;
   /usermanual/vpcep/vpcep_03_0204.html /vpc-endpoint/umn/vpc_endpoints/vpc_endpoint_overview.html;
+  /usermanual/vpcep/vpcep_03_0205.html /vpc-endpoint/umn/vpc_endpoints/configuring_access_control_for_a_vpc_endpoint.html;
   /usermanual/vpcep/vpcep_03_0206.html /vpc-endpoint/umn/vpc_endpoints/managing_tags_of_a_vpc_endpoint.html;
   /usermanual/vpcep/vpcep_03_0500.html /vpc-endpoint/umn/quotas.html;
   /usermanual/vpcep/vpcep_04_0000.html /vpc-endpoint/umn/faq/index.html;
