@@ -1,0 +1,10 @@
+project: system-config
+namespace: cpn
+server: in-cluster
+targetRevision: dep-track-postgres
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
