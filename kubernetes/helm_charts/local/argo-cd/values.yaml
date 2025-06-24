@@ -24,7 +24,7 @@ applications:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/victoria-metrics-cluster
+      path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
@@ -34,7 +34,7 @@ applications:
       namespace: grafana-infra
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/grafana
+      path: kubernetes/helm_charts/upstream/grafana
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
@@ -44,7 +44,7 @@ applications:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/victoria-metrics-auth
+      path: kubernetes/helm_charts/upstream/victoria-metrics-auth
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
@@ -54,7 +54,7 @@ applications:
       namespace: promtail
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/promtail
+      path: kubernetes/helm_charts/upstream/promtail
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
@@ -64,7 +64,7 @@ applications:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/kube-prometheus-stack
+      path: kubernetes/helm_charts/upstream/kube-prometheus-stack
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
 
@@ -74,7 +74,7 @@ applications:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/cert-manager
+      path: kubernetes/helm_charts/upstream/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
 
@@ -84,7 +84,7 @@ applications:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: kubernetes/helm_charts/cert-exporter
+      path: kubernetes/helm_charts/upstream/cert-exporter
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
 
@@ -94,6 +94,6 @@ applications:
       namespace: sealed-secrets
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: main
-      path: github/system-config/kubernetes/helm_charts/sealed-secrets
+      path: github/system-config/kubernetes/helm_charts/upstream/sealed-secrets
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
