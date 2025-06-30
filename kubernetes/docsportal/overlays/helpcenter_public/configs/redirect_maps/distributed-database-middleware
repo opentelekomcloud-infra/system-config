@@ -214,6 +214,7 @@
   /en-us/usermanual/ddm/ddm_06_0036.html /distributed-database-middleware/umn/connection_management/changing_a_database_port.html;
   /en-us/usermanual/ddm/ddm_06_0039.html /distributed-database-middleware/umn/connection_management/changing_the_security_group_of_a_ddm_instance.html;
   /en-us/usermanual/ddm/ddm_06_0040.html /distributed-database-middleware/umn/connection_management/index.html;
+  /en-us/usermanual/ddm/ddm_06_0041.html /distributed-database-middleware/umn/connection_management/enabling_and_disabling_ssl_for_a_db_instance.html;
   /en-us/usermanual/ddm/ddm_06_0132.html /distributed-database-middleware/umn/instance_management/creating_a_ddm_instance.html;
   /en-us/usermanual/ddm/ddm_06_1000.html /distributed-database-middleware/umn/tags.html;
   /en-us/usermanual/ddm/ddm_08_0001.html /distributed-database-middleware/umn/sql_syntax/index.html;
@@ -262,11 +263,13 @@
   /en-us/usermanual/ddm/ddm_11_0001.html /distributed-database-middleware/umn/auditing/index.html;
   /en-us/usermanual/ddm/ddm_11_0002.html /distributed-database-middleware/umn/auditing/key_operations_recorded_by_cts.html;
   /en-us/usermanual/ddm/ddm_11_0003.html /distributed-database-middleware/umn/auditing/querying_traces.html;
+  /en-us/usermanual/ddm/ddm_12_0005.html /distributed-database-middleware/umn/backups_and_restorations/consistent_backups.html;
   /en-us/usermanual/ddm/ddm_12_0006.html /distributed-database-middleware/umn/sql_syntax/ddl/overview.html;
   /en-us/usermanual/ddm/ddm_12_0007.html /distributed-database-middleware/umn/sql_syntax/ddl/sharding_algorithms/mod_hash_ci.html;
   /en-us/usermanual/ddm/ddm_12_0010.html /distributed-database-middleware/umn/sql_syntax/global_sequence/overview.html;
   /en-us/usermanual/ddm/ddm_12_0011.html /distributed-database-middleware/umn/faqs/general_questions/can_data_nodes_associated_with_a_ddm_instance_share_data.html;
   /en-us/usermanual/ddm/ddm_12_0012.html /distributed-database-middleware/umn/faqs/general_questions/what_data_nodes_can_be_associated_with_a_ddm_instance.html;
+  /en-us/usermanual/ddm/ddm_12_0016.html /distributed-database-middleware/umn/backups_and_restorations/backup_principles.html;
   /en-us/usermanual/ddm/ddm_12_0100.html /distributed-database-middleware/umn/sql_syntax/dml/supported_system_schema_queries.html;
   /en-us/usermanual/ddm/ddm_13_0001.html /distributed-database-middleware/umn/slow_queries.html;
   /en-us/usermanual/ddm/ddm_16_0001.html /distributed-database-middleware/umn/monitoring_management/supported_metrics/index.html;
@@ -385,6 +388,7 @@
   /usermanual/ddm/ddm_06_0036.html /distributed-database-middleware/umn/connection_management/changing_a_database_port.html;
   /usermanual/ddm/ddm_06_0039.html /distributed-database-middleware/umn/connection_management/changing_the_security_group_of_a_ddm_instance.html;
   /usermanual/ddm/ddm_06_0040.html /distributed-database-middleware/umn/connection_management/index.html;
+  /usermanual/ddm/ddm_06_0041.html /distributed-database-middleware/umn/connection_management/enabling_and_disabling_ssl_for_a_db_instance.html;
   /usermanual/ddm/ddm_06_0132.html /distributed-database-middleware/umn/instance_management/creating_a_ddm_instance.html;
   /usermanual/ddm/ddm_06_1000.html /distributed-database-middleware/umn/tags.html;
   /usermanual/ddm/ddm_08_0001.html /distributed-database-middleware/umn/sql_syntax/index.html;
@@ -433,11 +437,13 @@
   /usermanual/ddm/ddm_11_0001.html /distributed-database-middleware/umn/auditing/index.html;
   /usermanual/ddm/ddm_11_0002.html /distributed-database-middleware/umn/auditing/key_operations_recorded_by_cts.html;
   /usermanual/ddm/ddm_11_0003.html /distributed-database-middleware/umn/auditing/querying_traces.html;
+  /usermanual/ddm/ddm_12_0005.html /distributed-database-middleware/umn/backups_and_restorations/consistent_backups.html;
   /usermanual/ddm/ddm_12_0006.html /distributed-database-middleware/umn/sql_syntax/ddl/overview.html;
   /usermanual/ddm/ddm_12_0007.html /distributed-database-middleware/umn/sql_syntax/ddl/sharding_algorithms/mod_hash_ci.html;
   /usermanual/ddm/ddm_12_0010.html /distributed-database-middleware/umn/sql_syntax/global_sequence/overview.html;
   /usermanual/ddm/ddm_12_0011.html /distributed-database-middleware/umn/faqs/general_questions/can_data_nodes_associated_with_a_ddm_instance_share_data.html;
   /usermanual/ddm/ddm_12_0012.html /distributed-database-middleware/umn/faqs/general_questions/what_data_nodes_can_be_associated_with_a_ddm_instance.html;
+  /usermanual/ddm/ddm_12_0016.html /distributed-database-middleware/umn/backups_and_restorations/backup_principles.html;
   /usermanual/ddm/ddm_12_0100.html /distributed-database-middleware/umn/sql_syntax/dml/supported_system_schema_queries.html;
   /usermanual/ddm/ddm_13_0001.html /distributed-database-middleware/umn/slow_queries.html;
   /usermanual/ddm/ddm_16_0001.html /distributed-database-middleware/umn/monitoring_management/supported_metrics/index.html;

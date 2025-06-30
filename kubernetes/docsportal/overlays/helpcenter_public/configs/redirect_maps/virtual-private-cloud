@@ -482,7 +482,7 @@
   /en-us/usermanual/vpc/SecurityGroup_0017.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/adding_an_instance_to_or_removing_an_instance_from_a_security_group.html;
   /en-us/usermanual/vpc/acl_0001.html /virtual-private-cloud/umn/access_control/firewall/firewall_overview.html;
   /en-us/usermanual/vpc/acl_0002.html /virtual-private-cloud/umn/access_control/firewall/firewall_configuration_examples.html;
-  /en-us/usermanual/vpc/eip_0003.html /virtual-private-cloud/umn/elastic_ip/exporting_eip_information.html;
+  /en-us/usermanual/vpc/eip_0003.html /virtual-private-cloud/umn/elastic_ip/exporting_eips.html;
   /en-us/usermanual/vpc/en-us_topic_0000001818822858.html /virtual-private-cloud/umn/faq/eips/what_are_the_differences_between_5_bgp_5_mailbgp_and_5_gray_eips.html;
   /en-us/usermanual/vpc/en-us_topic_0013748715.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/creating_a_security_group.html;
   /en-us/usermanual/vpc/en-us_topic_0013748726.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/creating_a_subnet_for_the_vpc.html;
@@ -510,7 +510,7 @@
   /en-us/usermanual/vpc/en-us_topic_0073379079.html /virtual-private-cloud/umn/access_control/security_group/security_groups_and_security_group_rules.html;
   /en-us/usermanual/vpc/en-us_topic_0081124350.html /virtual-private-cloud/umn/access_control/security_group/security_group_configuration_examples.html;
   /en-us/usermanual/vpc/faq_bandwidth.html /virtual-private-cloud/umn/faq/bandwidth/index.html;
-  /en-us/usermanual/vpc/faq_bandwidth_0003.html /virtual-private-cloud/umn/faq/bandwidth/what_are_the_differences_between_a_dedicated_bandwidth_and_a_shared_bandwidth.html;
+  /en-us/usermanual/vpc/faq_bandwidth_0003.html /virtual-private-cloud/umn/faq/bandwidth/what_are_the_differences_between_a_dedicated_bandwidth_and_a_shared_bandwidth_can_a_dedicated_bandwidth_be_changed_to_a_shared_bandwidth.html;
   /en-us/usermanual/vpc/faq_common.html /virtual-private-cloud/umn/faq/general_questions/index.html;
   /en-us/usermanual/vpc/faq_connection.html /virtual-private-cloud/umn/faq/connectivity/index.html;
   /en-us/usermanual/vpc/faq_connection_0001.html /virtual-private-cloud/umn/faq/vpc_peering_connections/can_a_vpc_peering_connection_connect_vpcs_in_different_regions.html;
@@ -565,6 +565,7 @@
   /en-us/usermanual/vpc/vpc_SecurityGroup_0012.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/index.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0013.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/index.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0014.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/index.html;
+  /en-us/usermanual/vpc/vpc_SecurityGroup_0015.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/exporting_security_groups.html;
   /en-us/usermanual/vpc/vpc_acl_0000.html /virtual-private-cloud/umn/access_control/firewall/index.html;
   /en-us/usermanual/vpc/vpc_acl_0003.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/disassociating_subnets_from_a_firewall.html;
   /en-us/usermanual/vpc/vpc_acl_0004.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/changing_the_sequence_of_a_firewall_rule.html;
@@ -578,6 +579,7 @@
   /en-us/usermanual/vpc/vpc_acl_0014.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/index.html;
   /en-us/usermanual/vpc/vpc_acl_0015.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/index.html;
   /en-us/usermanual/vpc/vpc_acl_0016.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/index.html;
+  /en-us/usermanual/vpc/vpc_acl_0017.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/exporting_the_information_about_subnets_associated_with_a_firewall.html;
   /en-us/usermanual/vpc/vpc_dc_0000.html /virtual-private-cloud/umn/direct_connect.html;
   /en-us/usermanual/vpc/vpc_eip_0000.html /virtual-private-cloud/umn/elastic_ip/index.html;
   /en-us/usermanual/vpc/vpc_eip_0001.html /virtual-private-cloud/umn/elastic_ip/unbinding_an_eip_from_an_ecs_and_releasing_the_eip.html;
@@ -647,10 +649,11 @@
   /en-us/usermanual/vpc/vpc_route01_0011.html /virtual-private-cloud/umn/route_tables/managing_routes/modifying_a_route.html;
   /en-us/usermanual/vpc/vpc_route01_0012.html /virtual-private-cloud/umn/route_tables/managing_routes/deleting_a_route.html;
   /en-us/usermanual/vpc/vpc_route01_0013.html /virtual-private-cloud/umn/route_tables/managing_routes/replicating_a_route.html;
-  /en-us/usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/managing_route_tables/exporting_route_table_information.html;
+  /en-us/usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/managing_route_tables/exporting_route_tables.html;
   /en-us/usermanual/vpc/vpc_route01_0015.html /virtual-private-cloud/umn/route_tables/managing_route_tables/viewing_the_route_table_associated_with_a_subnet.html;
   /en-us/usermanual/vpc/vpc_route01_0016.html /virtual-private-cloud/umn/route_tables/managing_route_tables/index.html;
   /en-us/usermanual/vpc/vpc_route01_0017.html /virtual-private-cloud/umn/route_tables/managing_routes/index.html;
+  /en-us/usermanual/vpc/vpc_route01_0018.html /virtual-private-cloud/umn/route_tables/managing_routes/exporting_routes.html;
   /en-us/usermanual/vpc/vpc_route_0004.html /virtual-private-cloud/umn/route_tables/configuring_an_snat_server.html;
   /en-us/usermanual/vpc/vpc_use_0001.html /virtual-private-cloud/umn/service_overview/document_usage_instructions.html;
   /en-us/usermanual/vpc/vpc_vip_0000.html /virtual-private-cloud/umn/virtual_ip_address/index.html;
@@ -670,14 +673,15 @@
   /en-us/usermanual/vpc/vpc_vpc_0003.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/deleting_a_vpc.html;
   /en-us/usermanual/vpc/vpc_vpc_0004.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/managing_vpc_tags.html;
   /en-us/usermanual/vpc/vpc_vpc_0005.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/managing_subnet_tags.html;
-  /en-us/usermanual/vpc/vpc_vpc_0006.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/exporting_vpc_list.html;
+  /en-us/usermanual/vpc/vpc_vpc_0006.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/exporting_vpcs.html;
   /en-us/usermanual/vpc/vpc_vpc_0007.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/adding_a_secondary_ipv4_cidr_block_to_a_vpc.html;
   /en-us/usermanual/vpc/vpc_vpc_0008.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/deleting_a_secondary_ipv4_cidr_block_from_a_vpc.html;
   /en-us/usermanual/vpc/vpc_vpc_0009.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/viewing_a_vpc_topology.html;
-  /en-us/usermanual/vpc/vpc_vpc_0010.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_subnet_list.html;
+  /en-us/usermanual/vpc/vpc_vpc_0010.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_subnets.html;
   /en-us/usermanual/vpc/vpc_vpc_0011.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/viewing_and_deleting_resources_in_a_subnet.html;
   /en-us/usermanual/vpc/vpc_vpc_0012.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/viewing_ip_addresses_in_a_subnet.html;
   /en-us/usermanual/vpc/vpc_vpc_0013.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/obtaining_a_vpc_id.html;
+  /en-us/usermanual/vpc/vpc_vpc_0014.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_ip_addresses_in_a_subnet.html;
   /usermanual/vpc/ /virtual-private-cloud/umn/index.html;
   /usermanual/vpc/FlowLog_0001.html /virtual-private-cloud/umn/vpc_flow_log/index.html;
   /usermanual/vpc/FlowLog_0002.html /virtual-private-cloud/umn/vpc_flow_log/vpc_flow_log_overview.html;
@@ -692,7 +696,7 @@
   /usermanual/vpc/SecurityGroup_0017.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/adding_an_instance_to_or_removing_an_instance_from_a_security_group.html;
   /usermanual/vpc/acl_0001.html /virtual-private-cloud/umn/access_control/firewall/firewall_overview.html;
   /usermanual/vpc/acl_0002.html /virtual-private-cloud/umn/access_control/firewall/firewall_configuration_examples.html;
-  /usermanual/vpc/eip_0003.html /virtual-private-cloud/umn/elastic_ip/exporting_eip_information.html;
+  /usermanual/vpc/eip_0003.html /virtual-private-cloud/umn/elastic_ip/exporting_eips.html;
   /usermanual/vpc/en-us_topic_0000001818822858.html /virtual-private-cloud/umn/faq/eips/what_are_the_differences_between_5_bgp_5_mailbgp_and_5_gray_eips.html;
   /usermanual/vpc/en-us_topic_0013748715.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/creating_a_security_group.html;
   /usermanual/vpc/en-us_topic_0013748726.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/creating_a_subnet_for_the_vpc.html;
@@ -720,7 +724,7 @@
   /usermanual/vpc/en-us_topic_0073379079.html /virtual-private-cloud/umn/access_control/security_group/security_groups_and_security_group_rules.html;
   /usermanual/vpc/en-us_topic_0081124350.html /virtual-private-cloud/umn/access_control/security_group/security_group_configuration_examples.html;
   /usermanual/vpc/faq_bandwidth.html /virtual-private-cloud/umn/faq/bandwidth/index.html;
-  /usermanual/vpc/faq_bandwidth_0003.html /virtual-private-cloud/umn/faq/bandwidth/what_are_the_differences_between_a_dedicated_bandwidth_and_a_shared_bandwidth.html;
+  /usermanual/vpc/faq_bandwidth_0003.html /virtual-private-cloud/umn/faq/bandwidth/what_are_the_differences_between_a_dedicated_bandwidth_and_a_shared_bandwidth_can_a_dedicated_bandwidth_be_changed_to_a_shared_bandwidth.html;
   /usermanual/vpc/faq_common.html /virtual-private-cloud/umn/faq/general_questions/index.html;
   /usermanual/vpc/faq_connection.html /virtual-private-cloud/umn/faq/connectivity/index.html;
   /usermanual/vpc/faq_connection_0001.html /virtual-private-cloud/umn/faq/vpc_peering_connections/can_a_vpc_peering_connection_connect_vpcs_in_different_regions.html;
@@ -775,6 +779,7 @@
   /usermanual/vpc/vpc_SecurityGroup_0012.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/index.html;
   /usermanual/vpc/vpc_SecurityGroup_0013.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/index.html;
   /usermanual/vpc/vpc_SecurityGroup_0014.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/index.html;
+  /usermanual/vpc/vpc_SecurityGroup_0015.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/exporting_security_groups.html;
   /usermanual/vpc/vpc_acl_0000.html /virtual-private-cloud/umn/access_control/firewall/index.html;
   /usermanual/vpc/vpc_acl_0003.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/disassociating_subnets_from_a_firewall.html;
   /usermanual/vpc/vpc_acl_0004.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/changing_the_sequence_of_a_firewall_rule.html;
@@ -788,6 +793,7 @@
   /usermanual/vpc/vpc_acl_0014.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/index.html;
   /usermanual/vpc/vpc_acl_0015.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/index.html;
   /usermanual/vpc/vpc_acl_0016.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/index.html;
+  /usermanual/vpc/vpc_acl_0017.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/exporting_the_information_about_subnets_associated_with_a_firewall.html;
   /usermanual/vpc/vpc_dc_0000.html /virtual-private-cloud/umn/direct_connect.html;
   /usermanual/vpc/vpc_eip_0000.html /virtual-private-cloud/umn/elastic_ip/index.html;
   /usermanual/vpc/vpc_eip_0001.html /virtual-private-cloud/umn/elastic_ip/unbinding_an_eip_from_an_ecs_and_releasing_the_eip.html;
@@ -857,10 +863,11 @@
   /usermanual/vpc/vpc_route01_0011.html /virtual-private-cloud/umn/route_tables/managing_routes/modifying_a_route.html;
   /usermanual/vpc/vpc_route01_0012.html /virtual-private-cloud/umn/route_tables/managing_routes/deleting_a_route.html;
   /usermanual/vpc/vpc_route01_0013.html /virtual-private-cloud/umn/route_tables/managing_routes/replicating_a_route.html;
-  /usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/managing_route_tables/exporting_route_table_information.html;
+  /usermanual/vpc/vpc_route01_0014.html /virtual-private-cloud/umn/route_tables/managing_route_tables/exporting_route_tables.html;
   /usermanual/vpc/vpc_route01_0015.html /virtual-private-cloud/umn/route_tables/managing_route_tables/viewing_the_route_table_associated_with_a_subnet.html;
   /usermanual/vpc/vpc_route01_0016.html /virtual-private-cloud/umn/route_tables/managing_route_tables/index.html;
   /usermanual/vpc/vpc_route01_0017.html /virtual-private-cloud/umn/route_tables/managing_routes/index.html;
+  /usermanual/vpc/vpc_route01_0018.html /virtual-private-cloud/umn/route_tables/managing_routes/exporting_routes.html;
   /usermanual/vpc/vpc_route_0004.html /virtual-private-cloud/umn/route_tables/configuring_an_snat_server.html;
   /usermanual/vpc/vpc_use_0001.html /virtual-private-cloud/umn/service_overview/document_usage_instructions.html;
   /usermanual/vpc/vpc_vip_0000.html /virtual-private-cloud/umn/virtual_ip_address/index.html;
@@ -880,11 +887,12 @@
   /usermanual/vpc/vpc_vpc_0003.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/deleting_a_vpc.html;
   /usermanual/vpc/vpc_vpc_0004.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/managing_vpc_tags.html;
   /usermanual/vpc/vpc_vpc_0005.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/managing_subnet_tags.html;
-  /usermanual/vpc/vpc_vpc_0006.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/exporting_vpc_list.html;
+  /usermanual/vpc/vpc_vpc_0006.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/exporting_vpcs.html;
   /usermanual/vpc/vpc_vpc_0007.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/adding_a_secondary_ipv4_cidr_block_to_a_vpc.html;
   /usermanual/vpc/vpc_vpc_0008.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/deleting_a_secondary_ipv4_cidr_block_from_a_vpc.html;
   /usermanual/vpc/vpc_vpc_0009.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/viewing_a_vpc_topology.html;
-  /usermanual/vpc/vpc_vpc_0010.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_subnet_list.html;
+  /usermanual/vpc/vpc_vpc_0010.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_subnets.html;
   /usermanual/vpc/vpc_vpc_0011.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/viewing_and_deleting_resources_in_a_subnet.html;
   /usermanual/vpc/vpc_vpc_0012.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/viewing_ip_addresses_in_a_subnet.html;
   /usermanual/vpc/vpc_vpc_0013.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/obtaining_a_vpc_id.html;
+  /usermanual/vpc/vpc_vpc_0014.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/exporting_ip_addresses_in_a_subnet.html;
