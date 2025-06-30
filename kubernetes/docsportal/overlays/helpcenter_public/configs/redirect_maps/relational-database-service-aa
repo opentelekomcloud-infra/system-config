@@ -67,7 +67,7 @@
   /api/rds/rds_00_0006.html /relational-database-service/api-ref/before_you_start/selecting_an_api_type.html;
   /api/rds/rds_01_0002.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/creating_a_db_instance.html;
   /api/rds/rds_01_0003.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/deleting_a_db_instance.html;
-  /api/rds/rds_01_0004.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/querying_details_about_db_instances.html;
+  /api/rds/rds_01_0004.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/querying_db_instances.html;
   /api/rds/rds_01_0005.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/index.html;
   /api/rds/rds_01_0006.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/adding_a_tag.html;
   /api/rds/rds_01_0007.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/querying_a_tag.html;
@@ -225,7 +225,7 @@
   /en-us/api/rds/rds_00_0006.html /relational-database-service/api-ref/before_you_start/selecting_an_api_type.html;
   /en-us/api/rds/rds_01_0002.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/creating_a_db_instance.html;
   /en-us/api/rds/rds_01_0003.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/deleting_a_db_instance.html;
-  /en-us/api/rds/rds_01_0004.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/querying_details_about_db_instances.html;
+  /en-us/api/rds/rds_01_0004.html /relational-database-service/api-ref/api_v3_recommended/db_instance_management/querying_db_instances.html;
   /en-us/api/rds/rds_01_0005.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/index.html;
   /en-us/api/rds/rds_01_0006.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/adding_a_tag.html;
   /en-us/api/rds/rds_01_0007.html /relational-database-service/api-ref/api_v1_to_be_discarded/tag_management/querying_a_tag.html;
@@ -326,7 +326,7 @@
   /en-us/usermanual/rds/en-us_topic_0053089697.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/index.html;
   /en-us/usermanual/rds/en-us_topic_add_read_replica.html /relational-database-service/umn/working_with_rds_for_mysql/read_replicas/creating_a_read_replica.html;
   /en-us/usermanual/rds/en-us_topic_apply_for_rds.html /relational-database-service/umn/getting_started_with_rds_for_mysql/step_2_connect_to_a_db_instance/connecting_to_an_rds_for_mysql_db_instance_through_a_private_network/overview.html;
-  /en-us/usermanual/rds/en-us_topic_backup_restore.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/working_with_backups.html;
+  /en-us/usermanual/rds/en-us_topic_backup_restore.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/backup_types.html;
   /en-us/usermanual/rds/en-us_topic_connect_instance.html /relational-database-service/umn/getting_started_with_rds_for_mysql/step_2_connect_to_a_db_instance/connecting_to_an_rds_for_mysql_db_instance_through_a_public_network/connecting_to_a_db_instance_through_a_public_network.html;
   /en-us/usermanual/rds/en-us_topic_dashboard.html /relational-database-service/umn/introduction/what_is_rds.html;
   /en-us/usermanual/rds/en-us_topic_parameter_group.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/creating_a_parameter_template.html;
@@ -451,6 +451,7 @@
   /en-us/usermanual/rds/rds_08_0020.html /relational-database-service/umn/working_with_rds_for_mysql/interconnection_with_cts/index.html;
   /en-us/usermanual/rds/rds_08_0021.html /relational-database-service/umn/working_with_rds_for_mysql/log_management/index.html;
   /en-us/usermanual/rds/rds_08_0022.html /relational-database-service/umn/working_with_rds_for_mysql/instance_lifecycle/selecting_displayed_items.html;
+  /en-us/usermanual/rds/rds_08_0024.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/introduction_to_backups.html;
   /en-us/usermanual/rds/rds_08_0042.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/exporting_a_parameter_template.html;
   /en-us/usermanual/rds/rds_08_0043.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/importing_a_parameter_template.html;
   /en-us/usermanual/rds/rds_08_0044.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/restoring_from_backup_files_to_a_self-built_mysql_database.html;
@@ -738,7 +739,7 @@
   /usermanual/rds/en-us_topic_0053089697.html /relational-database-service/umn/getting_started_with_rds_for_sql_server/step_2_connect_to_a_db_instance/index.html;
   /usermanual/rds/en-us_topic_add_read_replica.html /relational-database-service/umn/working_with_rds_for_mysql/read_replicas/creating_a_read_replica.html;
   /usermanual/rds/en-us_topic_apply_for_rds.html /relational-database-service/umn/getting_started_with_rds_for_mysql/step_2_connect_to_a_db_instance/connecting_to_an_rds_for_mysql_db_instance_through_a_private_network/overview.html;
-  /usermanual/rds/en-us_topic_backup_restore.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/working_with_backups.html;
+  /usermanual/rds/en-us_topic_backup_restore.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/backup_types.html;
   /usermanual/rds/en-us_topic_connect_instance.html /relational-database-service/umn/getting_started_with_rds_for_mysql/step_2_connect_to_a_db_instance/connecting_to_an_rds_for_mysql_db_instance_through_a_public_network/connecting_to_a_db_instance_through_a_public_network.html;
   /usermanual/rds/en-us_topic_dashboard.html /relational-database-service/umn/introduction/what_is_rds.html;
   /usermanual/rds/en-us_topic_parameter_group.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/creating_a_parameter_template.html;
@@ -863,6 +864,7 @@
   /usermanual/rds/rds_08_0020.html /relational-database-service/umn/working_with_rds_for_mysql/interconnection_with_cts/index.html;
   /usermanual/rds/rds_08_0021.html /relational-database-service/umn/working_with_rds_for_mysql/log_management/index.html;
   /usermanual/rds/rds_08_0022.html /relational-database-service/umn/working_with_rds_for_mysql/instance_lifecycle/selecting_displayed_items.html;
+  /usermanual/rds/rds_08_0024.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/introduction_to_backups.html;
   /usermanual/rds/rds_08_0042.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/exporting_a_parameter_template.html;
   /usermanual/rds/rds_08_0043.html /relational-database-service/umn/working_with_rds_for_mysql/parameter_template_management/importing_a_parameter_template.html;
   /usermanual/rds/rds_08_0044.html /relational-database-service/umn/working_with_rds_for_mysql/backups_and_restorations/restoring_from_backup_files_to_a_self-built_mysql_database.html;
@@ -996,5 +998,3 @@
   /usermanual/rds/rds_faq_0077.html /relational-database-service/umn/faqs/log_management/whats_the_slow_query_threshold_for_microsoft_sql_server.html;
   /usermanual/rds/rds_faq_0078.html /relational-database-service/umn/faqs/log_management/how_long_is_the_delay_for_rds_mysql_slow_query_logs.html;
   /usermanual/rds/rds_faq_0082.html /relational-database-service/umn/faqs/resource_and_disk_management/how_much_storage_space_is_required_for_ddl_operations.html;
-  /usermanual/rds/rds_faq_0092.html /relational-database-service/umn/faqs/database_parameter_modification/where_should_i_store_the_ndf_files_for_microsoft_sql_server.html;
-  /usermanual/rds/rds_faq_0094.html /relational-database-service/umn/faqs/product_consulting/why_is_an_error_reported_when_i_attempt_to_delete_a_database_from_rds_sql_server_primary_standby_db_instances.html;

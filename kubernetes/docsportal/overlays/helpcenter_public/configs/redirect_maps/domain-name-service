@@ -158,6 +158,7 @@
   /en-us/usermanual/dns/dns_usermanual_0030.html /domain-name-service/umn/public_zones/overview.html;
   /en-us/usermanual/dns/dns_usermanual_0031.html /domain-name-service/umn/public_zones/managing_public_zones.html;
   /en-us/usermanual/dns/dns_usermanual_0032.html /domain-name-service/umn/private_zones/overview.html;
+  /en-us/usermanual/dns/dns_usermanual_00322.html /domain-name-service/umn/public_zones/configuring_dnssec.html;
   /en-us/usermanual/dns/dns_usermanual_0033.html /domain-name-service/umn/private_zones/managing_private_zones.html;
   /en-us/usermanual/dns/dns_usermanual_0034.html /domain-name-service/umn/record_sets/index.html;
   /en-us/usermanual/dns/dns_usermanual_0035.html /domain-name-service/umn/record_sets/record_set_overview.html;
@@ -230,6 +231,7 @@
   /usermanual/dns/dns_usermanual_0030.html /domain-name-service/umn/public_zones/overview.html;
   /usermanual/dns/dns_usermanual_0031.html /domain-name-service/umn/public_zones/managing_public_zones.html;
   /usermanual/dns/dns_usermanual_0032.html /domain-name-service/umn/private_zones/overview.html;
+  /usermanual/dns/dns_usermanual_00322.html /domain-name-service/umn/public_zones/configuring_dnssec.html;
   /usermanual/dns/dns_usermanual_0033.html /domain-name-service/umn/private_zones/managing_private_zones.html;
   /usermanual/dns/dns_usermanual_0034.html /domain-name-service/umn/record_sets/index.html;
   /usermanual/dns/dns_usermanual_0035.html /domain-name-service/umn/record_sets/record_set_overview.html;
