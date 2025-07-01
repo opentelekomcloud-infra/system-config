@@ -1115,7 +1115,7 @@ cloud_load_balancers:
           subnet: "dashboard-default-subnet"
           protocol_port: 8200
 
-  - cloud: "otc_vault_449_de_eco_infra_preprod"
+  - cloud: "otc_vault_449_de_eco_infra"
     loadbalancer:
       name: "elb-eco-infra-preprod"
       vip_subnet: "infra-subnet"
