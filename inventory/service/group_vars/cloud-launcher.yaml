@@ -1115,6 +1115,13 @@ cloud_load_balancers:
           subnet: "dashboard-default-subnet"
           protocol_port: 8200
 
+  - cloud: "otc_vault_449_de_eco_infra"
+    loadbalancer:
+      name: "elb-eco-infra-preprod"
+      vip_subnet: "infra-subnet"
+      vip_address: "192.168.150.6"
+      public_ip_address: "80.158.50.49"
+
 cloud_load_balancer_certificates:
   - cloud: "otc_vault_448_de_openstack_swift"
     name: "cert-swift"
