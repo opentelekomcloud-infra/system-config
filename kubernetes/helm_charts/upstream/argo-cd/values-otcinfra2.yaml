@@ -1,3 +1,10 @@
+nameOverride: argocd
+createClusterRoles: true
+
+crds:
+  install: true
+  keep: true
+
 # Global configuration
 global:
   domain: argocd.eco.tsi-dev.otc-service.com
@@ -21,70 +28,75 @@ configs:
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
 
-    resource.exclusions: |
-      ### Network resources created by the Kubernetes control plane and excluded to reduce the number of watched events and UI clutter
-      - apiGroups:
-        - ''
-        - discovery.k8s.io
-        kinds:
-        - Endpoints
-        - EndpointSlice
-      ### Internal Kubernetes resources excluded reduce the number of watched events
-      - apiGroups:
-        - coordination.k8s.io
-        kinds:
-        - Lease
-      ### Internal Kubernetes Authz/Authn resources excluded reduce the number of watched events
-      - apiGroups:
-        - authentication.k8s.io
-        - authorization.k8s.io
-        kinds:
-        - SelfSubjectReview
-        - TokenReview
-        - LocalSubjectAccessReview
-        - SelfSubjectAccessReview
-        - SelfSubjectRulesReview
-        - SubjectAccessReview
-      ### Intermediate Certificate Request excluded reduce the number of watched events
-      - apiGroups:
-        - certificates.k8s.io
-        kinds:
-        - CertificateSigningRequest
-      - apiGroups:
-        - cert-manager.io
-        kinds:
-        - CertificateRequest
-      ### Cilium internal resources excluded reduce the number of watched events and UI Clutter
-      - apiGroups:
-        - cilium.io
-        kinds:
-        - CiliumIdentity
-        - CiliumEndpoint
-        - CiliumEndpointSlice
-      ### Kyverno intermediate and reporting resources excluded reduce the number of watched events and improve performance
-      - apiGroups:
-        - kyverno.io
-        - reports.kyverno.io
-        - wgpolicyk8s.io
-        kinds:
-        - PolicyReport
-        - ClusterPolicyReport
-        - EphemeralReport
-        - ClusterEphemeralReport
-        - AdmissionReport
-        - ClusterAdmissionReport
-        - BackgroundScanReport
-        - ClusterBackgroundScanReport
-        - UpdateRequest
+  secret:
+    createSecret: true
+    extra:
+      oidc.keycloak.clientSecret: {{ chart.secrets.keycloak_client_secret }}
+      VAULT_ADDR: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+      AVP_AUTH_TYPE: "k8s"
+      AVP_K8S_ROLE: "argocd"
+      AVP_TYPE: "vault"
+      AVP_MOUNT_PATH: "auth/kubernetes_otcinfra2"
 
   # RBAC configuration
   rbac:
     policy.csv: |
       # Format: g, <group/user>, <role>
       g, /argocd-admin, role:admin
-    policy.default: ""
+      g, /argocd-ac, role:admin
+      p, role:ac, applications, *, docusaurus/*, allow
+    policy.default: "role:none"
     policy.matchMode: "glob"
     scopes: "[groups]"
+
+  cmp:
+    create: true
+    plugins:
+      argocd-vault-plugin-helm:
+        discover:
+          find:
+            command:
+              - sh
+              - "-c"
+              - "find . -name 'Chart.yaml' && find . -name 'values.yaml'"
+        init:
+          command:
+            - bash
+            - "-c"
+            - |
+              helm repo add falcosecurity https://falcosecurity.github.io/charts
+              helm dependency build
+        generate:
+          command:
+            - bash
+            - "-c"
+            - |
+              helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") . |
+              argocd-vault-plugin generate -s argocd:argocd-secret -
+        allowConcurrency: true
+        lockRepo: false
+      argocd-vault-plugin-helm-with-args:
+        allowConcurrency: true
+        discover:
+          find:
+            command:
+            - sh
+            - -c
+            - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+        generate:
+          command:
+          - bash
+          - -c
+          - |
+            helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . --include-crds |
+            argocd-vault-plugin generate -s argocd:argocd-secret -
+        init:
+          command:
+          - bash
+          - -c
+          - |
+            helm dependency build
+        lockRepo: false
 
 # Server configuration
 server:
@@ -97,6 +109,10 @@ server:
     capabilities:
       drop:
       - ALL
+  extensions:
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
 
   # Enable metrics for better monitoring
   metrics:
@@ -107,12 +123,15 @@ server:
   ingress:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
-      cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
       nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
+    ingressClassName: "nginx"
     hosts:
       - argocd.eco.tsi-dev.otc-service.com
     tls:
@@ -167,6 +186,70 @@ applicationSet:
       - ALL
 
 repoServer:
+  env:
+    - name: ARGOCD_GPG_ENABLED
+      value: "false"
+
+  initContainers:
+    - name: download-tools
+      image: registry.access.redhat.com/ubi8
+      env:
+        - name: AVP_VERSION
+          value: 1.18.1
+      command: [sh, -c]
+      args:
+        - >-
+          curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
+          chmod +x argocd-vault-plugin &&
+          mv argocd-vault-plugin /custom-tools/
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+  extraContainers:
+    - name: avp
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v3.0.5
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-helm.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
+    - name: avp-with-args
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v3.0.5
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-helm-with-args.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
+  volumes:
+    - configMap:
+        name: argocd-cmp-cm
+      name: cmp-plugin
+    - name: custom-tools
+      emptyDir: {}
   containerSecurityContext:
     runAsNonRoot: true
     readOnlyRootFilesystem: true
