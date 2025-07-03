@@ -23,6 +23,10 @@ clusters:
     cluster: 
       server: {{ cloudmon_nl_k8s.server }}
       certificate-authority-data: {{ cloudmon_nl_k8s.secrets['certificate-authority-data'] | b64encode }}
+  - name: preprod
+    cluster: 
+      server: {{ preprod.server }}
+      certificate-authority-data: {{ preprod.secrets['certificate-authority-data'] | b64encode }}
 contexts:
   - name: otcci
     context:
@@ -44,6 +48,10 @@ contexts:
     context:
       cluster: cloudmon-nl
       user: cloudmon-nl
+  - name: preprod
+    context:
+      cluster: preprod
+      user: preprod-admin
 users:
   - name: otcci-admin
     user:
@@ -65,3 +73,7 @@ users:
     user:
       client-certificate-data: {{ cloudmon_nl_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ cloudmon_nl_k8s.secrets['client.key'] | b64encode }}
+  - name: preprod
+    user:
+      client-certificate-data: {{ preprod.secrets['client.crt'] | b64encode }}
+      client-key-data: {{ preprod.secrets['client.key'] | b64encode }}
