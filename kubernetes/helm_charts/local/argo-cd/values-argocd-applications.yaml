@@ -1,0 +1,68 @@
+applications:
+  - name: grafana
+    clusters: [otcinfra, preprod]
+    config:
+      namespace: grafana-infra
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/helm_charts/upstream/grafana
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: victoria-metrics-auth
+    clusters: [otcinfra, preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/helm_charts/upstream/victoria-metrics-auth
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: promtail
+    clusters: [otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, otcci, preprod]
+    config:
+      namespace: promtail
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/helm_charts/upstream/promtail
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: cert-exporter
+    clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
+    config:
+      namespace: cert-manager
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: kubernetes/helm_charts/upstream/cert-exporter
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

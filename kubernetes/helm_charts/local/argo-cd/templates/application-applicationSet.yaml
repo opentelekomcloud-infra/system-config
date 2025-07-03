@@ -1,0 +1,40 @@
+{{- range .Values.applicationSets }}
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: {{ .name }}
+  namespace: {{ default "argocd" }}
+spec:
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                {{- toYaml .applications | nindent 16 }}
+          - list:
+              elements:
+                {{- range $.Values.clusters }}
+                - cluster: {{ . }}
+                {{- end }}
+  template:
+    metadata:
+      name: '{{ "{{name}}" }}-{{ "{{cluster}}" }}'
+    spec:
+      project: '{{ "{{project}}" | default $.project | default "infra" }}'
+      source:
+        repoURL: '{{ "{{repoURL}}" }}'
+        targetRevision: '{{ "{{targetRevision}}" }}'
+        path: '{{ "{{path}}" }}'
+        plugin:
+          name: '{{ "{{pluginName}}" }}'
+          env:
+            - name: ARGOCD_ENV_HELM_ARGS
+              value: '{{ "{{pluginEnv}}" }}'
+      destination:
+        name: '{{ "{{cluster}}" }}'
+        namespace: '{{ "{{namespace}}" }}'
+{{- if (hasKey . "syncPolicy") }}
+      syncPolicy: {{ "{{syncPolicy}}" | nindent 8 }}
+{{- end }}
+---
+{{- end }}
