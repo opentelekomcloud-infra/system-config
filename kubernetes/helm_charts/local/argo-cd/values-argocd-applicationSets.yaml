@@ -23,7 +23,7 @@ applicationSets:
         targetRevision: main
         path: github/system-config/kubernetes/helm_charts/local/argo-cd
         pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-sealed-secrets.yaml -f values-argocd-applications.yaml -f values-argocd-applicationSets.yaml -f values-argocd-projects.yaml -f values-configManagementPlugin.yaml'
+        pluginEnv: '-f values-sealed-secrets.yaml -f values-argocd-applications.yaml -f values-argocd-applicationSets.yaml -f values-argocd-projects.yaml'
         clusters: [in-cluster]
         project: infra
         syncPolicy:
