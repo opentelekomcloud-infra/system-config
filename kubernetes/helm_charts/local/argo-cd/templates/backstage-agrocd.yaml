@@ -1,15 +1,15 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: dependencytrack
+  name: backstage
   namespace: argocd
 spec:
   destination:
-    namespace: dependencytrack
+    namespace: backstage
     server: https://kubernetes.default.svc
   project: system-config
   source:
-    path: kubernetes/dep-track/overlays/prod
+    path: kubernetes/kustomize/backstage/overlays/prod
     repoURL: https://github.com/opentelekomcloud-infra/system-config
     targetRevision: main
   syncPolicy:

@@ -1,20 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: root-app-of-apps-infra
+  name: dependencytrack
   namespace: argocd
 spec:
   destination:
-    namespace: argocd
+    namespace: dependencytrack
     server: https://kubernetes.default.svc
-  project: infra
+  project: system-config
   source:
+    path: kubernetes/kustomize/dep-track/overlays/prod
     repoURL: https://github.com/opentelekomcloud-infra/system-config
     targetRevision: main
-    path: kubernetes/argocd-apps/bootstrap/app-of-apps
-    helm:
-      valueFiles:
-        - infrastructure.yaml
   syncPolicy:
+    automated:
+      prune: true
     syncOptions:
       - PruneLast=true

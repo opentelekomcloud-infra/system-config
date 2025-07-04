@@ -1,4 +1,0 @@
-apiVersion: v2
-name: app-of-apps-infra
-description: A Helm chart for generating infra Argo CD Application resources across multiple clusters
-version: 0.1.0
