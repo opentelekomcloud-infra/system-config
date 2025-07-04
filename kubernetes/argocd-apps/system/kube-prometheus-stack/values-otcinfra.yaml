@@ -189,7 +189,7 @@ kube-prometheus-stack:
         - continue: false
           matchers:
           - alertname="NodeClockNotSynchronising"
-          - instance=~"192\\\\.168\\\\.21\\\\..*:9100" # disabling node clock sync for .21. nodes subnet
+          - instance=~"192\\.168\\.21\\..*:9100" # disabling node clock sync for .21. nodes subnet
           receiver: "null"
         - continue: false
           matchers:
