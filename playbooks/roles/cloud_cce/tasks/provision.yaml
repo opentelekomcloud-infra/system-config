@@ -24,14 +24,14 @@
     availability_zone: '{{ cce_node.az }}'
     count: 1
     data_volumes:
-      - volumetype: SATA
+      - volumetype: SAS
         size: 100
     flavor: '{{ cce_node.flavor }}'
     ssh_key: 'otcinfra-bridge'
     network: '{{ cce.network }}'
     os: '{{ cce_node.os }}'
     root_volume_size: 40
-    root_volume_type: SATA
+    root_volume_type: SAS
     wait: true
     state: present
   loop: '{{ cce.nodes }}'
