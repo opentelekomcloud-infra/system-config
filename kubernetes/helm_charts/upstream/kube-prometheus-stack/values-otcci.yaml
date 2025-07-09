@@ -34,6 +34,11 @@ kube-prometheus-stack:
         routes:
         - continue: false
           matchers:
+          - alertname = "NodeClockNotSynchronising"
+          - instance =~ "192\\.168\\.21\\..*:9100" # disabling node clock sync for .21. nodes subnet
+          receiver: "null"
+        - continue: false
+          matchers:
           - alertname =~ "InfoInhibitor|Watchdog"
           receiver: "null"
         - continue: true
