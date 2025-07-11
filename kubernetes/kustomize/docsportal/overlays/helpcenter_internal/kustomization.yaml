@@ -75,6 +75,12 @@ configMapGenerator:
   - name: "data-arts-studio"
     files:
       - "configs/redirect_maps/data-arts-studio"
+  - name: "data-arts-studio-aa"
+    files:
+      - "configs/redirect_maps/data-arts-studio-aa"
+  - name: "data-arts-studio-ab"
+    files:
+      - "configs/redirect_maps/data-arts-studio-ab"
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
