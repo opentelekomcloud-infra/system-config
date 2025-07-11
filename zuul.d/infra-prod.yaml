@@ -119,7 +119,7 @@
     files:
       - inventory/
       - playbooks/service-bridge.yaml
-      - inventory/service/host_vars/bridge.eco-tsi-dev.otc-service.com.yaml
+      - inventory/service/host_vars/bridge.eco.tsi-dev.otc-service.com.yaml
       - playbooks/roles/logrotate/
       - playbooks/roles/edit-secrets-script/
       - playbooks/roles/install-kubectl/
