@@ -26,7 +26,7 @@ clusters:
   - name: preprod
     cluster: 
       server: {{ preprod_k8s.server }}
-      certificate-authority-data: {{ preprod_k8s.secrets['certificate-authority-data'] | b64encode }}
+      certificate-authority-data: {{ preprod_k8s.secrets['ca.crt'] | b64encode }}
 contexts:
   - name: otcci
     context:
