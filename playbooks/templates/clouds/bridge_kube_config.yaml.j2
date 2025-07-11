@@ -73,7 +73,7 @@ users:
     user:
       client-certificate-data: {{ cloudmon_nl_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ cloudmon_nl_k8s.secrets['client.key'] | b64encode }}
-  - name: preprod
+  - name: preprod-admin
     user:
       client-certificate-data: {{ preprod_k8s.secrets['client.crt'] | b64encode }}
       client-key-data: {{ preprod_k8s.secrets['client.key'] | b64encode }}
