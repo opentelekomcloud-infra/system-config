@@ -81,11 +81,14 @@ SYSTEM_CONFIG_PATH=${SYSTEM_CONFIG_PATH%/}
 ENVIRONMENT=${ENVIRONMENT:-"public"}
 DEFAULT=${DEFAULT:-"NO"}
 CLONE_REPOS=${CLONE_REPOS:-""}
-TARGET_REDIR_PATH="${SYSTEM_CONFIG_PATH}/kubernetes/docsportal/overlays/helpcenter_${ENVIRONMENT}"
+TARGET_REDIR_PATH="${SYSTEM_CONFIG_PATH}/kubernetes/kustomize/docsportal/overlays/helpcenter_${ENVIRONMENT}"
 
 # Local Variables
 gitea_link="ssh://git@gitea.eco.tsi-dev.otc-service.com:2222/"
 github_link="git@github.com:"
+[ "$ENVIRONMENT" == "internal" ] && var=$ENVIRONMENT || var="public"
+[ "$ENVIRONMENT" == "swiss_public" ] && cloud_env="swiss" || cloud_env="eu_de"
+[ "$GIT_HOSTING" == "gitea" ] && repo_link=${gitea_link} || repo_link=${github_link}
 
 # Pre-checks
 options="gitea,github"
@@ -139,20 +142,12 @@ echo "DEFAULT              = ${DEFAULT}"
 # Clone All Repositories
 if [ "${CLONE_REPOS}" ]; then
     git clone ${github_link}opentelekomcloud-infra/system-config.git $SYSTEM_CONFIG_PATH
-    if [[ ${ENVIRONMENT} == "swiss_public" ]]; then
-        git clone ${gitea_link}infra/otc-metadata-swiss.git ${META_PATH}
-    else
-        git clone ${gitea_link}infra/otc-metadata.git ${META_PATH}
-    fi
+    git clone ${gitea_link}infra/otc-metadata-rework.git ${META_PATH}
 
-    [ "$ENVIRONMENT" == "internal" ] && var=$ENVIRONMENT || var="public"
-    [ "$GIT_HOSTING" == "gitea" ] && repo_link=${gitea_link} || repo_link=${github_link}
-
-    for i in $META_PATH/otc_metadata/data/services/* ; do
+    for i in $META_PATH/otc_metadata/data/repositories/*.yaml ; do
         echo $i
-        # env=$(yq .environment $i)
-        # if [[ "$env" =~ $ENVIRONMENT ]]; then
-        repo=$(yq -o json -r '.repositories[] | select(.environment=="'"$var"'").repo' $i)
+        # repo=$(yq -o json -r '.repositories[] | select(.environment == strenv(var) and .cloud_environments[] == strenv(cloud_env)) | .repo' $i)
+        repo=$(yq -o json -r '.repositories[] | select(.environment=="'"$var"'" and .cloud_environments[]=="'"$cloud_env"'") | .repo' $i)
         if [ "${repo}" ]; then
             echo $repo_link
             echo $repo
@@ -216,15 +211,23 @@ rm -f *.map
 rm -f *.map.new
 shopt -s nullglob
 
-for row in $(cat $META_PATH/documents/*.yaml | yq . -o json |jq -r '.| @base64') ; do
-    decode=$(echo $row |base64 --decode);
-    echo $row;
-    echo $decode;
-    service_name=$(echo $decode | jq -r .link | cut -f2 -d"/") ;
-    service_type=$(echo $decode | jq -r .service_type);
-    doc_type=$(echo $decode | jq -r .type);
+for file in $META_PATH/documents/*.yaml ; do
+    if yq -e '.cloud_environments[] | select(.name=="'"$cloud_env"'")' $file &> /dev/null; then
+        echo "$cloud_env env is present in $file file."
+    else
+        echo "$cloud_env env is NOT present in $file file! Skipping."
+        continue
+    fi
+    entry=$(cat $file | yq . -o json |jq -r '.| @base64');
+    decode="$(echo "$entry" |base64 --decode)";
+    echo $entry;
+    echo "$decode";
+    service_name=$(echo "$decode" | jq -r .link | cut -f2 -d"/") ;
+    service_type=$(echo "$decode" | jq -r .service_type);
+    doc_type=$(echo "$decode" | jq -r .type);
     echo $doc_type
     echo $service_type
+    echo $service_name
     if egrep "^environment: hidden|^environment: internal" $META_PATH/services/$service_type.yaml &> /dev/null ; then
         continue ;
     fi
@@ -235,9 +238,9 @@ for row in $(cat $META_PATH/documents/*.yaml | yq . -o json |jq -r '.| @base64')
         echo skipping service $service_type and document $doc_type
         continue ;
     fi
-    hc_old_location=$(echo $decode | jq -r .hc_location);
-    rst_location=$(echo $decode | jq -r .rst_location);
-    hc_new_location=$(echo $decode | jq -r .link) ;
+    hc_old_location=$(echo "$decode" | jq -r .hc_location);
+    rst_location=$(echo "$decode" | jq -r .rst_location);
+    hc_new_location=$(echo "$decode" | jq -r .link) ;
     echo $service_name $hc_old_location $rst_location $hc_new_location;
     if cd $DOC_PATH/$service_name/$rst_location; then
         for file in $(find .  -name \*.rst); do
