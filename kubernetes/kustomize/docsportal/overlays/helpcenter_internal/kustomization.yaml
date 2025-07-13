@@ -27,6 +27,9 @@ configMapGenerator:
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
+  - name: "application-operations-management-2"
+    files:
+      - "configs/redirect_maps/application-operations-management-2"
   - name: "application-performance-management"
     files:
       - "configs/redirect_maps/application-performance-management"
@@ -39,9 +42,18 @@ configMapGenerator:
   - name: "bare-metal-server"
     files:
       - "configs/redirect_maps/bare-metal-server"
+  - name: "business-continuity-center"
+    files:
+      - "configs/redirect_maps/business-continuity-center"
+  - name: "business-dashboard"
+    files:
+      - "configs/redirect_maps/business-dashboard"
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
+  - name: "cloud-connect"
+    files:
+      - "configs/redirect_maps/cloud-connect"
   - name: "cloud-container-engine-aa"
     files:
       - "configs/redirect_maps/cloud-container-engine-aa"
@@ -72,9 +84,18 @@ configMapGenerator:
   - name: "config"
     files:
       - "configs/redirect_maps/config"
+  - name: "data-admin-service"
+    files:
+      - "configs/redirect_maps/data-admin-service"
   - name: "data-arts-studio"
     files:
       - "configs/redirect_maps/data-arts-studio"
+  - name: "data-arts-studio-aa"
+    files:
+      - "configs/redirect_maps/data-arts-studio-aa"
+  - name: "data-arts-studio-ab"
+    files:
+      - "configs/redirect_maps/data-arts-studio-ab"
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
@@ -141,6 +162,9 @@ configMapGenerator:
   - name: "elastic-volume-service"
     files:
       - "configs/redirect_maps/elastic-volume-service"
+  - name: "enterprise-project-service"
+    files:
+      - "configs/redirect_maps/enterprise-project-service"
   - name: "enterprise-router"
     files:
       - "configs/redirect_maps/enterprise-router"
@@ -201,6 +225,9 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
+  - name: "object-storage-service-3rd-party"
+    files:
+      - "configs/redirect_maps/object-storage-service-3rd-party"
   - name: "object-storage-service-aa"
     files:
       - "configs/redirect_maps/object-storage-service-aa"
@@ -246,6 +273,9 @@ configMapGenerator:
   - name: "tag-management-service"
     files:
       - "configs/redirect_maps/tag-management-service"
+  - name: "taurusdb"
+    files:
+      - "configs/redirect_maps/taurusdb"
   - name: "virtual-private-cloud"
     files:
       - "configs/redirect_maps/virtual-private-cloud"
