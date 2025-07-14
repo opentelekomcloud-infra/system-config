@@ -10,54 +10,31 @@ spec:
         generators:
           - list:
               elements:
-                {{- range .applications }}
-                - name: {{ .name }}
-                  namespace: {{ .namespace }}
-                  repoURL: {{ .repoURL | quote }}
-                  targetRevision: {{ .targetRevision | quote }}
-                  path: {{ .path | quote }}
-                  project: {{ .project | quote }}
-                  valueFiles: {{ .valueFiles | join "," | quote }}
-                  {{- if .syncPolicy }}
-                  syncPolicy: {{ toYaml .syncPolicy | toJson | quote }}
-                  {{- end }}
-                {{- end }}
+                {{- toYaml .applications | nindent 16 }}
           - list:
               elements:
-                {{- $clusters := list }}
-                {{- range .applications }}
-                  {{- if .clusters }}
-                    {{- $clusters = .clusters }}
-                    {{- break }}
-                  {{- end }}
-                {{- end }}
-                {{- if $clusters }}
-                  {{- range $clusters }}
+                {{- range $.Values.clusters }}
                 - cluster: {{ . }}
-                  {{- end }}
-                {{- else }}
-                - cluster: in-cluster
                 {{- end }}
   template:
     metadata:
-      name: "{{ "{{name}}" }}-{{ "{{cluster}}" }}"
+      name: '{{ "{{name}}" }}-{{ "{{cluster}}" }}'
     spec:
-      project: "{{ "{{project}}" }}"
+      project: '{{ "{{project}}" | default $.project | default "infra" }}'
       source:
-        repoURL: "{{ "{{repoURL}}" }}"
-        targetRevision: "{{ "{{targetRevision}}" }}"
-        path: "{{ "{{path}}" }}"
-        helm:
-          valueFiles:
-            - "{{ "{{index .valueFiles 0}}" }}"
+        repoURL: '{{ "{{repoURL}}" }}'
+        targetRevision: '{{ "{{targetRevision}}" }}'
+        path: '{{ "{{path}}" }}'
+        plugin:
+          name: '{{ "{{pluginName}}" }}'
+          env:
+            - name: ARGOCD_ENV_HELM_ARGS
+              value: '{{ "{{pluginEnv}}" }}'
       destination:
-        name: "{{ "{{cluster}}" }}"
-        namespace: "{{ "{{namespace}}" }}"
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+        name: '{{ "{{cluster}}" }}'
+        namespace: '{{ "{{namespace}}" }}'
+{{- if (hasKey . "syncPolicy") }}
+      syncPolicy: {{ "{{syncPolicy}}" | nindent 8 }}
+{{- end }}
 ---
 {{- end }}

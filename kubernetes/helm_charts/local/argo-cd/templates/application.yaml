@@ -14,11 +14,11 @@ spec:
     repoURL: {{ $config.repoURL | quote }}
     targetRevision: {{ $config.targetRevision | quote }}
     path: {{ $config.path | quote }}
-    helm:
-      valueFiles:
-        {{- range $config.valueFiles }}
-        - {{ . | quote }}
-        {{- end }}
+    plugin:
+      name: {{ $config.pluginName | quote }}
+      env:
+        - name: HELM_ARGS
+          value: {{ $config.pluginEnv | quote }}
   destination:
     name: {{ $cluster }}
     namespace: {{ $config.namespace | quote }}
