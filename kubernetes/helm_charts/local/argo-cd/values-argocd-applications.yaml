@@ -1,13 +1,13 @@
 applications:
   - name: grafana
-    clusters: [otcinfra, preprod]
+    clusters: [in-cluster]
     config:
       namespace: grafana-infra
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
       path: kubernetes/helm_charts/upstream/grafana
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      valueFiles:
+        - values-in-cluster.yaml
       project: infra
       syncPolicy:
         automated:
@@ -17,14 +17,14 @@ applications:
           - CreateNamespace=true
 
   - name: victoria-metrics-auth
-    clusters: [otcinfra, preprod]
+    clusters: [in-cluster]
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
       path: kubernetes/helm_charts/upstream/victoria-metrics-auth
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      valueFiles:
+        - values-in-cluster.yaml
       project: infra
       syncPolicy:
         automated:
@@ -34,14 +34,14 @@ applications:
           - CreateNamespace=true
 
   - name: promtail
-    clusters: [otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, otcci, preprod]
+    clusters: [in-cluster]
     config:
       namespace: promtail
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
       path: kubernetes/helm_charts/upstream/promtail
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+      valueFiles:
+        - values-in-cluster.yaml
       project: infra
       syncPolicy:
         automated:
@@ -51,14 +51,14 @@ applications:
           - CreateNamespace=true
 
   - name: cert-exporter
-    clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
+    clusters: [in-cluster]
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: main
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
       path: kubernetes/helm_charts/upstream/cert-exporter
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values.yaml'
+      valueFiles:
+        - values.yaml
       project: infra
       syncPolicy:
         automated:

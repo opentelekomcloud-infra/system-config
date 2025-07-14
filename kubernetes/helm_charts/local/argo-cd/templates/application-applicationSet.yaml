@@ -10,31 +10,54 @@ spec:
         generators:
           - list:
               elements:
-                {{- toYaml .applications | nindent 16 }}
+                {{- range .applications }}
+                - name: {{ .name }}
+                  namespace: {{ .namespace }}
+                  repoURL: {{ .repoURL | quote }}
+                  targetRevision: {{ .targetRevision | quote }}
+                  path: {{ .path | quote }}
+                  project: {{ .project | quote }}
+                  valueFiles: {{ .valueFiles | join "," | quote }}
+                  {{- if .syncPolicy }}
+                  syncPolicy: {{ toYaml .syncPolicy | toJson | quote }}
+                  {{- end }}
+                {{- end }}
           - list:
               elements:
-                {{- range $.Values.clusters }}
+                {{- $clusters := list }}
+                {{- range .applications }}
+                  {{- if .clusters }}
+                    {{- $clusters = .clusters }}
+                    {{- break }}
+                  {{- end }}
+                {{- end }}
+                {{- if $clusters }}
+                  {{- range $clusters }}
                 - cluster: {{ . }}
+                  {{- end }}
+                {{- else }}
+                - cluster: in-cluster
                 {{- end }}
   template:
     metadata:
-      name: '{{ "{{name}}" }}-{{ "{{cluster}}" }}'
+      name: "{{ "{{name}}" }}-{{ "{{cluster}}" }}"
     spec:
-      project: '{{ "{{project}}" | default $.project | default "infra" }}'
+      project: "{{ "{{project}}" }}"
       source:
-        repoURL: '{{ "{{repoURL}}" }}'
-        targetRevision: '{{ "{{targetRevision}}" }}'
-        path: '{{ "{{path}}" }}'
-        plugin:
-          name: '{{ "{{pluginName}}" }}'
-          env:
-            - name: ARGOCD_ENV_HELM_ARGS
-              value: '{{ "{{pluginEnv}}" }}'
+        repoURL: "{{ "{{repoURL}}" }}"
+        targetRevision: "{{ "{{targetRevision}}" }}"
+        path: "{{ "{{path}}" }}"
+        helm:
+          valueFiles:
+            - "{{ "{{index .valueFiles 0}}" }}"
       destination:
-        name: '{{ "{{cluster}}" }}'
-        namespace: '{{ "{{namespace}}" }}'
-{{- if (hasKey . "syncPolicy") }}
-      syncPolicy: {{ "{{syncPolicy}}" | nindent 8 }}
-{{- end }}
+        name: "{{ "{{cluster}}" }}"
+        namespace: "{{ "{{namespace}}" }}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
 ---
 {{- end }}
