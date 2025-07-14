@@ -5,33 +5,30 @@ applicationSets:
       - name: argocd
         namespace: argocd
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: kubernetes/helm_charts/upstream/argo-cd
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [in-cluster, preprod]
+        valueFiles:
+          - values-preprod.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
-      - name: argocd-additional-manifests
+      - name: argocd-projects
         namespace: argocd
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
-        path: github/system-config/kubernetes/helm_charts/local/argo-cd
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-argocd-applications.yaml -f values-argocd-applicationSets.yaml -f values-argocd-projects.yaml'
-        clusters: [in-cluster, preprod]
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+        path: kubernetes/helm_charts/local/argo-cd
+        valueFiles:
+          - values-argocd-projects.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
+      - name: argocd-applications
+        namespace: argocd
+        repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+        path: kubernetes/helm_charts/local/argo-cd
+        valueFiles:
+          - values-argocd-applications.yaml
+        clusters: [in-cluster]
+        project: infra
 
   - name: cert-manager
     project: infra
@@ -39,11 +36,11 @@ applicationSets:
       - name: cert-manager
         namespace: cert-manager
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: kubernetes/helm_charts/upstream/cert-manager
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
+        valueFiles:
+          - values-preprod.yaml
+        clusters: [in-cluster]
         project: infra
         syncPolicy:
           automated:
@@ -54,18 +51,12 @@ applicationSets:
       - name: cert-manager-additional-manifests
         namespace: cert-manager
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
-        path: github/system-config/kubernetes/helm_charts/local/cert-manager
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values.yaml'
-        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+        path: kubernetes/helm_charts/local/cert-manager
+        valueFiles:
+          - values.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
 
   - name: prometheus
     project: infra
@@ -73,11 +64,11 @@ applicationSets:
       - name: prometheus
         namespace: monitoring
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: kubernetes/helm_charts/upstream/kube-prometheus-stack
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, preprod]
+        valueFiles:
+          - values-preprod.yaml
+        clusters: [in-cluster]
         project: infra
         syncPolicy:
           automated:
@@ -88,18 +79,12 @@ applicationSets:
       - name: prometheus-additional-manifests
         namespace: monitoring
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: kubernetes/helm_charts/local/kube-prometheus-stack
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, preprod]
+        valueFiles:
+          - values-preprod.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
 
   - name: victoria-metrics-cluster
     project: infra
@@ -107,30 +92,18 @@ applicationSets:
       - name: victoria-metrics-cluster
         namespace: monitoring
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcinfra, preprod]
+        valueFiles:
+          - values-preprod.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
       - name: victoria-metrics-cluster-additional-manifests
         namespace: monitoring
         repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-        targetRevision: main
+        targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
         path: github/system-config/kubernetes/helm_charts/local/victoria-metrics-cluster
-        pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values.yaml'
-        clusters: [otcinfra, preprod]
+        valueFiles:
+          - values.yaml
+        clusters: [in-cluster]
         project: infra
-        syncPolicy:
-          automated:
-            prune: true
-            selfHeal: true
-          syncOptions:
-            - CreateNamespace=true
