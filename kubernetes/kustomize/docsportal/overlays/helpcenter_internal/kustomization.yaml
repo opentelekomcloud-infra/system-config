@@ -72,9 +72,6 @@ configMapGenerator:
   - name: "config"
     files:
       - "configs/redirect_maps/config"
-  - name: "data-arts-studio"
-    files:
-      - "configs/redirect_maps/data-arts-studio"
   - name: "data-arts-studio-aa"
     files:
       - "configs/redirect_maps/data-arts-studio-aa"
