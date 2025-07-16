@@ -1,0 +1,15 @@
+clusters:
+  # OTC Infrastructure Cluster
+  otcinfra:
+    server: "<path:secret/data/argocd/clusters/otcinfra#server>"
+    config:
+      tlsClientConfig:
+        insecure: true
+        certData: true
+        keyData: true
+        caData: false
+        serverName: false
+      bearerToken: false
+      username: false
+      password: false
+      awsAuthConfig: false
