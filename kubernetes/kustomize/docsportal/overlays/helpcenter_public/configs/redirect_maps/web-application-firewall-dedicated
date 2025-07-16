@@ -203,7 +203,6 @@
   /en-us/api/dwaf/waf_02_0139.html /web-application-firewall-dedicated/api-ref/permissions_and_supported_actions/supported_actions.html;
   /en-us/api/dwaf/waf_02_0186.html /web-application-firewall-dedicated/api-ref/appendix/geographical_location_codes.html;
   /en-us/usermanual/dwaf/ /web-application-firewall-dedicated/umn/index.html;
-  /en-us/usermanual/dwaf/en-us_topic_0000002112591942.html /web-application-firewall-dedicated/umn/applying_for_a_cloud_waf_instance.html;
   /en-us/usermanual/dwaf/waf_01_0001.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/editing_server_information.html;
   /en-us/usermanual/dwaf/waf_01_0003.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/changing_the_protection_mode.html;
   /en-us/usermanual/dwaf/waf_01_0005.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/deleting_a_protected_website_from_waf.html;
@@ -241,7 +240,7 @@
   /en-us/usermanual/dwaf/waf_01_0063.html /web-application-firewall-dedicated/umn/faqs/protection_rules/index.html;
   /en-us/usermanual/dwaf/waf_01_0064.html /web-application-firewall-dedicated/umn/service_overview/index.html;
   /en-us/usermanual/dwaf/waf_01_0065.html /web-application-firewall-dedicated/umn/service_overview/product_advantages.html;
-  /en-us/usermanual/dwaf/waf_01_0066.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_traffic_forwarding_exceptions/how_do_i_troubleshoot_404_502_504_errors.html;
+  /en-us/usermanual/dwaf/waf_01_0066.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_traffic_forwarding_exceptions/what_is_error_code_404_502_or_504_returned_to_visitors_after_my_website_or_application_is_connected_to_waf.html;
   /en-us/usermanual/dwaf/waf_01_0067.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/index.html;
   /en-us/usermanual/dwaf/waf_01_0068.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/index.html;
   /en-us/usermanual/dwaf/waf_01_0070.html /web-application-firewall-dedicated/umn/website_settings/index.html;
@@ -327,6 +326,7 @@
   /en-us/usermanual/dwaf/waf_01_0457.html /web-application-firewall-dedicated/umn/faqs/about_waf/how_does_waf_detect_sql_injection_xss_and_php_injection_attacks.html;
   /en-us/usermanual/dwaf/waf_01_0458.html /web-application-firewall-dedicated/umn/faqs/about_waf/can_waf_defend_against_the_apache_struts2_remote_code_execution_vulnerability_cve-2021-31805.html;
   /en-us/usermanual/dwaf/waf_01_1072.html /web-application-firewall-dedicated/umn/applying_for_a_dedicated_waf_instance.html;
+  /en-us/usermanual/dwaf/waf_01_1073.html /web-application-firewall-dedicated/umn/applying_for_a_cloud_waf_instance.html;
   /en-us/usermanual/dwaf/waf_01_1082.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/why_does_my_certificate_not_match_the_key.html;
   /en-us/usermanual/dwaf/waf_01_1108.html /web-application-firewall-dedicated/umn/connecting_a_website_to_waf/index.html;
   /en-us/usermanual/dwaf/waf_01_1171.html /web-application-firewall-dedicated/umn/website_settings/recommended_configurations_after_website_connection/configuring_a_timeout_for_connections_between_waf_and_a_website_server.html;
@@ -346,7 +346,6 @@
   /en-us/usermanual/dwaf/waf_01_5249.html /web-application-firewall-dedicated/umn/connecting_a_website_to_waf/connecting_your_website_to_waf_dedicated_mode/website_connection_process_dedicated_mode.html;
   /en-us/usermanual/dwaf/waf_01_8371.html /web-application-firewall-dedicated/umn/monitoring_and_auditing/index.html;
   /usermanual/dwaf/ /web-application-firewall-dedicated/umn/index.html;
-  /usermanual/dwaf/en-us_topic_0000002112591942.html /web-application-firewall-dedicated/umn/applying_for_a_cloud_waf_instance.html;
   /usermanual/dwaf/waf_01_0001.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/editing_server_information.html;
   /usermanual/dwaf/waf_01_0003.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/changing_the_protection_mode.html;
   /usermanual/dwaf/waf_01_0005.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/deleting_a_protected_website_from_waf.html;
@@ -384,7 +383,7 @@
   /usermanual/dwaf/waf_01_0063.html /web-application-firewall-dedicated/umn/faqs/protection_rules/index.html;
   /usermanual/dwaf/waf_01_0064.html /web-application-firewall-dedicated/umn/service_overview/index.html;
   /usermanual/dwaf/waf_01_0065.html /web-application-firewall-dedicated/umn/service_overview/product_advantages.html;
-  /usermanual/dwaf/waf_01_0066.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_traffic_forwarding_exceptions/how_do_i_troubleshoot_404_502_504_errors.html;
+  /usermanual/dwaf/waf_01_0066.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_traffic_forwarding_exceptions/what_is_error_code_404_502_or_504_returned_to_visitors_after_my_website_or_application_is_connected_to_waf.html;
   /usermanual/dwaf/waf_01_0067.html /web-application-firewall-dedicated/umn/website_settings/managing_websites/index.html;
   /usermanual/dwaf/waf_01_0068.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/index.html;
   /usermanual/dwaf/waf_01_0070.html /web-application-firewall-dedicated/umn/website_settings/index.html;
@@ -470,6 +469,7 @@
   /usermanual/dwaf/waf_01_0457.html /web-application-firewall-dedicated/umn/faqs/about_waf/how_does_waf_detect_sql_injection_xss_and_php_injection_attacks.html;
   /usermanual/dwaf/waf_01_0458.html /web-application-firewall-dedicated/umn/faqs/about_waf/can_waf_defend_against_the_apache_struts2_remote_code_execution_vulnerability_cve-2021-31805.html;
   /usermanual/dwaf/waf_01_1072.html /web-application-firewall-dedicated/umn/applying_for_a_dedicated_waf_instance.html;
+  /usermanual/dwaf/waf_01_1073.html /web-application-firewall-dedicated/umn/applying_for_a_cloud_waf_instance.html;
   /usermanual/dwaf/waf_01_1082.html /web-application-firewall-dedicated/umn/faqs/troubleshooting_certificate_and_cipher_suite_issues/why_does_my_certificate_not_match_the_key.html;
   /usermanual/dwaf/waf_01_1108.html /web-application-firewall-dedicated/umn/connecting_a_website_to_waf/index.html;
   /usermanual/dwaf/waf_01_1171.html /web-application-firewall-dedicated/umn/website_settings/recommended_configurations_after_website_connection/configuring_a_timeout_for_connections_between_waf_and_a_website_server.html;
