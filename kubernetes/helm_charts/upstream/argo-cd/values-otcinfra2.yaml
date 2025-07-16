@@ -1,142 +1,26 @@
-# Processed ArgoCD values for vault plugin deployment
 nameOverride: argocd
-
-createAggregateRoles: false
 createClusterRoles: true
 
 crds:
   install: true
   keep: true
 
-dex:
-  enabled: false
-
+# Global configuration
 global:
   domain: argocd.eco.tsi-dev.otc-service.com
+  securityContext:
+    runAsNonRoot: true
+    fsGroup: 999
+  addPrometheusAnnotations: true
 
-## Server
-server:
-  extensions:
-    containerSecurityContext:
-      seccompProfile:
-        type: Unconfined
-
-  containerSecurityContext:
-    seccompProfile:
-      type: Unconfined
-
-  ingress:
-    enabled: true
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      cert-manager.io/private-key-algorithm: RSA
-      cert-manager.io/private-key-size: "4096"
-      cert-manager.io/private-key-rotation-policy: Always
-    ingressClassName: "nginx"
-    hosts:
-      - argocd.eco.tsi-dev.otc-service.com
-    tls:
-      - hosts:
-          - argocd.eco.tsi-dev.otc-service.com
-        secretName: argocd-server-tls
-
-repoServer:
-  env:
-    - name: ARGOCD_GPG_ENABLED
-      value: "false"
-
-  initContainers:
-    - name: download-tools
-      image: registry.access.redhat.com/ubi8
-      env:
-        - name: AVP_VERSION
-          value: 1.18.1
-      command: [sh, -c]
-      args:
-        - >-
-          cd /tmp &&
-          curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
-          chmod +x argocd-vault-plugin &&
-          cp argocd-vault-plugin /custom-tools/
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1001
-        allowPrivilegeEscalation: false
-        capabilities:
-          drop:
-          - ALL
-        readOnlyRootFilesystem: false
-      volumeMounts:
-        - mountPath: /custom-tools
-          name: custom-tools
-  extraContainers:
-    - name: avp
-      command: [/var/run/argocd/argocd-cmp-server]
-      image: quay.io/argoproj/argocd:v3.0.5
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-      volumeMounts:
-        - mountPath: /var/run/argocd
-          name: var-files
-        - mountPath: /home/argocd/cmp-server/plugins
-          name: plugins
-        - mountPath: /tmp
-          name: tmp
-        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: argocd-vault-plugin-helm.yaml
-          name: cmp-plugin
-        - mountPath: /usr/local/bin/argocd-vault-plugin
-          subPath: argocd-vault-plugin
-          name: custom-tools
-    - name: avp-with-args
-      command: [/var/run/argocd/argocd-cmp-server]
-      image: quay.io/argoproj/argocd:v3.0.5
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-      volumeMounts:
-        - mountPath: /var/run/argocd
-          name: var-files
-        - mountPath: /home/argocd/cmp-server/plugins
-          name: plugins
-        - mountPath: /tmp
-          name: tmp
-        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
-          subPath: argocd-vault-plugin-helm-with-args.yaml
-          name: cmp-plugin
-        - mountPath: /usr/local/bin/argocd-vault-plugin
-          subPath: argocd-vault-plugin
-          name: custom-tools
-  volumes:
-    - configMap:
-        name: argocd-cmp-cm
-      name: cmp-plugin
-    - name: custom-tools
-      emptyDir: {}
-    - name: var-files
-      emptyDir: {}
-    - name: plugins
-      emptyDir: {}
-    - name: tmp
-      emptyDir: {}
-  containerSecurityContext:
-    seccompProfile:
-      type: Unconfined
-
-## ApplicationSet controller
-applicationSet:
-  containerSecurityContext:
-    seccompProfile:
-      type: Unconfined
-
+# ArgoCD ConfigMap settings
 configs:
   cm:
     url: https://argocd.eco.tsi-dev.otc-service.com
+    admin.enabled: true
+    exec.enabled: false
+
+    # OIDC configuration
     oidc.config: |
       name: Keycloak
       issuer: https://keycloak.eco.tsi-dev.otc-service.com/realms/eco
@@ -154,6 +38,7 @@ configs:
       AVP_TYPE: "vault"
       AVP_MOUNT_PATH: "auth/kubernetes_otcinfra2"
 
+  # RBAC configuration
   rbac:
     policy.csv: |
       # Format: g, <group/user>, <role>
@@ -212,3 +97,179 @@ configs:
           - |
             helm dependency build
         lockRepo: false
+
+# Server configuration
+server:
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+  extensions:
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
+
+  # Enable metrics for better monitoring
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
+    ingressClassName: "nginx"
+    hosts:
+      - argocd.eco.tsi-dev.otc-service.com
+    tls:
+      - hosts:
+          - argocd.eco.tsi-dev.otc-service.com
+        secretName: argocd-server-tls
+
+  # Dedicated gRPC ingress for better performance
+  ingressGrpc:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      kubernetes.io/tls-acme: "true"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+    hosts:
+      - grpc.argocd.eco.tsi-dev.otc-service.com
+    tls:
+      - hosts:
+          - grpc.argocd.eco.tsi-dev.otc-service.com
+        secretName: grpc-argocd-server-tls
+
+redis:
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+
+redis-ha:
+  enabled: false
+
+dex:
+  enabled: false
+
+applicationSet:
+  enabled: true
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+
+repoServer:
+  env:
+    - name: ARGOCD_GPG_ENABLED
+      value: "false"
+
+  initContainers:
+    - name: download-tools
+      image: registry.access.redhat.com/ubi8
+      env:
+        - name: AVP_VERSION
+          value: 1.5.0
+      command: [sh, -c]
+      args:
+        - >-
+          curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
+          chmod +x argocd-vault-plugin &&
+          mv argocd-vault-plugin /custom-tools/
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+  extraContainers:
+    - name: avp
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v3.0.9
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-helm.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
+    - name: avp-with-args
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v3.0.9
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-helm-with-args.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
+  volumes:
+    - configMap:
+        name: argocd-cmp-cm
+      name: cmp-plugin
+    - name: custom-tools
+      emptyDir: {}
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+
+controller:
+  containerSecurityContext:
+    runAsNonRoot: true
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+      - ALL
+
+notifications:
+  enabled: false
