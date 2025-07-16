@@ -13,6 +13,15 @@ dex:
 
 global:
   domain: argocd.eco-preprod.tsi-dev.otc-service.com
+  # Enable repository credentials management
+  repositoryCredentials:
+    enabled: true
+  # Additional global configurations for vault plugin
+  env:
+    - name: ARGOCD_VAULT_PLUGIN_ENABLED
+      value: "true"
+    - name: ARGOCD_EXEC_TIMEOUT
+      value: "300"
 
 ## Server
 server:
@@ -24,6 +33,150 @@ server:
   containerSecurityContext:
     seccompProfile:
       type: Unconfined
+
+  # Service account for Vault authentication
+  serviceAccount:
+    create: true
+    name: argocd-server
+    automountServiceAccountToken: true
+    annotations:
+      vault.hashicorp.com/agent-inject: "true"
+      vault.hashicorp.com/role: "argocd"
+
+  # Environment variables for Vault access
+  env:
+    - name: VAULT_ADDR
+      value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+    - name: AVP_AUTH_TYPE
+      value: "token"
+    - name: AVP_TYPE
+      value: "vault"
+    - name: VAULT_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: vault-token
+          key: token
+
+  # InitContainer to resolve admin password from Vault
+  initContainers:
+    - name: vault-secret-resolver
+      image: hashicorp/vault:1.20
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          echo "Authenticating to Vault using direct token..."
+
+          # Use the provided Vault token directly
+          export VAULT_TOKEN="$VAULT_TOKEN_VALUE"
+
+          echo "Authentication successful! Using provided token."
+
+          echo "Retrieving secrets from Vault..."
+          ADMIN_PASSWORD=$(vault kv get -field=admin_password secret/argocd/config)
+          SERVER_SECRET_KEY=$(vault kv get -field=server_secret_key secret/argocd/config)
+          OIDC_KEYCLOAK_CLIENT_SECRET=$(vault kv get -field=oidc_keycloak_client_secret secret/argocd/config)
+          VAULT_ADDRESS=$(vault kv get -field=vault_address secret/argocd/config)
+
+          echo "Storing secrets in shared volume..."
+          echo -n "$ADMIN_PASSWORD" > /shared/admin_password
+          echo -n "$SERVER_SECRET_KEY" > /shared/server_secret_key
+          echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" > /shared/oidc_keycloak_client_secret
+          echo -n "$VAULT_ADDRESS" > /shared/vault_address
+
+          echo "Vault secrets retrieved successfully!"
+      env:
+        - name: VAULT_ADDR
+          value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        - name: VAULT_SKIP_VERIFY
+          value: "false"
+        - name: VAULT_TOKEN_VALUE
+          valueFrom:
+            secretKeyRef:
+              name: vault-token
+              key: token
+      volumeMounts:
+        - name: shared-secrets
+          mountPath: /shared
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: false
+    - name: kubectl-patcher
+      image: bitnami/kubectl:latest
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          echo "Updating argocd-secret..."
+
+          # Wait for the secret to be created by Helm
+          while ! kubectl get secret argocd-secret -n argocd; do
+            echo "Waiting for argocd-secret to be created..."
+            sleep 2
+          done
+
+          # Read secrets from shared volume
+          ADMIN_PASSWORD=$(cat /shared/admin_password)
+          SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
+          OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
+          VAULT_ADDRESS=$(cat /shared/vault_address)
+
+          # Generate current timestamp for password mtime
+          CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+          # Patch the secret with the resolved values
+          kubectl patch secret argocd-secret -n argocd --type='json' -p='[
+            {
+              "op": "replace",
+              "path": "/data/admin.password",
+              "value": "'$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)'"
+            },
+            {
+              "op": "replace",
+              "path": "/data/admin.passwordMtime",
+              "value": "'$(echo -n "$CURRENT_TIME" | base64 -w 0)'"
+            },
+            {
+              "op": "replace",
+              "path": "/data/server.secretkey",
+              "value": "'$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)'"
+            },
+            {
+              "op": "replace",
+              "path": "/data/oidc.keycloak.clientSecret",
+              "value": "'$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)'"
+            },
+            {
+              "op": "replace",
+              "path": "/data/VAULT_ADDR",
+              "value": "'$(echo -n "$VAULT_ADDRESS" | base64 -w 0)'"
+            }
+          ]'
+
+          echo "All secrets updated successfully!"
+      volumeMounts:
+        - name: shared-secrets
+          mountPath: /shared
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        allowPrivilegeEscalation: false
+        capabilities:
+          drop:
+          - ALL
+        readOnlyRootFilesystem: false
+
+  # Additional volumes for init containers
+  volumes:
+    - name: shared-secrets
+      emptyDir: {}
 
   ingress:
     enabled: true
@@ -48,6 +201,24 @@ repoServer:
   env:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
+    - name: VAULT_ADDR
+      value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+    - name: AVP_AUTH_TYPE
+      value: "token"
+    - name: AVP_TYPE
+      value: "vault"
+    - name: VAULT_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: vault-token
+          key: token
+  serviceAccount:
+    create: true
+    name: argocd-repo-server
+    automountServiceAccountToken: true
+    annotations:
+      vault.hashicorp.com/agent-inject: "true"
+      vault.hashicorp.com/role: "argocd"
 
   initContainers:
     - name: download-tools
@@ -118,12 +289,6 @@ repoServer:
       name: cmp-plugin
     - name: custom-tools
       emptyDir: {}
-    - name: var-files
-      emptyDir: {}
-    - name: plugins
-      emptyDir: {}
-    - name: tmp
-      emptyDir: {}
   containerSecurityContext:
     seccompProfile:
       type: Unconfined
@@ -134,6 +299,13 @@ applicationSet:
     seccompProfile:
       type: Unconfined
 
+## Redis configuration
+redis:
+  enabled: true
+
+redis-ha:
+  enabled: false
+
 configs:
   cm:
     url: https://argocd.eco-preprod.tsi-dev.otc-service.com
@@ -143,23 +315,54 @@ configs:
       clientID: argocd
       clientSecret: $oidc.keycloak.clientSecret
       requestedScopes: ["openid", "profile", "email", "groups"]
+    # Additional cluster configuration
+    cluster.inClusterEnabled: "true"
+    application.instanceLabelKey: argocd.argoproj.io/instance
+
+  # Repository configurations with Vault secrets
+  # repositories:
+  #   # GitHub repository
+  #   - url: https://github.com/opentelekomcloud-infra/system-config.git
+  #     name: system-config
+  #     type: git
+
+  # Repository credentials for accessing private repositories
+  # repositoryCredentials:
+  #   github-creds:
+  #     url: https://github.com/opentelekomcloud-infra
+  #     username: "<path:secret/data/argocd/repositories/github#username>"
+  #     password: "<path:secret/data/argocd/repositories/github#token>"
+
+  # Cluster credentials for external clusters
+  clusterCredentials:
+    otcinfra:
+      server: "<path:secret/data/argocd/clusters/otcinfra#server>"
+      config:
+        tlsClientConfig:
+          insecure: "<path:secret/data/argocd/clusters/otcinfra#insecure>"
+          certData: "<path:secret/data/argocd/clusters/otcinfra#certData>"
+          keyData: "<path:secret/data/argocd/clusters/otcinfra#keyData>"
 
   secret:
     createSecret: true
     extra:
-      oidc.keycloak.clientSecret: "${KEYCLOAK_CLIENT_SECRET}"
-      VAULT_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com:8200"
-      AVP_AUTH_TYPE: "k8s"
-      AVP_K8S_ROLE: "argocd"
+      # These will be populated by the init container from Vault
+      oidc.keycloak.clientSecret: "placeholder-will-be-replaced-by-init-container"
+      VAULT_ADDR: "placeholder-will-be-replaced-by-init-container"
+      AVP_AUTH_TYPE: "token"
       AVP_TYPE: "vault"
-      AVP_MOUNT_PATH: "auth/kubernetes_otcinfra2"
-
+      admin.password: "placeholder-will-be-replaced-by-init-container"
+      server.secretkey: "placeholder-will-be-replaced-by-init-container"
   rbac:
     policy.csv: |
       # Format: g, <group/user>, <role>
       g, /argocd-admin, role:admin
       g, /argocd-ac, role:admin
       p, role:ac, applications, *, docusaurus/*, allow
+      # Vault plugin permissions
+      p, role:vault-reader, secrets, get, *, allow
+      p, role:vault-reader, secrets, list, *, allow
+      g, argocd-repo-server, role:vault-reader
     policy.default: "role:none"
     policy.matchMode: "glob"
     scopes: "[groups]"
