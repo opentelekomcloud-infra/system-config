@@ -319,30 +319,6 @@ configs:
     cluster.inClusterEnabled: "true"
     application.instanceLabelKey: argocd.argoproj.io/instance
 
-  # Repository configurations with Vault secrets
-  # repositories:
-  #   # GitHub repository
-  #   - url: https://github.com/opentelekomcloud-infra/system-config.git
-  #     name: system-config
-  #     type: git
-
-  # Repository credentials for accessing private repositories
-  # repositoryCredentials:
-  #   github-creds:
-  #     url: https://github.com/opentelekomcloud-infra
-  #     username: "<path:secret/data/argocd/repositories/github#username>"
-  #     password: "<path:secret/data/argocd/repositories/github#token>"
-
-  # Cluster credentials for external clusters
-  clusterCredentials:
-    otcinfra:
-      server: "<path:secret/data/argocd/clusters/otcinfra#server>"
-      config:
-        tlsClientConfig:
-          insecure: "<path:secret/data/argocd/clusters/otcinfra#insecure>"
-          certData: "<path:secret/data/argocd/clusters/otcinfra#certData>"
-          keyData: "<path:secret/data/argocd/clusters/otcinfra#keyData>"
-
   secret:
     createSecret: true
     extra:
