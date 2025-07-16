@@ -268,8 +268,6 @@ repoServer:
           name: var-files
         - mountPath: /home/argocd/cmp-server/plugins
           name: plugins
-        - mountPath: /tmp
-          name: tmp
         - mountPath: /home/argocd/cmp-server/config/plugin.yaml
           subPath: argocd-vault-plugin-helm.yaml
           name: cmp-plugin
@@ -299,8 +297,6 @@ repoServer:
           name: var-files
         - mountPath: /home/argocd/cmp-server/plugins
           name: plugins
-        - mountPath: /tmp
-          name: tmp
         - mountPath: /home/argocd/cmp-server/config/plugin.yaml
           subPath: argocd-vault-plugin-helm-with-args.yaml
           name: cmp-plugin
@@ -312,8 +308,6 @@ repoServer:
         name: argocd-cmp-cm
       name: cmp-plugin
     - name: custom-tools
-      emptyDir: {}
-    - name: tmp
       emptyDir: {}
 
   containerSecurityContext:
