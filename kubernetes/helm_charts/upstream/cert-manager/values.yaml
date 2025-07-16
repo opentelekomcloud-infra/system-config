@@ -8,5 +8,3 @@ prometheus:
 
 extraArgs:
   - --feature-gates=AdditionalCertificateOutputFormats=true
-  - --enable-certificate-metrics=true
-  - --set installCRDs=true

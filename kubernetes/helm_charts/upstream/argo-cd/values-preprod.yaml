@@ -251,6 +251,18 @@ repoServer:
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
+      env:
+        - name: VAULT_ADDR
+          value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        - name: AVP_AUTH_TYPE
+          value: "token"
+        - name: AVP_TYPE
+          value: "vault"
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: vault-token
+              key: token
       volumeMounts:
         - mountPath: /var/run/argocd
           name: var-files
@@ -270,6 +282,18 @@ repoServer:
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
+      env:
+        - name: VAULT_ADDR
+          value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        - name: AVP_AUTH_TYPE
+          value: "token"
+        - name: AVP_TYPE
+          value: "vault"
+        - name: VAULT_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: vault-token
+              key: token
       volumeMounts:
         - mountPath: /var/run/argocd
           name: var-files
@@ -289,6 +313,9 @@ repoServer:
       name: cmp-plugin
     - name: custom-tools
       emptyDir: {}
+    - name: tmp
+      emptyDir: {}
+
   containerSecurityContext:
     seccompProfile:
       type: Unconfined
