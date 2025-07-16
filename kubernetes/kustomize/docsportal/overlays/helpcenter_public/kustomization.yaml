@@ -21,6 +21,9 @@ configMapGenerator:
   - name: "api-gateway"
     files:
       - "configs/redirect_maps/api-gateway"
+  - name: "api-usage"
+    files:
+      - "configs/redirect_maps/api-usage"
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
@@ -69,9 +72,12 @@ configMapGenerator:
   - name: "config"
     files:
       - "configs/redirect_maps/config"
-  - name: "data-arts-studio"
+  - name: "data-arts-studio-aa"
     files:
-      - "configs/redirect_maps/data-arts-studio"
+      - "configs/redirect_maps/data-arts-studio-aa"
+  - name: "data-arts-studio-ab"
+    files:
+      - "configs/redirect_maps/data-arts-studio-ab"
   - name: "data-ingestion-service"
     files:
       - "configs/redirect_maps/data-ingestion-service"
@@ -117,6 +123,9 @@ configMapGenerator:
   - name: "distributed-message-service"
     files:
       - "configs/redirect_maps/distributed-message-service"
+  - name: "distributed-message-service-rocketmq"
+    files:
+      - "configs/redirect_maps/distributed-message-service-rocketmq"
   - name: "document-database-service"
     files:
       - "configs/redirect_maps/document-database-service"
@@ -198,6 +207,9 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
+  - name: "object-storage-service-3rd-party"
+    files:
+      - "configs/redirect_maps/object-storage-service-3rd-party"
   - name: "object-storage-service-aa"
     files:
       - "configs/redirect_maps/object-storage-service-aa"
@@ -243,6 +255,9 @@ configMapGenerator:
   - name: "tag-management-service"
     files:
       - "configs/redirect_maps/tag-management-service"
+  - name: "taurusdb"
+    files:
+      - "configs/redirect_maps/taurusdb"
   - name: "virtual-private-cloud"
     files:
       - "configs/redirect_maps/virtual-private-cloud"

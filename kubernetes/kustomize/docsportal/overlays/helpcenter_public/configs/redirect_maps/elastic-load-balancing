@@ -520,7 +520,7 @@
   /en-us/usermanual/elb/elb_ug_fw_0000.html /elastic-load-balancing/umn/access_control/index.html;
   /en-us/usermanual/elb/elb_ug_fz_0003_01.html /elastic-load-balancing/umn/service_overview/network_traffic_paths.html;
   /en-us/usermanual/elb/elb_ug_fz_0004.html /elastic-load-balancing/umn/load_balancer/preparations_for_creating_a_load_balancer.html;
-  /en-us/usermanual/elb/elb_ug_fz_0005.html /elastic-load-balancing/umn/load_balancer/configuring_deletion_protection_for_load_balancers.html;
+  /en-us/usermanual/elb/elb_ug_fz_0007.html /elastic-load-balancing/umn/load_balancer/configuring_modification_protection_or_deletion_protection_for_a_load_balancer.html;
   /en-us/usermanual/elb/elb_ug_fz_0008.html /elastic-load-balancing/umn/load_balancer/deleting_a_load_balancer.html;
   /en-us/usermanual/elb/elb_ug_fz_0009.html /elastic-load-balancing/umn/load_balancer/binding_an_ip_address_to_or_unbinding_an_ip_address_from_a_load_balancer.html;
   /en-us/usermanual/elb/elb_ug_fz_0011.html /elastic-load-balancing/umn/load_balancer/exporting_the_load_balancer_list.html;
@@ -564,6 +564,7 @@
   /en-us/usermanual/elb/elb_ug_hdg_0006.html /elastic-load-balancing/umn/backend_server_group/changing_a_backend_server_group.html;
   /en-us/usermanual/elb/elb_ug_hdg_0007.html /elastic-load-balancing/umn/backend_server_group/viewing_a_backend_server_group.html;
   /en-us/usermanual/elb/elb_ug_hdg_0008.html /elastic-load-balancing/umn/backend_server_group/deleting_a_backend_server_group.html;
+  /en-us/usermanual/elb/elb_ug_hdg_0009.html /elastic-load-balancing/umn/backend_server_group/enabling_modification_protection.html;
   /en-us/usermanual/elb/elb_ug_ip_0000.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/creating_an_ip_address_group.html;
   /en-us/usermanual/elb/elb_ug_ip_0001.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/index.html;
   /en-us/usermanual/elb/elb_ug_ip_0002.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/managing_ip_addresses_in_an_ip_address_group.html;
@@ -738,7 +739,7 @@
   /usermanual/elb/elb_ug_fw_0000.html /elastic-load-balancing/umn/access_control/index.html;
   /usermanual/elb/elb_ug_fz_0003_01.html /elastic-load-balancing/umn/service_overview/network_traffic_paths.html;
   /usermanual/elb/elb_ug_fz_0004.html /elastic-load-balancing/umn/load_balancer/preparations_for_creating_a_load_balancer.html;
-  /usermanual/elb/elb_ug_fz_0005.html /elastic-load-balancing/umn/load_balancer/configuring_deletion_protection_for_load_balancers.html;
+  /usermanual/elb/elb_ug_fz_0007.html /elastic-load-balancing/umn/load_balancer/configuring_modification_protection_or_deletion_protection_for_a_load_balancer.html;
   /usermanual/elb/elb_ug_fz_0008.html /elastic-load-balancing/umn/load_balancer/deleting_a_load_balancer.html;
   /usermanual/elb/elb_ug_fz_0009.html /elastic-load-balancing/umn/load_balancer/binding_an_ip_address_to_or_unbinding_an_ip_address_from_a_load_balancer.html;
   /usermanual/elb/elb_ug_fz_0011.html /elastic-load-balancing/umn/load_balancer/exporting_the_load_balancer_list.html;
@@ -782,6 +783,7 @@
   /usermanual/elb/elb_ug_hdg_0006.html /elastic-load-balancing/umn/backend_server_group/changing_a_backend_server_group.html;
   /usermanual/elb/elb_ug_hdg_0007.html /elastic-load-balancing/umn/backend_server_group/viewing_a_backend_server_group.html;
   /usermanual/elb/elb_ug_hdg_0008.html /elastic-load-balancing/umn/backend_server_group/deleting_a_backend_server_group.html;
+  /usermanual/elb/elb_ug_hdg_0009.html /elastic-load-balancing/umn/backend_server_group/enabling_modification_protection.html;
   /usermanual/elb/elb_ug_ip_0000.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/creating_an_ip_address_group.html;
   /usermanual/elb/elb_ug_ip_0001.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/index.html;
   /usermanual/elb/elb_ug_ip_0002.html /elastic-load-balancing/umn/access_control/managing_ip_address_groups/managing_ip_addresses_in_an_ip_address_group.html;
