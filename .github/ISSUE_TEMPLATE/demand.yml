@@ -27,15 +27,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: url
-    attributes:
-      label: Document URL
-      description: Please provide a URL to affected document
-      placeholder: "https://..."
-    validations:
-      required: true
-
   - type: checkboxes
     id: doc_type
     attributes:

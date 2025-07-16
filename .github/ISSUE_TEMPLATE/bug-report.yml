@@ -9,18 +9,6 @@ body:
       value: |
         Thanks for taking the time to fill out this bug report! Please provide all the required information to help us understand and process your issue efficiently.
 
-  - type: dropdown
-    id: master_component
-    attributes:
-      label: Master Component
-      description: Select the project component this issue should be assigned to
-      options:
-        - ACCESSCONTROL
-        - ANSIBLE
-        - CCE
-    validations:
-      required: true
-
   - type: textarea
     id: users_impact
     attributes:
@@ -30,75 +18,12 @@ body:
     validations:
       required: true
 
-  - type: checkboxes
-    id: affected_locations
+  - type: textarea
+    id: url
     attributes:
-      label: Affected Location(s)
-      description: Select the affected locations (at least one must be selected)
-      options:
-        - label: "EU-DE-01 AZ1 (Germany/Biere)"
-        - label: "EU-DE-02 AZ2 (Germany/Magdeburg)"
-        - label: "EU-DE-03 AZ3 (Germany/Biere)"
-        - label: "EU-NL-01 Amsterdam AZ1 (Netherlands/Amsterdam AMS2)"
-        - label: "EU-NL-02 Amsterdam AZ2 (Netherlands/Amsterdam AMS3)"
-        - label: "EU-NL-03 Amsterdam AZ3 (Netherlands/Amsterdam AMS2)"
-        - label: "EU-CH2-01 SwissCloud AZ1 (Switzerland/Zollikofen)"
-        - label: "EU-CH2-02 SwissCloud AZ2 (Switzerland/Bern)"
-        - label: "EU-CH2-03 SwissCloud AZ3 (Switzerland/Zollikofen)"
-    validations:
-      required: true
-
-  - type: dropdown
-    id: test_category
-    attributes:
-      label: Test Category
-      description: Select the testing category that applies to this issue
-      options:
-        - QA
-        - UAT
-        - Security
-    validations:
-      required: true
-
-  - type: dropdown
-    id: priority
-    attributes:
-      label: Priority
-      description: Select the priority level of this issue
-      options:
-        - Blocker
-        - Low
-        - Medium
-        - High
-    validations:
-      required: true
-
-  - type: checkboxes
-    id: bug_type
-    attributes:
-      label: Bug Type
-      description: Select the type of bug (at least one must be selected)
-      options:
-        - label: Documentation
-        - label: API
-        - label: UI
-        - label: Billing
-        - label: Platform
-        - label: Security
-        - label: "Price Calculator"
-        - label: "External TSI"
-        - label: "API Standardization"
-    validations:
-      required: true
-
-  - type: checkboxes
-    id: affected_areas
-    attributes:
-      label: Affected Area(s)
-      description: Select areas affected by this issue (at least one must be selected)
-      options:
-        - label: Production
-        - label: PreProd
+      label: Document URL
+      description: Please provide a URL to affected document
+      placeholder: "https://..."
     validations:
       required: true
 
@@ -107,7 +32,27 @@ body:
     attributes:
       label: Description
       description: Please provide detailed information about the bug
-      value: test
+      placeholder: "Bug detail description
+                    Describe the bug in detail.
+                    
+                    Preconditions
+                    Specific configuration or resource setup needed to reproduce
+                    
+                    How to reproduce
+                    Describe the simplest way to reproduce the scenario.
+                    
+                    IDs of used resources
+                    Describe all relevant and impacted resources from the bug. The affected tenant and project IDs should be described.
+                    
+                    Result of the issue
+                    Describe the issue results.
+                    
+                    Expected result
+                    Documentation (optional)
+                    To add additional documentation is use case depended. It should help to understand the bug faster from R&D.
+                    
+                    Workaround (optional)
+                    Described the workaround when exists. This information is important for the service approval KPIs."
     validations:
       required: true
 
