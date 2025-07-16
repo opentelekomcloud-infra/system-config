@@ -67,6 +67,7 @@
   /en-us/usermanual/mrs/mrs_03_1237.html /mapreduce-service/umn/faq/job_development/how_do_i_do_if_the_error_message_slot_request_timeout_is_displayed_when_i_submit_a_flink_job.html;
   /en-us/usermanual/mrs/mrs_03_1238.html /mapreduce-service/umn/faq/job_development/data_import_and_export_of_distcp_jobs.html;
   /en-us/usermanual/mrs/mrs_03_1243.html /mapreduce-service/umn/faq/alarm_monitoring/how_do_i_understand_the_multi-level_chart_statistics_in_the_hbase_operation_requests_metric.html;
+  /en-us/usermanual/mrs/mrs_03_1244.html /mapreduce-service/umn/faq/cluster_access/how_do_i_interconnect_mrs_with_lts.html;
   /en-us/usermanual/mrs/mrs_03_1246.html /mapreduce-service/umn/faq/mrs_overview/how_do_i_unbind_an_eip_from_an_mrs_cluster_node.html;
   /en-us/usermanual/mrs/mrs_03_1248.html /mapreduce-service/umn/faq/big_data_service_development/a_large_number_of_obs_apis_are_called_when_spark_sql_accesses_hive_partitioned_tables.html;
   /en-us/usermanual/mrs/mrs_03_1249.html /mapreduce-service/umn/faq/account_and_password/how_do_i_query_and_change_the_password_validity_period_of_an_account.html;
@@ -997,4 +998,3 @@
   /usermanual/mrs/mrs_01_0036.html /mapreduce-service/umn/managing_clusters/cluster_overview/viewing_cluster_patch_information.html;
   /usermanual/mrs/mrs_01_0041.html /mapreduce-service/umn/managing_clusters/managing_nodes/manually_scaling_out_a_cluster.html;
   /usermanual/mrs/mrs_01_0042.html /mapreduce-service/umn/managing_clusters/cluster_o_and_m/terminating_a_cluster.html;
-  /usermanual/mrs/mrs_01_0043.html /mapreduce-service/umn/configuring_a_cluster/viewing_failed_mrs_tasks.html;
