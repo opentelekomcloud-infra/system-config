@@ -1,26 +1,50 @@
 {{- range .Values.applicationSets }}
+{{- $appSet := . }}
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: {{ .name }}
-  namespace: {{ default "argocd" }}
+  namespace: {{ default "argocd" $.Values.namespace }}
 spec:
   generators:
     - matrix:
         generators:
           - list:
               elements:
-                {{- toYaml .applications | nindent 16 }}
+                {{- range .applications }}
+                {{- $app := . }}
+                - name: {{ $app.name | quote }}
+                  namespace: {{ $app.namespace | default "default" | quote }}
+                  repoURL: {{ $app.repoURL | quote }}
+                  targetRevision: {{ $app.targetRevision | default "main" | quote }}
+                  path: {{ $app.path | quote }}
+                  project: {{ $app.project | default $appSet.project | default "infra" | quote }}
+                  pluginName: {{ $app.pluginName | default "argocd-vault-plugin-helm" | quote }}
+                  pluginEnv: {{ $app.pluginEnv | default "" | quote }}
+                  {{- if $app.syncPolicy }}
+                  syncPolicy: {{ $app.syncPolicy | toJson | quote }}
+                  {{- end }}
+                {{- end }}
           - list:
               elements:
-                {{- range $.Values.clusters }}
-                - cluster: {{ . }}
+                {{- $clusters := list }}
+                {{- range .applications }}
+                  {{- if .clusters }}
+                    {{- $clusters = .clusters }}
+                    {{- break }}
+                  {{- end }}
+                {{- end }}
+                {{- if not $clusters }}
+                  {{- $clusters = list "in-cluster" }}
+                {{- end }}
+                {{- range $clusters }}
+                - cluster: {{ . | quote }}
                 {{- end }}
   template:
     metadata:
       name: '{{ "{{name}}" }}-{{ "{{cluster}}" }}'
     spec:
-      project: '{{ "{{project}}" | default $.project | default "infra" }}'
+      project: '{{ "{{project}}" }}'
       source:
         repoURL: '{{ "{{repoURL}}" }}'
         targetRevision: '{{ "{{targetRevision}}" }}'
@@ -33,8 +57,11 @@ spec:
       destination:
         name: '{{ "{{cluster}}" }}'
         namespace: '{{ "{{namespace}}" }}'
-{{- if (hasKey . "syncPolicy") }}
-      syncPolicy: {{ "{{syncPolicy}}" | nindent 8 }}
-{{- end }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
 ---
 {{- end }}
