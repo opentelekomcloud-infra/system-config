@@ -228,13 +228,15 @@ for file in $META_PATH/documents/*.yaml ; do
     echo $doc_type
     echo $service_type
     echo $service_name
-    if egrep "^environment: hidden|^environment: internal" $META_PATH/services/$service_type.yaml &> /dev/null ; then
+    if yq -e '.cloud_environments[] | select(.name=="'"$cloud_env"'" and (.visibility!="public" and .visibility!="hidden"))' $META_PATH/services/$service_type.yaml &> /dev/null; then
+        echo "service $service_name is only internal therefore skipping redirections!"
         continue ;
     fi
-    if ! egrep "hc_location" $META_PATH/documents/$service_type-* &> /dev/null ; then
+    if ! yq -e 'select(.hc_location)' $META_PATH/documents/$service_type-* &> /dev/null ; then
+        echo "cannot find origin location for redirection! Skipping."
         continue ;
     fi
-    if egrep "disable_import: true" $META_PATH/documents/$service_type-$doc_type.yaml &> /dev/null ; then
+    if yq -e 'select(.disable_import == true)' $file &> /dev/null ; then
         echo skipping service $service_type and document $doc_type
         continue ;
     fi
