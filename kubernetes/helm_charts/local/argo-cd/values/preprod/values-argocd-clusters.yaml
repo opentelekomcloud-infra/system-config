@@ -1,22 +1,7 @@
 clusters:
-  # OTC Infrastructure Cluster
-  # example1:
-  #   server: "<path:secret/data/argocd/clusters/example1#server>"
-  #   config:
-  #     tlsClientConfig:
-  #       insecure: true
-  #       certData: true
-  #       keyData: true
-  #       caData: false
-  #       serverName: false
-
   cluster-192.168.150.27-3666497632:
     name: preprod
     server: "<path:secret/data/argocd/clusters/preprod#server>"
     config:
       tlsClientConfig:
         insecure: false
-        certData: true
-        keyData: true
-        caData: true
-        serverName: false
