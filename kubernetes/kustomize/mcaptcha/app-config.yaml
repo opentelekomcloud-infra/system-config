@@ -1,9 +1,0 @@
-project: system-config
-namespace: mcaptcha
-server: otcinfra2
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true

@@ -1,9 +1,0 @@
-project: system-config
-namespace: eyes-on-docs
-server: otcinfra2
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true
