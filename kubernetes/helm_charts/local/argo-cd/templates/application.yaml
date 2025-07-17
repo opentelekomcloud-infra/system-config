@@ -14,11 +14,17 @@ spec:
     repoURL: {{ $config.repoURL | quote }}
     targetRevision: {{ $config.targetRevision | quote }}
     path: {{ $config.path | quote }}
+    {{- if $config.pluginName }}
     plugin:
       name: {{ $config.pluginName | quote }}
       env:
         - name: HELM_ARGS
           value: {{ $config.pluginEnv | quote }}
+    {{- end }}
+    {{- if $config.kustomize }}
+    kustomize:
+{{ toYaml $config.kustomize | indent 6 }}
+    {{- end }}
   destination:
     name: {{ $cluster }}
     namespace: {{ $config.namespace | quote }}
