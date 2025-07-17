@@ -50,6 +50,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: argocd-additional-manifests
+    clusters: [in-cluster]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      path: kubernetes/helm_charts/local/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: cert-manager
     clusters: [in-cluster]
     config:
