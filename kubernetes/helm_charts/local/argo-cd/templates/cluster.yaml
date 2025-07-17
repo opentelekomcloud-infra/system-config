@@ -15,11 +15,8 @@ stringData:
   name: {{ $cluster.name }}
   server: {{ $cluster.server }}
   config: |
-    {"tlsClientConfig":{
+    {"tlsClientConfig":{"insecure":false,
         {{- $tlsConfig := list -}}
-        {{- if $cluster.config.tlsClientConfig.insecure -}}
-          {{- $tlsConfig = append $tlsConfig (printf "\"insecure\":\"<path:secret/data/argocd/clusters/%s#insecure>\"" $cluster.name) -}}
-        {{- end -}}
         {{- if $cluster.config.tlsClientConfig.certData -}}
           {{- $tlsConfig = append $tlsConfig (printf "\"certData\":\"<path:secret/data/argocd/clusters/%s#certData>\"" $cluster.name) -}}
         {{- end -}}
