@@ -1,9 +1,0 @@
-project: system-config
-namespace: zuul-ci
-server: otcci
-syncPolicy:
-  automated:
-    prune: true
-    selfHeal: true
-  syncOptions:
-    - CreateNamespace=true

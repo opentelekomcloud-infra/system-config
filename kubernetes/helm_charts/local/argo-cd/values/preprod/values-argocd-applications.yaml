@@ -168,3 +168,24 @@ applications:
   #         selfHeal: true
   #       syncOptions:
   #         - CreateNamespace=true
+
+
+#####################################
+########## KUSTOMIZE APPS ###########
+#####################################
+
+  - name: kustomize-backstage-dev
+    clusters: [in-cluster]
+    config:
+      namespace: backstage
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      path: kubernetes/kustomize/backstage/overlays/dev/
+      project: infra
+      kustomize: {}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
