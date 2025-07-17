@@ -15,7 +15,7 @@ clusters:
     server: "<path:secret/data/argocd/clusters/preprod#server>"
     config:
       tlsClientConfig:
-        insecure: true
+        insecure: false
         certData: true
         keyData: true
         caData: true
