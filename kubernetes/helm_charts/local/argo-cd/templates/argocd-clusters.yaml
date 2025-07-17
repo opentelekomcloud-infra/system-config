@@ -15,20 +15,11 @@ stringData:
   name: {{ $cluster.name }}
   server: {{ $cluster.server }}
   config: |
-    {"tlsClientConfig":{"insecure":false,
+    {"tlsClientConfig":{"insecure":{{ $cluster.config.tlsClientConfig.insecure | toJson }},
         {{- $tlsConfig := list -}}
-        {{- if $cluster.config.tlsClientConfig.certData -}}
           {{- $tlsConfig = append $tlsConfig (printf "\"certData\":\"<path:secret/data/argocd/clusters/%s#certData>\"" $cluster.name) -}}
-        {{- end -}}
-        {{- if $cluster.config.tlsClientConfig.keyData -}}
           {{- $tlsConfig = append $tlsConfig (printf "\"keyData\":\"<path:secret/data/argocd/clusters/%s#keyData>\"" $cluster.name) -}}
-        {{- end -}}
-        {{- if $cluster.config.tlsClientConfig.caData -}}
           {{- $tlsConfig = append $tlsConfig (printf "\"caData\":\"<path:secret/data/argocd/clusters/%s#caData>\"" $cluster.name) -}}
-        {{- end -}}
-        {{- if $cluster.config.tlsClientConfig.serverName -}}
-          {{- $tlsConfig = append $tlsConfig (printf "\"serverName\":\"<path:secret/data/argocd/clusters/%s#serverName>\"" $cluster.name) -}}
-        {{- end -}}
         {{- if $tlsConfig -}}
           {{ join "," $tlsConfig }}
         {{- end }}}}
