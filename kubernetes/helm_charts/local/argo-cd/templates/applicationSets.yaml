@@ -6,14 +6,21 @@ metadata:
   namespace: argocd
 spec:
   generators:
-    - list:
-        elements:
-          {{- toYaml .applications | nindent 10 }}
+    - matrix:
+        generators:
+          - list:
+              elements:
+                {{- toYaml .applications | nindent 16 }}
+          - list:
+              elements:
+                {{- range $.Values.clusters }}
+                - cluster: {{ . }}
+                {{- end }}
   template:
     metadata:
-      name: '{{ "{{name}}" }}'
+      name: '{{ "{{name}}" }}-{{ "{{cluster}}" }}'
     spec:
-      project: infra
+      project: '{{ .project | default "infra" }}'
       source:
         repoURL: '{{ "{{repoURL}}" }}'
         targetRevision: '{{ "{{targetRevision}}" }}'
@@ -24,7 +31,7 @@ spec:
             - name: ARGOCD_ENV_HELM_ARGS
               value: '{{ "{{pluginEnv}}" }}'
       destination:
-        server: '{{ "{{server | default \"https://kubernetes.default.svc\" }}" }}'
+        name: '{{ "{{cluster}}" }}'
         namespace: '{{ "{{namespace}}" }}'
       syncPolicy:
         automated: {}

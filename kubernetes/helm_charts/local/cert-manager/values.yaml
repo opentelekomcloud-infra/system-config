@@ -1,0 +1,17 @@
+clusterIssuers:
+  - name: letsencrypt-prod
+    email: your-email@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef: letsencrypt-prod-issuer-account-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
+  - name: letsencrypt-staging
+    email: your-email@example.com
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef: letsencrypt-stg-issuer-account-key
+    solvers:
+      - http01:
+          ingress:
+            class: nginx
