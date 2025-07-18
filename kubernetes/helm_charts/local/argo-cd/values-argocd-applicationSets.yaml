@@ -9,7 +9,7 @@ applicationSets:
         path: kubernetes/helm_charts/upstream/argo-cd
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [in-cluster]
+        clusters: [in-cluster, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -23,8 +23,8 @@ applicationSets:
         targetRevision: main
         path: github/system-config/kubernetes/helm_charts/local/argo-cd
         pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values-sealed-secrets.yaml -f values-argocd-applications.yaml -f values-argocd-applicationSets.yaml -f values-argocd-projects.yaml'
-        clusters: [in-cluster]
+        pluginEnv: '-f values-argocd-applications.yaml -f values-argocd-applicationSets.yaml -f values-argocd-projects.yaml'
+        clusters: [in-cluster, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -43,7 +43,7 @@ applicationSets:
         path: kubernetes/helm_charts/upstream/cert-manager
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
+        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -58,7 +58,7 @@ applicationSets:
         path: github/system-config/kubernetes/helm_charts/local/cert-manager
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values.yaml'
-        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl]
+        clusters: [otcinfra, otcinfra2, otcci, cloudmon-de, cloudmon-nl, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -77,7 +77,7 @@ applicationSets:
         path: kubernetes/helm_charts/upstream/kube-prometheus-stack
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl]
+        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -91,8 +91,8 @@ applicationSets:
         targetRevision: main
         path: kubernetes/helm_charts/local/kube-prometheus-stack
         pluginName: argocd-vault-plugin-helm-with-args
-        pluginEnv: '-f values.yaml'
-        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl]
+        pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+        clusters: [otcci, otcinfra, otcinfra2, cloudmon-de, cloudmon-nl, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -111,7 +111,7 @@ applicationSets:
         path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values-{{ .cluster.name }}.yaml'
-        clusters: [otcinfra]
+        clusters: [otcinfra, preprod]
         project: infra
         syncPolicy:
           automated:
@@ -126,7 +126,7 @@ applicationSets:
         path: github/system-config/kubernetes/helm_charts/local/victoria-metrics-cluster
         pluginName: argocd-vault-plugin-helm-with-args
         pluginEnv: '-f values.yaml'
-        clusters: [otcinfra]
+        clusters: [otcinfra, preprod]
         project: infra
         syncPolicy:
           automated:
