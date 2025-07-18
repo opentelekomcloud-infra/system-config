@@ -4,7 +4,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
@@ -21,7 +21,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-clusters.yaml'
@@ -38,7 +38,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -72,7 +72,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
@@ -89,7 +89,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml --set installCRDs=true'
@@ -106,7 +106,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
@@ -123,7 +123,7 @@ applications:
     config:
       namespace: grafana-infra
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/grafana
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -140,7 +140,7 @@ applications:
   #   config:
   #     namespace: monitoring
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
   #     path: kubernetes/helm_charts/upstream/victoria-metrics-auth
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values-preprod.yaml'
@@ -157,7 +157,7 @@ applications:
   #   config:
   #     namespace: promtail
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
   #     path: kubernetes/helm_charts/upstream/promtail
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values-preprod.yaml'
@@ -174,7 +174,7 @@ applications:
   #   config:
   #     namespace: cert-manager
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
   #     path: kubernetes/helm_charts/upstream/cert-exporter
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values.yaml'
@@ -196,7 +196,7 @@ applications:
     config:
       namespace: backstage-dev
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/kustomize/backstage/overlays/dev/
       project: infra
       kustomize: {}
