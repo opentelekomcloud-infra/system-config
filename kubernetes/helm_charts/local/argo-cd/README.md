@@ -8,7 +8,7 @@ The `app-of-apps` chart does not deploy applications directly but configures Arg
 
 ## Features
 
-- **Multi-Cluster Deployment:** Manages infrastructure applications across various Kubernetes clusters.
+- **Multi-Cluster Deployment:** Manages infrastructure applications across various Kubernetes clusters
 - **Customizable Configuration:** Allows individual configuration settings for each application.
 - **Automation and Self-healing:** Features automated sync policies with self-healing capabilities to maintain applications in their desired state.
 
@@ -97,9 +97,10 @@ For scenarios that require granular control over deployments, such as initial se
  **Navigate to the Manual Deployment Directory:**
    Change to the directory that contains the manual deployment configurations. This typically involves configurations that are not automatically applied by the default Helm deployment process.
 
-   ```bash
+```bash
    cd path-to-your-repo/kubernetes/argocd-apps/bootstrap/manual
    argocd app create -f root-app-of-apps-infra.yaml
    argocd app sync root-app-of-apps
    argocd app list
    argocd app get root-app-of-apps
+```
