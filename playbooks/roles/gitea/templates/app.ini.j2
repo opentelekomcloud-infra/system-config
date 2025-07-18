@@ -197,7 +197,7 @@ REQUIRE_SIGNIN_VIEW = false
 ;[repository]
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 REQUIRE_SIGNIN_VIEW = false
-ACCESS_CONTROL_ALLOW_ORIGIN = 
+ACCESS_CONTROL_ALLOW_ORIGIN =
 ENABLE_PUSH_CREATE_USER = false
 ENABLE_PUSH_CREATE_ORG = false
 DEFAULT_PRIVATE = true
@@ -387,6 +387,7 @@ ENABLED        = true
 FROM           = {{ gitea_mailer_from }}
 PROTOCOL       = {{ gitea_mailer_type }}
 SMTP_ADDR      = {{ gitea_mailer_host }}
+SMTP_PORT      = {{ gitea_mailer_port }}
 USER           = {{ gitea_mailer_user }}
 PASSWD         = {{ gitea_mailer_passwd }}
 {% endif %}
