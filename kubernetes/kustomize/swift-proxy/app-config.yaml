@@ -1,0 +1,9 @@
+project: system-config
+namespace: swift-proxy
+server: otcinfra
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true

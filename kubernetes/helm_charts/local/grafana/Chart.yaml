@@ -1,0 +1,4 @@
+apiVersion: v2
+name: grafana-additional-manifests
+description: A custom/local Helm Chart used for deployement of Grafana additional manifests
+version: 0.1.0
