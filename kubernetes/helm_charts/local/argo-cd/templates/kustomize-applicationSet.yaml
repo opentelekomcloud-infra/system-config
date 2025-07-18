@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: kustomize-apps
+  namespace: {{ default "argocd" }}
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+        revision: '{{ "{{file.targetRevision}}" | default "main" }}'
+        directories:
+          - path: kubernetes/kustomize/*
+      files:
+        - path: kubernetes/kustomize/*/app-config.yaml
+template:
+  metadata:
+    name: '{{ "{{path.basename}}" }}'
+  spec:
+    project: '{{ "{{file.project}}" | default "system-config" }}'
+    source:
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: main
+      path: '{{ "{{path}}" }}'
+    destination:
+      server: '{{ "{{file.server}}" | default "https://kubernetes.default.svc" }}'
+      namespace: '{{ "{{file.namespace}}" | default "{{path.basename}}" }}'
+    syncPolicy: {{ "{{file.syncPolicy}}" | toYaml | nindent 8 }}

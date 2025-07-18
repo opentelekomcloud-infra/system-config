@@ -1,0 +1,25 @@
+configManagementPlugin:
+  enabled: true
+  plugins:
+    - name: argocd-vault-plugin-helm-with-args
+      allowConcurrency: true
+      lockRepo: false
+      init:
+        command: ["helm", "dependency", "build"]
+      generate:
+        command: ["sh", "-c"]
+        args: ["helm template $ARGOCD_APP_NAME . $ARGOCD_ENV_HELM_ARGS | argocd-vault-plugin generate -"]
+      discover:
+        find:
+          command: ["sh", "-c", "find . -name 'Chart.yaml' && find . -name 'values.yaml'"]
+    - name: argocd-vault-plugin-helm
+      allowConcurrency: false
+      lockRepo: true
+      init:
+        command: ["helm", "dependency", "build"]
+      generate:
+        command: ["sh", "-c"]
+        args: ["helm template $ARGOCD_APP_NAME . | argocd-vault-plugin generate -"]
+      discover:
+        find:
+          command: ["sh", "-c", "find . -name 'Chart.yaml' && find . -name 'values.yaml'"]

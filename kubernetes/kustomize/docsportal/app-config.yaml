@@ -1,0 +1,9 @@
+project: system-config
+namespace: docsportal
+server: otcinfra
+syncPolicy:
+  automated:
+    prune: true
+    selfHeal: true
+  syncOptions:
+    - CreateNamespace=true
