@@ -1,7 +1,7 @@
 pid_file = "/home/vault/pidfile"
 auto_auth {
     method "kubernetes" {
-        mount_path = "auth/kubernetes_otcinfra2"
+        mount_path = "auth/kubernetes"
         config = {
             role = "backstage"
             token_path = "/var/run/secrets/tokens/vault-token"
@@ -130,11 +130,11 @@ kubernetes:
   clusterLocatorMethods:
     - type: 'config'
       clusters:
-        - name: otcinfra2
+        - name: preprod
           authProvider: 'serviceAccount'
           skipTLSVerify: true
           skipMetricsLookup: true
-          url: 'https://192.168.171.211:5443'
+          url: 'https://192.168.150.27:5443'
 {{- with secret "secret/data/backstage/k8_infra2" }}
           serviceAccountToken: {{ .Data.data.token }}
 {{- end }}
