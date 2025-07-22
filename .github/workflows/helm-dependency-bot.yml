@@ -7,7 +7,7 @@ on:
   push:
     branches: [ main ]
     paths:
-      - 'kubernetes/argocd-apps/system/**/Chart.yaml'
+      - 'kubernetes/helm_charts/**/Chart.yaml'
 
 jobs:
   check-helm-dependencies:
@@ -53,5 +53,5 @@ jobs:
           branch: helm-dep-updates
           delete-branch: true
           add-paths: |
-            kubernetes/argocd-apps/system/**/*
+            kubernetes/helm-charts/**/*
           labels: dependencies, helm-charts
