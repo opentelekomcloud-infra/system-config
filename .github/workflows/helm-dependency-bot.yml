@@ -40,11 +40,11 @@ jobs:
         run: python .github/scripts/check_helm_dependencies.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHART_PATH: "kubernetes/argocd-apps/system"
+          CHART_PATH: "kubernetes/helm_charts"
 
       - name: Create Pull Request
         if: steps.dependency-check.outputs.has_updates == 'true'
-        uses: peter-evans/create-pull-request@v5 # don't update this action version!!!
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore: update helm chart dependencies"
