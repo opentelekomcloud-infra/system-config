@@ -3,6 +3,7 @@ import yaml
 import subprocess
 import glob
 import json
+import re
 import logging
 from packaging import version
 
@@ -159,31 +160,92 @@ def check_helm_dependencies():
 
 
 def update_chart_dependencies_for_app(app_data):
+    """
+    Universal function to update chart dependencies
+    Works with both quoted and unquoted versions
+    """
     updates = app_data['updates']
 
     for dep in updates:
         file_path = dep['file_path']
-        current_version = dep['current_version']
-        latest_version = dep['latest_version']
+        current_version = str(dep['current_version']).strip('"\'')  # Remove quotes for comparison
+        latest_version = str(dep['latest_version']).strip('"\'')  # Remove quotes for comparison
 
         try:
             with open(file_path, 'r') as f:
-                lines = f.readlines()
+                content = f.read()
 
-            updated_lines = []
-            for line in lines:
-                if f'name: {dep["name"]}' in line:
-                    updated_lines.append(line)
-                elif 'version:' in line and len(updated_lines) > 0 and f'name: {dep["name"]}' in updated_lines[-1]:
-                    updated_line = line.replace(f'"{current_version}"', f'"{latest_version}"')
-                    updated_lines.append(updated_line)
-                else:
-                    updated_lines.append(line)
+            logging.info("Updating %s from %s to %s in %s", dep['name'], current_version, latest_version, file_path)
 
-            with open(file_path, 'w') as f:
-                f.writelines(updated_lines)
+            # Try multiple patterns to find and replace version
+            patterns_tried = []
+            updated = False
 
-            logging.info("Version has been updated for %s in %s", dep['name'], file_path)
+            # Pattern 1: Version with double quotes
+            pattern1 = fr'(\s*version:\s*")({re.escape(current_version)})(")'
+            if re.search(pattern1, content):
+                content = re.sub(pattern1, fr'\1{latest_version}\3', content)
+                updated = True
+                patterns_tried.append('double quotes')
+
+            # Pattern 2: Version with single quotes
+            if not updated:
+                pattern2 = fr"(\s*version:\s*')({re.escape(current_version)})(')"
+                if re.search(pattern2, content):
+                    content = re.sub(pattern2, fr'\1{latest_version}\3', content)
+                    updated = True
+                    patterns_tried.append('single quotes')
+
+            # Pattern 3: Version without quotes
+            if not updated:
+                pattern3 = fr'(\s*version:\s*)({re.escape(current_version)})(\s*$)'
+                if re.search(pattern3, content, re.MULTILINE):
+                    content = re.sub(pattern3, fr'\1{latest_version}\3', content, flags=re.MULTILINE)
+                    updated = True
+                    patterns_tried.append('no quotes')
+
+            # Pattern 4: Version without quotes followed by other content
+            if not updated:
+                pattern4 = fr'(\s*version:\s*)({re.escape(current_version)})(\s+)'
+                if re.search(pattern4, content):
+                    content = re.sub(pattern4, fr'\1{latest_version}\3', content)
+                    updated = True
+                    patterns_tried.append('no quotes with whitespace')
+
+            # Pattern 5: Fallback - simple string replacement with context
+            if not updated:
+                # Look for the dependency block and replace version within it
+                dependency_pattern = fr'(- name:\s*{re.escape(dep["name"])}\s*(?:\n|.)*?version:\s*)(["\']?)({re.escape(current_version)})(["\']?)'
+                if re.search(dependency_pattern, content, re.MULTILINE | re.DOTALL):
+                    def replace_func(match):
+                        prefix = match.group(1)
+                        open_quote = match.group(2)
+                        version_value = match.group(3)
+                        close_quote = match.group(4)
+                        return f"{prefix}{open_quote}{latest_version}{close_quote}"
+
+                    content = re.sub(dependency_pattern, replace_func, content, flags=re.MULTILINE | re.DOTALL)
+                    updated = True
+                    patterns_tried.append('dependency block pattern')
+
+            if updated:
+                with open(file_path, 'w') as f:
+                    f.write(content)
+                logging.info("Version has been updated for %s in %s (used pattern: %s)",
+                             dep['name'], file_path, ', '.join(patterns_tried))
+            else:
+                logging.error("Could not find version pattern for %s (current: %s) in %s",
+                              dep['name'], current_version, file_path)
+                # Debug output
+                logging.debug("File content around dependency:")
+                lines = content.split('\n')
+                for i, line in enumerate(lines):
+                    if dep['name'] in line or current_version in line:
+                        start = max(0, i - 2)
+                        end = min(len(lines), i + 3)
+                        for j in range(start, end):
+                            marker = " --> " if j == i else "     "
+                            logging.debug("%s%d: %s", marker, j + 1, lines[j])
 
         except Exception as e:
             logging.error("Error during update %s in %s: %s", dep['name'], file_path, str(e))
