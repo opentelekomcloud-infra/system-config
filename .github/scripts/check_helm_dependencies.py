@@ -163,27 +163,55 @@ def update_chart_dependencies_for_app(app_data):
 
     for dep in updates:
         file_path = dep['file_path']
-        current_version = dep['current_version']
-        latest_version = dep['latest_version']
+        current_version = str(dep['current_version']).strip('"\'')
+        latest_version = str(dep['latest_version']).strip('"\'')
 
         try:
             with open(file_path, 'r') as f:
-                lines = f.readlines()
+                content = f.read()
 
-            updated_lines = []
-            for line in lines:
-                if f'name: {dep["name"]}' in line:
-                    updated_lines.append(line)
-                elif 'version:' in line and len(updated_lines) > 0 and f'name: {dep["name"]}' in updated_lines[-1]:
-                    updated_line = line.replace(f'"{current_version}"', f'"{latest_version}"')
-                    updated_lines.append(updated_line)
-                else:
-                    updated_lines.append(line)
+            logging.info("Updating %s from %s to %s in %s", dep['name'], current_version, latest_version, file_path)
 
-            with open(file_path, 'w') as f:
-                f.writelines(updated_lines)
+            updated = False
+            pattern_used = ""
 
-            logging.info("Version has been updated for %s in %s", dep['name'], file_path)
+            # Double quotes
+            old_pattern = f'version: "{current_version}"'
+            new_pattern = f'version: "{latest_version}"'
+            if old_pattern in content:
+                content = content.replace(old_pattern, new_pattern)
+                updated = True
+                pattern_used = "double quotes"
+
+            # Single quotes
+            if not updated:
+                old_pattern = f"version: '{current_version}'"
+                new_pattern = f"version: '{latest_version}'"
+                if old_pattern in content:
+                    content = content.replace(old_pattern, new_pattern)
+                    updated = True
+                    pattern_used = "single quotes"
+
+            # No quotes
+            if not updated:
+                lines = content.split('\n')
+                for i, line in enumerate(lines):
+                    if f'version: {current_version}' in line and line.strip().endswith(current_version):
+                        lines[i] = line.replace(f'version: {current_version}', f'version: {latest_version}')
+                        updated = True
+                        pattern_used = "no quotes"
+                        break
+
+                if updated:
+                    content = '\n'.join(lines)
+
+            if updated:
+                with open(file_path, 'w') as f:
+                    f.write(content)
+                logging.info("Version has been updated for %s in %s (used pattern: %s)",
+                             dep['name'], file_path, pattern_used)
+            else:
+                logging.error("Error during update %s in %s: could not find version pattern", dep['name'], file_path)
 
         except Exception as e:
             logging.error("Error during update %s in %s: %s", dep['name'], file_path, str(e))
