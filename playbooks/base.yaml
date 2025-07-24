@@ -3,6 +3,8 @@
   become: true
   tasks:
     - include_role: name=base/users
+    - include_role: name=base/unbound
+      tags: unbound
     - block:
         - include_role: name=base/repos
         - include_role: name=base/server
