@@ -2,18 +2,17 @@
   name: "Base: set up common environment on all hosts"
   become: true
   tasks:
-    - include_role: name=base/users
+#    - include_role: name=base/users
     - include_role: name=base/unbound
-      tags: unbound
-    - block:
-        - include_role: name=base/repos
-        - include_role: name=base/server
-        - include_role: name=base/timezone
-        - include_role: name=base/unbound
-        - include_role: name=firewalld
-        - include_role: name=telegraf
-        - include_role: name=promtail
-      when:
-        # K8 cluster
-        - "ansible_connection is defined"
-        - "ansible_connection != 'kubectl'"
+#    - block:
+#        - include_role: name=base/repos
+#        - include_role: name=base/server
+#        - include_role: name=base/timezone
+#        - include_role: name=base/unbound
+#        - include_role: name=firewalld
+#        - include_role: name=telegraf
+#        - include_role: name=promtail
+#      when:
+#        # K8 cluster
+#        - "ansible_connection is defined"
+#        - "ansible_connection != 'kubectl'"
