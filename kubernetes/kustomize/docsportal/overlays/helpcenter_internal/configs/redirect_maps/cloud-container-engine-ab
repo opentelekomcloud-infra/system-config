@@ -1,3 +1,17 @@
+  /usermanual2/cce/cce_10_0353.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_an_image_pull_policy.html;
+  /usermanual2/cce/cce_10_0354.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_time_zone_synchronization.html;
+  /usermanual2/cce/cce_10_0355.html /cloud-container-engine/umn/network/service/loadbalancer/configuring_passthrough_networking_for_a_loadbalancer_service.html;
+  /usermanual2/cce/cce_10_0359.html /cloud-container-engine/umn/network/dns/index.html;
+  /usermanual2/cce/cce_10_0360.html /cloud-container-engine/umn/network/dns/overview.html;
+  /usermanual2/cce/cce_10_0361.html /cloud-container-engine/umn/network/dns/using_coredns_for_custom_domain_name_resolution.html;
+  /usermanual2/cce/cce_10_0363.html /cloud-container-engine/umn/nodes/creating_a_node.html;
+  /usermanual2/cce/cce_10_0364.html /cloud-container-engine/umn/network/ingresses/nginx_ingresses/creating_an_nginx_ingress_using_kubectl.html;
+  /usermanual2/cce/cce_10_0365.html /cloud-container-engine/umn/network/dns/dns_configuration.html;
+  /usermanual2/cce/cce_10_0367.html /cloud-container-engine/umn/clusters/connecting_to_a_cluster/accessing_a_cluster_using_a_custom_domain_name.html;
+  /usermanual2/cce/cce_10_0373.html /cloud-container-engine/umn/o_and_m/o_and_m_best_practices/monitoring_custom_metrics_using_cloud_native_cluster_monitoring.html;
+  /usermanual2/cce/cce_10_0374.html /cloud-container-engine/umn/storage/index.html;
+  /usermanual2/cce/cce_10_0377.html /cloud-container-engine/umn/storage/hostpath.html;
+  /usermanual2/cce/cce_10_0378.html /cloud-container-engine/umn/storage/storage_basics.html;
   /usermanual2/cce/cce_10_0379.html /cloud-container-engine/umn/storage/object_storage_service/using_an_existing_obs_bucket_through_a_static_pv.html;
   /usermanual2/cce/cce_10_0380.html /cloud-container-engine/umn/storage/storageclass.html;
   /usermanual2/cce/cce_10_0381.html /cloud-container-engine/umn/storage/elastic_volume_service/snapshots_and_backups.html;

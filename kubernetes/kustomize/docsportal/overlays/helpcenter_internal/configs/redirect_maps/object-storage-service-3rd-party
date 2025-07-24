@@ -1,3 +1,6 @@
+  /en-us/sdk/c-devg-obs/ /object-storage-service-3rd-party/c-sdk/index.html;
+  /en-us/sdk/go-devg-obs/ /object-storage-service-3rd-party/go-sdk/index.html;
+  /en-us/sdk/java-devg-obs/ /object-storage-service-3rd-party/java-sdk/index.html;
   /en-us/sdk/python-devg-obs/ /object-storage-service-3rd-party/python-sdk/index.html;
   /en-us/sdk/python-devg-obs/obs_22_0001.html /object-storage-service-3rd-party/python-sdk/before_you_start.html;
   /en-us/sdk/python-devg-obs/obs_22_0100.html /object-storage-service-3rd-party/python-sdk/api_overview_of_obs_sdk_for_python.html;
@@ -100,6 +103,9 @@
   /en-us/sdk/python-devg-obs/obs_22_1702.html /object-storage-service-3rd-party/python-sdk/faqs/what_is_content-type_mime.html;
   /en-us/sdk/python-devg-obs/obs_22_1703.html /object-storage-service-3rd-party/python-sdk/faqs/how_do_i_get_my_account_id_and_iam_user_id.html;
   /en-us/sdk/python-devg-obs/obs_22_1704.html /object-storage-service-3rd-party/python-sdk/faqs/setting_an_object_expiration_time.html;
+  /sdk/c-devg-obs/ /object-storage-service-3rd-party/c-sdk/index.html;
+  /sdk/go-devg-obs/ /object-storage-service-3rd-party/go-sdk/index.html;
+  /sdk/java-devg-obs/ /object-storage-service-3rd-party/java-sdk/index.html;
   /sdk/python-devg-obs/ /object-storage-service-3rd-party/python-sdk/index.html;
   /sdk/python-devg-obs/obs_22_0001.html /object-storage-service-3rd-party/python-sdk/before_you_start.html;
   /sdk/python-devg-obs/obs_22_0100.html /object-storage-service-3rd-party/python-sdk/api_overview_of_obs_sdk_for_python.html;
