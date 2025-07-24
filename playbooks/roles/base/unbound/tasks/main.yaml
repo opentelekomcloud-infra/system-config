@@ -36,6 +36,19 @@
 
   register: result
 
+- name: Write unbound conf network file
+  ansible.builtin.template:
+    src: "interface.confd.conf.j2"
+    dest: "{{ unbound_confd_path | default('/etc/unbound/conf.d') }}/{{ localhost_interface }}.conf"
+    mode: "0644"
+  loop: "{{ unbound_conf_parts | default([]) }}"
+  loop_control:
+    loop_var: "cfg"
+  notify:
+    - Restart unbound
+
+  register: result
+
 - name: Enable unbound
   service:
     name: "unbound"
