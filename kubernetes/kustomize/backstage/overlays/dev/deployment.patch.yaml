@@ -14,7 +14,15 @@ spec:
             - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
           env:
             - name: "VAULT_ADDR"
-              value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+              valueFrom:
+                secretKeyRef:
+                  name: vault-preprod
+                  key: url
+            - name: "VAULT_TOKEN"
+              valueFrom:
+                secretKeyRef:
+                  name: vault-preprod
+                  key: token
           image: "vault"
           resources:
             limits:

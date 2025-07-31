@@ -50,38 +50,8 @@ backend:
 
 auth:
   environment: production
-  providers:
-    oauth2Proxy: {}
-    github:
-{{- with secret "secret/data/backstage/github" }}
-      development:
-        clientId: {{ .Data.data.clientId }}
-        clientSecret: {{ .Data.data.clientSecret }}
-      production:
-        clientId: {{ .Data.data.clientId }}
-        clientSecret: {{ .Data.data.clientSecret }}
-{{- end }}
-{{- with secret "secret/data/backstage/gitea" }}
-    gitea:
-      development:
-        metadataUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/.well-known/openid-configuration
-        authorizationUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/login/oauth/authorize
-        tokenUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/login/oauth/access_token
-        clientId: {{ .Data.data.clientId }}
-        clientSecret: {{ .Data.data.clientSecret }}
-{{- end }}
 
 catalog:
-{{- with secret "secret/data/backstage/oidc" }}
-  providers:
-    keycloakOrg:
-      default:
-        baseUrl: https://keycloak.eco-preprod.tsi-dev.otc-service.com/
-        loginRealm: {{ .Data.data.realm }}
-        realm: {{ .Data.data.realm }}
-        clientId: {{ .Data.data.client_id }}
-        clientSecret: {{ .Data.data.client_secret }}
-{{- end }}
   rules:
     - allow: [Component, System, API, Resource, Location, Group, User, Template]
   locations:
@@ -106,24 +76,6 @@ catalog:
       rules:
         - allow: [Template]
 
-integrations:
-  gitea:
-{{- with secret "secret/data/backstage/gitea" }}
-    - host: gitea.eco-preprod.tsi-dev.otc-service.com
-      password: {{ .Data.data.token }}
-{{- end }}
-  github:
-    - host: github.com
-      apps:
-{{- with secret "secret/data/backstage/github" }}
-        - appId: {{ .Data.data.appId }}
-          clientId: {{ .Data.data.clientId }}
-          clientSecret: {{ .Data.data.clientSecret }}
-          webhookSecret: {{ .Data.data.webhookSecret}}
-          privateKey: |
-{{ .Data.data.privateKey | indent 12 }}
-{{- end }}
-
 kubernetes:
   serviceLocatorMethod:
     type: 'multiTenant'
@@ -140,19 +92,6 @@ kubernetes:
 {{- end }}
 
 proxy:
-  '/grafana/api':
-    target: https://dashboard.tsi-dev.otc-service.com
-    headers:
-{{- with secret "secret/data/backstage/grafana" }}
-      Authorization: "Bearer {{ .Data.data.token }}"
-{{- end }}
-  '/dependencytrack':
-    target: https://dependencytrack.eco-preprod.tsi-dev.otc-service.com
-    allowedMethods: ['GET']
-    headers:
-{{- with secret "secret/data/backstage/dependencytrack" }}
-      X-Api-Key: "{{ .Data.data.token }}"
-{{- end }}
   '/quay/api':
     target: 'https://quay.io'
     headers:
