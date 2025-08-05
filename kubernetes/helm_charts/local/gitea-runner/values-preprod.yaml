@@ -1,4 +1,4 @@
-replicaCount: 2
+replicaCount: 1
 
 image:
   repository: "gitea/act_runner"
@@ -7,11 +7,11 @@ image:
 
 gitea:
   instanceUrl: "https://gitea.eco.tsi-dev.otc-service.com"
-  registrationToken: "<path:secret/data/gitea-runner/repositories/system-config#runner_registration_token>"
+  registrationToken: "<path:secret/data/gitea/gitea-runner/repositories/system-config#runner_registration_token>"
 
 runner:
   name: "system-config-gitea-runner-preprod"
-  labels: "ubuntu:docker://node:16-bullseye,ubuntu-22.04:docker://node:16-bullseye,preprod-system-config:docker://node:16-bullseye"
+  labels: "ubuntu-preprod:docker://node:16-bullseye,ubuntu-22.04-preprod:docker://node:16-bullseye,system-config-preprod:docker://node:16-bullseye"
   capacity: 4
   logLevel: "info"
 
@@ -28,6 +28,7 @@ persistence:
   storageClass: "csi-disk"
   accessMode: ReadWriteOnce
   size: 5Gi
+
 
 podAnnotations:
   prometheus.io/scrape: "false"

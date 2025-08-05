@@ -140,7 +140,7 @@ applications:
     config:
       namespace: gitea-runner
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'feature-Enable_gitea_runner_on_preprod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
