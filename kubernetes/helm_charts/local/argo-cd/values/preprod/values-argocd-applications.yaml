@@ -135,6 +135,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: system-config-gitea-runner
+    clusters: [preprod]
+    config:
+      namespace: gitea-runner
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'feature-Enable_gitea_runner_on_preprod'
+      path: kubernetes/helm_charts/local/gitea-runner
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # - name: victoria-metrics-auth
   #   clusters: [preprod]
   #   config:
