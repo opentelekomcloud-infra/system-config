@@ -70,7 +70,7 @@ patches:
 
       - op: add
         path: /spec/volumeClaimTemplates/0/spec/storageClassName
-        value: "sas"
+        value: "ssd"
 
       - op: add
         path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
