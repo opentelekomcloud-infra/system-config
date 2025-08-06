@@ -104,7 +104,7 @@ spec:
       spec:
         accessModes:
           - "ReadWriteOnce"
-        storageClassName: "sas"
+        storageClassName: "ssd"
         resources:
           requests:
             storage: "80G"
