@@ -228,10 +228,6 @@ for file in $META_PATH/documents/*.yaml ; do
     echo $doc_type
     echo $service_type
     echo $service_name
-    if yq -e '.cloud_environments[] | select(.name=="'"$cloud_env"'" and (.visibility!="public" and .visibility!="hidden"))' $META_PATH/services/$service_type.yaml &> /dev/null; then
-        echo "service $service_name is only internal therefore skipping redirections!"
-        continue ;
-    fi
     if ! yq -e 'select(.hc_location)' $META_PATH/documents/$service_type-* &> /dev/null ; then
         echo "cannot find origin location for redirection! Skipping."
         continue ;
@@ -240,8 +236,19 @@ for file in $META_PATH/documents/*.yaml ; do
         echo skipping service $service_type and document $doc_type
         continue ;
     fi
-    hc_old_location=$(echo "$decode" | jq -r .hc_location);
     rst_location=$(echo "$decode" | jq -r .rst_location);
+    if yq -e '.cloud_environments[] | select(.name=="'"$cloud_env"'" and (.visibility!="public" and .visibility!="hidden"))' $META_PATH/services/$service_type.yaml &> /dev/null; then
+        repo=$(yq -o json -r '.repositories[] | select(.environment=="'"$var"'" and .cloud_environments[]=="'"$cloud_env"'") | .repo' $META_PATH/repositories/$service_type.yaml)
+        echo $repo
+        cat $META_PATH/services/$service_type.yaml
+        files=( $DOC_PATH/$service_name/$rst_location/* )
+        echo ${#files[@]}
+        if yq -e '.cloud_environments[] | select(.name=="eu_de" and .visibility=="internal")' $META_PATH/services/$service_type.yaml &> /dev/null && [[ ${#files[@]} -lt 4 ]]; then
+            echo "service $service_name is only internal and has no content therefore skipping redirections!"
+            continue ;
+        fi
+    fi
+    hc_old_location=$(echo "$decode" | jq -r .hc_location);
     hc_new_location=$(echo "$decode" | jq -r .link) ;
     echo $service_name $hc_old_location $rst_location $hc_new_location;
     if cd $DOC_PATH/$service_name/$rst_location; then
@@ -301,29 +308,42 @@ for i in $(ls * | egrep -v "\-a[a-z]$"); do
     fi;
 done
 
+## Updating nginx-site.conf if necessary
+#cd ${TARGET_REDIR_PATH}/configs/redirect_maps/;
+#for i in *; do
+#    if ! grep "$i;" ${TARGET_REDIR_PATH}/configs/nginx-site.conf &> /dev/null; then
+#        echo New redirection file $i to be added to nginx-site.conf
+#        block=$(grep "include /etc/nginx/redirect/" ${TARGET_REDIR_PATH}/configs/nginx-site.conf)
+#        new_item="include /etc/nginx/redirect/$i;";
+#        new_block=$(echo $block $new_item | sed 's/; /;\n/g' |sort -n | sed -z 's/;\n/;\\n/g')
+#        end_pattern="# server_names_hash_bucket_size 128;"
+#        sed -z -i "s:  include.*\n$end_pattern:  $new_block}\n\n$end_pattern:g" ${TARGET_REDIR_PATH}/configs/nginx-site.conf
+#        sed -i 's/^include.*/  &/g' ${TARGET_REDIR_PATH}/configs/nginx-site.conf
+#    fi
+#done
+
 # Updating nginx-site.conf if necessary
 cd ${TARGET_REDIR_PATH}/configs/redirect_maps/;
+new_block="";
 for i in *; do
-    if ! grep "$i;" ${TARGET_REDIR_PATH}/configs/nginx-site.conf &> /dev/null; then
-        echo New redirection file $i to be added to nginx-site.conf
-        block=$(grep "include /etc/nginx/redirect/" ${TARGET_REDIR_PATH}/configs/nginx-site.conf)
-        new_item="include /etc/nginx/redirect/$i;";
-        new_block=$(echo $block $new_item | sed 's/; /;\n/g' |sort -n | sed -z 's/;\n/;\\n/g')
-        end_pattern="# server_names_hash_bucket_size 128;"
-        sed -z -i "s:  include.*\n$end_pattern:  $new_block}\n\n$end_pattern:g" ${TARGET_REDIR_PATH}/configs/nginx-site.conf
-        sed -i 's/^include.*/  &/g' ${TARGET_REDIR_PATH}/configs/nginx-site.conf
-    fi
+    echo Redirection file $i to be added to nginx-site.conf
+    new_item="include /etc/nginx/redirect/$i;";
+    new_block=$(echo $new_block $new_item | sed 's/; /;\n/g' |sort -n | sed -z 's/;\n/;\\n/g')
 done
+end_pattern="# server_names_hash_bucket_size 128;"
+sed -z -i "s:  include.*\n$end_pattern:  $new_block}\n\n$end_pattern:g" ${TARGET_REDIR_PATH}/configs/nginx-site.conf
+sed -i 's/^ include.*/ &/g' ${TARGET_REDIR_PATH}/configs/nginx-site.conf
 
 # Updating kustomization.yaml if necessary
 cd ${TARGET_REDIR_PATH}/configs/redirect_maps/;
-services=$(grep configs/redirect_map ${TARGET_REDIR_PATH}/kustomization.yaml | cut -f2 -d'"' | cut -f3 -d"/")
-
+# services=$(grep configs/redirect_map ${TARGET_REDIR_PATH}/kustomization.yaml | cut -f2 -d'"' | cut -f3 -d"/")
+services=""
+echo "Generating kustomization.yaml file"
 for i in *; do
-    if ! grep "/$i\"" ${TARGET_REDIR_PATH}/kustomization.yaml &> /dev/null; then
-        echo New redirection file $i to be added to kustomization.yaml
+    #if ! grep "/$i\"" ${TARGET_REDIR_PATH}/kustomization.yaml &> /dev/null; then
+        echo "Redirection file $i to be added to kustomization.yaml"
         services=$(echo $services $i | sed 's/ /\n/g' | sort -n)
-    fi
+    #fi
 done
 block=$(cat <<EOF
   - name: "nginx-config"
