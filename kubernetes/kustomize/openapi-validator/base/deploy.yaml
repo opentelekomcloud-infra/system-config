@@ -95,5 +95,3 @@ spec:
             - serviceAccountToken:
                 expirationSeconds: 7200
                 path: "vault-token"
-
-
