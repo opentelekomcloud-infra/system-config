@@ -18,7 +18,7 @@ auto_auth {
 template {
   destination = "/secrets/openapi-validator-env"
   contents = <<EOT
-{{ with secret "secret/data/openapi-validator-dev" -}}
+{{ with secret "secret/data/openapi-validator/git-connection" -}}
 export GITEA_TOKEN={{ .Data.data.gitea_token }}
 {{- end }}
 
