@@ -4,7 +4,7 @@ metadata:
   name: openapi-validator
   labels:
     name: openapi-validator
-    environment: dev
+    environment: preprod
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/warn: restricted

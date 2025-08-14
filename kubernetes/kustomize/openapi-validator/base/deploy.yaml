@@ -64,15 +64,15 @@ spec:
               cpu: "500m"
           startupProbe:
             httpGet:
-              path: /health
+              path: /
               port: http
-            initialDelaySeconds: 10
-            periodSeconds: 5
-            timeoutSeconds: 3
-            failureThreshold: 6
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 12
           readinessProbe:
             httpGet:
-              path: /ready
+              path: /
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
@@ -80,11 +80,11 @@ spec:
             failureThreshold: 3
           livenessProbe:
             httpGet:
-              path: /health
+              path: /
               port: http
-            initialDelaySeconds: 30
-            periodSeconds: 20
-            timeoutSeconds: 3
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 5
             failureThreshold: 3
           volumeMounts:
           - name: tmp

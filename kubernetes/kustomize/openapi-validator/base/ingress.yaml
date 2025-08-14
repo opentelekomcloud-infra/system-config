@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress
+  name: openapi-validator
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
@@ -20,7 +20,7 @@ spec:
         paths:
           - backend:
               service:
-                name: service
+                name: openapi-validator-svc
                 port:
                   number: 3000
             path: /
@@ -28,4 +28,4 @@ spec:
   tls:
     - hosts:
         - openapi-validator.otc-service.com
-      secretName: tls-cert
+      secretName: openapi-validator-tls-cert

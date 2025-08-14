@@ -18,7 +18,6 @@ images:
 resources:
   - ../../base
   - namespace.yaml
-  - networkPolicy.yaml
 
 configMapGenerator:
   - name: config
@@ -33,10 +32,10 @@ patches:
     patch: |-
       - op: replace
         path: /spec/rules/0/host
-        value: openapi-validator-preprod.eco.tsi-preprod.otc-service.com
+        value: openapi-validator.eco-preprod.tsi-preprod.otc-service.com
       - op: replace
         path: /spec/tls/0/hosts/0
-        value: openapi-validator-preprod.eco.tsi-preprod.otc-service.com
+        value: openapi-validator.eco-preprod.tsi-preprod.otc-service.com
       - op: replace
         path: /spec/tls/0/secretName
         value: openapi-validator-tls-cert-preprod
@@ -67,6 +66,6 @@ patches:
         path: /spec/template/spec/containers/0/env
         value:
           - name: NODE_ENV
-            value: "preprodelopment"
+            value: "preprod"
           - name: PORT
             value: "3000"
