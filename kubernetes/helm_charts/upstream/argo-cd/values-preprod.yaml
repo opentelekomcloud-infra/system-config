@@ -388,7 +388,7 @@ configs:
       # Vault plugin permissions
       p, role:vault-reader, secrets, get, *, allow
       p, role:vault-reader, secrets, list, *, allow
-      g, argocd-repo-server, role:vault-reader
+      g, argocd-preprod-repo-server, role:vault-reader
     policy.default: "role:none"
     policy.matchMode: "glob"
     scopes: "[groups]"

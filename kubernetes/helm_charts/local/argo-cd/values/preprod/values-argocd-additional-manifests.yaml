@@ -1,4 +1,4 @@
 repoServerSecretAccess:
   enabled: true
   namespace: argocd
-  serviceAccount: argocd-repo-server
+  serviceAccount: argocd-preprod-repo-server
