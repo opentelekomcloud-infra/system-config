@@ -1,6 +1,6 @@
 applications:
   - name: argocd-projects
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -17,7 +17,7 @@ applications:
           - CreateNamespace=true
 
   - name: argocd-clusters
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -34,7 +34,7 @@ applications:
           - CreateNamespace=true
 
   - name: argocd-repositories
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -51,11 +51,11 @@ applications:
           - CreateNamespace=true
 
   - name: argocd
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Enebaing_openapi_via_kustomize'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -68,11 +68,11 @@ applications:
           - CreateNamespace=true
 
   - name: argocd-additional-manifests
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Enebaing_openapi_via_kustomize'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
@@ -85,7 +85,7 @@ applications:
           - CreateNamespace=true
 
   - name: cert-manager
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -102,7 +102,7 @@ applications:
           - CreateNamespace=true
 
   - name: cert-manager-additional-manifests
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -136,7 +136,7 @@ applications:
           - CreateNamespace=true
 
   # - name: victoria-metrics-auth
-  #   clusters: [in-cluster]
+  #   clusters: [preprod]
   #   config:
   #     namespace: monitoring
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -153,7 +153,7 @@ applications:
   #         - CreateNamespace=true
 
   # - name: promtail
-  #   clusters: [in-cluster]
+  #   clusters: [preprod]
   #   config:
   #     namespace: promtail
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -170,7 +170,7 @@ applications:
   #         - CreateNamespace=true
 
   # - name: cert-exporter
-  #   clusters: [in-cluster]
+  #   clusters: [preprod]
   #   config:
   #     namespace: cert-manager
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -192,7 +192,7 @@ applications:
 #####################################
 
   - name: kustomize-backstage-dev
-    clusters: [in-cluster]
+    clusters: [preprod]
     config:
       namespace: backstage-dev
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
@@ -200,6 +200,23 @@ applications:
       path: kubernetes/kustomize/backstage/overlays/dev/
       project: infra
       kustomize: {}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: openapi-validator
+    clusters: [preprod]
+    config:
+      namespace: openapi-validator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enebaing_openapi_via_kustomize'
+      path: kubernetes/kustomize/openapi-validator/overlays/dev/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
       syncPolicy:
         automated:
           prune: true
