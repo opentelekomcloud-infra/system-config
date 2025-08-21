@@ -11,6 +11,7 @@ RUN_MODE = ; prod
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 PROTOCOL = https
 DOMAIN = {{ gitea_domain }}
+ALLOW_DOMAIN = {{ gitea_domain }}
 {% if gitea_root_url is defined %}
 ROOT_URL = {{ gitea_root_url }}
 {% endif %}
