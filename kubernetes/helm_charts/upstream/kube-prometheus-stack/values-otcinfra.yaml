@@ -411,6 +411,18 @@ kube-prometheus-stack:
           - 80.158.76.139:9100@worker-nl-02.cloudmon.eco.tsi-dev.otc-service.com
           - 185.153.107.194:9100@worker-ch-01.cloudmon.eco.tsi-dev.otc-service.com
           - 185.153.106.191:9100@worker-ch-02.cloudmon.eco.tsi-dev.otc-service.com
+      - basic_auth:
+          password: <path:secret/data/influxdb/metrics#password>
+          username: <path:secret/data/influxdb/metrics#username>
+        job_name: influxdb-metrics
+        metrics_path: /metrics
+        relabel_configs:
+        - replacement: influx1.eco.tsi-dev.otc-service.com
+          target_label: instance
+        scheme: https
+        static_configs:
+        - targets:
+          - influx1.eco.tsi-dev.otc-service.com:8086
       externalLabels:
         cluster: otcinfra
       externalUrl: https://prometheus-mon.infra.eco.tsi-dev.otc-service.com

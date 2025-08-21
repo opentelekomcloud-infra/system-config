@@ -16,6 +16,10 @@ global
   ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
   ssl-default-server-options no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets
 
+# User list for metrics authentication
+userlist metrics-users
+  user {{ metrics_username | default('prometheus') }} password {{ metrics_password | default('changeme') }}
+
 defaults
   log-format  "%ci:%cp [%t] %ft [%bi]:%bp %b/%s %Tw/%Tc/%Tt %B %ts %ac/%fc/%bc/%sc/%rc %sq/%bq"
   log  global
