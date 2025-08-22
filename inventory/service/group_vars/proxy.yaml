@@ -255,10 +255,10 @@ proxy_backends:
     servers:
       - name: "gitea1"
         address: "192.168.170.200:3000"
-        opts: "check cookie gitea1"
+        opts: "check cookie gitea1 ssl verify none"
       - name: "gitea2"
         address: "192.168.150.200:3000"
-        opts: "check cookie gitea2"
+        opts: "check cookie gitea2 ssl verify none"
 
 proxy_frontends:
   - name: "influx"
@@ -272,10 +272,6 @@ proxy_frontends:
   - name: "vault"
     bind: "*:8200 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
     backend: "vault"
-
-  - name: "gitea-https"
-    bind: "*:443 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
-    backend: "gitea"
 
   - name: "gitea-ssh"
     bind: "*:2222"
