@@ -1115,71 +1115,6 @@ cloud_load_balancers:
           subnet: "dashboard-default-subnet"
           protocol_port: 8200
 
-  - cloud: "otc_vault_448_de_apimon"
-    loadbalancer:
-      name: "elb-haproxy-web"
-      vip_subnet: "dashboard-default-subnet"
-      vip_address: "192.168.110.101"
-      listeners:
-        - name: "listener-https"
-          protocol: "terminated_https"
-          protocol_port: 443
-          ssl_cert: "cert-eco-web"
-          tls_ciphers_policy: "tls-1-2-strict"
-        - name: "listener-http"
-          protocol: "http"
-          protocol_port: 80
-        - name: "listener-ssh"
-          protocol: "tcp"
-          protocol_port: 2222
-      pools:
-        - name: "pool-https"
-          listener: "listener-https"
-          description: "HTTPS traffic to haproxy"
-          lb_algorithm: "round_robin"
-          protocol: "http"
-        - name: "pool-http"
-          listener: "listener-http"
-          description: "HTTP traffic to haproxy"
-          lb_algorithm: "round_robin"
-          protocol: "http"
-        - name: "pool-ssh"
-          listener: "listener-ssh"
-          description: "SSH traffic for Gitea"
-          lb_algorithm: "round_robin"
-          protocol: "tcp"
-      members:
-        - name: "proxy1-web-https"
-          address: "192.168.110.160"
-          pool: "pool-https"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 443
-        - name: "proxy2-web-https"
-          address: "192.168.110.151"
-          pool: "pool-https"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 443
-        - name: "proxy1-web-http"
-          address: "192.168.110.160"
-          pool: "pool-http"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 80
-        - name: "proxy2-web-http"
-          address: "192.168.110.151"
-          pool: "pool-http"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 80
-        - name: "proxy1-ssh"
-          address: "192.168.110.160"
-          pool: "pool-ssh"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 2222
-        - name: "proxy2-ssh"
-          address: "192.168.110.151"
-          pool: "pool-ssh"
-          subnet: "dashboard-default-subnet"
-          protocol_port: 2222
-
   - cloud: "otc_vault_449_de_eco_infra"
     loadbalancer:
       name: "elb-eco-infra-preprod"
@@ -1193,12 +1128,6 @@ cloud_load_balancer_certificates:
     domain: "swift.eco.tsi-dev.otc-service.com"
     type: "server"
     ssl_cert: "swift-eco"
-
-  - cloud: "otc_vault_448_de_apimon"
-    name: "cert-eco-web"
-    domain: "*.eco.tsi-dev.otc-service.com"
-    type: "server"
-    ssl_cert: "eco-web"
 
 cloud_rds:
   - cloud: "otc_vault_448_de_eco_infra"
