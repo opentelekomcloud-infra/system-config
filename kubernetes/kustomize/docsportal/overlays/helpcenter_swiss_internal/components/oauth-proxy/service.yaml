@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: docsportal-oauth-proxy
+  namespace: hc-internal
+  labels:
+    app.kubernetes.io/component: docsportal-oauth-proxy
+spec:
+  type: ClusterIP
+  ports:
+    - port: 4180
+      targetPort: oauth2-proxy
+      protocol: TCP
+      name: oauth2-proxy
+  selector:
+    app.kubernetes.io/component: docsportal-oauth-proxy
