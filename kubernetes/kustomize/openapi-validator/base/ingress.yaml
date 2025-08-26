@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: openapi-validator-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: openapi-validator.otc-service.com
+      http:
+        paths:
+          - backend:
+              service:
+                name: openapi-validator-svc
+                port:
+                  number: 3000
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - analytics.otc-service.com
+      secretName: analytics-tls
