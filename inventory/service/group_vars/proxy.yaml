@@ -260,7 +260,7 @@ proxy_backends:
         address: "192.168.150.200:3000"
         opts: "check cookie gitea2 ssl verify none"
       - name: "gitea3"
-        address: "192.168.170.122:3000"
+        address: "192.168.170.201:3000"
         opts: "check cookie gitea3 ssl verify none"
 
 proxy_frontends:
