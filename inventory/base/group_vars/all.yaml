@@ -100,7 +100,7 @@ all_users:
 
   lcuper:
     comment: L. C.
-    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBrioFxInmU3lhbsOTTHJieHZ7h4G+dR6/OJNHyQv+3m
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAao5SSjPTNQeH+fXaqzH56VrW/8/loNLFys35zXvCI3 A200014817@T00248c62a
     uid: 2037
     gid: 2037
 
