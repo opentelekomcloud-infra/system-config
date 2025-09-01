@@ -337,6 +337,16 @@ all:
         region: "eu-de"
       host_keys:
         - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMwpqYLQ4fhqdGm6NHsDuQIjwpXUJJOSqDRCoPBA4hzwGD67q+2YnSLnxHk78WhFEEhERaA0U4Rpxpt9hkjoG38='
+    gitea3.eco.tsi-dev.otc-service.com:
+      ansible_host: 192.168.170.122
+      ansible_user: automation
+      public_v4: 192.168.170.122
+      location:
+        cloud: "otc_vault_448_de_eco_infra"
+        az: "eu-de-03"
+        region: "eu-de"
+      host_keys:
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKmIa77z0yhdJj4aXvF0T78spnOYxqhimAhfTzMy2mK8TPycf3ICzsIivooOPtjz9y2LsuOGe+S5bX42QQJh8bo='
     keycloak1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.90
       ansible_user: automation
