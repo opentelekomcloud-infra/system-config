@@ -397,6 +397,7 @@ kube-prometheus-stack:
           - 192.168.110.227:9100@influx1.eco.tsi-dev.otc-service.com
           - 192.168.170.200:9100@gitea1.eco.tsi-dev.otc-service.com
           - 192.168.150.200:9100@gitea2.eco.tsi-dev.otc-service.com
+          - 192.168.170.201:9100@gitea3.eco.tsi-dev.otc-service.com
           - 192.168.170.90:9100@keycloak1.eco.tsi-dev.otc-service.com
           - 80.158.91.184:9100@cloudmon1.cloudmon.eco.tsi-dev.otc-service.com
           - 80.158.90.28:9100@graphite1.cloudmon.eco.tsi-dev.otc-service.com
