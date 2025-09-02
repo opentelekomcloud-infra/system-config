@@ -182,6 +182,7 @@ groups:
     - vault3.eco.tsi-dev.otc-service.com
     - gitea1.eco.tsi-dev.otc-service.com
     - gitea2.eco.tsi-dev.otc-service.com
+    - gitea3.eco.tsi-dev.otc-service.com
     - keycloak1.eco.tsi-dev.otc-service.com
     - db1.cloudmon.eco.tsi-dev.otc-service.com
     - db2.cloudmon.eco.tsi-dev.otc-service.com
@@ -253,6 +254,7 @@ groups:
   gitea:
     - gitea1.eco.tsi-dev.otc-service.com
     - gitea2.eco.tsi-dev.otc-service.com
+    - gitea3.eco.tsi-dev.otc-service.com
 
   keycloak:
     - keycloak1.eco.tsi-dev.otc-service.com
