@@ -1,0 +1,5 @@
+---
+packages:
+  - pandoc
+
+container_command: podman
