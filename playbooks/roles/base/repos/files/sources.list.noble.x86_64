@@ -1,0 +1,14 @@
+# This file is kept updated by ansible, adapted from
+# https://help.ubuntu.com/lts/serverguide/configuration.html
+
+Types: deb
+URIs: http://debmirror.eu-de.otc-service.com/ubuntu
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: http://debmirror.eu-de.otc-service.com/ubuntu
+Suites: noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
