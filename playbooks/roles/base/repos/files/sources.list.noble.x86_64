@@ -1,0 +1,7 @@
+# This file is kept updated by ansible, adapted from
+# https://help.ubuntu.com/lts/serverguide/configuration.html
+
+deb http://de.archive.ubuntu.com/ubuntu noble main universe
+deb http://de.archive.ubuntu.com/ubuntu noble-updates main universe
+deb http://de.archive.ubuntu.com/ubuntu noble-backports main universe
+deb http://de.archive.ubuntu.com/ubuntu noble-security main universe
