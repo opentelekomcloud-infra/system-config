@@ -21,6 +21,6 @@ roleRef:
   name: argocd-repo-server-secrets
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.repoServerSecretAccess.serviceAccount | default "argocd-in-cluster-repo-server" }}
+    name: {{ .Values.repoServerSecretAccess.serviceAccount | default "argocd-preprod-repo-server" }}
     namespace: {{ .Values.repoServerSecretAccess.namespace | default "argocd" }}
 {{- end }}
