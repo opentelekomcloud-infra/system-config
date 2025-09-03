@@ -1,0 +1,14 @@
+- op: replace
+  path: /webhooks/0/namespaceSelector
+  value:
+    matchExpressions:
+      - key: name
+        operator: NotIn
+        values:
+          - cert-manager
+          - kube-system
+          - acme-system
+      - key: cert-manager.io/disable-validation
+        operator: In
+        values:
+          - "true"

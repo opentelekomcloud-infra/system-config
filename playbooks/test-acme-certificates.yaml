@@ -1,0 +1,144 @@
+---
+- name: Test ACME Certificate Issuance
+  hosts: k8s-controller
+  gather_facts: false
+  vars:
+    test_namespace: "acme-test"
+    test_certificate_name: "{{ test_certificate_name | default('test-acme-cert') }}"
+    test_domain: "{{ test_domain | default('test.example.com') }}"
+    test_service_name: "test-nginx-service"
+    
+  tasks:
+    - name: Create test namespace
+      kubernetes.core.k8s:
+        name: "{{ test_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: present
+
+    - name: Create test nginx deployment
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            name: test-nginx
+            namespace: "{{ test_namespace }}"
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: test-nginx
+            template:
+              metadata:
+                labels:
+                  app: test-nginx
+              spec:
+                containers:
+                - name: nginx
+                  image: nginx:alpine
+                  ports:
+                  - containerPort: 80
+        state: present
+
+    - name: Create test service
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: v1
+          kind: Service
+          metadata:
+            name: "{{ test_service_name }}"
+            namespace: "{{ test_namespace }}"
+          spec:
+            selector:
+              app: test-nginx
+            ports:
+            - port: 80
+              targetPort: 80
+        state: present
+
+    - name: Create test ingress with cert-manager annotations
+      kubernetes.core.k8s:
+        definition:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          metadata:
+            name: test-acme-ingress
+            namespace: "{{ test_namespace }}"
+            annotations:
+              cert-manager.io/cluster-issuer: "letsencrypt-staging"
+              nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          spec:
+            ingressClassName: nginx
+            tls:
+            - hosts:
+              - "{{ test_domain }}"
+              secretName: "{{ test_certificate_name }}"
+            rules:
+            - host: "{{ test_domain }}"
+              http:
+                paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: "{{ test_service_name }}"
+                      port:
+                        number: 80
+        state: present
+
+    - name: Wait for certificate to be ready
+      kubernetes.core.k8s_info:
+        api_version: cert-manager.io/v1
+        kind: Certificate
+        name: "{{ test_certificate_name }}"
+        namespace: "{{ test_namespace }}"
+        wait: true
+        wait_condition:
+          type: Ready
+          status: "True"
+        wait_timeout: 300
+      register: certificate_result
+
+    - name: Display certificate status
+      debug:
+        msg: "Certificate {{ test_certificate_name }} is ready: {{ certificate_result.resources[0].status.conditions | selectattr('type', 'equalto', 'Ready') | map(attribute='status') | first }}"
+
+    - name: Check for certificate challenges
+      kubernetes.core.k8s_info:
+        api_version: acme.cert-manager.io/v1
+        kind: Challenge
+        namespace: "{{ test_namespace }}"
+      register: challenges
+
+    - name: Display challenge information
+      debug:
+        msg: "Found {{ challenges.resources | length }} ACME challenges"
+      when: challenges.resources | length > 0
+
+    - name: Verify TLS secret was created
+      kubernetes.core.k8s_info:
+        api_version: v1
+        kind: Secret
+        name: "{{ test_certificate_name }}"
+        namespace: "{{ test_namespace }}"
+      register: tls_secret
+
+    - name: Confirm TLS secret contains certificate data
+      assert:
+        that:
+          - tls_secret.resources | length == 1
+          - "'tls.crt' in tls_secret.resources[0].data"
+          - "'tls.key' in tls_secret.resources[0].data"
+        fail_msg: "TLS secret was not created properly"
+        success_msg: "TLS secret contains valid certificate data"
+
+    - name: Clean up test resources
+      kubernetes.core.k8s:
+        name: "{{ test_namespace }}"
+        api_version: v1
+        kind: Namespace
+        state: absent
+        wait: true
+        wait_timeout: 120
+      when: cleanup_test_resources | default(true) | bool

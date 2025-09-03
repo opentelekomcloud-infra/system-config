@@ -1,0 +1,52 @@
+- job:
+    name: configure-nginx-acme-support
+    parent: base-k8s-job
+    description: |
+      Configure NGINX Ingress Controller admission webhook to support
+      cert-manager ACME challenges for Let's Encrypt certificates.
+    files:
+      - kubernetes/kustomize/ingress-nginx-patches/.*
+      - playbooks/configure-nginx-acme-support.yaml
+      - kubernetes/helm_charts/local/cert-manager/.*
+    run: playbooks/configure-nginx-acme-support.yaml
+    vars:
+      kubeconfig_path: "{{ ansible_user_dir }}/.kube/config"
+    nodeset: k8s-controller
+
+- job:
+    name: test-acme-certificate-issuance
+    parent: configure-nginx-acme-support
+    description: |
+      Test ACME certificate issuance after configuring NGINX webhook
+      to ensure cert-manager can successfully complete challenges.
+    post-run: playbooks/test-acme-certificates.yaml
+    vars:
+      test_certificate_name: "test-acme-cert"
+      test_domain: "test.{{ ansible_default_ipv4.address | default('localhost') }}.nip.io"
+
+- project-template:
+    name: nginx-acme-integration
+    description: |
+      Template for projects that need NGINX Ingress with ACME certificate support
+    check:
+      jobs:
+        - configure-nginx-acme-support
+    gate:
+      jobs:
+        - configure-nginx-acme-support
+        - test-acme-certificate-issuance
+
+# Apply to current project
+- project:
+    templates:
+      - nginx-acme-integration
+    check:
+      jobs:
+        - configure-nginx-acme-support:
+            files:
+              - kubernetes/kustomize/ingress-nginx-patches/.*
+              - playbooks/configure-nginx-acme-support.yaml
+    gate:
+      jobs:
+        - configure-nginx-acme-support:
+            voting: true

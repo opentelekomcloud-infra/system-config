@@ -21,3 +21,35 @@ controller:
 {% if chart.config_entries is defined %}
   config: {{ chart.config_entries }}
 {% endif %}
+
+# Admission webhook configuration for ACME challenge support
+admissionWebhooks:
+  enabled: true
+  failurePolicy: Ignore
+  port: 8443
+  certificate: "/usr/local/certificates/cert"
+  key: "/usr/local/certificates/key"
+  namespaceSelector:
+    matchExpressions:
+    - key: name
+      operator: NotIn
+      values: ["cert-manager"]
+  objectSelector: {}
+  annotations: {}
+  # Custom validation for ACME challenges
+  patch:
+    enabled: true
+    image:
+      registry: registry.k8s.io
+      image: ingress-nginx/kube-webhook-certgen
+      tag: v20230312-helm-chart-4.5.2-28-g66a760794
+    priorityClassName: ""
+    podAnnotations: {}
+    nodeSelector:
+      kubernetes.io/os: linux
+    tolerations: []
+    labels: {}
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 2000
+      fsGroup: 2000

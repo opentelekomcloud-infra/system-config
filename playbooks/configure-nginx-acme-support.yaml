@@ -1,0 +1,69 @@
+---
+- name: Configure NGINX Ingress for ACME Challenge Support
+  hosts: k8s-controller
+  gather_facts: false
+  vars:
+    kustomize_dir: "{{ ansible_user_dir }}/src/github.com/opentelekomcloud-infra/system-config/kubernetes/kustomize/ingress-nginx-patches"
+  
+  tasks:
+    - name: Ensure kustomize is available
+      command: which kustomize
+      register: kustomize_check
+      failed_when: false
+      changed_when: false
+
+    - name: Install kustomize if not available
+      get_url:
+        url: "https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv5.0.3/kustomize_v5.0.3_linux_amd64.tar.gz"
+        dest: "/tmp/kustomize.tar.gz"
+        mode: '0644'
+      when: kustomize_check.rc != 0
+
+    - name: Extract and install kustomize
+      unarchive:
+        src: "/tmp/kustomize.tar.gz"
+        dest: "/usr/local/bin"
+        remote_src: yes
+        creates: "/usr/local/bin/kustomize"
+        mode: '0755'
+        owner: root
+        group: root
+      become: true
+      when: kustomize_check.rc != 0
+
+    - name: Apply NGINX ingress webhook patches for ACME support
+      shell: |
+        cd {{ kustomize_dir }}/overlays/acme-friendly
+        kubectl apply --server-side=true -k .
+      environment:
+        KUBECONFIG: "{{ kubeconfig_path | default('/etc/kubernetes/admin.conf') }}"
+      register: kubectl_apply_result
+      changed_when: "'configured' in kubectl_apply_result.stdout or 'created' in kubectl_apply_result.stdout"
+
+    - name: Verify webhook configuration
+      shell: |
+        kubectl get validatingwebhookconfigurations ingress-nginx-admission -o yaml | grep -A 5 "failurePolicy"
+      environment:
+        KUBECONFIG: "{{ kubeconfig_path | default('/etc/kubernetes/admin.conf') }}"
+      register: webhook_status
+      changed_when: false
+
+    - name: Display webhook status
+      debug:
+        msg: "NGINX Ingress validation webhook status: {{ webhook_status.stdout }}"
+
+    - name: Wait for webhook configuration to propagate
+      pause:
+        seconds: 10
+        prompt: "Waiting for webhook configuration changes to propagate..."
+
+    - name: Restart cert-manager to pick up webhook changes
+      shell: |
+        kubectl rollout restart deployment cert-manager -n cert-manager
+        kubectl rollout restart deployment cert-manager-webhook -n cert-manager
+        kubectl rollout restart deployment cert-manager-cainjector -n cert-manager
+      environment:
+        KUBECONFIG: "{{ kubeconfig_path | default('/etc/kubernetes/admin.conf') }}"
+      register: cert_manager_restart
+      changed_when: "'restarted' in cert_manager_restart.stdout"
+      failed_when: false
