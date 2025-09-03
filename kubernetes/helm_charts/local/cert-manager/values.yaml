@@ -6,7 +6,7 @@ clusterIssuers:
     solvers:
       - http01:
           ingress:
-            class: nginx
+            ingressClassName: nginx
   - name: letsencrypt-staging
     email: your-email@telekom.de
     server: https://acme-staging-v02.api.letsencrypt.org/directory
@@ -14,4 +14,4 @@ clusterIssuers:
     solvers:
       - http01:
           ingress:
-            class: nginx
+            ingressClassName: nginx

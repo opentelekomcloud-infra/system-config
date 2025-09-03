@@ -51,6 +51,8 @@ spec:
           envFrom:
             - configMapRef:
                 name: config
+            - secretRef:
+                name: openapi-validator-secret
           ports:
           - name: http
             containerPort: 3000
