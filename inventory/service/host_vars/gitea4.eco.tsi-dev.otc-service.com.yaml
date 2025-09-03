@@ -1,0 +1,84 @@
+image: "Standard_Ubuntu_24.04_amd64_uefi_latest"
+flavor: "c4.xlarge.4"
+security_groups: ["common_sg", "gitea_sg"]
+nics:
+  - fixed_ip: "192.168.170.231"
+    net-name: "infra-net"
+root_volume:
+  size: 20
+  type: "GPSSD"
+  encrypted: true
+  kms_id: "49602830-d588-4d66-bd86-e57ea29eaed2"
+auto_ip: false
+
+data_volumes:
+  - name: "var"
+    size: 50
+    type: "GPSSD"
+    encrypted: true
+    kms_id: "49602830-d588-4d66-bd86-e57ea29eaed2"
+  - name: "home"
+    size: 20
+    type: "GPSSD"
+    encrypted: true
+    kms_id: "49602830-d588-4d66-bd86-e57ea29eaed2"
+  - name: "gitea4"
+    size: 50
+    type: "GPSSD"
+    encrypted: true
+    kms_id: "49602830-d588-4d66-bd86-e57ea29eaed2"
+userdata: |
+  #cloud-config
+  disk_setup:
+    /dev/vdb:
+      table_type: 'mbr'
+      layout:
+        - 100
+    /dev/vdc:
+      table_type: 'mbr'
+      layout:
+        - 100
+    /dev/vdd:
+      table_type: 'mbr'
+      layout:
+        - 100
+  fs_setup:
+    - label: var
+      filesystem: ext4
+      device: '/dev/vdb1'
+    - label: home
+      filesystem: ext4
+      device: '/dev/vdc1'
+    - label: gitea4
+      filesystem: ext4
+      device: '/dev/vdd1'
+  mounts:
+    - [ "LABEL=home", "/home", "auto", "defaults", "0", "2" ]
+  groups:
+    - automation
+  users:
+    - default
+    - name: automation
+      primary_group: automation
+      ssh_authorized_keys:
+        - "{{ bastion_public_key }}"
+      sudo: ALL=(ALL) NOPASSWD:ALL
+  runcmd:
+    - mkdir /mnt/vdb && mount /dev/vdb1 /mnt/vdb
+    - cp -a /var/* /mnt/vdb/
+    - umount /mnt/vdb && rmdir /mnt/vdb
+    - echo "LABEL=var   /var   auto   defaults,comment=cloudconfig  0 2" >> /etc/fstab
+    - echo "LABEL=gitea4   /var/lib/gitea   auto   defaults  0 2" >> /etc/fstab
+    - mount /var
+    - mkdir -p /var/lib/gitea
+    - mount /var/lib/gitea
+
+ssl_certs:
+  gitea:
+    - "gitea4.eco.tsi-dev.otc-service.com"
+    - "gitea.eco.tsi-dev.otc-service.com"
+gitea_cert: "gitea"
+
+firewalld_extra_services_enable: ['https']
+firewalld_extra_ports_enable: ['2222/tcp']
+ 
