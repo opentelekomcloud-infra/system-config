@@ -39,10 +39,11 @@ data:
         "http://docsportal-helpcenter-swiss-internal:8080"
     ]
 
-    {{- with secret "secret/data/docsportal-swiss/oauth2-proxy" }}
+    {{- with secret "secret/data/helpcenter/swiss/internal/oidc" }}
     client_id = "{{ .Data.data.client_id }}"
     client_secret = "{{ .Data.data.client_secret }}"
     cookie_secret = "{{ .Data.data.cookie_secret }}"
+    realm = "{{ .Data.data.realm }}"
     {{- end }}
 
     oidc_issuer_url = "https://identity.eco.tsi-dev.otc-service.com/v3/auth/OS-FEDERATION/identity_providers/sso/protocols/oidc"
