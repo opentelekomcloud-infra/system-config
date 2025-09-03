@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enebaing_openapi_via_kustomize'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -72,7 +72,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enebaing_openapi_via_kustomize'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
@@ -212,7 +212,7 @@ applications:
     config:
       namespace: openapi-validator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enebaing_openapi_via_kustomize'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/kustomize/openapi-validator/overlays/dev/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
