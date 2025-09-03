@@ -105,7 +105,7 @@ server:
         allowPrivilegeEscalation: false
         capabilities:
           drop:
-          - ALL
+            - ALL
         readOnlyRootFilesystem: false
     - name: kubectl-patcher
       image: bitnami/kubectl:latest
@@ -170,7 +170,7 @@ server:
         allowPrivilegeEscalation: false
         capabilities:
           drop:
-          - ALL
+            - ALL
         readOnlyRootFilesystem: false
 
   # Additional volumes for init containers
@@ -239,7 +239,7 @@ repoServer:
         allowPrivilegeEscalation: false
         capabilities:
           drop:
-          - ALL
+            - ALL
         readOnlyRootFilesystem: false
       volumeMounts:
         - mountPath: /custom-tools
@@ -381,14 +381,57 @@ configs:
       server.secretkey: "placeholder-will-be-replaced-by-init-container"
   rbac:
     policy.csv: |
-      # Format: g, <group/user>, <role>
+      # Admin roles - full access including secrets
       g, /argocd-admin, role:admin
       g, /argocd-ac, role:admin
+
+      # Application management role
+      g, /argocd-developers, role:ac
       p, role:ac, applications, *, docusaurus/*, allow
-      # Vault plugin permissions
-      p, role:vault-reader, secrets, get, *, allow
-      p, role:vault-reader, secrets, list, *, allow
+      p, role:ac, applications, get, *, allow
+      p, role:ac, applications, list, *, allow
+      p, role:ac, repositories, get, *, allow
+      p, role:ac, repositories, list, *, allow
+      p, role:ac, secrets, *, docusaurus/*, allow
+
+      # Read-only role - NO secrets access
+      g, /argocd-viewers, role:readonly
+      p, role:readonly, applications, get, *, allow
+      p, role:readonly, applications, list, *, allow
+      p, role:readonly, repositories, get, *, allow
+      p, role:readonly, repositories, list, *, allow
+      p, role:readonly, secrets, *, *, deny
+
+      # No-secrets role - explicitly denied secrets access
+      g, /argocd-no-secrets, role:no-secrets
+      p, role:no-secrets, applications, get, *, allow
+      p, role:no-secrets, applications, list, *, allow
+      p, role:no-secrets, repositories, get, *, allow
+      p, role:no-secrets, repositories, list, *, allow
+      p, role:no-secrets, secrets, *, *, deny
+
+      # System role for service accounts - LIMITED permissions
+      p, role:system, applications, get, *, allow
+      p, role:system, applications, list, *, allow
+      p, role:system, repositories, get, *, allow
+      p, role:system, repositories, list, *, allow
+      p, role:system, secrets, *, *, deny
+
+      # Special vault-reader role - ONLY for ArgoCD internal operations
+      # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
+      p, role:vault-reader, secrets, get, argocd/*, allow
+      p, role:vault-reader, secrets, list, argocd/*, allow
+      p, role:vault-reader, secrets, get, */vault-token, allow
+      p, role:vault-reader, secrets, get, */argocd-secret, allow
+
+      # Assign service account to vault-reader (restricted scope)
       g, argocd-preprod-repo-server, role:vault-reader
+
+      # Explicit denials for all other combinations
+      p, role:vault-reader, secrets, create, *, deny
+      p, role:vault-reader, secrets, update, *, deny
+      p, role:vault-reader, secrets, patch, *, deny
+      p, role:vault-reader, secrets, delete, *, deny
     policy.default: "role:none"
     policy.matchMode: "glob"
     scopes: "[groups]"
@@ -424,22 +467,22 @@ configs:
         discover:
           find:
             command:
-            - sh
-            - -c
-            - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+              - sh
+              - -c
+              - find . -name 'Chart.yaml' && find . -name 'values.yaml'
         generate:
           command:
-          - bash
-          - -c
-          - |
-            helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . --include-crds |
-            argocd-vault-plugin generate -s argocd:argocd-secret -
+            - bash
+            - -c
+            - |
+              helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} . --include-crds |
+              argocd-vault-plugin generate -s argocd:argocd-secret -
         init:
           command:
-          - bash
-          - -c
-          - |
-            helm dependency build
+            - bash
+            - -c
+            - |
+              helm dependency build
         lockRepo: false
       argocd-vault-plugin-kustomize:
         discover:
