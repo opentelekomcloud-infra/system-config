@@ -19,6 +19,7 @@ resources:
 - ingress.yaml
 - deploy.yaml
 - sa.yaml
+- secret.yaml
 
 configMapGenerator:
 - name: config
