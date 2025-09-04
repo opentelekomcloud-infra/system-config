@@ -8,7 +8,6 @@
   /cmpntguide-lts/mrs/mrs_01_24255.html /mapreduce-service/operation-guide-lts/using_cdl/preparing_for_creating_a_cdl_job/managing_env.html;
   /cmpntguide-lts/mrs/mrs_01_24256.html /mapreduce-service/operation-guide-lts/using_flink/deleting_residual_information_about_flink_tasks.html;
   /cmpntguide-lts/mrs/mrs_01_24260.html /mapreduce-service/operation-guide-lts/using_hetuengine/managing_compute_instances/using_resource_labels_to_specify_on_which_node_coordinators_should_run.html;
-  /cmpntguide-lts/mrs/mrs_01_24261.html /mapreduce-service/operation-guide-lts/using_hudi/hudi_sql_syntax_reference/index.html;
   /cmpntguide-lts/mrs/mrs_01_24262.html /mapreduce-service/operation-guide-lts/using_hudi/hudi_sql_syntax_reference/constraints.html;
   /cmpntguide-lts/mrs/mrs_01_24263.html /mapreduce-service/operation-guide-lts/using_hudi/hudi_sql_syntax_reference/hudi_ddl/index.html;
   /cmpntguide-lts/mrs/mrs_01_24264.html /mapreduce-service/operation-guide-lts/using_hudi/hudi_sql_syntax_reference/hudi_ddl/create_hudi_table.html;
