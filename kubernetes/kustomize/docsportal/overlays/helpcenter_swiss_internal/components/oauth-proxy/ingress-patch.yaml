@@ -1,0 +1,12 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: document-hosting
+  namespace: helpcenter-swiss-int
+  annotations:
+    # OAuth2 Proxy annotations
+    nginx.ingress.kubernetes.io/auth-url: "http://docsportal-swiss-internal-oauth-proxy.helpcenter-swiss-int.svc.cluster.local:4180/oauth2/auth"
+    nginx.ingress.kubernetes.io/auth-signin: "https://docs-swiss-int.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri"
+    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "8k"
+    nginx.ingress.kubernetes.io/proxy-buffers-number: "4"
