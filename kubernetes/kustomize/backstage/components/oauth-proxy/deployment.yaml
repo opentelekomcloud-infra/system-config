@@ -25,7 +25,7 @@ spec:
             - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
           env:
             - name: "VAULT_ADDR"
-              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+              value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
           image: "vault"
           resources:
             limits:
