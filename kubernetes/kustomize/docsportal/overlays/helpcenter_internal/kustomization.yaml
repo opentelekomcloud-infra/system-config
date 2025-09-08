@@ -27,6 +27,9 @@ configMapGenerator:
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
+  - name: "application-operations-management-2"
+    files:
+      - "configs/redirect_maps/application-operations-management-2"
   - name: "application-performance-management"
     files:
       - "configs/redirect_maps/application-performance-management"
@@ -126,6 +129,9 @@ configMapGenerator:
   - name: "distributed-message-service"
     files:
       - "configs/redirect_maps/distributed-message-service"
+  - name: "distributed-message-service-rocketmq"
+    files:
+      - "configs/redirect_maps/distributed-message-service-rocketmq"
   - name: "document-database-service"
     files:
       - "configs/redirect_maps/document-database-service"
@@ -147,6 +153,9 @@ configMapGenerator:
   - name: "elastic-volume-service"
     files:
       - "configs/redirect_maps/elastic-volume-service"
+  - name: "enterprise-project-service"
+    files:
+      - "configs/redirect_maps/enterprise-project-service"
   - name: "enterprise-router"
     files:
       - "configs/redirect_maps/enterprise-router"

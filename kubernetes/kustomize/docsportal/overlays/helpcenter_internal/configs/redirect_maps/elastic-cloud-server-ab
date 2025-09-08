@@ -1,3 +1,5 @@
+  /usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_groups_and_rules.html;
+  /usermanual/ecs/en-us_topic_0140323157.html /elastic-cloud-server/umn/security/security_groups/overview.html;
   /usermanual/ecs/en-us_topic_0140963099.html /elastic-cloud-server/umn/elastic_network_interfaces/dynamically_assigning_ipv6_addresses.html;
   /usermanual/ecs/en-us_topic_0142266317.html /elastic-cloud-server/umn/instances/managing_ecs_configurations/changing_ecs_names.html;
   /usermanual/ecs/en-us_topic_0144542149.html /elastic-cloud-server/umn/eips/overview.html;
@@ -15,8 +17,8 @@
   /usermanual/ecs/en-us_topic_0163572592.html /elastic-cloud-server/umn/getting_started/creating_an_ecs/step_4_confirm_settings.html;
   /usermanual/ecs/en-us_topic_0166284970.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_transfer_files_from_a_local_windows_computer_to_a_windows_ecs.html;
   /usermanual/ecs/en-us_topic_0166284971.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_use_winscp_to_transfer_files_from_a_local_windows_computer_to_a_linux_ecs.html;
-  /usermanual/ecs/en-us_topic_0167429328.html /elastic-cloud-server/umn/faqs/slow_ecs_response/why_is_my_windows_ecs_running_slowly.html;
-  /usermanual/ecs/en-us_topic_0167429329.html /elastic-cloud-server/umn/faqs/slow_ecs_response/why_is_my_linux_ecs_running_slowly.html;
+  /usermanual/ecs/en-us_topic_0167429328.html /elastic-cloud-server/umn/faqs/ecs_lag_windows/why_is_my_windows_ecs_running_slowly.html;
+  /usermanual/ecs/en-us_topic_0167429329.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/why_is_my_linux_ecs_running_slowly.html;
   /usermanual/ecs/en-us_topic_0170135967.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/index.html;
   /usermanual/ecs/en-us_topic_0170139796.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_use_sftp_to_transfer_files_between_a_local_linux_computer_and_a_linux_ecs.html;
   /usermanual/ecs/en-us_topic_0170139797.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/what_should_i_do_if_the_connection_between_the_client_and_the_server_times_out_when_i_upload_a_file_using_ftp.html;
@@ -36,7 +38,7 @@
   /usermanual/ecs/en-us_topic_0183019668.html /elastic-cloud-server/umn/resources_and_tags/tag_management/index.html;
   /usermanual/ecs/en-us_topic_0183019669.html /elastic-cloud-server/umn/resources_and_tags/tag_management/adding_tags.html;
   /usermanual/ecs/en-us_topic_0183019670.html /elastic-cloud-server/umn/resources_and_tags/tag_management/searching_for_resources_by_tag.html;
-  /usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_a_tag.html;
+  /usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_tags.html;
   /usermanual/ecs/en-us_topic_0186645877.html /elastic-cloud-server/umn/service_overview/region_and_az.html;
   /usermanual/ecs/en-us_topic_0189943259.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_add_ecss_using_local_disks_to_an_ecs_group.html;
   /usermanual/ecs/en-us_topic_0198270920.html /elastic-cloud-server/umn/faqs/network_configuration/how_do_i_configure_dns_for_an_ecs.html;
@@ -48,7 +50,7 @@
   /usermanual/ecs/en-us_topic_0208808106.html /elastic-cloud-server/umn/faqs/specification_modification/index.html;
   /usermanual/ecs/en-us_topic_0208808107.html /elastic-cloud-server/umn/faqs/ecs_failure/index.html;
   /usermanual/ecs/en-us_topic_0208809315.html /elastic-cloud-server/umn/faqs/resource_management_and_tag/index.html;
-  /usermanual/ecs/en-us_topic_0208809316.html /elastic-cloud-server/umn/faqs/slow_ecs_response/index.html;
+  /usermanual/ecs/en-us_topic_0208809316.html /elastic-cloud-server/umn/faqs/ecs_lag_windows/index.html;
   /usermanual/ecs/en-us_topic_0213874991.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/obtaining_a_tesla_driver_and_cuda_toolkit.html;
   /usermanual/ecs/en-us_topic_0214940105.html /elastic-cloud-server/umn/faqs/specification_modification/why_do_the_disks_of_a_windows_ecs_go_offline_after_i_modify_the_ecs_specifications.html;
   /usermanual/ecs/en-us_topic_0214940106.html /elastic-cloud-server/umn/faqs/specification_modification/why_does_the_disk_attachment_of_a_linux_ecs_fail_after_i_modify_the_ecs_specifications.html;
