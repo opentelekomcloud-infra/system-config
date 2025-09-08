@@ -465,7 +465,7 @@
   /en-us/usermanual/ecs/en-us_topic_0000001210472883.html /elastic-cloud-server/umn/faqs/os/how_can_i_install_a_gui_on_an_ecs_running_debian.html;
   /en-us/usermanual/ecs/en-us_topic_0000001210881033.html /elastic-cloud-server/umn/resources_and_tags/quota_adjustment.html;
   /en-us/usermanual/ecs/en-us_topic_0000001234175322.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
-  /en-us/usermanual/ecs/en-us_topic_0000001234183498.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0000001234183498.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/index.html;
   /en-us/usermanual/ecs/en-us_topic_0000001234335274.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/creating_a_key_pair_using_putty_key_generator.html;
   /en-us/usermanual/ecs/en-us_topic_0000001278335673.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/application_scenarios_for_using_key_pairs.html;
   /en-us/usermanual/ecs/en-us_topic_0000001278350057.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/recommended_creating_a_key_pair_on_the_management_console.html;
@@ -478,6 +478,7 @@
   /en-us/usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/instances/viewing_ecs_information/searching_for_ecss.html;
   /en-us/usermanual/ecs/en-us_topic_0000001983533061.html /elastic-cloud-server/umn/instances/reinstalling_or_changing_the_os/index.html;
   /en-us/usermanual/ecs/en-us_topic_0000001987515176.html /elastic-cloud-server/umn/faqs/data_backup_and_restoration/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0000002371724753.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/index.html;
   /en-us/usermanual/ecs/en-us_topic_0013771089.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_overview_linux.html;
   /en-us/usermanual/ecs/en-us_topic_0013771092.html /elastic-cloud-server/umn/instances/modifying_ecs_specifications_vcpus_and_memory/modifying_specifications_of_individual_ecss.html;
   /en-us/usermanual/ecs/en-us_topic_0013771097.html /elastic-cloud-server/umn/instances/index.html;
@@ -524,9 +525,9 @@
   /en-us/usermanual/ecs/en-us_topic_0025445670.html /elastic-cloud-server/umn/faqs/network_configuration/will_nics_added_to_an_ecs_start_automatically.html;
   /en-us/usermanual/ecs/en-us_topic_0027157850.html /elastic-cloud-server/umn/eips/enabling_internet_connectivity_for_an_ecs_without_an_eip_bound.html;
   /en-us/usermanual/ecs/en-us_topic_0027268511.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/logging_in_to_a_windows_ecs_using_vnc.html;
-  /en-us/usermanual/ecs/en-us_topic_0027371529.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/monitoring_ecss.html;
-  /en-us/usermanual/ecs/en-us_topic_0027371530.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/viewing_ecs_metrics.html;
-  /en-us/usermanual/ecs/en-us_topic_0027371531.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/setting_alarm_rules.html;
+  /en-us/usermanual/ecs/en-us_topic_0027371529.html /elastic-cloud-server/umn/cloud_eye_monitoring/monitoring_ecss.html;
+  /en-us/usermanual/ecs/en-us_topic_0027371530.html /elastic-cloud-server/umn/cloud_eye_monitoring/viewing_ecs_metrics.html;
+  /en-us/usermanual/ecs/en-us_topic_0027371531.html /elastic-cloud-server/umn/cloud_eye_monitoring/creating_alarm_rules.html;
   /en-us/usermanual/ecs/en-us_topic_0029792884.html /elastic-cloud-server/umn/faqs/ecs_deletion_and_unsubscription/can_i_forcibly_restart_or_stop_an_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0029806525.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_obtain_data_disk_information_if_tools_are_uninstalled.html;
   /en-us/usermanual/ecs/en-us_topic_0030013188.html /elastic-cloud-server/umn/faqs/eip/can_an_ecs_without_an_eip_bound_access_the_internet.html;
@@ -540,7 +541,7 @@
   /en-us/usermanual/ecs/en-us_topic_0030878383.html /elastic-cloud-server/umn/security/security_groups/configuring_security_group_rules.html;
   /en-us/usermanual/ecs/en-us_topic_0030888079.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/index.html;
   /en-us/usermanual/ecs/en-us_topic_0030893661.html /elastic-cloud-server/umn/instances/viewing_ecs_information/index.html;
-  /en-us/usermanual/ecs/en-us_topic_0030911465.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/basic_ecs_metrics.html;
+  /en-us/usermanual/ecs/en-us_topic_0030911465.html /elastic-cloud-server/umn/cloud_eye_monitoring/basic_ecs_metrics.html;
   /en-us/usermanual/ecs/en-us_topic_0030930805.html /elastic-cloud-server/umn/faqs/product_consulting/index.html;
   /en-us/usermanual/ecs/en-us_topic_0030930806.html /elastic-cloud-server/umn/faqs/eip/index.html;
   /en-us/usermanual/ecs/en-us_topic_0030930807.html /elastic-cloud-server/umn/faqs/remote_login/index.html;
@@ -549,8 +550,8 @@
   /en-us/usermanual/ecs/en-us_topic_0030932499.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/what_should_i_do_if_i_cannot_view_data_after_logging_in_to_an_ecs_using_vnc.html;
   /en-us/usermanual/ecs/en-us_topic_0030932500.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/why_are_characters_entered_through_vnc_still_incorrect_after_the_keyboard_language_is_switched.html;
   /en-us/usermanual/ecs/en-us_topic_0031073513.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/index.html;
-  /en-us/usermanual/ecs/en-us_topic_0031107266.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/obtaining_the_password_for_logging_in_to_a_windows_ecs.html;
-  /en-us/usermanual/ecs/en-us_topic_0031107267.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/deleting_the_initial_password_for_logging_in_to_a_windows_ecs.html;
+  /en-us/usermanual/ecs/en-us_topic_0031107266.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/obtaining_the_password_for_logging_in_to_a_windows_ecs.html;
+  /en-us/usermanual/ecs/en-us_topic_0031107267.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/deleting_the_initial_password_for_logging_in_to_a_windows_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0031523135.html /elastic-cloud-server/umn/instances/reinstalling_or_changing_the_os/changing_the_os.html;
   /en-us/usermanual/ecs/en-us_topic_0031734664.html /elastic-cloud-server/umn/faqs/password_and_key_pair/why_does_the_login_to_my_linux_ecs_using_a_key_file_fail.html;
   /en-us/usermanual/ecs/en-us_topic_0031736846.html /elastic-cloud-server/umn/faqs/remote_login/remote_logins/why_does_the_system_display_a_message_indicating_that_the_password_for_logging_in_to_an_ecs_cannot_be_obtained.html;
@@ -590,7 +591,7 @@
   /en-us/usermanual/ecs/en-us_topic_0058758453.html /elastic-cloud-server/umn/elastic_network_interfaces/enabling_nic_multi-queue.html;
   /en-us/usermanual/ecs/en-us_topic_0060610074.html /elastic-cloud-server/umn/instances/viewing_ecs_information/exporting_ecs_information.html;
   /en-us/usermanual/ecs/en-us_topic_0070518971.html /elastic-cloud-server/umn/service_overview/security/project.html;
-  /en-us/usermanual/ecs/en-us_topic_0072987316.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0072987316.html /elastic-cloud-server/umn/cloud_eye_monitoring/index.html;
   /en-us/usermanual/ecs/en-us_topic_0074752335.html /elastic-cloud-server/umn/instances/managing_ecs_configurations/configuring_mapping_between_hostnames_and_ip_addresses_in_the_same_vpc.html;
   /en-us/usermanual/ecs/en-us_topic_0074825901.html /elastic-cloud-server/umn/faqs/network_configuration/how_can_i_configure_the_ntp_and_dns_servers_for_an_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0076210995.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_adjust_system_disk_partitions.html;
@@ -700,8 +701,8 @@
   /en-us/usermanual/ecs/en-us_topic_0163572592.html /elastic-cloud-server/umn/getting_started/creating_an_ecs/step_4_confirm_settings.html;
   /en-us/usermanual/ecs/en-us_topic_0166284970.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_transfer_files_from_a_local_windows_computer_to_a_windows_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0166284971.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_use_winscp_to_transfer_files_from_a_local_windows_computer_to_a_linux_ecs.html;
-  /en-us/usermanual/ecs/en-us_topic_0167429328.html /elastic-cloud-server/umn/faqs/slow_ecs_response/why_is_my_windows_ecs_running_slowly.html;
-  /en-us/usermanual/ecs/en-us_topic_0167429329.html /elastic-cloud-server/umn/faqs/slow_ecs_response/why_is_my_linux_ecs_running_slowly.html;
+  /en-us/usermanual/ecs/en-us_topic_0167429328.html /elastic-cloud-server/umn/faqs/ecs_lag_windows/why_is_my_windows_ecs_running_slowly.html;
+  /en-us/usermanual/ecs/en-us_topic_0167429329.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/why_is_my_linux_ecs_running_slowly.html;
   /en-us/usermanual/ecs/en-us_topic_0170135967.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/index.html;
   /en-us/usermanual/ecs/en-us_topic_0170139796.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_use_sftp_to_transfer_files_between_a_local_linux_computer_and_a_linux_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0170139797.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/what_should_i_do_if_the_connection_between_the_client_and_the_server_times_out_when_i_upload_a_file_using_ftp.html;
@@ -721,7 +722,7 @@
   /en-us/usermanual/ecs/en-us_topic_0183019668.html /elastic-cloud-server/umn/resources_and_tags/tag_management/index.html;
   /en-us/usermanual/ecs/en-us_topic_0183019669.html /elastic-cloud-server/umn/resources_and_tags/tag_management/adding_tags.html;
   /en-us/usermanual/ecs/en-us_topic_0183019670.html /elastic-cloud-server/umn/resources_and_tags/tag_management/searching_for_resources_by_tag.html;
-  /en-us/usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_a_tag.html;
+  /en-us/usermanual/ecs/en-us_topic_0183019671.html /elastic-cloud-server/umn/resources_and_tags/tag_management/deleting_tags.html;
   /en-us/usermanual/ecs/en-us_topic_0186645877.html /elastic-cloud-server/umn/service_overview/region_and_az.html;
   /en-us/usermanual/ecs/en-us_topic_0189943259.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_add_ecss_using_local_disks_to_an_ecs_group.html;
   /en-us/usermanual/ecs/en-us_topic_0198270920.html /elastic-cloud-server/umn/faqs/network_configuration/how_do_i_configure_dns_for_an_ecs.html;
@@ -733,7 +734,7 @@
   /en-us/usermanual/ecs/en-us_topic_0208808106.html /elastic-cloud-server/umn/faqs/specification_modification/index.html;
   /en-us/usermanual/ecs/en-us_topic_0208808107.html /elastic-cloud-server/umn/faqs/ecs_failure/index.html;
   /en-us/usermanual/ecs/en-us_topic_0208809315.html /elastic-cloud-server/umn/faqs/resource_management_and_tag/index.html;
-  /en-us/usermanual/ecs/en-us_topic_0208809316.html /elastic-cloud-server/umn/faqs/slow_ecs_response/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0208809316.html /elastic-cloud-server/umn/faqs/ecs_lag_windows/index.html;
   /en-us/usermanual/ecs/en-us_topic_0213874991.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/obtaining_a_tesla_driver_and_cuda_toolkit.html;
   /en-us/usermanual/ecs/en-us_topic_0214940105.html /elastic-cloud-server/umn/faqs/specification_modification/why_do_the_disks_of_a_windows_ecs_go_offline_after_i_modify_the_ecs_specifications.html;
   /en-us/usermanual/ecs/en-us_topic_0214940106.html /elastic-cloud-server/umn/faqs/specification_modification/why_does_the_disk_attachment_of_a_linux_ecs_fail_after_i_modify_the_ecs_specifications.html;
@@ -780,7 +781,7 @@
   /usermanual/ecs/en-us_topic_0000001210472883.html /elastic-cloud-server/umn/faqs/os/how_can_i_install_a_gui_on_an_ecs_running_debian.html;
   /usermanual/ecs/en-us_topic_0000001210881033.html /elastic-cloud-server/umn/resources_and_tags/quota_adjustment.html;
   /usermanual/ecs/en-us_topic_0000001234175322.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/index.html;
-  /usermanual/ecs/en-us_topic_0000001234183498.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/index.html;
+  /usermanual/ecs/en-us_topic_0000001234183498.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/index.html;
   /usermanual/ecs/en-us_topic_0000001234335274.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/creating_a_key_pair_using_putty_key_generator.html;
   /usermanual/ecs/en-us_topic_0000001278335673.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/application_scenarios_for_using_key_pairs.html;
   /usermanual/ecs/en-us_topic_0000001278350057.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/recommended_creating_a_key_pair_on_the_management_console.html;
@@ -793,6 +794,7 @@
   /usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/instances/viewing_ecs_information/searching_for_ecss.html;
   /usermanual/ecs/en-us_topic_0000001983533061.html /elastic-cloud-server/umn/instances/reinstalling_or_changing_the_os/index.html;
   /usermanual/ecs/en-us_topic_0000001987515176.html /elastic-cloud-server/umn/faqs/data_backup_and_restoration/index.html;
+  /usermanual/ecs/en-us_topic_0000002371724753.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/index.html;
   /usermanual/ecs/en-us_topic_0013771089.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_overview_linux.html;
   /usermanual/ecs/en-us_topic_0013771092.html /elastic-cloud-server/umn/instances/modifying_ecs_specifications_vcpus_and_memory/modifying_specifications_of_individual_ecss.html;
   /usermanual/ecs/en-us_topic_0013771097.html /elastic-cloud-server/umn/instances/index.html;
@@ -839,9 +841,9 @@
   /usermanual/ecs/en-us_topic_0025445670.html /elastic-cloud-server/umn/faqs/network_configuration/will_nics_added_to_an_ecs_start_automatically.html;
   /usermanual/ecs/en-us_topic_0027157850.html /elastic-cloud-server/umn/eips/enabling_internet_connectivity_for_an_ecs_without_an_eip_bound.html;
   /usermanual/ecs/en-us_topic_0027268511.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/logging_in_to_a_windows_ecs_using_vnc.html;
-  /usermanual/ecs/en-us_topic_0027371529.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/monitoring_ecss.html;
-  /usermanual/ecs/en-us_topic_0027371530.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/viewing_ecs_metrics.html;
-  /usermanual/ecs/en-us_topic_0027371531.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/setting_alarm_rules.html;
+  /usermanual/ecs/en-us_topic_0027371529.html /elastic-cloud-server/umn/cloud_eye_monitoring/monitoring_ecss.html;
+  /usermanual/ecs/en-us_topic_0027371530.html /elastic-cloud-server/umn/cloud_eye_monitoring/viewing_ecs_metrics.html;
+  /usermanual/ecs/en-us_topic_0027371531.html /elastic-cloud-server/umn/cloud_eye_monitoring/creating_alarm_rules.html;
   /usermanual/ecs/en-us_topic_0029792884.html /elastic-cloud-server/umn/faqs/ecs_deletion_and_unsubscription/can_i_forcibly_restart_or_stop_an_ecs.html;
   /usermanual/ecs/en-us_topic_0029806525.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_obtain_data_disk_information_if_tools_are_uninstalled.html;
   /usermanual/ecs/en-us_topic_0030013188.html /elastic-cloud-server/umn/faqs/eip/can_an_ecs_without_an_eip_bound_access_the_internet.html;
@@ -855,7 +857,7 @@
   /usermanual/ecs/en-us_topic_0030878383.html /elastic-cloud-server/umn/security/security_groups/configuring_security_group_rules.html;
   /usermanual/ecs/en-us_topic_0030888079.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/index.html;
   /usermanual/ecs/en-us_topic_0030893661.html /elastic-cloud-server/umn/instances/viewing_ecs_information/index.html;
-  /usermanual/ecs/en-us_topic_0030911465.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/basic_ecs_metrics.html;
+  /usermanual/ecs/en-us_topic_0030911465.html /elastic-cloud-server/umn/cloud_eye_monitoring/basic_ecs_metrics.html;
   /usermanual/ecs/en-us_topic_0030930805.html /elastic-cloud-server/umn/faqs/product_consulting/index.html;
   /usermanual/ecs/en-us_topic_0030930806.html /elastic-cloud-server/umn/faqs/eip/index.html;
   /usermanual/ecs/en-us_topic_0030930807.html /elastic-cloud-server/umn/faqs/remote_login/index.html;
@@ -864,8 +866,8 @@
   /usermanual/ecs/en-us_topic_0030932499.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/what_should_i_do_if_i_cannot_view_data_after_logging_in_to_an_ecs_using_vnc.html;
   /usermanual/ecs/en-us_topic_0030932500.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/why_are_characters_entered_through_vnc_still_incorrect_after_the_keyboard_language_is_switched.html;
   /usermanual/ecs/en-us_topic_0031073513.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/index.html;
-  /usermanual/ecs/en-us_topic_0031107266.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/obtaining_the_password_for_logging_in_to_a_windows_ecs.html;
-  /usermanual/ecs/en-us_topic_0031107267.html /elastic-cloud-server/umn/passwords_and_key_pairs/key_pairs/obtaining_and_deleting_the_password_of_a_windows_ecs/deleting_the_initial_password_for_logging_in_to_a_windows_ecs.html;
+  /usermanual/ecs/en-us_topic_0031107266.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/obtaining_the_password_for_logging_in_to_a_windows_ecs.html;
+  /usermanual/ecs/en-us_topic_0031107267.html /elastic-cloud-server/umn/passwords_and_key_pairs/password_reset/obtaining_and_deleting_the_password_of_a_windows_ecs/deleting_the_initial_password_for_logging_in_to_a_windows_ecs.html;
   /usermanual/ecs/en-us_topic_0031523135.html /elastic-cloud-server/umn/instances/reinstalling_or_changing_the_os/changing_the_os.html;
   /usermanual/ecs/en-us_topic_0031734664.html /elastic-cloud-server/umn/faqs/password_and_key_pair/why_does_the_login_to_my_linux_ecs_using_a_key_file_fail.html;
   /usermanual/ecs/en-us_topic_0031736846.html /elastic-cloud-server/umn/faqs/remote_login/remote_logins/why_does_the_system_display_a_message_indicating_that_the_password_for_logging_in_to_an_ecs_cannot_be_obtained.html;
@@ -905,7 +907,7 @@
   /usermanual/ecs/en-us_topic_0058758453.html /elastic-cloud-server/umn/elastic_network_interfaces/enabling_nic_multi-queue.html;
   /usermanual/ecs/en-us_topic_0060610074.html /elastic-cloud-server/umn/instances/viewing_ecs_information/exporting_ecs_information.html;
   /usermanual/ecs/en-us_topic_0070518971.html /elastic-cloud-server/umn/service_overview/security/project.html;
-  /usermanual/ecs/en-us_topic_0072987316.html /elastic-cloud-server/umn/monitoring_using_cloud_eye/index.html;
+  /usermanual/ecs/en-us_topic_0072987316.html /elastic-cloud-server/umn/cloud_eye_monitoring/index.html;
   /usermanual/ecs/en-us_topic_0074752335.html /elastic-cloud-server/umn/instances/managing_ecs_configurations/configuring_mapping_between_hostnames_and_ip_addresses_in_the_same_vpc.html;
   /usermanual/ecs/en-us_topic_0074825901.html /elastic-cloud-server/umn/faqs/network_configuration/how_can_i_configure_the_ntp_and_dns_servers_for_an_ecs.html;
   /usermanual/ecs/en-us_topic_0076210995.html /elastic-cloud-server/umn/faqs/disk_partition_attachment_and_expansion/how_can_i_adjust_system_disk_partitions.html;
@@ -996,5 +998,3 @@
   /usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_lifecycle.html;
   /usermanual/ecs/en-us_topic_0140323151.html /elastic-cloud-server/umn/security/security_groups/index.html;
   /usermanual/ecs/en-us_topic_0140323152.html /elastic-cloud-server/umn/security/security_groups/security_group_configuration_examples.html;
-  /usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_groups_and_rules.html;
-  /usermanual/ecs/en-us_topic_0140323157.html /elastic-cloud-server/umn/security/security_groups/overview.html;

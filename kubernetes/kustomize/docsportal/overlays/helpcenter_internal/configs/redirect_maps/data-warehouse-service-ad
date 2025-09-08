@@ -1,5 +1,3 @@
-  /tg/dws/dws_16_0125.html /data-warehouse-service/tool-guide/dsc/mysql_syntax_migrating/table_optional_parameters_and_operations/charset.html;
-  /tg/dws/dws_16_0126.html /data-warehouse-service/tool-guide/dsc/mysql_syntax_migrating/table_optional_parameters_and_operations/checksum.html;
   /tg/dws/dws_16_0127.html /data-warehouse-service/tool-guide/dsc/mysql_syntax_migrating/table_optional_parameters_and_operations/clustered_key.html;
   /tg/dws/dws_16_0128.html /data-warehouse-service/tool-guide/dsc/mysql_syntax_migrating/table_optional_parameters_and_operations/collate.html;
   /tg/dws/dws_16_0129.html /data-warehouse-service/tool-guide/dsc/mysql_syntax_migrating/table_optional_parameters_and_operations/comment.html;
@@ -126,6 +124,7 @@
   /usermanual/dws/dws_01_0003.html /data-warehouse-service/umn/service_overview/related_services.html;
   /usermanual/dws/dws_01_0004.html /data-warehouse-service/umn/service_overview/concepts.html;
   /usermanual/dws/dws_01_0007.html /data-warehouse-service/umn/service_overview/advantages.html;
+  /usermanual/dws/dws_01_00079.html /data-warehouse-service/umn/service_overview/data_warehouse_flavors.html;
   /usermanual/dws/dws_01_0008.html /data-warehouse-service/umn/gaussdbdws_cluster_o_and_m/upgrading_a_gaussdbdws_cluster.html;
   /usermanual/dws/dws_01_0009.html /data-warehouse-service/umn/service_overview/gaussdbdws_access.html;
   /usermanual/dws/dws_01_00097.html /data-warehouse-service/umn/gaussdbdws_cluster_o_and_m/backing_up_and_restoring_a_gaussdbdws_cluster/restoration_using_a_snapshot/restoring_a_snapshot_to_the_current_cluster.html;
@@ -346,6 +345,7 @@
   /usermanual/dws/dws_03_2111.html /data-warehouse-service/umn/faqs/database_performance/gaussdbdws_cpu_resource_isolation.html;
   /usermanual/dws/dws_03_2112.html /data-warehouse-service/umn/faqs/database_performance/why_do_regular_gaussdbdws_users_run_statements_slower_than_user_dbadmin.html;
   /usermanual/dws/dws_03_2114.html /data-warehouse-service/umn/faqs/database_performance/which_factors_affect_single-table_query_performance_in_gaussdbdws.html;
+  /usermanual/dws/dws_03_2116.html /data-warehouse-service/umn/faqs/database_performance/how_do_i_optimize_a_sql_query_with_many_case_when_conditions.html;
   /usermanual/dws/dws_03_2122.html /data-warehouse-service/umn/faqs/cluster_management/how_do_i_set_the_session_threshold_when_creating_alarm_rules_for_gaussdbdws_in_cloud_eye.html;
   /usermanual/dws/dws_03_2124.html /data-warehouse-service/umn/faqs/database_use/how_do_i_view_gaussdbdws_foreign_table_information.html;
   /usermanual/dws/dws_03_2126.html /data-warehouse-service/umn/faqs/database_use/how_do_i_adjust_gaussdbdws_distribution_columns.html;
