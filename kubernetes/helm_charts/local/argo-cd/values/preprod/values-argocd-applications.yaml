@@ -135,6 +135,46 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: outline-wiki
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_docussaurus'
+      path: kubernetes/helm_charts/upstream/outline
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      pluginParameters:
+        - name: outline.auth.keycloak.clientSecret
+          value: "vault:secret/outline/keycloak#client-secret"
+        - name: outline.auth.keycloak.realmName
+          value: "vault:secret/outline/keycloak#realm-name"
+        - name: outline.auth.keycloak.clientId
+          value: "vault:secret/outline/keycloak#clientId"
+        - name: outline.auth.keycloak.baseUrl
+          value: "vault:secret/outline/keycloak#baseUrl"
+        - name: outline.externalPostgresql.host
+          value: "vault:secret/outline/postgresql#host"
+        - name: outline.externalPostgresql.username
+          value: "vault:secret/outline/postgresql#username"
+        - name: outline.externalPostgresql.password
+          value: "vault:secret/outline/postgresql#password"
+        - name: outline.externalPostgresql.database
+          value: "vault:secret/outline/postgresql#database"
+        - name: outline.externalPostgresql.port
+          value: "vault:secret/outline/postgresql#port"
+        - name: outline.utilsSecret
+          value: "vault:secret/outline/app#utilsSecret"
+        - name: outline.secretKey
+          value: "vault:secret/outline/app#secretKey"
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # - name: victoria-metrics-auth
   #   clusters: [preprod]
   #   config:

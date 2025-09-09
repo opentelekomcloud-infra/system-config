@@ -4,18 +4,18 @@
 
 outline:
   # Auto-generated secrets (leave empty for auto-generation)
-  secretKey: ""
-  utilsSecret: ""
+  secretKey: ""  # Overridden by ArgoCD
+  utilsSecret: ""  # Overridden by ArgoCD
   url: ""  # Will be auto-generated from ingress
 
   # Keycloak OIDC Authentication
   auth:
     keycloak:
       enabled: true
-      clientId: "outline"
-      clientSecret: "{{ vault_keycloak_outline_client_secret }}"
-      baseUrl: "https://keycloak.eco.tsi-dev.otc-service.com"
-      realmName: "eco"
+      clientId: ""  # Overridden by ArgoCD
+      clientSecret: ""  # Overridden by ArgoCD
+      baseUrl: "" # Overridden by ArgoCD
+      realmName: ""  # Overridden by ArgoCD
       displayName: "Keycloak SSO"
       usernameClaim: "preferred_username"
       scopes:
@@ -28,20 +28,16 @@ outline:
     enabled: false
 
   externalPostgresql:
-    host: "outline-postgresql"
-    username: "outline"
-    password: "{{ vault_outline_postgresql_password }}"
-    database: "outline"
-    port: 5432
-
-  # Use external Redis (our managed instance)
-  redis:
-    enabled: false
+    host: ""  # Overridden by ArgoCD
+    username: ""  # Overridden by ArgoCD
+    password: "" # Overridden by ArgoCD
+    database: ""  # Overridden by ArgoCD
+    port: ""  # Overridden by ArgoCD
 
   externalRedis:
     host: "outline-redis-master"
     port: 6379
-    password: "{{ vault_outline_redis_password }}"
+    password: ""  # Overridden by ArgoCD if needed
 
   # Service configuration
   service:
@@ -98,33 +94,33 @@ outline:
     local:
       persistence:
         enabled: true
-        size: 10Gi
+        size: 50Gi
         storageClass: "gp3"
 
 # PostgreSQL configuration (managed instance)
-postgresql:
-  enabled: true
-  auth:
-    postgresPassword: "{{ vault_postgresql_admin_password }}"
-    username: "outline"
-    password: "{{ vault_outline_postgresql_password }}"
-    database: "outline"
-  primary:
-    persistence:
-      enabled: true
-      size: 20Gi
-      storageClass: "gp3"
-    resources:
-      limits:
-        cpu: 1000m
-        memory: 2Gi
-      requests:
-        cpu: 500m
-        memory: 1Gi
-    securityContext:
-      enabled: true
-      fsGroup: 1001
-      runAsUser: 1001
+# postgresql:
+#   enabled: false
+#   auth:
+#     postgresPassword: "{{ vault_postgresql_admin_password }}"
+#     username: "outline"
+#     password: "{{ vault_outline_postgresql_password }}"
+#     database: "outline"
+#   primary:
+#     persistence:
+#       enabled: true
+#       size: 20Gi
+#       storageClass: "gp3"
+#     resources:
+#       limits:
+#         cpu: 1000m
+#         memory: 2Gi
+#       requests:
+#         cpu: 500m
+#         memory: 1Gi
+#     securityContext:
+#       enabled: true
+#       fsGroup: 1001
+#       runAsUser: 1001
 
 # Redis configuration (managed instance)
 redis:

@@ -21,6 +21,16 @@ spec:
         - name: HELM_ARGS
           value: {{ $config.pluginEnv | quote }}
     {{- end }}
+    {{- if $config.pluginParameters }}
+    helm:
+      valueFiles:
+        - values-preprod.yaml
+      parameters:
+        {{- range $param := $config.pluginParameters }}
+        - name: {{ $param.name | quote }}
+          value: {{ $param.value | quote }}
+        {{- end }}
+    {{- end }}
     {{- if $config.kustomize }}
     kustomize:
 {{ toYaml $config.kustomize | indent 6 }}
