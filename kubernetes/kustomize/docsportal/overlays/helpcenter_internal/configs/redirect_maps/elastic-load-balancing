@@ -480,6 +480,7 @@
   /en-us/usermanual/elb/elb_faq_21020220.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_both_the_listener_and_backend_server_group_use_https.html;
   /en-us/usermanual/elb/elb_faq_210202201.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_i_change_the_vpc_and_subnet_for_my_load_balancer.html;
   /en-us/usermanual/elb/elb_faq_21020221.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_i_upgrade_a_shared_load_balancer_to_a_dedicated_load_balancer_without_interrupting_traffic_routing.html;
+  /en-us/usermanual/elb/elb_faq_21020223.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/does_elb_support_ipv6_networks.html;
   /en-us/usermanual/elb/elb_faq_210304.html /elastic-load-balancing/umn/faq/load_balancers/why_cant_i_delete_my_load_balancer.html;
   /en-us/usermanual/elb/elb_faq_210305.html /elastic-load-balancing/umn/faq/load_balancers/do_i_need_to_configure_eip_bandwidth_for_my_load_balancers.html;
   /en-us/usermanual/elb/elb_faq_210306.html /elastic-load-balancing/umn/faq/load_balancers/can_i_bind_multiple_eips_to_a_load_balancer.html;
@@ -699,6 +700,7 @@
   /usermanual/elb/elb_faq_21020220.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_both_the_listener_and_backend_server_group_use_https.html;
   /usermanual/elb/elb_faq_210202201.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_i_change_the_vpc_and_subnet_for_my_load_balancer.html;
   /usermanual/elb/elb_faq_21020221.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/can_i_upgrade_a_shared_load_balancer_to_a_dedicated_load_balancer_without_interrupting_traffic_routing.html;
+  /usermanual/elb/elb_faq_21020223.html /elastic-load-balancing/umn/faq/elb_use/elb_functionality/does_elb_support_ipv6_networks.html;
   /usermanual/elb/elb_faq_210304.html /elastic-load-balancing/umn/faq/load_balancers/why_cant_i_delete_my_load_balancer.html;
   /usermanual/elb/elb_faq_210305.html /elastic-load-balancing/umn/faq/load_balancers/do_i_need_to_configure_eip_bandwidth_for_my_load_balancers.html;
   /usermanual/elb/elb_faq_210306.html /elastic-load-balancing/umn/faq/load_balancers/can_i_bind_multiple_eips_to_a_load_balancer.html;

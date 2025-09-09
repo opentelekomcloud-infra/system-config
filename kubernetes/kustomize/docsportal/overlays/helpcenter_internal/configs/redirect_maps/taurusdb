@@ -200,6 +200,7 @@
   /en-us/api/taurusdb/topic_300000012.html /taurusdb/api-ref/apis_recommended/sql_statement_concurrency_control/index.html;
   /en-us/usermanual/taurusdb/ /taurusdb/umn/index.html;
   /en-us/usermanual/taurusdb/change_history.html /taurusdb/umn/change_history.html;
+  /en-us/usermanual/taurusdb/en-us_topic_0000002347520144.html /taurusdb/umn/working_with_taurusdb/logs/querying_and_downloading_binlogs_obt.html;
   /en-us/usermanual/taurusdb/gaussdb_01_0001.html /taurusdb/umn/introduction/basic_concepts.html;
   /en-us/usermanual/taurusdb/gaussdb_01_0002.html /taurusdb/umn/introduction/product_benefits.html;
   /en-us/usermanual/taurusdb/gaussdb_01_0003.html /taurusdb/umn/introduction/db_instance_description/index.html;
@@ -311,6 +312,7 @@
   /en-us/usermanual/taurusdb/quick_start.html /taurusdb/umn/getting_started/connecting_to_a_db_instance.html;
   /usermanual/taurusdb/ /taurusdb/umn/index.html;
   /usermanual/taurusdb/change_history.html /taurusdb/umn/change_history.html;
+  /usermanual/taurusdb/en-us_topic_0000002347520144.html /taurusdb/umn/working_with_taurusdb/logs/querying_and_downloading_binlogs_obt.html;
   /usermanual/taurusdb/gaussdb_01_0001.html /taurusdb/umn/introduction/basic_concepts.html;
   /usermanual/taurusdb/gaussdb_01_0002.html /taurusdb/umn/introduction/product_benefits.html;
   /usermanual/taurusdb/gaussdb_01_0003.html /taurusdb/umn/introduction/db_instance_description/index.html;

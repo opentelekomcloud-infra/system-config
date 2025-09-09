@@ -126,6 +126,9 @@ configMapGenerator:
   - name: "distributed-message-service"
     files:
       - "configs/redirect_maps/distributed-message-service"
+  - name: "distributed-message-service-rocketmq"
+    files:
+      - "configs/redirect_maps/distributed-message-service-rocketmq"
   - name: "document-database-service"
     files:
       - "configs/redirect_maps/document-database-service"

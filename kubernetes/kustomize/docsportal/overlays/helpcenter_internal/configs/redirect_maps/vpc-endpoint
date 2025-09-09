@@ -29,6 +29,12 @@
   /api/vpcep/vpcep_06_0502.html /vpc-endpoint/api-ref/apis/tags/batch_adding_tags_to_or_deleting_tags_from_a_specified_resource.html;
   /api/vpcep/vpcep_06_0503.html /vpc-endpoint/api-ref/apis/tags/querying_tags_of_a_tenants_resource.html;
   /api/vpcep/vpcep_06_0504.html /vpc-endpoint/api-ref/apis/tags/tag_character_set_specifications.html;
+  /api/vpcep/vpcep_07_0000.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/index.html;
+  /api/vpcep/vpcep_07_0001.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/introduction.html;
+  /api/vpcep/vpcep_07_0002.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/vpc_endpoint_services.html;
+  /api/vpcep/vpcep_07_0003.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/vpc_endpoints.html;
+  /api/vpcep/vpcep_07_0004.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/resource_quotas.html;
+  /api/vpcep/vpcep_07_0005.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/tag.html;
   /api/vpcep/vpcep_08_0000.html /vpc-endpoint/api-ref/appendix/index.html;
   /api/vpcep/vpcep_08_0001.html /vpc-endpoint/api-ref/appendix/status_codes.html;
   /api/vpcep/vpcep_08_0002.html /vpc-endpoint/api-ref/appendix/error_codes.html;
@@ -64,6 +70,12 @@
   /en-us/api/vpcep/vpcep_06_0502.html /vpc-endpoint/api-ref/apis/tags/batch_adding_tags_to_or_deleting_tags_from_a_specified_resource.html;
   /en-us/api/vpcep/vpcep_06_0503.html /vpc-endpoint/api-ref/apis/tags/querying_tags_of_a_tenants_resource.html;
   /en-us/api/vpcep/vpcep_06_0504.html /vpc-endpoint/api-ref/apis/tags/tag_character_set_specifications.html;
+  /en-us/api/vpcep/vpcep_07_0000.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/index.html;
+  /en-us/api/vpcep/vpcep_07_0001.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/introduction.html;
+  /en-us/api/vpcep/vpcep_07_0002.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/vpc_endpoint_services.html;
+  /en-us/api/vpcep/vpcep_07_0003.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/vpc_endpoints.html;
+  /en-us/api/vpcep/vpcep_07_0004.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/resource_quotas.html;
+  /en-us/api/vpcep/vpcep_07_0005.html /vpc-endpoint/api-ref/permissions_policies_and_supported_actions/tag.html;
   /en-us/api/vpcep/vpcep_08_0000.html /vpc-endpoint/api-ref/appendix/index.html;
   /en-us/api/vpcep/vpcep_08_0001.html /vpc-endpoint/api-ref/appendix/status_codes.html;
   /en-us/api/vpcep/vpcep_08_0002.html /vpc-endpoint/api-ref/appendix/error_codes.html;
