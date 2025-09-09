@@ -4,18 +4,18 @@
 
 outline:
   # Secrets - will be overridden by ArgoCD parameters
-  secretKey: ""
-  utilsSecret: ""
+  secretKey: "<path:secret/data/outline/app#secretKey>"
+  utilsSecret: "<path:secret/data/outline/app#utilsSecret>"
   url: ""  # Will be auto-generated from ingress
 
   # Keycloak OIDC Authentication - will be overridden by ArgoCD parameters
   auth:
     keycloak:
       enabled: true
-      clientId: ""
-      clientSecret: ""
-      baseUrl: ""
-      realmName: ""
+      clientId: "<path:secret/data/outline/keycloak#clientId>"
+      clientSecret: "<path:secret/data/outline/keycloak#client-secret>"
+      baseUrl: "<path:secret/data/outline/keycloak#baseUrl>"
+      realmName: "<path:secret/data/outline/keycloak#realm-name>"
       displayName: "Keycloak SSO"
       usernameClaim: "preferred_username"
       scopes:
@@ -28,16 +28,20 @@ outline:
     enabled: false
 
   externalPostgresql:
-    host: ""
-    username: ""
-    password: ""
-    database: ""
-    port: ""
+    host: "<path:secret/data/outline/postgresql#host>"
+    username: "<path:secret/data/outline/postgresql#username>"
+    password: "<path:secret/data/outline/postgresql#password>"
+    database: "<path:secret/data/outline/postgresql#database>"
+    port: 5432  # Default port as integer
+    # Use existing secret to bypass password requirements in templates
+    existingSecret: "outline-postgresql-secret"
 
   externalRedis:
     host: "outline-redis-master"
     port: 6379
-    password: ""  # Overridden by ArgoCD if needed
+    password: "<path:secret/data/outline/redis#password>"
+    # Use existing secret to bypass password requirements in templates
+    existingSecret: "outline-redis-secret"
 
   # Service configuration
   service:
@@ -95,32 +99,7 @@ outline:
       persistence:
         enabled: true
         size: 50Gi
-        storageClass: "gp3"
-
-# PostgreSQL configuration (managed instance)
-# postgresql:
-#   enabled: false
-#   auth:
-#     postgresPassword: "{{ vault_postgresql_admin_password }}"
-#     username: "outline"
-#     password: "{{ vault_outline_postgresql_password }}"
-#     database: "outline"
-#   primary:
-#     persistence:
-#       enabled: true
-#       size: 20Gi
-#       storageClass: "gp3"
-#     resources:
-#       limits:
-#         cpu: 1000m
-#         memory: 2Gi
-#       requests:
-#         cpu: 500m
-#         memory: 1Gi
-#     securityContext:
-#       enabled: true
-#       fsGroup: 1001
-#       runAsUser: 1001
+        storageClass: "csi-disk"
 
 # Redis configuration (managed instance)
 redis:
@@ -131,7 +110,7 @@ redis:
     persistence:
       enabled: true
       size: 8Gi
-      storageClass: "gp3"
+      storageClass: "csi-disk"
     resources:
       limits:
         cpu: 500m
@@ -144,4 +123,4 @@ redis:
     persistence:
       enabled: true
       size: 8Gi
-      storageClass: "gp3"
+      storageClass: "csi-disk"
