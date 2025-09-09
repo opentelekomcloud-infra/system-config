@@ -136,27 +136,7 @@ argo-cd:
           - -c
           - |
             set -e
-            echo "Checking argocd-secret..."
-
-            # Wait for the secret to be created by Helm
-            while ! kubectl get secret argocd-secret -n argocd; do
-              echo "Waiting for argocd-secret to be created..."
-              sleep 2
-            done
-
-            # Check if the secret already has real data
-            ADMIN_PASSWORD_CURRENT=$(kubectl get secret argocd-secret -n argocd -o jsonpath='{.data.admin\.password}' 2>/dev/null || echo "")
-
-            if [ -n "$ADMIN_PASSWORD_CURRENT" ]; then
-              # Decode and check if it contains real data (not empty)
-              DECODED_PASSWORD=$(echo "$ADMIN_PASSWORD_CURRENT" | base64 -d 2>/dev/null || echo "")
-              if [ -n "$DECODED_PASSWORD" ]; then
-                echo "Secret already contains real data, skipping update to preserve existing values."
-                exit 0
-              fi
-            fi
-
-            echo "Secret is empty or doesn't exist, updating with Vault data..."
+            echo "Managing argocd-secret..."
 
             # Read secrets from shared volume
             ADMIN_PASSWORD=$(cat /shared/admin_password)
@@ -167,19 +147,61 @@ argo-cd:
             # Generate current timestamp for password mtime
             CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-            # Update the secret by completely replacing data section
-            kubectl patch secret argocd-secret -n argocd --type='merge' -p="
-            {
-              \"data\": {
-                \"admin.password\": \"$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)\",
-                \"admin.passwordMtime\": \"$(echo -n "$CURRENT_TIME" | base64 -w 0)\",
-                \"server.secretkey\": \"$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)\",
-                \"oidc.keycloak.clientSecret\": \"$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)\",
-                \"VAULT_ADDR\": \"$(echo -n "$VAULT_ADDRESS" | base64 -w 0)\"
-              }
-            }"
+            # Check if secret exists
+            if kubectl get secret argocd-secret -n argocd >/dev/null 2>&1; then
+              echo "Secret exists, updating it..."
+              # Patch the existing secret
+              kubectl patch secret argocd-secret -n argocd --type='json' -p='[
+                {
+                  "op": "replace",
+                  "path": "/data/admin.password",
+                  "value": "'$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/admin.passwordMtime",
+                  "value": "'$(echo -n "$CURRENT_TIME" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/server.secretkey",
+                  "value": "'$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/oidc.keycloak.clientSecret",
+                  "value": "'$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/VAULT_ADDR",
+                  "value": "'$(echo -n "$VAULT_ADDRESS" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_AUTH_TYPE",
+                  "value": "'$(echo -n "token" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_TYPE",
+                  "value": "'$(echo -n "vault" | base64 -w 0)'"
+                }
+              ]'
+            else
+              echo "Secret doesn't exist, creating it..."
+              # Create the secret
+              kubectl create secret generic argocd-secret -n argocd \
+                --from-literal=admin.password="$ADMIN_PASSWORD" \
+                --from-literal=admin.passwordMtime="$CURRENT_TIME" \
+                --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
+                --from-literal=oidc.keycloak.clientSecret="$OIDC_KEYCLOAK_CLIENT_SECRET" \
+                --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
+                --from-literal=AVP_AUTH_TYPE="token" \
+                --from-literal=AVP_TYPE="vault"
+            fi
 
-            echo "All secrets updated successfully!"
+            echo "Secret management completed successfully!"
         volumeMounts:
           - name: shared-secrets
             mountPath: /shared
@@ -352,6 +374,14 @@ argo-cd:
   ## Redis configuration
   redis:
     enabled: true
+    # Disable the secret init job that keeps recreating secrets
+    secretInit:
+      enabled: false
+    # Disable automatic secret creation to prevent conflicts
+    auth:
+      enabled: false
+    # Use existing secret instead of creating new ones
+    existingSecret: ""
 
   redis-ha:
     enabled: false
@@ -429,15 +459,10 @@ argo-cd:
       application.instanceLabelKey: argocd.argoproj.io/instance
 
     secret:
-      createSecret: true
-      extra:
-        # These will be populated by the init container from Vault
-        oidc.keycloak.clientSecret: ""
-        VAULT_ADDR: ""
-        AVP_AUTH_TYPE: "token"
-        AVP_TYPE: "vault"
-        admin.password: ""
-        server.secretkey: ""
+      # Don't let Helm create/manage the secret - let init containers handle it
+      createSecret: false
+      # Reference the existing secret that will be managed by init containers
+      extra: {}
     cmp:
       create: true
       plugins:
