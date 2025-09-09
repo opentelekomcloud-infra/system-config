@@ -463,8 +463,22 @@ configs:
             - bash
             - "-c"
             - |
-              helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") . |
-              argocd-vault-plugin generate -s argocd:argocd-secret -
+              # Build Helm set parameters from environment variables
+              HELM_SETS=""
+              for var in $(env | grep "^HELM_PARAM_" | cut -d= -f1); do
+                param_name=$(echo "$var" | sed 's/^HELM_PARAM_//' | sed 's/_/./g' | tr '[:upper:]' '[:lower:]')
+                param_value=$(eval echo \$$var)
+                HELM_SETS="$HELM_SETS --set $param_name=\"$param_value\""
+              done
+
+              # Generate helm template with vault processing
+              if [ -n "$ARGOCD_ENV_HELM_VALUES" ]; then
+                helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") $HELM_SETS . |
+                argocd-vault-plugin generate -s argocd:argocd-secret -
+              else
+                helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . |
+                argocd-vault-plugin generate -s argocd:argocd-secret -
+              fi
         allowConcurrency: true
         lockRepo: false
       argocd-vault-plugin-helm-with-args:

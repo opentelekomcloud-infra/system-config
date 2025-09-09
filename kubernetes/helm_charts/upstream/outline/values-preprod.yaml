@@ -3,19 +3,19 @@
 # Successfully tested and working with community-charts
 
 outline:
-  # Auto-generated secrets (leave empty for auto-generation)
-  secretKey: ""  # Overridden by ArgoCD
-  utilsSecret: ""  # Overridden by ArgoCD
+  # Secrets - will be overridden by ArgoCD parameters
+  secretKey: ""
+  utilsSecret: ""
   url: ""  # Will be auto-generated from ingress
 
-  # Keycloak OIDC Authentication
+  # Keycloak OIDC Authentication - will be overridden by ArgoCD parameters
   auth:
     keycloak:
       enabled: true
-      clientId: ""  # Overridden by ArgoCD
-      clientSecret: ""  # Overridden by ArgoCD
-      baseUrl: "" # Overridden by ArgoCD
-      realmName: ""  # Overridden by ArgoCD
+      clientId: ""
+      clientSecret: ""
+      baseUrl: ""
+      realmName: ""
       displayName: "Keycloak SSO"
       usernameClaim: "preferred_username"
       scopes:
@@ -28,11 +28,11 @@ outline:
     enabled: false
 
   externalPostgresql:
-    host: ""  # Overridden by ArgoCD
-    username: ""  # Overridden by ArgoCD
-    password: "" # Overridden by ArgoCD
-    database: ""  # Overridden by ArgoCD
-    port: ""  # Overridden by ArgoCD
+    host: ""
+    username: ""
+    password: ""
+    database: ""
+    port: ""
 
   externalRedis:
     host: "outline-redis-master"
