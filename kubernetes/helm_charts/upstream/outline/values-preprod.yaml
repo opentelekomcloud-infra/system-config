@@ -2,6 +2,27 @@
 # Production-ready Outline Wiki Configuration
 # Successfully tested and working with community-charts
 
+# Disable PostgreSQL subchart (we use external PostgreSQL)
+postgresql:
+  enabled: false
+
+# Configure Redis subchart with csi-disk storage
+redis:
+  enabled: true
+  auth:
+    enabled: false  # Disable authentication to simplify setup
+  master:
+    persistence:
+      enabled: true
+      size: 8Gi
+      storageClass: "csi-disk"
+  replica:
+    replicaCount: 1
+    persistence:
+      enabled: true
+      size: 8Gi
+      storageClass: "csi-disk"
+
 outline:
   # Secrets - will be overridden by ArgoCD parameters
   secretKey: "<path:secret/data/outline/app#secretKey>"
@@ -17,16 +38,13 @@ outline:
       baseUrl: "<path:secret/data/outline/keycloak#baseUrl>"
       realmName: "<path:secret/data/outline/keycloak#realm-name>"
       displayName: "Keycloak SSO"
-      usernameClaim: "preferred_username"
-      scopes:
-        - openid
-        - profile
-        - email
+      # usernameClaim: "preferred_username"
+      # scopes:
+      #   - openid
+      #   - profile
+      #   - email
 
   # Use external PostgreSQL (our managed instance)
-  postgresql:
-    enabled: false
-
   externalPostgresql:
     host: "<path:secret/data/outline/postgresql#host>"
     username: "<path:secret/data/outline/postgresql#username>"
@@ -37,11 +55,12 @@ outline:
     existingSecret: "outline-postgresql-secret"
 
   externalRedis:
-    host: "outline-redis-master"
+    # Use the umbrella chart's Redis service name
+    host: "outline-wiki-preprod-redis-master"
     port: 6379
-    password: "<path:secret/data/outline/redis#password>"
-    # Use existing secret to bypass password requirements in templates
-    existingSecret: "outline-redis-secret"
+    # No password needed since auth is disabled
+    # password: "<path:secret/data/outline/redis#password>"
+    # existingSecret: "outline-wiki-preprod-redis"
 
   # Service configuration
   service:
@@ -100,27 +119,3 @@ outline:
         enabled: true
         size: 50Gi
         storageClass: "csi-disk"
-
-# Redis configuration (managed instance)
-redis:
-  enabled: true
-  auth:
-    enabled: false  # Can be enabled later with password
-  master:
-    persistence:
-      enabled: true
-      size: 8Gi
-      storageClass: "csi-disk"
-    resources:
-      limits:
-        cpu: 500m
-        memory: 512Mi
-      requests:
-        cpu: 250m
-        memory: 256Mi
-  replica:
-    replicaCount: 1
-    persistence:
-      enabled: true
-      size: 8Gi
-      storageClass: "csi-disk"

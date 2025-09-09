@@ -1,3 +1,4 @@
+---
 apiVersion: v2
 name: outline
 description: Modern team knowledge base with real-time collaboration
@@ -12,6 +13,8 @@ dependencies:
   - name: postgresql
     version: "13.2.24"
     repository: "https://charts.bitnami.com/bitnami"
+    condition: postgresql.enabled
   - name: redis
     version: "18.1.5"
     repository: "https://charts.bitnami.com/bitnami"
+    condition: redis.enabled
