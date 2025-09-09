@@ -26,65 +26,6 @@ argo-cd:
       - name: ARGOCD_EXEC_TIMEOUT
         value: "300"
 
-  configs:
-    rbac:
-      create: true
-      policy.csv: |
-        # Admin roles - full access including secrets
-        g, /argocd-admin, role:admin
-        g, /argocd-ac, role:admin
-
-        # Application management role
-        g, /argocd-developers, role:ac
-        p, role:ac, applications, *, docusaurus/*, allow
-        p, role:ac, applications, get, *, allow
-        p, role:ac, applications, list, *, allow
-        p, role:ac, repositories, get, *, allow
-        p, role:ac, repositories, list, *, allow
-        p, role:ac, secrets, *, docusaurus/*, allow
-
-        # Read-only role - NO secrets access
-        g, /argocd-viewers, role:readonly
-        p, role:readonly, applications, get, *, allow
-        p, role:readonly, applications, list, *, allow
-        p, role:readonly, repositories, get, *, allow
-        p, role:readonly, repositories, list, *, allow
-        p, role:readonly, secrets, *, *, deny
-
-        # No-secrets role - explicitly denied secrets access
-        g, /argocd-no-secrets, role:no-secrets
-        p, role:no-secrets, applications, get, *, allow
-        p, role:no-secrets, applications, list, *, allow
-        p, role:no-secrets, repositories, get, *, allow
-        p, role:no-secrets, repositories, list, *, allow
-        p, role:no-secrets, secrets, *, *, deny
-
-        # System role for service accounts - LIMITED permissions
-        p, role:system, applications, get, *, allow
-        p, role:system, applications, list, *, allow
-        p, role:system, repositories, get, *, allow
-        p, role:system, repositories, list, *, allow
-        p, role:system, secrets, *, *, deny
-
-        # Special vault-reader role - ONLY for ArgoCD internal operations
-        # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
-        p, role:vault-reader, secrets, get, argocd/*, allow
-        p, role:vault-reader, secrets, list, argocd/*, allow
-        p, role:vault-reader, secrets, get, */vault-token, allow
-        p, role:vault-reader, secrets, get, */argocd-secret, allow
-
-        # Assign service account to vault-reader (restricted scope)
-        g, argocd-preprod-repo-server, role:vault-reader
-
-        # Explicit denials for all other combinations
-        p, role:vault-reader, secrets, create, *, deny
-        p, role:vault-reader, secrets, update, *, deny
-        p, role:vault-reader, secrets, patch, *, deny
-        p, role:vault-reader, secrets, delete, *, deny
-      policy.default: "role:none"
-      policy.matchMode: "glob"
-      scopes: "[groups]"
-
   ## Server
   server:
     extensions:
@@ -195,7 +136,7 @@ argo-cd:
           - -c
           - |
             set -e
-            echo "Updating argocd-secret..."
+            echo "Checking argocd-secret..."
 
             # Wait for the secret to be created by Helm
             while ! kubectl get secret argocd-secret -n argocd; do
@@ -203,28 +144,38 @@ argo-cd:
               sleep 2
             done
 
-            # Read secrets from shared volume
-            ADMIN_PASSWORD=$(cat /shared/admin_password)
-            SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
-            OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
-            VAULT_ADDRESS=$(cat /shared/vault_address)
+            # Check if the secret already has data
+            SECRET_DATA=$(kubectl get secret argocd-secret -n argocd -o jsonpath='{.data}' 2>/dev/null || echo "{}")
 
-            # Generate current timestamp for password mtime
-            CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+            if [ "$SECRET_DATA" = "{}" ] || [ -z "$SECRET_DATA" ]; then
+              echo "Secret is empty, populating with Vault data..."
 
-            # Update the secret by completely replacing data section
-            kubectl patch secret argocd-secret -n argocd --type='merge' -p="
-            {
-              \"data\": {
-                \"admin.password\": \"$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)\",
-                \"admin.passwordMtime\": \"$(echo -n "$CURRENT_TIME" | base64 -w 0)\",
-                \"server.secretkey\": \"$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)\",
-                \"oidc.keycloak.clientSecret\": \"$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)\",
-                \"VAULT_ADDR\": \"$(echo -n "$VAULT_ADDRESS" | base64 -w 0)\"
-              }
-            }"
+              # Read secrets from shared volume
+              ADMIN_PASSWORD=$(cat /shared/admin_password)
+              SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
+              OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
+              VAULT_ADDRESS=$(cat /shared/vault_address)
 
-            echo "All secrets updated successfully!"
+              # Generate current timestamp for password mtime
+              CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+              # Update the secret with data from Vault
+              kubectl patch secret argocd-secret -n argocd --type='merge' -p="
+              {
+                \"data\": {
+                  \"admin.password\": \"$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)\",
+                  \"admin.passwordMtime\": \"$(echo -n "$CURRENT_TIME" | base64 -w 0)\",
+                  \"server.secretkey\": \"$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)\",
+                  \"oidc.keycloak.clientSecret\": \"$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)\",
+                  \"VAULT_ADDR\": \"$(echo -n "$VAULT_ADDRESS" | base64 -w 0)\"
+                }
+              }"
+
+              echo "Secrets populated from Vault successfully!"
+            else
+              echo "Secret already contains data, skipping update to preserve existing values."
+              echo "Existing data keys: $(echo "$SECRET_DATA" | grep -o '"[^"]*"' | tr -d '"' | tr '\n' ' ')"
+            fi
         volumeMounts:
           - name: shared-secrets
             mountPath: /shared
@@ -402,6 +353,65 @@ argo-cd:
     enabled: false
 
   configs:
+    rbac:
+      create: true
+      policy.csv: |
+        # Admin roles - full access including secrets
+        g, /argocd-admin, role:admin
+        g, /argocd-ac, role:admin
+
+        # Application management role
+        g, /argocd-developers, role:ac
+        p, role:ac, applications, *, docusaurus/*, allow
+        p, role:ac, applications, get, *, allow
+        p, role:ac, applications, list, *, allow
+        p, role:ac, repositories, get, *, allow
+        p, role:ac, repositories, list, *, allow
+        p, role:ac, secrets, *, docusaurus/*, allow
+
+        # Read-only role - NO secrets access
+        g, /argocd-viewers, role:readonly
+        p, role:readonly, applications, get, *, allow
+        p, role:readonly, applications, list, *, allow
+        p, role:readonly, repositories, get, *, allow
+        p, role:readonly, repositories, list, *, allow
+        p, role:readonly, secrets, *, *, deny
+
+        # No-secrets role - explicitly denied secrets access
+        g, /argocd-no-secrets, role:no-secrets
+        p, role:no-secrets, applications, get, *, allow
+        p, role:no-secrets, applications, list, *, allow
+        p, role:no-secrets, repositories, get, *, allow
+        p, role:no-secrets, repositories, list, *, allow
+        p, role:no-secrets, secrets, *, *, deny
+
+        # System role for service accounts - LIMITED permissions
+        p, role:system, applications, get, *, allow
+        p, role:system, applications, list, *, allow
+        p, role:system, repositories, get, *, allow
+        p, role:system, repositories, list, *, allow
+        p, role:system, secrets, *, *, deny
+
+        # Special vault-reader role - ONLY for ArgoCD internal operations
+        # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
+        p, role:vault-reader, secrets, get, argocd/*, allow
+        p, role:vault-reader, secrets, list, argocd/*, allow
+        p, role:vault-reader, secrets, get, */vault-token, allow
+        p, role:vault-reader, secrets, get, */argocd-secret, allow
+
+        # Assign service account to vault-reader (restricted scope)
+        g, argocd-preprod-repo-server, role:vault-reader
+
+        # Explicit denials for all other combinations
+        p, role:vault-reader, secrets, create, *, deny
+        p, role:vault-reader, secrets, update, *, deny
+        p, role:vault-reader, secrets, patch, *, deny
+        p, role:vault-reader, secrets, delete, *, deny
+      policy.default: "role:none"
+      policy.matchMode: "glob"
+      scopes: "[groups]"
+
+
     cm:
       url: https://argocd.eco-preprod.tsi-dev.otc-service.com
       oidc.config: |
