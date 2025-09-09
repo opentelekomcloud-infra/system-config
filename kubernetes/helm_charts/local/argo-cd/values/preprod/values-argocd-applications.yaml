@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Enabling_docussaurus'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'

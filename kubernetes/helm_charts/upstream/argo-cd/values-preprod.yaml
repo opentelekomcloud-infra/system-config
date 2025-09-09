@@ -144,7 +144,21 @@ argo-cd:
               sleep 2
             done
 
-            # Always read secrets from shared volume (they're needed for any missing keys)
+            # Check if the secret already has real data
+            ADMIN_PASSWORD_CURRENT=$(kubectl get secret argocd-secret -n argocd -o jsonpath='{.data.admin\.password}' 2>/dev/null || echo "")
+
+            if [ -n "$ADMIN_PASSWORD_CURRENT" ]; then
+              # Decode and check if it contains real data (not empty)
+              DECODED_PASSWORD=$(echo "$ADMIN_PASSWORD_CURRENT" | base64 -d 2>/dev/null || echo "")
+              if [ -n "$DECODED_PASSWORD" ]; then
+                echo "Secret already contains real data, skipping update to preserve existing values."
+                exit 0
+              fi
+            fi
+
+            echo "Secret is empty or doesn't exist, updating with Vault data..."
+
+            # Read secrets from shared volume
             ADMIN_PASSWORD=$(cat /shared/admin_password)
             SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
             OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
@@ -153,55 +167,19 @@ argo-cd:
             # Generate current timestamp for password mtime
             CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-            # Get current secret data
-            SECRET_DATA=$(kubectl get secret argocd-secret -n argocd -o jsonpath='{.data}' 2>/dev/null || echo "{}")
+            # Update the secret by completely replacing data section
+            kubectl patch secret argocd-secret -n argocd --type='merge' -p="
+            {
+              \"data\": {
+                \"admin.password\": \"$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)\",
+                \"admin.passwordMtime\": \"$(echo -n "$CURRENT_TIME" | base64 -w 0)\",
+                \"server.secretkey\": \"$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)\",
+                \"oidc.keycloak.clientSecret\": \"$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)\",
+                \"VAULT_ADDR\": \"$(echo -n "$VAULT_ADDRESS" | base64 -w 0)\"
+              }
+            }"
 
-            # Check which keys are missing and need to be added
-            PATCH_NEEDED=false
-            PATCH_DATA="{"
-
-            # Check each required key and add if missing
-            if ! echo "$SECRET_DATA" | grep -q "admin.password"; then
-              echo "Adding admin.password..."
-              PATCH_DATA="$PATCH_DATA\"admin.password\": \"$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)\","
-              PATCH_NEEDED=true
-            fi
-
-            if ! echo "$SECRET_DATA" | grep -q "admin.passwordMtime"; then
-              echo "Adding admin.passwordMtime..."
-              PATCH_DATA="$PATCH_DATA\"admin.passwordMtime\": \"$(echo -n "$CURRENT_TIME" | base64 -w 0)\","
-              PATCH_NEEDED=true
-            fi
-
-            if ! echo "$SECRET_DATA" | grep -q "server.secretkey"; then
-              echo "Adding server.secretkey..."
-              PATCH_DATA="$PATCH_DATA\"server.secretkey\": \"$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)\","
-              PATCH_NEEDED=true
-            fi
-
-            if ! echo "$SECRET_DATA" | grep -q "oidc.keycloak.clientSecret"; then
-              echo "Adding oidc.keycloak.clientSecret..."
-              PATCH_DATA="$PATCH_DATA\"oidc.keycloak.clientSecret\": \"$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)\","
-              PATCH_NEEDED=true
-            fi
-
-            if ! echo "$SECRET_DATA" | grep -q "VAULT_ADDR"; then
-              echo "Adding VAULT_ADDR..."
-              PATCH_DATA="$PATCH_DATA\"VAULT_ADDR\": \"$(echo -n "$VAULT_ADDRESS" | base64 -w 0)\","
-              PATCH_NEEDED=true
-            fi
-
-            # Remove trailing comma and close the JSON
-            PATCH_DATA=$(echo "$PATCH_DATA" | sed 's/,$//')
-            PATCH_DATA="$PATCH_DATA}"
-
-            if [ "$PATCH_NEEDED" = "true" ]; then
-              echo "Updating secret with missing keys..."
-              kubectl patch secret argocd-secret -n argocd --type='merge' -p="{\"data\": $PATCH_DATA}"
-              echo "Secret updated with missing keys successfully!"
-            else
-              echo "All required keys already exist in secret, no update needed."
-            fi
+            echo "All secrets updated successfully!"
         volumeMounts:
           - name: shared-secrets
             mountPath: /shared
@@ -454,12 +432,12 @@ argo-cd:
       createSecret: true
       extra:
         # These will be populated by the init container from Vault
-        oidc.keycloak.clientSecret: "placeholder-will-be-replaced-by-init-container"
-        VAULT_ADDR: "placeholder-will-be-replaced-by-init-container"
+        oidc.keycloak.clientSecret: ""
+        VAULT_ADDR: ""
         AVP_AUTH_TYPE: "token"
         AVP_TYPE: "vault"
-        admin.password: "placeholder-will-be-replaced-by-init-container"
-        server.secretkey: "placeholder-will-be-replaced-by-init-container"
+        admin.password: ""
+        server.secretkey: ""
     cmp:
       create: true
       plugins:
