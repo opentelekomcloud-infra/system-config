@@ -6,22 +6,9 @@
 postgresql:
   enabled: false
 
-# Configure Redis subchart with csi-disk storage
+# Disable Redis subchart completely - try running without Redis cache
 redis:
-  enabled: true
-  auth:
-    enabled: false  # Disable authentication to simplify setup
-  master:
-    persistence:
-      enabled: true
-      size: 8Gi
-      storageClass: "csi-disk"
-  replica:
-    replicaCount: 1
-    persistence:
-      enabled: true
-      size: 8Gi
-      storageClass: "csi-disk"
+  enabled: false
 
 outline:
   # Secrets - will be overridden by ArgoCD parameters
@@ -54,13 +41,12 @@ outline:
     # Use existing secret to bypass password requirements in templates
     existingSecret: "outline-postgresql-secret"
 
+  # Minimal Redis config to satisfy template requirements
+  # (Redis subchart is disabled but outline chart still needs Redis values)
   externalRedis:
-    # Use the umbrella chart's Redis service name
-    host: "outline-wiki-preprod-redis-master"
+    host: "redis-disabled"  # Non-existent host to disable Redis
     port: 6379
-    # No password needed since auth is disabled
-    # password: "<path:secret/data/outline/redis#password>"
-    # existingSecret: "outline-wiki-preprod-redis"
+    password: "dummy"  # Dummy password to satisfy template validation
 
   # Service configuration
   service:
