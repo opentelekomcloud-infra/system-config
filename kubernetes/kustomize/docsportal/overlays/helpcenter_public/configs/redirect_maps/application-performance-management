@@ -89,7 +89,7 @@
   /en-us/usermanual/apm/apm_07_0001.html /application-performance-management/umn/before_you_start.html;
   /en-us/usermanual/apm/apm_07_0002.html /application-performance-management/umn/application_list.html;
   /en-us/usermanual/apm/apm_07_0003.html /application-performance-management/umn/application_metric_monitoring/index.html;
-  /en-us/usermanual/apm/apm_07_0004.html /application-performance-management/umn/application_metric_monitoring/overview.html;
+  /en-us/usermanual/apm/apm_07_0004.html /application-performance-management/umn/application_metric_monitoring/introduction.html;
   /en-us/usermanual/apm/apm_07_0005.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/index.html;
   /en-us/usermanual/apm/apm_07_0006.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/url.html;
   /en-us/usermanual/apm/apm_07_0007.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/jvm.html;
@@ -242,7 +242,7 @@
   /usermanual/apm/apm_07_0001.html /application-performance-management/umn/before_you_start.html;
   /usermanual/apm/apm_07_0002.html /application-performance-management/umn/application_list.html;
   /usermanual/apm/apm_07_0003.html /application-performance-management/umn/application_metric_monitoring/index.html;
-  /usermanual/apm/apm_07_0004.html /application-performance-management/umn/application_metric_monitoring/overview.html;
+  /usermanual/apm/apm_07_0004.html /application-performance-management/umn/application_metric_monitoring/introduction.html;
   /usermanual/apm/apm_07_0005.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/index.html;
   /usermanual/apm/apm_07_0006.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/url.html;
   /usermanual/apm/apm_07_0007.html /application-performance-management/umn/application_metric_monitoring/application_monitoring_details/jvm.html;
