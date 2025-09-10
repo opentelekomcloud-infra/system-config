@@ -66,6 +66,10 @@
   /api/dds/dds_api_0138.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/setting_the_recycle_bin_policy.html;
   /api/dds/dds_api_021.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_db_instances_in_the_recycle_bin.html;
   /api/dds/dds_api_0215.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_the_recycling_policy_of_a_db_instance.html;
+  /api/dds/dds_api_022.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
+  /api/dds/dds_api_023.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/configuring_the_maintenance_window.html;
+  /api/dds/dds_api_024.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
+  /api/dds/dds_api_025.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
   /api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.0_recommended/index.html;
   /api/dds/dds_api_permission.html /document-database-service/api-ref/permissions_policies_and_supported_actions/index.html;
   /api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
@@ -85,9 +89,6 @@
   /api/dds/dds_public_parameters.html /document-database-service/api-ref/appendix/index.html;
   /api/dds/dds_status_code.html /document-database-service/api-ref/appendix/status_code.html;
   /api/dds/dds_tag_mgmt.html /document-database-service/api-ref/apis_v3.0_recommended/tag_management/index.html;
-  /api/dds/en-us_topic_0000002107112644.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
-  /api/dds/en-us_topic_0000002107272436.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
-  /api/dds/en-us_topic_0000002142831253.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
   /en-us/api/dds/ /document-database-service/api-ref/index.html;
   /en-us/api/dds/dds_api_0006.html /document-database-service/api-ref/api_overview.html;
   /en-us/api/dds/dds_api_0007.html /document-database-service/api-ref/environment_preparations/index.html;
@@ -156,6 +157,10 @@
   /en-us/api/dds/dds_api_0138.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/setting_the_recycle_bin_policy.html;
   /en-us/api/dds/dds_api_021.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_db_instances_in_the_recycle_bin.html;
   /en-us/api/dds/dds_api_0215.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_the_recycling_policy_of_a_db_instance.html;
+  /en-us/api/dds/dds_api_022.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
+  /en-us/api/dds/dds_api_023.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/configuring_the_maintenance_window.html;
+  /en-us/api/dds/dds_api_024.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
+  /en-us/api/dds/dds_api_025.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
   /en-us/api/dds/dds_api_description.html /document-database-service/api-ref/apis_v3.0_recommended/index.html;
   /en-us/api/dds/dds_api_permission.html /document-database-service/api-ref/permissions_policies_and_supported_actions/index.html;
   /en-us/api/dds/dds_api_reference.html /document-database-service/api-ref/before_you_start.html;
@@ -175,9 +180,6 @@
   /en-us/api/dds/dds_public_parameters.html /document-database-service/api-ref/appendix/index.html;
   /en-us/api/dds/dds_status_code.html /document-database-service/api-ref/appendix/status_code.html;
   /en-us/api/dds/dds_tag_mgmt.html /document-database-service/api-ref/apis_v3.0_recommended/tag_management/index.html;
-  /en-us/api/dds/en-us_topic_0000002107112644.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/associating_an_instance_with_an_lts_log_stream.html;
-  /en-us/api/dds/en-us_topic_0000002107272436.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/disassociating_an_instance_from_an_lts_log_stream.html;
-  /en-us/api/dds/en-us_topic_0000002142831253.html /document-database-service/api-ref/apis_v3.0_recommended/db_instance_management/querying_lts_log_configurations.html;
   /en-us/usermanual/dds/ /document-database-service/umn/index.html;
   /en-us/usermanual/dds/dds_01_0001.html /document-database-service/umn/introduction/basic_concepts/index.html;
   /en-us/usermanual/dds/dds_01_0002.html /document-database-service/umn/introduction/basic_concepts/cluster.html;
@@ -197,6 +199,7 @@
   /en-us/usermanual/dds/dds_01_0025.html /document-database-service/umn/introduction/system_architecture/single_node_architecture.html;
   /en-us/usermanual/dds/dds_01_0026.html /document-database-service/umn/introduction/dds_db_instance/db_instance_status.html;
   /en-us/usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
+  /en-us/usermanual/dds/dds_01_0046.html /document-database-service/umn/introduction/versions.html;
   /en-us/usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
   /en-us/usermanual/dds/dds_01_0061.html /document-database-service/umn/introduction/version_information.html;
   /en-us/usermanual/dds/dds_02_0001.html /document-database-service/umn/getting_started_with_clusters/connection_methods.html;
@@ -315,6 +318,7 @@
   /en-us/usermanual/dds/dds_faq_0030.html /document-database-service/umn/faqs/database_storage/which_items_occupy_the_storage_space_of_dds_db_instances.html;
   /en-us/usermanual/dds/dds_faq_0031.html /document-database-service/umn/faqs/database_storage/what_overhead_does_the_storage_space_have_after_i_applied_for_a_dds_db_instance.html;
   /en-us/usermanual/dds/dds_faq_0032.html /document-database-service/umn/faqs/log_management/which_types_of_logs_and_files_occupy_dds_db_instance_storage_space.html;
+  /en-us/usermanual/dds/dds_faq_0034.html /document-database-service/umn/faqs/database_connection/how_do_i_create_and_log_in_to_an_ecs.html;
   /en-us/usermanual/dds/dds_faq_0039.html /document-database-service/umn/faqs/database_connection/how_do_i_install_robo_3t.html;
   /en-us/usermanual/dds/dds_faq_0100.html /document-database-service/umn/faqs/index.html;
   /en-us/usermanual/dds/dds_faq_0101.html /document-database-service/umn/faqs/product_consulting/index.html;
@@ -364,6 +368,7 @@
   /usermanual/dds/dds_01_0025.html /document-database-service/umn/introduction/system_architecture/single_node_architecture.html;
   /usermanual/dds/dds_01_0026.html /document-database-service/umn/introduction/dds_db_instance/db_instance_status.html;
   /usermanual/dds/dds_01_0027.html /document-database-service/umn/introduction/basic_concepts/regions_and_azs.html;
+  /usermanual/dds/dds_01_0046.html /document-database-service/umn/introduction/versions.html;
   /usermanual/dds/dds_01_0060.html /document-database-service/umn/introduction/mapping_between_dds_versions_and_community_versions.html;
   /usermanual/dds/dds_01_0061.html /document-database-service/umn/introduction/version_information.html;
   /usermanual/dds/dds_02_0001.html /document-database-service/umn/getting_started_with_clusters/connection_methods.html;
@@ -482,6 +487,7 @@
   /usermanual/dds/dds_faq_0030.html /document-database-service/umn/faqs/database_storage/which_items_occupy_the_storage_space_of_dds_db_instances.html;
   /usermanual/dds/dds_faq_0031.html /document-database-service/umn/faqs/database_storage/what_overhead_does_the_storage_space_have_after_i_applied_for_a_dds_db_instance.html;
   /usermanual/dds/dds_faq_0032.html /document-database-service/umn/faqs/log_management/which_types_of_logs_and_files_occupy_dds_db_instance_storage_space.html;
+  /usermanual/dds/dds_faq_0034.html /document-database-service/umn/faqs/database_connection/how_do_i_create_and_log_in_to_an_ecs.html;
   /usermanual/dds/dds_faq_0039.html /document-database-service/umn/faqs/database_connection/how_do_i_install_robo_3t.html;
   /usermanual/dds/dds_faq_0100.html /document-database-service/umn/faqs/index.html;
   /usermanual/dds/dds_faq_0101.html /document-database-service/umn/faqs/product_consulting/index.html;
