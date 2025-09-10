@@ -39,12 +39,11 @@ outline:
     database: "<path:secret/data/outline/postgresql#database>"
     port: 5432  # Default port as integer
 
-  # Minimal Redis config to satisfy template requirements
-  # (Redis subchart is disabled but outline chart still needs Redis values)
+  # Use minimal Redis instance for required functionality
   externalRedis:
-    host: "redis-disabled"  # Non-existent host to disable Redis
+    host: "redis-minimal-service"
     port: 6379
-    password: "dummy"  # Dummy password to satisfy template validation
+    password: "dummy"  # No password needed for minimal Redis
 
   # Service configuration
   service:
