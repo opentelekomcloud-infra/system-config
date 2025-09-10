@@ -109,7 +109,7 @@
   /en-us/usermanual/csbs/en-us_topic_0056584638.html /cloud-server-backup-service/umn/management_operations/backup_policies/associating_ecss_with_a_backup_policy.html;
   /en-us/usermanual/csbs/en-us_topic_0056584639.html /cloud-server-backup-service/umn/faqs/about_backup/does_csbs_support_backing_up_all_evs_disks_on_an_ecs.html;
   /en-us/usermanual/csbs/en-us_topic_0056584642.html /cloud-server-backup-service/umn/management_operations/backup/viewing_a_backup.html;
-  /en-us/usermanual/csbs/en-us_topic_0056725842.html /cloud-server-backup-service/umn/service_overview/csbs.html;
+  /en-us/usermanual/csbs/en-us_topic_0056725842.html /cloud-server-backup-service/umn/service_overview/what_is_csbs.html;
   /en-us/usermanual/csbs/en-us_topic_0056725843.html /cloud-server-backup-service/umn/service_overview/application_scenarios.html;
   /en-us/usermanual/csbs/en-us_topic_0056725844.html /cloud-server-backup-service/umn/service_overview/related_services.html;
   /en-us/usermanual/csbs/en-us_topic_0056725845.html /cloud-server-backup-service/umn/service_overview/basic_concepts.html;
@@ -171,7 +171,7 @@
   /usermanual/csbs/en-us_topic_0056584638.html /cloud-server-backup-service/umn/management_operations/backup_policies/associating_ecss_with_a_backup_policy.html;
   /usermanual/csbs/en-us_topic_0056584639.html /cloud-server-backup-service/umn/faqs/about_backup/does_csbs_support_backing_up_all_evs_disks_on_an_ecs.html;
   /usermanual/csbs/en-us_topic_0056584642.html /cloud-server-backup-service/umn/management_operations/backup/viewing_a_backup.html;
-  /usermanual/csbs/en-us_topic_0056725842.html /cloud-server-backup-service/umn/service_overview/csbs.html;
+  /usermanual/csbs/en-us_topic_0056725842.html /cloud-server-backup-service/umn/service_overview/what_is_csbs.html;
   /usermanual/csbs/en-us_topic_0056725843.html /cloud-server-backup-service/umn/service_overview/application_scenarios.html;
   /usermanual/csbs/en-us_topic_0056725844.html /cloud-server-backup-service/umn/service_overview/related_services.html;
   /usermanual/csbs/en-us_topic_0056725845.html /cloud-server-backup-service/umn/service_overview/basic_concepts.html;

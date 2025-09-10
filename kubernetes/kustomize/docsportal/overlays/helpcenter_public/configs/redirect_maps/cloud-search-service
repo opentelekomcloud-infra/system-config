@@ -220,6 +220,8 @@
   /en-us/api/css/topic_300000010.html /cloud-search-service/api-ref/apis/load_balancing/index.html;
   /en-us/api/css/vpecp_management.html /cloud-search-service/api-ref/apis/vpc_endpoint/index.html;
   /en-us/api/css/ymls_management.html /cloud-search-service/api-ref/apis/parameter_configuration/index.html;
+  /en-us/koosearch-api/css/ /cloud-search-service/koosearch-api-ref/index.html;
+  /en-us/koosearch-usermanual/css/ /cloud-search-service/koosearch-umn/index.html;
   /en-us/usermanual/css/ /cloud-search-service/umn/index.html;
   /en-us/usermanual/css/css_01_0009.html /cloud-search-service/umn/using_elasticsearch_for_data_search/managing_elasticsearch_clusters/index.html;
   /en-us/usermanual/css/css_01_0014.html /cloud-search-service/umn/using_elasticsearch_for_data_search/managing_elasticsearch_clusters/restarting_an_elasticsearch_cluster.html;
@@ -440,6 +442,8 @@
   /en-us/usermanual/css/en-us_topic_0000002021043217.html /cloud-search-service/umn/faqs/accessing_css_clusters/how_do_i_connect_in-house_developed_opensearch_dashboards_to_an_opensearch_cluster_in_css.html;
   /en-us/usermanual/css/en-us_topic_0000002098695185.html /cloud-search-service/umn/getting_started/using_opensearch_for_data_search.html;
   /en-us/usermanual/css/en-us_topic_0000002098813645.html /cloud-search-service/umn/getting_started/using_elasticsearch_for_data_search.html;
+  /koosearch-api/css/ /cloud-search-service/koosearch-api-ref/index.html;
+  /koosearch-usermanual/css/ /cloud-search-service/koosearch-umn/index.html;
   /usermanual/css/ /cloud-search-service/umn/index.html;
   /usermanual/css/css_01_0009.html /cloud-search-service/umn/using_elasticsearch_for_data_search/managing_elasticsearch_clusters/index.html;
   /usermanual/css/css_01_0014.html /cloud-search-service/umn/using_elasticsearch_for_data_search/managing_elasticsearch_clusters/restarting_an_elasticsearch_cluster.html;
