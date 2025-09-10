@@ -38,8 +38,6 @@ outline:
     password: "<path:secret/data/outline/postgresql#password>"
     database: "<path:secret/data/outline/postgresql#database>"
     port: 5432  # Default port as integer
-    # Use existing secret to bypass password requirements in templates
-    existingSecret: "outline-postgresql-secret"
 
   # Minimal Redis config to satisfy template requirements
   # (Redis subchart is disabled but outline chart still needs Redis values)
@@ -67,7 +65,7 @@ outline:
       - host: docs.eco-preprod.tsi-dev.otc-service.com
         paths:
           - path: /
-            pathType: ImplementationSpecific
+            pathType: Prefix
     tls:
       - secretName: outline-tls
         hosts:
