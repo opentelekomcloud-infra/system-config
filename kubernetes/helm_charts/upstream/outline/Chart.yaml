@@ -10,11 +10,3 @@ dependencies:
   - name: outline
     version: "0.6.4"
     repository: "https://community-charts.github.io/helm-charts"
-  - name: postgresql
-    version: "13.2.24"
-    repository: "https://charts.bitnami.com/bitnami"
-    condition: postgresql.enabled
-  - name: redis
-    version: "18.1.5"
-    repository: "https://charts.bitnami.com/bitnami"
-    condition: redis.enabled

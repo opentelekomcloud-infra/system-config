@@ -135,6 +135,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: outline-wiki-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_docussaurus'
+      path: kubernetes/helm_charts/local/outline
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: outline-wiki
     clusters: [preprod]
     config:
@@ -144,29 +161,6 @@ applications:
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
-      pluginParameters:
-        - name: outline.auth.keycloak.clientSecret
-          value: "<path:vault#secret/data/outline/keycloak#client-secret>"
-        - name: outline.auth.keycloak.realmName
-          value: "<path:vault#secret/data/outline/keycloak#realm-name>"
-        - name: outline.auth.keycloak.clientId
-          value: "<path:vault#secret/data/outline/keycloak#clientId>"
-        - name: outline.auth.keycloak.baseUrl
-          value: "<path:vault#secret/data/outline/keycloak#baseUrl>"
-        - name: outline.externalPostgresql.host
-          value: "<path:vault#secret/data/outline/postgresql#host>"
-        - name: outline.externalPostgresql.username
-          value: "<path:vault#secret/data/outline/postgresql#username>"
-        - name: outline.externalPostgresql.password
-          value: "<path:vault#secret/data/outline/postgresql#password>"
-        - name: outline.externalPostgresql.database
-          value: "<path:vault#secret/data/outline/postgresql#database>"
-        - name: outline.externalPostgresql.port
-          value: "<path:vault#secret/data/outline/postgresql#port>"
-        - name: outline.utilsSecret
-          value: "<path:vault#secret/data/outline/app#utilsSecret>"
-        - name: outline.secretKey
-          value: "<path:vault#secret/data/outline/app#secretKey>"
       project: infra
       syncPolicy:
         automated:

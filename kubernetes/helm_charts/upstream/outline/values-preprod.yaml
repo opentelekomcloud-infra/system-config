@@ -19,7 +19,7 @@ outline:
   # Keycloak OIDC Authentication - will be overridden by ArgoCD parameters
   auth:
     keycloak:
-      enabled: true
+      enabled: false
       clientId: "<path:secret/data/outline/keycloak#clientId>"
       clientSecret: "<path:secret/data/outline/keycloak#client-secret>"
       baseUrl: "<path:secret/data/outline/keycloak#baseUrl>"
@@ -41,7 +41,7 @@ outline:
 
   # Use minimal Redis instance for required functionality
   externalRedis:
-    host: "redis-minimal-service"
+    host: "outline-wiki-additional-manifests-preprod-redis-minimal"
     port: 6379
     password: "dummy"  # No password needed for minimal Redis
 
