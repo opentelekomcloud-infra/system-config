@@ -346,7 +346,7 @@ all:
         az: "eu-de-03"
         region: "eu-de"
       host_keys:
-        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKmIa77z0yhdJj4aXvF0T78spnOYxqhimAhfTzMy2mK8TPycf3ICzsIivooOPtjz9y2LsuOGe+S5bX42QQJh8bo='
+        - 'ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMuPnOm/zhpoQQYBbq6L56G4CWDH0LLvxW22bDWm/iV7FGW/Dn6Mn9f2oMH+ovhijl81Nz14uOaL2LpnC6e4pB8='
     keycloak1.eco.tsi-dev.otc-service.com:
       ansible_host: 192.168.170.90
       ansible_user: automation
