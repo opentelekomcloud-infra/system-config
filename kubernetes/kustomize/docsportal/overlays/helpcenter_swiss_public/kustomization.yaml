@@ -66,15 +66,21 @@ configMapGenerator:
   - name: "key-management-service"
     files:
       - "configs/redirect_maps/key-management-service"
+  - name: "log-tank-service"
+    files:
+      - "configs/redirect_maps/log-tank-service"
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
   - name: "object-storage-service"
     files:
       - "configs/redirect_maps/object-storage-service"
-  - name: "relational-database-service"
+  - name: "relational-database-service-aa"
     files:
-      - "configs/redirect_maps/relational-database-service"
+      - "configs/redirect_maps/relational-database-service-aa"
+  - name: "relational-database-service-ab"
+    files:
+      - "configs/redirect_maps/relational-database-service-ab"
   - name: "simple-message-notification"
     files:
       - "configs/redirect_maps/simple-message-notification"
