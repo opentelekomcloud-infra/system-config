@@ -4,7 +4,7 @@ metadata:
   name: giji-bug-postgres
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 15 4 9 *"
+  schedule: "15 17 10 9 *"
   jobTemplate:
     spec:
       template:
