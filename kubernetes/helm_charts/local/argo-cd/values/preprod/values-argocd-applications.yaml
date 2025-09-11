@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Enabling_docussaurus'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -125,6 +125,40 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/grafana
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_docussaurus'
+      path: kubernetes/helm_charts/local/outline
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_docussaurus'
+      path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
       project: infra
