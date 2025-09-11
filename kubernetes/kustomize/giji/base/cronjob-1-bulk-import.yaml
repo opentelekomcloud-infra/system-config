@@ -4,7 +4,7 @@ metadata:
   name: giji-bulk-import
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 17 10 9 *"
+  schedule: "0 17 11 9 *"
   jobTemplate:
     spec:
       template:
