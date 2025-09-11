@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - sa.yaml
+  - secret.yaml
+  - cronjob-1-bulk-import.yaml
+  - cronjob-2-bug-postgres.yaml
+  - cronjob-3-demand-postgres.yaml
+
+images:
+  - name: "quay.io/opentelekomcloud/giji"
+    newTag: "1.0.0"
+
+generatorOptions:
+  disableNameSuffixHash: false
+  labels:
+    app.kubernetes.io/managed-by: kustomize

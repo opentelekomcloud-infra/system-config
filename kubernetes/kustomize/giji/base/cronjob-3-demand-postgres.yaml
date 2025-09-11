@@ -11,54 +11,44 @@ spec:
         spec:
           serviceAccount: "giji"
           restartPolicy: OnFailure
-          initContainers:
-            - name: "vault-agent"
-              command:
-                - "sh"
-                - "-c"
-                - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
-              env:
-                - name: "VAULT_ADDR"
-                  value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-              image: "hashicorp/vault"
-              resources:
-                limits:
-                  cpu: "100m"
-                  memory: "100Mi"
-                requests:
-                  cpu: "50m"
-                  memory: "50Mi"
-              volumeMounts:
-                - mountPath: "/etc/vault"
-                  name: "vault-agent-config"
-                - mountPath: "/secrets"
-                  name: "secrets"
-                - mountPath: "/var/run/secrets/tokens"
-                  name: "k8-tokens"
-                  readOnly: true
-
           containers:
-            - name: giji-demand-postgres
+            - name: giji-bulk-import
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
               image: quay.io/opentelekomcloud/giji
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
               - "source /secrets/giji-env; python3 demand_postgres.py"
-              volumeMounts:
-                - mountPath: "/secrets"
-                  name: "secrets"
-          volumes:
-            - name: vault-agent-config
-              configMap:
-                defaultMode: 420
-                name: giji-vault-config
-            - name: secrets
-              emptyDir: {}
-            - name: "k8-tokens"
-              projected:
-                defaultMode: 420
-                sources:
-                - serviceAccountToken:
-                    expirationSeconds: 7200
-                    path: "vault-token"
+              envFrom:
+                - secretRef:
+                    name: giji-config
+              startupProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 20
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 12
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                timeoutSeconds: 3
+                failureThreshold: 3
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 60
+                periodSeconds: 30
+                timeoutSeconds: 5
+                failureThreshold: 3

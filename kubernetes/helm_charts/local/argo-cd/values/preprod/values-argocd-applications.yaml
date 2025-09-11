@@ -257,3 +257,20 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: giji
+    clusters: [preprod]
+    config:
+      namespace: giji
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/kustomize/giji/base/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
