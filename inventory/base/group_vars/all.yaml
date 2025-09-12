@@ -104,6 +104,12 @@ all_users:
     uid: 2037
     gid: 2037
 
+  tischrei:
+    comment: T. S.
+    key: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILZywp/lEh2SaO7G26iIHMVFIz5F8q4vjNkOgxC/FH2x tischrei-new
+    uid: 2038
+    gid: 2038
+
 # List of users to install on all hosts
 base_users:
   - vhasko
@@ -112,6 +118,7 @@ base_users:
   - yustina
   - sgode
   - lcuper
+  - tischrei
 
 # Default empty list of users to install on specific hosts or groups
 extra_users: []
