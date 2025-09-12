@@ -57,6 +57,7 @@ proxy_backends:
       - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
       - "http-request set-header Host dashboard.tsi-dev.otc-service.com"
+      - 'http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]'
     domain_names:
       - "dashboard.tsi-dev.otc-service.com"
       - "dashboard-de.tsi-dev.otc-service.com"
@@ -78,6 +79,7 @@ proxy_backends:
       - "option allbackups"
       - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
+      - 'http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]'
     domain_names:
       - "dashboard.eco.tsi-dev.otc-service.com"
     servers:
