@@ -15,6 +15,7 @@ victoria-metrics-auth:
     reloadAuthKey: <path:secret/data/victoriametrics/otcinfra#vmauth_password>
     flagsAuthKey: <path:secret/data/victoriametrics/otcinfra#vmauth_password>
     metricsAuthKey: <path:secret/data/victoriametrics/otcinfra#vmauth_password>
+    pprofAuthKey: <path:secret/data/victoriametrics/otcinfra#vmauth_password>
     envflag.enable: "true"
     envflag.prefix: VM_
     loggerFormat: json
