@@ -7,13 +7,7 @@ global:
 # Authentication configuration using ArgoCD Vault Plugin
 auth:
   enablePostgresUser: true
-  # Vault references for ArgoCD Vault Plugin - no manual secrets needed
   postgresPassword: "<path:secret/data/postgresql#postgres-password>"
-  username: "<path:secret/data/postgresql#username>"
-  password: "<path:secret/data/postgresql#user-password>"
-  database: "<path:secret/data/postgresql#database>"
-  replicationUsername: "<path:secret/data/postgresql#replication-username>"
-  replicationPassword: "<path:secret/data/postgresql#replication-password>"
   usePasswordFiles: true
 
 # Security hardening
