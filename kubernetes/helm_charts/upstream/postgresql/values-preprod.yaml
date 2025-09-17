@@ -68,8 +68,15 @@ primary:
     shared_buffers = 256MB
     effective_cache_size = 1GB
 
-  # Use a dedicated ConfigMap for pg_hba.conf
-  existingConfigmap: "postgres-pg-hba-config"
+  # pg_hba.conf configuration - custom authentication settings
+  pgHbaConfiguration: |
+    # TYPE  DATABASE        USER            ADDRESS                 METHOD
+    local   all             all                                     md5
+    host    all             all             127.0.0.1/32            md5
+    host    all             all             ::1/128                 md5
+    host    all             all             0.0.0.0/0               md5
+    hostssl all             all             0.0.0.0/0               md5
+    host    replication     repl_user       0.0.0.0/0               md5
 
   # Database initialization
   initdb:
