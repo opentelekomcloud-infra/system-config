@@ -19,6 +19,20 @@ postgresql:
   primary:
     name: primary
 
+    # Security context
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+      runAsUser: 1001
+      runAsNonRoot: true
+
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1001
+      runAsNonRoot: true
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: false  # Keep false for PostgreSQL to work
+
     # Resource limits for security and stability
     resources:
       limits:
