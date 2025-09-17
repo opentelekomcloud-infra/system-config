@@ -4,11 +4,11 @@ postgresql:
   global:
     defaultStorageClass: "csi-disk"
 
-  # Authentication configuration - hardcoded for debugging
+  # Authentication configuration using ArgoCD Vault Plugin
   auth:
     enablePostgresUser: true
-    postgresPassword: "temp-debug-password"
-    usePasswordFiles: false
+    postgresPassword: "<path:secret/data/postgresql/admin#postgres-password>"
+    usePasswordFiles: true
 
   # Security hardening
   image:
@@ -23,7 +23,7 @@ postgresql:
     certificatesSecret: "postgresql-tls"
     certFilename: "tls.crt"
     certKeyFilename: "tls.key"
-    # certCAFilename: "ca.crt"  # Not needed for Let's Encrypt certs
+    certCAFilename: "ca.crt"  # Enable CA certificate for client verification
 
   # PostgreSQL Shared Preload Libraries
   postgresqlSharedPreloadLibraries: "pgaudit"
@@ -52,24 +52,43 @@ postgresql:
       hostssl all             all             0.0.0.0/0               md5
       host    replication     repl_user       0.0.0.0/0               md5
 
-    # Use default PostgreSQL configuration for debugging
-    # configuration: |
+    # PostgreSQL configuration - restored with SSL settings
+    configuration: |
+      # Security settings
+      ssl = on
+      ssl_ciphers = 'HIGH:MEDIUM:!aNULL:!MD5'
+      ssl_prefer_server_ciphers = on
+      password_encryption = md5
+
+      # Logging settings
+      log_statement = 'all'
+      log_min_duration_statement = 1000
+      log_connections = on
+      log_disconnections = on
+      log_hostname = on
+      log_line_prefix = '%m [%p] %q%u@%d '
+
+      # Performance and security
+      shared_preload_libraries = 'pgaudit'
+      max_connections = 100
+      shared_buffers = 256MB
+      effective_cache_size = 1GB
 
     # Database initialization - remove custom initdb args for debugging
-    # initdb:
-    #   args: "--auth-host=md5 --auth-local=md5"
-      # scripts:
-      #   01_init_database.sql: |
-      #     -- Create zitadel database and user using environment variables
-      #     CREATE USER "${ZITADEL_USERNAME}" WITH PASSWORD '${ZITADEL_USER_PASSWORD}';
-      #     CREATE DATABASE "${ZITADEL_DB_NAME}" OWNER "${ZITADEL_USERNAME}";
-      #     GRANT ALL PRIVILEGES ON DATABASE "${ZITADEL_DB_NAME}" TO "${ZITADEL_USERNAME}";
-      #
-      #     -- Create replication user using environment variables
-      #     CREATE ROLE "${REPL_USERNAME}" WITH REPLICATION LOGIN PASSWORD '${REPL_USER_PASSWORD}';
-      #
-      #     -- Enable pgaudit extension
-      #     CREATE EXTENSION IF NOT EXISTS pgaudit;
+    initdb:
+      args: "--auth-host=md5 --auth-local=md5"
+      scripts:
+        01_init_database.sql: |
+          -- Create zitadel database and user using environment variables
+          CREATE USER "${ZITADEL_USERNAME}" WITH PASSWORD '${ZITADEL_USER_PASSWORD}';
+          CREATE DATABASE "${ZITADEL_DB_NAME}" OWNER "${ZITADEL_USERNAME}";
+          GRANT ALL PRIVILEGES ON DATABASE "${ZITADEL_DB_NAME}" TO "${ZITADEL_USERNAME}";
+
+          -- Create replication user using environment variables
+          CREATE ROLE "${REPL_USERNAME}" WITH REPLICATION LOGIN PASSWORD '${REPL_USER_PASSWORD}';
+
+          -- Enable pgaudit extension
+          CREATE EXTENSION IF NOT EXISTS pgaudit;
 
     # Extra environment variables for user creation
     extraEnvVars:
