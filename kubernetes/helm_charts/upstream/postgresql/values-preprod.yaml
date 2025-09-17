@@ -15,6 +15,19 @@ postgresql:
     pullPolicy: IfNotPresent
     debug: false
 
+  # PostgreSQL Shared Preload Libraries for audit logging
+  postgresqlSharedPreloadLibraries: "pgaudit"
+
+  # Audit logging configuration (root level parameters)
+  pgAuditLog: "all"
+  pgAuditLogCatalog: "on"
+  clientMinMessages: "warning"
+  logLinePrefix: "%m [%p] %q%u@%d "
+  logTimezone: "UTC"
+  logConnections: true
+  logDisconnections: true
+  logHostname: true
+
   # TLS Configuration - temporarily disabled to resolve certificate path issues
   # tls:
   #   enabled: true
@@ -41,6 +54,15 @@ postgresql:
     configuration: |
       # Basic security settings
       password_encryption = md5
+
+      # Audit logging settings
+      shared_preload_libraries = 'pgaudit'
+      log_statement = 'all'
+      log_min_duration_statement = 1000
+      log_connections = on
+      log_disconnections = on
+      log_hostname = on
+      log_line_prefix = '%m [%p] %q%u@%d '
 
       # Basic performance settings
       max_connections = 100
