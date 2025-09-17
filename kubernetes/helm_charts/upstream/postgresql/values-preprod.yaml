@@ -38,6 +38,19 @@ postgresql:
       host    all             all             0.0.0.0/0               md5
       hostssl all             all             0.0.0.0/0               md5
 
+    # PostgreSQL configuration for SSL and basic security
+    configuration: |
+      # Security settings
+      ssl = on
+      ssl_ciphers = 'HIGH:MEDIUM:!aNULL:!MD5'
+      ssl_prefer_server_ciphers = on
+      password_encryption = md5
+
+      # Basic performance settings
+      max_connections = 100
+      shared_buffers = 256MB
+      effective_cache_size = 1GB
+
     # Security context
     podSecurityContext:
       enabled: true
