@@ -169,6 +169,40 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: postgresql
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_zitadel_in_preprod'
+      path: kubernetes/helm_charts/upstream/postgresql
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Enabling_zitadel_in_preprod'
+      path: kubernetes/helm_charts/local/postgresql
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # - name: victoria-metrics-auth
   #   clusters: [preprod]
   #   config:
