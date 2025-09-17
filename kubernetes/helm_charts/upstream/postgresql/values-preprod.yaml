@@ -25,8 +25,8 @@ postgresql:
     certKeyFilename: "tls.key"
     # certCAFilename: "ca.crt"  # Not needed for Let's Encrypt certs
 
-  # PostgreSQL Shared Preload Libraries - TEMPORARILY DISABLE PGAUDIT
-  # postgresqlSharedPreloadLibraries: "pgaudit"
+  # PostgreSQL Shared Preload Libraries - EXPLICITLY DISABLE PGAUDIT
+  postgresqlSharedPreloadLibraries: ""
 
   # Audit logging configuration (root level parameters) - DISABLE PGAUDIT
   # pgAuditLog: "all"
@@ -92,6 +92,8 @@ postgresql:
 
     # Extra environment variables for user creation
     extraEnvVars:
+      - name: POSTGRESQL_SHARED_PRELOAD_LIBRARIES
+        value: ""
       - name: ZITADEL_USER_PASSWORD
         value: "<path:secret/data/postgresql/zitadel#user-password>"
       - name: ZITADEL_DB_NAME
