@@ -167,3 +167,19 @@ postgresql:
       namespace: ""
       interval: 30s
       scrapeTimeout: 10s
+
+  # Backup configuration for data protection
+  backup:
+    enabled: true
+    cronjob:
+      schedule: "0 2 * * *"  # Daily at 2 AM
+      historyLimit: 7
+      restartPolicy: OnFailure
+      storage:
+        size: "10Gi"
+        storageClassName: "csi-disk"
+
+  # Pod Disruption Budget for high availability
+  pdb:
+    create: true
+    minAvailable: 1
