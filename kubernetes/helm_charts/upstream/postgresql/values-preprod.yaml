@@ -29,6 +29,11 @@ postgresql:
   primary:
     name: primary
 
+    # Configure PostgreSQL to use correct TLS certificate paths
+    extendedConfiguration: |
+      ssl_cert_file = '/opt/bitnami/postgresql/certs/tls.crt'
+      ssl_key_file = '/opt/bitnami/postgresql/certs/tls.key'
+
     # pg_hba.conf configuration for authentication
     pgHbaConfiguration: |
       # TYPE  DATABASE        USER            ADDRESS                 METHOD
