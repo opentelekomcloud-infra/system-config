@@ -69,10 +69,23 @@ postgresql:
       shared_buffers = 256MB
       effective_cache_size = 1GB
 
-    # Database initialization - simplified for now
+    # Database initialization - use default args to avoid hanging
     # TODO: Add custom user creation once vault secrets are properly configured
     initdb:
-      args: "--auth-host=md5 --auth-local=md5"
+      scripts:
+        01_init_database.sql: |
+          -- Create zitadel database and user using environment variables
+          CREATE USER "${ZITADEL_USERNAME}" WITH PASSWORD '${ZITADEL_USER_PASSWORD}';
+          CREATE DATABASE "${ZITADEL_DB_NAME}" OWNER "${ZITADEL_USERNAME}";
+          GRANT ALL PRIVILEGES ON DATABASE "${ZITADEL_DB_NAME}" TO "${ZITADEL_USERNAME}";
+
+          -- Create replication user using environment variables  
+          CREATE ROLE "${REPL_USERNAME}" WITH REPLICATION LOGIN PASSWORD '${REPL_USER_PASSWORD}';
+
+          -- Enable pgaudit extension
+          CREATE EXTENSION IF NOT EXISTS pgaudit;
+    # initdb:
+    #   args: "--auth-host=md5 --auth-local=md5"
 
     # Extra environment variables for user creation
     extraEnvVars:
