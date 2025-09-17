@@ -23,7 +23,7 @@ postgresql:
     certificatesSecret: "postgresql-tls"
     certFilename: "tls.crt"
     certKeyFilename: "tls.key"
-    certCAFilename: "ca.crt"  # Enable CA certificate for client verification
+    # certCAFilename: "ca.crt"  # Not needed - causes error if file missing
 
   # PostgreSQL Shared Preload Libraries
   postgresqlSharedPreloadLibraries: "pgaudit"
