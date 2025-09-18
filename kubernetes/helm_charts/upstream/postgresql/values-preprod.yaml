@@ -69,6 +69,9 @@ postgresql:
       ssl_key_file = '/opt/bitnami/postgresql/certs/tls.key'
       ssl_prefer_server_ciphers = on
 
+      # Allow remote connections
+      listen_addresses = '*'
+
       # Basic security settings
       password_encryption = md5
 
