@@ -1,0 +1,14 @@
+promtail:
+  config:
+    clients:
+    - basic_auth:
+        password: <path:secret/data/promtail/main#password>
+        username: <path:secret/data/promtail/main#username>
+      tenant_id: eco
+      url: https://loki.eco-preprod.tsi-dev.otc-service.com/loki/api/v1/push
+    snippets:
+      extraRelabelConfigs:
+      - replacement: otcinfra2
+        target_label: cluster
+      pipelineStages:
+        - docker: {}

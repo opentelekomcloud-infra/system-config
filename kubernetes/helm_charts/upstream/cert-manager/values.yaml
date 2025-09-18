@@ -1,8 +1,6 @@
 crds:
   keep: true
 
-#email: <path:secret/data/cert-manager#email>
-
 prometheus:
   enabled: true
   servicemonitor:
@@ -10,4 +8,3 @@ prometheus:
 
 extraArgs:
   - --feature-gates=AdditionalCertificateOutputFormats=true
-  - --enable-certificate-metrics=true
