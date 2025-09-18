@@ -1,0 +1,41 @@
+secret:
+  configData: |
+    Database:
+      postgres:
+        Database: "<path:secret/data/postgresql/zitadel#database>"
+        Host: "<path:secret/data/postgresql/zitadel#host>"
+        Port: 5432
+        MaxOpenConns: 20
+        MaxConnLifetime: 30m
+        MaxConnIdleTime: 30m
+        User:
+          Username: "<path:secret/data/postgresql/zitadel#username>"
+          Password: "<path:secret/data/postgresql/zitadel#user-password>"
+          SSL:
+            Mode: "require"
+        Admin:
+          Username: "<path:secret/data/postgresql/admin#postgres-username>"
+          Password: "<path:secret/data/postgresql/admin#postgres-password>"
+          SSL:
+            Mode: "require"
+    FirstInstance:
+      Skip: false
+      InstanceName: Default
+      # Pre-configure the first admin user
+      Org:
+        validateOrgDomains: false
+        Name: "<path:secret/data/zitadel/config#org>"
+        Human:
+          UserName: "<path:secret/data/zitadel/config#username>"
+          FirstName: "<path:secret/data/zitadel/config#firstname>"
+          LastName: "<path:secret/data/zitadel/config#lastname>"
+          Password: "<path:secret/data/zitadel/config#password>"
+          PasswordChangeRequired: false
+          Email:
+            Adress: "<path:secret/data/zitadel/config#email>"
+            Verified: true
+        Machine:
+          Machine:
+            Username: "machine-admin"
+            Name: "Machine Admin"
+
