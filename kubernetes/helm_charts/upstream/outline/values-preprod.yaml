@@ -33,10 +33,10 @@ outline:
 
   # Use external PostgreSQL (our managed instance)
   externalPostgresql:
-    host: "<path:secret/data/outline/postgresql#host>"
-    username: "<path:secret/data/outline/postgresql#username>"
-    password: "<path:secret/data/outline/postgresql#password>"
-    database: "<path:secret/data/outline/postgresql#database>"
+    host: "<path:secret/data/postgresql/outline#host>"
+    username: "<path:secret/data/postgresql/outline#username>"
+    password: "<path:secret/data/postgresql/outline#password>"
+    database: "<path:secret/data/postgresql/outline#database>"
     port: 5432  # Default port as integer
 
   # Use minimal Redis instance for required functionality
@@ -61,14 +61,14 @@ outline:
       nginx.ingress.kubernetes.io/proxy-body-size: "50m"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: docs.eco-preprod.tsi-dev.otc-service.com
+      - host: outline.eco-preprod.tsi-dev.otc-service.com
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: outline-tls
         hosts:
-          - docs.eco-preprod.tsi-dev.otc-service.com
+          - outline.eco-preprod.tsi-dev.otc-service.com
 
   # Resource limits
   resources:
