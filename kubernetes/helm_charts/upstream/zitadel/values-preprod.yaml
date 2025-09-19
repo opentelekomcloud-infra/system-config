@@ -1,6 +1,6 @@
 zitadel:
   # Default values for zitadel.
-  # Disable the login component to avoid the secret dependency
+  # Disable the login component to avoid container creation issues
   login:
     enabled: false
 
@@ -14,18 +14,6 @@ zitadel:
       ExternalPort: "443"
       TLS:
         Enabled: false  # Disable internal TLS, let ingress handle it
-      AuthRequest:
-        Cache:
-          MaxAge: "5m"
-          Size: 10000  # Set a positive size for auth request cache
-      FirstInstance:
-        InstanceName: "default-instance"
-        DefaultOrganization:
-          Name: "Default Organization"
-          Machine:
-            Machine:
-              Username: "admin"
-              Name: "Admin"
       Machine:
         Identification:
           Hostname:
@@ -96,7 +84,7 @@ zitadel:
     # After the debug pod is created, you can open a shell within the pod.
     # See more instructions by printing the pods logs using kubectl logs [pod name].
     debug:
-      enabled: true  # Enable debug pod for troubleshooting
+      enabled: false
       annotations:
         helm.sh/hook: pre-install,pre-upgrade
         helm.sh/hook-weight: "1"
@@ -267,7 +255,7 @@ zitadel:
       helm.sh/hook-weight: "1"
     resources: {}
     backoffLimit: 5
-    activeDeadlineSeconds: 600  # Increased timeout
+    activeDeadlineSeconds: 300
     initContainers: []
     extraContainers: []
     podAnnotations: {}
@@ -294,7 +282,6 @@ zitadel:
     additionalArgs:
       - "--init-projections=true"
       - "--tlsMode=external"
-      - "--force=true"
     machinekeyWriter:
       image:
         repository: bitnami/kubectl
