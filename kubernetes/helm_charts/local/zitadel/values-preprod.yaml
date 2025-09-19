@@ -29,8 +29,6 @@ configData: |
   FirstInstance:
     Skip: false
     InstanceName: "eco-preprod"
-    DefaultOrganization:
-      Name: "Default Organization"
     # Pre-configure the first admin user
     Org:
       validateOrgDomains: false
