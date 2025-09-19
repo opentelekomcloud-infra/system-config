@@ -1,6 +1,13 @@
 masterkey: "<path:secret/data/zitadel/config#masterkey>"
 
 configData: |
+  ExternalSecure: true
+  ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
+  ExternalPort: "443"
+  AuthRequest:
+    Cache:
+      MaxAge: "5m"
+      Size: 10000  # Set a positive size for auth request cache
   Database:
     postgres:
       Database: "<path:secret/data/postgresql/zitadel#database>"
@@ -21,7 +28,9 @@ configData: |
           Mode: "require"
   FirstInstance:
     Skip: false
-    InstanceName: Default
+    InstanceName: "eco-preprod"
+    DefaultOrganization:
+      Name: "Default Organization"
     # Pre-configure the first admin user
     Org:
       validateOrgDomains: false

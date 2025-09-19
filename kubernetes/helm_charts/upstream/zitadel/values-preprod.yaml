@@ -1,6 +1,6 @@
 zitadel:
   # Default values for zitadel.
-  # Disable the login component to avoid container creation issues
+  # Disable the login component to avoid the secret dependency
   login:
     enabled: false
 
@@ -9,11 +9,6 @@ zitadel:
     # See all defaults here:
     # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
     configmapConfig:
-      ExternalSecure: true
-      ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
-      ExternalPort: "443"
-      TLS:
-        Enabled: false  # Disable internal TLS, let ingress handle it
       Machine:
         Identification:
           Hostname:
@@ -84,7 +79,7 @@ zitadel:
     # After the debug pod is created, you can open a shell within the pod.
     # See more instructions by printing the pods logs using kubectl logs [pod name].
     debug:
-      enabled: false
+      enabled: true  # Enable debug pod for troubleshooting
       annotations:
         helm.sh/hook: pre-install,pre-upgrade
         helm.sh/hook-weight: "1"
@@ -255,7 +250,7 @@ zitadel:
       helm.sh/hook-weight: "1"
     resources: {}
     backoffLimit: 5
-    activeDeadlineSeconds: 300
+    activeDeadlineSeconds: 600  # Increased timeout
     initContainers: []
     extraContainers: []
     podAnnotations: {}
@@ -282,6 +277,7 @@ zitadel:
     additionalArgs:
       - "--init-projections=true"
       - "--tlsMode=external"
+      - "--force=true"
     machinekeyWriter:
       image:
         repository: bitnami/kubectl
