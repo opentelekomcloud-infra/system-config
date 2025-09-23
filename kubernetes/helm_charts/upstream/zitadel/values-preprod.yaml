@@ -1,3 +1,7 @@
+# Note: The ingress-nginx controller must be configured with a default SSL certificate
+# Add to ingress-nginx-controller deployment:
+# --default-ssl-certificate=default/zitadel-tls
+
 zitadel:
   # Default values for zitadel.
   # Disable the login component to avoid the secret dependency
@@ -9,6 +13,9 @@ zitadel:
     # See all defaults here:
     # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
     configmapConfig:
+      # The configmapConfig should be minimal as the main config comes from the secret
+      TLS:
+        Enabled: false
       Machine:
         Identification:
           Hostname:
@@ -19,7 +26,7 @@ zitadel:
     # The ZITADEL config under secretConfig is written to a Kubernetes Secret
     # See all defaults here:
     # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
-    secretConfig:
+    # secretConfig:
 
     # Annotations set on secretConfig secret
     secretConfigAnnotations:
@@ -136,11 +143,6 @@ zitadel:
     # Overrides the image tag whose default is the chart appVersion.
     tag: ""
 
-  imagePullSecrets:
-    - name: regcred
-  nameOverride: ""
-  fullnameOverride: ""
-
   # Annotations to add to the deployment
   annotations: {}
 
@@ -180,7 +182,16 @@ zitadel:
 
   # Additional environment variables
   env:
-    []
+    - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
+      value: "false"
+    # - name: ZITADEL_TLS_MODE
+    #   value: "external"  # Use external TLS mode for ingress TLS termination
+    # - name: ZITADEL_EXTERNALSECURE
+    #   value: "true"
+    # - name: ZITADEL_EXTERNALDOMAIN
+    #   value: "zitadel.eco-preprod.tsi-dev.otc-service.com"
+    # - name: ZITADEL_EXTERNALPORT
+    #   value: "443"
     # - name: ZITADEL_DATABASE_POSTGRES_HOST
     #   valueFrom:
     #     secretKeyRef:
@@ -199,9 +210,8 @@ zitadel:
     # If service type is "LoadBalancer", this can optionally be set to either "Cluster" or "Local"
     externalTrafficPolicy: ""
     port: 8080
-    protocol: http2
-    appProtocol: kubernetes.io/h2c
-    annotations: {}
+    protocol: http  # Use "http" as protocol so port name will be "http-server"
+    appProtocol: http  # Use standard HTTP protocol instead of h2c/gRPC
     labels: {}
     scheme: HTTP  # HTTP because we disabled internal TLS
 
@@ -211,21 +221,25 @@ zitadel:
     annotations:
       kubernetes.io/ingress.class: "nginx"
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
-      nginx.ingress.kubernetes.io/proxy-body-size: "64m"
-      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"  # Use HTTP instead of GRPC
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-      nginx.ingress.kubernetes.io/cors-allow-origin: "*"
-      nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
-      nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
-      nginx.ingress.kubernetes.io/cors-max-age: "86400"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/preserve-host: "true"
+      nginx.ingress.kubernetes.io/auth-tls-verify-client: "off"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     hosts:
       - host: zitadel.eco-preprod.tsi-dev.otc-service.com
         paths:
           - path: /
             pathType: Prefix
+            backend:
+              service:
+                name: zitadel-preprod
+                port:
+                  number: 8080
     tls:
       - hosts:
           - zitadel.eco-preprod.tsi-dev.otc-service.com
@@ -276,12 +290,11 @@ zitadel:
     podAdditionalLabels: {}
     additionalArgs:
       - "--init-projections=true"
-      - "--tlsMode=external"
-      - "--force=true"
+      - "--tlsMode=enabled"
     machinekeyWriter:
       image:
-        repository: bitnami/kubectl
-        tag: ""
+        repository: alpine/k8s
+        tag: "1.31.4"
       resources: {}
 
   readinessProbe:
@@ -335,12 +348,5 @@ zitadel:
     #   readOnly: true
 
   # extraManifests allows you to add your own Kubernetes manifests
-  # You can use templating logic like {{ .Release.Namespace }} and {{ .Values.replicaCount }} as long as your manifest is a valid YAML
   extraManifests: []
-    # - apiVersion: v1
-    #   kind: Secret
-    #   metadata:
-    #     name: {{ include "zitadel.fullname" . }}-my-secret
-    #   stringData:
-    #     key: value
-    #   type: Opaque
+  # We're using a simpler approach with a single ingress configured for HTTP

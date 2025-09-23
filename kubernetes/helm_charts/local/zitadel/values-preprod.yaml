@@ -3,11 +3,29 @@ masterkey: "<path:secret/data/zitadel/config#masterkey>"
 configData: |
   ExternalSecure: true
   ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
-  ExternalPort: "443"
-  AuthRequest:
+  API:
+    GRPC:
+      Enabled: true
+    HTTP:
+      Enabled: true
+  Login:
+    LanguageCookieName: zitadel.login.lang # ZITADEL_LOGIN_LANGUAGECOOKIENAME
+    CSRFCookieName: zitadel.login.csrf # ZITADEL_LOGIN_CSRFCOOKIENAME
     Cache:
-      MaxAge: "5m"
-      Size: 10000  # Set a positive size for auth request cache
+      MaxAge: 12h # ZITADEL_LOGIN_CACHE_MAXAGE # 168h is 7 days, one week
+      SharedMaxAge: 168h
+    DefaultPaths:
+      BasePath: "/ui/v2/login"
+      PasswordSetPath: "/password/set?code={{.Code}}&userId={{.UserID}}&organization={{.OrgID}}"
+      EmailCodePath: "/verify?code={{.Code}}&userId={{.UserID}}&organization={{.OrgID}}"
+      OTPEmailPath: "/otp/verify?code={{.Code}}&userID={{.UserID}}&sessionId={{.SessionID}}"
+  Auth:
+    SearchLimit: 1000 # ZITADEL_AUTH_SEARCHLIMIT
+    Spooler:
+      TransactionDuration: 10s #ZITADEL_AUTH_SPOOLER_TRANSACTIONDURATION
+      BulkLimit: 100 #ZITADEL_AUTH_SPOOLER_BULKLIMIT
+      FailureCountUntilSkip: 5 #ZITADEL_AUTH_SPOOLER_FAILURECOUNTUNTILSKIP
+    AmountOfCachedAuthRequests: 10000 #ZITADEL_AUTH_AMOUNTOFCACHEDAUTHREQUESTS
   Database:
     postgres:
       Database: "<path:secret/data/postgresql/zitadel#database>"
@@ -31,7 +49,12 @@ configData: |
     InstanceName: "eco-preprod"
     # Pre-configure the first admin user
     Org:
-      validateOrgDomains: false
+      LoginClient:
+        Machine:
+          Name: Automatically Initialized IAM Login Client
+          Username: login-client
+        Pat.ExpirationDate: "2029-01-01T00:00:00Z"
+      ValidateOrgDomains: false
       Name: "<path:secret/data/zitadel/config#org>"
       Human:
         UserName: "<path:secret/data/zitadel/config#username>"
