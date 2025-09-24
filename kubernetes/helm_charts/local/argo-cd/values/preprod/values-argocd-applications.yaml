@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enabling_docussaurus'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -140,9 +140,9 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enabling_docussaurus'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/local/outline
-      pluginName: argocd-vault-plugin-helm
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
@@ -157,9 +157,94 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Enabling_docussaurus'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/helm_charts/upstream/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/helm_charts/local/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: system-config-gitea-runner
+    clusters: [preprod]
+    config:
+      namespace: gitea-runner
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/helm_charts/local/gitea-runner
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/helm_charts/local/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel
+    clusters: [preprod]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/helm_charts/upstream/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
