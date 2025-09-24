@@ -1,0 +1,29 @@
+# Production Zuul site variables
+---
+# Zuul production environment configuration
+zuul_environment: "production"
+zuul_tenant: "opentelekom-cloud"
+
+# Executor configuration
+executor_max_jobs: 50
+executor_max_builds: 100
+
+# Web interface configuration
+web_listen_address: "0.0.0.0"
+web_listen_port: 9000
+
+# Scheduler configuration
+scheduler_tenant_max_builds: 500
+
+# Logging levels for production
+log_level: "INFO"
+statsd_enabled: true
+prometheus_enabled: true
+
+# Resource limits for production
+resource_limits:
+  cpu: "2000m"
+  memory: "4Gi"
+resource_requests:
+  cpu: "1000m"
+  memory: "2Gi"

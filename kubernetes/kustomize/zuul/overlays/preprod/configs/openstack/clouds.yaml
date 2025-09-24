@@ -1,0 +1,16 @@
+# OpenStack clouds configuration for preprod
+# This file will be populated by ArgoCD Vault Plugin
+---
+clouds:
+  preprod:
+    auth:
+      auth_url: <vault:secret/data/zuul/preprod/openstack#auth_url>
+      username: <vault:secret/data/zuul/preprod/openstack#username>
+      password: <vault:secret/data/zuul/preprod/openstack#password>
+      project_name: <vault:secret/data/zuul/preprod/openstack#project_name>
+      user_domain_name: <vault:secret/data/zuul/preprod/openstack#user_domain_name>
+      project_domain_name: <vault:secret/data/zuul/preprod/openstack#project_domain_name>
+    region_name: eu-de
+    interface: public
+    api_timeout: 60
+    verify: true

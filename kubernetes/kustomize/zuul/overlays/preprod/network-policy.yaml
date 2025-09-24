@@ -1,0 +1,61 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zuul-network-policy
+  labels:
+    app.kubernetes.io/instance: zuul-preprod
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zuul
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: zuul
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 9000
+    - protocol: TCP
+      port: 9091
+    - protocol: TCP
+      port: 7900
+  - from:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: zookeeper
+    ports:
+    - protocol: TCP
+      port: 2181
+    - protocol: TCP
+      port: 2281
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: zuul
+  - to:
+    - podSelector:
+        matchLabels:
+          app.kubernetes.io/name: zookeeper
+    ports:
+    - protocol: TCP
+      port: 2181
+    - protocol: TCP
+      port: 2281
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+    - protocol: UDP
+      port: 53
+

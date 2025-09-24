@@ -25,6 +25,13 @@ argo-cd:
         value: "true"
       - name: ARGOCD_EXEC_TIMEOUT
         value: "300"
+      - name: ARGOCD_JWT_CLAIM_FLATTEN
+        value: "true"
+      - name: ARGOCD_OIDC_GROUPS_FLATTEN
+        value: "true"
+      # Help ArgoCD find the groups in Zitadel's nested structure
+      - name: ARGOCD_OIDC_CLAIMS_PREFIX
+        value: ""
 
   ## Server
   server:
@@ -65,7 +72,7 @@ argo-cd:
             - argocd.eco-preprod.tsi-dev.otc-service.com
           secretName: argocd-server-tls
 
-    # Environment variables for Vault access
+    # Environment variables for Vault access and OIDC handling
     env:
       - name: VAULT_ADDR
         value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
@@ -73,6 +80,12 @@ argo-cd:
         value: "token"
       - name: AVP_TYPE
         value: "vault"
+      - name: ARGOCD_JWT_CLAIM_FLATTEN
+        value: "true"
+      - name: ARGOCD_OIDC_CLAIMS_PREFIX
+        value: "urn:zitadel:iam:org:project:"
+      - name: SERVER_RBAC_LOG_ENFORCE_ENABLE
+        value: "true"
       - name: VAULT_TOKEN
         valueFrom:
           secretKeyRef:
@@ -98,13 +111,15 @@ argo-cd:
             echo "Retrieving secrets from Vault..."
             ADMIN_PASSWORD=$(vault kv get -field=admin_password secret/argocd/config)
             SERVER_SECRET_KEY=$(vault kv get -field=server_secret_key secret/argocd/config)
-            OIDC_KEYCLOAK_CLIENT_SECRET=$(vault kv get -field=oidc_keycloak_client_secret secret/argocd/config)
+            OIDC_ZITADEL_CLIENT_SECRET=$(vault kv get -field=oidc_zitadel_client_secret secret/argocd/config)
+            OIDC_ZITADEL_CLIENT_ID=$(vault kv get -field=oidc_zitadel_client_id secret/argocd/config)
             VAULT_ADDRESS=$(vault kv get -field=vault_address secret/argocd/config)
 
             echo "Storing secrets in shared volume..."
             echo -n "$ADMIN_PASSWORD" > /shared/admin_password
             echo -n "$SERVER_SECRET_KEY" > /shared/server_secret_key
-            echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" > /shared/oidc_keycloak_client_secret
+            echo -n "$OIDC_ZITADEL_CLIENT_SECRET" > /shared/OIDC_ZITADEL_CLIENT_SECRET
+            echo -n "$OIDC_ZITADEL_CLIENT_ID" > /shared/OIDC_ZITADEL_CLIENT_ID
             echo -n "$VAULT_ADDRESS" > /shared/vault_address
 
             echo "Vault secrets retrieved successfully!"
@@ -130,7 +145,7 @@ argo-cd:
               - ALL
           readOnlyRootFilesystem: false
       - name: kubectl-patcher
-        image: bitnami/kubectl:latest
+        image: alpine/k8s:1.29.4
         command:
           - sh
           - -c
@@ -141,7 +156,8 @@ argo-cd:
             # Read secrets from shared volume
             ADMIN_PASSWORD=$(cat /shared/admin_password)
             SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
-            OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
+            OIDC_ZITADEL_CLIENT_SECRET=$(cat /shared/OIDC_ZITADEL_CLIENT_SECRET)
+            OIDC_ZITADEL_CLIENT_ID=$(cat /shared/OIDC_ZITADEL_CLIENT_ID)
             VAULT_ADDRESS=$(cat /shared/vault_address)
 
             # Generate current timestamp for password mtime
@@ -169,8 +185,13 @@ argo-cd:
                 },
                 {
                   "op": "replace",
-                  "path": "/data/oidc.keycloak.clientSecret",
-                  "value": "'$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)'"
+                  "path": "/data/oidc.zitadel.clientSecret",
+                  "value": "'$(echo -n "$OIDC_ZITADEL_CLIENT_SECRET" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/oidc.zitadel.clientID",
+                  "value": "'$(echo -n "$OIDC_ZITADEL_CLIENT_ID" | base64 -w 0)'"
                 },
                 {
                   "op": "replace",
@@ -195,7 +216,8 @@ argo-cd:
                 --from-literal=admin.password="$ADMIN_PASSWORD" \
                 --from-literal=admin.passwordMtime="$CURRENT_TIME" \
                 --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
-                --from-literal=oidc.keycloak.clientSecret="$OIDC_KEYCLOAK_CLIENT_SECRET" \
+                --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
+                --from-literal=oidc.zitadel.clientID="$OIDC_ZITADEL_CLIENT_ID" \
                 --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
                 --from-literal=AVP_AUTH_TYPE="token" \
                 --from-literal=AVP_TYPE="vault"
@@ -390,9 +412,11 @@ argo-cd:
     rbac:
       create: true
       policy.csv: |
-        # Admin roles - full access including secrets
-        g, /argocd-admin, role:admin
+        # Admin roles
         g, /argocd-ac, role:admin
+
+        # Zitadel Admin roles
+        g, argocd_admins, role:admin
 
         # Application management role
         g, /argocd-developers, role:ac
@@ -404,20 +428,20 @@ argo-cd:
         p, role:ac, secrets, *, docusaurus/*, allow
 
         # Read-only role - NO secrets access
-        g, /argocd-viewers, role:readonly
-        p, role:readonly, applications, get, *, allow
-        p, role:readonly, applications, list, *, allow
-        p, role:readonly, repositories, get, *, allow
-        p, role:readonly, repositories, list, *, allow
-        p, role:readonly, secrets, *, *, deny
+        # g, /argocd-viewers, role:readonly
+        # p, role:readonly, applications, get, *, allow
+        # p, role:readonly, applications, list, *, allow
+        # p, role:readonly, repositories, get, *, allow
+        # p, role:readonly, repositories, list, *, allow
+        # p, role:readonly, secrets, *, *, deny
 
         # No-secrets role - explicitly denied secrets access
-        g, /argocd-no-secrets, role:no-secrets
-        p, role:no-secrets, applications, get, *, allow
-        p, role:no-secrets, applications, list, *, allow
-        p, role:no-secrets, repositories, get, *, allow
-        p, role:no-secrets, repositories, list, *, allow
-        p, role:no-secrets, secrets, *, *, deny
+        # g, /argocd-no-secrets, role:no-secrets
+        # p, role:no-secrets, applications, get, *, allow
+        # p, role:no-secrets, applications, list, *, allow
+        # p, role:no-secrets, repositories, get, *, allow
+        # p, role:no-secrets, repositories, list, *, allow
+        # p, role:no-secrets, secrets, *, *, deny
 
         # System role for service accounts - LIMITED permissions
         p, role:system, applications, get, *, allow
@@ -441,19 +465,47 @@ argo-cd:
         p, role:vault-reader, secrets, update, *, deny
         p, role:vault-reader, secrets, patch, *, deny
         p, role:vault-reader, secrets, delete, *, deny
+
+        # Define role:none to deny access to everything
+        p, role:none, applications, *, *, deny
+        p, role:none, clusters, *, *, deny
+        p, role:none, repositories, *, *, deny
+        p, role:none, certificates, *, *, deny
+        p, role:none, accounts, *, *, deny
+        p, role:none, gpgkeys, *, *, deny
+        p, role:none, projects, *, *, deny
+        p, role:none, secrets, *, *, deny
+        p, role:none, logs, *, *, deny
+        p, role:none, exec, *, *, deny
+        p, role:none, session, *, *, deny
+        p, role:none, applicationsets, *, *, deny
+        p, role:none, notifications, *, *, deny
+        p, role:none, *, *, *, deny    # Catch-all for any future resources
+      # Sets users without group assignments to role:none (denied all access)
+      # Test after applying:
+      # 1. Create test user in Zitadel without groups
+      # 2. Try login - should see access denied
+      # 3. Add user to valid group - should then get access
       policy.default: "role:none"
       policy.matchMode: "glob"
       scopes: "[groups]"
 
-
     cm:
+      admin.enabled: "true"
       url: https://argocd.eco-preprod.tsi-dev.otc-service.com
       oidc.config: |
-        name: Keycloak
-        issuer: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco
-        clientID: argocd
-        clientSecret: $oidc.keycloak.clientSecret
-        requestedScopes: ["openid", "profile", "email", "groups"]
+        name: Zitadel
+        issuer: https://zitadel.eco-preprod.tsi-dev.otc-service.com
+        clientID: $oidc.zitadel.clientID
+        clientSecret: $oidc.zitadel.clientSecret
+        requestedScopes:
+          - openid
+          - profile
+          - email
+          - groups
+          - urn:zitadel:iam:org:project:roles
+          - urn:zitadel:iam:user:metadata
+        logoutURL: https://argocd.eco-preprod.tsi-dev.otc-service.com
       # Additional cluster configuration
       cluster.inClusterEnabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
@@ -478,7 +530,6 @@ argo-cd:
               - bash
               - "-c"
               - |
-                helm repo add falcosecurity https://falcosecurity.github.io/charts
                 helm dependency build
           generate:
             command:

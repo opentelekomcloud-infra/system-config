@@ -1,0 +1,29 @@
+# Preprod Zuul site variables
+---
+# Zuul preprod environment configuration
+zuul_environment: "preprod"
+zuul_tenant: "opentelekom-cloud-preprod"
+
+# Executor configuration (reduced for preprod)
+executor_max_jobs: 20
+executor_max_builds: 50
+
+# Web interface configuration
+web_listen_address: "0.0.0.0"
+web_listen_port: 9000
+
+# Scheduler configuration
+scheduler_tenant_max_builds: 100
+
+# Logging levels for preprod (more verbose for debugging)
+log_level: "DEBUG"
+statsd_enabled: false
+prometheus_enabled: true
+
+# Resource limits for preprod (reduced)
+resource_limits:
+  cpu: "1000m"
+  memory: "2Gi"
+resource_requests:
+  cpu: "500m"
+  memory: "1Gi"

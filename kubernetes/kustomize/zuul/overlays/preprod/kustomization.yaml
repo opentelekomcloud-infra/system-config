@@ -1,0 +1,205 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+components:
+  - ../../components/zuul-client
+  - ../../components/zuul-merger
+  - ../../components/nodepool-builder
+  - ../../components/restarter
+
+configMapGenerator:
+  - name: "zuul-instance-config"
+    behavior: "replace"
+    literals:
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
+  - name: "zuul-executor-vars"
+    behavior: "replace"
+    files:
+      - "configs/site-vars.yaml"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: zuul-preprod
+
+images:
+  - name: "busybox"
+    newName: "quay.io/opentelekomcloud/busybox"
+    newTag: "1.36.0-musl"
+
+  - name: "zuul/zuul-executor"
+    newName: "quay.io/opentelekomcloud/zuul-executor"
+    newTag: "change_1157_change_859940"
+
+  - name: "zuul/zuul-merger"
+    newName: "quay.io/opentelekomcloud/zuul-merger"
+    newTag: "change_1157_change_859940"
+
+  - name: "zuul/zuul-scheduler"
+    newName: "quay.io/opentelekomcloud/zuul-scheduler"
+    newTag: "change_1157_change_859940"
+
+  - name: "zuul/zuul-web"
+    newName: "quay.io/opentelekomcloud/zuul-web"
+    newTag: "change_1157_change_859940"
+
+  - name: "zuul/nodepool-builder"
+    newName: "quay.io/opentelekomcloud/nodepool-builder"
+    newTag: "8.2.0"
+
+  - name: "zuul/nodepool-launcher"
+    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newTag: "8.2.0"
+
+patches:
+  # Security hardening - Add security contexts
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          fsGroup: 10001
+          seccompProfile:
+            type: RuntimeDefault
+    target:
+      group: apps
+      kind: Deployment
+      version: v1
+
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          fsGroup: 10001
+          seccompProfile:
+            type: RuntimeDefault
+    target:
+      group: apps
+      kind: StatefulSet
+      version: v1
+
+  # Security hardening - Update container security contexts
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/securityContext
+        value:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 10001
+          runAsGroup: 10001
+          seccompProfile:
+            type: RuntimeDefault
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component in (zuul-scheduler,zuul-merger,zuul-web,zuul-client)"
+      group: apps
+      version: v1
+
+  # Patch zookeeper (storage class, size and count)
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: "csi-disk"
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: "5Gi"
+    target:
+      group: apps
+      kind: StatefulSet
+      name: zookeeper
+      version: v1
+
+  # Patching zuul-executor count for preprod (reduced)
+  - patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component=zuul-executor"
+      group: apps
+      version: v1
+
+  # Security hardening - Add resource limits and requests for preprod
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: "1000m"
+      - op: add
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: "2Gi"
+      - op: add
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: "250m"
+      - op: add
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: "1Gi"
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component=zuul-scheduler"
+      group: apps
+      version: v1
+
+  # Patching web ingress for preprod
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: zuul.eco-preprod.tsi-dev.otc-service.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "2048"
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+          nginx.ingress.kubernetes.io/server-snippet: |
+            add_header X-Frame-Options "SAMEORIGIN" always;
+            add_header X-Content-Type-Options "nosniff" always;
+            add_header X-XSS-Protection "1; mode=block" always;
+            add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+            add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+            add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self'; frame-ancestors 'self';" always;
+            add_header Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), interest-cohort=()" always;
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - zuul.eco-preprod.tsi-dev.otc-service.com
+            secretName: zuul-cert-preprod
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: zuul-web
+      version: v1
+
+resources:
+  - ../../base
+  - crb.yaml
+  - crb_admin.yaml
+  - network-policy.yaml
+
+# ArgoCD Vault integration replaces vault agent
+# Secrets will be managed through ArgoCD vault plugin
+secretGenerator:
+  - name: zuul-config
+    behavior: "replace"
+    files:
+      - "configs/zuul.conf"
+  - name: nodepool-config
+    behavior: "replace"
+    files:
+      - "configs/openstack/clouds.yaml"
+      - "configs/kube.config"
