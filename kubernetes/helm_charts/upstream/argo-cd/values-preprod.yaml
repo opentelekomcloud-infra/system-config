@@ -98,13 +98,13 @@ argo-cd:
             echo "Retrieving secrets from Vault..."
             ADMIN_PASSWORD=$(vault kv get -field=admin_password secret/argocd/config)
             SERVER_SECRET_KEY=$(vault kv get -field=server_secret_key secret/argocd/config)
-            OIDC_KEYCLOAK_CLIENT_SECRET=$(vault kv get -field=oidc_keycloak_client_secret secret/argocd/config)
+            OIDC_ZITADEL_CLIENT_SECRET=$(vault kv get -field=OIDC_ZITADEL_CLIENT_SECRET secret/argocd/config)
             VAULT_ADDRESS=$(vault kv get -field=vault_address secret/argocd/config)
 
             echo "Storing secrets in shared volume..."
             echo -n "$ADMIN_PASSWORD" > /shared/admin_password
             echo -n "$SERVER_SECRET_KEY" > /shared/server_secret_key
-            echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" > /shared/oidc_keycloak_client_secret
+            echo -n "$OIDC_ZITADEL_CLIENT_SECRET" > /shared/OIDC_ZITADEL_CLIENT_SECRET
             echo -n "$VAULT_ADDRESS" > /shared/vault_address
 
             echo "Vault secrets retrieved successfully!"
@@ -141,7 +141,7 @@ argo-cd:
             # Read secrets from shared volume
             ADMIN_PASSWORD=$(cat /shared/admin_password)
             SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
-            OIDC_KEYCLOAK_CLIENT_SECRET=$(cat /shared/oidc_keycloak_client_secret)
+            OIDC_ZITADEL_CLIENT_SECRET=$(cat /shared/OIDC_ZITADEL_CLIENT_SECRET)
             VAULT_ADDRESS=$(cat /shared/vault_address)
 
             # Generate current timestamp for password mtime
@@ -170,7 +170,7 @@ argo-cd:
                 {
                   "op": "replace",
                   "path": "/data/oidc.keycloak.clientSecret",
-                  "value": "'$(echo -n "$OIDC_KEYCLOAK_CLIENT_SECRET" | base64 -w 0)'"
+                  "value": "'$(echo -n "$OIDC_ZITADEL_CLIENT_SECRET" | base64 -w 0)'"
                 },
                 {
                   "op": "replace",
@@ -195,7 +195,7 @@ argo-cd:
                 --from-literal=admin.password="$ADMIN_PASSWORD" \
                 --from-literal=admin.passwordMtime="$CURRENT_TIME" \
                 --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
-                --from-literal=oidc.keycloak.clientSecret="$OIDC_KEYCLOAK_CLIENT_SECRET" \
+                --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
                 --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
                 --from-literal=AVP_AUTH_TYPE="token" \
                 --from-literal=AVP_TYPE="vault"
@@ -449,11 +449,13 @@ argo-cd:
     cm:
       url: https://argocd.eco-preprod.tsi-dev.otc-service.com
       oidc.config: |
-        name: Keycloak
-        issuer: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco
-        clientID: argocd
-        clientSecret: $oidc.keycloak.clientSecret
-        requestedScopes: ["openid", "profile", "email", "groups"]
+        name: Zitadel
+        issuer: https://zitadel.eco-preprod.tsi-dev.otc-service.com
+        clientID: "<path:secret/data/argocd/config#oidc_client_id>"
+        clientSecret: "<path:secret/data/argocd/config#oidc_zitadel_client_secret>"
+        requestedScopes: ["openid", "profile", "email", "groups", "state", "nonce"]
+        requestedIDTokenClaims: {"groups": {"essential": true}}
+        logoutURL: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oidc/v1/end_session
       # Additional cluster configuration
       cluster.inClusterEnabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
