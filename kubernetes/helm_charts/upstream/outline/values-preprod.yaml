@@ -14,22 +14,36 @@ outline:
   # Secrets - will be overridden by ArgoCD parameters
   secretKey: "<path:secret/data/outline/app#secretKey>"
   utilsSecret: "<path:secret/data/outline/app#utilsSecret>"
-  url: ""  # Will be auto-generated from ingress
+  url: "https://outline.eco-preprod.tsi-dev.otc-service.com"  # Explicitly setting the URL
 
-  # Keycloak OIDC Authentication - will be overridden by ArgoCD parameters
+  # Zitadel OIDC Authentication with PKCE
   auth:
-    keycloak:
-      enabled: false
-      clientId: "<path:secret/data/outline/keycloak#clientId>"
-      clientSecret: "<path:secret/data/outline/keycloak#client-secret>"
-      baseUrl: "<path:secret/data/outline/keycloak#baseUrl>"
-      realmName: "<path:secret/data/outline/keycloak#realm-name>"
-      displayName: "Keycloak SSO"
-      # usernameClaim: "preferred_username"
-      # scopes:
-      #   - openid
-      #   - profile
-      #   - email
+    oidc:
+      # Enable OIDC authentication
+      enabled: true
+      # Client ID registered in Zitadel
+      clientId: "<path:secret/data/outline/zitadel#clientId>"
+      # Client secret from Zitadel
+      clientSecret: "<path:secret/data/outline/zitadel#client-secret>"
+      # Zitadel authorization endpoint
+      authUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/authorize"
+      # Zitadel token endpoint
+      tokenUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/token"
+      # Zitadel userinfo endpoint
+      userInfoUri: "<path:secret/data/outline/zitadel#baseUrl>/oidc/v1/userinfo"
+      logoutUri: "<path:secret/data/outline/zitadel#baseUrl>"
+
+      # Display name shown on the login button
+      displayName: "Zitadel SSO"
+      # The claim to use as the username
+      usernameClaim: "preferred_username"
+      # Required OAuth scopes
+      scopes:
+        - openid
+        - profile
+        - email
+        - state
+        - nonce
 
   # Use external PostgreSQL (our managed instance)
   externalPostgresql:
