@@ -64,7 +64,7 @@ redis:
   auth:
     enabled: false
     password: ""
-  
+
   # Persistence (disabled for minimal setup)
   persistence:
     enabled: false
