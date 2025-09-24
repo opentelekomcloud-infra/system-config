@@ -31,7 +31,7 @@ outline:
       tokenUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/token"
       # Zitadel userinfo endpoint
       userInfoUri: "<path:secret/data/outline/zitadel#baseUrl>/oidc/v1/userinfo"
-      logoutUri: "<path:secret/data/outline/zitadel#baseUrl>"
+      logoutUri: "https://outline.eco-preprod.tsi-dev.otc-service.com"
 
       # Display name shown on the login button
       displayName: "Zitadel SSO"
