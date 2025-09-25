@@ -326,7 +326,7 @@
       nodes:
         - <<: *bridge_node_x86
         - name: proxy1.eco.tsi-dev.otc-service.com
-          label: ubuntu-jammy
+          label: fedora-40
       groups:
         - <<: *bastion_group
     vars:
