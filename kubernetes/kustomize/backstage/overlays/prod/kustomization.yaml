@@ -38,7 +38,7 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value:
-          backstage.eco.tsi-dev.otc-service.com
+          backstage.eco-preprod.tsi-dev.otc-service.com
       - op: add
         path: /spec/rules/0/http/paths/0/backend
         value:
@@ -57,7 +57,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - backstage.eco.tsi-dev.otc-service.com
+              - backstage.eco-preprod.tsi-dev.otc-service.com
             secretName: backstage-cert-prod
     target:
       group: networking.k8s.io

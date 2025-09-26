@@ -1,6 +1,6 @@
 apiVersion: v2
 name: grafana
-description: A Helm chart for Grafana that includes pre-defined dashboards and datasources
+description: A Helm chart for Grafana upstream
 version: 0.1.0
 dependencies:
   - name: grafana

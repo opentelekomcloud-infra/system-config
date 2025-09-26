@@ -48,6 +48,7 @@ To add a new application to be managed by Argo CD through this Helm chart:
 
 2. **Define Applications in `values.yaml`:**
    Add the new application's details in the `values.yaml` file under the `applications` section:
+
    ```yaml
    applications:
      - name: new-app
@@ -60,6 +61,32 @@ To add a new application to be managed by Argo CD through this Helm chart:
          chart: optional-chart-name
          pluginName: optional-plugin
          pluginEnv: 'optional-path-to-chart-values'
+  ```
+
+3. **Define AppliactionSets in `values.yaml`:**
+   Add the new application's sets details in the `values.yaml` file under the `applicationSets` section:
+
+  ```yaml
+  applicationSets:
+    - name: argocd
+      applications:
+        - name: argocd
+          namespace: argocd
+          repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+          targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+          path: kubernetes/helm_charts/upstream/argo-cd
+          pluginName: argocd-vault-plugin-helm-with-args
+          pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+          server: https://kubernetes.default.svc
+        - name: argocd-additional-manifests
+          namespace: argocd
+          repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+          targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+          path: github/system-config/kubernetes/helm_charts/local/argo-cd
+          pluginName: argocd-vault-plugin-helm-with-args
+          pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+          server: https://kubernetes.default.svc
+  ```
 
 ### Manual Deployment of Applications
 
