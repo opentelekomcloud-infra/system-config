@@ -326,7 +326,7 @@
       nodes:
         - <<: *bridge_node_x86
         - name: proxy1.eco.tsi-dev.otc-service.com
-          label: pod-fedora-40
+          label: fedora-35
       groups:
         - <<: *bastion_group
     vars:
