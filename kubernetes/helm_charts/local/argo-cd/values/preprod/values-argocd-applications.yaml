@@ -315,7 +315,7 @@ applications:
     config:
       namespace: backstage-dev
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Providing_backstage_kustomize_app'
       path: kubernetes/kustomize/backstage/overlays/dev/
       project: infra
       kustomize: {}

@@ -1,0 +1,60 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth-proxy-config
+data:
+  oauth2-proxy.cfg: |
+    # Network configuration
+    http_address = "0.0.0.0:4180"
+
+    # OIDC Provider configuration
+    provider = "oidc"
+    oidc_issuer_url = "https://auth.example.com"
+    skip_oidc_discovery = false
+
+    # Application configuration
+    redirect_url = "https://example.com/oauth2/callback"
+    whitelist_domains = [
+        "example.com"
+    ]
+    email_domains = [
+        "*"
+    ]
+    upstreams = [
+        "http://app:8080"
+    ]
+
+    # Session and Redis configuration
+    session_store_type = "redis"
+    redis_connection_url = "redis://redis:6379"
+
+    # Security headers and cookie settings
+    cookie_secure = true
+    cookie_httponly = true
+    cookie_samesite = "lax"
+    cookie_expire = "24h"
+    cookie_refresh = "1h"
+
+    # Request validation
+    skip_auth_regex = []
+    pass_basic_auth = false
+    pass_access_token = false
+    pass_authorization_header = false
+    set_authorization_header = false
+    set_xauthrequest = true
+
+    # Logging and monitoring
+    request_logging = true
+    auth_logging = true
+    silence_ping_logging = true
+
+    # OIDC specific security settings
+    insecure_oidc_allow_unverified_email = false
+    oidc_email_claim = "email"
+    oidc_groups_claim = "groups"
+
+    # Secrets (resolved by ArgoCD Vault Plugin)
+    client_id = "<path:secret/data/oauth/oidc#client_id>"
+    client_secret = "<path:secret/data/oauth/oidc#client_secret>"
+    cookie_secret = "<path:secret/data/oauth/oidc#cookie_secret>"

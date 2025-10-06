@@ -1,0 +1,12 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backstage-oauth-proxy
+spec:
+  rules:
+  - host: backstage-dev.eco-preprod.tsi-dev.otc-service.com
+  tls:
+  - hosts:
+    - backstage-dev.eco-preprod.tsi-dev.otc-service.com
+    secretName: backstage-oauth-proxy-cert

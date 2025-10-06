@@ -13,3 +13,15 @@ resources:
 - service.yaml
 - ingress.yaml
 - deployment.yaml
+- sa.yaml
+- secret.yaml
+
+configMapGenerator:
+- name: config
+  envs:
+  - backstage.env
+
+generatorOptions:
+  disableNameSuffixHash: false
+  labels:
+    app.kubernetes.io/managed-by: kustomize

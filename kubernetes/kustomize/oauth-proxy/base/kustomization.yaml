@@ -7,6 +7,9 @@ resources:
   - service.yaml
   - serviceaccount.yaml
   - ingress-oauth.yaml
+  - configmap.yaml
+  - networkpolicy.yaml
+  - poddisruptionbudget.yaml
 
 images:
   - name: oauth2-proxy

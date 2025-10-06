@@ -4,16 +4,7 @@ kind: Kustomization
 
 namespace: helpcenter-swiss-int
 
-components:
-  - components/oauth-proxy
-  - components/redis
-
 configMapGenerator:
-  - name: "oauth-vault-agent-config"
-    files:
-      - vault-agent.hcl=components/oauth-proxy/vault-agent.hcl
-    options:
-      disableNameSuffixHash: true
   - name: "nginx-config"
     behavior: "merge"
     # rather then adding redirect_map: helpcenter to every CM we rather replace

@@ -1,0 +1,28 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: backstage-dev
+
+resources:
+  - ../../../base
+
+patchesStrategicMerge:
+  - configmap.patch.yaml
+  - deployment.patch.yaml
+  - service.patch.yaml
+  - ingress.patch.yaml
+  - serviceaccount.patch.yaml
+  - networkpolicy.patch.yaml
+  - poddisruptionbudget.patch.yaml
+
+images:
+  - name: oauth2-proxy
+    newName: "quay.io/oauth2-proxy/oauth2-proxy"
+    newTag: "v7.4.0"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "backstage-dev"
+      app.kubernetes.io/managed-by: "kustomize"
