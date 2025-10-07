@@ -52,12 +52,18 @@ frontend web
   http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
 
   # Block direct IP access - only allow valid domain names
+{% set valid_domains = [] %}
 {% for backend in proxy_backends %}
 {% for domain in backend.domain_names %}
-  acl valid_host_{{ loop.index0 }} hdr(host) -i {{ domain }}
+{% set _ = valid_domains.append(domain) %}
 {% endfor %}
 {% endfor %}
-  acl valid_host{% for backend in proxy_backends %}{% for domain in backend.domain_names %} or valid_host_{{ loop.index0 }}{% endfor %}{% endfor %}
+{% for domain in valid_domains %}
+  acl valid_domain_{{ loop.index }} hdr(host) -i {{ domain }}
+{% endfor %}
+
+  # Create combined ACL for all valid hosts
+  acl valid_host {% for domain in valid_domains %}valid_domain_{{ loop.index }}{% if not loop.last %} or {% endif %}{% endfor %}
 
   # Deny requests that don't have a valid Host header
   http-request deny if !valid_host
