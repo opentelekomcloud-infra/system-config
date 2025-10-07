@@ -50,6 +50,16 @@ frontend web
   # 16000000 seconds is a bit more than 6 months
   http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
 
+  # Block direct IP access - only allow valid domain names
+{% for backend in proxy_backends %}
+{% for domain in backend.domain_names %}
+  acl valid_host hdr(host) -i {{ domain }}
+{% endfor %}
+{% endfor %}
+
+  # Deny requests that don't have a valid Host header
+  http-request deny if !valid_host
+
 {% for backend in proxy_backends %}
 {% for domain in backend.domain_names %}
   acl {{ backend.name }}_acl hdr(host) -i {{ domain }}
