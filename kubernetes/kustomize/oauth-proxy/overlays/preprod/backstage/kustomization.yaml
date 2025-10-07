@@ -4,17 +4,17 @@ kind: Kustomization
 
 namespace: backstage-dev
 
-resources:
+components:
   - ../../../base
 
-patchesStrategicMerge:
-  - configmap.patch.yaml
-  - deployment.patch.yaml
-  - service.patch.yaml
-  - ingress.patch.yaml
-  - serviceaccount.patch.yaml
-  - networkpolicy.patch.yaml
-  - poddisruptionbudget.patch.yaml
+patches:
+  - path: configmap.patch.yaml
+  - path: deployment.patch.yaml
+  - path: service.patch.yaml
+  - path: ingress.patch.yaml
+  - path: serviceaccount.patch.yaml
+  - path: networkpolicy.patch.yaml
+  - path: poddisruptionbudget.patch.yaml
 
 images:
   - name: oauth2-proxy

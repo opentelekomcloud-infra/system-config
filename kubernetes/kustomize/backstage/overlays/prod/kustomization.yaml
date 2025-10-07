@@ -2,17 +2,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: backstage
-
-resources:
-  - ../../base
-  - sa.yaml
+components:
+  - ../../components/oauth-proxy
+  - ../../components/redis
 
 configMapGenerator:
-- name: config
-  envs:
-  - backstage.env
-  behavior: merge
+  - name: backstage-vault-config
+    files:
+      - vault-agent.hcl
 
 labels:
   - includeSelectors: true
@@ -30,6 +27,8 @@ images:
     newName: docker.io/vault
     newTag: "1.13.2"
 
+namespace: backstage
+
 patches:
   - patch: |-
       - op: replace
@@ -39,7 +38,7 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value:
-          backstage.eco-preprod.tsi-dev.otc-service.com
+          backstage.eco.tsi-dev.otc-service.com
       - op: add
         path: /spec/rules/0/http/paths/0/backend
         value:
@@ -58,11 +57,15 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - backstage.eco-preprod.tsi-dev.otc-service.com
+              - backstage.eco.tsi-dev.otc-service.com
             secretName: backstage-cert-prod
     target:
       group: networking.k8s.io
       kind: Ingress
       name: backstage
       version: v1
-  - path: deployment.yaml
+  - path: deployment.patch.yaml
+
+resources:
+  - ../../base
+  - sa.yaml

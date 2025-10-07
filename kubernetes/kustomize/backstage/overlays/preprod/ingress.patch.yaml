@@ -1,0 +1,27 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backstage
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - <path:secret/data/backstage/config#base_url>
+      secretName: backstage-cert-prod
+  rules:
+    - host: <path:secret/data/backstage/config#base_url>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: backstage-oauth-proxy
+                port:
+                  number: 80

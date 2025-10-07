@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,11 +24,29 @@ spec:
           ports:
             - name: http
               containerPort: 7007
+          env:
+            # Static configuration
+            - name: APP_CONFIG
+              value: "/app/app-config.production.yaml"
+            - name: POSTGRES_PORT
+              value: "5432"
+            # Default values (can be overridden in overlays)
+            - name: LOG_LEVEL
+              value: "info"
+            - name: NODE_ENV
+              value: "production"
+            - name: AUTH_ENVIRONMENT
+              value: "production"
+            - name: DANGEROUS_DISABLE_AUTH_POLICY
+              value: "false"
           envFrom:
-            - configMapRef:
-                name: config
             - secretRef:
                 name: backstage-secret
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/app-config.production.yaml
+              subPath: app-config.production.yaml
+              readOnly: true
           resources:
             requests:
               cpu: "50m"
@@ -36,12 +55,26 @@ spec:
               cpu: "500m"
               memory: "500Mi"
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /healthcheck
               port: 7007
-            initialDelaySeconds: 20
-            periodSeconds: 10
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              path: /healthcheck
               port: 7007
-            initialDelaySeconds: 20
-            periodSeconds: 5
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+      volumes:
+        - name: app-config
+          secret:
+            secretName: backstage-secret
+            items:
+              - key: app-config.production.yaml
+                path: app-config.production.yaml
+            defaultMode: 0400

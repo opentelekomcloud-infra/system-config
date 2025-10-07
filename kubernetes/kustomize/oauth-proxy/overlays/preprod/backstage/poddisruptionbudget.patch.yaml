@@ -2,7 +2,7 @@
 apiVersion: policy/v1
 kind: PodDisruptionBudget
 metadata:
-  name: backstage-oauth-proxy-pdb
+  name: oauth-proxy-pdb
 spec:
   selector:
     matchLabels:

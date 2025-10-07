@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage
+spec:
+  template:
+    spec:
+      containers:
+        - name: backstage
+          imagePullPolicy: Always
+          env:
+            - name: LOG_LEVEL
+              value: "debug"
+            - name: NODE_ENV
+              value: "preprod"
+            - name: AUTH_ENVIRONMENT
+              value: "development"
+            - name: DANGEROUS_DISABLE_AUTH_POLICY
+              value: "true"
