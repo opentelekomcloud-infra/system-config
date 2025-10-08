@@ -6,7 +6,6 @@ resources:
   - deployment.yaml
   - service.yaml
   - serviceaccount.yaml
-  - ingress-oauth.yaml
   - configmap.yaml
   - networkpolicy.yaml
   - poddisruptionbudget.yaml

@@ -13,6 +13,10 @@ data:
 
     # Application configuration
     http_address = "0.0.0.0:4180"
+
+    # Session configuration (use Redis like backup)
+    session_store_type = "redis"
+    redis_connection_url = "redis://redis.redis.svc.cluster.local:6379"
     redirect_url = "https://<path:secret/data/backstage/config#base_url>/oauth2/callback"
     whitelist_domains = [
         "<path:secret/data/backstage/config#base_url>"
@@ -25,12 +29,17 @@ data:
         "http://backstage.backstage.svc.cluster.local:80"
     ]
 
-    # OIDC specific security settings
-    insecure_oidc_allow_unverified_email = false
+    # OIDC specific security settings (match backup behavior)
+    insecure_oidc_allow_unverified_email = true
     oidc_email_claim = "email"
     oidc_groups_claim = "urn:zitadel:iam:org:project:roles"
     oidc_extra_audiences = []
     scope = "openid profile email groups urn:zitadel:iam:org:project:roles urn:zitadel:iam:user:metadata"
+
+    # Debug logging to see group format
+    standard_logging = true
+    auth_logging = true
+    request_logging = true
 
     # Secrets (resolved by ArgoCD Vault Plugin)
     client_id = "<path:secret/data/backstage/zitadel#clientId>"
@@ -40,8 +49,14 @@ data:
     # Email-based access control for backstage
     pass_authorization_header = true
     pass_user_headers = true
+    set_xauthrequest = true
+    pass_access_token = true
+    pass_host_header = true
 
-    # Group-based access control for backstage
+    # Set additional headers for Backstage oauth2-proxy integration
+    set_authorization_header = true
+
+    # Group-based access control for backstage (re-enable now that auth is working)
     # allowed_groups = [
     #     "backstage_admins"
     # ]

@@ -13,8 +13,18 @@ spec:
             - name: LOG_LEVEL
               value: "debug"
             - name: NODE_ENV
-              value: "preprod"
+              value: "production"
             - name: AUTH_ENVIRONMENT
-              value: "development"
+              value: "production"
             - name: DANGEROUS_DISABLE_AUTH_POLICY
               value: "true"
+          volumeMounts:
+            - name: app-config
+              mountPath: /tmp/app-config.production.yaml
+              subPath: app-config.production.yaml
+              readOnly: false
+      volumes:
+        - name: app-config
+          secret:
+            secretName: backstage-secret
+            defaultMode: 0644

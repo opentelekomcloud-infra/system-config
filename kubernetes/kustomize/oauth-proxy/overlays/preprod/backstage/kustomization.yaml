@@ -11,7 +11,6 @@ patches:
   - path: configmap.patch.yaml
   - path: deployment.patch.yaml
   - path: service.patch.yaml
-  - path: ingress.patch.yaml
   - path: serviceaccount.patch.yaml
   - path: networkpolicy.patch.yaml
   - path: poddisruptionbudget.patch.yaml
