@@ -269,6 +269,9 @@ proxy_frontends:
   - name: "influx"
     bind: "*:8086 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
     backend: "influx"
+    options:
+      - "acl influx_stats path_beg /stats.json"
+      - "http-request deny if influx_stats"
 
   - name: "matrix"
     bind: "*:8448 ssl crt /etc/ssl/{{ inventory_hostname }}/haproxy"
