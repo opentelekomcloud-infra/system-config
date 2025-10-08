@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: oauth-proxy-config
+  name: oauth2-proxy-config
 data:
   oauth2-proxy.cfg: |
     # Network configuration
@@ -17,19 +17,19 @@ data:
     # Application configuration
     redirect_url = "https://<path:secret/data/backstage/config#base_url>/oauth2/callback"
     whitelist_domains = [
-        "<path:secret/data/backstage/config#base_url>""
+        "<path:secret/data/backstage/config#base_url>"
     ]
     email_domains = [
         "telekom.de",
         "t-systems.com"
     ]
     upstreams = [
-        "http://backstage:7007"
+        "http://backstage:80"
     ]
 
     # Session and Redis configuration
     session_store_type = "redis"
-    redis_connection_url = "redis://redis:6379"
+    redis_connection_url = "redis://redis.redis.svc.cluster.local:6379"
 
     # Security headers and cookie settings
     cookie_secure = true

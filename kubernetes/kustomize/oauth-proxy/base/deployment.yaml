@@ -34,7 +34,7 @@ spec:
             containerPort: 4180
             protocol: TCP
           args:
-            - '--config=/config/oauth2-proxy-config'
+            - '--config=/config/oauth2-proxy.cfg'
           securityContext:
             runAsNonRoot: true
             runAsUser: 65534
