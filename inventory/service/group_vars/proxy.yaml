@@ -111,6 +111,8 @@ proxy_backends:
       - "http-send-name-header Host"
       - "default-server check inter 5s fall 5 rise 1"
       - "option forwardfor"
+      - "acl influx_stats path_beg /stats.json"
+      - "http-request deny if influx_stats"
     domain_names:
       - "influx1.eco.tsi-dev.otc-service.com"
     servers:
