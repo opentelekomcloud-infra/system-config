@@ -23,4 +23,4 @@ labels:
 images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
-    newTag: "amd64-minimal"
+    newTag: "fixed"

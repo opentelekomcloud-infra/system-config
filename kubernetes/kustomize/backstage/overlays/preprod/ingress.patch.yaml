@@ -22,6 +22,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: backstage-oauth-proxy
+                name: oauth-proxy
                 port:
-                  number: 80
+                  number: 4180

@@ -27,7 +27,7 @@ data:
 
     # Session and Redis configuration
     session_store_type = "redis"
-    redis_connection_url = "redis://redis:6379"
+    redis_connection_url = "redis://redis.redis.svc.cluster.local:6379"
 
     # Security headers and cookie settings
     cookie_secure = true

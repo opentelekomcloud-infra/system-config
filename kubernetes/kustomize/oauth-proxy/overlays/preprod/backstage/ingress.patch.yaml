@@ -5,8 +5,17 @@ metadata:
   name: oauth-proxy
 spec:
   rules:
-  - host: <path:secret/data/backstage/config#base_url>
+  - host: oauth-proxy-<path:secret/data/backstage/config#base_url>
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: oauth-proxy
+            port:
+              number: 4180
   tls:
   - hosts:
-    - <path:secret/data/backstage/config#base_url>
+    - oauth-proxy-<path:secret/data/backstage/config#base_url>
     secretName: backstage-oauth-proxy-cert

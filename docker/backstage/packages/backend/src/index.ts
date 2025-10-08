@@ -16,6 +16,7 @@ backend.add(import('@backstage/plugin-catalog-backend-module-scaffolder-entity-m
 
 // Permission plugin
 backend.add(import('@backstage/plugin-permission-backend/alpha'));
+backend.add(import('@backstage/plugin-permission-backend-module-allow-all-policy/alpha'));
 
 // Proxy plugin
 backend.add(import('@backstage/plugin-proxy-backend/alpha'));
