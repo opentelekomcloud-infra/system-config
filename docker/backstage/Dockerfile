@@ -22,6 +22,11 @@ COPY --chown=backstage:backstage package.json ./
 # Copy pre-built backend
 COPY --chown=backstage:backstage packages/backend ./packages/backend
 
+# Create app structure and copy the root package.json to satisfy app plugin requirements
+RUN mkdir -p packages/app app
+COPY --chown=backstage:backstage package.json ./packages/app/package.json
+COPY --chown=backstage:backstage package.json ./app/package.json
+
 # Copy app configs
 COPY --chown=backstage:backstage app-config*.yaml ./
 

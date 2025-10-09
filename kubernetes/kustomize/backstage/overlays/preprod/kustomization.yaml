@@ -8,7 +8,6 @@ resources:
   - ../../base
 
 patches:
-  - path: deployment.patch.yaml
   - path: ingress.patch.yaml
 
 labels:
@@ -22,4 +21,4 @@ labels:
 images:
   - name: backstage
     newName: quay.io/opentelekomcloud/backstage
-    newTag: "fixed"
+    newTag: "change_42_latest"

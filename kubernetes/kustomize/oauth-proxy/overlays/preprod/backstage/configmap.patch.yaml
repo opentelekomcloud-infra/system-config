@@ -56,6 +56,10 @@ data:
     # Set additional headers for Backstage oauth2-proxy integration
     set_authorization_header = true
 
+    # Configure headers that Backstage oauth2Proxy provider expects
+    # Note: These are automatically set by oauth2-proxy when pass_user_headers = true
+    # No need for explicit set_x_forwarded_* directives in v7.4.0
+
     # Group-based access control for backstage (re-enable now that auth is working)
     # allowed_groups = [
     #     "backstage_admins"

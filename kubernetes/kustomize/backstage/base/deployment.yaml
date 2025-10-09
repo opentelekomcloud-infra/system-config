@@ -20,32 +20,35 @@ spec:
       containers:
         - name: backstage
           image: backstage
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
+          # Try using the backend-only entry point
+          command: ["node"]
+          args: ["packages/backend", "--config", "/etc/backstage/app-config.yaml"]
           ports:
             - name: http
               containerPort: 7007
           env:
-            # Static configuration
+            # Override to use production config only
             - name: APP_CONFIG
-              value: "/app/app-config.production.yaml"
+              value: "/etc/backstage/app-config.yaml"
             - name: POSTGRES_PORT
               value: "5432"
             # Default values (can be overridden in overlays)
             - name: LOG_LEVEL
-              value: "info"
+              value: "debug"
             - name: NODE_ENV
               value: "production"
             - name: AUTH_ENVIRONMENT
               value: "production"
             - name: DANGEROUS_DISABLE_AUTH_POLICY
-              value: "false"
+              value: "true"
           envFrom:
             - secretRef:
                 name: backstage-secret
           volumeMounts:
             - name: app-config
-              mountPath: /app/app-config.production.yaml
-              subPath: app-config.production.yaml
+              mountPath: /etc/backstage/app-config.yaml
+              subPath: app-config.yaml
               readOnly: true
           resources:
             requests:
@@ -75,6 +78,6 @@ spec:
           secret:
             secretName: backstage-secret
             items:
-              - key: app-config.production.yaml
-                path: app-config.production.yaml
-            defaultMode: 0400
+              - key: app-config.yaml
+                path: app-config.yaml
+            defaultMode: 0644
