@@ -22,7 +22,7 @@ echo "To push latest: podman push ${REGISTRY}/${IMAGE_NAME}:latest"
 
 # Update the kustomize configuration
 echo "Updating kustomize configuration..."
-sed -i.bak "s/newTag: .*/newTag: \"${TAG}\"/" ../../kubernetes/kustomize/backstage/overlays/preprod/kustomization.yaml
+sed -i "s/newTag: .*/newTag: \"${TAG}\"/" ../../kubernetes/kustomize/backstage/overlays/preprod/kustomization.yaml
 
 echo "Updated kustomization.yaml with new tag: ${TAG}"
 echo "Don't forget to commit the changes!"

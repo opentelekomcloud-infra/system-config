@@ -376,3 +376,20 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: backstage-oauth-proxy
+    clusters: [preprod]
+    config:
+      namespace: backstage
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Providing_backstage_kustomize_app'
+      path: kubernetes/kustomize/oauth-proxy/overlays/preprod/backstage/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -2,8 +2,8 @@ import { createBackend } from '@backstage/backend-defaults';
 
 const backend = createBackend();
 
-// App plugin
-backend.add(import('@backstage/plugin-app-backend/alpha'));
+// App plugin - commented out for backend-only deployment
+// backend.add(import('@backstage/plugin-app-backend/alpha'));
 
 // Auth plugin
 backend.add(import('@backstage/plugin-auth-backend'));
