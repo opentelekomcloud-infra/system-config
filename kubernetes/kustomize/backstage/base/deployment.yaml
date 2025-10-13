@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,41 +14,17 @@ spec:
       labels:
         app.kubernetes.io/component: backstage
     spec:
-      serviceAccountName: backstage
       terminationGracePeriodSeconds: 10
       containers:
         - name: backstage
           image: backstage
-          imagePullPolicy: Always
-          # Try using the backend-only entry point
-          command: ["node"]
-          args: ["packages/backend", "--config", "/etc/backstage/app-config.yaml"]
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 7007
           env:
-            # Override to use production config only
-            - name: APP_CONFIG
-              value: "/etc/backstage/app-config.yaml"
-            - name: POSTGRES_PORT
-              value: "5432"
-            # Default values (can be overridden in overlays)
             - name: LOG_LEVEL
-              value: "debug"
-            - name: NODE_ENV
-              value: "production"
-            - name: AUTH_ENVIRONMENT
-              value: "production"
-            - name: DANGEROUS_DISABLE_AUTH_POLICY
-              value: "true"
-          envFrom:
-            - secretRef:
-                name: backstage-secret
-          volumeMounts:
-            - name: app-config
-              mountPath: /etc/backstage/app-config.yaml
-              subPath: app-config.yaml
-              readOnly: true
+              value: debug
           resources:
             requests:
               cpu: "50m"
@@ -58,26 +33,12 @@ spec:
               cpu: "500m"
               memory: "500Mi"
           readinessProbe:
-            httpGet:
-              path: /healthcheck
+            tcpSocket:
               port: 7007
-            initialDelaySeconds: 60
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 5
+            initialDelaySeconds: 20
+            periodSeconds: 10
           livenessProbe:
-            httpGet:
-              path: /healthcheck
+            tcpSocket:
               port: 7007
-            initialDelaySeconds: 120
-            periodSeconds: 30
-            timeoutSeconds: 10
-            failureThreshold: 3
-      volumes:
-        - name: app-config
-          secret:
-            secretName: backstage-secret
-            items:
-              - key: app-config.yaml
-                path: app-config.yaml
-            defaultMode: 0644
+            initialDelaySeconds: 20
+            periodSeconds: 5

@@ -80,8 +80,8 @@ spec:
 
       volumes:
         - name: config
-          configMap:
-            name: oauth2-proxy-config
+          secret:
+            secretName: oauth2-proxy-config
             defaultMode: 0444  # Read-only
         - name: tmp-volume
           emptyDir:

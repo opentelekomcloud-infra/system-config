@@ -1,7 +1,8 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: docsportal-swiss-internal-oauth-proxy
+  name: oauth-proxy
   labels:
     app.kubernetes.io/component: docsportal-swiss-internal-oauth-proxy
 spec:
@@ -13,4 +14,9 @@ spec:
       labels:
         app.kubernetes.io/component: docsportal-swiss-internal-oauth-proxy
     spec:
-      serviceAccountName: docsportal-helpcenter-swiss-internal
+      serviceAccountName: docsportal-swiss-internal-oauth-proxy
+      volumes:
+        - name: config
+          secret:
+            secretName: docsportal-swiss-internal-oauth-proxy-config
+            defaultMode: 0444
