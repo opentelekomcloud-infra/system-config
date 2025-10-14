@@ -1,0 +1,16 @@
+  /usermanual/rds/rds_sqlserver_parameter_group.html /relational-database-service/umn/working_with_rds_for_sql_server/parameter_templates/creating_a_parameter_template.html;
+  /usermanual/rds/rds_sqlserver_recycle.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_lifecycle/recycling_a_db_instance.html;
+  /usermanual/rds/rds_sqlserver_scale_cluster.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/scaling_up_storage_space.html;
+  /usermanual/rds/rds_sqlserver_scale_rds.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/changing_a_db_instance_class.html;
+  /usermanual/rds/rds_sqlserver_switch_ha.html /relational-database-service/umn/working_with_rds_for_sql_server/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
+  /usermanual/rds/rds_sqlserver_tag.html /relational-database-service/umn/working_with_rds_for_sql_server/managing_tags.html;
+  /usermanual/rds/rds_sqlserver_task_0001.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/viewing_a_task.html;
+  /usermanual/rds/rds_sqlserver_task_0002.html /relational-database-service/umn/working_with_rds_for_sql_server/task_center/deleting_a_task_record.html;
+  /usermanual/rds/rds_switch_ha.html /relational-database-service/umn/working_with_rds_for_mysql/instance_modifications/manually_switching_between_primary_and_standby_db_instances.html;
+  /usermanual/rds/rds_tag.html /relational-database-service/umn/working_with_rds_for_mysql/managing_tags.html;
+  /usermanual/rds/rds_task_0001.html /relational-database-service/umn/working_with_rds_for_mysql/task_center/viewing_a_task.html;
+  /usermanual/rds/rds_task_0002.html /relational-database-service/umn/working_with_rds_for_mysql/task_center/deleting_a_task_record.html;
+  /usermanual/rds/rds_task_pg_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/task_center/viewing_a_task.html;
+  /usermanual/rds/rds_task_pg_0002.html /relational-database-service/umn/working_with_rds_for_postgresql/task_center/deleting_a_task_record.html;
+  /usermanual/rds/slow_query_log-pg.html /relational-database-service/umn/working_with_rds_for_postgresql/log_management/downloading_slow_query_logs.html;
+  /usermanual/rds/slow_query_log-sqlserver.html /relational-database-service/umn/working_with_rds_for_sql_server/log_management/downloading_slow_query_logs.html;

@@ -308,7 +308,7 @@ patches:
         value: ingress-intern
       - op: replace
         path: /spec/rules/0/host
-        value: docs-int.otc-service.com
+        value: <path:secret/data/docsportal/helpcenter_internal/config#docs_internal>
       - op: replace
         path: /metadata/annotations
         value:
@@ -317,7 +317,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs-int.otc-service.com
+              - <path:secret/data/docsportal/helpcenter_internal/config#docs_internal>
             secretName: helpcenter-int-cert
     target:
       group: networking.k8s.io
@@ -377,13 +377,9 @@ patches:
       version: v1
 
 resources:
-  - ../../base
+  - ../../../base
   - sa.yaml
   - ingress-oauth.yaml
-
-components:
-  - components/oauth-proxy
-  - components/redis
 
 replicas:
   - name: document-hosting

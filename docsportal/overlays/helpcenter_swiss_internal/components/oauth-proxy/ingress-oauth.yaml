@@ -1,0 +1,32 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hc-swiss-internal-oauth
+  namespace: helpcenter-swiss-int
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+  labels:
+    app.kubernetes.io/instance: helpcenter-swiss-internal-oauth
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: oauth-proxy
+    argocd.argoproj.io/instance: hc-internal
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: docs-swiss-int.otc-service.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: docsportal-swiss-internal-oauth-proxy
+            port:
+              number: 4180
+        path: /oauth2
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-swiss-int.otc-service.com
+    secretName: hc-swiss-internal-oauth-tls

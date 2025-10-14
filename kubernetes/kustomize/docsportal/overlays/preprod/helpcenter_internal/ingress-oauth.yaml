@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: docs.otctest.t-systems.com
+  - host: <path:secret/data/docsportal/helpcenter_internal/config#base_url>
     http:
       paths:
       - backend:
@@ -28,5 +28,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - docs.otctest.t-systems.com
+    - <path:secret/data/docsportal/helpcenter_internal/config#base_url>
     secretName: helpcenter-int-oauth
