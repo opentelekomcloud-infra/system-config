@@ -15,6 +15,7 @@ loki:
     delete_request_store: s3
   # retention period config
   limits_config:
+    deletion_mode: filter-and-delete
     retention_period: 2184h
 table_manager:
   retention_deletes_enabled: true
