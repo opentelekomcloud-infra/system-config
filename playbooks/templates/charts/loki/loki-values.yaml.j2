@@ -119,7 +119,7 @@ minio:
   enabled: true
   rootPassword: "{{ chart.loki_minio_root_password }}"
   persistence:
-    size: 500Gi
+    size: 400Gi
     storageClass: csi-disk
   resources:
     requests:
