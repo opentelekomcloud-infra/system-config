@@ -1,0 +1,141 @@
+---
+# Fail2Ban configuration for Kubernetes nginx ingress
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fail2ban-config
+  namespace: kube-system
+data:
+  fail2ban.conf: |
+    [Definition]
+    loglevel = INFO
+    logtarget = STDOUT
+    syslogsocket = auto
+    socket = /var/run/fail2ban/fail2ban.sock
+    pidfile = /var/run/fail2ban/fail2ban.pid
+    dbfile = /data/fail2ban.sqlite3
+    dbpurgeage = 86400
+
+  jail.conf: |
+    [DEFAULT]
+    # Ban time in seconds
+    bantime = 3600
+    # Find time window in seconds
+    findtime = 600
+    # Max retry attempts
+    maxretry = 5
+    # Ban action
+    banaction = kubernetes-nginx
+    # Email configuration (optional)
+    # destemail = admin@yourdomain.com
+    # sender = fail2ban@yourdomain.com
+    # action = %(action_mwl)s
+
+    [nginx-http-auth]
+    enabled = true
+    filter = nginx-http-auth
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 3
+    bantime = 3600
+    findtime = 600
+
+    [nginx-noscript]
+    enabled = true
+    filter = nginx-noscript
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 6
+    bantime = 86400
+    findtime = 600
+
+    [nginx-badbots]
+    enabled = true
+    filter = nginx-badbots
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 2
+    bantime = 86400
+    findtime = 600
+
+    [nginx-noproxy]
+    enabled = true
+    filter = nginx-noproxy
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 2
+    bantime = 86400
+    findtime = 600
+
+    [nginx-dos]
+    enabled = true
+    filter = nginx-dos
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 250
+    bantime = 3600
+    findtime = 300
+
+    [kubernetes-nginx-rate-limit]
+    enabled = true
+    filter = kubernetes-nginx-rate-limit
+    logpath = /var/log/nginx/*access*.log
+    maxretry = 10
+    bantime = 1800
+    findtime = 60
+
+  # Custom filters
+  nginx-badbots.conf: |
+    [Definition]
+    failregex = ^<HOST> -.*"(GET|POST).*HTTP.*" (404|403) .*".*bot.*".*$
+                ^<HOST> -.*"(GET|POST).*HTTP.*" (404|403) .*".*spider.*".*$
+                ^<HOST> -.*"(GET|POST).*HTTP.*" (404|403) .*".*crawler.*".*$
+                ^<HOST> -.*"(GET|POST).*HTTP.*" (404|403) .*".*scanner.*".*$
+    ignoreregex =
+
+  nginx-dos.conf: |
+    [Definition]
+    failregex = ^<HOST> -.*"(GET|POST).*HTTP.*" (200|404) [0-9]+
+    ignoreregex =
+
+  kubernetes-nginx-rate-limit.conf: |
+    [Definition]
+    failregex = ^<HOST> .*"(GET|POST|HEAD).*" 429
+    ignoreregex =
+
+  # Custom action for Kubernetes
+  kubernetes-nginx.conf: |
+    [Definition]
+    actionstart = echo "Starting Kubernetes nginx ban action"
+    actionstop = echo "Stopping Kubernetes nginx ban action"
+    actioncheck =
+    actionban = /usr/local/bin/k8s-ban.sh <ip>
+    actionunban = /usr/local/bin/k8s-unban.sh <ip>
+
+  k8s-ban.sh: |
+    #!/bin/bash
+    IP=$1
+    echo "Banning IP: $IP"
+
+    # Add IP to nginx configmap blacklist
+    kubectl patch configmap nginx-configuration -n ingress-nginx \
+      --type='merge' -p="{\"data\":{\"block-cidrs\":\"$(kubectl get configmap nginx-configuration -n ingress-nginx -o jsonpath='{.data.block-cidrs}'),$IP/32\"}}"
+
+    # Reload nginx configuration
+    kubectl rollout restart deployment/nginx-ingress-controller -n ingress-nginx
+
+    # Log the ban
+    echo "$(date): Banned IP $IP" >> /data/banned_ips.log
+
+  k8s-unban.sh: |
+    #!/bin/bash
+    IP=$1
+    echo "Unbanning IP: $IP"
+
+    # Remove IP from nginx configmap blacklist
+    CURRENT_CIDRS=$(kubectl get configmap nginx-configuration -n ingress-nginx -o jsonpath='{.data.block-cidrs}')
+    NEW_CIDRS=$(echo "$CURRENT_CIDRS" | sed "s/,$IP\/32//g" | sed "s/$IP\/32,//g" | sed "s/$IP\/32//g")
+
+    kubectl patch configmap nginx-configuration -n ingress-nginx \
+      --type='merge' -p="{\"data\":{\"block-cidrs\":\"$NEW_CIDRS\"}}"
+
+    # Reload nginx configuration
+    kubectl rollout restart deployment/nginx-ingress-controller -n ingress-nginx
+
+    # Log the unban
+    echo "$(date): Unbanned IP $IP" >> /data/banned_ips.log

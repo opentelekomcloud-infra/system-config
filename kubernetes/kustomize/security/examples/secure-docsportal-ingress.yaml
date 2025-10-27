@@ -1,0 +1,112 @@
+---
+# Enhanced security patch for docsportal ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  labels:
+    app.kubernetes.io/name: document-hosting
+    security.kubernetes.io/protected: "true"
+  name: document-hosting
+  annotations:
+    # SSL and security headers
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    # Rate limiting - 20 requests per minute per IP
+    nginx.ingress.kubernetes.io/rate-limit: "20"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/rate-limit-status-code: "429"
+
+    # Connection limiting - max 5 concurrent connections per IP
+    nginx.ingress.kubernetes.io/limit-connections: "5"
+
+    # Advanced bot and attack protection
+    nginx.ingress.kubernetes.io/server-snippet: |
+      # Block common bot user agents
+      if ($http_user_agent ~* (bot|crawler|spider|scanner|curl|wget|python|go-http|java|apache|libwww|masscan|nmap)) {
+        return 403 "Bot access denied";
+      }
+
+      # Block requests without user agent
+      if ($http_user_agent = "") {
+        return 403 "User agent required";
+      }
+
+      # Block suspicious request methods
+      if ($request_method !~ ^(GET|POST|HEAD|OPTIONS)$ ) {
+        return 405 "Method not allowed";
+      }
+
+      # Block requests to common attack paths
+      location ~* /(wp-admin|wp-login|phpMyAdmin|admin|\.env|\.git|\.svn|backup|config|database) {
+        return 404;
+      }
+
+      # Block requests with suspicious query parameters
+      if ($args ~* (union|select|insert|delete|update|script|alert|document\.cookie)) {
+        return 403 "Suspicious request blocked";
+      }
+
+      # Block requests with suspicious file extensions
+      location ~* \.(php|jsp|asp|cgi|pl|py|sh|bat|exe|dll)$ {
+        return 404;
+      }
+
+    # Security headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'";
+      more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains";
+      more_set_headers "Permissions-Policy: geolocation=(), microphone=(), camera=()";
+
+    # Request size limits
+    nginx.ingress.kubernetes.io/proxy-body-size: "1m"
+    nginx.ingress.kubernetes.io/client-body-buffer-size: "1k"
+
+    # Timeout settings
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "5"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "10"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "10"
+
+    # Custom error pages
+    nginx.ingress.kubernetes.io/custom-http-errors: "403,404,429,500,502,503,504"
+
+    # Whitelist internal networks (adjust as needed)
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+    # Enable ModSecurity
+    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
+    nginx.ingress.kubernetes.io/modsecurity-snippet: |
+      SecRuleEngine On
+      SecRequestBodyAccess On
+      SecAuditEngine RelevantOnly
+      SecAuditLogRelevantStatus "^(?:5|4(?!04))"
+
+      # Custom rule for documentation sites
+      SecRule REQUEST_URI "@contains /docs" \
+        "id:2001,\
+        phase:1,\
+        pass,\
+        log,\
+        msg:'Documentation access logged'"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - document-hosting
+      secretName: document-hosting-tls
+  rules:
+    - host: document-hosting
+      http:
+        paths:
+          - backend:
+              service:
+                name: document-hosting
+                port:
+                  number: 8080
+            path: /
+            pathType: Prefix

@@ -1,0 +1,221 @@
+---
+# Security monitoring and alerting stack
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: security-monitoring
+  namespace: monitoring
+data:
+  prometheus-rules.yaml: |
+    groups:
+    - name: nginx-security
+      rules:
+      # High error rate alert
+      - alert: HighErrorRate
+        expr: |
+          rate(nginx_ingress_controller_requests{status=~"4.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High 4XX error rate detected"
+          description: "Ingress {{ $labels.ingress }} has {{ $value }} 4XX errors"
+
+      # DDoS attack detection
+      - alert: PossibleDDoSAttack
+        expr: |
+          rate(nginx_ingress_controller_requests[1m]) > 100
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Possible DDoS attack detected"
+          description: "Request rate is {{ $value }} per second"
+
+      # Too many blocked IPs
+      - alert: HighBlockedIPCount
+        expr: |
+          increase(fail2ban_banned_total[5m]) > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High number of IPs being blocked"
+          description: "{{ $value }} IPs blocked in the last 5 minutes"
+
+      # ModSecurity alerts
+      - alert: ModSecurityBlock
+        expr: |
+          rate(nginx_ingress_controller_requests{status="403"}[5m]) > 0.5
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ModSecurity blocking requests"
+          description: "High rate of 403 responses: {{ $value }} per second"
+
+  grafana-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "Security Dashboard",
+        "tags": ["security", "nginx", "ingress"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "id": 1,
+            "title": "Request Rate by Status Code",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "sum(rate(nginx_ingress_controller_requests[5m])) by (status)",
+                "legendFormat": "{{ status }}"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "title": "Top Source IPs",
+            "type": "table",
+            "targets": [
+              {
+                "expr": "topk(10, sum(rate(nginx_ingress_controller_requests[5m])) by (source_ip))",
+                "format": "table"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "title": "Blocked IPs Timeline",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "increase(fail2ban_banned_total[1m])",
+                "legendFormat": "Banned IPs"
+              }
+            ]
+          },
+          {
+            "id": 4,
+            "title": "Geographic Distribution",
+            "type": "geomap",
+            "targets": [
+              {
+                "expr": "sum(rate(nginx_ingress_controller_requests[5m])) by (country_code)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+
+  security-scanner.sh: |
+    #!/bin/bash
+    # Security monitoring script
+
+    LOG_FILE="/var/log/security-scan.log"
+    ALERT_THRESHOLD=100
+
+    echo "$(date): Starting security scan..." >> $LOG_FILE
+
+    # Check for suspicious patterns in nginx logs
+    SUSPICIOUS_COUNT=$(kubectl logs -n ingress-nginx deployment/nginx-ingress-controller | \
+      grep -E "(bot|crawler|scanner|hack|exploit)" | wc -l)
+
+    if [ $SUSPICIOUS_COUNT -gt $ALERT_THRESHOLD ]; then
+      echo "$(date): ALERT - $SUSPICIOUS_COUNT suspicious requests detected" >> $LOG_FILE
+      # Send alert to monitoring system
+      curl -X POST "http://alertmanager:9093/api/v1/alerts" \
+        -H "Content-Type: application/json" \
+        -d '[{
+          "labels": {
+            "alertname": "SuspiciousActivity",
+            "severity": "warning"
+          },
+          "annotations": {
+            "summary": "High number of suspicious requests",
+            "description": "'$SUSPICIOUS_COUNT' suspicious requests in the last scan"
+          }
+        }]'
+    fi
+
+    # Check fail2ban status
+    BANNED_IPS=$(kubectl exec -n kube-system daemonset/fail2ban -- fail2ban-client status | \
+      grep "Currently banned:" | awk '{print $3}')
+
+    echo "$(date): Currently banned IPs: $BANNED_IPS" >> $LOG_FILE
+
+    # Generate daily security report
+    if [ "$(date +%H)" = "06" ]; then
+      echo "$(date): Generating daily security report..." >> $LOG_FILE
+      kubectl logs -n ingress-nginx deployment/nginx-ingress-controller --since=24h | \
+        awk '{print $1}' | sort | uniq -c | sort -nr | head -20 > /tmp/top_ips.txt
+
+      # Send report via webhook or email
+      curl -X POST "$SECURITY_WEBHOOK_URL" \
+        -H "Content-Type: application/json" \
+        -d "{\"text\": \"Daily security report: $(cat /tmp/top_ips.txt)\"}"
+    fi
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: security-scanner
+  namespace: monitoring
+spec:
+  schedule: "*/10 * * * *"  # Every 10 minutes
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: security-scanner
+            image: curlimages/curl:latest
+            command: ["/bin/sh", "/config/security-scanner.sh"]
+            volumeMounts:
+            - name: security-config
+              mountPath: /config
+            env:
+            - name: SECURITY_WEBHOOK_URL
+              value: "https://hooks.slack.com/your-webhook-url"
+          volumes:
+          - name: security-config
+            configMap:
+              name: security-monitoring
+              defaultMode: 0755
+          serviceAccountName: security-scanner
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: security-scanner
+  namespace: monitoring
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: security-scanner
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list"]
+- apiGroups: ["apps"]
+  resources: ["deployments", "daemonsets"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods/exec"]
+  verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: security-scanner
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: security-scanner
+subjects:
+- kind: ServiceAccount
+  name: security-scanner
+  namespace: monitoring

@@ -1,0 +1,235 @@
+# Enhanced Load Balancer Configurations for OTC Infrastructure
+# Applies security hardening to existing load balancers
+
+# Enhanced configuration for elb-swift (80.158.44.22)
+enhanced_elb_swift:
+  loadbalancer:
+    name: "elb-swift-enhanced"
+    vip_address: "80.158.44.22"
+    description: "Swift load balancer with enhanced security"
+
+    # Enhanced listeners with security features
+    listeners:
+      - name: "swift-http-secure"
+        protocol: "HTTP"
+        protocol_port: 80
+        description: "HTTP with rate limiting and security headers"
+        # Connection limits for DDoS protection
+        connection_limit: 1000
+        # Enhanced security headers
+        security_headers:
+          - "X-Frame-Options: DENY"
+          - "X-Content-Type-Options: nosniff"
+          - "X-XSS-Protection: 1; mode=block"
+          - "Strict-Transport-Security: max-age=31536000"
+
+      - name: "swift-https-secure"
+        protocol: "HTTPS"
+        protocol_port: 443
+        ssl_cert: "swift-ssl-cert"
+        tls_ciphers_policy: "tls-1-2-strict"
+        description: "HTTPS with enhanced TLS configuration"
+        connection_limit: 2000
+
+    # Enhanced pools with health monitoring
+    pools:
+      - name: "swift-pool-secure"
+        description: "Swift backend pool with enhanced monitoring"
+        protocol: "HTTP"
+        lb_algorithm: "ROUND_ROBIN"
+        # Enhanced health monitoring
+        health_monitor:
+          type: "HTTP"
+          delay: 5
+          timeout: 3
+          max_retries: 3
+          url_path: "/healthcheck"
+          expected_codes: "200"
+        # Session persistence for better security
+        session_persistence:
+          type: "HTTP_COOKIE"
+          cookie_name: "SWIFT_LB_SESSION"
+
+    # Backend members with enhanced configuration
+    members:
+      - name: "swift-backend-1"
+        address: "192.168.1.10"
+        protocol_port: 8080
+        weight: 100
+        # Backup member configuration
+        backup: false
+
+# Enhanced configuration for elb-eco-infra (80.158.55.110)
+enhanced_elb_eco_infra:
+  loadbalancer:
+    name: "elb-eco-infra-enhanced"
+    vip_address: "80.158.55.110"
+    description: "Eco infrastructure load balancer with WAF protection"
+
+    listeners:
+      - name: "eco-http-waf"
+        protocol: "HTTP"
+        protocol_port: 80
+        description: "HTTP with WAF-like protection"
+        connection_limit: 500
+        # Rate limiting configuration
+        rate_limit:
+          requests_per_minute: 1200
+          burst_size: 100
+
+      - name: "eco-https-waf"
+        protocol: "HTTPS"
+        protocol_port: 443
+        ssl_cert: "eco-ssl-cert"
+        tls_ciphers_policy: "tls-1-2-strict"
+        description: "HTTPS with enhanced security"
+        connection_limit: 1000
+        # Advanced WAF features
+        waf_rules:
+          - rule_type: "rate_limit"
+            threshold: 20
+            period: 60
+          - rule_type: "geo_block"
+            blocked_countries: ["CN", "RU", "KP"]
+          - rule_type: "signature_detection"
+            enable_owasp_rules: true
+
+    pools:
+      - name: "eco-infra-pool-secure"
+        description: "Eco infrastructure pool with monitoring"
+        protocol: "HTTP"
+        lb_algorithm: "LEAST_CONNECTIONS"
+        health_monitor:
+          type: "HTTP"
+          delay: 10
+          timeout: 5
+          max_retries: 2
+          url_path: "/api/health"
+
+# Enhanced configuration for elb-zuul (80.158.57.224)
+enhanced_elb_zuul:
+  loadbalancer:
+    name: "elb-zuul-enhanced"
+    vip_address: "80.158.57.224"
+    description: "Zuul load balancer with CI/CD security"
+
+    listeners:
+      - name: "zuul-web-secure"
+        protocol: "HTTPS"
+        protocol_port: 443
+        ssl_cert: "zuul-ssl-cert"
+        tls_ciphers_policy: "tls-1-2-strict"
+        description: "Zuul web interface with security"
+        connection_limit: 200
+        # CI/CD specific security
+        access_control:
+          - allow_from: "192.168.0.0/16"
+          - allow_from: "10.0.0.0/8"
+          - block_from: "0.0.0.0/0"
+
+      - name: "zuul-api-secure"
+        protocol: "HTTPS"
+        protocol_port: 9000
+        ssl_cert: "zuul-api-cert"
+        description: "Zuul API with authentication"
+        connection_limit: 100
+        # API-specific protection
+        api_protection:
+          authentication_required: true
+          rate_limit: 100  # requests per minute
+
+    pools:
+      - name: "zuul-web-pool"
+        description: "Zuul web pool"
+        protocol: "HTTP"
+        lb_algorithm: "SOURCE_IP"
+        health_monitor:
+          type: "HTTP"
+          delay: 15
+          timeout: 10
+          max_retries: 3
+          url_path: "/zuul/status"
+
+      - name: "zuul-api-pool"
+        description: "Zuul API pool"
+        protocol: "HTTP"
+        lb_algorithm: "ROUND_ROBIN"
+        health_monitor:
+          type: "HTTP"
+          delay: 30
+          timeout: 10
+          max_retries: 2
+          url_path: "/api/health"
+
+# Global security policies for all load balancers
+global_lb_security_policies:
+  # DDoS protection settings
+  ddos_protection:
+    enable: true
+    connection_limit: 10000
+    rate_limit: 1000  # requests per minute per IP
+    burst_protection: true
+
+  # SSL/TLS security settings
+  ssl_security:
+    min_tls_version: "1.2"
+    cipher_suites:
+      - "ECDHE-RSA-AES256-GCM-SHA384"
+      - "ECDHE-RSA-AES128-GCM-SHA256"
+      - "ECDHE-RSA-AES256-SHA384"
+      - "ECDHE-RSA-AES128-SHA256"
+    hsts_max_age: 31536000
+
+  # Access logging for security monitoring
+  access_logging:
+    enable: true
+    log_format: "combined_security"
+    fields:
+      - "timestamp"
+      - "client_ip"
+      - "request_method"
+      - "request_uri"
+      - "response_code"
+      - "response_time"
+      - "user_agent"
+      - "referer"
+      - "bytes_sent"
+
+  # Security headers applied to all responses
+  security_headers:
+    - "X-Frame-Options: DENY"
+    - "X-Content-Type-Options: nosniff"
+    - "X-XSS-Protection: 1; mode=block"
+    - "Referrer-Policy: strict-origin-when-cross-origin"
+    - "Content-Security-Policy: default-src 'self'"
+    - "Permissions-Policy: geolocation=(), microphone=(), camera=()"
+
+  # Rate limiting policies
+  rate_limiting:
+    global_limit: 10000  # requests per minute globally
+    per_ip_limit: 100    # requests per minute per IP
+    burst_size: 50       # burst allowance
+    block_duration: 300  # seconds to block violating IPs
+
+  # Geo-blocking configuration
+  geo_blocking:
+    enable: true
+    blocked_countries:
+      - "CN"  # China
+      - "RU"  # Russia
+      - "KP"  # North Korea
+      - "IR"  # Iran
+    blocked_asn:
+      - "AS4134"  # China Telecom
+      - "AS4837"  # China Unicom
+      - "AS12389" # Rostelecom (Russia)
+
+  # Bot detection and mitigation
+  bot_protection:
+    enable: true
+    challenge_suspicious_requests: true
+    block_known_bad_bots: true
+    whitelist_known_good_bots:
+      - "Googlebot"
+      - "Bingbot"
+      - "Slurp"

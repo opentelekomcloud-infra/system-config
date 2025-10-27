@@ -1,0 +1,97 @@
+---
+# Threat intelligence feed updater
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: threat-intel-updater
+  namespace: kube-system
+spec:
+  schedule: "0 */6 * * *"  # Every 6 hours
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: threat-intel-updater
+            image: curlimages/curl:latest
+            command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Updating threat intelligence feeds..."
+
+              # Create temp directory
+              mkdir -p /tmp/threats
+
+              # Download various threat feeds
+              # Spamhaus DROP list
+              curl -f -s "https://www.spamhaus.org/drop/drop.txt" \
+                | grep -E '^[0-9]' | cut -d' ' -f1 > /tmp/threats/spamhaus_drop.txt
+
+              # SANS Internet Storm Center
+              curl -f -s "https://isc.sans.edu/api/sources/attacks/1000/text" \
+                | tail -n +2 > /tmp/threats/sans_attacks.txt
+
+              # Known scanner IPs from AbuseIPDB (requires API key)
+              # curl -H "Key: YOUR_API_KEY" -H "Accept: text/plain" \
+              #   "https://api.abuseipdb.com/api/v2/blacklist?limit=10000" \
+              #   > /tmp/threats/abuseipdb.txt
+
+              # Merge all IP lists
+              cat /tmp/threats/*.txt | sort | uniq > /tmp/threats/all_threats.txt
+
+              # Update ConfigMap with blocked IPs
+              BLOCKED_IPS=$(cat /tmp/threats/all_threats.txt | head -1000 | tr '\n' ',' | sed 's/,$//')
+
+              kubectl patch configmap nginx-configuration -n ingress-nginx \
+                --type='merge' \
+                -p="{\"data\":{\"block-cidrs\":\"$BLOCKED_IPS\"}}"
+
+              echo "Updated $(wc -l < /tmp/threats/all_threats.txt) blocked IPs"
+
+              # Restart nginx to apply changes
+              kubectl rollout restart deployment/nginx-ingress-controller -n ingress-nginx
+            volumeMounts:
+            - name: kubectl-config
+              mountPath: /root/.kube
+              readOnly: true
+          volumes:
+          - name: kubectl-config
+            secret:
+              secretName: threat-intel-kubeconfig
+          serviceAccountName: threat-intel-updater
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: threat-intel-updater
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: threat-intel-updater
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "patch", "update"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "patch"]
+- apiGroups: ["apps"]
+  resources: ["deployments/status"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: threat-intel-updater
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: threat-intel-updater
+subjects:
+- kind: ServiceAccount
+  name: threat-intel-updater
+  namespace: kube-system

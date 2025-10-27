@@ -1,0 +1,113 @@
+---
+# Fail2Ban DaemonSet for automatic IP blocking
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fail2ban
+  namespace: kube-system
+  labels:
+    app: fail2ban
+spec:
+  selector:
+    matchLabels:
+      app: fail2ban
+  template:
+    metadata:
+      labels:
+        app: fail2ban
+    spec:
+      hostNetwork: true
+      serviceAccountName: fail2ban
+      containers:
+      - name: fail2ban
+        image: lscr.io/linuxserver/fail2ban:latest
+        env:
+        - name: PUID
+          value: "0"
+        - name: PGID
+          value: "0"
+        - name: TZ
+          value: "UTC"
+        - name: VERBOSITY
+          value: "-vv"
+        securityContext:
+          privileged: true
+          capabilities:
+            add:
+            - NET_ADMIN
+            - NET_RAW
+        volumeMounts:
+        - name: fail2ban-config
+          mountPath: /config
+        - name: fail2ban-data
+          mountPath: /data
+        - name: nginx-logs
+          mountPath: /var/log/nginx
+          readOnly: true
+        - name: host-iptables
+          mountPath: /sbin/iptables
+          readOnly: true
+        - name: host-xtables-lock
+          mountPath: /run/xtables.lock
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: fail2ban-config
+        configMap:
+          name: fail2ban-config
+      - name: fail2ban-data
+        emptyDir: {}
+      - name: nginx-logs
+        hostPath:
+          path: /var/log/containers
+      - name: host-iptables
+        hostPath:
+          path: /sbin/iptables
+          type: File
+      - name: host-xtables-lock
+        hostPath:
+          path: /run/xtables.lock
+          type: FileOrCreate
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        operator: Exists
+        effect: NoSchedule
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
+        effect: NoSchedule
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: fail2ban
+  namespace: kube-system
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: fail2ban
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+- apiGroups: ["networking.k8s.io"]
+  resources: ["ingresses"]
+  verbs: ["get", "list", "watch", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: fail2ban
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: fail2ban
+subjects:
+- kind: ServiceAccount
+  name: fail2ban
+  namespace: kube-system

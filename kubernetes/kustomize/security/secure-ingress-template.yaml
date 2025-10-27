@@ -1,0 +1,78 @@
+---
+# Security-focused ingress template with rate limiting and bot protection
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: secure-ingress-template
+  annotations:
+    # Basic security annotations
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+
+    # Rate limiting per IP
+    nginx.ingress.kubernetes.io/rate-limit: "10"  # 10 requests per minute
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/rate-limit-status-code: "429"
+
+    # Connection limiting
+    nginx.ingress.kubernetes.io/limit-connections: "5"  # Max 5 concurrent connections per IP
+
+    # Block suspicious user agents
+    nginx.ingress.kubernetes.io/server-snippet: |
+      # Block common bot user agents
+      if ($http_user_agent ~* (bot|crawler|spider|scanner|curl|wget|python|go-http|java|apache|libwww)) {
+        return 403;
+      }
+
+      # Block requests without user agent
+      if ($http_user_agent = "") {
+        return 403;
+      }
+
+      # Block suspicious request methods
+      if ($request_method !~ ^(GET|POST|HEAD|OPTIONS)$ ) {
+        return 405;
+      }
+
+      # Block requests to common attack paths
+      location ~* /(wp-admin|wp-login|phpMyAdmin|admin|\.env|\.git) {
+        return 404;
+      }
+
+      # Geographic blocking (example: block specific countries)
+      # Uncomment and adjust as needed
+      # if ($geoip_country_code ~ (CN|RU|KP)) {
+      #   return 403;
+      # }
+
+    # Security headers
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "X-Frame-Options: DENY";
+      more_set_headers "X-Content-Type-Options: nosniff";
+      more_set_headers "X-XSS-Protection: 1; mode=block";
+      more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+      more_set_headers "Content-Security-Policy: default-src 'self'";
+
+    # Custom error page for blocked requests
+    nginx.ingress.kubernetes.io/custom-http-errors: "403,429"
+
+    # Whitelist configuration (for trusted IPs)
+    nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - example.domain.com
+      secretName: example-tls
+  rules:
+    - host: example.domain.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: example-service
+                port:
+                  number: 80

@@ -1,0 +1,81 @@
+---
+# Enhanced nginx-ingress configuration with security features
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-configuration
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+data:
+  # Rate limiting configuration
+  rate-limit-enabled: "true"
+  rate-limit-status-code: "429"
+  rate-limit-backlog-size: "10"
+
+  # Connection limits
+  limit-connections: "10"
+  limit-rps: "5"
+
+  # Request size limits
+  proxy-body-size: "1m"
+  client-body-buffer-size: "1K"
+  client-header-buffer-size: "1k"
+  client-max-body-size: "1m"
+  large-client-header-buffers: "2 1k"
+
+  # Timeouts
+  proxy-connect-timeout: "5"
+  proxy-send-timeout: "10"
+  proxy-read-timeout: "10"
+  client-body-timeout: "10"
+  client-header-timeout: "10"
+  keepalive-timeout: "10"
+  keepalive-requests: "10"
+
+  # Security headers
+  more-set-headers: |
+    X-Frame-Options: DENY
+    X-Content-Type-Options: nosniff
+    X-XSS-Protection: 1; mode=block
+    Referrer-Policy: strict-origin-when-cross-origin
+    Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+  # Hide nginx version
+  server-tokens: "false"
+
+  # Block common attack patterns
+  block-cidrs: "0.0.0.0/32"  # This will be populated by our automation
+
+  # Enable real IP forwarding for proper logging
+  enable-real-ip: "true"
+  forwarded-for-header: "X-Forwarded-For"
+  compute-full-forwarded-for: "true"
+
+  # Custom error pages
+  custom-http-errors: "403,404,429,500,502,503,504"
+
+  # Lua script for advanced filtering (we'll add this later)
+  lua-shared-dicts: "banned_ips:10m,rate_limit:10m"
+
+  # Log format for better analysis
+  log-format-escape-json: "true"
+  log-format-upstream: |
+    {
+      "timestamp": "$time_iso8601",
+      "remote_addr": "$remote_addr",
+      "x_forwarded_for": "$http_x_forwarded_for",
+      "remote_user": "$remote_user",
+      "request": "$request",
+      "status": $status,
+      "body_bytes_sent": $body_bytes_sent,
+      "http_referer": "$http_referer",
+      "http_user_agent": "$http_user_agent",
+      "request_time": $request_time,
+      "upstream_response_time": "$upstream_response_time",
+      "upstream_addr": "$upstream_addr",
+      "http_x_real_ip": "$http_x_real_ip",
+      "country_code": "$geoip_country_code",
+      "city": "$geoip_city"
+    }

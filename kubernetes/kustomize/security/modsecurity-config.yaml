@@ -1,0 +1,117 @@
+---
+# ModSecurity WAF with OWASP Core Rule Set
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: modsecurity-config
+  namespace: ingress-nginx
+data:
+  modsecurity.conf: |
+    # Basic ModSecurity configuration
+    SecRuleEngine On
+    SecRequestBodyAccess On
+    SecRequestBodyLimit 13107200
+    SecRequestBodyNoFilesLimit 131072
+    SecRequestBodyInMemoryLimit 131072
+    SecRequestBodyLimitAction Reject
+    SecPcreMatchLimit 1000
+    SecPcreMatchLimitRecursion 1000
+    SecResponseBodyAccess On
+    SecResponseBodyMimeType text/plain text/html text/xml
+    SecResponseBodyLimit 524288
+    SecResponseBodyLimitAction ProcessPartial
+    SecAuditEngine RelevantOnly
+    SecAuditLogRelevantStatus "^(?:5|4(?!04))"
+    SecAuditLogParts ABDEFHIJZ
+    SecAuditLogType Serial
+    SecAuditLog /var/log/nginx/modsec_audit.log
+    SecUploadDir /tmp/
+    SecTmpDir /tmp/
+    SecDataDir /tmp/
+
+    # OWASP Core Rule Set inclusion
+    Include /etc/nginx/owasp-crs/crs-setup.conf
+    Include /etc/nginx/owasp-crs/rules/*.conf
+
+    # Custom rules for common attacks
+    SecRule REQUEST_HEADERS:User-Agent "@detectSQLi" \
+        "id:1001,\
+        phase:1,\
+        block,\
+        msg:'SQL Injection Attack Detected in User-Agent',\
+        logdata:'Matched Data: %{MATCHED_VAR} found within %{MATCHED_VAR_NAME}',\
+        tag:'attack-sqli',\
+        severity:'CRITICAL'"
+
+    # Block empty User-Agent
+    SecRule REQUEST_HEADERS:User-Agent "^$" \
+        "id:1002,\
+        phase:1,\
+        block,\
+        msg:'Empty User-Agent Header',\
+        severity:'WARNING'"
+
+    # Rate limiting by IP
+    SecAction "id:900001,\
+        phase:1,\
+        nolog,\
+        pass,\
+        initcol:ip=%{REMOTE_ADDR},\
+        setvar:ip.requests_per_min=+1,\
+        expirevar:ip.requests_per_min=60"
+
+    SecRule IP:REQUESTS_PER_MIN "@gt 60" \
+        "id:900002,\
+        phase:1,\
+        block,\
+        msg:'Rate limit exceeded - more than 60 requests per minute',\
+        severity:'WARNING'"
+
+  nginx-modsec.conf: |
+    # ModSecurity configuration for nginx
+    load_module modules/ngx_http_modsecurity_module.so;
+
+    http {
+        modsecurity on;
+        modsecurity_rules_file /etc/nginx/modsec/modsecurity.conf;
+
+        # Custom error page for blocked requests
+        error_page 403 /403.html;
+        location = /403.html {
+            root /usr/share/nginx/html;
+            internal;
+        }
+    }
+
+  403.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Access Denied</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; }
+            .error-code { font-size: 72px; color: #d32f2f; }
+            .error-message { font-size: 24px; color: #666; }
+        </style>
+    </head>
+    <body>
+        <div class="error-code">403</div>
+        <div class="error-message">Access Denied</div>
+        <p>Your request has been blocked by our security system.</p>
+        <p>If you believe this is an error, please contact the administrator.</p>
+    </body>
+    </html>
+---
+# Patch for nginx-ingress to enable ModSecurity
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-modsecurity-patch
+  namespace: ingress-nginx
+data:
+  enable-modsecurity: "true"
+  modsecurity-snippet: |
+    SecRuleEngine On
+    SecRequestBodyAccess On
+    SecAuditEngine RelevantOnly
+    SecAuditLogRelevantStatus "^(?:5|4(?!04))"

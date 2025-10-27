@@ -1,0 +1,75 @@
+---
+# Kustomization for security components
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: security-stack
+
+resources:
+  - nginx-security-config.yaml
+  - secure-ingress-template.yaml
+  - fail2ban-daemonset.yaml
+  - fail2ban-config.yaml
+  - threat-intel-updater.yaml
+  - modsecurity-config.yaml
+  - monitoring-config.yaml
+
+# Namespace creation
+namespace: security
+
+# Common labels
+commonLabels:
+  app.kubernetes.io/name: security-stack
+  app.kubernetes.io/version: v1.0.0
+  app.kubernetes.io/component: security
+  app.kubernetes.io/part-of: ingress-protection
+
+# Add security annotations
+commonAnnotations:
+  security.kubernetes.io/enabled: "true"
+  security.kubernetes.io/level: "high"
+
+# Patches for different environments
+patchesStrategicMerge:
+  - |-
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: nginx-configuration
+      namespace: ingress-nginx
+    data:
+      # Environment-specific rate limits
+      rate-limit: "20"
+      limit-connections: "10"
+
+      # Custom blocked countries (example)
+      block-cidrs: "0.0.0.0/32"
+
+# Images with specific versions for security
+images:
+  - name: fail2ban
+    newName: lscr.io/linuxserver/fail2ban
+    newTag: "1.0.2"
+  - name: curl
+    newName: curlimages/curl
+    newTag: "8.4.0"
+
+# ConfigMap generator for environment variables
+configMapGenerator:
+  - name: security-env
+    literals:
+      - RATE_LIMIT_REQUESTS=20
+      - RATE_LIMIT_WINDOW=60s
+      - BAN_TIME=3600
+      - MAX_RETRY=5
+      - LOG_LEVEL=INFO
+      - THREAT_INTEL_UPDATE_INTERVAL=6h
+
+# Secret generator for sensitive data
+secretGenerator:
+  - name: security-secrets
+    literals:
+      - WEBHOOK_URL=https://your-webhook-url.com
+      - API_KEYS=your-threat-intel-api-keys
+    type: Opaque

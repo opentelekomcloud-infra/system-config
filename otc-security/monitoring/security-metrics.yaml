@@ -1,0 +1,447 @@
+# OTC Security Monitoring and Alerting Configuration
+# Prometheus metrics and Grafana dashboards for security events
+
+# Security Metrics Configuration
+security_metrics:
+  # Prometheus recording rules for security metrics
+  prometheus_rules:
+    groups:
+      - name: otc_security_metrics
+        interval: 30s
+        rules:
+          # HTTP request rate metrics
+          - record: otc:http_request_rate_5m
+            expr: rate(http_requests_total[5m])
+            labels:
+              aggregation: "5m_rate"
+
+          - record: otc:http_request_rate_1m
+            expr: rate(http_requests_total[1m])
+            labels:
+              aggregation: "1m_rate"
+
+          # Security group block metrics
+          - record: otc:security_blocks_rate_5m
+            expr: rate(security_group_blocks_total[5m])
+            labels:
+              aggregation: "5m_rate"
+
+          # Load balancer connection metrics
+          - record: otc:lb_connections_active
+            expr: sum(lb_active_connections) by (instance, load_balancer)
+
+          # Threat intelligence metrics
+          - record: otc:threat_intel_blocks_rate
+            expr: rate(threat_intel_blocks_total[5m])
+            labels:
+              source: "all"
+
+          # Geographic distribution metrics
+          - record: otc:requests_by_country_5m
+            expr: rate(http_requests_total[5m]) by (country_code)
+
+          # Bot detection metrics
+          - record: otc:bot_requests_rate_5m
+            expr: rate(bot_requests_total[5m]) by (bot_type)
+
+  # Prometheus alerting rules
+  alerting_rules:
+    groups:
+      - name: otc_security_alerts
+        rules:
+          # Critical Security Alerts
+          - alert: DDoSAttackDetected
+            expr: otc:http_request_rate_1m > 1000
+            for: 30s
+            labels:
+              severity: critical
+              component: load_balancer
+              impact: high
+            annotations:
+              summary: "Potential DDoS attack detected on {{ $labels.instance }}"
+              description: "Request rate of {{ $value }} req/s exceeds DDoS threshold of 1000 req/s for more than 30 seconds"
+              runbook_url: "https://docs.otc.example.com/security/ddos-response"
+
+          - alert: SecurityGroupFlood
+            expr: otc:security_blocks_rate_5m > 100
+            for: 1m
+            labels:
+              severity: critical
+              component: security_groups
+              impact: medium
+            annotations:
+              summary: "High security group block rate on {{ $labels.cloud }}"
+              description: "Security group is blocking {{ $value }} attempts/s, indicating potential attack"
+
+          - alert: ThreatIntelligenceHits
+            expr: otc:threat_intel_blocks_rate > 10
+            for: 2m
+            labels:
+              severity: high
+              component: threat_intelligence
+              impact: medium
+            annotations:
+              summary: "Multiple threat intelligence hits on {{ $labels.instance }}"
+              description: "{{ $value }} malicious IPs blocked per second from threat feeds"
+
+          # Warning Level Alerts
+          - alert: HighTrafficVolume
+            expr: otc:http_request_rate_5m > 500
+            for: 5m
+            labels:
+              severity: warning
+              component: load_balancer
+              impact: low
+            annotations:
+              summary: "High traffic volume on {{ $labels.instance }}"
+              description: "Request rate of {{ $value }} req/s is above normal baseline"
+
+          - alert: UnusualGeographicTraffic
+            expr: |
+              (
+                sum(rate(http_requests_total[5m])) by (country_code)
+                / ignoring(country_code) group_left
+                sum(rate(http_requests_total[5m]))
+              ) > 0.5
+            for: 10m
+            labels:
+              severity: warning
+              component: geo_analysis
+              impact: low
+            annotations:
+              summary: "Unusual geographic traffic pattern detected"
+              description: "{{ $labels.country_code }} accounts for {{ $value | humanizePercentage }} of total traffic"
+
+          - alert: BotActivityIncrease
+            expr: increase(bot_requests_total[15m]) > 1000
+            for: 5m
+            labels:
+              severity: warning
+              component: bot_protection
+              impact: low
+            annotations:
+              summary: "Increased bot activity detected"
+              description: "{{ $value }} bot requests in the last 15 minutes"
+
+          # Infrastructure Health Alerts
+          - alert: LoadBalancerConnectionLimit
+            expr: otc:lb_connections_active > 8000
+            for: 2m
+            labels:
+              severity: warning
+              component: load_balancer
+              impact: medium
+            annotations:
+              summary: "Load balancer {{ $labels.load_balancer }} approaching connection limit"
+              description: "Active connections: {{ $value }}/10000"
+
+          - alert: SSLCertificateExpiry
+            expr: (ssl_cert_expiry_days < 30) and (ssl_cert_expiry_days > 0)
+            for: 1h
+            labels:
+              severity: warning
+              component: ssl_certificates
+              impact: medium
+            annotations:
+              summary: "SSL certificate expiring soon for {{ $labels.instance }}"
+              description: "Certificate expires in {{ $value }} days"
+
+# Grafana Dashboard Configuration
+grafana_dashboards:
+  otc_security_overview:
+    title: "OTC Security Overview"
+    description: "High-level security metrics for OTC infrastructure"
+    tags: ["security", "otc", "overview"]
+    refresh: "30s"
+
+    panels:
+      - title: "Request Rate"
+        type: "graph"
+        targets:
+          - expr: "otc:http_request_rate_5m"
+            legend: "{{ instance }}"
+        yAxes:
+          left:
+            unit: "reqps"
+
+      - title: "Security Blocks"
+        type: "graph"
+        targets:
+          - expr: "otc:security_blocks_rate_5m"
+            legend: "{{ cloud }}"
+        yAxes:
+          left:
+            unit: "cps"
+
+      - title: "Threat Intelligence Blocks"
+        type: "singlestat"
+        targets:
+          - expr: "sum(otc:threat_intel_blocks_rate)"
+        valueMaps:
+          - value: "null"
+            text: "N/A"
+
+      - title: "Top Countries by Traffic"
+        type: "table"
+        targets:
+          - expr: "topk(10, otc:requests_by_country_5m)"
+        columns:
+          - text: "Country"
+            value: "country_code"
+          - text: "Requests/sec"
+            value: "Value"
+
+      - title: "Load Balancer Connections"
+        type: "graph"
+        targets:
+          - expr: "otc:lb_connections_active"
+            legend: "{{ load_balancer }}"
+        yAxes:
+          left:
+            unit: "short"
+
+      - title: "Security Alert Status"
+        type: "alertlist"
+        targets:
+          - expr: "ALERTS{alertname=~'.*Security.*|.*DDoS.*|.*Threat.*'}"
+
+  otc_threat_intelligence:
+    title: "OTC Threat Intelligence"
+    description: "Detailed threat intelligence and blocking metrics"
+    tags: ["security", "threat-intel", "otc"]
+    refresh: "15s"
+
+    panels:
+      - title: "Threat Source Breakdown"
+        type: "piechart"
+        targets:
+          - expr: "sum by (source) (threat_intel_blocks_total)"
+            legend: "{{ source }}"
+
+      - title: "Blocked IPs Over Time"
+        type: "graph"
+        targets:
+          - expr: "rate(threat_intel_blocks_total[5m]) by (source)"
+            legend: "{{ source }}"
+        yAxes:
+          left:
+            unit: "cps"
+
+      - title: "Geographic Attack Sources"
+        type: "worldmap"
+        targets:
+          - expr: "sum by (country_code) (rate(security_group_blocks_total[5m]))"
+        circleMaxSize: 30
+        circleMinSize: 2
+
+      - title: "Top Blocked ASNs"
+        type: "table"
+        targets:
+          - expr: "topk(20, sum by (asn, asn_name) (rate(asn_blocks_total[1h])))"
+        columns:
+          - text: "ASN"
+            value: "asn"
+          - text: "Name"
+            value: "asn_name"
+          - text: "Blocks/hour"
+            value: "Value"
+
+  otc_load_balancer_security:
+    title: "OTC Load Balancer Security"
+    description: "Load balancer specific security metrics"
+    tags: ["security", "load-balancer", "otc"]
+    refresh: "30s"
+
+    panels:
+      - title: "Request Rate by Load Balancer"
+        type: "graph"
+        targets:
+          - expr: "rate(http_requests_total[5m]) by (load_balancer)"
+            legend: "{{ load_balancer }}"
+        yAxes:
+          left:
+            unit: "reqps"
+
+      - title: "Response Codes"
+        type: "graph"
+        targets:
+          - expr: "rate(http_requests_total[5m]) by (code)"
+            legend: "{{ code }}"
+        yAxes:
+          left:
+            unit: "reqps"
+
+      - title: "WAF Blocks"
+        type: "graph"
+        targets:
+          - expr: "rate(waf_blocks_total[5m]) by (rule_id, load_balancer)"
+            legend: "{{ rule_id }} - {{ load_balancer }}"
+        yAxes:
+          left:
+            unit: "cps"
+
+      - title: "SSL/TLS Metrics"
+        type: "graph"
+        targets:
+          - expr: "rate(ssl_handshakes_total[5m]) by (load_balancer)"
+            legend: "Handshakes - {{ load_balancer }}"
+          - expr: "rate(ssl_errors_total[5m]) by (load_balancer)"
+            legend: "Errors - {{ load_balancer }}"
+        yAxes:
+          left:
+            unit: "cps"
+
+# Alert Manager Configuration
+alertmanager_config:
+  global:
+    smtp_smarthost: "mail.otc.example.com:587"
+    smtp_from: "alerts@otc.example.com"
+
+  templates:
+    - "/etc/alertmanager/templates/*.tmpl"
+
+  route:
+    group_by: ["alertname", "cluster", "service"]
+    group_wait: 10s
+    group_interval: 10s
+    repeat_interval: 1h
+    receiver: "default"
+
+    routes:
+      # Critical security alerts go to on-call
+      - match:
+          severity: critical
+        receiver: "security-oncall"
+        group_wait: 5s
+        repeat_interval: 15m
+
+      # High severity to security team
+      - match:
+          severity: high
+        receiver: "security-team"
+        group_wait: 30s
+        repeat_interval: 1h
+
+      # Warnings to monitoring channel
+      - match:
+          severity: warning
+        receiver: "default"
+        group_wait: 5m
+        repeat_interval: 4h
+
+  receivers:
+    - name: "default"
+      email_configs:
+        - to: ["alerts@otc.example.com"]
+          subject: "OTC Security Alert"
+          body: "{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}"
+
+    - name: "security-oncall"
+      pagerduty_configs:
+        - routing_key: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          description: "{{ range .Alerts }}{{ .Annotations.summary }}{{ end }}"
+
+    - name: "security-team"
+      email_configs:
+        - to: "security-team@otc.example.com"
+          subject: "OTC Security Alert: {{ range .Alerts }}{{ .Annotations.summary }}{{ end }}"
+          body: |
+            {{ range .Alerts }}
+            Alert: {{ .Annotations.summary }}
+            Description: {{ .Annotations.description }}
+            Severity: {{ .Labels.severity }}
+            Instance: {{ .Labels.instance }}
+            {{ end }}
+
+# Log Analysis Configuration
+log_analysis:
+  # ELK Stack configuration for security logs
+  elasticsearch:
+    indices:
+      - name: "otc-security-logs"
+        pattern: "otc-security-*"
+        settings:
+          number_of_shards: 3
+          number_of_replicas: 1
+          refresh_interval: "5s"
+        mappings:
+          properties:
+            timestamp:
+              type: date
+            source_ip:
+              type: ip
+            country_code:
+              type: keyword
+            asn:
+              type: long
+            user_agent:
+              type: text
+            request_uri:
+              type: keyword
+            response_code:
+              type: integer
+            threat_score:
+              type: float
+
+  # Kibana dashboards
+  kibana_dashboards:
+    - name: "Security Events"
+      visualizations:
+        - type: "line_chart"
+          title: "Security Events Over Time"
+          data_source: "otc-security-logs"
+          x_axis: "timestamp"
+          y_axis: "count"
+
+        - type: "data_table"
+          title: "Top Attack Sources"
+          data_source: "otc-security-logs"
+          columns: ["source_ip", "country_code", "count"]
+          sort: "count desc"
+
+        - type: "heat_map"
+          title: "Attack Patterns"
+          data_source: "otc-security-logs"
+          x_axis: "hour_of_day"
+          y_axis: "day_of_week"
+
+  # Logstash configuration
+  logstash_pipelines:
+    - name: "otc-security-pipeline"
+      config: |
+        input {
+          beats {
+            port => 5044
+          }
+        }
+
+        filter {
+          if [fields][type] == "otc-security" {
+            grok {
+              match => {
+                "message" => "%{COMBINEDAPACHELOG} %{NUMBER:response_time:float}"
+              }
+            }
+
+            geoip {
+              source => "clientip"
+              target => "geoip"
+            }
+
+            # Add threat intelligence scoring
+            ruby {
+              code => "
+                ip = event.get('clientip')
+                # Add threat scoring logic here
+                event.set('threat_score', calculate_threat_score(ip))
+              "
+            }
+          }
+        }
+
+        output {
+          elasticsearch {
+            hosts => ["elasticsearch:9200"]
+            index => "otc-security-%{+YYYY.MM.dd}"
+          }
+        }
