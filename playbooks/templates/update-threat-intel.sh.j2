@@ -1,0 +1,114 @@
+#!/bin/bash
+#
+# Threat Intelligence Feed Updater Script
+# Updates security group rules with latest threat intelligence
+#
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LOG_FILE="/var/log/threat-intel-updater.log"
+TEMP_DIR="/tmp/threat-intel-$(date +%s)"
+ANSIBLE_PLAYBOOK="/etc/ansible/playbooks/cloud-security-groups.yaml"
+
+# Logging function
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+}
+
+# Error handling
+error_exit() {
+    log "ERROR: $1"
+    cleanup
+    exit 1
+}
+
+# Cleanup function
+cleanup() {
+    rm -rf "$TEMP_DIR"
+}
+
+# Create temp directory
+mkdir -p "$TEMP_DIR"
+
+log "Starting threat intelligence update process"
+
+# Download Spamhaus DROP list
+log "Downloading Spamhaus DROP list"
+curl -s -f -o "$TEMP_DIR/spamhaus_drop.txt" "https://www.spamhaus.org/drop/drop.txt" || \
+    error_exit "Failed to download Spamhaus DROP list"
+
+# Download SANS blocked IPs (with timeout and error handling)
+log "Downloading SANS threat intelligence"
+curl -s -f -m 30 -o "$TEMP_DIR/sans_blocked.json" \
+    "https://isc.sans.edu/api/threatlist/shodan/?json" || \
+    log "WARNING: Failed to download SANS data (continuing with Spamhaus only)"
+
+# Process threat feeds
+log "Processing threat intelligence feeds"
+{
+    # Process Spamhaus data
+    grep -v '^;' "$TEMP_DIR/spamhaus_drop.txt" | awk '{print $1}' || true
+
+    # Process SANS data if available
+    if [[ -f "$TEMP_DIR/sans_blocked.json" ]]; then
+        python3 -c "
+import json
+import sys
+try:
+    with open('$TEMP_DIR/sans_blocked.json', 'r') as f:
+        data = json.load(f)
+        count = 0
+        if isinstance(data, list):
+            for item in data:
+                if count >= 100:  # Limit to prevent overwhelming
+                    break
+                if isinstance(item, dict) and 'ip' in item:
+                    print(item['ip'] + '/32')
+                    count += 1
+                elif isinstance(item, str):
+                    print(item + '/32')
+                    count += 1
+except Exception as e:
+    print(f'Warning: Error processing SANS data: {e}', file=sys.stderr)
+" 2>/dev/null || log "WARNING: Error processing SANS JSON data"
+    fi
+} > "$TEMP_DIR/blocked_networks.txt"
+
+# Count blocked networks
+BLOCK_COUNT=$(wc -l < "$TEMP_DIR/blocked_networks.txt")
+log "Processed $BLOCK_COUNT blocked networks"
+
+if [[ $BLOCK_COUNT -lt 10 ]]; then
+    error_exit "Insufficient threat intelligence data ($BLOCK_COUNT networks). Aborting update."
+fi
+
+# Copy to standard location
+cp "$TEMP_DIR/blocked_networks.txt" "/tmp/blocked_networks.txt"
+
+# Run Ansible playbook to update security groups
+if [[ -f "$ANSIBLE_PLAYBOOK" ]]; then
+    log "Updating security groups via Ansible"
+    cd "$(dirname "$ANSIBLE_PLAYBOOK")"
+    ansible-playbook "$(basename "$ANSIBLE_PLAYBOOK")" \
+        --tags="threat_intel" \
+        --extra-vars="threat_intel_update=true" || \
+        error_exit "Ansible playbook execution failed"
+
+    log "Security groups updated successfully"
+else
+    log "WARNING: Ansible playbook not found at $ANSIBLE_PLAYBOOK"
+fi
+
+# Cleanup
+cleanup
+
+log "Threat intelligence update completed successfully. Blocked $BLOCK_COUNT networks."
+
+# Send metrics to monitoring system if available
+if command -v curl >/dev/null && [[ -n "${PROMETHEUS_PUSHGATEWAY:-}" ]]; then
+    curl -s -X POST "$PROMETHEUS_PUSHGATEWAY/metrics/job/threat_intel_updater" \
+        --data-binary "threat_intel_networks_blocked $BLOCK_COUNT" || true
+fi
+
+exit 0

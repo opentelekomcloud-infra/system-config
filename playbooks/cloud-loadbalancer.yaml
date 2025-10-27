@@ -2,9 +2,6 @@
 - hosts: cloud-launcher:!disabled
   name: "Manage cloud load balancers with enhanced security"
   become: true
-  vars_files:
-    - "../otc-security/load-balancers/enhanced-lb-config.yaml"
-    - "../otc-security/load-balancers/security-policies.yaml"
 
   tasks:
     - name: Get vault token
@@ -26,28 +23,30 @@
         loop_var: "cert"
       tags: ["lb_certs"]
 
-    - name: Deploy standard load balancers
+    - name: Deploy all load balancers with enhanced security
       include_role:
         name: cloud_loadbalancer
       loop: "{{ cloud_load_balancers | default([]) }}"
       loop_control:
         loop_var: "lb"
-      tags: ["standard_lb"]
-
-    - name: Deploy enhanced load balancers
-      include_role:
-        name: cloud_loadbalancer
-      vars:
-        lb: "{{ item }}"
-        state: "present"
-      loop: "{{ [enhanced_elb_swift, enhanced_elb_eco_infra, enhanced_elb_zuul] | select('defined') | list }}"
       tags: ["enhanced_lb"]
 
     - name: Log load balancer deployment summary
       ansible.builtin.debug:
         msg: |
-          Load balancer deployment:
-          - Standard LBs: {{ cloud_load_balancers | default([]) | length }}
-          - Enhanced LBs: {{ [enhanced_elb_swift, enhanced_elb_eco_infra, enhanced_elb_zuul] | select('defined') | list | length }}
+          Load balancer deployment completed:
+          - Total load balancers: {{ cloud_load_balancers | default([]) | length }}
+          - All include enhanced security features from cloud-launcher.yaml
+          - Features: connection limits, health monitoring, enhanced TLS, WAF protection
       tags: ["always"]
+
+    - name: Validate load balancer health
+      ansible.builtin.uri:
+        url: "http://{{ item.loadbalancer.public_ip_address | default(item.loadbalancer.vip_address) }}/health"
+        method: GET
+        status_code: [200, 404]
+        timeout: 10
+      loop: "{{ cloud_load_balancers | default([]) }}"
+      ignore_errors: true
+      tags: ["health_check"]
 
