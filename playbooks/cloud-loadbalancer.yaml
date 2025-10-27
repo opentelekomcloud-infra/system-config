@@ -1,6 +1,11 @@
+---
 - hosts: cloud-launcher:!disabled
-  name: "Manage cloud load balancers"
+  name: "Manage cloud load balancers with enhanced security"
   become: true
+  vars_files:
+    - "../otc-security/load-balancers/enhanced-lb-config.yaml"
+    - "../otc-security/load-balancers/security-policies.yaml"
+
   tasks:
     - name: Get vault token
       ansible.builtin.set_fact:
@@ -13,15 +18,36 @@
         ansible_hashi_vault_auth_method: "token"
       when: "vault_token is defined"
 
-    - include_role:
+    - name: Deploy load balancer certificates
+      include_role:
         name: cloud_loadbalancer_cert
-      loop: "{{ cloud_load_balancer_certificates }}"
+      loop: "{{ cloud_load_balancer_certificates | default([]) }}"
       loop_control:
         loop_var: "cert"
+      tags: ["lb_certs"]
 
-    - include_role:
+    - name: Deploy standard load balancers
+      include_role:
         name: cloud_loadbalancer
-      loop: "{{ cloud_load_balancers }}"
+      loop: "{{ cloud_load_balancers | default([]) }}"
       loop_control:
         loop_var: "lb"
+      tags: ["standard_lb"]
+
+    - name: Deploy enhanced load balancers
+      include_role:
+        name: cloud_loadbalancer
+      vars:
+        lb: "{{ item }}"
+        state: "present"
+      loop: "{{ [enhanced_elb_swift, enhanced_elb_eco_infra, enhanced_elb_zuul] | select('defined') | list }}"
+      tags: ["enhanced_lb"]
+
+    - name: Log load balancer deployment summary
+      ansible.builtin.debug:
+        msg: |
+          Load balancer deployment:
+          - Standard LBs: {{ cloud_load_balancers | default([]) | length }}
+          - Enhanced LBs: {{ [enhanced_elb_swift, enhanced_elb_eco_infra, enhanced_elb_zuul] | select('defined') | list | length }}
+      tags: ["always"]
 

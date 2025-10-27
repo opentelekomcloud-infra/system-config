@@ -1,5 +1,6 @@
+---
 - hosts: cloud-launcher:!disabled
-  name: "Manage cloud security groups with enhanced protection"
+  name: "Deploy enhanced security groups with threat intelligence"
   become: true
   vars_files:
     - "../otc-security/security-groups/enhanced-security-groups.yaml"
@@ -8,7 +9,7 @@
   tasks:
     - name: Get vault token
       ansible.builtin.set_fact:
-       vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
       when: "ansible_hashi_vault_token is not defined"
 
     - name: Set vault token
@@ -17,7 +18,7 @@
         ansible_hashi_vault_auth_method: "token"
       when: "vault_token is defined"
 
-    - name: Manage standard security groups
+    - name: Deploy standard cloud security groups
       include_role:
         name: cloud_sg
       loop: "{{ cloud_security_groups | default([]) }}"
@@ -43,11 +44,30 @@
       loop: "{{ threat_intelligence_security_groups | default([]) }}"
       tags: ["threat_intel_sg"]
 
-    - name: Log security groups summary
+    - name: Log security groups deployment
       ansible.builtin.debug:
         msg: |
-          Security groups deployment:
-          - Standard: {{ cloud_security_groups | default([]) | length }}
-          - Enhanced: {{ enhanced_cloud_security_groups | default([]) | length }}
-          - Threat Intel: {{ threat_intelligence_security_groups | default([]) | length }}
+          Security groups deployment completed:
+          - Standard groups: {{ cloud_security_groups | default([]) | length }}
+          - Enhanced groups: {{ enhanced_cloud_security_groups | default([]) | length }}
+          - Threat intel groups: {{ threat_intelligence_security_groups | default([]) | length }}
       tags: ["always"]
+
+    - name: Update threat intelligence feeds
+      ansible.builtin.script:
+        cmd: "../otc-security/automation/update-threat-intel.sh"
+        creates: "/tmp/threat-intel-last-update"
+      environment:
+        VAULT_ADDR: "{{ ansible_hashi_vault_addr }}"
+        VAULT_TOKEN: "{{ ansible_hashi_vault_token }}"
+      tags: ["threat_intel_update"]
+
+    - name: Schedule threat intelligence updates
+      ansible.builtin.cron:
+        name: "Update OTC threat intelligence"
+        minute: "0"
+        hour: "*"
+        job: "{{ ansible_env.PWD }}/../otc-security/automation/update-threat-intel.sh"
+        user: root
+        state: present
+      tags: ["threat_intel_schedule"]

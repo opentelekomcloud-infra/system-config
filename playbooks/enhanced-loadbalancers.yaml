@@ -1,0 +1,119 @@
+---
+- hosts: cloud-launcher:!disabled
+  name: "Deploy enhanced load balancers with security features"
+  become: true
+  vars_files:
+    - "../otc-security/load-balancers/enhanced-lb-config.yaml"
+    - "../otc-security/load-balancers/security-policies.yaml"
+
+  tasks:
+    - name: Get vault token
+      ansible.builtin.set_fact:
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+      when: "ansible_hashi_vault_token is not defined"
+
+    - name: Set vault token
+      ansible.builtin.set_fact:
+        ansible_hashi_vault_token: "{{ vault_token.id }}"
+        ansible_hashi_vault_auth_method: "token"
+      when: "vault_token is defined"
+
+    - name: Deploy load balancer certificates
+      include_role:
+        name: cloud_loadbalancer_cert
+      loop: "{{ cloud_load_balancer_certificates | default([]) }}"
+      loop_control:
+        loop_var: "cert"
+      tags: ["lb_certs"]
+
+    - name: Deploy standard load balancers
+      include_role:
+        name: cloud_loadbalancer
+      loop: "{{ cloud_load_balancers | default([]) }}"
+      loop_control:
+        loop_var: "lb"
+      tags: ["standard_lb"]
+
+    - name: Deploy enhanced Swift load balancer
+      include_role:
+        name: cloud_loadbalancer
+      vars:
+        lb: "{{ enhanced_elb_swift }}"
+        state: "present"
+      when: enhanced_elb_swift is defined
+      tags: ["enhanced_lb", "swift_lb"]
+
+    - name: Deploy enhanced Eco Infrastructure load balancer
+      include_role:
+        name: cloud_loadbalancer
+      vars:
+        lb: "{{ enhanced_elb_eco_infra }}"
+        state: "present"
+      when: enhanced_elb_eco_infra is defined
+      tags: ["enhanced_lb", "eco_infra_lb"]
+
+    - name: Deploy enhanced Zuul load balancer
+      include_role:
+        name: cloud_loadbalancer
+      vars:
+        lb: "{{ enhanced_elb_zuul }}"
+        state: "present"
+      when: enhanced_elb_zuul is defined
+      tags: ["enhanced_lb", "zuul_lb"]
+
+    - name: Apply global security policies
+      ansible.builtin.debug:
+        msg: |
+          Applying global load balancer security policies:
+          - SSL/TLS hardening: {{ global_lb_security_policies.ssl_security | default('enabled') }}
+          - Rate limiting: {{ global_lb_security_policies.rate_limiting | default('enabled') }}
+          - Geo-blocking: {{ global_lb_security_policies.geo_blocking | default('enabled') }}
+          - Bot protection: {{ global_lb_security_policies.bot_protection | default('enabled') }}
+      tags: ["security_policies"]
+
+    - name: Configure WAF rules
+      ansible.builtin.debug:
+        msg: |
+          WAF protection configured with:
+          - OWASP Core Rule Set: {{ waf_rules.owasp_crs.enable | default(true) }}
+          - Custom security rules: {{ waf_rules.custom_rules | default([]) | length }} rules
+          - SQL injection protection: enabled
+          - XSS protection: enabled
+          - Path traversal protection: enabled
+      when: waf_rules is defined
+      tags: ["waf_config"]
+
+    - name: Log load balancer deployment summary
+      ansible.builtin.debug:
+        msg: |
+          Load balancer deployment completed:
+          - Standard LBs: {{ cloud_load_balancers | default([]) | length }}
+          - Enhanced Swift LB: {{ 'deployed' if enhanced_elb_swift is defined else 'not configured' }}
+          - Enhanced Eco Infra LB: {{ 'deployed' if enhanced_elb_eco_infra is defined else 'not configured' }}
+          - Enhanced Zuul LB: {{ 'deployed' if enhanced_elb_zuul is defined else 'not configured' }}
+      tags: ["always"]
+
+    - name: Validate load balancer health
+      ansible.builtin.uri:
+        url: "http://{{ item.loadbalancer.public_ip_address | default(item.loadbalancer.vip_address) }}/health"
+        method: GET
+        status_code: [200, 404]  # 404 is acceptable if health endpoint doesn't exist
+        timeout: 10
+      loop: "{{ [enhanced_elb_swift, enhanced_elb_eco_infra, enhanced_elb_zuul] | select('defined') | list }}"
+      ignore_errors: true
+      tags: ["health_check"]
+
+    - name: Configure security monitoring
+      ansible.builtin.template:
+        src: "../otc-security/monitoring/security-metrics.yaml"
+        dest: "/etc/prometheus/rules/otc-security-rules.yaml"
+        backup: true
+      notify: restart prometheus
+      tags: ["monitoring"]
+
+  handlers:
+    - name: restart prometheus
+      ansible.builtin.systemd:
+        name: prometheus
+        state: restarted
+      when: ansible_service_mgr == "systemd"

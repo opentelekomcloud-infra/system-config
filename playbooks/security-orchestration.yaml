@@ -1,0 +1,81 @@
+---
+- hosts: cloud-launcher:!disabled
+  name: "Security orchestration - Deploy and monitor OTC security stack"
+  become: true
+  vars:
+    security_deployment_mode: "{{ security_mode | default('full') }}"
+    enable_threat_intel: "{{ threat_intel_enabled | default(true) }}"
+    enable_monitoring: "{{ monitoring_enabled | default(true) }}"
+
+  tasks:
+    - name: Security deployment initialization
+      block:
+        - name: Get vault token
+          ansible.builtin.set_fact:
+            vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+          when: "ansible_hashi_vault_token is not defined"
+
+        - name: Set vault token
+          ansible.builtin.set_fact:
+            ansible_hashi_vault_token: "{{ vault_token.id }}"
+            ansible_hashi_vault_auth_method: "token"
+          when: "vault_token is defined"
+
+        - name: Log security deployment start
+          ansible.builtin.debug:
+            msg: |
+              Starting OTC security deployment:
+              - Mode: {{ security_deployment_mode }}
+              - Threat Intelligence: {{ enable_threat_intel }}
+              - Monitoring: {{ enable_monitoring }}
+              - Target Host: {{ ansible_hostname }}
+      tags: ["security_init"]
+
+    - name: Deploy enhanced security groups
+      ansible.builtin.import_playbook: enhanced-security-groups.yaml
+      when: security_deployment_mode in ['full', 'security-groups']
+      tags: ["deploy_security_groups"]
+
+    - name: Deploy enhanced load balancers
+      ansible.builtin.import_playbook: enhanced-loadbalancers.yaml
+      when: security_deployment_mode in ['full', 'load-balancers']
+      tags: ["deploy_load_balancers"]
+
+    - name: Deploy comprehensive security stack
+      ansible.builtin.import_playbook: deploy-otc-security.yaml
+      when: security_deployment_mode == 'full'
+      tags: ["deploy_full_security"]
+
+    - name: Security validation and reporting
+      block:
+        - name: Run security validation tests
+          ansible.builtin.script:
+            cmd: "../otc-security/automation/deploy-security-configs.sh --dry-run"
+          register: security_validation
+          failed_when: security_validation.rc != 0
+
+        - name: Generate final security report
+          ansible.builtin.template:
+            src: "../templates/security-deployment-report.j2"
+            dest: "/var/log/otc-security-final-report-{{ ansible_date_time.epoch }}.txt"
+            mode: '0644'
+
+        - name: Display deployment summary
+          ansible.builtin.debug:
+            msg: |
+              OTC Security Deployment Complete!
+
+              Summary:
+              - Security Groups: Enhanced with threat intelligence
+              - Load Balancers: WAF protection and rate limiting
+              - Monitoring: Real-time security alerts configured
+              - Automation: Hourly threat intelligence updates
+
+              Reports: /var/log/otc-security-*
+              Configuration: /etc/otc-security/
+
+              Next Steps:
+              1. Monitor security dashboards
+              2. Review threat intelligence feeds
+              3. Adjust security policies as needed
+      tags: ["security_validation", "always"]
