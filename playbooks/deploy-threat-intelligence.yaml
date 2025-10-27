@@ -1,0 +1,95 @@
+---
+- hosts: cloud-launcher:!disabled
+  name: "Deploy threat intelligence automation for OTC security"
+  become: true
+
+  tasks:
+    - name: Get vault token
+      ansible.builtin.set_fact:
+        vault_token: "{{ lookup('community.hashi_vault.hashi_vault', 'auth/token/lookup-self') }}"
+      when: "ansible_hashi_vault_token is not defined"
+
+    - name: Set vault token
+      ansible.builtin.set_fact:
+        ansible_hashi_vault_token: "{{ vault_token.id }}"
+        ansible_hashi_vault_auth_method: "token"
+      when: "vault_token is defined"
+
+    - name: Create threat intelligence directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: ansible
+        group: ansible
+        mode: '0755'
+      loop:
+        - /usr/local/bin
+        - /var/log
+        - /etc/systemd/system
+
+    - name: Deploy threat intelligence updater script
+      template:
+        src: security/update-threat-intel.sh.j2
+        dest: /usr/local/bin/update-threat-intel.sh
+        owner: ansible
+        group: ansible
+        mode: '0755'
+      notify: restart threat intel updater
+
+    - name: Deploy threat intelligence systemd service
+      template:
+        src: security/threat-intel-updater.service.j2
+        dest: /etc/systemd/system/threat-intel-updater.service
+        owner: root
+        group: root
+        mode: '0644'
+      notify: reload systemd
+
+    - name: Deploy threat intelligence systemd timer
+      template:
+        src: security/threat-intel-updater.timer.j2
+        dest: /etc/systemd/system/threat-intel-updater.timer
+        owner: root
+        group: root
+        mode: '0644'
+      notify: reload systemd
+
+    - name: Install required Python packages for threat intelligence
+      pip:
+        name:
+          - requests
+          - python-dateutil
+        state: present
+
+    - name: Enable and start threat intelligence timer
+      systemd:
+        name: threat-intel-updater.timer
+        enabled: yes
+        state: started
+        daemon_reload: yes
+
+    - name: Create initial threat intelligence data
+      shell: |
+        /usr/local/bin/update-threat-intel.sh
+      args:
+        creates: /tmp/blocked_networks.txt
+      ignore_errors: yes
+
+    - name: Verify threat intelligence automation
+      debug:
+        msg: |
+          Threat intelligence automation deployed:
+          - Update script: /usr/local/bin/update-threat-intel.sh
+          - Systemd service: threat-intel-updater.service
+          - Update frequency: every 6 hours
+          - Integration: OTC security groups via Ansible
+
+  handlers:
+    - name: reload systemd
+      systemd:
+        daemon_reload: yes
+
+    - name: restart threat intel updater
+      systemd:
+        name: threat-intel-updater.timer
+        state: restarted
