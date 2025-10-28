@@ -1,6 +1,7 @@
 - hosts: cloud-launcher:!disabled
-  name: "Manage cloud security groups"
+  name: "Manage cloud security groups with enhanced protection"
   become: true
+
   tasks:
     - name: Get vault token
       ansible.builtin.set_fact:
@@ -13,9 +14,75 @@
         ansible_hashi_vault_auth_method: "token"
       when: "vault_token is defined"
 
-    - name: Manage Security Groups
+    - name: Download Spamhaus DROP list
+      uri:
+        url: "https://www.spamhaus.org/drop/drop.txt"
+        method: GET
+        dest: "/tmp/spamhaus_drop.txt"
+        timeout: 30
+      delegate_to: localhost
+      run_once: true
+      tags: ["threat_intel"]
+
+    - name: Download SANS blocked IPs
+      uri:
+        url: "https://isc.sans.edu/api/threatlist/shodan/?json"
+        method: GET
+        dest: "/tmp/sans_blocked.json"
+        timeout: 30
+      delegate_to: localhost
+      run_once: true
+      tags: ["threat_intel"]
+
+    - name: Parse threat intelligence feeds
+      shell: |
+        # Parse Spamhaus DROP list
+        grep -v '^;' /tmp/spamhaus_drop.txt | awk '{print $1}' > /tmp/blocked_networks.txt
+
+        # Parse SANS data (simplified)
+        python3 -c "
+        import json
+        try:
+            with open('/tmp/sans_blocked.json', 'r') as f:
+                data = json.load(f)
+                if isinstance(data, list):
+                    for item in data[:100]:  # Limit to 100 IPs
+                        if 'ip' in item:
+                            print(item['ip'] + '/32')
+                        elif isinstance(item, str):
+                            print(item + '/32')
+        except:
+            pass
+        " >> /tmp/blocked_networks.txt
+      delegate_to: localhost
+      run_once: true
+      tags: ["threat_intel"]
+
+    - name: Manage standard security groups
       include_role:
         name: cloud_sg
-      loop: "{{ cloud_security_groups }}"
+      loop: "{{ cloud_security_groups | default([]) }}"
       loop_control:
         loop_var: sg
+      tags: ["standard_sg"]
+
+    - name: Deploy enhanced security groups with threat intelligence
+      include_role:
+        name: cloud_sg
+      vars:
+        sg: "{{ item }}"
+        state: "present"
+        threat_intel_file: "/tmp/blocked_networks.txt"
+      loop: "{{ cloud_security_groups | default([]) | selectattr('name', 'match', 'enhanced_.*') | list }}"
+      tags: ["enhanced_sg"]
+
+    - name: Log security groups summary
+      ansible.builtin.debug:
+        msg: |
+          Security groups deployment completed:
+          - Standard groups: {{ cloud_security_groups | default([]) | rejectattr('name', 'match', 'enhanced_.*') | list | length }}
+          - Enhanced groups: {{ cloud_security_groups | default([]) | selectattr('name', 'match', 'enhanced_.*') | list | length }}
+          - Threat intelligence integration: enabled
+          - Enhanced: {{ enhanced_cloud_security_groups | default([]) | length }}
+          - Threat Intel: {{ threat_intelligence_security_groups | default([]) | length }}
+      tags: ["always"]

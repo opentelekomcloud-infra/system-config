@@ -1,0 +1,11 @@
+[Unit]
+Description=Run OTC Threat Intelligence Updater every hour
+Requires=otc-threat-intel.service
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=300
+
+[Install]
+WantedBy=timers.target

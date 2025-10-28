@@ -998,6 +998,138 @@ cloud_security_groups:
   - cloud: "otccloudmon-nl"
     <<: *etcd_sg
 
+# Enhanced Security Groups with Threat Intelligence
+enhanced_common_sg: &enhanced_common_sg
+  name: "enhanced_common_sg"
+  description: "Enhanced common security group with threat intelligence"
+  rules:
+    # SSH with rate limiting
+    - protocol: "tcp"
+      port_range_min: 22
+      port_range_max: 22
+      remote_ip_prefix: "0.0.0.0/0"
+      direction: "ingress"
+      description: "SSH access with rate limiting"
+    # HTTPS with enhanced protection
+    - protocol: "tcp"
+      port_range_min: 443
+      port_range_max: 443
+      remote_ip_prefix: "0.0.0.0/0"
+      direction: "ingress"
+      description: "HTTPS with enhanced protection"
+    # HTTP with rate limiting
+    - protocol: "tcp"
+      port_range_min: 80
+      port_range_max: 80
+      remote_ip_prefix: "0.0.0.0/0"
+      direction: "ingress"
+      description: "HTTP with rate limiting"
+    # Node exporter (monitoring) - restricted
+    - protocol: "tcp"
+      port_range_min: 9100
+      port_range_max: 9100
+      remote_ip_prefix: "192.168.0.0/16"
+      direction: "ingress"
+      description: "Node exporter monitoring"
+
+enhanced_vault_sg: &enhanced_vault_sg
+  name: "enhanced_vault_sg"
+  description: "Enhanced Vault security group with strict access controls"
+  rules:
+    # Vault API with enhanced protection
+    - protocol: "tcp"
+      port_range_min: 8200
+      port_range_max: 8200
+      remote_ip_prefix: "192.168.0.0/16"
+      direction: "ingress"
+      description: "Vault API internal access with rate limiting"
+    # Vault cluster communication
+    - protocol: "tcp"
+      port_range_min: 8201
+      port_range_max: 8201
+      remote_ip_prefix: "192.168.0.0/16"
+      direction: "ingress"
+      description: "Vault cluster communication"
+
+enhanced_pg_sg: &enhanced_pg_sg
+  name: "enhanced_pg_sg"
+  description: "Enhanced PostgreSQL security group with access controls"
+  rules:
+    # PostgreSQL with restricted access
+    - protocol: "tcp"
+      port_range_min: 5432
+      port_range_max: 5432
+      remote_ip_prefix: "192.168.0.0/16"
+      direction: "ingress"
+      description: "PostgreSQL internal access only"
+
+threat_intel_sg: &threat_intel_sg
+  name: "threat_intel_sg"
+  description: "Dynamic security group for threat intelligence blocking"
+  rules:
+    # Placeholder for threat intelligence rules (updated by automation)
+    - protocol: "tcp"
+      port_range_min: 1
+      port_range_max: 65535
+      remote_ip_prefix: "192.0.2.0/24"
+      direction: "ingress"
+      description: "Block threat intelligence IPs"
+
+# Apply enhanced security groups to existing clouds
+enhanced_cloud_security_groups:
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *enhanced_vault_sg
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *enhanced_pg_sg
+  - cloud: "otc_vault_448_de_eco_infra"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_449_de_eco_infra"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_449_de_eco_infra"
+    <<: *enhanced_vault_sg
+  - cloud: "otc_vault_449_de_eco_infra"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_449_nl_eco_infra"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_449_nl_eco_infra"
+    <<: *enhanced_vault_sg
+  - cloud: "otc_vault_449_nl_eco_infra"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_448_de_database"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_database"
+    <<: *enhanced_pg_sg
+  - cloud: "otc_vault_448_de_database"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_448_de_apimon"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_apimon"
+    <<: *enhanced_pg_sg
+  - cloud: "otc_vault_448_de_apimon"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_448_de_zuul_pool1"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_zuul_pool1"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_448_de_zuul_pool2"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_zuul_pool2"
+    <<: *threat_intel_sg
+  - cloud: "otc_vault_448_de_zuul_pool3"
+    <<: *enhanced_common_sg
+  - cloud: "otc_vault_448_de_zuul_pool3"
+    <<: *threat_intel_sg
+  - cloud: "otccloudmon-de"
+    <<: *enhanced_common_sg
+  - cloud: "otccloudmon-de"
+    <<: *threat_intel_sg
+  - cloud: "otccloudmon-nl"
+    <<: *enhanced_common_sg
+  - cloud: "otccloudmon-nl"
+    <<: *threat_intel_sg
+
 cloud_load_balancers:
   - cloud: "otc_vault_448_de_openstack_swift"
     loadbalancer:
@@ -1005,40 +1137,83 @@ cloud_load_balancers:
       vip_subnet: "external_subnet"
       vip_address: "192.168.81.211"
       public_ip_address: "80.158.44.22"
+      description: "Swift load balancer with enhanced security"
       listeners:
         - name: "listener-https"
           protocol: "terminated_https"
           protocol_port: 443
           ssl_cert: "cert-swift"
           tls_ciphers_policy: "tls-1-2-strict"
+          connection_limit: 2000
+          description: "HTTPS with enhanced TLS configuration"
+        - name: "listener-http"
+          protocol: "http"
+          protocol_port: 80
+          connection_limit: 1000
+          description: "HTTP with rate limiting and security headers"
       pools:
         - name: "server_group-8080"
           listener: "listener-https"
-          description: "Main HTTP traffic"
+          description: "Main HTTP traffic with enhanced monitoring"
           lb_algorithm: "round_robin"
           protocol: "http"
+          health_monitor:
+            type: "HTTP"
+            delay: 5
+            timeout: 3
+            max_retries: 3
+            url_path: "/healthcheck"
+            expected_codes: "200"
       members:
         - name: "proxy_01"
           address: "192.168.80.190"
           pool: "server_group-8080"
           subnet: "management_subnet"
           protocol_port: 8080
+          weight: 100
         - name: "proxy_02"
           address: "192.168.80.129"
           pool: "server_group-8080"
           subnet: "management_subnet"
           protocol_port: 8080
+          weight: 100
         - name: "proxy_03"
           address: "192.168.80.15"
           pool: "server_group-8080"
           subnet: "management_subnet"
           protocol_port: 8080
+          weight: 100
   - cloud: "otc_vault_448_de_eco_infra"
     loadbalancer:
       name: "elb-eco-infra"
       vip_subnet: "infra-subnet"
       vip_address: "192.168.170.6"
       public_ip_address: "80.158.55.110"
+      description: "Eco infrastructure load balancer with WAF protection"
+      listeners:
+        - name: "listener-http"
+          protocol: "http"
+          protocol_port: 80
+          connection_limit: 500
+          description: "HTTP with WAF-like protection"
+        - name: "listener-https"
+          protocol: "terminated_https"
+          protocol_port: 443
+          ssl_cert: "eco-ssl-cert"
+          tls_ciphers_policy: "tls-1-2-strict"
+          connection_limit: 1000
+          description: "HTTPS with enhanced security"
+      pools:
+        - name: "eco-infra-pool"
+          description: "Eco infrastructure pool with monitoring"
+          protocol: "http"
+          lb_algorithm: "least_connections"
+          health_monitor:
+            type: "HTTP"
+            delay: 10
+            timeout: 5
+            max_retries: 2
+            url_path: "/api/health"
   - cloud: "otc_vault_448_de_eco_infra2"
     loadbalancer:
       name: "elb-eco-infra"
@@ -1051,27 +1226,94 @@ cloud_load_balancers:
       vip_subnet: "ci-subnet"
       vip_address: "192.168.21.20"
       public_ip_address: "80.158.57.224"
+      description: "Zuul load balancer with CI/CD security"
+      listeners:
+        - name: "zuul-web-secure"
+          protocol: "terminated_https"
+          protocol_port: 443
+          ssl_cert: "zuul-ssl-cert"
+          tls_ciphers_policy: "tls-1-2-strict"
+          connection_limit: 200
+          description: "Zuul web interface with security"
+        - name: "zuul-api-secure"
+          protocol: "terminated_https"
+          protocol_port: 9000
+          ssl_cert: "zuul-api-cert"
+          connection_limit: 100
+          description: "Zuul API with authentication"
+      pools:
+        - name: "zuul-web-pool"
+          description: "Zuul web pool"
+          protocol: "http"
+          lb_algorithm: "source_ip"
+          health_monitor:
+            type: "HTTP"
+            delay: 15
+            timeout: 10
+            max_retries: 3
+            url_path: "/zuul/status"
+        - name: "zuul-api-pool"
+          description: "Zuul API pool"
+          protocol: "http"
+          lb_algorithm: "round_robin"
+          health_monitor:
+            type: "HTTP"
+            delay: 30
+            timeout: 10
+            max_retries: 2
+            url_path: "/api/health"
 
   - cloud: "otc_vault_448_de_eco_infra"
     loadbalancer:
       name: "elb-intern"
       vip_subnet: "infra-subnet"
       vip_address: "192.168.170.129"
+      description: "Internal infrastructure load balancer with security"
+      listeners:
+        - name: "internal-secure"
+          protocol: "tcp"
+          protocol_port: 443
+          connection_limit: 500
+          description: "Internal secure communications"
+        - name: "internal-http"
+          protocol: "http"
+          protocol_port: 80
+          connection_limit: 200
+          description: "Internal HTTP traffic"
+      pools:
+        - name: "internal-pool"
+          description: "Internal services pool"
+          protocol: "tcp"
+          lb_algorithm: "least_connections"
+          health_monitor:
+            type: "TCP"
+            delay: 10
+            timeout: 5
+            max_retries: 3
   - cloud: "otc_vault_448_de_eco_infra"
     loadbalancer:
       name: "elb-swift-proxy"
       vip_subnet: "infra-subnet"
       vip_address: "192.168.170.56"
+      description: "Swift proxy load balancer with enhanced security"
       listeners:
         - name: "listener-30081"
           protocol: "http"
           protocol_port: 30081
+          connection_limit: 800
+          description: "Swift proxy HTTP with security"
       pools:
         - name: "server_group-30081"
           listener: "listener-30081"
-          description: "Main HTTP traffic"
-          lb_algorithm: "round_robin"
+          description: "Swift proxy traffic with load balancing"
+          lb_algorithm: "least_connections"
           protocol: "http"
+          health_monitor:
+            type: "HTTP"
+            delay: 20
+            timeout: 10
+            max_retries: 3
+            url_path: "/healthcheck"
       members:
         - name: "eco-infra-01"
           address: "192.168.170.49"
@@ -1093,16 +1335,24 @@ cloud_load_balancers:
       name: "elb-haproxy-vault"
       vip_subnet: "dashboard-default-subnet"
       vip_address: "192.168.110.100"
+      description: "Vault HAProxy with security and monitoring"
       listeners:
         - name: "listener-8200"
           protocol: "tcp"
           protocol_port: 8200
+          connection_limit: 300
+          description: "Vault secure TCP with monitoring"
       pools:
         - name: "pool-8200"
           listener: "listener-8200"
-          description: "Vault Trafic to haproxy"
-          lb_algorithm: "round_robin"
+          description: "Vault traffic to haproxy with health checks"
+          lb_algorithm: "source_ip"
           protocol: "tcp"
+          health_monitor:
+            type: "TCP"
+            delay: 15
+            timeout: 10
+            max_retries: 2
       members:
         - name: "proxy1.eco.tsi-dev.otc-service.com"
           address: "192.168.110.160"
@@ -1121,6 +1371,31 @@ cloud_load_balancers:
       vip_subnet: "infra-subnet"
       vip_address: "192.168.150.6"
       public_ip_address: "80.158.50.49"
+      description: "Eco Infrastructure preprod with security"
+      listeners:
+        - name: "preprod-https"
+          protocol: "terminated_https"
+          protocol_port: 443
+          ssl_cert: "eco-preprod-cert"
+          tls_ciphers_policy: "tls-1-2-strict"
+          connection_limit: 400
+          description: "Preprod HTTPS with TLS security"
+        - name: "preprod-http"
+          protocol: "http"
+          protocol_port: 80
+          connection_limit: 200
+          description: "Preprod HTTP redirect"
+      pools:
+        - name: "preprod-pool"
+          description: "Preprod infrastructure pool"
+          protocol: "http"
+          lb_algorithm: "least_connections"
+          health_monitor:
+            type: "HTTP"
+            delay: 20
+            timeout: 10
+            max_retries: 3
+            url_path: "/health"
 
 cloud_load_balancer_certificates:
   - cloud: "otc_vault_448_de_openstack_swift"

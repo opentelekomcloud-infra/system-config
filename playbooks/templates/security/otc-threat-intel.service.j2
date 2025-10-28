@@ -1,0 +1,19 @@
+[Unit]
+Description=OTC Threat Intelligence Updater
+After=network.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=/usr/local/bin/otc-security
+ExecStart=/usr/local/bin/update-threat-intel.sh
+StandardOutput=journal
+StandardError=journal
+Environment=VAULT_ADDR={{ ansible_hashi_vault_addr }}
+{% if ansible_hashi_vault_token is defined %}
+Environment=VAULT_TOKEN={{ ansible_hashi_vault_token }}
+{% endif %}
+
+[Install]
+WantedBy=multi-user.target
