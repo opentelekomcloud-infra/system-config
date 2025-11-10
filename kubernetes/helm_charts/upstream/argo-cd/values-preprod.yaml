@@ -276,7 +276,36 @@ argo-cd:
             cd /tmp &&
             curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
             chmod +x argocd-vault-plugin &&
-            cp argocd-vault-plugin /custom-tools/
+            cp argocd-vault-plugin /custom-tools/ &&
+
+            # Install vault CLI for OpenStack secrets engine access
+            curl -L https://releases.hashicorp.com/vault/1.20.0/vault_1.20.0_linux_amd64.zip -o vault.zip &&
+            unzip vault.zip &&
+            chmod +x vault &&
+            cp vault /custom-tools/ &&
+
+            # Create vault path processor script
+            {
+              echo '#!/bin/bash'
+              echo '# Vault Path Processor - Pre-processes templates to handle OpenStack paths'
+              echo ''
+              echo 'input=$(cat)'
+              echo 'temp_file="/tmp/processed_template_$$"'
+              echo 'echo "$input" > "$temp_file"'
+              echo ''
+              echo 'grep -o "<path:openstack/[^>]*>" "$temp_file" | sort -u | while read -r placeholder; do'
+              echo '    path_part=$(echo "$placeholder" | sed "s/<path:\([^#]*\)#.*>/\1/")'
+              echo '    field_part=$(echo "$placeholder" | sed "s/<path:[^#]*#\([^>]*\)>/\1/")'
+              echo '    if command -v vault >/dev/null 2>&1 && [ -n "$VAULT_TOKEN" ] && [ -n "$VAULT_ADDR" ]; then'
+              echo '        value=$(vault read -field="$field_part" "$path_part" 2>/dev/null || echo "VAULT_READ_ERROR")'
+              echo '        sed -i "s|$placeholder|$value|g" "$temp_file"'
+              echo '    fi'
+              echo 'done'
+              echo ''
+              echo 'cat "$temp_file"'
+              echo 'rm -f "$temp_file"'
+            } > /custom-tools/vault-path-processor.sh
+            chmod +x /custom-tools/vault-path-processor.sh
         securityContext:
           runAsNonRoot: true
           runAsUser: 1001
@@ -318,6 +347,12 @@ argo-cd:
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
             name: custom-tools
+          - mountPath: /usr/local/bin/vault
+            subPath: vault
+            name: custom-tools
+          - mountPath: /usr/local/bin/vault-path-processor.sh
+            subPath: vault-path-processor.sh
+            name: custom-tools
       - name: avp-with-args
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
@@ -347,6 +382,12 @@ argo-cd:
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
             name: custom-tools
+          - mountPath: /usr/local/bin/vault
+            subPath: vault
+            name: custom-tools
+          - mountPath: /usr/local/bin/vault-path-processor.sh
+            subPath: vault-path-processor.sh
+            name: custom-tools
       - name: avp-kustomize
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
@@ -375,6 +416,12 @@ argo-cd:
             name: cmp-plugin
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
+            name: custom-tools
+          - mountPath: /usr/local/bin/vault
+            subPath: vault
+            name: custom-tools
+          - mountPath: /usr/local/bin/vault-path-processor.sh
+            subPath: vault-path-processor.sh
             name: custom-tools
     volumes:
       - configMap:
@@ -550,13 +597,13 @@ argo-cd:
                   fi
                 done
 
-                # Generate helm template with vault processing
+                # Generate helm template with enhanced vault processing
                 if [ -n "$ARGOCD_ENV_HELM_VALUES" ]; then
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") $HELM_SETS . |
-                  argocd-vault-plugin generate -s argocd:argocd-secret -
+                  /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
                 else
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . |
-                  argocd-vault-plugin generate -s argocd:argocd-secret -
+                  /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
                 fi
           allowConcurrency: true
           lockRepo: false
@@ -587,9 +634,9 @@ argo-cd:
                   fi
                 done
 
-                # Generate helm template with vault processing
+                # Generate helm template with enhanced vault processing
                 helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds |
-                argocd-vault-plugin generate -s argocd:argocd-secret -
+                /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
           init:
             command:
               - bash
@@ -610,6 +657,6 @@ argo-cd:
               - bash
               - -c
               - |
-                kustomize build . | argocd-vault-plugin generate -s argocd:argocd-secret -
+                kustomize build . | /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
           allowConcurrency: true
           lockRepo: false
