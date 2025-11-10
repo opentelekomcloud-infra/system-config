@@ -448,3 +448,37 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: swift-proxy
+    clusters: [preprod]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: swift-proxy-swiss
+    clusters: [preprod]
+    config:
+      namespace: swift-proxy-swiss
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal_swiss/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
