@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: <path:secret/data/docsportal/helpcenter_internal/config#base_url>
+  - host: docs-otc.eco-preprod.tsi-dev.otc-service.com
     http:
       paths:
       - backend:
@@ -28,5 +28,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - <path:secret/data/docsportal/helpcenter_internal/config#base_url>
+    - docs-otc.eco-preprod.tsi-dev.otc-service.com
     secretName: helpcenter-int-oauth

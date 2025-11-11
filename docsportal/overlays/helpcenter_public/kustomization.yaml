@@ -12,6 +12,7 @@ configMapGenerator:
         redirect_map: "no"
     files:
       - "configs/nginx-site.conf"
+      - "404.html"
   - name: "additional-resources"
     files:
       - "configs/redirect_maps/additional-resources"

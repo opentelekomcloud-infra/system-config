@@ -38,11 +38,21 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs-archive.otc.t-systems.com
+              - docs-archive.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-archive-cert
     target:
       group: networking.k8s.io
       kind: Ingress
+      name: document-hosting
+      version: v1
+  - patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/readinessProbe
+      - op: remove
+        path: /spec/template/spec/containers/0/livenessProbe
+    target:
+      group: apps
+      kind: Deployment
       name: document-hosting
       version: v1
 

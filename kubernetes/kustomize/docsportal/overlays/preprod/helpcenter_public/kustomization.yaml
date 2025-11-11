@@ -12,6 +12,7 @@ configMapGenerator:
         redirect_map: "no"
     files:
       - "configs/nginx-site.conf"
+      - "404.html"
   - name: "additional-resources"
     files:
       - "configs/redirect_maps/additional-resources"
@@ -301,7 +302,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs.otc.t-systems.com
+        value: docs-otc.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -313,7 +314,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs.otc.t-systems.com
+              - docs-otc.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-public-cert
     target:
       group: networking.k8s.io

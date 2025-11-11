@@ -26,7 +26,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs.otc-service.com
+        value: docs.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -38,7 +38,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs.otc-service.com
+              - docs.eco-preprod.tsi-dev.otc-service.com
             secretName: docsportal-cert
     target:
       group: networking.k8s.io
@@ -47,4 +47,4 @@ patches:
       version: v1
 
 resources:
-  - ../../base
+  - ../../../base

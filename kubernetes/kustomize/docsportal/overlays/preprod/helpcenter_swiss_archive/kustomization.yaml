@@ -40,7 +40,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs-archive.sc.otc.t-systems.com
+        value: docs-archive-sc.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -52,7 +52,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs-archive.sc.otc.t-systems.com
+              - docs-archive-sc.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-swiss-archive-cert
     target:
       group: networking.k8s.io

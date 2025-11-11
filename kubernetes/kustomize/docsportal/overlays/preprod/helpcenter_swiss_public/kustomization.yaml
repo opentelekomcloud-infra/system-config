@@ -133,7 +133,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs.sc.otc.t-systems.com
+        value: docs-sc.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -145,7 +145,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs.sc.otc.t-systems.com
+              - docs-sc.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-swiss-public-cert
     target:
       group: networking.k8s.io

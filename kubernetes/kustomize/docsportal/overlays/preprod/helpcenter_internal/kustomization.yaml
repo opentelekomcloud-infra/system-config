@@ -308,7 +308,7 @@ patches:
         value: ingress-intern
       - op: replace
         path: /spec/rules/0/host
-        value: <path:secret/data/docsportal/helpcenter_internal/config#docs_internal>
+        value: docs-int.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -317,7 +317,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - <path:secret/data/docsportal/helpcenter_internal/config#docs_internal>
+              - docs-int.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-int-cert
     target:
       group: networking.k8s.io
@@ -423,10 +423,10 @@ patches:
   - patch: |-
       - op: replace
         path: /spec/rules/0/host
-        value: docs.otc.eco-preprod.tsi-dev.otc-service.com
+        value: docs-int.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /spec/tls/0/hosts/0
-        value: docs.otc.eco-preprod.tsi-dev.otc-service.com
+        value: docs-int.eco-preprod.tsi-dev.otc-service.com
     target:
       group: networking.k8s.io
       kind: Ingress

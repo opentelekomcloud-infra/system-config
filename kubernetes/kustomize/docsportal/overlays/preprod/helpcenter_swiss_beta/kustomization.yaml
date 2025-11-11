@@ -124,7 +124,7 @@ patches:
         value: nginx
       - op: replace
         path: /spec/rules/0/host
-        value: docs-beta.sc.otc.t-systems.com
+        value: docs-beta-sc.eco-preprod.tsi-dev.otc-service.com
       - op: replace
         path: /metadata/annotations
         value:
@@ -136,7 +136,7 @@ patches:
         path: /spec/tls
         value:
           - hosts:
-              - docs-beta.sc.otc.t-systems.com
+              - docs-beta-sc.eco-preprod.tsi-dev.otc-service.com
             secretName: helpcenter-swiss-beta-cert
     target:
       group: networking.k8s.io
