@@ -4,8 +4,6 @@ kind: Kustomization
 
 namespace: swift-proxy-swiss
 
-namePrefix: swift-proxy-swiss-int-
-
 labels:
   - includeSelectors: true
     pairs:
@@ -21,13 +19,6 @@ resources:
 patches:
   - path: deployment.patch.yaml
   - path: secret.patch.yaml
-  - patch: |-
-      - op: replace
-        path: /spec/template/spec/serviceAccountName
-        value: swift-proxy-swiss
-    target:
-      kind: Deployment
-      name: swift-proxy
   - patch: |-
       - op: replace
         path: /spec/ingressClassName
@@ -48,6 +39,7 @@ patches:
       name: "swift-proxy"
     options:
       allowNameChange: true
+      allowKindChange: false
 
 replicas:
   - name: swift-proxy

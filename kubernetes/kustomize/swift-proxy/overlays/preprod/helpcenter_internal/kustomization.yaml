@@ -4,8 +4,6 @@ kind: Kustomization
 
 namespace: swift-proxy
 
-namePrefix: swift-proxy-int-
-
 labels:
   - includeSelectors: true
     pairs:
@@ -34,7 +32,7 @@ patches:
   - patch: |-
       - op: replace
         path: /metadata/name
-        value: swift-proxy-helpcenter-internal-swiss
+        value: swift-proxy-helpcenter-internal
     target:
       kind: "Service"
       version: "v1"

@@ -6,4 +6,5 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: "swift-proxy"
+      serviceAccount: swift-proxy
+      serviceAccountName: swift-proxy

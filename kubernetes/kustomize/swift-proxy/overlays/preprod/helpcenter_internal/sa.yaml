@@ -9,5 +9,5 @@ roleRef:
   name: system:auth-delegator
 subjects:
   - kind: ServiceAccount
-    name: swift-proxy-int-swift-proxy
+    name: swift-proxy
     namespace: swift-proxy
