@@ -13,3 +13,4 @@ patches:
 - path: service.patch.yaml
 - path: serviceaccount.patch.yaml
 - path: secret.patch.yaml
+- path: ingress.patch.yaml

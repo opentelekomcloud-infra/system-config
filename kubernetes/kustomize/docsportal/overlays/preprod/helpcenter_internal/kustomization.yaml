@@ -301,30 +301,6 @@ images:
     newTag: "1.28.0"
 
 patches:
-  - patch: |-
-      - op: replace
-        path: /spec/ingressClassName
-        # ingress-intern is not exposed to the world
-        value: ingress-intern
-      - op: replace
-        path: /spec/rules/0/host
-        value: docs-int.eco-preprod.tsi-dev.otc-service.com
-      - op: replace
-        path: /metadata/annotations
-        value:
-          cert-manager.io/cluster-issuer: selfsigned
-      - op: replace
-        path: /spec/tls
-        value:
-          - hosts:
-              - docs-int.eco-preprod.tsi-dev.otc-service.com
-            secretName: helpcenter-int-cert
-    target:
-      group: networking.k8s.io
-      kind: Ingress
-      name: document-hosting
-      version: v1
-
   # Mount new volume and add sidecar that populates this volume
   - patch: |-
       apiVersion: apps/v1
@@ -419,24 +395,9 @@ patches:
       name: document-hosting
       version: v1
 
-  # Update OAuth ingress hostname
-  - patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: docs-int.eco-preprod.tsi-dev.otc-service.com
-      - op: replace
-        path: /spec/tls/0/hosts/0
-        value: docs-int.eco-preprod.tsi-dev.otc-service.com
-    target:
-      group: networking.k8s.io
-      kind: Ingress
-      name: document-hosting-oauth
-      version: v1
-
 resources:
   - ../../../base
   - sa.yaml
-  - ingress-oauth.yaml
 
 replicas:
   - name: document-hosting

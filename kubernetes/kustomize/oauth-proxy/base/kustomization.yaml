@@ -9,6 +9,7 @@ resources:
   - secret.yaml
   - networkpolicy.yaml
   - poddisruptionbudget.yaml
+  - ingress.yaml
 
 images:
   - name: oauth2-proxy
