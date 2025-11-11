@@ -10,9 +10,9 @@ metadata:
     app.kubernetes.io/instance: helpcenter-internal-oauth
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: document-hosting
-    argocd.argoproj.io/instance: hc-internal
+    argocd.argoproj.io/instance: helpcenter-int
   name: document-hosting-oauth
-  namespace: hc-internal
+  namespace: helpcenter-int
 spec:
   ingressClassName: nginx
   rules:

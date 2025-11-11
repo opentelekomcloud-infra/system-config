@@ -14,9 +14,15 @@ spec:
       labels:
         app.kubernetes.io/component: docsportal-swiss-internal-oauth-proxy
     spec:
-      serviceAccountName: docsportal-swiss-internal-oauth-proxy
+      serviceAccountName: oauth-proxy
+      containers:
+        - name: oauth-proxy
+          readinessProbe:
+            $patch: delete
+          livenessProbe:
+            $patch: delete
       volumes:
         - name: config
           secret:
-            secretName: docsportal-swiss-internal-oauth-proxy-config
+            secretName: oauth2-proxy-config
             defaultMode: 0444

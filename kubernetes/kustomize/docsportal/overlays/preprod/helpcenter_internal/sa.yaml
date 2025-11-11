@@ -14,4 +14,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: helpcenter
-  namespace: hc-internal
+  namespace: helpcenter-int

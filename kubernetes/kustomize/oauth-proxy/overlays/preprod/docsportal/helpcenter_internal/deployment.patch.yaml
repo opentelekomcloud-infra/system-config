@@ -7,3 +7,9 @@ spec:
   template:
     spec:
       serviceAccountName: oauth-proxy
+      containers:
+        - name: oauth-proxy
+          livenessProbe:
+            $patch: delete
+          readinessProbe:
+            $patch: delete

@@ -297,5 +297,26 @@ patches:
       name: document-hosting
       version: v1
 
+  # Remove liveness and readiness probes from document-hosting container
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: document-hosting
+                livenessProbe:
+                  $patch: delete
+                readinessProbe:
+                  $patch: delete
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
 resources:
   - ../../../base

@@ -678,7 +678,6 @@ argo-cd:
               - bash
               - -c
               - |
-                helm repo add argo-helm https://argoproj.github.io/argo-helm
                 kustomize build . | argocd-vault-plugin generate -s argocd:argocd-secret -
           allowConcurrency: true
           lockRepo: false
