@@ -57,7 +57,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/upstream/argo-cd
-      pluginName: argocd-vault-plugin-helm-with-args
+      pluginName: argocd-helm-plain
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
@@ -74,7 +74,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/local/argo-cd
-      pluginName: argocd-vault-plugin-helm-with-args
+      pluginName: argocd-helm-plain
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
       project: infra
       syncPolicy:
@@ -456,7 +456,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Migration_of_docsportal'
       path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal/
-      pluginName: argocd-vault-plugin-kustomize
+      pluginName: argocd-vault-plugin-kustomize-openstack
       pluginEnv: '.'
       project: infra
       syncPolicy:
@@ -473,7 +473,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Migration_of_docsportal'
       path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal_swiss/
-      pluginName: argocd-vault-plugin-kustomize
+      pluginName: argocd-vault-plugin-kustomize-openstack
       pluginEnv: '.'
       project: infra
       syncPolicy:

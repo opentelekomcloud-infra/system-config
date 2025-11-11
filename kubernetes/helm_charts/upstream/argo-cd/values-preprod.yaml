@@ -695,9 +695,45 @@ argo-cd:
               - bash
               - -c
               - |
-                # OpenStack Vault Path Processor with nested field support
+                # OpenStack Vault Path Processor - Bash with better JSON parsing
                 cat > /tmp/openstack-vault-processor.sh << 'EOF'
                 #!/bin/bash
+
+                # Function to extract nested JSON value using bash
+                extract_json_value() {
+                    local json="$1"
+                    local field_path="$2"
+
+                    # Handle nested fields like "auth.username"
+                    if [[ "$field_path" == *.* ]]; then
+                        # Split into parent and child
+                        local parent_field="${field_path%%.*}"
+                        local child_field="${field_path#*.}"
+
+                        # Extract the parent object first
+                        local parent_json=$(echo "$json" | grep -A 50 "\"$parent_field\":" | head -n 20)
+
+                        # Extract the child field from within the parent object
+                        local value=$(echo "$parent_json" | grep "\"$child_field\":" | head -n 1 | sed -n 's/.*"'"$child_field"'":[[:space:]]*"\([^"]*\)".*/\1/p')
+
+                        # If no quotes, try without quotes (for non-string values)
+                        if [ -z "$value" ]; then
+                            value=$(echo "$parent_json" | grep "\"$child_field\":" | head -n 1 | sed -n 's/.*"'"$child_field"'":[[:space:]]*\([^,}]*\).*/\1/p' | tr -d ' ')
+                        fi
+
+                        echo "$value"
+                    else
+                        # Simple top-level field
+                        local value=$(echo "$json" | grep "\"$field_path\":" | head -n 1 | sed -n 's/.*"'"$field_path"'":[[:space:]]*"\([^"]*\)".*/\1/p')
+
+                        # If no quotes, try without quotes
+                        if [ -z "$value" ]; then
+                            value=$(echo "$json" | grep "\"$field_path\":" | head -n 1 | sed -n 's/.*"'"$field_path"'":[[:space:]]*\([^,}]*\).*/\1/p' | tr -d ' ')
+                        fi
+
+                        echo "$value"
+                    fi
+                }
 
                 # Process OpenStack vault paths directly
                 while IFS= read -r line; do
@@ -713,42 +749,32 @@ argo-cd:
 
                       # Get value from vault OpenStack engine
                       if command -v vault >/dev/null 2>&1 && [ -n "$VAULT_TOKEN" ] && [ -n "$VAULT_ADDR" ]; then
-                        # Handle nested fields (e.g., auth.username)
-                        if [[ "$field_part" == *.* ]]; then
-                          # Split nested field (e.g., "auth.username" -> "auth" and "username")
-                          parent_field="${field_part%%.*}"
-                          child_field="${field_part#*.}"
+                        # Get the full secret data as JSON
+                        full_json=$(vault read -format=json "openstack/$path_part" 2>/dev/null)
 
-                          echo "Reading nested field: ${parent_field}.${child_field}" >&2
+                        if [ $? -eq 0 ] && [ -n "$full_json" ]; then
+                          # Extract the value using our bash JSON parser
+                          value=$(extract_json_value "$full_json" "$field_part")
 
-                          # Get the full secret data as JSON
-                          full_json=$(vault read -format=json "openstack/$path_part" 2>/dev/null)
-
-                          # Extract nested value using simple grep/sed approach
-                          parent_value=$(echo "$full_json" | grep -o "\"${child_field}\":\"[^\"]*\"" | sed 's/.*:"\([^"]*\)".*/\1/')
-
-                          if [ -n "$parent_value" ] && [ "$parent_value" != "null" ]; then
-                            echo "Successfully retrieved nested value for ${field_part}" >&2
-                            line="${line//$placeholder/$parent_value}"
+                          if [ -n "$value" ] && [ "$value" != "null" ]; then
+                            echo "Successfully retrieved value for ${field_part}" >&2
+                            # Replace this specific placeholder
+                            line="${line//$placeholder/$value}"
                           else
-                            echo "Warning: Could not read nested field '$field_part' from 'openstack/$path_part'" >&2
+                            echo "Warning: Could not extract field '$field_part' from vault data" >&2
+                            # Leave placeholder as-is if extraction failed
                             break
                           fi
                         else
-                          # Handle top-level fields normally
-                          value=$(vault read -field="$field_part" "openstack/$path_part" 2>/dev/null)
-                          if [ $? -eq 0 ] && [ -n "$value" ]; then
-                            echo "Successfully retrieved value for ${field_part}" >&2
-                            line="${line//$placeholder/$value}"
-                          else
-                            echo "Warning: Could not read field '$field_part' from 'openstack/$path_part'" >&2
-                            break
-                          fi
+                          echo "Warning: Could not read 'openstack/$path_part' from vault" >&2
+                          # Leave placeholder as-is if vault read failed
+                          break
                         fi
                       else
                         echo "Error: Vault not available or not configured properly" >&2
                         echo "VAULT_TOKEN set: ${VAULT_TOKEN:+yes}" >&2
                         echo "VAULT_ADDR set: ${VAULT_ADDR:+yes}" >&2
+                        # Leave placeholder as-is if vault not available
                         break
                       fi
                     done
@@ -756,9 +782,7 @@ argo-cd:
                   echo "$line"
                 done
                 EOF
-                chmod +x /tmp/openstack-vault-processor.sh
-
-                # Build and process with OpenStack vault processor
+                chmod +x /tmp/openstack-vault-processor.sh                # Build and process with OpenStack vault processor
                 kustomize build . | /tmp/openstack-vault-processor.sh
           allowConcurrency: true
           lockRepo: false
