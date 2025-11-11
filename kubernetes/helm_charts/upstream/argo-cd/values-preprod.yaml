@@ -272,19 +272,11 @@ argo-cd:
             value: 1.18.1
         command: [sh, -c]
         args:
-          - sh
-          - -c
-          - |
+          - >-
             cd /tmp &&
             curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
             chmod +x argocd-vault-plugin &&
-            cp argocd-vault-plugin /custom-tools/ &&
-            curl -L https://releases.hashicorp.com/vault/1.20.0/vault_1.20.0_linux_amd64.zip -o vault.zip &&
-            unzip vault.zip &&
-            chmod +x vault &&
-            cp vault /custom-tools/ &&
-            cp /scripts/vault-path-processor.sh /custom-tools/vault-path-processor &&
-            chmod +x /custom-tools/vault-path-processor
+            cp argocd-vault-plugin /custom-tools/
         securityContext:
           runAsNonRoot: true
           runAsUser: 1001
@@ -296,8 +288,27 @@ argo-cd:
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
-          - mountPath: /scripts
-            name: vault-path-processor-script
+      - name: download-vault-cli
+        image: alpine:3.18
+        env:
+          - name: VAULT_VERSION
+            value: 1.19.0
+        command: [sh, -c]
+        args:
+          - >-
+            cd /tmp &&
+            apk add --no-cache curl unzip &&
+            curl -L https://releases.hashicorp.com/vault/$(VAULT_VERSION)/vault_$(VAULT_VERSION)_linux_amd64.zip -o vault.zip &&
+            unzip vault.zip &&
+            chmod +x vault &&
+            cp vault /vault-tools/
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: true
+        volumeMounts:
+          - mountPath: /vault-tools
+            name: vault-tools
     extraContainers:
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
@@ -328,12 +339,6 @@ argo-cd:
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
             name: custom-tools
-          - mountPath: /usr/local/bin/vault
-            subPath: vault
-            name: custom-tools
-          - mountPath: /usr/local/bin/vault-path-processor.sh
-            subPath: vault-path-processor
-            name: custom-tools
       - name: avp-with-args
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
@@ -362,12 +367,6 @@ argo-cd:
             name: cmp-plugin
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
-            name: custom-tools
-          - mountPath: /usr/local/bin/vault
-            subPath: vault
-            name: custom-tools
-          - mountPath: /usr/local/bin/vault-path-processor.sh
-            subPath: vault-path-processor
             name: custom-tools
       - name: avp-kustomize
         command: [/var/run/argocd/argocd-cmp-server]
@@ -398,22 +397,43 @@ argo-cd:
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
             name: custom-tools
+      - name: avp-kustomize-openstack
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+          - name: VAULT_SKIP_VERIFY
+            value: "false"
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-vault-plugin-kustomize-openstack.yaml
+            name: cmp-plugin
+          - mountPath: /vault-tools
+            name: vault-tools
           - mountPath: /usr/local/bin/vault
             subPath: vault
-            name: custom-tools
-          - mountPath: /usr/local/bin/vault-path-processor.sh
-            subPath: vault-path-processor
-            name: custom-tools
+            name: vault-tools
     volumes:
       - configMap:
           name: argocd-cmp-cm
         name: cmp-plugin
       - name: custom-tools
         emptyDir: {}
-      - configMap:
-          name: vault-path-processor-cm
-          defaultMode: 0755
-        name: vault-path-processor-script
+      - name: vault-tools
+        emptyDir: {}
 
     containerSecurityContext:
       seccompProfile:
@@ -562,6 +582,7 @@ argo-cd:
               - bash
               - "-c"
               - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
                 helm dependency build
           generate:
             command:
@@ -582,13 +603,13 @@ argo-cd:
                   fi
                 done
 
-                # Generate helm template with enhanced vault processing
+                # Generate helm template with vault processing
                 if [ -n "$ARGOCD_ENV_HELM_VALUES" ]; then
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") $HELM_SETS . |
-                  /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
+                  argocd-vault-plugin generate -s argocd:argocd-secret -
                 else
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . |
-                  /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
+                  argocd-vault-plugin generate -s argocd:argocd-secret -
                 fi
           allowConcurrency: true
           lockRepo: false
@@ -619,14 +640,15 @@ argo-cd:
                   fi
                 done
 
-                # Generate helm template with enhanced vault processing
+                # Generate helm template with vault processing
                 helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds |
-                /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
+                argocd-vault-plugin generate -s argocd:argocd-secret -
           init:
             command:
               - bash
               - -c
               - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
                 helm dependency build
           lockRepo: false
         argocd-vault-plugin-kustomize:
@@ -642,6 +664,66 @@ argo-cd:
               - bash
               - -c
               - |
-                kustomize build . | /usr/local/bin/vault-path-processor.sh | argocd-vault-plugin generate -s argocd:argocd-secret -
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
+                kustomize build . | argocd-vault-plugin generate -s argocd:argocd-secret -
+          allowConcurrency: true
+          lockRepo: false
+        argocd-vault-plugin-kustomize-openstack:
+          discover:
+            find:
+              command:
+                - find
+                - "."
+                - -name
+                - kustomization.yaml
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                # OpenStack Vault Path Processor
+                cat > /tmp/openstack-vault-processor.sh << 'EOF'
+                #!/bin/bash
+
+                # Process OpenStack vault paths directly
+                while IFS= read -r line; do
+                  # Process each line that contains OpenStack paths
+                  if [[ "$line" == *"<path:openstack/"* ]]; then
+                    # Process all OpenStack paths in this line
+                    while [[ "$line" =~ \<path:openstack/([^#]+)#([^\>]+)\> ]]; do
+                      path_part="${BASH_REMATCH[1]}"
+                      field_part="${BASH_REMATCH[2]}"
+                      placeholder="<path:openstack/${path_part}#${field_part}>"
+
+                      echo "Processing OpenStack path: openstack/${path_part}, field: ${field_part}" >&2
+
+                      # Get value from vault OpenStack engine
+                      if command -v vault >/dev/null 2>&1 && [ -n "$VAULT_TOKEN" ] && [ -n "$VAULT_ADDR" ]; then
+                        value=$(vault read -field="$field_part" "openstack/$path_part" 2>/dev/null)
+                        if [ $? -eq 0 ] && [ -n "$value" ]; then
+                          echo "Successfully retrieved value for ${field_part}" >&2
+                          # Replace this specific placeholder
+                          line="${line//$placeholder/$value}"
+                        else
+                          echo "Warning: Could not read field '$field_part' from 'openstack/$path_part'" >&2
+                          # Leave placeholder as-is if vault read failed
+                          break
+                        fi
+                      else
+                        echo "Error: Vault not available or not configured properly" >&2
+                        echo "VAULT_TOKEN set: ${VAULT_TOKEN:+yes}" >&2
+                        echo "VAULT_ADDR set: ${VAULT_ADDR:+yes}" >&2
+                        # Leave placeholder as-is if vault not available
+                        break
+                      fi
+                    done
+                  fi
+                  echo "$line"
+                done
+                EOF
+                chmod +x /tmp/openstack-vault-processor.sh
+
+                # Build and process with OpenStack vault processor
+                kustomize build . | /tmp/openstack-vault-processor.sh
           allowConcurrency: true
           lockRepo: false

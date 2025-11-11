@@ -2,9 +2,3 @@ repoServerSecretAccess:
   enabled: true
   namespace: argocd
   serviceAccount: argocd-preprod-repo-server
-
-# Enable the vault-path-processor ConfigMap for OpenStack secrets engine support
-vaultPathProcessor:
-  enabled: true
-  configMapName: vault-path-processor-cm
-  scriptName: vault-path-processor.sh

@@ -72,7 +72,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
