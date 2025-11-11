@@ -15,6 +15,9 @@ labels:
 components:
   - ../../../base
 
+resources:
+  - sa.yaml
+
 patches:
   - path: deployment.patch.yaml
   - path: secret.patch.yaml

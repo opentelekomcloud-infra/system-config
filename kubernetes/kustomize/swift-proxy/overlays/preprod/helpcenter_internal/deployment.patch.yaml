@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -5,4 +6,4 @@ metadata:
 spec:
   template:
     spec:
-      serviceAccountName: "swift-proxy-swiss"
+      serviceAccountName: "swift-proxy"

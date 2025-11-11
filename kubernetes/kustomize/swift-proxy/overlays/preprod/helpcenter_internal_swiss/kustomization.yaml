@@ -15,9 +15,19 @@ labels:
 components:
   - ../../../base
 
+resources:
+  - sa.yaml
+
 patches:
   - path: deployment.patch.yaml
   - path: secret.patch.yaml
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccountName
+        value: swift-proxy-swiss
+    target:
+      kind: Deployment
+      name: swift-proxy
   - patch: |-
       - op: replace
         path: /spec/ingressClassName
