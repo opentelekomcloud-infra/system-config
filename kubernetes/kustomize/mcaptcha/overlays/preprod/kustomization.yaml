@@ -1,0 +1,158 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mcaptcha
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - networkpolicy.yaml
+  - poddisruptionbudget.yaml
+
+# Remove vault-agent initContainer and volumes, use AVP for secret injection
+patches:
+  # Remove Vault Agent initContainer and volumes
+  - target:
+      kind: Deployment
+      name: mcaptcha
+    patch: |-
+      - op: remove
+        path: /spec/template/spec/initContainers
+      - op: remove
+        path: /spec/template/spec/volumes
+      - op: replace
+        path: /spec/template/spec/containers/0/command
+        value:
+          - "/usr/local/bin/mcaptcha"
+      - op: remove
+        path: /spec/template/spec/containers/0/args
+      - op: remove
+        path: /spec/template/spec/containers/0/volumeMounts
+      - op: add
+        path: /spec/template/spec/containers/0/envFrom
+        value:
+          - secretRef:
+              name: mcaptcha-credentials
+          - configMapRef:
+              name: mcaptcha-config
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          runAsUser: 1000
+          fsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+      - op: add
+        path: /spec/template/spec/containers/0/securityContext
+        value:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          limits:
+            cpu: "1000m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+      - op: add
+        path: /spec/template/spec/affinity
+        value:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app: mcaptcha
+                  topologyKey: kubernetes.io/hostname
+
+  # Patch Ingress for preprod domain and security
+  - target:
+      kind: Ingress
+      name: mcaptcha
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: "mcaptcha.eco-preprod.tsi-dev.otc-service.com"
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: "mcaptcha.eco-preprod.tsi-dev.otc-service.com"
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1ssl-protocols
+        value: "TLSv1.2 TLSv1.3"
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1ssl-ciphers
+        value: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384"
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1force-ssl-redirect
+        value: "true"
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1limit-rps
+        value: "100"
+      - op: add
+        path: /metadata/annotations/nginx.ingress.kubernetes.io~1limit-connections
+        value: "50"
+
+# ConfigMap for application configuration (non-sensitive)
+configMapGenerator:
+  - name: mcaptcha-config
+    literals:
+      - MCAPTCHA_debug=false
+      - MCAPTCHA_commercial=false
+      - MCAPTCHA_source_code=https://github.com/opentelekomcloud-infra/mcaptcha
+      - MCAPTCHA_allow_registration=false
+      - MCAPTCHA_allow_demo=false
+      - MCAPTCHA_database_POOL=8
+      - MCAPTCHA_redis_POOL=8
+      - PORT=7001
+      - MCAPTCHA_server_DOMAIN=mcaptcha.eco-preprod.tsi-dev.otc-service.com
+      - MCAPTCHA_server_IP=0.0.0.0
+      - MCAPTCHA_captcha_GC=30
+      - MCAPTCHA_captcha_RUNNERS=8
+      - MCAPTCHA_captcha_QUEUE_LENGTH=5000
+      - MCAPTCHA_captcha_ENABLE_STATS=true
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_avg_traffic_difficulty=8000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_broke_my_site_traffic_difficulty=10000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_peak_sustainable_traffic_difficulty=15000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_duration=30
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_avg_traffic_time=8
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_peak_sustainable_traffic_time=10
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_broke_my_site_traffic_time=15
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: mcaptcha-credentials
+    literals:
+      # PostgreSQL database connection
+      - DATABASE_URL=<path:secret/data/mcaptcha/database#url>
+      # Redis connection (external Redis)
+      - MCAPTCHA_redis_URL=<path:secret/data/redis/config#url>
+      # Server cookie secret
+      - MCAPTCHA_server_COOKIE_SECRET=<path:secret/data/mcaptcha/server#cookie-secret>
+      # Captcha salt for hashing
+      - MCAPTCHA_captcha_SALT=<path:secret/data/mcaptcha/captcha#salt>
+
+# Use latest stable version for preprod
+images:
+  - name: "quay.io/opentelekomcloud/mcaptcha"
+    newTag: "0.0.2"

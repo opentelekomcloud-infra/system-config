@@ -1,0 +1,38 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth-proxy
+  annotations:
+    # OAuth2 Proxy specific annotations - environment specific
+    nginx.ingress.kubernetes.io/auth-url: >-
+      http://oauth-proxy.helpcenter-int.svc.cluster.local:4180/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: >-
+      https://docs-int.eco-preprod.tsi-dev.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri
+    nginx.ingress.kubernetes.io/auth-response-headers: >-
+      X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token
+    # Environment specific rate limiting (more restrictive for swiss)
+    nginx.ingress.kubernetes.io/rate-limit-connections: "10"
+    nginx.ingress.kubernetes.io/rate-limit-requests-per-second: "5"
+    nginx.ingress.kubernetes.io/rate-limit-burst-multiplier: "3"
+  labels:
+    app.kubernetes.io/instance: helpcenter-swiss-internal-oauth
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: document-hosting
+    argocd.argoproj.io/instance: helpcenter-swiss-int
+spec:
+  rules:
+  - host: docs-int.eco-preprod.tsi-dev.otc-service.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: document-hosting
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-int.eco-preprod.tsi-dev.otc-service.com
+    secretName: helpcenter-int-cert
