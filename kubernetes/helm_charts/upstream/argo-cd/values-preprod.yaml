@@ -426,6 +426,20 @@ argo-cd:
           - mountPath: /usr/local/bin/vault
             subPath: vault
             name: vault-tools
+      - name: helm-plain
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-helm-plain.yaml
+            name: cmp-plugin
     volumes:
       - configMap:
           name: argocd-cmp-cm
@@ -681,7 +695,7 @@ argo-cd:
               - bash
               - -c
               - |
-                # OpenStack Vault Path Processor
+                # OpenStack Vault Path Processor with nested field support
                 cat > /tmp/openstack-vault-processor.sh << 'EOF'
                 #!/bin/bash
 
@@ -699,21 +713,42 @@ argo-cd:
 
                       # Get value from vault OpenStack engine
                       if command -v vault >/dev/null 2>&1 && [ -n "$VAULT_TOKEN" ] && [ -n "$VAULT_ADDR" ]; then
-                        value=$(vault read -field="$field_part" "openstack/$path_part" 2>/dev/null)
-                        if [ $? -eq 0 ] && [ -n "$value" ]; then
-                          echo "Successfully retrieved value for ${field_part}" >&2
-                          # Replace this specific placeholder
-                          line="${line//$placeholder/$value}"
+                        # Handle nested fields (e.g., auth.username)
+                        if [[ "$field_part" == *.* ]]; then
+                          # Split nested field (e.g., "auth.username" -> "auth" and "username")
+                          parent_field="${field_part%%.*}"
+                          child_field="${field_part#*.}"
+
+                          echo "Reading nested field: ${parent_field}.${child_field}" >&2
+
+                          # Get the full secret data as JSON
+                          full_json=$(vault read -format=json "openstack/$path_part" 2>/dev/null)
+
+                          # Extract nested value using simple grep/sed approach
+                          parent_value=$(echo "$full_json" | grep -o "\"${child_field}\":\"[^\"]*\"" | sed 's/.*:"\([^"]*\)".*/\1/')
+
+                          if [ -n "$parent_value" ] && [ "$parent_value" != "null" ]; then
+                            echo "Successfully retrieved nested value for ${field_part}" >&2
+                            line="${line//$placeholder/$parent_value}"
+                          else
+                            echo "Warning: Could not read nested field '$field_part' from 'openstack/$path_part'" >&2
+                            break
+                          fi
                         else
-                          echo "Warning: Could not read field '$field_part' from 'openstack/$path_part'" >&2
-                          # Leave placeholder as-is if vault read failed
-                          break
+                          # Handle top-level fields normally
+                          value=$(vault read -field="$field_part" "openstack/$path_part" 2>/dev/null)
+                          if [ $? -eq 0 ] && [ -n "$value" ]; then
+                            echo "Successfully retrieved value for ${field_part}" >&2
+                            line="${line//$placeholder/$value}"
+                          else
+                            echo "Warning: Could not read field '$field_part' from 'openstack/$path_part'" >&2
+                            break
+                          fi
                         fi
                       else
                         echo "Error: Vault not available or not configured properly" >&2
                         echo "VAULT_TOKEN set: ${VAULT_TOKEN:+yes}" >&2
                         echo "VAULT_ADDR set: ${VAULT_ADDR:+yes}" >&2
-                        # Leave placeholder as-is if vault not available
                         break
                       fi
                     done
@@ -725,5 +760,45 @@ argo-cd:
 
                 # Build and process with OpenStack vault processor
                 kustomize build . | /tmp/openstack-vault-processor.sh
+          allowConcurrency: true
+          lockRepo: false
+        argocd-helm-plain:
+          discover:
+            find:
+              command:
+                - sh
+                - -c
+                - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                # Plain Helm template generation WITHOUT vault processing
+                # This is safe for ArgoCD self-management
+
+                # Build Helm set parameters from environment variables
+                HELM_SETS=""
+                for var in $(env | grep "^HELM_PARAM_" | cut -d= -f1); do
+                  param_name=$(echo "$var" | sed 's/^HELM_PARAM_//' | sed 's/_/./g' | tr '[:upper:]' '[:lower:]')
+                  param_value=$(eval echo \$$var)
+
+                  # Check if value is numeric (for ports, etc) and set without quotes
+                  if echo "$param_value" | grep -E '^[0-9]+$' > /dev/null; then
+                    HELM_SETS="$HELM_SETS --set $param_name=$param_value"
+                  else
+                    HELM_SETS="$HELM_SETS --set $param_name=\"$param_value\""
+                  fi
+                done
+
+                # Generate helm template WITHOUT vault processing
+                helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds
+          init:
+            command:
+              - bash
+              - -c
+              - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
+                helm dependency build
           allowConcurrency: true
           lockRepo: false
