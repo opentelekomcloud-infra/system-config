@@ -334,6 +334,28 @@ patches:
       spec:
         template:
           spec:
+            # Add initContainer to pre-create redirect files so nginx can start
+            initContainers:
+              - name: init-redirect-files
+                image: nginx:alpine3.20
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /tmp/redirect
+                    # Extract filenames from nginx config and create empty files
+                    grep -o '/etc/nginx/redirect/[^;]*' /etc/nginx/conf.d/nginx-site.conf | \
+                    sed 's|/etc/nginx/redirect/||' | \
+                    while read file; do
+                      echo "Creating empty file: $file"
+                      touch "/tmp/redirect/$file"
+                    done
+                volumeMounts:
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
+                  - mountPath: /etc/nginx/conf.d/nginx-site.conf
+                    name: nginx-config
+                    subPath: nginx-site.conf
             containers:
               - name: document-hosting
                 volumeMounts:
@@ -374,6 +396,41 @@ patches:
       group: apps
       kind: Deployment
       name: document-hosting
+      version: v1
+
+  # Remove liveness and readiness probes from document-hosting container
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: document-hosting
+                livenessProbe:
+                  $patch: delete
+                readinessProbe:
+                  $patch: delete
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
+  # Update OAuth ingress hostname
+  - patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs.otc.eco-preprod.tsi-dev.otc-service.com
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: docs.otc.eco-preprod.tsi-dev.otc-service.com
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting-oauth
       version: v1
 
 resources:

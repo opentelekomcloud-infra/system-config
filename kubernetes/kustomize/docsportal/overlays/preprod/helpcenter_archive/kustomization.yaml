@@ -47,4 +47,4 @@ patches:
       version: v1
 
 resources:
-  - ../../base
+  - ../../../base
