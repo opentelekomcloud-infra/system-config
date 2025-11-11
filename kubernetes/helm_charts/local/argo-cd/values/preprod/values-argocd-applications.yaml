@@ -106,7 +106,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/local/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
