@@ -1,0 +1,45 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: swift-proxy
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "helpcenter-internal-swiss"
+      app.kubernetes.io/managed-by: "kustomize"
+
+components:
+  - ../../../base
+
+resources:
+  - sa.yaml
+
+patches:
+  - path: deployment.patch.yaml
+  - path: secret.patch.yaml
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        # nginx-intern is not exposed to the world
+        value: nginx-intern
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: "swift-proxy"
+      version: v1
+  - patch: |-
+      - op: replace
+        path: /metadata/name
+        value: swift-proxy-helpcenter-internal
+    target:
+      kind: "Service"
+      version: "v1"
+      name: "swift-proxy"
+    options:
+      allowNameChange: true
+
+replicas:
+  - name: swift-proxy
+    count: 2

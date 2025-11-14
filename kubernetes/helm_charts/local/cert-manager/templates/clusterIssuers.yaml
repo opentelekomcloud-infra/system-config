@@ -4,6 +4,7 @@ kind: ClusterIssuer
 metadata:
   name: {{ .name }}
 spec:
+{{- if eq .type "acme" }}
   acme:
     email: {{ .email | quote }}
     server: {{ .server | quote }}
@@ -11,5 +12,11 @@ spec:
       name: {{ .privateKeySecretRef }}
     solvers:
       {{- toYaml .solvers | nindent 6 }}
+{{- else if eq .type "selfSigned" }}
+  selfSigned: {}
+{{- else if eq .type "ca" }}
+  ca:
+    secretName: {{ .secretName }}
+{{- end }}
 ---
 {{- end }}

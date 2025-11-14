@@ -1,0 +1,60 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: "nginx-config"
+    behavior: "merge"
+    files:
+      - "configs/nginx-site.conf"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "helpcenter-archive"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "nginx"
+    newTag: "alpine3.20"
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs-archive.otc.t-systems.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
+          cert-manager.io/private-key-rotation-policy: Always
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - docs-archive.eco-preprod.tsi-dev.otc-service.com
+            secretName: helpcenter-archive-cert
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting
+      version: v1
+  - patch: |-
+      - op: remove
+        path: /spec/template/spec/containers/0/readinessProbe
+      - op: remove
+        path: /spec/template/spec/containers/0/livenessProbe
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
+resources:
+  - ../../../base
