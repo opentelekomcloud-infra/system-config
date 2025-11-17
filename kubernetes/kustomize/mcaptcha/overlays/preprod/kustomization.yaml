@@ -15,7 +15,6 @@ labels:
 resources:
   - ../../base
   - namespace.yaml
-  - networkpolicy.yaml
   - poddisruptionbudget.yaml
 
 # Remove vault-agent initContainer and volumes, use AVP for secret injection
