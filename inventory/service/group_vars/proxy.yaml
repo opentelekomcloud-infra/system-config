@@ -252,6 +252,9 @@ proxy_backends:
       - "acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com:443"
       - "acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com:2222"
       - "http-request deny if !valid_host"
+      # Block /metrics endpoint
+      - "acl metrics_page path_beg /metrics"
+      - "http-request deny if metrics_page"
       # Set proper host header for backend
       - "http-request set-header Host gitea.eco.tsi-dev.otc-service.com"
     domain_names:
