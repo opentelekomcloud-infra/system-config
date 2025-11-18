@@ -1,0 +1,11 @@
+{{- if .Values.config.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "anubis.fullname" . }}-policy
+  labels:
+    {{- include "anubis.labels" . | nindent 4 }}
+data:
+  {{ .Values.config.policyFileName }}: |
+{{- .Values.config.policy | nindent 4 }}
+{{- end }}
