@@ -416,7 +416,7 @@ applications:
     config:
       namespace: eyes-on-docs
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_eyes_on_docs'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/kustomize/eyes-on-docs/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
