@@ -2,7 +2,7 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: {{ template "vm.plain.fullname"  . }}
+  name: {{ .Release.Name }}
   labels:
     release: prometheus
 spec:
