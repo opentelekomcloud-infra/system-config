@@ -1,0 +1,33 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: oauth-proxy
+  annotations:
+    # No auth annotations - this ingress handles OAuth2 proxy endpoints only
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+  labels:
+    app.kubernetes.io/instance: helpcenter-internal-oauth
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: oauth-proxy
+    argocd.argoproj.io/instance: helpcenter-int
+spec:
+  rules:
+  - host: docs-int.eco-preprod.tsi-dev.otc-service.com
+    http:
+      paths:
+      # OAuth2-proxy endpoints only - no authentication
+      - backend:
+          service:
+            name: docsportal-internal-oauth-proxy
+            port:
+              number: 4180
+        path: /oauth2
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-int.eco-preprod.tsi-dev.otc-service.com
+    secretName: helpcenter-int-cert

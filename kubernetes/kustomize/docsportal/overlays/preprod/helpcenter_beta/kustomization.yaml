@@ -1,0 +1,371 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: "nginx-config"
+    behavior: "merge"
+    # rather then adding redirect_map: helpcenter to every CM we rather replace
+    # this value for this CM.
+    options:
+      labels:
+        redirect_map: "no"
+    files:
+      - "configs/nginx-site.conf"
+  - name: "additional-resources"
+    files:
+      - "configs/redirect_maps/additional-resources"
+  - name: "anti-ddos"
+    files:
+      - "configs/redirect_maps/anti-ddos"
+  - name: "api-gateway"
+    files:
+      - "configs/redirect_maps/api-gateway"
+  - name: "application-operations-management"
+    files:
+      - "configs/redirect_maps/application-operations-management"
+  - name: "application-performance-management"
+    files:
+      - "configs/redirect_maps/application-performance-management"
+  - name: "auto-scaling"
+    files:
+      - "configs/redirect_maps/auto-scaling"
+  - name: "bare-metal-server"
+    files:
+      - "configs/redirect_maps/bare-metal-server"
+  - name: "cloud-backup-recovery"
+    files:
+      - "configs/redirect_maps/cloud-backup-recovery"
+  - name: "cloud-container-engine"
+    files:
+      - "configs/redirect_maps/cloud-container-engine"
+  - name: "cloud-container-instance"
+    files:
+      - "configs/redirect_maps/cloud-container-instance"
+  - name: "cloud-eye"
+    files:
+      - "configs/redirect_maps/cloud-eye"
+  - name: "cloud-search-service"
+    files:
+      - "configs/redirect_maps/cloud-search-service"
+  - name: "cloud-server-backup-service"
+    files:
+      - "configs/redirect_maps/cloud-server-backup-service"
+  - name: "cloud-service-engine"
+    files:
+      - "configs/redirect_maps/cloud-service-engine"
+  - name: "cloud-trace-service"
+    files:
+      - "configs/redirect_maps/cloud-trace-service"
+  - name: "data-arts-studio"
+    files:
+      - "configs/redirect_maps/data-arts-studio"
+  - name: "data-ingestion-service"
+    files:
+      - "configs/redirect_maps/data-ingestion-service"
+  - name: "data-lake-insight"
+    files:
+      - "configs/redirect_maps/data-lake-insight"
+  - name: "data-replication-service"
+    files:
+      - "configs/redirect_maps/data-replication-service"
+  - name: "data-warehouse-service-aa"
+    files:
+      - "configs/redirect_maps/data-warehouse-service-aa"
+  - name: "data-warehouse-service-ab"
+    files:
+      - "configs/redirect_maps/data-warehouse-service-ab"
+  - name: "data-warehouse-service-ac"
+    files:
+      - "configs/redirect_maps/data-warehouse-service-ac"
+  - name: "database-security-service"
+    files:
+      - "configs/redirect_maps/database-security-service"
+  - name: "dedicated-host"
+    files:
+      - "configs/redirect_maps/dedicated-host"
+  - name: "direct-connect"
+    files:
+      - "configs/redirect_maps/direct-connect"
+  - name: "distributed-cache-service"
+    files:
+      - "configs/redirect_maps/distributed-cache-service"
+  - name: "distributed-database-middleware"
+    files:
+      - "configs/redirect_maps/distributed-database-middleware"
+  - name: "distributed-message-service"
+    files:
+      - "configs/redirect_maps/distributed-message-service"
+  - name: "document-database-service"
+    files:
+      - "configs/redirect_maps/document-database-service"
+  - name: "domain-name-service"
+    files:
+      - "configs/redirect_maps/domain-name-service"
+  - name: "elastic-cloud-server"
+    files:
+      - "configs/redirect_maps/elastic-cloud-server"
+  - name: "elastic-ip"
+    files:
+      - "configs/redirect_maps/elastic-ip"
+  - name: "elastic-load-balancing"
+    files:
+      - "configs/redirect_maps/elastic-load-balancing"
+  - name: "elastic-volume-service"
+    files:
+      - "configs/redirect_maps/elastic-volume-service"
+  - name: "enterprise-router"
+    files:
+      - "configs/redirect_maps/enterprise-router"
+  - name: "function-graph"
+    files:
+      - "configs/redirect_maps/function-graph"
+  - name: "gaussdb-mysql"
+    files:
+      - "configs/redirect_maps/gaussdb-mysql"
+  - name: "gaussdb-nosql"
+    files:
+      - "configs/redirect_maps/gaussdb-nosql"
+  - name: "gaussdb-opengauss"
+    files:
+      - "configs/redirect_maps/gaussdb-opengauss"
+  - name: "host-security-service"
+    files:
+      - "configs/redirect_maps/host-security-service"
+  - name: "identity-access-management"
+    files:
+      - "configs/redirect_maps/identity-access-management"
+  - name: "image-management-service"
+    files:
+      - "configs/redirect_maps/image-management-service"
+  - name: "key-management-service"
+    files:
+      - "configs/redirect_maps/key-management-service"
+  - name: "log-tank-service"
+    files:
+      - "configs/redirect_maps/log-tank-service"
+  - name: "mapreduce-service-aa"
+    files:
+      - "configs/redirect_maps/mapreduce-service-aa"
+  - name: "mapreduce-service-ab"
+    files:
+      - "configs/redirect_maps/mapreduce-service-ab"
+  - name: "mapreduce-service-ac"
+    files:
+      - "configs/redirect_maps/mapreduce-service-ac"
+  - name: "mapreduce-service-ad"
+    files:
+      - "configs/redirect_maps/mapreduce-service-ad"
+  - name: "mapreduce-service-ae"
+    files:
+      - "configs/redirect_maps/mapreduce-service-ae"
+  - name: "mapreduce-service-af"
+    files:
+      - "configs/redirect_maps/mapreduce-service-af"
+  - name: "mapreduce-service-ag"
+    files:
+      - "configs/redirect_maps/mapreduce-service-ag"
+  - name: "modelarts"
+    files:
+      - "configs/redirect_maps/modelarts"
+  - name: "nat-gateway"
+    files:
+      - "configs/redirect_maps/nat-gateway"
+  - name: "object-storage-service"
+    files:
+      - "configs/redirect_maps/object-storage-service"
+  - name: "private-link-access-service"
+    files:
+      - "configs/redirect_maps/private-link-access-service"
+  - name: "relational-database-service"
+    files:
+      - "configs/redirect_maps/relational-database-service"
+  - name: "resource-management-service"
+    files:
+      - "configs/redirect_maps/resource-management-service"
+  - name: "resource-template-service"
+    files:
+      - "configs/redirect_maps/resource-template-service"
+  - name: "scalable-file-service"
+    files:
+      - "configs/redirect_maps/scalable-file-service"
+  - name: "secure-mail-gateway"
+    files:
+      - "configs/redirect_maps/secure-mail-gateway"
+  - name: "simple-message-notification"
+    files:
+      - "configs/redirect_maps/simple-message-notification"
+  - name: "software-repository-container"
+    files:
+      - "configs/redirect_maps/software-repository-container"
+  - name: "status-dashboard"
+    files:
+      - "configs/redirect_maps/status-dashboard"
+  - name: "storage-disaster-recovery-service"
+    files:
+      - "configs/redirect_maps/storage-disaster-recovery-service"
+  - name: "tag-management-service"
+    files:
+      - "configs/redirect_maps/tag-management-service"
+  - name: "virtual-private-cloud"
+    files:
+      - "configs/redirect_maps/virtual-private-cloud"
+  - name: "virtual-private-network"
+    files:
+      - "configs/redirect_maps/virtual-private-network"
+  - name: "volume-backup-service"
+    files:
+      - "configs/redirect_maps/volume-backup-service"
+  - name: "vpc-endpoint"
+    files:
+      - "configs/redirect_maps/vpc-endpoint"
+  - name: "web-application-firewall"
+    files:
+      - "configs/redirect_maps/web-application-firewall"
+  - name: "web-application-firewall-dedicated"
+    files:
+      - "configs/redirect_maps/web-application-firewall-dedicated"
+
+# kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
+# selector
+generatorOptions:
+  labels:
+    redirect_map: helpcenter
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "helpcenter-beta"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "nginx"
+    newTag: "alpine3.20"
+  - name: "kiwigrid/k8s-sidecar"
+    newName: "quay.io/kiwigrid/k8s-sidecar"
+    newTag: "1.28.0"
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs-beta.eco-preprod.tsi-dev.otc-service.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
+          cert-manager.io/private-key-rotation-policy: Always
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - docs-beta.eco-preprod.tsi-dev.otc-service.com
+            secretName: helpcenter-beta-cert
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting
+      version: v1
+
+  # Mount new volume and add sidecar that populates this volume
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            # Add initContainer to pre-create redirect files so nginx can start
+            initContainers:
+              - name: init-redirect-files
+                image: nginx:alpine3.20
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /tmp/redirect
+                    # Extract filenames from nginx config and create empty files
+                    grep -o '/etc/nginx/redirect/[^;]*' /etc/nginx/conf.d/nginx-site.conf | \
+                    sed 's|/etc/nginx/redirect/||' | \
+                    while read file; do
+                      echo "Creating empty file: $file"
+                      touch "/tmp/redirect/$file"
+                    done
+                volumeMounts:
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
+                  - mountPath: /etc/nginx/conf.d/nginx-site.conf
+                    name: nginx-config
+                    subPath: nginx-site.conf
+            containers:
+              - name: document-hosting
+                volumeMounts:
+                  - mountPath: /etc/nginx/redirect.map
+                    name: nginx-config
+                    subPath: redirect.map
+                  - mountPath: /etc/nginx/redirect
+                    name: redirect-map-volume
+
+              # sidecar that searches CM by "redirect_map=helpcenter" label
+              # and flushes content into files on shared volume
+              - name: configmap-sync
+                env:
+                  - name: METHOD
+                    value: WATCH
+                  - name: LABEL
+                    value: redirect_map
+                  - name: LABEL_VALUE
+                    value: helpcenter
+                  - name: FOLDER
+                    value: /tmp/redirect
+                  - name: RESOURCE
+                    value: configmap
+                image: kiwigrid/k8s-sidecar
+                resources:
+                  limits:
+                    memory: "100Mi"
+                  requests:
+                    cpu: "10m"
+                    memory: "50Mi"
+                terminationMessagePath: /dev/termination-log
+                terminationMessagePolicy: File
+                volumeMounts:
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
+
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
+  # Remove liveness and readiness probes from document-hosting container
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: document-hosting
+                livenessProbe:
+                  $patch: delete
+                readinessProbe:
+                  $patch: delete
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
+resources:
+  - ../../../base

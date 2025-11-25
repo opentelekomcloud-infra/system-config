@@ -25,4 +25,3 @@ resources:
   - role_binding.yaml
   - deployment.yaml
   - service.yaml
-  - ingress.yaml

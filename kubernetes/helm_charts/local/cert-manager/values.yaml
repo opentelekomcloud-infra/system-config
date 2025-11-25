@@ -1,5 +1,6 @@
 clusterIssuers:
   - name: letsencrypt-prod
+    type: acme
     email: your-email@telekom.de
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef: letsencrypt-prod-issuer-account-key
@@ -8,6 +9,7 @@ clusterIssuers:
           ingress:
             ingressClassName: nginx
   - name: letsencrypt-staging
+    type: acme
     email: your-email@telekom.de
     server: https://acme-staging-v02.api.letsencrypt.org/directory
     privateKeySecretRef: letsencrypt-stg-issuer-account-key
@@ -15,3 +17,5 @@ clusterIssuers:
       - http01:
           ingress:
             ingressClassName: nginx
+  - name: selfsigned
+    type: selfSigned

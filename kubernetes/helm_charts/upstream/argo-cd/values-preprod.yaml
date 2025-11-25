@@ -288,6 +288,27 @@ argo-cd:
         volumeMounts:
           - mountPath: /custom-tools
             name: custom-tools
+      - name: download-vault-cli
+        image: alpine:3.18
+        env:
+          - name: VAULT_VERSION
+            value: 1.19.0
+        command: [sh, -c]
+        args:
+          - >-
+            cd /tmp &&
+            apk add --no-cache curl unzip &&
+            curl -L https://releases.hashicorp.com/vault/$(VAULT_VERSION)/vault_$(VAULT_VERSION)_linux_amd64.zip -o vault.zip &&
+            unzip vault.zip &&
+            chmod +x vault &&
+            cp vault /vault-tools/
+        securityContext:
+          runAsUser: 0
+          runAsNonRoot: false
+          allowPrivilegeEscalation: true
+        volumeMounts:
+          - mountPath: /vault-tools
+            name: vault-tools
     extraContainers:
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
@@ -376,11 +397,56 @@ argo-cd:
           - mountPath: /usr/local/bin/argocd-vault-plugin
             subPath: argocd-vault-plugin
             name: custom-tools
+      - name: avp-kustomize-openstack
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+          - name: VAULT_SKIP_VERIFY
+            value: "false"
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-vault-plugin-kustomize-openstack.yaml
+            name: cmp-plugin
+          - mountPath: /vault-tools
+            name: vault-tools
+          - mountPath: /usr/local/bin/vault
+            subPath: vault
+            name: vault-tools
+      - name: helm-plain
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-helm-plain.yaml
+            name: cmp-plugin
     volumes:
       - configMap:
           name: argocd-cmp-cm
         name: cmp-plugin
       - name: custom-tools
+        emptyDir: {}
+      - name: vault-tools
         emptyDir: {}
 
     containerSecurityContext:
@@ -530,6 +596,7 @@ argo-cd:
               - bash
               - "-c"
               - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
                 helm dependency build
           generate:
             command:
@@ -595,6 +662,7 @@ argo-cd:
               - bash
               - -c
               - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
                 helm dependency build
           lockRepo: false
         argocd-vault-plugin-kustomize:
@@ -611,5 +679,149 @@ argo-cd:
               - -c
               - |
                 kustomize build . | argocd-vault-plugin generate -s argocd:argocd-secret -
+          allowConcurrency: true
+          lockRepo: false
+        argocd-vault-plugin-kustomize-openstack:
+          discover:
+            find:
+              command:
+                - find
+                - "."
+                - -name
+                - kustomization.yaml
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                # OpenStack Vault Path Processor - Bash with better JSON parsing
+                cat > /tmp/openstack-vault-processor.sh << 'EOF'
+                #!/bin/bash
+
+                # Function to extract nested JSON value using bash
+                extract_json_value() {
+                    local json="$1"
+                    local field_path="$2"
+
+                    # Handle nested fields like "auth.username"
+                    if [[ "$field_path" == *.* ]]; then
+                        # Split into parent and child
+                        local parent_field="${field_path%%.*}"
+                        local child_field="${field_path#*.}"
+
+                        # Extract the parent object first
+                        local parent_json=$(echo "$json" | grep -A 50 "\"$parent_field\":" | head -n 20)
+
+                        # Extract the child field from within the parent object
+                        local value=$(echo "$parent_json" | grep "\"$child_field\":" | head -n 1 | sed -n 's/.*"'"$child_field"'":[[:space:]]*"\([^"]*\)".*/\1/p')
+
+                        # If no quotes, try without quotes (for non-string values)
+                        if [ -z "$value" ]; then
+                            value=$(echo "$parent_json" | grep "\"$child_field\":" | head -n 1 | sed -n 's/.*"'"$child_field"'":[[:space:]]*\([^,}]*\).*/\1/p' | tr -d ' ')
+                        fi
+
+                        echo "$value"
+                    else
+                        # Simple top-level field
+                        local value=$(echo "$json" | grep "\"$field_path\":" | head -n 1 | sed -n 's/.*"'"$field_path"'":[[:space:]]*"\([^"]*\)".*/\1/p')
+
+                        # If no quotes, try without quotes
+                        if [ -z "$value" ]; then
+                            value=$(echo "$json" | grep "\"$field_path\":" | head -n 1 | sed -n 's/.*"'"$field_path"'":[[:space:]]*\([^,}]*\).*/\1/p' | tr -d ' ')
+                        fi
+
+                        echo "$value"
+                    fi
+                }
+
+                # Process OpenStack vault paths directly
+                while IFS= read -r line; do
+                  # Process each line that contains OpenStack paths
+                  if [[ "$line" == *"<path:openstack/"* ]]; then
+                    # Process all OpenStack paths in this line
+                    while [[ "$line" =~ \<path:openstack/([^#]+)#([^\>]+)\> ]]; do
+                      path_part="${BASH_REMATCH[1]}"
+                      field_part="${BASH_REMATCH[2]}"
+                      placeholder="<path:openstack/${path_part}#${field_part}>"
+
+                      echo "Processing OpenStack path: openstack/${path_part}, field: ${field_part}" >&2
+
+                      # Get value from vault OpenStack engine
+                      if command -v vault >/dev/null 2>&1 && [ -n "$VAULT_TOKEN" ] && [ -n "$VAULT_ADDR" ]; then
+                        # Get the full secret data as JSON
+                        full_json=$(vault read -format=json "openstack/$path_part" 2>/dev/null)
+
+                        if [ $? -eq 0 ] && [ -n "$full_json" ]; then
+                          # Extract the value using our bash JSON parser
+                          value=$(extract_json_value "$full_json" "$field_part")
+
+                          if [ -n "$value" ] && [ "$value" != "null" ]; then
+                            echo "Successfully retrieved value for ${field_part}" >&2
+                            # Replace this specific placeholder
+                            line="${line//$placeholder/$value}"
+                          else
+                            echo "Warning: Could not extract field '$field_part' from vault data" >&2
+                            # Leave placeholder as-is if extraction failed
+                            break
+                          fi
+                        else
+                          echo "Warning: Could not read 'openstack/$path_part' from vault" >&2
+                          # Leave placeholder as-is if vault read failed
+                          break
+                        fi
+                      else
+                        echo "Error: Vault not available or not configured properly" >&2
+                        echo "VAULT_TOKEN set: ${VAULT_TOKEN:+yes}" >&2
+                        echo "VAULT_ADDR set: ${VAULT_ADDR:+yes}" >&2
+                        # Leave placeholder as-is if vault not available
+                        break
+                      fi
+                    done
+                  fi
+                  echo "$line"
+                done
+                EOF
+                chmod +x /tmp/openstack-vault-processor.sh                # Build and process with OpenStack vault processor
+                kustomize build . | /tmp/openstack-vault-processor.sh
+          allowConcurrency: true
+          lockRepo: false
+        argocd-helm-plain:
+          discover:
+            find:
+              command:
+                - sh
+                - -c
+                - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                # Plain Helm template generation WITHOUT vault processing
+                # This is safe for ArgoCD self-management
+
+                # Build Helm set parameters from environment variables
+                HELM_SETS=""
+                for var in $(env | grep "^HELM_PARAM_" | cut -d= -f1); do
+                  param_name=$(echo "$var" | sed 's/^HELM_PARAM_//' | sed 's/_/./g' | tr '[:upper:]' '[:lower:]')
+                  param_value=$(eval echo \$$var)
+
+                  # Check if value is numeric (for ports, etc) and set without quotes
+                  if echo "$param_value" | grep -E '^[0-9]+$' > /dev/null; then
+                    HELM_SETS="$HELM_SETS --set $param_name=$param_value"
+                  else
+                    HELM_SETS="$HELM_SETS --set $param_name=\"$param_value\""
+                  fi
+                done
+
+                # Generate helm template WITHOUT vault processing
+                helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds
+          init:
+            command:
+              - bash
+              - -c
+              - |
+                helm repo add argo-helm https://argoproj.github.io/argo-helm
+                helm dependency build
           allowConcurrency: true
           lockRepo: false

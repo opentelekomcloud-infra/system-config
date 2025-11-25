@@ -1,0 +1,39 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: document-hosting
+  annotations:
+    # Certificate Management
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+
+    # OAuth2 authentication for document content
+    nginx.ingress.kubernetes.io/auth-url: >-
+      http://docsportal-internal-oauth-proxy.helpcenter-int.svc.cluster.local:4180/oauth2/auth
+    nginx.ingress.kubernetes.io/auth-signin: >-
+      https://docs-int.eco-preprod.tsi-dev.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri
+    nginx.ingress.kubernetes.io/auth-response-headers: >-
+      X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token
+  labels:
+    app.kubernetes.io/name: document-hosting
+    app.kubernetes.io/component: document-hosting
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: docs-int.eco-preprod.tsi-dev.otc-service.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: document-hosting
+            port:
+              number: 8080
+        path: /
+        pathType: Prefix
+  tls:
+  - hosts:
+    - docs-int.eco-preprod.tsi-dev.otc-service.com
+    secretName: helpcenter-int-cert

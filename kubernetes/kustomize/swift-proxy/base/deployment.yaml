@@ -15,15 +15,26 @@ spec:
       labels:
         app.kubernetes.io/component: "swift-proxy"
     spec:
+      serviceAccount: swift-proxy
+      serviceAccountName: swift-proxy
       terminationGracePeriodSeconds: 10
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: "swift-proxy"
           env:
             - name: "CLOUD_NAMES"
               value: "logs"
+            - name: "CLOUD_CONFIG_FILE"
+              value: "/config/clouds.yaml"
           image: "zuul-storage-proxy"
           imagePullPolicy: "IfNotPresent"
-
           ports:
             - name: "sp"
               containerPort: 8000
@@ -34,10 +45,23 @@ spec:
             requests:
               cpu: "100m"
               memory: "500Mi"
-
+          volumeMounts:
+            - name: config
+              mountPath: /config
+              readOnly: true
+            - name: tmp-volume
+              mountPath: /tmp
           securityContext:
+            runAsNonRoot: true
             runAsUser: 10001
+            runAsGroup: 10001
             allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            seccompProfile:
+              type: RuntimeDefault
           readinessProbe:
             tcpSocket:
               port: 8000
@@ -48,7 +72,14 @@ spec:
               port: 8000
             initialDelaySeconds: 5
             periodSeconds: 5
-
+      volumes:
+        - name: config
+          secret:
+            secretName: swift-proxy-config
+            defaultMode: 0444
+        - name: tmp-volume
+          emptyDir:
+            sizeLimit: 100Mi
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

@@ -1,0 +1,10 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swift-proxy
+spec:
+  template:
+    spec:
+      serviceAccount: swift-proxy
+      serviceAccountName: swift-proxy

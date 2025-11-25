@@ -1,0 +1,208 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+configMapGenerator:
+  - name: "nginx-config"
+    behavior: "merge"
+    # rather then adding redirect_map: helpcenter to every CM we rather replace
+    # this value for this CM.
+    options:
+      labels:
+        redirect_map: "no"
+    files:
+      - "configs/nginx-site.conf"
+  - name: "additional-resources"
+    files:
+      - "configs/redirect_maps/additional-resources"
+  - name: "application-operations-management"
+    files:
+      - "configs/redirect_maps/application-operations-management"
+  - name: "auto-scaling"
+    files:
+      - "configs/redirect_maps/auto-scaling"
+  - name: "cloud-backup-recovery"
+    files:
+      - "configs/redirect_maps/cloud-backup-recovery"
+  - name: "cloud-container-engine-aa"
+    files:
+      - "configs/redirect_maps/cloud-container-engine-aa"
+  - name: "cloud-container-engine-ab"
+    files:
+      - "configs/redirect_maps/cloud-container-engine-ab"
+  - name: "cloud-eye"
+    files:
+      - "configs/redirect_maps/cloud-eye"
+  - name: "cloud-trace-service"
+    files:
+      - "configs/redirect_maps/cloud-trace-service"
+  - name: "dedicated-host"
+    files:
+      - "configs/redirect_maps/dedicated-host"
+  - name: "direct-connect"
+    files:
+      - "configs/redirect_maps/direct-connect"
+  - name: "domain-name-service"
+    files:
+      - "configs/redirect_maps/domain-name-service"
+  - name: "elastic-cloud-server"
+    files:
+      - "configs/redirect_maps/elastic-cloud-server"
+  - name: "elastic-ip"
+    files:
+      - "configs/redirect_maps/elastic-ip"
+  - name: "elastic-load-balancing"
+    files:
+      - "configs/redirect_maps/elastic-load-balancing"
+  - name: "elastic-volume-service"
+    files:
+      - "configs/redirect_maps/elastic-volume-service"
+  - name: "identity-access-management"
+    files:
+      - "configs/redirect_maps/identity-access-management"
+  - name: "image-management-service"
+    files:
+      - "configs/redirect_maps/image-management-service"
+  - name: "key-management-service"
+    files:
+      - "configs/redirect_maps/key-management-service"
+  - name: "log-tank-service"
+    files:
+      - "configs/redirect_maps/log-tank-service"
+  - name: "nat-gateway"
+    files:
+      - "configs/redirect_maps/nat-gateway"
+  - name: "object-storage-service"
+    files:
+      - "configs/redirect_maps/object-storage-service"
+  - name: "relational-database-service-aa"
+    files:
+      - "configs/redirect_maps/relational-database-service-aa"
+  - name: "relational-database-service-ab"
+    files:
+      - "configs/redirect_maps/relational-database-service-ab"
+  - name: "simple-message-notification"
+    files:
+      - "configs/redirect_maps/simple-message-notification"
+  - name: "software-repository-container"
+    files:
+      - "configs/redirect_maps/software-repository-container"
+  - name: "storage-disaster-recovery-service"
+    files:
+      - "configs/redirect_maps/storage-disaster-recovery-service"
+  - name: "tag-management-service"
+    files:
+      - "configs/redirect_maps/tag-management-service"
+  - name: "virtual-private-cloud"
+    files:
+      - "configs/redirect_maps/virtual-private-cloud"
+  - name: "virtual-private-network"
+    files:
+      - "configs/redirect_maps/virtual-private-network"
+  - name: "vpc-endpoint"
+    files:
+      - "configs/redirect_maps/vpc-endpoint"
+  - name: "web-application-firewall-dedicated"
+    files:
+      - "configs/redirect_maps/web-application-firewall-dedicated"
+
+# kiwigrid sidecar requires "redirect_map: helpcenter" label on all CMs as a
+# selector
+generatorOptions:
+  labels:
+    redirect_map: helpcenter
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "helpcenter-swiss-production"
+      app.kubernetes.io/managed-by: "kustomize"
+
+images:
+  - name: "docker.io/nginxinc/nginx-unprivileged"
+    newName: "nginx"
+    newTag: "alpine3.20"
+  - name: "kiwigrid/k8s-sidecar"
+    newName: "quay.io/kiwigrid/k8s-sidecar"
+    newTag: "1.28.0"
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: docs-sc.eco-preprod.tsi-dev.otc-service.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
+          cert-manager.io/private-key-rotation-policy: Always
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - docs-sc.eco-preprod.tsi-dev.otc-service.com
+            secretName: helpcenter-swiss-public-cert
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: document-hosting
+      version: v1
+
+  # Mount new volume and add sidecar that populates this volume
+  - patch: |-
+      apiVersion: apps/v1
+      kind: not-used
+      metadata:
+        name: not-used
+      spec:
+        template:
+          spec:
+            containers:
+              - name: document-hosting
+                volumeMounts:
+                  - mountPath: /etc/nginx/redirect.map
+                    name: nginx-config
+                    subPath: redirect.map
+                  - mountPath: /etc/nginx/redirect
+                    name: redirect-map-volume
+
+              # sidecar that searches CM by "redirect_map=helpcenter" label
+              # and flushes content into files on shared volume
+              - name: configmap-sync
+                env:
+                  - name: METHOD
+                    value: WATCH
+                  - name: LABEL
+                    value: redirect_map
+                  - name: LABEL_VALUE
+                    value: helpcenter
+                  - name: FOLDER
+                    value: /tmp/redirect
+                  - name: RESOURCE
+                    value: configmap
+                image: kiwigrid/k8s-sidecar
+                resources:
+                  limits:
+                    memory: "100Mi"
+                  requests:
+                    cpu: "10m"
+                    memory: "50Mi"
+                terminationMessagePath: /dev/termination-log
+                terminationMessagePolicy: File
+                volumeMounts:
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
+
+    target:
+      group: apps
+      kind: Deployment
+      name: document-hosting
+      version: v1
+
+resources:
+  - ../../../base

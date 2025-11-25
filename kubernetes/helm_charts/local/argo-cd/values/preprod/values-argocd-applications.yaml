@@ -55,9 +55,9 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/upstream/argo-cd
-      pluginName: argocd-vault-plugin-helm-with-args
+      pluginName: argocd-helm-plain
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
@@ -72,9 +72,9 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/local/argo-cd
-      pluginName: argocd-vault-plugin-helm-with-args
+      pluginName: argocd-helm-plain
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
       project: infra
       syncPolicy:
@@ -106,7 +106,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'Migration_of_docsportal'
       path: kubernetes/helm_charts/local/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
@@ -310,21 +310,21 @@ applications:
 ########## KUSTOMIZE APPS ###########
 #####################################
 
-  - name: kustomize-backstage-dev
-    clusters: [preprod]
-    config:
-      namespace: backstage-dev
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
-      path: kubernetes/kustomize/backstage/overlays/dev/
-      project: infra
-      kustomize: {}
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+  # - name: kustomize-backstage-dev
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: backstage-dev
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'Providing_backstage_kustomize_app'
+  #     path: kubernetes/kustomize/backstage/overlays/dev/
+  #     project: infra
+  #     kustomize: {}
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
 
   - name: openapi-validator
     clusters: [preprod]
@@ -334,6 +334,248 @@ applications:
       targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
       path: kubernetes/kustomize/openapi-validator/overlays/dev/
       pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: redis
+    clusters: [preprod]
+    config:
+      namespace: redis
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Providing_backstage_kustomize_app'
+      path: kubernetes/kustomize/redis/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: docsportal
+    clusters: [preprod]
+    config:
+      namespace: docsportal
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/docsportal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-archive
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-archive
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_archive/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-public
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-public
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_public/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-beta
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-beta
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_beta/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-internal
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-int
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_internal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-internal-oauth-proxy
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-int
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/oauth-proxy/overlays/preprod/docsportal/helpcenter_internal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+          - Force=true
+
+  - name: helpcenter-swiss-internal
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-swiss-int
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_swiss_internal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-swiss-archive
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-swiss-archive
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_swiss_archive/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-swiss-beta
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-swiss-beta
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_swiss_beta/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-swiss-public
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-swiss-public
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/docsportal/overlays/preprod/helpcenter_swiss_public/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: helpcenter-swiss-internal-oauth-proxy
+    clusters: [preprod]
+    config:
+      namespace: helpcenter-swiss-int
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/oauth-proxy/overlays/preprod/docsportal/helpcenter_swiss_internal/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - Replace=true
+          - Force=true
+
+  - name: swift-proxy
+    clusters: [preprod]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal/
+      pluginName: argocd-vault-plugin-kustomize-openstack
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: swift-proxy-swiss
+    clusters: [preprod]
+    config:
+      namespace: swift-proxy-swiss
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_docsportal'
+      path: kubernetes/kustomize/swift-proxy/overlays/preprod/helpcenter_internal_swiss/
+      pluginName: argocd-vault-plugin-kustomize-openstack
       pluginEnv: '.'
       project: infra
       syncPolicy:
