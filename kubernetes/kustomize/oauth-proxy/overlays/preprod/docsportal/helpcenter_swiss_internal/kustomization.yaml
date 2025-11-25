@@ -8,6 +8,9 @@ namePrefix: docsportal-swiss-internal-
 components:
 - ../../../../base
 
+resources:
+- ingress-document-hosting.yaml
+
 patches:
 - path: deployment.patch.yaml
 - path: service.patch.yaml

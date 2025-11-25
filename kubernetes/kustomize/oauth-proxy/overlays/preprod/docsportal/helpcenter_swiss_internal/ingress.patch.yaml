@@ -4,42 +4,28 @@ kind: Ingress
 metadata:
   name: oauth-proxy
   annotations:
-    # OAuth2 Proxy specific annotations - environment specific
-    nginx.ingress.kubernetes.io/auth-url: >-
-      http://docsportal-swiss-internal-oauth-proxy.helpcenter-swiss-int.svc.cluster.local:4180/oauth2/auth
-    nginx.ingress.kubernetes.io/auth-signin: >-
-      https://docs-swiss-int.eco-preprod.tsi-dev.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri
-    nginx.ingress.kubernetes.io/auth-response-headers: >-
-      X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token
-    # Environment specific rate limiting (more restrictive for swiss)
-    # nginx.ingress.kubernetes.io/rate-limit-connections: "10"
-    # nginx.ingress.kubernetes.io/rate-limit-requests-per-second: "5"
-    # nginx.ingress.kubernetes.io/rate-limit-burst-multiplier: "3"
+    # No auth annotations - this ingress handles OAuth2 proxy endpoints only
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
   labels:
     app.kubernetes.io/instance: helpcenter-swiss-internal-oauth
     app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/name: document-hosting
+    app.kubernetes.io/name: oauth-proxy
     argocd.argoproj.io/instance: helpcenter-swiss-int
 spec:
   rules:
   - host: docs-swiss-int.eco-preprod.tsi-dev.otc-service.com
     http:
       paths:
-      # OAuth2-proxy endpoints - must come first and without auth
+      # OAuth2-proxy endpoints only - no authentication
       - backend:
           service:
             name: docsportal-swiss-internal-oauth-proxy
             port:
               number: 4180
         path: /oauth2
-        pathType: Prefix
-      # Main application - with OAuth authentication
-      - backend:
-          service:
-            name: document-hosting
-            port:
-              number: 8080
-        path: /
         pathType: Prefix
   tls:
   - hosts:
