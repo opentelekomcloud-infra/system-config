@@ -1,0 +1,11 @@
+node_modules
+dist-types
+*.local.yaml
+.git
+.gitignore
+README.md
+Dockerfile*
+.dockerignore
+.nyc_output
+coverage
+.DS_Store

@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oauth2-proxy-config
+data:
+  oauth2-proxy.cfg: |
+    # OIDC Provider configuration
+    provider = "oidc"
+    oidc_issuer_url = "https://<path:secret/data/zitadel/config#base_url>"
+    skip_oidc_discovery = false
+    oidc_jwks_url = "https://<path:secret/data/zitadel/config#base_url>/oauth/v2/keys"
+
+    # Application configuration
+    http_address = "0.0.0.0:4180"
+
+    # Session configuration (use Redis like backup)
+    session_store_type = "redis"
+    redis_connection_url = "redis://redis.redis.svc.cluster.local:6379"
+    redirect_url = "https://<path:secret/data/backstage/config#base_url>/oauth2/callback"
+    whitelist_domains = [
+        "<path:secret/data/backstage/config#base_url>"
+    ]
+    email_domains = [
+        "telekom.de",
+        "t-systems.com"
+    ]
+    upstreams = [
+        "http://backstage.backstage.svc.cluster.local:80"
+    ]
+
+    # OIDC specific security settings (match backup behavior)
+    insecure_oidc_allow_unverified_email = true
+    oidc_email_claim = "email"
+    oidc_groups_claim = "urn:zitadel:iam:org:project:roles"
+    oidc_extra_audiences = []
+    scope = "openid profile email groups urn:zitadel:iam:org:project:roles urn:zitadel:iam:user:metadata"
+
+    # Debug logging to see group format
+    standard_logging = true
+    auth_logging = true
+    request_logging = true
+
+    # Secrets (resolved by ArgoCD Vault Plugin)
+    client_id = "<path:secret/data/backstage/zitadel#clientId>"
+    client_secret = "<path:secret/data/backstage/zitadel#clientSecret>"
+    cookie_secret = "<path:secret/data/backstage/zitadel#cookieSecret>"
+
+    # Email-based access control for backstage
+    pass_authorization_header = true
+    pass_user_headers = true
+    set_xauthrequest = true
+    pass_access_token = true
+    pass_host_header = true
+
+    # Set additional headers for Backstage oauth2-proxy integration
+    set_authorization_header = true
+
+    # Configure headers that Backstage oauth2Proxy provider expects
+    # Note: These are automatically set by oauth2-proxy when pass_user_headers = true
+    # No need for explicit set_x_forwarded_* directives in v7.4.0
+
+    # Group-based access control for backstage (re-enable now that auth is working)
+    # allowed_groups = [
+    #     "backstage_admins"
+    # ]
+
+    # Allow specific users (add your email here)
+    authenticated_emails_file = "/dev/null"
