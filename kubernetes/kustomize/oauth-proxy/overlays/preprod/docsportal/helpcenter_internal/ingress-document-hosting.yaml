@@ -9,7 +9,7 @@ metadata:
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
     cert-manager.io/private-key-rotation-policy: Always
-    
+
     # OAuth2 authentication for document content
     nginx.ingress.kubernetes.io/auth-url: >-
       http://docsportal-internal-oauth-proxy.helpcenter-int.svc.cluster.local:4180/oauth2/auth
