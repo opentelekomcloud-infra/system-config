@@ -53,8 +53,8 @@ secretGenerator:
     literals:
       # PostgreSQL database connection
       - DATABASE_URL=<path:secret/data/mcaptcha/database#url>
-      # Redis connection (external Redis)
-      - MCAPTCHA_redis_URL=<path:secret/data/redis/config#url>
+      # Redis connection (mcaptcha-cache with mCaptcha module)
+      - MCAPTCHA_redis_URL=redis://redis.redis.svc.cluster.local:6379
       # Server cookie secret
       - MCAPTCHA_server_COOKIE_SECRET=<path:secret/data/mcaptcha/server#cookie-secret>
       # Captcha salt for hashing
