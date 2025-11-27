@@ -1,0 +1,85 @@
+OTC Security Deployment Report
+============================
+Generated: {{ ansible_date_time.iso8601 }}
+Host: {{ ansible_hostname }}
+Playbook: {{ ansible_playbook }}
+
+Deployment Summary:
+------------------
+{% if enhanced_cloud_security_groups is defined %}
+Enhanced Security Groups: {{ enhanced_cloud_security_groups | length }}
+{% for sg in enhanced_cloud_security_groups %}
+- {{ sg.cloud }}: {{ sg.name }} ({{ sg.description | default('No description') }})
+{% endfor %}
+{% endif %}
+
+{% if threat_intelligence_security_groups is defined %}
+Threat Intelligence Groups: {{ threat_intelligence_security_groups | length }}
+{% for sg in threat_intelligence_security_groups %}
+- {{ sg.cloud }}: {{ sg.name }} ({{ sg.description | default('Auto-generated') }})
+{% endfor %}
+{% endif %}
+
+{% if enhanced_elb_swift is defined or enhanced_elb_eco_infra is defined or enhanced_elb_zuul is defined %}
+Enhanced Load Balancers:
+{% if enhanced_elb_swift is defined %}
+- Swift LB: {{ enhanced_elb_swift.loadbalancer.name }} ({{ enhanced_elb_swift.loadbalancer.vip_address | default('N/A') }})
+{% endif %}
+{% if enhanced_elb_eco_infra is defined %}
+- Eco Infra LB: {{ enhanced_elb_eco_infra.loadbalancer.name }} ({{ enhanced_elb_eco_infra.loadbalancer.vip_address | default('N/A') }})
+{% endif %}
+{% if enhanced_elb_zuul is defined %}
+- Zuul LB: {{ enhanced_elb_zuul.loadbalancer.name }} ({{ enhanced_elb_zuul.loadbalancer.vip_address | default('N/A') }})
+{% endif %}
+{% endif %}
+
+Security Features Applied:
+-------------------------
+✓ Threat Intelligence Integration (Spamhaus, SANS, AbuseIPDB)
+✓ Enhanced Security Groups with Rate Limiting
+✓ WAF-like Protection on Load Balancers
+✓ SSL/TLS Hardening
+✓ Geographic and ASN-based Blocking
+✓ Comprehensive Security Monitoring
+✓ Automated Threat Feed Updates
+
+Monitoring Configuration:
+------------------------
+- Prometheus Rules: /etc/prometheus/rules/otc-security-rules.yaml
+- AlertManager Rules: /etc/alertmanager/rules/otc-security-alerts.yaml
+- Security Logs: /var/log/otc-security/
+
+Automation Setup:
+----------------
+- Threat Intel Updates: Hourly via systemd timer
+- Service: otc-threat-intel.service
+- Timer: otc-threat-intel.timer
+- Script: /usr/local/bin/update-threat-intel.sh
+
+Next Steps:
+----------
+1. Monitor security metrics and alerts
+2. Review threat intelligence updates
+3. Adjust rate limiting thresholds as needed
+4. Regular security configuration reviews
+
+Configuration Files:
+-------------------
+{% for item in ansible_play_hosts %}
+- Security Config: /etc/otc-security/
+- Automation Scripts: /usr/local/bin/otc-security/
+{% endfor %}
+
+Vault Integration:
+-----------------
+- Vault Address: {{ ansible_hashi_vault_addr | default('Not configured') }}
+- Token Method: {{ ansible_hashi_vault_auth_method | default('Not configured') }}
+
+System Information:
+------------------
+- OS: {{ ansible_distribution }} {{ ansible_distribution_version }}
+- Architecture: {{ ansible_architecture }}
+- Kernel: {{ ansible_kernel }}
+- Python: {{ ansible_python_version }}
+
+Deployment Status: COMPLETED

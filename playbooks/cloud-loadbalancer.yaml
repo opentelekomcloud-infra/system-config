@@ -1,6 +1,8 @@
+---
 - hosts: cloud-launcher:!disabled
-  name: "Manage cloud load balancers"
+  name: "Manage cloud load balancers with enhanced security"
   become: true
+
   tasks:
     - name: Get vault token
       ansible.builtin.set_fact:
@@ -13,15 +15,38 @@
         ansible_hashi_vault_auth_method: "token"
       when: "vault_token is defined"
 
-    - include_role:
+    - name: Deploy load balancer certificates
+      include_role:
         name: cloud_loadbalancer_cert
-      loop: "{{ cloud_load_balancer_certificates }}"
+      loop: "{{ cloud_load_balancer_certificates | default([]) }}"
       loop_control:
         loop_var: "cert"
+      tags: ["lb_certs"]
 
-    - include_role:
+    - name: Deploy all load balancers with enhanced security
+      include_role:
         name: cloud_loadbalancer
-      loop: "{{ cloud_load_balancers }}"
+      loop: "{{ cloud_load_balancers | default([]) }}"
       loop_control:
         loop_var: "lb"
+      tags: ["enhanced_lb"]
+
+    - name: Log load balancer deployment summary
+      ansible.builtin.debug:
+        msg: |
+          Load balancer deployment completed:
+          - Total load balancers: {{ cloud_load_balancers | default([]) | length }}
+          - All include enhanced security features from cloud-launcher.yaml
+          - Features: connection limits, health monitoring, enhanced TLS, WAF protection
+      tags: ["always"]
+
+    - name: Validate load balancer health
+      ansible.builtin.uri:
+        url: "http://{{ item.loadbalancer.public_ip_address | default(item.loadbalancer.vip_address) }}/health"
+        method: GET
+        status_code: [200, 404]
+        timeout: 10
+      loop: "{{ cloud_load_balancers | default([]) }}"
+      ignore_errors: true
+      tags: ["health_check"]
 

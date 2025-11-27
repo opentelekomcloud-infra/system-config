@@ -1,0 +1,11 @@
+[Unit]
+Description=Run threat intelligence updater every 6 hours
+Requires=threat-intel-updater.service
+
+[Timer]
+OnBootSec=15min
+OnUnitActiveSec=6h
+Persistent=true
+
+[Install]
+WantedBy=timers.target
