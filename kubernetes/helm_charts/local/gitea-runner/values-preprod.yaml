@@ -1,0 +1,57 @@
+replicaCount: 1
+
+image:
+  repository: "gitea/act_runner"
+  tag: "0.2.6"
+  pullPolicy: IfNotPresent
+
+gitea:
+  instanceUrl: "https://gitea.eco.tsi-dev.otc-service.com"
+  registrationToken: "<path:secret/data/gitea/gitea-runner/repositories/system-config#runner_registration_token>"
+
+runner:
+  name: "system-config-gitea-runner-preprod"
+  labels: "ubuntu-preprod:docker://node:16-bullseye,ubuntu-22.04-preprod:docker://node:16-bullseye,system-config-preprod:docker://node:16-bullseye"
+  capacity: 4
+  logLevel: "info"
+
+resources:
+  limits:
+    cpu: 2000m
+    memory: 4Gi
+  requests:
+    cpu: 200m
+    memory: 512Mi
+
+persistence:
+  enabled: false
+  storageClass: "csi-disk"
+  accessMode: ReadWriteOnce
+  size: 5Gi
+
+
+podAnnotations:
+  prometheus.io/scrape: "false"
+
+podLabels:
+  environment: "preprod"
+  component: "gitea-runner"
+
+serviceAccount:
+  create: true
+
+dind:
+  image:
+    repository: "docker"
+    tag: "24.0.7-dind"
+    pullPolicy: IfNotPresent
+  storageDriver: "overlay2"
+
+securityContext:
+  privileged: true
+  capabilities:
+    add:
+      - SYS_ADMIN
+
+podSecurityContext:
+  fsGroup: 1001

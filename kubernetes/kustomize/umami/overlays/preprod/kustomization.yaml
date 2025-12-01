@@ -1,0 +1,49 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: analytics
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - poddisruptionbudget.yaml
+
+# Strategic merge patches for deployment and ingress
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - ingress-patch.yaml
+
+# ConfigMap for application configuration (non-sensitive)
+configMapGenerator:
+  - name: umami-config
+    literals:
+      - DATABASE_TYPE=postgresql
+      - PORT=3000
+      - DISABLE_TELEMETRY=1
+      - REMOVE_TRAILING_SLASH=1
+      - TRACKER_SCRIPT_NAME=script.js
+      - NODE_ENV=production
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: umami-credentials
+    literals:
+      # PostgreSQL database connection
+      - DATABASE_URL=<path:secret/data/umami/database#url>
+      # Application secret for session management
+      - APP_SECRET=<path:secret/data/umami/app#secret>
+
+# Use latest stable version for preprod
+images:
+  - name: umami
+    newName: ghcr.io/umami-software/umami
+    newTag: "3.0.1"
