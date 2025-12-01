@@ -1,0 +1,45 @@
+{{- range $app := $.Values.applications }}
+  {{- $appName := $app.name }}
+  {{- range $cluster := $app.clusters }}
+  {{- $config := $app.config }}
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ $appName }}-{{ $cluster }}
+  namespace: {{ default "argocd" }}
+spec:
+  project: {{ $config.project | quote }}
+  source:
+    repoURL: {{ $config.repoURL | quote }}
+    targetRevision: {{ $config.targetRevision | quote }}
+    path: {{ $config.path | quote }}
+    {{- if $config.pluginName }}
+    plugin:
+      name: {{ $config.pluginName | quote }}
+      env:
+        - name: HELM_ARGS
+          value: {{ $config.pluginEnv | quote }}
+        {{- if $config.pluginParameters }}
+        {{- range $param := $config.pluginParameters }}
+        - name: HELM_PARAM_{{ $param.name | upper | replace "." "_" }}
+          value: {{ $param.value | quote }}
+        {{- end }}
+        {{- end }}
+    {{- else if $config.helm }}
+    helm:
+{{ toYaml $config.helm | indent 6 }}
+    {{- end }}
+    {{- if $config.kustomize }}
+    kustomize:
+{{ toYaml $config.kustomize | indent 6 }}
+    {{- end }}
+  destination:
+    name: {{ $cluster }}
+    namespace: {{ $config.namespace | quote }}
+  {{- if $config.syncPolicy }}
+  syncPolicy:
+{{ toYaml $config.syncPolicy | indent 4 }}
+  {{- end }}
+{{- end }}
+{{- end }}

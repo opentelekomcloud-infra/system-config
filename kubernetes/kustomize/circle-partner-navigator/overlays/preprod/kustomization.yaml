@@ -1,0 +1,78 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: circle-partner-navigator
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - poddisruptionbudget.yaml
+
+# Include express-mail-gateway component
+components:
+  - ../../components/express-mail-gateway
+
+# Strategic merge patches for deployments and ingresses
+patchesStrategicMerge:
+  - backend-patch.yaml
+  - frontend-patch.yaml
+  - emg-patch.yaml
+  - backend-ingress-patch.yaml
+  - frontend-ingress-patch.yaml
+  - emg-ingress-patch.yaml
+
+# ConfigMap for nginx configuration
+configMapGenerator:
+  - name: cpn-front-nginx
+    files:
+      - cpn-front-nginx.conf
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: cpn-credentials
+    literals:
+      # Database configuration
+      - DATABASE_CLIENT=<path:secret/data/cpn/database#client>
+      - DATABASE_HOST=<path:secret/data/cpn/database#host>
+      - DATABASE_PORT=<path:secret/data/cpn/database#port>
+      - DATABASE_NAME=<path:secret/data/cpn/database#name>
+      - DATABASE_USERNAME=<path:secret/data/cpn/database#username>
+      - DATABASE_PASSWORD=<path:secret/data/cpn/database#password>
+      # JWT secrets
+      - JWT_SECRET=<path:secret/data/cpn/jwt#secret>
+      - ADMIN_JWT_SECRET=<path:secret/data/cpn/jwt#admin_secret>
+      # Application secrets
+      - APP_KEYS=<path:secret/data/cpn/app#keys>
+      - API_TOKEN_SALT=<path:secret/data/cpn/app#api_token_salt>
+      - TRANSFER_TOKEN_SALT=<path:secret/data/cpn/app#transfer_token_salt>
+      # Application configuration
+      - HOST=<path:secret/data/cpn/app#host>
+      - PORT=<path:secret/data/cpn/app#port>
+      - STRAPI_TELEMETRY_DISABLED=true
+
+  - name: emg-credentials
+    literals:
+      # Email gateway configuration
+      - SMTP_USER=<path:secret/data/cpn/emg#smtp_user>
+      - SMTP_PASS=<path:secret/data/cpn/emg#smtp_pass>
+      - SMTP_DOMAIN=<path:secret/data/cpn/emg#smtp_domain>
+      - SMTP_PORT=<path:secret/data/cpn/emg#smtp_port>
+      - MAIL_RECIPIENT=<path:secret/data/cpn/emg#mail_recipient>
+      - MCAPTCHA_SECRET=<path:secret/data/cpn/emg#mcaptcha_secret>
+      - MCAPTCHA_URL=<path:secret/data/cpn/emg#mcaptcha_url>
+
+# Use latest stable version for preprod
+images:
+  - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
+    newTag: "change_21_latest"
+  - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
+    newTag: "0.5.3"

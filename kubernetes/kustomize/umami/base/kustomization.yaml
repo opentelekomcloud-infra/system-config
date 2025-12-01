@@ -7,7 +7,7 @@ labels:
     app.kubernetes.io/instance: base
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: analytics
-    app.kubernetes.io/version: v2.13.2
+    app.kubernetes.io/version: v3.0.1
 
 resources:
 - service.yaml

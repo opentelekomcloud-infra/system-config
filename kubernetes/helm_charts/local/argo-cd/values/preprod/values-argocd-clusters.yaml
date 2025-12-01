@@ -1,0 +1,7 @@
+clusters:
+  cluster-192.168.150.27-3666497632:
+    name: preprod
+    server: "<path:secret/data/argocd/clusters/preprod#server>"
+    config:
+      tlsClientConfig:
+        insecure: false

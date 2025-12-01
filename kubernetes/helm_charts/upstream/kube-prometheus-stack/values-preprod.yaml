@@ -1,0 +1,124 @@
+kube-prometheus-stack:
+  crds:
+    enabled: true
+  alertmanager:
+    alertmanagerSpec:
+      externalUrl: https://alertamanager-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+    config:
+      receivers:
+      - name: "null"
+      - name: matrix-webhook
+        webhook_configs:
+        - send_resolved: true
+          url: <path:secret/data/prometheus/preprod#matrix_webhook_url>
+      - name: slack-webhook
+        slack_configs:
+        - api_url: <path:secret/data/prometheus/preprod#slack_webhook_url>
+          color: '{{ if eq .Status "firing" }}danger{{ else }}good{{ end }}'
+          link_names: false
+          send_resolved: true
+          short_fields: false
+          text: |
+            {{ range .Alerts }}
+              {{- if .Annotations.summary }}
+              *Alert:* {{ .Annotations.summary }} - `{{ .Labels.severity }}`
+              {{- end }}
+              {{- if .Annotations.description }}
+              *Description:* {{ .Annotations.description }}
+              {{- end }}
+              *Cluster:* {{ .Labels.cluster }}
+            {{ end }}
+          title: '[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ len .Alerts.Firing
+            }}{{ end }}] {{ .CommonLabels.alertname }}'
+      route:
+        routes:
+        - continue: false
+          matchers:
+          - alertname =~ "InfoInhibitor|Watchdog"
+          receiver: "null"
+        - continue: true
+          matchers:
+          - severity =~ "critical|warning"
+          receiver: matrix-webhook
+        - receiver: slack-webhook
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-type: basic
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      enabled: true
+      hosts:
+      - alertamanager-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+      ingressClassName: nginx
+      paths:
+      - /
+      tls:
+      - hosts:
+        - alertamanager-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+        secretName: alertmanager-mon
+  coreDns:
+    enabled: false
+  defaultRules:
+    rules:
+      etcd: false
+      kubeControllerManager: false
+      kubeProxy: false
+      kubeScheduler: false
+  kubeControllerManager:
+    enabled: false
+  kubeEtcd:
+    enabled: false
+  kubeProxy:
+    enabled: false
+  kubeScheduler:
+    enabled: false
+  prometheus:
+    extraSecret:
+      data:
+        auth: <path:secret/data/prometheus/preprod#basic_auth>
+        vmauth_username: <path:secret/data/prometheus/preprod#vmauth_username>
+        vmauth_password: <path:secret/data/prometheus/preprod#vmauth_password>
+      name: basic-auth
+    ingress:
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        nginx.ingress.kubernetes.io/auth-realm: Authentication Required
+        nginx.ingress.kubernetes.io/auth-secret: basic-auth
+        nginx.ingress.kubernetes.io/auth-type: basic
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      enabled: true
+      hosts:
+      - prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+      ingressClassName: nginx
+      paths:
+      - /
+      tls:
+      - hosts:
+        - prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+        secretName: prometheus-mon
+    prometheusSpec:
+      externalLabels:
+        cluster: otcpreprod
+      externalUrl: https://prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+      retention: 7d
+      remoteWrite:
+        - url: "https://vm.eco-preprod.tsi-dev.otc-service.com/api/v1/write"
+          queueConfig:
+              maxSamplesPerSend: 10000
+              capacity: 20000
+              maxShards: 30
+          basicAuth:
+            username:
+              name: basic-auth
+              key: vmauth_username
+            password:
+              name: basic-auth
+              key: vmauth_password
+      serviceMonitorSelector: {}
+      serviceMonitorSelectorNilUsesHelmValues: false
