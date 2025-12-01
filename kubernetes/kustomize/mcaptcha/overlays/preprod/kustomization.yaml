@@ -1,0 +1,66 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: mcaptcha
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - poddisruptionbudget.yaml
+
+patchesStrategicMerge:
+  - deployment-patch.yaml
+  - ingress-patch.yaml
+
+# ConfigMap for application configuration (non-sensitive)
+configMapGenerator:
+  - name: mcaptcha-config
+    literals:
+      - MCAPTCHA_debug=false
+      - MCAPTCHA_commercial=false
+      - MCAPTCHA_source_code=https://github.com/opentelekomcloud-infra/mcaptcha
+      - MCAPTCHA_allow_registration=false
+      - MCAPTCHA_allow_demo=false
+      - MCAPTCHA_database_POOL=8
+      - MCAPTCHA_redis_POOL=8
+      - PORT=7001
+      - MCAPTCHA_server_DOMAIN=mcaptcha.eco-preprod.tsi-dev.otc-service.com
+      - MCAPTCHA_server_IP=0.0.0.0
+      - MCAPTCHA_captcha_GC=30
+      - MCAPTCHA_captcha_RUNNERS=8
+      - MCAPTCHA_captcha_QUEUE_LENGTH=5000
+      - MCAPTCHA_captcha_ENABLE_STATS=true
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_avg_traffic_difficulty=8000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_broke_my_site_traffic_difficulty=10000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_peak_sustainable_traffic_difficulty=15000000
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_duration=30
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_avg_traffic_time=8
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_peak_sustainable_traffic_time=10
+      - MCAPTCHA_captcha_DEFAULT_DIFFICULTY_STRATEGY_broke_my_site_traffic_time=15
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: mcaptcha-credentials
+    literals:
+      # PostgreSQL database connection
+      - DATABASE_URL=<path:secret/data/mcaptcha/database#url>
+      # Redis connection (mcaptcha-cache with mCaptcha module)
+      - MCAPTCHA_redis_URL=redis://redis.redis.svc.cluster.local:6379
+      # Server cookie secret
+      - MCAPTCHA_server_COOKIE_SECRET=<path:secret/data/mcaptcha/server#cookie-secret>
+      # Captcha salt for hashing
+      - MCAPTCHA_captcha_SALT=<path:secret/data/mcaptcha/captcha#salt>
+
+# Use latest stable version for preprod
+images:
+  - name: "quay.io/opentelekomcloud/mcaptcha"
+    newTag: "0.0.2"
