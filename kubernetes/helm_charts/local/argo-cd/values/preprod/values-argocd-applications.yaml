@@ -4,7 +4,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
@@ -21,7 +21,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-clusters.yaml'
@@ -38,7 +38,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -72,7 +72,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
@@ -89,7 +89,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml --set installCRDs=true'
@@ -106,7 +106,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
@@ -123,7 +123,7 @@ applications:
     config:
       namespace: grafana-infra
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/grafana
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -140,7 +140,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/outline
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -157,7 +157,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -174,7 +174,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -191,7 +191,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -208,7 +208,7 @@ applications:
     config:
       namespace: gitea-runner
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -225,7 +225,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -242,7 +242,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -259,7 +259,7 @@ applications:
   #   config:
   #     namespace: monitoring
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/helm_charts/upstream/victoria-metrics-auth
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values-preprod.yaml'
@@ -276,7 +276,7 @@ applications:
   #   config:
   #     namespace: promtail
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/helm_charts/upstream/promtail
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values-preprod.yaml'
@@ -293,7 +293,7 @@ applications:
   #   config:
   #     namespace: cert-manager
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/helm_charts/upstream/cert-exporter
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values.yaml'
@@ -315,7 +315,7 @@ applications:
     config:
       namespace: backstage-dev
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/backstage/overlays/dev/
       project: infra
       kustomize: {}
@@ -331,7 +331,7 @@ applications:
     config:
       namespace: openapi-validator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/openapi-validator/overlays/dev/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -348,7 +348,7 @@ applications:
     config:
       namespace: circle-partner-navigator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/circle-partner-navigator/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -365,7 +365,7 @@ applications:
     config:
       namespace: analytics
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/umami/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -382,7 +382,7 @@ applications:
     config:
       namespace: mcaptcha
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/mcaptcha/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -399,7 +399,7 @@ applications:
     config:
       namespace: redis
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/redis/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -416,7 +416,7 @@ applications:
     config:
       namespace: eyes-on-docs
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/eyes-on-docs/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -433,7 +433,7 @@ applications:
     config:
       namespace: dependencytrack
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/dependency-track/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
