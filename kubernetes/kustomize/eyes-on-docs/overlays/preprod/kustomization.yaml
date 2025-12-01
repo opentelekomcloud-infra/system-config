@@ -1,0 +1,204 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: eyes-on-docs
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+# AVP annotations will be applied to secrets, not to pods directly
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - networkpolicy.yaml
+
+# Remove vault-agent initContainer and use AVP for secret injection
+patches:
+  # Patch all CronJobs to remove vault-agent and use secrets from AVP
+  - target:
+      kind: CronJob
+    patch: |-
+      - op: remove
+        path: /spec/jobTemplate/spec/template/spec/initContainers
+      - op: remove
+        path: /spec/jobTemplate/spec/template/spec/volumes
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/envFrom
+        value:
+          - secretRef:
+              name: eyes-on-docs-credentials
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/command
+        value:
+          - "/bin/sh"
+          - "-c"
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          runAsUser: 1000
+          fsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/securityContext
+        value:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+      - op: add
+        path: /spec/jobTemplate/spec/template/spec/containers/0/resources
+        value:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+  # Specific command patches for each cronjob
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-servicesdict
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod1"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-gitea
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod2"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-github
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod3"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-fuzzer
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod4"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-orphan-images
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod5"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-lci
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod6"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-rch
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod7"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-externalimages
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod8"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-scheduler
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod9"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-huawei
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod10"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-hotc
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod11"
+
+  - target:
+      kind: CronJob
+      name: eyes-on-docs-filin
+    patch: |-
+      - op: replace
+        path: /spec/jobTemplate/spec/template/spec/containers/0/args
+        value:
+          - "python3 main.py --eod12"
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: eyes-on-docs-credentials
+    literals:
+      # GitHub credentials
+      - GITHUB_TOKEN=<path:secret/data/eyes-on-docs/github#token>
+      - GITHUB_FALLBACK_TOKEN=<path:secret/data/eyes-on-docs/github#fallback-token>
+      # PostgreSQL database credentials
+      - DB_HOST=<path:secret/data/eyes-on-docs/postgresql#host>
+      - DB_PORT=<path:secret/data/eyes-on-docs/postgresql#port>
+      - DB_NAME=<path:secret/data/eyes-on-docs/postgresql#dbname>
+      - DB_USER=<path:secret/data/eyes-on-docs/postgresql#username>
+      - DB_PASSWORD=<path:secret/data/eyes-on-docs/postgresql#password>
+      - DB_ORPH=<path:secret/data/eyes-on-docs/postgresql#dborph>
+      - DB_CSV=<path:secret/data/eyes-on-docs/postgresql#dbcsv>
+      - DB_ZUUL=<path:secret/data/eyes-on-docs/postgresql#dbzuul>
+      # Zulip bot credentials
+      - OTC_BOT_API=<path:secret/data/eyes-on-docs/zulip#token>
+      # Gitea credentials
+      - GITEA_TOKEN=<path:secret/data/eyes-on-docs/gitea#token>
+    options:
+      annotations:
+        avp.kubernetes.io/path: "secret/data/eyes-on-docs/preprod"
+
+# Use latest stable version for preprod
+images:
+  - name: "quay.io/opentelekomcloud/eyes_on_docs"
+    newTag: "0.1.37"
