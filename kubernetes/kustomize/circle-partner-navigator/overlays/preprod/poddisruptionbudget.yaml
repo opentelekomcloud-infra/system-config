@@ -1,0 +1,21 @@
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cpn-backend-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: cpn-backend
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cpn-frontend-pdb
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: cpn-front

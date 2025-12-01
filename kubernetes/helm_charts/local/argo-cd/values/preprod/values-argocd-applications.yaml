@@ -342,3 +342,20 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: circle-partner-navigator
+    clusters: [preprod]
+    config:
+      namespace: circle-partner-navigator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/kustomize/circle-partner-navigator/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
