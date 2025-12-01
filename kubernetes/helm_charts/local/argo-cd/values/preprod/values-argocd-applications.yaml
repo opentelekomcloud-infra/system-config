@@ -359,3 +359,37 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: umami
+    clusters: [preprod]
+    config:
+      namespace: analytics
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/kustomize/umami/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: mcaptcha
+    clusters: [preprod]
+    config:
+      namespace: mcaptcha
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      path: kubernetes/kustomize/mcaptcha/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
