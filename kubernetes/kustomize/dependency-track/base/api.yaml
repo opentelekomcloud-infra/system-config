@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -20,6 +21,12 @@ spec:
           envFrom:
             - configMapRef:
                 name: dependencytrack-api-config
+            - secretRef:
+                name: dependencytrack-db-credentials
+                optional: true
+            - secretRef:
+                name: dependencytrack-oidc-credentials
+                optional: true
           ports:
             - name: http
               containerPort: 8080
