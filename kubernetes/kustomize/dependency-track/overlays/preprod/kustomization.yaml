@@ -1,0 +1,253 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  annotations:
+    # Enable AVP plugin processing
+    avp.kubernetes.io/path: "secret/data/dependencytrack"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: preprod
+      app.kubernetes.io/environment: preprod
+
+namespace: dependencytrack
+
+patches:
+  # Ingress configuration with enhanced security
+  - patch: |-
+      - op: add
+        path: /spec/ingressClassName
+        value: nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value: dependencytrack.eco-preprod.tsi-dev.otc-service.com
+      - op: add
+        path: /metadata/annotations
+        value:
+          # Certificate Management
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
+          cert-manager.io/private-key-rotation-policy: Always
+
+          # TLS Security - MitM Protection
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+          nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256,ECDHE-RSA-AES128-GCM-SHA256,ECDHE-ECDSA-AES256-GCM-SHA384,ECDHE-RSA-AES256-GCM-SHA384"
+          nginx.ingress.kubernetes.io/ssl-prefer-server-ciphers: "true"
+
+          # Security Headers
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            more_set_headers "X-Frame-Options: DENY";
+            more_set_headers "X-Content-Type-Options: nosniff";
+            more_set_headers "X-XSS-Protection: 1; mode=block";
+            more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+            more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
+            more_set_headers "Permissions-Policy: geolocation=(), microphone=(), camera=()";
+
+          # Rate Limiting - DDoS Protection
+          nginx.ingress.kubernetes.io/rate-limit-connections: "50"
+          nginx.ingress.kubernetes.io/rate-limit-requests-per-second: "20"
+          nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+          nginx.ingress.kubernetes.io/rate-limit-burst-multiplier: "5"
+
+          # File Upload Size
+          nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+          nginx.ingress.kubernetes.io/client-max-body-size: "100m"
+
+          # Timeouts
+          nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+          nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+          nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+
+          # Buffer Configuration
+          nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+          nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+          nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "32k"
+
+          # Security
+          nginx.ingress.kubernetes.io/server-tokens: "false"
+          nginx.ingress.kubernetes.io/enable-access-log: "true"
+          nginx.ingress.kubernetes.io/proxy-hide-headers: "Server,X-Powered-By"
+      - op: add
+        path: /spec/tls
+        value:
+          - hosts:
+              - dependencytrack.eco-preprod.tsi-dev.otc-service.com
+            secretName: dependencytrack-tls-preprod
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: dependencytrack
+      version: v1
+
+  # API StatefulSet configuration
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/serviceAccount
+        value: dependencytrack
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: csi-disk
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 10Gi
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/affinity
+        value:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/component: dependencytrack-api
+                  topologyKey: kubernetes.io/hostname
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "6Gi"
+            cpu: "2.0"
+          limits:
+            memory: "16Gi"
+            cpu: "4.0"
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          runAsUser: 1000
+          fsGroup: 1000
+          seccompProfile:
+            type: RuntimeDefault
+      - op: add
+        path: /spec/template/spec/containers/0/securityContext
+        value:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+              - ALL
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe
+        value:
+          httpGet:
+            path: /api/version
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 120
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 5
+      - op: replace
+        path: /spec/template/spec/containers/0/readinessProbe
+        value:
+          httpGet:
+            path: /api/version
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 60
+          periodSeconds: 15
+          timeoutSeconds: 10
+          failureThreshold: 3
+      - op: add
+        path: /spec/template/spec/containers/0/startupProbe
+        value:
+          httpGet:
+            path: /api/version
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 30
+    target:
+      group: apps
+      kind: StatefulSet
+      name: dependencytrack-api
+      version: v1
+
+  # Frontend Deployment configuration
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/serviceAccount
+        value: dependencytrack
+      - op: replace
+        path: /spec/replicas
+        value: 2
+      - op: add
+        path: /spec/template/spec/affinity
+        value:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchLabels:
+                      app.kubernetes.io/component: dependencytrack-frontend
+                  topologyKey: kubernetes.io/hostname
+      - op: add
+        path: /spec/template/spec/securityContext
+        value:
+          runAsNonRoot: true
+          runAsUser: 101
+          fsGroup: 101
+          seccompProfile:
+            type: RuntimeDefault
+      - op: add
+        path: /spec/template/spec/containers/0/securityContext
+        value:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 101
+          capabilities:
+            drop:
+              - ALL
+    target:
+      group: apps
+      kind: Deployment
+      name: dependencytrack-frontend
+      version: v1
+
+configMapGenerator:
+  - behavior: replace
+    envs:
+      - dependencytrack.env
+    name: dependencytrack-config
+  - behavior: replace
+    envs:
+      - dependencytrack-api.env
+    name: dependencytrack-api-config
+
+secretGenerator:
+  - name: dependencytrack-db-credentials
+    literals:
+      - ALPINE_DATABASE_URL=<path:secret/data/dependencytrack/postgres#jdbc-url>
+      - ALPINE_DATABASE_USERNAME=<path:secret/data/dependencytrack/postgres#username>
+      - ALPINE_DATABASE_PASSWORD=<path:secret/data/dependencytrack/postgres#password>
+      - ALPINE_DATABASE_DRIVER=org.postgresql.Driver
+      - ALPINE_DATABASE_POOL_ENABLED=true
+      - ALPINE_DATABASE_POOL_MAX_SIZE=20
+      - ALPINE_DATABASE_POOL_MIN_IDLE=10
+      - ALPINE_DATABASE_POOL_IDLE_TIMEOUT=300000
+      - ALPINE_DATABASE_POOL_MAX_LIFETIME=600000
+  - name: dependencytrack-oidc-credentials
+    literals:
+      - ALPINE_OIDC_CLIENT_SECRET=<path:secret/data/dependencytrack/oidc#client-secret>
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - serviceaccount.yaml
+  - networkpolicy.yaml
+  - poddisruptionbudget.yaml
