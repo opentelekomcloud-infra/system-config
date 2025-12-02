@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: quay.io/opentelekomcloud/anubis
-  tag: "latest"
+  tag: "0.0.1"
   pullPolicy: IfNotPresent
   # If you use the commercial/unbranded image that requires auth,
   # set this to your imagePullSecret name.
