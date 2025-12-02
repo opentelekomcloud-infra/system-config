@@ -16,6 +16,7 @@ service:
   labels: {}
 
 anubis:
+  fullnameOverride: "anubis"
   env:
     BIND: ":8080"
     DIFFICULTY: "4"
@@ -23,7 +24,7 @@ anubis:
     SERVE_ROBOTS_TXT: "true"
     # TARGET should be the HTTP URL of the backend service you are protecting,
     # as described in the "Setting up Anubis" and docker-compose docs.
-    TARGET: "http://document-hosting:8080"
+    TARGET: "http://cpn-front:80"
     OG_PASSTHROUGH: "true"
     OG_EXPIRY_TIME: "24h"
   # Extra env entries (list of {name, value} or {name, valueFrom})

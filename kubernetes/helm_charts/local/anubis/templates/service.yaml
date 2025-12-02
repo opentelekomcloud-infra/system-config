@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "anubis.fullname" . }}
+  labels:
+    {{- include "anubis.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - name: http
+      port: 80
+      targetPort: {{ .Values.service.port }}        # 8080 by default
+    - name: metrics
+      port: {{ .Values.service.metricsPort }}       # 9090 by default
+      targetPort: {{ .Values.service.metricsPort }}
+  selector:
+    {{- include "anubis.selectorLabels" . | nindent 4 }}
