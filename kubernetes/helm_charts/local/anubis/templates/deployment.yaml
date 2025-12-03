@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "anubis.fullname" . }}
+  labels:
+    {{- include "anubis.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "anubis.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "anubis.selectorLabels" . | nindent 8 }}
+        {{- if .Values.anubis.podLabels }}
+        {{- toYaml .Values.anubis.podLabels | nindent 8 }}
+        {{- end }}
+      {{- if .Values.anubis.podAnnotations }}
+      annotations:
+        {{- toYaml .Values.anubis.podAnnotations | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- if .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- range .Values.image.pullSecrets }}
+        - name: {{ . }}
+        {{- end }}
+      {{- end }}
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ .Values.anubis.securityContext.runAsUser | default 1000 }}
+        fsGroup: {{ .Values.anubis.securityContext.fsGroup }}
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: anubis
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: {{ .Values.anubis.securityContext.runAsUser | default 1000 }}
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: metrics
+              containerPort: 9090
+          env:
+            {{- range $name, $value := .Values.anubis.env }}
+            - name: {{ $name }}
+              value: "{{ $value }}"
+            {{- end }}
+            {{- if .Values.config.enabled }}
+            - name: POLICY_FNAME
+              value: "{{ .Values.config.path }}"
+            {{- end }}
+            {{- range .Values.anubis.extraEnv }}
+            - name: {{ .name }}
+              {{- if .value }}
+                value: "{{ .value }}"
+              {{- else if .valueFrom }}
+                valueFrom:
+                  {{- toYaml .valueFrom | nindent 14 }}
+              {{- end }}
+            {{- end }}
+          volumeMounts:
+            {{- if .Values.config.enabled }}
+            - name: anubis-policy
+              mountPath: {{ dir .Values.config.path | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.anubis.resources | nindent 12 }}
+      volumes:
+        {{- if .Values.config.enabled }}
+        - name: anubis-policy
+          configMap:
+            name: {{ include "anubis.fullname" . }}-policy
+        {{- end }}
+      nodeSelector:
+        {{- toYaml .Values.anubis.nodeSelector | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.anubis.tolerations | nindent 8 }}
+      affinity:
+        {{- toYaml .Values.anubis.affinity | nindent 8 }}
