@@ -16,5 +16,6 @@ labels:
       app.kubernetes.io/environment: preprod
 
 patches:
+  - path: deployment-patch.yaml
   - path: ingress-patch.yaml
   - path: secret-patch.yaml
