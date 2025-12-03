@@ -16,9 +16,5 @@ spec:
         - name: zuul
           volumeMounts:
             - name: zuul-ssh-keys
-              mountPath: /etc/zuul/connections
-              readOnly: true
-            - name: zuul-ssh-keys
-              mountPath: /etc/zuul/sshkey
-              subPath: executor-ssh.key
+              mountPath: /var/lib/zuul-ssh
               readOnly: true
