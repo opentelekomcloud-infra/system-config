@@ -1,3 +1,85 @@
 ---
 # For preprod branch: project configuration is managed in zuul-project-config tenant config
 # This file intentionally left empty to avoid conflicts with tenant configuration
+- project:
+    name: opendev.org/osf/refstack-client
+    default-branch: master
+    periodic:
+      jobs:
+        - refstack-client-run:
+            branches: master
+
+- project:
+    name: opentelekomcloud-infra/zuul-project-config
+    merge-mode: squash-merge
+    default-branch: main
+    queue: project-config
+    templates:
+      - publish-otc-docs-pti
+    check:
+      jobs:
+        - otc-tox-linters: &otc-tox-linters
+            required-projects:
+              - zuul/zuul-jobs
+              - opentelekomcloud-infra/otc-zuul-jobs
+    gate:
+      jobs:
+        - otc-tox-linters: *otc-tox-linters
+    post:
+      jobs:
+        - noop
+    periodic-hourly:
+      jobs:
+        - otc-project-cleanup-eu-de-functest1
+        - otc-project-cleanup-eu-de-functest2
+        - otc-project-cleanup-eu-de-functest3
+        - otc-project-cleanup-eu-de-functest4
+        - otc-project-cleanup-eu-nl-functest1
+        - otc-project-cleanup-eu-nl-functest2
+        - otc-project-cleanup-eu-nl-functest3
+        - otc-project-cleanup-eu-nl-functest4
+
+- project:
+    name: opentelekomcloud-infra/system-config
+    check:
+      jobs:
+        - system-config-build-image-zuul:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-vault:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-haproxy-statsd:
+            branches:
+              - preprod
+              - test-zuul-final
+    third-party-check:
+      jobs:
+        - system-config-build-image-zuul:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-vault:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-haproxy-statsd:
+            branches:
+              - preprod
+              - test-zuul-final
+    post:
+      jobs:
+        - system-config-build-image-zuul:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-vault:
+            branches:
+              - preprod
+              - test-zuul-final
+        - system-config-build-image-haproxy-statsd:
+            branches:
+              - preprod
+              - test-zuul-final
