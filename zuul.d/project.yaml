@@ -1,7 +1,7 @@
 ---
 - project:
     merge-mode: squash-merge
-    default-branch: main
+    # default-branch is set dynamically based on where the job runs
     templates:
       - publish-otc-docs-pti
     check:
