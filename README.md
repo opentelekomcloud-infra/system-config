@@ -13,3 +13,4 @@
 # test after tenant fix
 # test after reconfigure
 # trigger after scheduler restart
+# test with preprod config
