@@ -71,8 +71,6 @@ spec:
               mountPath: "/etc/zuul-config"
 
       serviceAccountName: "zuul"
-      nodeSelector:
-        dedicated: zuul-ci
       volumes:
         - name: "zuul-config"
           secret:
