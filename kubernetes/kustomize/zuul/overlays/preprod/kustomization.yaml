@@ -1,0 +1,95 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: zuul
+
+components:
+  - ../../components/zuul-client
+  - ../../components/zuul-merger
+  - ../../components/nodepool-builder
+  - ../../components/restarter
+
+configMapGenerator:
+  - name: "zuul-instance-config"
+    behavior: "replace"
+    literals:
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/system-config/
+      - ZUUL_CONFIG_BRANCH=preprod
+  - name: "zuul-tenants"
+    files:
+      - "configs/tenants/main.yaml"
+  - name: "nodepool-config-yaml"
+    files:
+      - "configs/nodepool.yaml"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: zuul-preprod
+      app.kubernetes.io/environment: preprod
+
+images:
+  - name: "busybox"
+    newName: "quay.io/opentelekomcloud/busybox"
+    newTag: "1.36.0-musl"
+
+  - name: "zuul/zuul-executor"
+    newName: "quay.io/opentelekomcloud/zuul-executor"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-merger"
+    newName: "quay.io/opentelekomcloud/zuul-merger"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-scheduler"
+    newName: "quay.io/opentelekomcloud/zuul-scheduler"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/zuul-web"
+    newName: "quay.io/opentelekomcloud/zuul-web"
+    newTag: "change_774_change_859940"
+
+  - name: "zuul/nodepool-builder"
+    newName: "quay.io/opentelekomcloud/nodepool-builder"
+    newTag: "8.2.0"
+
+  - name: "zuul/nodepool-launcher"
+    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newTag: "8.2.0"
+
+resources:
+  - ../../base
+  - crb.yaml
+  - crb_admin.yaml
+
+patchesStrategicMerge:
+  - zookeeper-statefulset.yaml
+  - zuul-executor-statefulset.yaml
+  - zuul-scheduler-deployment.yaml
+  - zuul-web-ingress.yaml
+  - zuul-volumes-patch.yaml
+  - zuul-executor-volumes-patch.yaml
+  - zuul-merger-volumes-patch.yaml
+  - zuul-web-volumes-patch.yaml
+  - nodepool-launcher-patch.yaml
+  - nodepool-builder-patch.yaml
+
+secretGenerator:
+  # Secrets will be managed by ArgoCD Vault Plugin
+  - name: zuul-config
+    behavior: "replace"
+    files:
+      - "configs/zuul.conf.hcl"
+  - name: nodepool-config
+    behavior: "replace"
+    files:
+      - "configs/openstack/clouds.yaml.hcl"
+  - name: zuul-ssh-keys
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - github.key=<path:secret/data/zuul/connections/github#app_key>
+      - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
+      - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>

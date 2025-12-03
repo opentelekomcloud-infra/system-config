@@ -1,0 +1,26 @@
+---
+# Mount SSH keys and nodepool config for zuul components
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-scheduler
+spec:
+  template:
+    spec:
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0600
+        - name: nodepool-config-yaml
+          configMap:
+            name: nodepool-config-yaml
+      containers:
+        - name: zuul-scheduler
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /etc/zuul/connections
+              readOnly: true
+            - name: nodepool-config-yaml
+              mountPath: /etc/nodepool
+              readOnly: true

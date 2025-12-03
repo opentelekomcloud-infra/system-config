@@ -444,3 +444,20 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  - name: zuul
+    clusters: [preprod]
+    config:
+      namespace: zuul
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/zuul/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
