@@ -1,4 +1,4 @@
-# Test change to trigger Zuul pipeline on test-zuul-final branch
+# Trigger Zuul pipeline: test-zuul-final branch
 # Test webhook trigger
 # Test webhook delivery
 # Webhook test after oauth2-proxy fix
