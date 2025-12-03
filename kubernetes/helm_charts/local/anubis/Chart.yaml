@@ -1,0 +1,5 @@
+apiVersion: v2
+name: anubis
+description: Anubis Web AI Firewall utility for Kubernetes
+type: application
+version: 0.0.1
