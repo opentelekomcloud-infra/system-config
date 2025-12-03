@@ -12,3 +12,4 @@
 # final test
 # test after tenant fix
 # test after reconfigure
+# trigger after scheduler restart
