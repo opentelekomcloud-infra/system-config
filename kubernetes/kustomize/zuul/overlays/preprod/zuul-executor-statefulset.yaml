@@ -4,4 +4,14 @@ kind: StatefulSet
 metadata:
   name: zuul-executor
 spec:
-  replicas: 2
+  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: zuul-var
+      spec:
+        storageClassName: csi-disk
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi

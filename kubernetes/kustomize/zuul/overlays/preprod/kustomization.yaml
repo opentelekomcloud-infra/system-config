@@ -65,6 +65,7 @@ resources:
 
 patchesStrategicMerge:
   - zookeeper-statefulset.yaml
+  - zookeeper-cert-patch.yaml
   - zuul-executor-statefulset.yaml
   - zuul-scheduler-deployment.yaml
   - zuul-web-ingress.yaml
@@ -74,6 +75,7 @@ patchesStrategicMerge:
   - zuul-web-volumes-patch.yaml
   - nodepool-launcher-patch.yaml
   - nodepool-builder-patch.yaml
+  - remove-node-selectors.yaml
 
 secretGenerator:
   # Secrets will be managed by ArgoCD Vault Plugin
