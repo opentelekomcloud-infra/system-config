@@ -48,6 +48,11 @@ spec:
               subPath: "nodepool.yaml"
               readOnly: true
 
+            - name: "nodepool-config"
+              mountPath: "/etc/openstack/clouds.yaml"
+              subPath: "clouds.yaml"
+              readOnly: true
+
             - name: "zookeeper-client-tls"
               mountPath: "/tls/client"
               readOnly: true
