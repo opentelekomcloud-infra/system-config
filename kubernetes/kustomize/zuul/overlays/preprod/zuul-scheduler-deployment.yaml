@@ -6,6 +6,8 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        fsGroup: 10001
       volumes:
         - name: zuul-tenants
           configMap:
@@ -13,7 +15,7 @@ spec:
         - name: zuul-ssh-keys
           secret:
             secretName: zuul-ssh-keys
-            defaultMode: 0600
+            defaultMode: 0400
       containers:
         - name: zuul
           image: quay.io/opentelekomcloud/zuul-scheduler:change_774_change_859940
