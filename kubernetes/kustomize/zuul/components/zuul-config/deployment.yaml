@@ -39,7 +39,7 @@ spec:
 
         - name: "git-syncer"
           args:
-            - "while :; do cd /data/; git pull; sleep 60; done"
+            - "while :; do cd /data && (test -d .git && git pull || git clone $ZUUL_CONFIG_REPO .); sleep 60; done"
           command: ["/bin/sh", "-ec"]
           image: "zuul/nodepool-builder"
           resources:
