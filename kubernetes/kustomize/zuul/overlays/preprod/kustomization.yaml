@@ -59,14 +59,24 @@ images:
     newTag: "8.2.0"
 
 resources:
-  - ../../base
+  - zuul-config-pv.yaml
   - crb.yaml
   - crb_admin.yaml
 
+bases:
+  - ../../base
+
 patches:
+  - path: zuul-config-pvc.yaml
+    target:
+      kind: PersistentVolumeClaim
+      name: zuul-config
+  - path: zuul-config-deployment.yaml
+    target:
+      kind: Deployment
+      name: zuul-config
   - path: zookeeper-statefulset.yaml
   - path: zookeeper-cert-patch.yaml
-  - path: zuul-config-pvc-patch.yaml
   - path: zuul-executor-statefulset.yaml
   - path: zuul-scheduler-deployment.yaml
   - path: zuul-web-ingress.yaml
