@@ -21,18 +21,6 @@
                 - nodeset
                 - secret
               load-branch: preprod
-      gitlab:
-        config-projects:
-          - ecosystem/system-config:
-              include:
-                - job
-                - semaphore
-                - project
-                - project-template
-                - pipeline
-                - nodeset
-                - secret
-              load-branch: preprod
 
 - tenant:
     name: production
@@ -42,18 +30,6 @@
       github:
         config-projects:
           - opentelekomcloud-infra/system-config:
-              include:
-                - job
-                - semaphore
-                - project
-                - project-template
-                - pipeline
-                - nodeset
-                - secret
-              load-branch: main
-      gitlab:
-        config-projects:
-          - ecosystem/system-config:
               include:
                 - job
                 - semaphore
