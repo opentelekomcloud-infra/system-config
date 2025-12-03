@@ -11,7 +11,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: oauth2-proxy.eco-preprod.tsi-dev.otc-service.com
+    - host: zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com
       http:
         paths:
           - path: /oauth2
@@ -23,5 +23,5 @@ spec:
                   number: 4180
   tls:
     - hosts:
-        - oauth2-proxy.eco-preprod.tsi-dev.otc-service.com
+        - zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com
       secretName: zuul-oauth2-proxy-cert
