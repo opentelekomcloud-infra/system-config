@@ -1,0 +1,60 @@
+---
+# Remove node selector from zuul-scheduler
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-scheduler
+spec:
+  template:
+    spec:
+      nodeSelector: {}
+---
+# Remove node selector from zuul-web
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-web
+spec:
+  template:
+    spec:
+      nodeSelector: {}
+---
+# Remove node selector from zuul-merger
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-merger
+spec:
+  template:
+    spec:
+      nodeSelector: {}
+---
+# Remove node selector from zuul-client
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-client
+spec:
+  template:
+    spec:
+      nodeSelector: {}
+---
+# Remove node selector from zuul-config
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-config
+spec:
+  template:
+    spec:
+      nodeSelector: {}
+---
+# Remove node selector from nodepool-launcher
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepool-launcher
+spec:
+  template:
+    spec:
+      nodeSelector: {}

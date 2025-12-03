@@ -1,0 +1,13 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: zookeeper-server
+spec:
+  dnsNames:
+    - zookeeper-0.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-0
+    - zookeeper-1.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-1
+    - zookeeper-2.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-2
