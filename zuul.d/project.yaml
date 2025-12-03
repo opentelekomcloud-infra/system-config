@@ -78,50 +78,30 @@
             branches: preprod
     third-party-check:
       jobs:
-        # Preprod branch jobs (excluding gitea) - same as check pipeline
-        - otc-tox-linters:
-            branches: preprod
-        - system-config-run-base:
-            branches: preprod
-        - system-config-run-statsd:
-            branches: preprod
-        - system-config-run-acme-ssl:
-            branches: preprod
-        - system-config-run-x509-cert:
-            branches: preprod
-        - system-config-run-apimon-epmon:
-            branches: preprod
-        - system-config-run-apimon-scheduler:
-            branches: preprod
-        - system-config-run-apimon-executor:
-            branches: preprod
+        # Preprod branch jobs (excluding gitea) - runs for PRs targeting preprod
+        - otc-tox-linters
+        - system-config-run-base
+        - system-config-run-statsd
+        - system-config-run-acme-ssl
+        - system-config-run-x509-cert
+        - system-config-run-apimon-epmon
+        - system-config-run-apimon-scheduler
+        - system-config-run-apimon-executor
         - system-config-run-graphite:
-            branches: preprod
             dependencies:
               - name: system-config-run-memcached
                 soft: true
-        - system-config-run-memcached:
-            branches: preprod
-        - system-config-run-alerta:
-            branches: preprod
-        - system-config-run-grafana:
-            branches: preprod
-        - system-config-run-proxy:
-            branches: preprod
-        - system-config-run-vault:
-            branches: preprod
-        - system-config-run-keycloak:
-            branches: preprod
-        - system-config-build-image-zookeeper-statsd:
-            branches: preprod
-        - system-config-build-image-graphite-statsd:
-            branches: preprod
-        - system-config-build-image-haproxy-statsd:
-            branches: preprod
-        - system-config-build-image-zuul:
-            branches: preprod
-        - system-config-build-image-vault:
-            branches: preprod
+        - system-config-run-memcached
+        - system-config-run-alerta
+        - system-config-run-grafana
+        - system-config-run-proxy
+        - system-config-run-vault
+        - system-config-run-keycloak
+        - system-config-build-image-zookeeper-statsd
+        - system-config-build-image-graphite-statsd
+        - system-config-build-image-haproxy-statsd
+        - system-config-build-image-zuul
+        - system-config-build-image-vault
     gate:
       jobs:
         - otc-tox-linters
