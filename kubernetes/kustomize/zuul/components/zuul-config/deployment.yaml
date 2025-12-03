@@ -23,7 +23,7 @@ spec:
         - name: "git-fetcher"
           image: "zuul/nodepool-builder"
           args:
-            - "cd /data && git clone $ZUUL_CONFIG_REPO . || true"
+            - "cd /data && if [ ! -d .git ]; then git clone $ZUUL_CONFIG_REPO .; fi"
           command: ["/bin/sh", "-ec"]
           env:
             - name: "ZUUL_CONFIG_REPO"

@@ -29,7 +29,7 @@ spec:
             - "-f"
             - "-d"
             - "-c"
-            - "/data/nodepool/nodepool.yaml"
+            - "/etc/nodepool/nodepool.yaml"
 
           resources:
             limits:
@@ -43,6 +43,11 @@ spec:
             runAsGroup: 10001
 
           volumeMounts:
+            - name: "nodepool-config-yaml"
+              mountPath: "/etc/nodepool/nodepool.yaml"
+              subPath: "nodepool.yaml"
+              readOnly: true
+
             - name: "zookeeper-client-tls"
               mountPath: "/tls/client"
               readOnly: true
@@ -55,6 +60,10 @@ spec:
 
       serviceAccountName: "zuul"
       volumes:
+        - name: "nodepool-config-yaml"
+          configMap:
+            name: "nodepool-config-yaml"
+
         - name: "nodepool-config"
           secret:
             secretName: "nodepool-config"
