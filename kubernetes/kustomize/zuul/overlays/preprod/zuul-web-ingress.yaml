@@ -11,11 +11,10 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: "https://zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com/oauth2/auth"
     nginx.ingress.kubernetes.io/auth-signin: "https://zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri"
     nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token"
-    nginx.ingress.kubernetes.io/satisfy: "any"
-    nginx.ingress.kubernetes.io/whitelist-source-range: "0.0.0.0/0"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
+    nginx.ingress.kubernetes.io/server-snippet: |
       location ~ ^/api/connection/.*/payload$ {
         auth_request off;
+        proxy_pass http://upstream_balancer;
       }
 spec:
   ingressClassName: nginx
