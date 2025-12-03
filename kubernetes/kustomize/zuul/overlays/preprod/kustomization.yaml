@@ -12,7 +12,6 @@ components:
 
 configMapGenerator:
   - name: "zuul-instance-config"
-    behavior: "replace"
     literals:
       - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/system-config/
       - ZUUL_CONFIG_BRANCH=preprod
@@ -104,11 +103,3 @@ secretGenerator:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
-
-configMapGenerator:
-  - name: "zuul-tenants"
-    files:
-      - "configs/tenants/main.yaml"
-  - name: "nodepool-config-yaml"
-    files:
-      - "configs/nodepool.yaml"
