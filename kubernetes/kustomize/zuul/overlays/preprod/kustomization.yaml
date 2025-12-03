@@ -72,6 +72,7 @@ patches:
   - path: zookeeper-statefulset.yaml
   - path: zookeeper-cert-patch.yaml
   - path: zuul-executor-statefulset.yaml
+  - path: zuul-executor-resources-patch.yaml
   - path: zuul-scheduler-deployment.yaml
   - path: zuul-web-ingress.yaml
   - path: zuul-volumes-patch.yaml
