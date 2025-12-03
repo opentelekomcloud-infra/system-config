@@ -63,19 +63,19 @@ resources:
   - crb.yaml
   - crb_admin.yaml
 
-patchesStrategicMerge:
-  - zookeeper-statefulset.yaml
-  - zookeeper-cert-patch.yaml
-  - zuul-executor-statefulset.yaml
-  - zuul-scheduler-deployment.yaml
-  - zuul-web-ingress.yaml
-  - zuul-volumes-patch.yaml
-  - zuul-executor-volumes-patch.yaml
-  - zuul-merger-volumes-patch.yaml
-  - zuul-web-volumes-patch.yaml
-  - nodepool-launcher-patch.yaml
-  - nodepool-builder-patch.yaml
-  - remove-node-selectors.yaml
+patches:
+  - path: remove-node-selectors.yaml
+  - path: zookeeper-statefulset.yaml
+  - path: zookeeper-cert-patch.yaml
+  - path: zuul-executor-statefulset.yaml
+  - path: zuul-scheduler-deployment.yaml
+  - path: zuul-web-ingress.yaml
+  - path: zuul-volumes-patch.yaml
+  - path: zuul-executor-volumes-patch.yaml
+  - path: zuul-merger-volumes-patch.yaml
+  - path: zuul-web-volumes-patch.yaml
+  - path: nodepool-launcher-patch.yaml
+  - path: nodepool-builder-patch.yaml
 
 secretGenerator:
   # Secrets will be managed by ArgoCD Vault Plugin
