@@ -1,0 +1,18 @@
+---
+# Nodepool openstacksdk configuration for preprod environment
+# Using ArgoCD Vault Plugin syntax
+cache:
+  expiration:
+    server: 5
+    port: 5
+    floating-ip: 5
+clouds:
+  otcci-pool1:
+    auth:
+       auth_url: <path:secret/data/clouds/otcci_nodepool_pool1#auth_url>
+       user_domain_name: <path:secret/data/clouds/otcci_nodepool_pool1#user_domain_name>
+       project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
+       access_key_id: <path:secret/data/clouds/otcci_nodepool_pool1#access_key_id>
+       secret_access_key: <path:secret/data/clouds/otcci_nodepool_pool1#secret_access_key>
+    auth_type: v3applicationcredential
+    private: true
