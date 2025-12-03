@@ -1,8 +1,6 @@
 ---
-# Multi-tenant configuration for Zuul
-# This configuration defines two tenants:
-# - preprod: watches the preprod branch for testing
-# - production: watches the main branch for production deployments
+# Preprod tenant configuration for Zuul
+# This tenant watches the preprod branch for testing
 
 - tenant:
     name: preprod
@@ -21,15 +19,9 @@
                 - nodeset
                 - secret
               load-branch: preprod
-
-- tenant:
-    name: production
-    max-nodes-per-job: 10
-    exclude-unprotected-branches: true
-    source:
-      github:
+      gitlab:
         config-projects:
-          - opentelekomcloud-infra/system-config:
+          - ecosystem/system-config:
               include:
                 - job
                 - semaphore
@@ -38,4 +30,4 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: main
+              load-branch: preprod
