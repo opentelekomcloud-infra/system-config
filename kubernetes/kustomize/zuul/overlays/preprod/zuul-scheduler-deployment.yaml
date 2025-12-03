@@ -12,6 +12,7 @@ spec:
             name: zuul-tenants
       containers:
         - name: zuul-scheduler
+          image: quay.io/opentelekomcloud/zuul-scheduler:change_774_change_859940
           volumeMounts:
             - name: zuul-tenants
               mountPath: /etc/zuul-config/tenants
