@@ -11,7 +11,7 @@ spec:
           configMap:
             name: zuul-tenants
       containers:
-        - name: zuul-scheduler
+        - name: zuul
           image: quay.io/opentelekomcloud/zuul-scheduler:change_774_change_859940
           volumeMounts:
             - name: zuul-tenants
