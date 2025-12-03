@@ -13,6 +13,7 @@ spec:
             name: nodepool-config-yaml
       containers:
         - name: nodepool-launcher
+          image: quay.io/opentelekomcloud/nodepool-launcher:8.2.0
           volumeMounts:
             - name: nodepool-config-yaml
               mountPath: /etc/nodepool/nodepool.yaml
