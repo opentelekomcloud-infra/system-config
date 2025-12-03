@@ -8,7 +8,6 @@ resources:
 commonLabels:
   app.kubernetes.io/name: anubis
   app.kubernetes.io/instance: anubis
-  helm.sh/chart: anubis-0.0.1
 
 configMapGenerator:
   - name: anubis-policy
