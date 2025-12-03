@@ -9,9 +9,6 @@ spec:
       securityContext:
         fsGroup: 10001
       volumes:
-        - name: zuul-tenants
-          configMap:
-            name: zuul-tenants
         - name: zuul-ssh-keys
           secret:
             secretName: zuul-ssh-keys
@@ -20,9 +17,6 @@ spec:
         - name: zuul
           image: quay.io/opentelekomcloud/zuul-scheduler:change_774_change_859940
           volumeMounts:
-            - name: zuul-tenants
-              mountPath: /etc/zuul-config/tenants
-              readOnly: true
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
               readOnly: true
