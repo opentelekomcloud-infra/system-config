@@ -1,6 +1,6 @@
 ---
 # Preprod tenant configuration for Zuul
-# This tenant watches the preprod branch for testing
+# Loads pipelines from zuul-config, tests system-config preprod branch
 
 - tenant:
     name: preprod
@@ -9,7 +9,7 @@
     source:
       github:
         config-projects:
-          - opentelekomcloud-infra/system-config:
+          - opentelekomcloud-infra/zuul-config:
               include:
                 - job
                 - semaphore
@@ -18,16 +18,12 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: preprod
-      # gitlab:
-      #   config-projects:
-      #     - ecosystem/system-config:
-      #         include:
-      #           - job
-      #           - semaphore
-      #           - project
-      #           - project-template
-      #           - pipeline
-      #           - nodeset
-      #           - secret
-      #         load-branch: preprod
+              load-branch: main
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include: []
+              shadow: opentelekomcloud-infra/system-config
+              exclude-branches:
+                - main
+              include-branches:
+                - preprod
