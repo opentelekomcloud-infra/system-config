@@ -88,15 +88,18 @@ patches:
   - path: nodepool-builder-patch.yaml
 
 secretGenerator:
-  # Secrets will be managed by ArgoCD Vault Plugin
   - name: zuul-config
-    behavior: "replace"
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
     files:
-      - "configs/zuul.conf.hcl"
+      - configs/zuul.conf
   - name: nodepool-config
-    behavior: "replace"
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
     files:
-      - "configs/openstack/clouds.yaml.hcl"
+      - configs/openstack/clouds.yaml
   - name: zuul-ssh-keys
     type: Opaque
     options:
@@ -105,3 +108,11 @@ secretGenerator:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
+
+configMapGenerator:
+  - name: "zuul-tenants"
+    files:
+      - "configs/tenants/main.yaml"
+  - name: "nodepool-config-yaml"
+    files:
+      - "configs/nodepool.yaml"

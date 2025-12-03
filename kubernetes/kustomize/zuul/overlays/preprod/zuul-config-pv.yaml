@@ -8,11 +8,11 @@ spec:
     storage: 500Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Delete
   mountOptions:
     - vers=3
     - nolock
     - noresvport
   nfs:
     path: /
-    server: 192.168.150.129
+    server: 192.168.150.233
