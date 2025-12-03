@@ -1,0 +1,81 @@
+---
+# Multi-tenant configuration for Zuul
+# This configuration defines two tenants:
+# - preprod: watches the preprod branch for testing
+# - production: watches the main branch for production deployments
+
+- tenant:
+    name: preprod
+    max-nodes-per-job: 5
+    exclude-unprotected-branches: false
+    source:
+      github:
+        config-projects:
+          - opentelekomcloud-infra/system-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: preprod
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include: []
+              exclude-unprotected-branches: false
+      gitlab:
+        config-projects:
+          - ecosystem/system-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: preprod
+        untrusted-projects:
+          - ecosystem/system-config:
+              include: []
+              exclude-unprotected-branches: false
+
+- tenant:
+    name: production
+    max-nodes-per-job: 10
+    exclude-unprotected-branches: true
+    source:
+      github:
+        config-projects:
+          - opentelekomcloud-infra/system-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: main
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include: []
+              exclude-unprotected-branches: true
+      gitlab:
+        config-projects:
+          - ecosystem/system-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: main
+        untrusted-projects:
+          - ecosystem/system-config:
+              include: []
+              exclude-unprotected-branches: true

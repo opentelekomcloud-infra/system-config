@@ -1,0 +1,108 @@
+---
+# Nodepool configuration for Zuul preprod environment
+# Manages compute resources for CI/CD jobs
+
+elements-dir: /etc/nodepool/elements
+images-dir: /opt/nodepool/images
+
+zookeeper-servers:
+  - host: zookeeper.zuul.svc.cluster.local
+    port: 2281
+
+zookeeper-tls:
+  cert: /tls/client/tls.crt
+  key: /tls/client/tls.key
+  ca: /tls/client/ca.crt
+
+labels:
+  - name: debian-bookworm
+    min-ready: 1
+    max-ready-age: 3600
+
+  - name: debian-bullseye
+    min-ready: 1
+    max-ready-age: 3600
+
+  - name: pod-default
+    min-ready: 0
+
+providers:
+  # OpenStack providers for VM-based nodes
+  - name: otcci-pool1
+    driver: openstack
+    cloud: otcci-pool1
+    boot-timeout: 300
+    launch-timeout: 600
+    launch-retries: 3
+    image-name-format: '{image_name}-{timestamp}'
+    rate: 1.0
+    diskimages:
+      - name: debian-bookworm
+        config-drive: true
+      - name: debian-bullseye
+        config-drive: true
+    pools:
+      - name: main
+        max-servers: 10
+        labels:
+          - name: debian-bookworm
+            diskimage: debian-bookworm
+            flavor-name: s3.medium.4
+            key-name: nodepool
+          - name: debian-bullseye
+            diskimage: debian-bullseye
+            flavor-name: s3.medium.4
+            key-name: nodepool
+
+  # Kubernetes provider for pod-based nodes (in-cluster)
+  - name: preprod-k8s
+    driver: kubernetes
+    context: preprod
+    max-servers: 20
+    pools:
+      - name: default
+        labels:
+          - name: pod-default
+            type: pod
+            image: docker.io/library/python:3.11-slim
+
+diskimages:
+  - name: debian-bookworm
+    formats:
+      - raw
+    rebuild-age: 86400
+    env-vars:
+      TMPDIR: /opt/dib_tmp
+      DIB_CHECKSUM: '1'
+      DIB_IMAGE_CACHE: /opt/dib_cache
+      DIB_APT_LOCAL_CACHE: '0'
+      DIB_DISABLE_APT_CLEANUP: '1'
+      DIB_DISTRIBUTION_MIRROR: http://deb.debian.org/debian
+      DIB_RELEASE: bookworm
+    elements:
+      - debian-minimal
+      - vm
+      - simple-init
+      - growroot
+      - openssh-server
+      - nodepool-base
+
+  - name: debian-bullseye
+    formats:
+      - raw
+    rebuild-age: 86400
+    env-vars:
+      TMPDIR: /opt/dib_tmp
+      DIB_CHECKSUM: '1'
+      DIB_IMAGE_CACHE: /opt/dib_cache
+      DIB_APT_LOCAL_CACHE: '0'
+      DIB_DISABLE_APT_CLEANUP: '1'
+      DIB_DISTRIBUTION_MIRROR: http://deb.debian.org/debian
+      DIB_RELEASE: bullseye
+    elements:
+      - debian-minimal
+      - vm
+      - simple-init
+      - growroot
+      - openssh-server
+      - nodepool-base
