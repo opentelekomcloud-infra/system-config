@@ -39,13 +39,16 @@ anubis:
     #   memory: 64Mi
 
   securityContext:
-    runAsUser: 1000
-    runAsGroup: 1000
+    runAsUser: 999
+    runAsGroup: 999
+    fsGroup: 999
     runAsNonRoot: true
-    fsGroup: 1000
     allowPrivilegeEscalation: false
     seccompProfile:
       type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
 
   podAnnotations: {}
   podLabels: {}
