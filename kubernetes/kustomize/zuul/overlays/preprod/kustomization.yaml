@@ -16,6 +16,8 @@ configMapGenerator:
       - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/system-config/
       - ZUUL_CONFIG_BRANCH=preprod
   - name: "zuul-tenants"
+    options:
+      disableNameSuffixHash: true
     files:
       - "configs/tenants/main.yaml"
   - name: "nodepool-config-yaml"
