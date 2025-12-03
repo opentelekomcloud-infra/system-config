@@ -14,3 +14,4 @@
 # test after reconfigure
 # trigger after scheduler restart
 # test with preprod config
+# test after fixing duplicates
