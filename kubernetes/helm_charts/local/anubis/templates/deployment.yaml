@@ -28,11 +28,22 @@ spec:
         {{- end }}
       {{- end }}
       securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ .Values.anubis.securityContext.runAsUser | default 1000 }}
         fsGroup: {{ .Values.anubis.securityContext.fsGroup }}
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: anubis
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: {{ .Values.anubis.securityContext.runAsUser | default 1000 }}
+            capabilities:
+              drop:
+                - ALL
           ports:
             - name: http
               containerPort: 8080
