@@ -18,7 +18,7 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: main
+              load-branch: preprod
           - opentelekomcloud-infra/otc-zuul-jobs:
               include:
                 - job
@@ -26,7 +26,7 @@
                 - project-template
                 - nodeset
                 - secret
-              load-branch: main
+              load-branch: preprod
           - opentelekomcloud-infra/zuul-project-config:
               include:
                 - job
