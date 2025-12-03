@@ -1,4 +1,21 @@
 applications:
+  - name: anubis-cpn
+    clusters: [preprod]
+    config:
+      namespace: circle-partner-navigator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'anubis-preprod'
+      path: kubernetes/helm_charts/local/anubis
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: argocd-projects
     clusters: [preprod]
     config:
