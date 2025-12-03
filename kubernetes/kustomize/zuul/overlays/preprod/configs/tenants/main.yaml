@@ -19,6 +19,14 @@
                 - nodeset
                 - secret
               load-branch: main
+          - opentelekomcloud-infra/zuul-project-config:
+              include:
+                - job
+                - semaphore
+                - project-template
+                - nodeset
+                - secret
+              load-branch: preprod
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
               include: []
