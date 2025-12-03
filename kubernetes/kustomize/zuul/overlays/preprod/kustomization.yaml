@@ -71,10 +71,6 @@ patches:
     target:
       kind: PersistentVolumeClaim
       name: zuul-config
-  - path: zuul-config-deployment.yaml
-    target:
-      kind: Deployment
-      name: zuul-config
   - path: zookeeper-statefulset.yaml
   - path: zookeeper-cert-patch.yaml
   - path: zuul-executor-statefulset.yaml
