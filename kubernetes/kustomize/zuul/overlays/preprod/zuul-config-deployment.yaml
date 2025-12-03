@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "zuul-config"
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/component: "zuul-config"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: "zuul"
+      app.kubernetes.io/component: "zuul-config"
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: "zuul"
+        app.kubernetes.io/component: "zuul-config"
+    spec:
+      initContainers:
+        - name: "git-fetcher"
+          image: "zuul/nodepool-builder"
+          args:
+            - "cd /data && git clone $ZUUL_CONFIG_REPO . || true"
+          command: ["/bin/sh", "-ec"]
+          env:
+            - name: "ZUUL_CONFIG_REPO"
+              valueFrom:
+                configMapKeyRef:
+                  name: "zuul-instance-config"
+                  key: "ZUUL_CONFIG_REPO"
+          volumeMounts:
+            - name: "zuul-config-data"
+              mountPath: "/data"
+
+      containers:
+        - name: "git-syncer"
+          args:
+            - "while :; do cd /data/; git pull; sleep 60; done"
+          command: ["/bin/sh", "-ec"]
+          image: "zuul/nodepool-builder"
+          resources:
+            limits:
+              memory: "64Mi"
+            requests:
+              cpu: "10m"
+              memory: "64Mi"
+          volumeMounts:
+            - name: "zuul-config-data"
+              mountPath: "/data"
+
+      volumes:
+        - name: "zuul-config-data"
+          persistentVolumeClaim:
+            claimName: "zuul-config"
+
+  revisionHistoryLimit: 2
