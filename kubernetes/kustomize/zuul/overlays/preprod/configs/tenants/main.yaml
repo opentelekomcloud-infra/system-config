@@ -21,10 +21,6 @@
                 - nodeset
                 - secret
               load-branch: preprod
-        untrusted-projects:
-          - opentelekomcloud-infra/system-config:
-              include: []
-              exclude-unprotected-branches: false
       gitlab:
         config-projects:
           - ecosystem/system-config:
@@ -37,10 +33,6 @@
                 - nodeset
                 - secret
               load-branch: preprod
-        untrusted-projects:
-          - ecosystem/system-config:
-              include: []
-              exclude-unprotected-branches: false
 
 - tenant:
     name: production
@@ -59,10 +51,6 @@
                 - nodeset
                 - secret
               load-branch: main
-        untrusted-projects:
-          - opentelekomcloud-infra/system-config:
-              include: []
-              exclude-unprotected-branches: true
       gitlab:
         config-projects:
           - ecosystem/system-config:
@@ -75,7 +63,3 @@
                 - nodeset
                 - secret
               load-branch: main
-        untrusted-projects:
-          - ecosystem/system-config:
-              include: []
-              exclude-unprotected-branches: true
