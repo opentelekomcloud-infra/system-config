@@ -1,0 +1,24 @@
+---
+# Mount SSH keys for executors
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+spec:
+  template:
+    spec:
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0600
+      containers:
+        - name: zuul-executor
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /etc/zuul/connections
+              readOnly: true
+            - name: zuul-ssh-keys
+              mountPath: /etc/zuul/sshkey
+              subPath: executor-ssh.key
+              readOnly: true

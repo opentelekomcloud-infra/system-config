@@ -1,0 +1,20 @@
+---
+# Mount nodepool config for builder
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nodepool-builder
+spec:
+  template:
+    spec:
+      volumes:
+        - name: nodepool-config-yaml
+          configMap:
+            name: nodepool-config-yaml
+      containers:
+        - name: nodepool-builder
+          volumeMounts:
+            - name: nodepool-config-yaml
+              mountPath: /etc/nodepool/nodepool.yaml
+              subPath: nodepool.yaml
+              readOnly: true
