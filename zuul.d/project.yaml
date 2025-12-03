@@ -34,8 +34,7 @@
         - system-config-build-image-vault
     third-party-check:
       jobs:
-        - otc-tox-linters
-        - system-config-run-base
+        - noop
     gate:
       jobs:
         - otc-tox-linters
