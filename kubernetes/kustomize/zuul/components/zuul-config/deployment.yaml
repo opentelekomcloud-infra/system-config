@@ -42,6 +42,12 @@ spec:
             - "while :; do cd /data && (test -d .git && git pull || git clone $ZUUL_CONFIG_REPO .); sleep 60; done"
           command: ["/bin/sh", "-ec"]
           image: "zuul/nodepool-builder"
+          env:
+            - name: "ZUUL_CONFIG_REPO"
+              valueFrom:
+                configMapKeyRef:
+                  name: "zuul-instance-config"
+                  key: "ZUUL_CONFIG_REPO"
           resources:
             limits:
               memory: "64Mi"
