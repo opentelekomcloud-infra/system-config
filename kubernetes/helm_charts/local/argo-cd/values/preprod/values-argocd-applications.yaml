@@ -315,7 +315,7 @@ applications:
     config:
       namespace: circle-partner-navigator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'anubis-preprod'
       path: kubernetes/kustomize/anubis/overlays/preprod/circle-partner-navigator/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
