@@ -13,7 +13,7 @@ spec:
             secretName: zuul-ssh-keys
             defaultMode: 0600
       containers:
-        - name: zuul-merger
+        - name: zuul
           image: quay.io/opentelekomcloud/zuul-merger:change_774_change_859940
           volumeMounts:
             - name: zuul-ssh-keys
