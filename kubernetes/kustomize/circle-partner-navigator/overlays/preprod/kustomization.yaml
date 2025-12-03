@@ -27,7 +27,7 @@ patchesStrategicMerge:
   - frontend-patch.yaml
   - emg-patch.yaml
   - backend-ingress-patch.yaml
-  - ../../anubis/overlays/preprod/circle-partner-navigator/frontend-ingress-patch.yaml
+  - frontend-ingress-patch.yaml
   - emg-ingress-patch.yaml
 
 # ConfigMap for nginx configuration
