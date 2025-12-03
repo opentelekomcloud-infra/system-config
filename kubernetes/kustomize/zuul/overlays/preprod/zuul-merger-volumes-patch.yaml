@@ -17,5 +17,5 @@ spec:
           image: quay.io/opentelekomcloud/zuul-merger:change_774_change_859940
           volumeMounts:
             - name: zuul-ssh-keys
-              mountPath: /etc/zuul/connections
+              mountPath: /var/lib/zuul-ssh
               readOnly: true
