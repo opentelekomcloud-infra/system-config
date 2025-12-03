@@ -1,16 +1,3 @@
 ---
-- project:
-    merge-mode: squash-merge
-    default-branch: preprod
-    check:
-      jobs:
-        - otc-tox-linters
-        - system-config-build-image-haproxy-statsd
-        - system-config-build-image-zuul
-        - system-config-build-image-vault
-    third-party-check:
-      jobs:
-        - otc-tox-linters
-        - system-config-build-image-haproxy-statsd
-        - system-config-build-image-zuul
-        - system-config-build-image-vault
+# For preprod branch: project configuration is managed in zuul-project-config tenant config
+# This file intentionally left empty to avoid conflicts with tenant configuration
