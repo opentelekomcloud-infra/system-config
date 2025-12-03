@@ -56,6 +56,7 @@ images:
 
 resources:
   - zuul-config-pv.yaml
+  - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
 
