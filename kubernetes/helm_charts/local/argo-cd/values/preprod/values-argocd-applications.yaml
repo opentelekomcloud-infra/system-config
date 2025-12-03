@@ -7,7 +7,7 @@ applications:
       targetRevision: 'anubis-preprod'
       path: kubernetes/helm_charts/local/anubis
       pluginName: argocd-vault-plugin-helm
-      pluginEnv: '-f values-preprod.yaml'
+      pluginEnv: '-f values.yaml'
       project: infra
       syncPolicy:
         automated:
