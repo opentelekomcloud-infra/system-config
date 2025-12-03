@@ -32,10 +32,6 @@
         - system-config-build-image-haproxy-statsd
         - system-config-build-image-zuul
         - system-config-build-image-vault
-    third-party-check:
-      jobs:
-        - otc-tox-linters
-        - system-config-run-base
     gate:
       jobs:
         - otc-tox-linters
