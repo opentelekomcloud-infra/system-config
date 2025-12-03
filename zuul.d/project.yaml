@@ -1,7 +1,7 @@
 ---
 - project:
     merge-mode: squash-merge
-    default-branch: main
+    default-branch: preprod
     check:
       jobs:
         - otc-tox-linters
