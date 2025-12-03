@@ -12,9 +12,6 @@ components:
   - ../components/nodepool-launcher
 
 configMapGenerator:
-  - name: "zuul-instance-config"
-    literals:
-      - ZUUL_CONFIG_REPO=https://gitea.eco.tsi-dev.otc-service.com/scs/zuul-config.git
   - name: "zuul-executor-vars"
     literals: []
 
