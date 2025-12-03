@@ -15,8 +15,8 @@ service:
   annotations: {}
   labels: {}
 
+fullnameOverride: "anubis"
 anubis:
-  fullnameOverride: "anubis"
   env:
     BIND: ":8080"
     DIFFICULTY: "4"
