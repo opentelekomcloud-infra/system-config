@@ -19,15 +19,15 @@
                 - nodeset
                 - secret
               load-branch: preprod
-      gitlab:
-        config-projects:
-          - ecosystem/system-config:
-              include:
-                - job
-                - semaphore
-                - project
-                - project-template
-                - pipeline
-                - nodeset
-                - secret
-              load-branch: preprod
+      # gitlab:
+      #   config-projects:
+      #     - ecosystem/system-config:
+      #         include:
+      #           - job
+      #           - semaphore
+      #           - project
+      #           - project-template
+      #           - pipeline
+      #           - nodeset
+      #           - secret
+      #         load-branch: preprod
