@@ -26,6 +26,12 @@ labels:
   - name: pod-default
     min-ready: 0
 
+  - name: pod-fedora-latest
+    min-ready: 0
+
+  - name: ubuntu-jammy
+    min-ready: 0
+
 providers:
   # OpenStack providers for VM-based nodes
   - name: otcci-pool1
@@ -65,6 +71,12 @@ providers:
           - name: pod-default
             type: pod
             image: docker.io/library/python:3.11-slim
+          - name: pod-fedora-latest
+            type: pod
+            image: docker.io/library/fedora:latest
+          - name: ubuntu-jammy
+            type: pod
+            image: docker.io/library/ubuntu:jammy
 
 diskimages:
   - name: debian-bookworm
