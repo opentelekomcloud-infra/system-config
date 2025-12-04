@@ -310,13 +310,30 @@ applications:
 ########## KUSTOMIZE APPS ###########
 #####################################
 
-  - name: anubis
+  - name: anubis-cpn
     clusters: [preprod]
     config:
       namespace: circle-partner-navigator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'preprod'
       path: kubernetes/kustomize/anubis/overlays/preprod/circle-partner-navigator/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: anubis-umami
+    clusters: [preprod]
+    config:
+      namespace: analytics
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'anubis-more-services'
+      path: kubernetes/kustomize/anubis/overlays/preprod/umami/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
       project: infra
