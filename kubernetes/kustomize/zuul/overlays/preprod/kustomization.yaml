@@ -12,13 +12,9 @@ components:
 
 configMapGenerator:
   - name: "zuul-instance-config"
-    behavior: "replace"
     literals:
-      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/system-config/
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
       - ZUUL_CONFIG_BRANCH=preprod
-  - name: "zuul-tenants"
-    files:
-      - "configs/tenants/main.yaml"
   - name: "nodepool-config-yaml"
     files:
       - "configs/nodepool.yaml"
@@ -59,33 +55,45 @@ images:
     newTag: "8.2.0"
 
 resources:
-  - ../../base
+  - zuul-config-pv.yaml
+  - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
 
+bases:
+  - ../../base
+
 patches:
+  - path: zuul-config-pvc.yaml
+    target:
+      kind: PersistentVolumeClaim
+      name: zuul-config
+  - path: zuul-config-deployment.yaml
   - path: zookeeper-statefulset.yaml
   - path: zookeeper-cert-patch.yaml
   - path: zuul-executor-statefulset.yaml
+  - path: zuul-executor-resources-patch.yaml
   - path: zuul-scheduler-deployment.yaml
   - path: zuul-web-ingress.yaml
   - path: zuul-volumes-patch.yaml
   - path: zuul-executor-volumes-patch.yaml
   - path: zuul-merger-volumes-patch.yaml
   - path: zuul-web-volumes-patch.yaml
-  - path: nodepool-launcher-patch.yaml
   - path: nodepool-builder-patch.yaml
 
 secretGenerator:
-  # Secrets will be managed by ArgoCD Vault Plugin
   - name: zuul-config
-    behavior: "replace"
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
     files:
-      - "configs/zuul.conf.hcl"
+      - configs/zuul.conf
   - name: nodepool-config
-    behavior: "replace"
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
     files:
-      - "configs/openstack/clouds.yaml.hcl"
+      - configs/openstack/clouds.yaml
   - name: zuul-ssh-keys
     type: Opaque
     options:
