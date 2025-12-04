@@ -7,7 +7,7 @@ images-dir: /opt/nodepool/images
 
 zookeeper-servers:
   - host: zookeeper.zuul.svc.cluster.local
-    port: 2281
+    port: 2181
 
 zookeeper-tls:
   cert: /tls/client/tls.crt
