@@ -1,3 +1,14 @@
 ---
-# For preprod branch: project configuration is managed in zuul-project-config tenant config
-# This file intentionally left empty to avoid conflicts with tenant configuration
+- project:
+    name: opentelekomcloud-infra/system-config
+    third-party-check:
+      jobs:
+        - otc-tox-linters
+        - tox-linters-ansible-devel
+    gate:
+      jobs:
+        - otc-tox-linters
+        - tox-linters-ansible-devel
+    post:
+      jobs:
+        - project-cleanup
