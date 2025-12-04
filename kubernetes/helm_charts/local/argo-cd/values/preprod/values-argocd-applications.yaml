@@ -399,7 +399,7 @@ applications:
     config:
       namespace: analytics
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'anubis-more-services'
       path: kubernetes/kustomize/umami/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
