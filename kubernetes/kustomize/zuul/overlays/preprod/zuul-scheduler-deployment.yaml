@@ -13,16 +13,10 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0400
-        - name: zuul-tenant-config
-          configMap:
-            name: zuul-tenant-config
       containers:
         - name: zuul
           image: zuul/zuul-scheduler
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
-              readOnly: true
-            - name: zuul-tenant-config
-              mountPath: /etc/zuul/config
               readOnly: true
