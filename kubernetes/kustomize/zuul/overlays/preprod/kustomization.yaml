@@ -19,6 +19,10 @@ configMapGenerator:
     files:
       - "configs/nodepool.yaml"
       - configs/tenants/main.yaml
+  - name: "zuul-executor-vars"
+    behavior: merge
+    files:
+      - "configs/site-vars.yaml"
 
 labels:
   - includeSelectors: true
