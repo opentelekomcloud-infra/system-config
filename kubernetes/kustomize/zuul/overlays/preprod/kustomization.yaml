@@ -18,11 +18,6 @@ configMapGenerator:
   - name: "nodepool-config-yaml"
     files:
       - "configs/nodepool.yaml"
-  - name: "zuul-tenant-config"
-    behavior: replace
-    options:
-      disableNameSuffixHash: true
-    files:
       - configs/tenants/main.yaml
 
 labels:
