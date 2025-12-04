@@ -13,7 +13,7 @@ components:
 configMapGenerator:
   - name: "zuul-instance-config"
     literals:
-      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-infra/
       - ZUUL_CONFIG_BRANCH=preprod
   - name: "nodepool-config-yaml"
     files:
