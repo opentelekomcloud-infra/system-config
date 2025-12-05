@@ -54,7 +54,10 @@ providers:
         labels:
           - name: pod-debian
             type: pod
-            image: docker.io/library/debian:bookworm
+            image: quay.io/zuul/zuul-executor:latest
+            cpu: 2
+            memory: 2048
+            python-path: /usr/bin/python3
 
 diskimages:
   - name: debian-bookworm
