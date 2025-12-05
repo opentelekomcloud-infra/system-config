@@ -53,9 +53,9 @@ providers:
         labels:
           - name: pod-debian
             type: pod
-            image: quay.io/zuul/zuul-executor:latest
-            cpu: 1
-            memory: 1024
+            image: quay.io/opentelekomcloud/zuul-executor:11.1.0
+            cpu: 0.5
+            memory: 512
             python-path: /usr/bin/python3
 
 diskimages:
