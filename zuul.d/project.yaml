@@ -1,6 +1,10 @@
 ---
 - project:
     name: opentelekomcloud-infra/system-config
+    check:
+      jobs:
+        - otc-tox-linters
+        - tox-linters-ansible-devel
     third-party-check:
       jobs:
         - otc-tox-linters
