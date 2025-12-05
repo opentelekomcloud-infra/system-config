@@ -47,7 +47,6 @@ providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: preprod-k8s
     driver: kubernetes
-    context: preprod
     max-servers: 20
     pools:
       - name: default
