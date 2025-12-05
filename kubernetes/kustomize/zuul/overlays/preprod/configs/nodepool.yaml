@@ -54,8 +54,8 @@ providers:
           - name: pod-debian
             type: pod
             image: quay.io/zuul/zuul-executor:latest
-            cpu: 2
-            memory: 2048
+            cpu: 1
+            memory: 1024
             python-path: /usr/bin/python3
 
 diskimages:
