@@ -157,7 +157,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'anubis-more-services'
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
