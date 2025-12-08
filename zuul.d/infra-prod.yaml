@@ -42,11 +42,11 @@
         the host able to deploy system-config.
     run: playbooks/zuul/run-production-bootstrap-bridge.yaml
     required-projects:
-      - name: stackmon/ansible-collection-apimon
+      - name: github.com/stackmon/ansible-collection-apimon
         override-checkout: main
-      - name: opentelekomcloud/ansible-collection-cloud
+      - name: github.com/opentelekomcloud/ansible-collection-cloud
         override-checkout: main
-      - name: opentelekomcloud/ansible-collection-gitcontrol
+      - name: github.com/opentelekomcloud/ansible-collection-gitcontrol
         override-checkout: main
       - name: opendev.org/openstack/ansible-collections-openstack
         override-checkout: main
