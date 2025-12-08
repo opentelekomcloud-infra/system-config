@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: outline-anubis
-  namespace: outline   # same namespace as Anubis service
+  namespace: outline
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
@@ -22,6 +22,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: anubis        # <-- Service in front
+                name: anubis
                 port:
-                  number: 80        # or 8923, whatever Anubis listens on
+                  number: 80

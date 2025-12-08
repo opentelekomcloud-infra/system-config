@@ -6,6 +6,7 @@ namespace: outline
 resources:
   - ../../../base
   - outline-anubis-ingress.yaml
+  - outline-websockets-direct.yaml
 
 patchesStrategicMerge:
   - patch-target.yaml
