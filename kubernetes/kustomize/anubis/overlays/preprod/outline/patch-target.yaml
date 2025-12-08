@@ -9,6 +9,6 @@ spec:
         - name: anubis
           env:
             - name: TARGET
-              value: "http://outline-wiki:3000"
+              value: "http://outline-wiki-preprod:3000"
             - name: REDIRECT_DOMAINS
               value: "https://outline.eco-preprod.tsi-dev.otc-service.com"
