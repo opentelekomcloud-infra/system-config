@@ -16,7 +16,7 @@ zookeeper-tls:
 
 labels:
   - name: debian
-    min-ready: 1
+    min-ready: 0
     max-ready-age: 3600
 
   - name: pod-debian
@@ -29,31 +29,31 @@ labels:
     min-ready: 0
 
 providers:
-  # OpenStack providers for VM-based nodes
-  - name: otcci-pool1
-    driver: openstack
-    cloud: otcci-pool1
-    boot-timeout: 300
-    launch-timeout: 600
-    launch-retries: 3
-    image-name-format: '{image_name}-{timestamp}'
-    rate: 1.0
-    diskimages:
-      - name: debian-bookworm
-        config-drive: true
-    pools:
-      - name: main
-        max-servers: 10
-        labels:
-          - name: debian
-            diskimage: debian-bookworm
-            flavor-name: s3.medium.4
-            key-name: nodepool
+  # OpenStack providers for VM-based nodes (disabled for preprod)
+  # - name: otcci-pool1
+  #   driver: openstack
+  #   cloud: otcci-pool1
+  #   boot-timeout: 300
+  #   launch-timeout: 600
+  #   launch-retries: 3
+  #   image-name-format: '{image_name}-{timestamp}'
+  #   rate: 1.0
+  #   diskimages:
+  #     - name: debian-bookworm
+  #       config-drive: true
+  #   pools:
+  #     - name: main
+  #       max-servers: 10
+  #       labels:
+  #         - name: debian
+  #           diskimage: debian-bookworm
+  #           flavor-name: s3.medium.4
+  #           key-name: nodepool
 
-  # Kubernetes provider for pod-based nodes (in-cluster)
+  # Kubernetes provider for pod-based nodes (in-cluster) - for linters only
   - name: preprod-k8s
     driver: kubernetes
-    max-servers: 20
+    max-servers: 5
     pools:
       - name: default
         labels:
