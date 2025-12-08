@@ -1,6 +1,6 @@
 ---
 # Nodepool configuration for Zuul preprod environment
-# Manages compute resources for CI/CD jobs
+# Debian-only configuration - simplified to single Debian Bookworm image
 
 elements-dir: /etc/nodepool/elements
 images-dir: /opt/nodepool/images
@@ -15,56 +15,64 @@ zookeeper-tls:
   ca: /tls/client/ca.crt
 
 labels:
-  - name: debian-bookworm
-    min-ready: 1
+  - name: debian
+    min-ready: 0
     max-ready-age: 3600
 
-  - name: debian-bullseye
-    min-ready: 1
-    max-ready-age: 3600
+  - name: pod-debian
+    min-ready: 0
 
-  - name: pod-default
+  - name: pod-fedora-latest
+    min-ready: 0
+
+  - name: ubuntu-jammy
     min-ready: 0
 
 providers:
-  # OpenStack providers for VM-based nodes
-  - name: otcci-pool1
-    driver: openstack
-    cloud: otcci-pool1
-    boot-timeout: 300
-    launch-timeout: 600
-    launch-retries: 3
-    image-name-format: '{image_name}-{timestamp}'
-    rate: 1.0
-    diskimages:
-      - name: debian-bookworm
-        config-drive: true
-      - name: debian-bullseye
-        config-drive: true
-    pools:
-      - name: main
-        max-servers: 10
-        labels:
-          - name: debian-bookworm
-            diskimage: debian-bookworm
-            flavor-name: s3.medium.4
-            key-name: nodepool
-          - name: debian-bullseye
-            diskimage: debian-bullseye
-            flavor-name: s3.medium.4
-            key-name: nodepool
+  # OpenStack providers for VM-based nodes (disabled for preprod)
+  # - name: otcci-pool1
+  #   driver: openstack
+  #   cloud: otcci-pool1
+  #   boot-timeout: 300
+  #   launch-timeout: 600
+  #   launch-retries: 3
+  #   image-name-format: '{image_name}-{timestamp}'
+  #   rate: 1.0
+  #   diskimages:
+  #     - name: debian-bookworm
+  #       config-drive: true
+  #   pools:
+  #     - name: main
+  #       max-servers: 10
+  #       labels:
+  #         - name: debian
+  #           diskimage: debian-bookworm
+  #           flavor-name: s3.medium.4
+  #           key-name: nodepool
 
-  # Kubernetes provider for pod-based nodes (in-cluster)
+  # Kubernetes provider for pod-based nodes (in-cluster) - for linters only
   - name: preprod-k8s
     driver: kubernetes
-    context: preprod
-    max-servers: 20
+    max-servers: 5
     pools:
       - name: default
         labels:
-          - name: pod-default
+          - name: pod-debian
             type: pod
-            image: docker.io/library/python:3.11-slim
+            image: quay.io/opentelekomcloud/zuul-executor:11.1.0
+            cpu: 0.5
+            memory: 512
+            python-path: /usr/local/bin/python3
+            # Mount shared NFS storage for builds directory
+            # Uses zuul-config PVC (SFS-Turbo NFS) with builds subdirectory
+            volumes:
+              - name: zuul-builds-shared
+                persistentVolumeClaim:
+                  claimName: zuul-config
+            volume-mounts:
+              - name: zuul-builds-shared
+                mountPath: /var/lib/zuul/builds
+                subPath: builds
 
 diskimages:
   - name: debian-bookworm
@@ -83,26 +91,10 @@ diskimages:
       - debian-minimal
       - vm
       - simple-init
-      - growroot
-      - openssh-server
-      - nodepool-base
-
-  - name: debian-bullseye
-    formats:
-      - raw
-    rebuild-age: 86400
-    env-vars:
-      TMPDIR: /opt/dib_tmp
-      DIB_CHECKSUM: '1'
-      DIB_IMAGE_CACHE: /opt/dib_cache
-      DIB_APT_LOCAL_CACHE: '0'
-      DIB_DISABLE_APT_CLEANUP: '1'
-      DIB_DISTRIBUTION_MIRROR: http://deb.debian.org/debian
-      DIB_RELEASE: bullseye
-    elements:
-      - debian-minimal
-      - vm
-      - simple-init
-      - growroot
-      - openssh-server
-      - nodepool-base
+        - growroot
+        - openssh-server
+        - nodepool-base
+# Test for PR 1481 check pipeline
+# Test after zuul-jobs load-branch fix
+# Test after otc-tox parent fix
+# Test after changing otc-tox to inherit from unittests

@@ -13,11 +13,16 @@ components:
 configMapGenerator:
   - name: "zuul-instance-config"
     literals:
-      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-config/
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-infra/
       - ZUUL_CONFIG_BRANCH=preprod
   - name: "nodepool-config-yaml"
     files:
       - "configs/nodepool.yaml"
+      - configs/tenants/main.yaml
+  - name: "zuul-executor-vars"
+    behavior: merge
+    files:
+      - "configs/site-vars.yaml"
 
 labels:
   - includeSelectors: true
@@ -28,31 +33,31 @@ labels:
 images:
   - name: "busybox"
     newName: "quay.io/opentelekomcloud/busybox"
-    newTag: "1.36.0-musl"
+    newTag: "1.37.0"
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
     newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
 resources:
   - zuul-config-pv.yaml
@@ -72,6 +77,7 @@ patches:
   - path: zookeeper-statefulset.yaml
   - path: zookeeper-cert-patch.yaml
   - path: zuul-executor-statefulset.yaml
+  - path: zuul-executor-resources-patch.yaml
   - path: zuul-scheduler-deployment.yaml
   - path: zuul-web-ingress.yaml
   - path: zuul-volumes-patch.yaml

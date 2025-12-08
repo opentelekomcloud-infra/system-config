@@ -14,7 +14,7 @@ spec:
             defaultMode: 0600
       containers:
         - name: zuul
-          image: quay.io/opentelekomcloud/zuul-web:change_774_change_859940
+          image: zuul/zuul-web
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh

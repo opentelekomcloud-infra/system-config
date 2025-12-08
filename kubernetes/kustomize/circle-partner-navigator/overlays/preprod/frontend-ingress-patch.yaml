@@ -16,7 +16,7 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: cpn-front
+                name: anubis
                 port:
                   number: 80
   tls:
