@@ -53,14 +53,16 @@ providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: preprod-k8s
     driver: kubernetes
-    context: preprod
     max-servers: 20
     pools:
       - name: default
         labels:
           - name: pod-debian
             type: pod
-            image: docker.io/library/debian:bookworm
+            image: quay.io/opentelekomcloud/zuul-executor:11.1.0
+            cpu: 0.5
+            memory: 512
+            python-path: /usr/local/bin/python3
 
 diskimages:
   - name: debian-bookworm
