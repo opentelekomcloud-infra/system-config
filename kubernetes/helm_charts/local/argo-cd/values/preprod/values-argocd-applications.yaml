@@ -347,7 +347,7 @@ applications:
   - name: anubis-outline
     clusters: [preprod]
     config:
-      namespace: analytics
+      namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'anubis-more-services'
       path: kubernetes/kustomize/anubis/overlays/preprod/outline/
