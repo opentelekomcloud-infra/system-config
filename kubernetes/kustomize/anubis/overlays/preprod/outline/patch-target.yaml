@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anubis
+spec:
+  template:
+    spec:
+      containers:
+        - name: anubis
+          env:
+            - name: TARGET
+              value: "http://outline-wiki:3000"
+            - name: REDIRECT_DOMAINS
+              value: "https://outline.eco-preprod.tsi-dev.otc-service.com"

@@ -344,6 +344,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: anubis-outline
+    clusters: [preprod]
+    config:
+      namespace: analytics
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'anubis-more-services'
+      path: kubernetes/kustomize/anubis/overlays/preprod/outline/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: kustomize-backstage-dev
     clusters: [preprod]
     config:
