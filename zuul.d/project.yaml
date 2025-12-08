@@ -1,3 +1,15 @@
 ---
-# Job configuration is managed in the target branch (preprod)
-# This file should remain empty in feature branches
+- project:
+    name: opentelekomcloud-infra/system-config
+    check:
+      jobs:
+        - otc-tox-linters
+    third-party-check:
+      jobs:
+        - otc-tox-linters
+    gate:
+      jobs:
+        - otc-tox-linters
+    post:
+      jobs:
+        - project-cleanup
