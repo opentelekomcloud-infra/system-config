@@ -22,12 +22,6 @@ labels:
   - name: pod-debian
     min-ready: 0
 
-  - name: pod-fedora-latest
-    min-ready: 0
-
-  - name: ubuntu-jammy
-    min-ready: 0
-
 providers:
   # OpenStack providers for VM-based nodes (disabled for preprod)
   # - name: otcci-pool1
@@ -54,7 +48,6 @@ providers:
   - name: preprod-k8s
     driver: kubernetes
     max-servers: 5
-    namespace: zuul
     pools:
       - name: default
         labels:
@@ -74,7 +67,6 @@ providers:
               - name: zuul-builds-shared
                 mountPath: /var/lib/zuul/builds
                 subPath: builds
-
 
 diskimages:
   - name: debian-bookworm
