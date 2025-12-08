@@ -57,16 +57,16 @@ providers:
             cpu: 0.5
             memory: 512
             python-path: /usr/local/bin/python3
-            # Mount shared NFS storage for builds directory
-            # Uses zuul-config PVC (SFS-Turbo NFS) with builds subdirectory
+            # Mount shared NFS storage directly (not via PVC)
+            # Direct NFS mount works across all namespaces
             volumes:
               - name: zuul-builds-shared
-                persistentVolumeClaim:
-                  claimName: zuul-config
+                nfs:
+                  server: 192.168.150.233
+                  path: /builds
             volume-mounts:
               - name: zuul-builds-shared
                 mountPath: /var/lib/zuul/builds
-                subPath: builds
 
 diskimages:
   - name: debian-bookworm
