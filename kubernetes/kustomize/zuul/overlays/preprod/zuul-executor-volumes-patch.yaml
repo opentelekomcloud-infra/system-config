@@ -1,5 +1,7 @@
 ---
 # Mount SSH keys for executors and shared NFS for builds
+# Note: zuul-config-data volume already exists in base config mounting the zuul-config PVC
+# We reuse it here with a different subPath for builds directory
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -12,15 +14,12 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0600
-        - name: zuul-builds-shared
-          persistentVolumeClaim:
-            claimName: zuul-config
       containers:
         - name: zuul
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
               readOnly: true
-            - name: zuul-builds-shared
+            - name: zuul-config-data
               mountPath: /var/lib/zuul/builds
               subPath: builds
