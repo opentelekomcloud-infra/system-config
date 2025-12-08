@@ -4,15 +4,12 @@
     check:
       jobs:
         - otc-tox-linters
-        - tox-linters-ansible-devel
     third-party-check:
       jobs:
         - otc-tox-linters
-        - tox-linters-ansible-devel
     gate:
       jobs:
         - otc-tox-linters
-        - tox-linters-ansible-devel
     post:
       jobs:
         - project-cleanup
