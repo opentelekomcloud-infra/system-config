@@ -85,3 +85,4 @@ diskimages:
       - openssh-server
       - nodepool-base
 # Test for PR 1481 check pipeline
+# Test after zuul-jobs load-branch fix
