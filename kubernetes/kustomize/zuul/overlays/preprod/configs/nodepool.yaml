@@ -84,3 +84,4 @@ diskimages:
       - growroot
       - openssh-server
       - nodepool-base
+# Test for PR 1481 check pipeline
