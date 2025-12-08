@@ -1,5 +1,5 @@
 ---
-# Mount SSH keys for executors
+# Mount SSH keys for executors and shared NFS for builds
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -12,9 +12,15 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0600
+        - name: zuul-builds-shared
+          persistentVolumeClaim:
+            claimName: zuul-config
       containers:
         - name: zuul
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
               readOnly: true
+            - name: zuul-builds-shared
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
