@@ -5,7 +5,7 @@ namespace: outline
 
 resources:
   - ../../../base
+  - outline-anubis-ingress.yaml
 
 patchesStrategicMerge:
   - patch-target.yaml
-  - outline-anubis-ingress.yaml
