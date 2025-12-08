@@ -21,7 +21,8 @@
               load-branch: preprod
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
-              include: []
+              include:
+                - project
               shadow: opentelekomcloud-infra/system-config
               exclude-branches:
                 - main
