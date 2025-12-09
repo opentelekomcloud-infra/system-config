@@ -54,8 +54,8 @@ providers:
           - name: pod-debian
             type: pod
             image: quay.io/opentelekomcloud/zuul-executor:11.1.0
-            cpu: 0.5
-            memory: 512
+            cpu: 1000m
+            memory: 1024Mi
             python-path: /usr/local/bin/python3
             # Mount shared NFS storage directly (not via PVC)
             # Direct NFS mount works across all namespaces
