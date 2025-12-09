@@ -15,8 +15,8 @@ spec:
             secretName: zuul-ssh-keys
             defaultMode: 0600
         - name: openstack-config
-          configMap:
-            name: nodepool-config
+          secret:
+            secretName: nodepool-config
             defaultMode: 0644
       containers:
         - name: zuul
