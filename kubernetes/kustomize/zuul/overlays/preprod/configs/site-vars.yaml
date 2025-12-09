@@ -1,5 +1,12 @@
 ---
 # Site-specific variables for Zuul executor
-# Currently empty - add variables as needed
-{}
+
+# Log storage configuration
+# Reuses otcci-pool1 cloud credentials for Swift log storage
+zuul_log_cloud_config: otcci-pool1
+zuul_log_container: zuul-logs-preprod
+zuul_log_container_public: true
+zuul_log_create_indexes: true
+zuul_log_delete_after: 2592000  # 30 days in seconds
+zuul_site_upload_logs: true
 
