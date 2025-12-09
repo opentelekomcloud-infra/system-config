@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anubis
+  labels:
+    app.kubernetes.io/name: anubis
+    app.kubernetes.io/instance: anubis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: anubis
+      app.kubernetes.io/instance: anubis
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: anubis
+        app.kubernetes.io/instance: anubis
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: anubis
+          image: quay.io/opentelekomcloud/anubis:0.0.1
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
+          ports:
+            - name: http
+              containerPort: 8080
+            - name: metrics
+              containerPort: 9090
+          env:
+            - name: BIND
+              value: ":8080"
+            - name: DIFFICULTY
+              value: "4"
+            - name: METRICS_BIND
+              value: ":9090"
+            - name: SERVE_ROBOTS_TXT
+              value: "true"
+            - name: TARGET
+              value: "http://cpn-front:80"
+            - name: OG_PASSTHROUGH
+              value: "true"
+            - name: OG_EXPIRY_TIME
+              value: "24h"
+            - name: POLICY_FNAME
+              value: "/etc/anubis/botPolicies.yaml"
+          volumeMounts:
+            - name: anubis-policy
+              mountPath: "/etc/anubis"
+      volumes:
+        - name: anubis-policy
+          configMap:
+            name: anubis-policy
+      nodeSelector: {}
+      tolerations: []
+      affinity: {}

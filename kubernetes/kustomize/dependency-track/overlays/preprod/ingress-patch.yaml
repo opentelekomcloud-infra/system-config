@@ -1,0 +1,72 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: dependencytrack
+  annotations:
+    # Certificate Management
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+
+    # TLS Security - MitM Protection
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+    # nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256,ECDHE-RSA-AES128-GCM-SHA256,ECDHE-ECDSA-AES256-GCM-SHA384,ECDHE-RSA-AES256-GCM-SHA384"
+    # nginx.ingress.kubernetes.io/ssl-prefer-server-ciphers: "true"
+
+    # Security Headers
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   more_set_headers "X-Frame-Options: DENY";
+    #   more_set_headers "X-Content-Type-Options: nosniff";
+    #   more_set_headers "X-XSS-Protection: 1; mode=block";
+    #   more_set_headers "Referrer-Policy: strict-origin-when-cross-origin";
+    #   more_set_headers "Strict-Transport-Security: max-age=31536000; includeSubDomains; preload";
+    #   more_set_headers "Permissions-Policy: geolocation=(), microphone=(), camera=()";
+
+    # Rate Limiting - DDoS Protection
+    # nginx.ingress.kubernetes.io/rate-limit-connections: "50"
+    # nginx.ingress.kubernetes.io/rate-limit-requests-per-second: "20"
+    # nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    # nginx.ingress.kubernetes.io/rate-limit-burst-multiplier: "5"
+
+    # File Upload Size
+    # nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    # nginx.ingress.kubernetes.io/client-max-body-size: "100m"
+
+    # Timeouts
+    # nginx.ingress.kubernetes.io/proxy-connect-timeout: "30"
+    # nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+
+    # Buffer Configuration
+    # nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
+    # nginx.ingress.kubernetes.io/proxy-buffers-number: "8"
+    # nginx.ingress.kubernetes.io/proxy-busy-buffers-size: "32k"
+
+    # Security
+    # nginx.ingress.kubernetes.io/server-tokens: "false"
+    # nginx.ingress.kubernetes.io/enable-access-log: "true"
+    # nginx.ingress.kubernetes.io/proxy-hide-headers: "Server,X-Powered-By"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: dependencytrack.eco-preprod.tsi-dev.otc-service.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: dependencytrack-api
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: dependencytrack-frontend
+            port:
+              number: 8080
+  tls:
+  - hosts:
+    - dependencytrack.eco-preprod.tsi-dev.otc-service.com
+    secretName: dependencytrack-tls-preprod

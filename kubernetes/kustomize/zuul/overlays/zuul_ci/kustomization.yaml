@@ -31,7 +31,7 @@ labels:
 images:
   - name: "busybox"
     newName: "quay.io/opentelekomcloud/busybox"
-    newTag: "1.36.0-musl"
+    newTag: "1.37.0"
 
   - name: "hashicorp/vault"
     newName: "quay.io/opentelekomcloud/vault"
@@ -39,27 +39,27 @@ images:
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "change_774_change_859940"
+    newTag: "11.1.0"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
     newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
 patches:
   # Patch zookeeper (storage class, size and count)

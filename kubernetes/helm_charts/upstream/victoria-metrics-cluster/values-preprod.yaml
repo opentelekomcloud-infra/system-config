@@ -1,0 +1,155 @@
+victoria-metrics-cluster:
+  global:
+    image:
+      vm:
+        tag: "v1.117.1-cluster"
+
+  printNotes: true
+
+  rbac:
+    create: true
+    pspEnabled: true
+    namespaced: false
+
+  serviceAccount:
+    create: true
+    automountToken: true
+
+  vmselect:
+    enabled: true
+    replicaCount: 2
+    image:
+      variant: cluster
+    ports:
+      name: "http"
+    automountServiceAccountToken: true
+    extraArgs:
+      envflag.enable: "true"
+      envflag.prefix: VM_
+      loggerFormat: json
+      dedup.minScrapeInterval: "30s"
+      replicationFactor: "2"
+    probe:
+      readiness:
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 5
+        failureThreshold: 3
+      liveness:
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 5
+        failureThreshold: 3
+    service:
+      servicePort: 8481
+      targetPort: http
+      type: ClusterIP
+    resources:
+      limits:
+        memory: "1Gi"
+      requests:
+        cpu: "1000m"
+        memory: "1Gi"
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      extraLabels:
+        release: prometheus-otcinfra
+      interval: 30s
+      scheme: http
+
+  vminsert:
+    enabled: true
+    replicaCount: 2
+    image:
+      variant: cluster
+    ports:
+      name: "http"
+    automountServiceAccountToken: true
+    extraArgs:
+      envflag.enable: "true"
+      envflag.prefix: VM_
+      loggerFormat: json
+      replicationFactor: "2"
+    probe:
+      readiness:
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 5
+        failureThreshold: 3
+      liveness:
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 5
+        failureThreshold: 3
+    service:
+      servicePort: 8480
+      targetPort: http
+      type: ClusterIP
+    resources:
+      limits:
+        memory: "1Gi"
+      requests:
+        cpu: "1000m"
+        memory: "1Gi"
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      extraLabels:
+        release: prometheus-otcinfra
+      interval: 30s
+      scheme: http
+
+  vmstorage:
+    enabled: true
+    replicaCount: 2
+    image:
+      variant: cluster
+    ports:
+      name: "http"
+    automountServiceAccountToken: true
+    extraArgs:
+      envflag.enable: "true"
+      envflag.prefix: VM_
+      loggerFormat: json
+      dedup.minScrapeInterval: "30s"
+    retentionPeriod: 30d
+    persistentVolume:
+      enabled: true
+      name: vmstorage-volume
+      mountPath: /storage
+      size: 300Gi
+      storageClassName: "csi-disk"
+    service:
+      servicePort: 8482
+      vminsertPort: 8400
+      vmselectPort: 8401
+    probe:
+      readiness:
+        httpGet:
+          path: /health
+          port: http
+        initialDelaySeconds: 5
+        periodSeconds: 15
+        timeoutSeconds: 5
+        failureThreshold: 3
+      liveness:
+        tcpSocket:
+          port: http
+        initialDelaySeconds: 30
+        periodSeconds: 30
+        timeoutSeconds: 5
+        failureThreshold: 10
+    resources:
+      limits:
+        memory: "4Gi"
+      requests:
+        cpu: "500m"
+        memory: "4Gi"
+    serviceMonitor:
+      enabled: true
+      namespace: monitoring
+      extraLabels:
+        release: prometheus-otcinfra
+      interval: 30s
+      scheme: http

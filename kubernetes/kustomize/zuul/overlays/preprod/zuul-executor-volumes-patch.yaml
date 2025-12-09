@@ -1,0 +1,42 @@
+---
+# Mount SSH keys for executors and shared NFS for builds
+# Note: zuul-config-data volume already exists in base config mounting the zuul-config PVC
+# We reuse it here with a different subPath for builds directory
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+spec:
+  template:
+    spec:
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0600
+        - name: openstack-config
+          secret:
+            secretName: nodepool-config
+            defaultMode: 0644
+      containers:
+        - name: zuul
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /var/lib/zuul/openstack-config
+                    cp /var/run/zuul/openstack/clouds.yaml /var/lib/zuul/openstack-config/clouds.yaml
+                    chmod 600 /var/lib/zuul/openstack-config/clouds.yaml
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+            - name: openstack-config
+              mountPath: /var/run/zuul/openstack
+              readOnly: true

@@ -1,0 +1,15 @@
+---
+- project:
+    name: opentelekomcloud-infra/system-config
+    check:
+      jobs:
+        - otc-tox-linters
+    third-party-check:
+      jobs:
+        - otc-tox-linters
+    gate:
+      jobs:
+        - otc-tox-linters
+    post:
+      jobs:
+        - project-cleanup

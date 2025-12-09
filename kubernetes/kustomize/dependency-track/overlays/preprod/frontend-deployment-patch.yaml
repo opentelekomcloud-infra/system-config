@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependencytrack-frontend
+spec:
+  replicas: 2
+  template:
+    spec:
+      serviceAccount: dependencytrack
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 101
+        fsGroup: 101
+        seccompProfile:
+          type: RuntimeDefault
+      initContainers:
+      - name: copy-static-assets
+        image: dependencytrack/frontend
+        command:
+        - sh
+        - -c
+        - |
+          cp -r /opt/owasp/dependency-track-frontend/static/* /static-tmp/
+          printf '{"API_BASE_URL":"%s","API_WITH_CREDENTIALS":null,"OIDC_ISSUER":"%s","OIDC_CLIENT_ID":"%s","OIDC_SCOPE":"%s","OIDC_FLOW":"%s","OIDC_LOGIN_BUTTON_TEXT":"%s"}' \
+            "${API_BASE_URL}" "${OIDC_ISSUER}" "${OIDC_CLIENT_ID}" "${OIDC_SCOPE}" "${OIDC_FLOW}" "${OIDC_LOGIN_BUTTON_TEXT}" > /static-tmp/config.json
+          if [ -d /etc/nginx/templates ]; then
+            cp -r /etc/nginx/templates/* /nginx-templates-tmp/ 2>/dev/null || true
+          fi
+        envFrom:
+        - configMapRef:
+            name: dependencytrack-config
+        volumeMounts:
+        - name: static-config
+          mountPath: /static-tmp
+        - name: nginx-templates
+          mountPath: /nginx-templates-tmp
+        - name: tmp
+          mountPath: /tmp
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 101
+          capabilities:
+            drop:
+            - ALL
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/component: dependencytrack-frontend
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: frontend
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 101
+          capabilities:
+            drop:
+            - ALL
+        volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+        - name: nginx-cache
+          mountPath: /var/cache/nginx
+        - name: nginx-run
+          mountPath: /var/run
+        - name: nginx-conf
+          mountPath: /etc/nginx/conf.d
+        - name: nginx-templates
+          mountPath: /etc/nginx/templates
+        - name: static-config
+          mountPath: /opt/owasp/dependency-track-frontend/static
+      volumes:
+      - name: tmp
+        emptyDir: {}
+      - name: nginx-cache
+        emptyDir: {}
+      - name: nginx-run
+        emptyDir: {}
+      - name: nginx-conf
+        emptyDir: {}
+      - name: nginx-templates
+        emptyDir: {}
+      - name: static-config
+        emptyDir: {}

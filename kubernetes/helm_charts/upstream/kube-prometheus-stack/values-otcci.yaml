@@ -123,12 +123,3 @@ kube-prometheus-stack:
               key: vmauth_password
       serviceMonitorSelector: {}
       serviceMonitorSelectorNilUsesHelmValues: false
-
-goNeb:
-  enabled: true
-  userId: <path:secret/data/prometheus/otcci#go_neb_user_id>
-  accessToken: <path:secret/data/prometheus/otcci#matrix_bot_access_token>
-  homeserverURL: "https://matrix.org"
-  displayName: "OpenTelekomCloud Bot"
-  roomId: <path:secret/data/prometheus/otcci#go_neb_room_id>
-  image: "quay.io/opentelekomcloud/go-neb:master-2022-04-13"
