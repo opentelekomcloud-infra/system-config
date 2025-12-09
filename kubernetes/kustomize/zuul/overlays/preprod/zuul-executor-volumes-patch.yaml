@@ -20,6 +20,16 @@ spec:
             defaultMode: 0644
       containers:
         - name: zuul
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /var/lib/zuul/openstack-config
+                    cp /var/run/zuul/openstack/clouds.yaml /var/lib/zuul/openstack-config/clouds.yaml
+                    chmod 600 /var/lib/zuul/openstack-config/clouds.yaml
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
