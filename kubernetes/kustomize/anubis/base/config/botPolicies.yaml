@@ -118,7 +118,7 @@ bots:
     action: WEIGH
     weight:
       adjust: -5
-  
+
   - name: chrome-without-client-hints
     expression:
       all:
