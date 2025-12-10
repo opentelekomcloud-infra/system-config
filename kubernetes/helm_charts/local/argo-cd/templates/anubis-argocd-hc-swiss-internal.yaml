@@ -11,7 +11,7 @@ spec:
   source:
     path: kubernetes/kustomize/anubis/overlays/prod/helpcenter_swiss_internal
     repoURL: https://github.com/opentelekomcloud-infra/system-config
-    targetRevision: anubis-hc
+    targetRevision: main
   syncPolicy:
     automated:
       prune: true
