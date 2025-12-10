@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: anubis
+spec:
+  template:
+    spec:
+      containers:
+        - name: anubis
+          env:
+            - name: TARGET
+              value: "http://document-hosting:8080"

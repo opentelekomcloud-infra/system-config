@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: anubis
+  namespace: argocd
+spec:
+  destination:
+    namespace: helpcenter-swiss-public
+    server: https://192.168.170.211:5443
+  project: infra
+  source:
+    path: kubernetes/kustomize/anubis/overlays/prod/helpcenter_swiss_public
+    repoURL: https://github.com/opentelekomcloud-infra/system-config
+    targetRevision: anubis-hc
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true

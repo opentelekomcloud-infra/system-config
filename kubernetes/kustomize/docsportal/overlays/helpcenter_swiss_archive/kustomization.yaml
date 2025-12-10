@@ -54,6 +54,12 @@ patches:
           - hosts:
               - docs-archive.sc.otc.t-systems.com
             secretName: helpcenter-swiss-archive-cert
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
+        value: anubis
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/port/number
+        value: 8080
     target:
       group: networking.k8s.io
       kind: Ingress
