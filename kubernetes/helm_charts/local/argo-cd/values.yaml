@@ -97,3 +97,19 @@ applications:
       path: github/system-config/kubernetes/helm_charts/upstream/sealed-secrets
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: anubis-cpn
+    clusters: [otcinfra]
+    config:
+      namespace: helpcenter-swiss-beta
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'anubis-hc'
+      path: kubernetes/kustomize/anubis/overlays/prod/helpcenter_swiss_beta/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
