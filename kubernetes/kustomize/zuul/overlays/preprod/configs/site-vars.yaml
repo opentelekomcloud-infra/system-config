@@ -15,8 +15,3 @@ zuul_site_upload_logs: true
 ansible_env:
   OS_CLIENT_CONFIG_FILE: /var/run/zuul/openstack/clouds.yaml
 
-# Trusted read-only paths accessible in bubblewrap sandbox
-# Required for post-run playbooks to access clouds.yaml for log upload
-executor:
-  trusted_ro_paths: "/var/lib/zuul/openstack-config"
-
