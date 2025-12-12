@@ -46,4 +46,4 @@ secretGenerator:
 images:
   - name: umami
     newName: ghcr.io/umami-software/umami
-    newTag: "3.0.1"
+    newTag: "3.0.3"
