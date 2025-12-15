@@ -101,7 +101,7 @@ spec:
       spec:
         accessModes:
           - "ReadWriteOnce"
-        storageClassName: "csi-disk"
+        storageClassName: "csi-disk-retain"
         resources:
           requests:
             storage: "80G"

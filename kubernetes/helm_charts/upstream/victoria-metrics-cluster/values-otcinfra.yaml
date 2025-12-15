@@ -331,7 +331,7 @@ victoria-metrics-cluster:
       name: vmstorage-volume
       mountPath: /storage
       size: 300Gi
-      storageClassName: "csi-disk"
+      storageClassName: "csi-disk-retain"
     service:
       servicePort: 8482
       vminsertPort: 8400
