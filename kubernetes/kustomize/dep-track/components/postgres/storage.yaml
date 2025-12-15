@@ -5,7 +5,7 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: csi-disk
+  storageClassName: csi-disk-retain
   capacity:
     storage: 2G
   accessModes:
@@ -18,7 +18,7 @@ kind: PersistentVolumeClaim
 metadata:
   name: postgres-storage-claim
 spec:
-  storageClassName: csi-disk
+  storageClassName: csi-disk-retain
   accessModes:
     - ReadWriteOnce
   resources:

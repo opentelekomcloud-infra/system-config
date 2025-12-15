@@ -115,4 +115,4 @@ outline:
       persistence:
         enabled: true
         size: 50Gi
-        storageClass: "csi-disk"
+        storageClass: "csi-disk-retain"
