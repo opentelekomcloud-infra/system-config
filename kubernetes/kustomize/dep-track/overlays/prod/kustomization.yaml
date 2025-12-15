@@ -46,7 +46,7 @@ patches:
       - op: replace
         path: /spec/volumeClaimTemplates/0/spec/storageClassName
         value:
-          "csi-disk"
+          "csi-disk-retain"
       - op: replace
         path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
         value:

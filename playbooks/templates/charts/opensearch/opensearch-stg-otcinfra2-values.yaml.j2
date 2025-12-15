@@ -10,7 +10,7 @@ ingress:
       hosts:
         - "{{ chart.opensearch_fqdn }}"
 persistence:
-  storageClass: csi-disk
+  storageClass: csi-disk-retain
   size: 10Gi
   annotations:
     everest.io/disk-volume-type: sas

@@ -20,7 +20,7 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: csi-disk
+          storageClassName: csi-disk-retain
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -69,7 +69,7 @@ prometheus:
   extraSecret:
     name: basic-auth
     data:
-      auth: "{{ chart.prometheus_basic_auth_credentials }}" 
+      auth: "{{ chart.prometheus_basic_auth_credentials }}"
   ingress:
     enabled: true
     ingressClassName: nginx
@@ -94,7 +94,7 @@ prometheus:
     storageSpec:
       volumeClaimTemplate:
         spec:
-          storageClassName: csi-disk
+          storageClassName: csi-disk-retain
           accessModes: ["ReadWriteOnce"]
           resources:
             requests:
@@ -247,7 +247,7 @@ additionalPrometheusRulesMap:
         labels:
           severity: warning
         annotations:
-          summary: Blackbox probe slow HTTP 
+          summary: Blackbox probe slow HTTP
           description: 'HTTP request took more than 1s for {{ $labels.instance }}'
       - alert: BlackboxProbeSlowPing
         expr: avg_over_time(probe_icmp_duration_seconds[1m]) > 1
@@ -317,7 +317,7 @@ grafana:
   adminPassword: "{{ chart.grafana_admin_password }}"
   persistence:
     enabled: true
-    storageClassName: csi-disk
+    storageClassName: csi-disk-retain
     size: 5Gi
     accessModes: ["ReadWriteOnce"]
 defaultRules:

@@ -23,7 +23,7 @@ zookeeper:
   vault_zookeeper_server_cert_secret_name: "tls/zk_server"
   vault_zookeeper_client_cert_secret_name: "tls/zk_client"
 zookeeper_headless_svc_name: "zookeeper-headless"
-zookeeper_pvc_scn: "csi-disk"
+zookeeper_pvc_scn: "csi-disk-retain"
 zookeeper_pvc_size: "5Gi"
 
 zookeeper_vault_agent_resources:
