@@ -75,6 +75,7 @@ spec:
         name: cpn-backend-persistent-storage
       spec:
         accessModes: ["ReadWriteOnce"]
+        storageClassName: csi-disk-retain
         resources:
           requests:
             storage: 300Gi
