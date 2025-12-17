@@ -2,6 +2,12 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-storage-claim
+  labels:
+    topology.kubernetes.io/zone: eu-de-02
+  annotations:
+    everest.io/disk-volume-type: "SAS"
+    everest.io/disk-mode: "SCSI"
+    everest.io/enterprise-project-id: "0"
 spec:
   storageClassName: csi-disk-retain
   volumeName: pvc-0e1a9673-f7be-4ad5-9fd5-bcf4f4fb727b

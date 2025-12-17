@@ -46,6 +46,20 @@ patches:
         path: /spec/template/spec/serviceAccount
         value:
           "dependencytrack"
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          topology.kubernetes.io/zone: "eu-de-03"
+      - op: add
+        path: /spec/volumeClaimTemplates/0/metadata/labels
+        value:
+          topology.kubernetes.io/zone: "eu-de-03"
+      - op: add
+        path: /spec/volumeClaimTemplates/0/metadata/annotations
+        value:
+          everest.io/disk-volume-type: "SAS"
+          everest.io/disk-mode: "SCSI"
+          everest.io/enterprise-project-id: "0"
       - op: replace
         path: /spec/volumeClaimTemplates/0/spec/storageClassName
         value:
