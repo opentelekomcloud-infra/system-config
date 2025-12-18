@@ -160,6 +160,7 @@ grafana:
     type: pvc
     enabled: true
     storageClassName: csi-disk-retain
+    existingClaim: grafana-otcinfra
     accessModes:
       - ReadWriteOnce
     size: 1Gi
