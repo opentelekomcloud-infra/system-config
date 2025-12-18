@@ -90,25 +90,18 @@
                     subPath: "config.yaml"
                   - name: "maubot-data"
                     mountPath: "{{ maubot.data_dir }}"
+                    subPath: "maubot"
                 image: "{{ maubot.image if maubot.image is defined else maubot_image }}"
             volumes:
               - name: "maubot-config"
                 configMap:
                   name: "{{ maubot_cm_name }}"
                   defaultMode: 420
-        volumeClaimTemplates:
-          - kind: "PersistentVolumeClaim"
-            apiVersion: "v1"
-            metadata:
-              name: "maubot-data"
-            spec:
-              accessModes:
-                - "ReadWriteMany"
-              resources:
-                requests:
-                  storage: "{{ maubot_pvc_size }}"
-              storageClassName: "{{ maubot_pvc_scn }}"
-              volumeMode: "Filesystem"
+              - name: "maubot-data"
+                nfs:
+                  server: "192.168.170.163"
+                  path: "/"
+                  readOnly: false
 
 # - name: Create maubot Ingress
 #   kubernetes.core.k8s:
