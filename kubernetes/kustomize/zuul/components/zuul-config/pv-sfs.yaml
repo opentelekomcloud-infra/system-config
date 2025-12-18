@@ -16,3 +16,4 @@ spec:
     server: 192.168.21.191
     path: /
   persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-sfsturbo-retain

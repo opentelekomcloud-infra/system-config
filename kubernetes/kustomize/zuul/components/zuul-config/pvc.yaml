@@ -12,4 +12,4 @@ spec:
     requests:
       storage: 500Gi
   volumeName: zuul-config-sfs-turbo
-  storageClassName: ""
+  storageClassName: csi-sfsturbo-retain

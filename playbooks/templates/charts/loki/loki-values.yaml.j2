@@ -42,16 +42,8 @@ write:
 backend:
   persistence:
     enabled: true
-    storageClass: null
-    size: null
-  extraVolumes:
-    - name: loki-data-nfs
-      nfs:
-        server: 192.168.170.79
-        path: /loki
-  extraVolumeMounts:
-    - name: loki-data-nfs
-      mountPath: /var/loki
+    storageClass: csi-disk-retain
+    size: 10Gi
   resources:
     requests:
       cpu: 200m

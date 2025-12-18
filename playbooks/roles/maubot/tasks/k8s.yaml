@@ -50,6 +50,60 @@
           app.kubernetes.io/name: "maubot"
           app.kubernetes.io/instance: "{{ instance }}"
 
+- name: Create maubot SFS Turbo PersistentVolume
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "maubot-sfs-turbo"
+    kind: "PersistentVolume"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        capacity:
+          storage: "500Gi"
+        accessModes:
+          - ReadWriteMany
+        mountOptions:
+          - vers=3
+          - nolock
+          - noresvport
+          - timeo=600
+        nfs:
+          server: "192.168.170.163"
+          path: "/"
+        persistentVolumeReclaimPolicy: "Retain"
+        storageClassName: "csi-sfsturbo-retain"
+
+- name: Create maubot SFS Turbo PersistentVolumeClaim
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "maubot-sfs-turbo"
+    kind: "PersistentVolumeClaim"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: "500Gi"
+        volumeName: "maubot-sfs-turbo"
+        storageClassName: "csi-sfsturbo-retain"
+
 - name: Create maubot StatefulSet
   kubernetes.core.k8s:
     context: "{{ context }}"
@@ -98,10 +152,8 @@
                   name: "{{ maubot_cm_name }}"
                   defaultMode: 420
               - name: "maubot-data"
-                nfs:
-                  server: "192.168.170.163"
-                  path: "/"
-                  readOnly: false
+                persistentVolumeClaim:
+                  claimName: "maubot-sfs-turbo"
 
 # - name: Create maubot Ingress
 #   kubernetes.core.k8s:
