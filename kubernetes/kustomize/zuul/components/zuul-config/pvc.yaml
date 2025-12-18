@@ -6,9 +6,10 @@ metadata:
     app.kubernetes.io/name: "zuul"
     app.kubernetes.io/component: "zuul-config"
 spec:
-  storageClassName: "csi-nas"
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 1Gi
+      storage: 500Gi
+  volumeName: zuul-config-sfs-turbo
+  storageClassName: csi-sfsturbo-retain

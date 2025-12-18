@@ -187,7 +187,7 @@ spec:
         name: datadir
       spec:
         accessModes: [ "ReadWriteOnce" ]
-        storageClassName: "{{ zookeeper_pvc_scn | default('csi-disk') }}"
+        storageClassName: "{{ zookeeper_pvc_scn | default('csi-disk-retain') }}"
         resources:
           requests:
             storage: "{{ zookeeper_pvc_size | default('1Gi') }}"

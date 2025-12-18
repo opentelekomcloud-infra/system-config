@@ -15,6 +15,8 @@ spec:
     spec:
       serviceAccountName: cpn
       terminationGracePeriodSeconds: 10
+      nodeSelector:
+        topology.kubernetes.io/zone: eu-de-02
       initContainers:
       - name: "vault-agent"
         command:
@@ -73,8 +75,16 @@ spec:
       kind: PersistentVolumeClaim
       metadata:
         name: cpn-backend-persistent-storage
+        labels:
+          topology.kubernetes.io/zone: eu-de-02
+        annotations:
+          everest.io/disk-volume-type: "SAS"
+          everest.io/disk-mode: "SCSI"
+          everest.io/enterprise-project-id: "0"
       spec:
         accessModes: ["ReadWriteOnce"]
+        storageClassName: csi-disk-retain
+        volumeName: pvc-5c569e31-4f5f-420f-8d09-9ea8624ae166
         resources:
           requests:
             storage: 300Gi

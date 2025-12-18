@@ -50,6 +50,60 @@
           app.kubernetes.io/name: "maubot"
           app.kubernetes.io/instance: "{{ instance }}"
 
+- name: Create maubot SFS Turbo PersistentVolume
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "maubot-sfs-turbo"
+    kind: "PersistentVolume"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        capacity:
+          storage: "500Gi"
+        accessModes:
+          - ReadWriteMany
+        mountOptions:
+          - vers=3
+          - nolock
+          - noresvport
+          - timeo=600
+        nfs:
+          server: "192.168.170.163"
+          path: "/"
+        persistentVolumeReclaimPolicy: "Retain"
+        storageClassName: "csi-sfsturbo-retain"
+
+- name: Create maubot SFS Turbo PersistentVolumeClaim
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "maubot-sfs-turbo"
+    kind: "PersistentVolumeClaim"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "maubot"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: "500Gi"
+        volumeName: "maubot-sfs-turbo"
+        storageClassName: "csi-sfsturbo-retain"
+
 - name: Create maubot StatefulSet
   kubernetes.core.k8s:
     context: "{{ context }}"
@@ -90,25 +144,16 @@
                     subPath: "config.yaml"
                   - name: "maubot-data"
                     mountPath: "{{ maubot.data_dir }}"
+                    subPath: "maubot"
                 image: "{{ maubot.image if maubot.image is defined else maubot_image }}"
             volumes:
               - name: "maubot-config"
                 configMap:
                   name: "{{ maubot_cm_name }}"
                   defaultMode: 420
-        volumeClaimTemplates:
-          - kind: "PersistentVolumeClaim"
-            apiVersion: "v1"
-            metadata:
-              name: "maubot-data"
-            spec:
-              accessModes:
-                - "ReadWriteMany"
-              resources:
-                requests:
-                  storage: "{{ maubot_pvc_size }}"
-              storageClassName: "{{ maubot_pvc_scn }}"
-              volumeMode: "Filesystem"
+              - name: "maubot-data"
+                persistentVolumeClaim:
+                  claimName: "maubot-sfs-turbo"
 
 # - name: Create maubot Ingress
 #   kubernetes.core.k8s:

@@ -16,6 +16,8 @@ spec:
     spec:
       terminationGracePeriodSeconds: 10
       serviceAccount: "dependencytrack"
+      nodeSelector:
+        topology.kubernetes.io/zone: "eu-de-02"
 
       initContainers:
         - name: "vault-agent"
@@ -26,7 +28,7 @@ spec:
           env:
             - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-          image: "vault"
+          image: "hashicorp/vault"
           resources:
             limits:
               cpu: "100m"
@@ -57,6 +59,8 @@ spec:
               value: "/secrets/postgres-passwd"
             - name: "POSTGRES_USER_NAME"
               value: "dependencytrack"
+            - name: "PGDATA"
+              value: "/var/lib/postgresql/data/pgdata"
           readinessProbe:
             tcpSocket:
               port: 5432

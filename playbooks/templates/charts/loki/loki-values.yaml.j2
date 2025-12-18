@@ -22,7 +22,7 @@ table_manager:
 read:
   replicas: 1
   persistence:
-    storageClass: csi-disk
+    storageClass: csi-disk-retain
   resources:
     requests:
       cpu: 200m
@@ -32,7 +32,7 @@ read:
 write:
   replicas: 1
   persistence:
-    storageClass: csi-disk
+    storageClass: csi-disk-retain
   resources:
     requests:
       cpu: 200m
@@ -41,7 +41,9 @@ write:
       memory: 3000Mi
 backend:
   persistence:
-    storageClass: csi-disk
+    enabled: true
+    storageClass: csi-disk-retain
+    size: 10Gi
   resources:
     requests:
       cpu: 200m
@@ -120,7 +122,7 @@ minio:
   rootPassword: "{{ chart.loki_minio_root_password }}"
   persistence:
     size: 400Gi
-    storageClass: csi-disk
+    storageClass: csi-disk-retain
   resources:
     requests:
       cpu: 200m

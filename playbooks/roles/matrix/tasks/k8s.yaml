@@ -71,6 +71,60 @@
           app.kubernetes.io/name: "matrix"
           app.kubernetes.io/instance: "{{ instance }}"
 
+- name: Create matrix SFS Turbo PersistentVolume
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    name: "matrix-sfs-turbo"
+    kind: "PersistentVolume"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        capacity:
+          storage: "500Gi"
+        accessModes:
+          - ReadWriteMany
+        mountOptions:
+          - vers=3
+          - nolock
+          - noresvport
+          - timeo=600
+        nfs:
+          server: "192.168.170.163"
+          path: "/"
+        persistentVolumeReclaimPolicy: "Retain"
+        storageClassName: "csi-sfsturbo-retain"
+
+- name: Create matrix SFS Turbo PersistentVolumeClaim
+  kubernetes.core.k8s:
+    context: "{{ context }}"
+    state: "{{ state }}"
+    namespace: "{{ namespace }}"
+    name: "matrix-sfs-turbo"
+    kind: "PersistentVolumeClaim"
+    api_version: "v1"
+    apply: "yes"
+    definition:
+      metadata:
+        labels:
+          app.kubernetes.io/name: "matrix"
+          app.kubernetes.io/instance: "{{ instance }}"
+          app.kubernetes.io/managed-by: "system-config"
+      spec:
+        accessModes:
+          - ReadWriteMany
+        resources:
+          requests:
+            storage: "500Gi"
+        volumeName: "matrix-sfs-turbo"
+        storageClassName: "csi-sfsturbo-retain"
+
 - name: Create matrix StatefulSet
   kubernetes.core.k8s:
     context: "{{ context }}"
@@ -125,25 +179,16 @@
                     mountPath: "/matrix"
                   - name: "matrix-data"
                     mountPath: "/data"
+                    subPath: "matrix"
                 image: "{{ matrix.image if matrix.image is defined else matrix_image }}"
             volumes:
               - name: "matrix-config"
                 configMap:
                   name: "{{ matrix_cm_name }}"
                   defaultMode: 420
-        volumeClaimTemplates:
-          - kind: "PersistentVolumeClaim"
-            apiVersion: "v1"
-            metadata:
-              name: "matrix-data"
-            spec:
-              accessModes:
-                - "ReadWriteMany"
-              resources:
-                requests:
-                  storage: "{{ matrix_pvc_size }}"
-              storageClassName: "{{ matrix_pvc_scn }}"
-              volumeMode: "Filesystem"
+              - name: "matrix-data"
+                persistentVolumeClaim:
+                  claimName: "matrix-sfs-turbo"
 
 - name: Create matrix Ingress
   kubernetes.core.k8s:
