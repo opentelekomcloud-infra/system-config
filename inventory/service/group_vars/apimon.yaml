@@ -91,7 +91,7 @@ apimon_instances:
             epmon_designate, epmon_dws, epmon_ed, epmon_glance,
             epmon_keystone, epmon_kms, epmon_mrs, epmon_nat, epmon_network,
             epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
-            epmon_skip_wks, epmon_smn] | combine }}"
+            epmon_skip_wks, epmon_smn, epmon_skip_plas] | combine }}"
       - production_eu-nl:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
@@ -329,7 +329,7 @@ apimon_instances:
             epmon_designate, epmon_dws, epmon_ed, epmon_glance, epmon_keystone,
             epmon_kms, epmon_mrs, epmon_nat, epmon_network,
             epmon_heat, epmon_rds, epmon_rest, epmon_sdrs, epmon_sfs,
-            epmon_skip_wks, epmon_smn] | combine }}"
+            epmon_skip_wks, epmon_smn, epmon_skip_plas] | combine }}"
       - production_eu-nl:
          service_override: "{{ [epmon_antiddos, epmon_as, epmon_cce,
             epmon_ces, epmon_compute, epmon_cinder, epmon_css, epmon_css,
@@ -754,7 +754,7 @@ epmon_network:
       - "/floatingips"
       - "/security-groups"
       - "/subnetpools"
-epmon_plas:
+epmon_skip_plas:
   plas: {}
 epmon_swift:
   object: {}
