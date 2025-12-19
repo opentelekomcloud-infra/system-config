@@ -754,6 +754,8 @@ epmon_network:
       - "/floatingips"
       - "/security-groups"
       - "/subnetpools"
+epmon_plas:
+  plas: {}
 epmon_swift:
   object: {}
   object-store:
