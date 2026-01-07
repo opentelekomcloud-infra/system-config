@@ -190,6 +190,7 @@ resources:
   - crb.yaml
   - crb_admin.yaml
   - network-policy.yaml
+  - pv-zuul-config.yaml
 
 # ArgoCD Vault integration replaces vault agent
 # Secrets will be managed through ArgoCD vault plugin

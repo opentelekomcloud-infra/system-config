@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zuul-config-sfs-turbo
+spec:
+  capacity:
+    storage: 500Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    # NFSv3 with performance optimizations for git operations
+    - vers=3
+    - nolock
+    - noresvport
+    # Performance tuning for many small files (git repos)
+    - noatime           # Don't update access times
+    - nodiratime        # Don't update directory access times
+    - rsize=1048576     # 1MB read size (max for better throughput)
+    - wsize=1048576     # 1MB write size (max for better throughput)
+    - timeo=600         # Timeout increased to 60 seconds
+    - retrans=2         # Number of retries before error
+    - hard              # Hard mount (don't give up)
+    - actimeo=120       # Attribute cache timeout (2 minutes for better caching)
+  nfs:
+    path: /
+    server: 192.168.150.233
