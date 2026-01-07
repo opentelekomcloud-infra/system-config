@@ -8,6 +8,7 @@ spec:
     storage: 500Gi
   accessModes:
     - ReadWriteMany
+  storageClassName: csi-sfsturbo
   persistentVolumeReclaimPolicy: Retain
   mountOptions:
     # NFSv3 with performance optimizations for git operations
