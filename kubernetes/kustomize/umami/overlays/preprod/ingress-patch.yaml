@@ -9,6 +9,18 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/limit-rps: "50"
     nginx.ingress.kubernetes.io/limit-connections: "25"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "10"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    # Block common vulnerability scanner paths
+    nginx.ingress.kubernetes.io/server-snippet: |
+      location ~* \.(php|jsp|asp|aspx)$ {
+        return 403;
+      }
+      location ~* /(ajax|protocol|app/rest|wp-admin|admin|phpmyadmin) {
+        return 403;
+      }
 spec:
   rules:
     - host: analytics.eco-preprod.tsi-dev.otc-service.com
