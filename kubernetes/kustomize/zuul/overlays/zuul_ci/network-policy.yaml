@@ -1,0 +1,123 @@
+---
+# NetworkPolicy to restrict zuul-web pod access
+# Limits the impact of path traversal vulnerability
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zuul-web-egress
+  namespace: zuul-ci
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zuul
+      app.kubernetes.io/component: zuul-web
+  policyTypes:
+    - Egress
+    - Ingress
+  
+  # Allow ingress from nginx ingress controller
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+      ports:
+        - protocol: TCP
+          port: 8080
+        - protocol: TCP
+          port: 9000
+        - protocol: TCP
+          port: 9091
+  
+  # Restrict egress to only necessary services
+  egress:
+    # DNS resolution
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    
+    # Zookeeper within same namespace
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: zuul
+              app.kubernetes.io/component: zookeeper
+      ports:
+        - protocol: TCP
+          port: 2281
+    
+    # Vault (external)
+    - to:
+        - namespaceSelector: {}
+      ports:
+        - protocol: TCP
+          port: 8200
+    
+    # PostgreSQL database (external IP)
+    - to:
+        - ipBlock:
+            cidr: 192.168.21.246/32
+      ports:
+        - protocol: TCP
+          port: 5432
+    
+    # GitHub webhooks and API
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+            except:
+              - 10.0.0.0/8
+              - 172.16.0.0/12
+              - 192.168.0.0/16
+      ports:
+        - protocol: TCP
+          port: 443
+
+---
+# NetworkPolicy for other zuul components
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: zuul-default
+  namespace: zuul-ci
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: zuul
+  policyTypes:
+    - Ingress
+    - Egress
+  
+  # Allow all ingress within namespace
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: zuul
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: default
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx
+  
+  # Allow all egress (less restrictive for executors/schedulers)
+  egress:
+    - to:
+        - namespaceSelector: {}
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0

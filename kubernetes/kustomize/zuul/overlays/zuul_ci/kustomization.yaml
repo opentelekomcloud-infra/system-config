@@ -22,6 +22,9 @@ configMapGenerator:
     behavior: "replace"
     files:
       - "configs/site-vars.yaml"
+  - name: "zuul-web-security-proxy"
+    files:
+      - "nginx.conf=configs/security-proxy-nginx.conf"
 
 labels:
   - includeSelectors: true
@@ -31,7 +34,7 @@ labels:
 images:
   - name: "busybox"
     newName: "quay.io/opentelekomcloud/busybox"
-    newTag: "1.36.0-musl"
+    newTag: "1.37.0"
 
   - name: "hashicorp/vault"
     newName: "quay.io/opentelekomcloud/vault"
@@ -55,11 +58,11 @@ images:
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
     newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "8.2.0"
+    newTag: "11.0.0"
 
 patches:
   # Patch zookeeper (storage class, size and count)
@@ -135,7 +138,15 @@ patches:
       group: apps
       version: v1
 
-  # Patching web
+  # Patching web - Add security proxy sidecar
+  - path: patch-zuul-web-security.yaml
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul,app.kubernetes.io/component=zuul-web"
+      group: apps
+      kind: Deployment
+      version: v1
+
+  # Patching web ingress - Update service port and remove modsecurity
   - patch: |-
       - op: replace
         path: /spec/ingressClassName
@@ -143,6 +154,9 @@ patches:
       - op: replace
         path: /spec/rules/0/host
         value: zuul.otc-service.com
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/port/number
+        value: 8080
       - op: replace
         path: /metadata/annotations
         value:
@@ -162,10 +176,22 @@ patches:
       name: zuul-web
       version: v1
 
+  # Patch zuul-web service to point to security proxy
+  - patch: |-
+      - op: replace
+        path: /spec/ports/0/targetPort
+        value: 8080
+    target:
+      group: ""
+      kind: Service
+      name: zuul-web
+      version: v1
+
 resources:
   - ../../base
   - crb.yaml
   - crb_admin.yaml
+  - network-policy.yaml
 
 secretGenerator:
   # Replacing general secrets to be able to trigger updates
