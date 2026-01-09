@@ -22,6 +22,7 @@ clouds:
       project_name: "{{ nodepool_pool1_project }}"
       user_domain_name: "{{ nodepool_pool1_user_domain_name }}"
     private: true
+    volume_api_version: '2'
   otcci-pool2:
     auth:
       auth_url: "https://iam.eu-de.otc.t-systems.com/v3"
@@ -30,6 +31,7 @@ clouds:
       project_name: "{{ nodepool_pool2_project}}"
       user_domain_name: "{{ nodepool_pool2_user_domain_name }}"
     private: true
+    volume_api_version: '2'
   otcci-pool3:
     auth:
       auth_url: "https://iam.eu-de.otc.t-systems.com/v3"
@@ -38,3 +40,4 @@ clouds:
       project_name: "{{ nodepool_pool3_project }}"
       user_domain_name: "{{ nodepool_pool3_user_domain_name }}"
     private: true
+    volume_api_version: '2'
