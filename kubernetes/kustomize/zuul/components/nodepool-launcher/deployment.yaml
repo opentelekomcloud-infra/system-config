@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: zuul
     app.kubernetes.io/component: "nodepool-launcher"
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: "zuul"

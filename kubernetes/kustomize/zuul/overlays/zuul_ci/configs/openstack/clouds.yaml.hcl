@@ -26,7 +26,6 @@ clouds:
        project_name: "{{ .Data.data.project_name }}"
 {{- end }}
     private: true
-    disable_volume_api: true
   otcci-pool2:
     auth:
 {{- with secret "secret/clouds/otcci_nodepool_pool2" }}
@@ -39,7 +38,6 @@ clouds:
        project_name: "{{ .Data.data.project_name }}"
 {{- end }}
     private: true
-    disable_volume_api: true
   otcci-pool3:
     auth:
 {{- with secret "secret/clouds/otcci_nodepool_pool3" }}
@@ -52,4 +50,3 @@ clouds:
        project_name: "{{ .Data.data.project_name }}"
 {{- end }}
     private: true
-    disable_volume_api: true

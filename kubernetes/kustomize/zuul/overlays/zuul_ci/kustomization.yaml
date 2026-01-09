@@ -58,11 +58,11 @@ images:
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
-    newTag: "11.0.0"
+    newTag: "8.2.0"
 
   - name: "zuul/nodepool-launcher"
     newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "11.0.0"
+    newTag: "8.2.0"
 
 patches:
   # Patch zookeeper (storage class, size and count)
@@ -191,7 +191,6 @@ resources:
   - ../../base
   - crb.yaml
   - crb_admin.yaml
-  - network-policy.yaml
 
 secretGenerator:
   # Replacing general secrets to be able to trigger updates
