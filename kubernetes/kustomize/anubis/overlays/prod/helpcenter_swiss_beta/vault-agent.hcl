@@ -38,8 +38,8 @@ template {
 {{- end }}
   challenge:
     algorithm: fast
-    difficulty: 2
-    report_as: 2
+    difficulty: 4
+    report_as: 4
 {{- end }}
 EOT
   perms = "0664"
