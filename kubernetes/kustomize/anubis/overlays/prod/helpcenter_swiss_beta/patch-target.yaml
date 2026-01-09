@@ -6,43 +6,47 @@ spec:
   template:
     spec:
       serviceAccountName: anubis-vault-auth
-      volumes:
-        - name: secrets
-          emptyDir:
-            medium: Memory
-        - name: vault-config
-          configMap:
-            name: vault-agent-config
-        - name: vault-token
-          defaultMode: 420
-          projected:
-            sources:
-              - serviceAccountToken:
-                  path: vault-token
-                  expirationSeconds: 7200
-
       initContainers:
-        - name: vault-agent-init
-          image: hashicorp/vault:latest
-          command: ["/bin/vault"]
-          args:
-            - agent
-            - -config=/vault/config/vault-agent.hcl
-            - -exit-after-auth
+        - name: "vault-agent"
+          command:
+            - "sh"
+            - "-c"
+            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
           env:
-            - name: VAULT_ADDR
+            - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-            - name: SKIP_CHOWN
-              value: "true"
-            - name: SKIP_SETCAP
-              value: "true"
+          image: "hashicorp/vault"
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
           volumeMounts:
-            - name: vault-config
-              mountPath: /vault/config
-            - name: secrets
-              mountPath: /secrets
-            - name: vault-token
-              mountPath: /var/run/secrets/tokens
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: "/secrets"
+              name: "secrets"
+            - mountPath: "/var/run/secrets/tokens"
+              name: "k8-tokens"
+              readOnly: true
+      volumes:
+        - name: vault-agent-config
+          configMap:
+            defaultMode: 420
+            name: vault-agent-config
+
+        - name: secrets
+          emptyDir: {}
+
+        - name: "k8-tokens"
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: "vault-token"
 
       containers:
         - name: anubis
