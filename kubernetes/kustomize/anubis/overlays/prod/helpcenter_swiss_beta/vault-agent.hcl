@@ -31,11 +31,9 @@ template {
 {{- with secret "secret/data/anubis/ip-whitelist" }}
 - name: whitelisted-ips-challenge
   action: CHALLENGE
-  expression:
-    any:
-{{- $ips := (.Data.data.ips | parseJSON) }}
-{{- range $ip := $ips }}
-      - 'clientIP == "{{ $ip }}"'
+  remote_addresses:
+{{- range $cidr := .Data.data.ips }}
+      - {{ $cidr }}
 {{- end }}
   challenge:
     algorithm: fast
