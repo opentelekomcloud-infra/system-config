@@ -20,9 +20,11 @@ spec:
                   path: vault-token
                   expirationSeconds: 7200
                   audience: vault
+
       initContainers:
         - name: vault-agent-init
           image: hashicorp/vault:latest
+          command: ["/bin/vault"]
           args:
             - agent
             - -config=/vault/config/vault-agent.hcl
@@ -30,6 +32,10 @@ spec:
           env:
             - name: VAULT_ADDR
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+            - name: SKIP_CHOWN
+              value: "true"
+            - name: SKIP_SETCAP
+              value: "true"
           volumeMounts:
             - name: vault-config
               mountPath: /vault/config
@@ -52,16 +58,21 @@ spec:
               readOnly: true
           env:
             - name: TARGET
-              value: "http://document-hosting:8080"
+              value: "http://helpcenter-swiss-frontend"
 
         - name: vault-agent-sidecar
           image: hashicorp/vault:latest
+          command: ["/bin/vault"]
           args:
             - agent
             - -config=/vault/config/vault-agent.hcl
           env:
             - name: VAULT_ADDR
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+            - name: SKIP_CHOWN
+              value: "true"
+            - name: SKIP_SETCAP
+              value: "true"
           volumeMounts:
             - name: vault-config
               mountPath: /vault/config
