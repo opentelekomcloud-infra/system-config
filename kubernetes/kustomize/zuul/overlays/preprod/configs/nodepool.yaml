@@ -53,10 +53,10 @@ providers:
         labels:
           - name: pod-debian
             type: pod
-            image: python:3.11-slim-bookworm
+            image: quay.io/opentelekomcloud/python-tox:latest
             cpu: 1
             memory: 1024
-            python-path: /usr/local/bin/python3
+            python-path: /usr/bin/python3
             # Mount shared NFS storage directly (not via PVC)
             # Direct NFS mount works across all namespaces
             volumes:
