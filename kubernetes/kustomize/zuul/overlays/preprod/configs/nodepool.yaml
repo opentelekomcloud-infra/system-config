@@ -57,6 +57,7 @@ providers:
             cpu: 1
             memory: 1024
             python-path: /usr/bin/python3
+            shell-type: /bin/bash
             # Mount shared NFS storage directly (not via PVC)
             # Direct NFS mount works across all namespaces
             volumes:
