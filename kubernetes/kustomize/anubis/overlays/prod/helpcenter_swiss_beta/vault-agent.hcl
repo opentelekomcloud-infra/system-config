@@ -2,7 +2,7 @@ pid_file = "/secrets/pidfile"
 
 auto_auth {
     method "kubernetes" {
-        mount_path = "auth/kubernetes_otcinfra2"
+        mount_path = "auth/kubernetes_otcinfra1"
         config = {
             role = "anubis-service"
             token_path = "/var/run/secrets/tokens/vault-token"
