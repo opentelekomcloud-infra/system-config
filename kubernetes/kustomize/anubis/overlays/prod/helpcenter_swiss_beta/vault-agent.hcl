@@ -1,4 +1,4 @@
-pid_file = "/secrets/pidfile"
+pid_file = "/home/vault/pidfile"
 
 auto_auth {
     method "kubernetes" {
@@ -10,7 +10,7 @@ auto_auth {
     }
     sink "file" {
         config = {
-            path = "/secrets/.vault-token"
+            path = "/home/vault/.vault-token"
         }
     }
 }
