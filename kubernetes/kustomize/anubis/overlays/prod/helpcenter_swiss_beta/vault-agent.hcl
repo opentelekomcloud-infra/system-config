@@ -4,7 +4,7 @@ auto_auth {
     method "kubernetes" {
         mount_path = "auth/kubernetes_otcinfra1"
         config = {
-            role = "analytics"
+            role = "anubis-vault-auth"
             token_path = "/var/run/secrets/tokens/vault-token"
         }
     }
