@@ -1,4 +1,4 @@
-pid_file = "/home/vault/pidfile"
+pid_file = "/secrets/pidfile"
 
 auto_auth {
     method "kubernetes" {
