@@ -3,13 +3,12 @@
     name: opentelekomcloud-infra/system-config
     check:
       jobs:
-        - otc-tox-linters
-    third-party-check:
-      jobs:
-        - otc-tox-linters
+        - otc-tox-linters:
+            nodeset: pod-debian
     gate:
       jobs:
-        - otc-tox-linters
+        - otc-tox-linters:
+            nodeset: pod-debian
     post:
       jobs:
         - project-cleanup
