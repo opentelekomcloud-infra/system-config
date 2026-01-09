@@ -65,11 +65,19 @@ images:
     newTag: "11.0.0"
 
 patches:
-  # Patch zookeeper (replica count only - volumeClaimTemplates are immutable)
+  # Patch zookeeper (storage class, size and count)
   - patch: |-
       - op: replace
         path: /spec/replicas
         value: 3
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/storageClassName
+        value: "csi-disk-retain"
+
+      - op: add
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: "5Gi"
     target:
       group: apps
       kind: StatefulSet
