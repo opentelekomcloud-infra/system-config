@@ -52,7 +52,7 @@ spec:
               readOnly: true
           env:
             - name: TARGET
-              value: "http://helpcenter-swiss-frontend"
+              value: "http://document-hosting:8080"
 
         - name: vault-agent-sidecar
           image: hashicorp/vault:latest
