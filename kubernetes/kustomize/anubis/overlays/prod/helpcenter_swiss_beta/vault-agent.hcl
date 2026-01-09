@@ -32,8 +32,9 @@ template {
 - name: whitelisted-ips-challenge
   action: CHALLENGE
   remote_addresses:
-{{- range $cidr := .Data.data.ips }}
-      - {{ $cidr }}
+{{- $ips := (.Data.data.ips | parseJSON) }}
+{{- range $ip := $ips }}
+      - {{ $ip }}
 {{- end }}
   challenge:
     algorithm: fast
