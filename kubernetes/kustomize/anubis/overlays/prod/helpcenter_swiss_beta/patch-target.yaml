@@ -5,8 +5,73 @@ metadata:
 spec:
   template:
     spec:
+      serviceAccountName: anubis-vault-auth
+      volumes:
+        - name: secrets
+          emptyDir:
+            medium: Memory
+        - name: vault-config
+          configMap:
+            name: vault-agent-config
+        - name: vault-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  path: vault-token
+                  expirationSeconds: 7200
+                  audience: vault
+      initContainers:
+        - name: vault-agent-init
+          image: hashicorp/vault:latest
+          args:
+            - agent
+            - -config=/vault/config/vault-agent.hcl
+            - -exit-after-auth
+          env:
+            - name: VAULT_ADDR
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          volumeMounts:
+            - name: vault-config
+              mountPath: /vault/config
+            - name: secrets
+              mountPath: /secrets
+            - name: vault-token
+              mountPath: /var/run/secrets/tokens
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
+
       containers:
         - name: anubis
+          volumeMounts:
+            - name: secrets
+              mountPath: "/secrets"
+              readOnly: true
           env:
             - name: TARGET
-              value: "http://document-hosting:8080"
+              value: "http://helpcenter-swiss-frontend"
+
+        - name: vault-agent-sidecar
+          image: hashicorp/vault:latest
+          args:
+            - agent
+            - -config=/vault/config/vault-agent.hcl
+          env:
+            - name: VAULT_ADDR
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          volumeMounts:
+            - name: vault-config
+              mountPath: /vault/config
+            - name: secrets
+              mountPath: /secrets
+            - name: vault-token
+              mountPath: /var/run/secrets/tokens
+          securityContext:
+            allowPrivilegeEscalation: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop: ["ALL"]
