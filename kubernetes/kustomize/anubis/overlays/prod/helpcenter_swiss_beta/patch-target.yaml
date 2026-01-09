@@ -15,6 +15,10 @@ spec:
           env:
             - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          securityContext:
+            runAsUser: 100
+            runAsGroup: 1000
+            fsGroup: 1000
           image: "hashicorp/vault"
           resources:
             limits:
