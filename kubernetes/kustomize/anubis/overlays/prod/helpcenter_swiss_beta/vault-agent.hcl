@@ -33,7 +33,8 @@ template {
   action: CHALLENGE
   expression:
     any:
-{{- range $ip := .Data.data.ips }}
+{{- $ips := (.Data.data.ips | parseJSON) }}
+{{- range $ip := $ips }}
       - 'clientIP == "{{ $ip }}"'
 {{- end }}
   challenge:
@@ -44,3 +45,4 @@ template {
 EOT
   perms = "0664"
 }
+
