@@ -57,24 +57,3 @@ spec:
           env:
             - name: TARGET
               value: "http://helpcenter-swiss-frontend"
-
-        - name: vault-agent-sidecar
-          image: hashicorp/vault:latest
-          command: ["/bin/vault"]
-          args:
-            - agent
-            - -config=/vault/config/vault-agent.hcl
-          env:
-            - name: VAULT_ADDR
-              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-            - name: SKIP_CHOWN
-              value: "true"
-            - name: SKIP_SETCAP
-              value: "true"
-          volumeMounts:
-            - name: vault-config
-              mountPath: /vault/config
-            - name: secrets
-              mountPath: /secrets
-            - name: vault-token
-              mountPath: /var/run/secrets/tokens
