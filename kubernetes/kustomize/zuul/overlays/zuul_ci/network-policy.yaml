@@ -14,7 +14,7 @@ spec:
   policyTypes:
     - Egress
     - Ingress
-  
+
   # Allow ingress from nginx ingress controller
   ingress:
     - from:
@@ -31,7 +31,7 @@ spec:
           port: 9000
         - protocol: TCP
           port: 9091
-  
+
   # Restrict egress to only necessary services
   egress:
     # DNS resolution
@@ -47,7 +47,7 @@ spec:
           port: 53
         - protocol: TCP
           port: 53
-    
+
     # Zookeeper within same namespace
     - to:
         - podSelector:
@@ -57,14 +57,14 @@ spec:
       ports:
         - protocol: TCP
           port: 2281
-    
+
     # Vault (external)
     - to:
         - namespaceSelector: {}
       ports:
         - protocol: TCP
           port: 8200
-    
+
     # PostgreSQL database (external IP)
     - to:
         - ipBlock:
@@ -72,7 +72,7 @@ spec:
       ports:
         - protocol: TCP
           port: 5432
-    
+
     # GitHub webhooks and API
     - to:
         - ipBlock:
@@ -99,7 +99,7 @@ spec:
   policyTypes:
     - Ingress
     - Egress
-  
+
   # Allow all ingress within namespace
   ingress:
     - from:
@@ -113,7 +113,7 @@ spec:
           podSelector:
             matchLabels:
               app.kubernetes.io/name: ingress-nginx
-  
+
   # Allow all egress (less restrictive for executors/schedulers)
   egress:
     - to:
