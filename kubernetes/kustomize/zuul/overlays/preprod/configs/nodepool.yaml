@@ -48,6 +48,7 @@ providers:
   - name: preprod-k8s
     driver: kubernetes
     max-servers: 5
+    context: preprod
     pools:
       - name: default
         labels:
