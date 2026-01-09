@@ -19,7 +19,6 @@ spec:
               - serviceAccountToken:
                   path: vault-token
                   expirationSeconds: 7200
-                  audience: vault
 
       initContainers:
         - name: vault-agent-init
