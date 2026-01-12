@@ -30,3 +30,5 @@
                 - preprod
               extra-config-paths:
                 - zuul.d/preprod
+              exclude-config-paths:
+                - zuul.d/prod
