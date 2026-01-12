@@ -55,6 +55,7 @@ providers:
           - name: pod-debian
             type: pod
             image: quay.io/opentelekomcloud/python-tox:latest
+            image-pull-policy: Always
             cpu: 1
             memory: 1024
             python-path: /usr/bin/python3
