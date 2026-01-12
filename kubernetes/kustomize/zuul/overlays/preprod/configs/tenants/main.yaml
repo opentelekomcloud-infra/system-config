@@ -5,7 +5,6 @@
 - tenant:
     name: preprod
     max-nodes-per-job: 5
-    exclude-unprotected-branches: false
     source:
       github:
         config-projects:
@@ -28,7 +27,3 @@
                 - main
               include-branches:
                 - preprod
-              extra-config-paths:
-                - zuul.d/preprod
-              exclude-config-paths:
-                - zuul.d/prod
