@@ -61,16 +61,16 @@ providers:
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: preprod
-            # Mount shared NFS storage directly (not via PVC)
-            # Direct NFS mount works across all namespaces
+            # Mount shared NFS storage - mount root and access /builds subdirectory
             volumes:
               - name: zuul-builds-shared
                 nfs:
                   server: 192.168.150.233
-                  path: /builds
+                  path: /
             volume-mounts:
               - name: zuul-builds-shared
                 mountPath: /var/lib/zuul/builds
+                subPath: builds
 
 diskimages:
   - name: debian-bookworm
