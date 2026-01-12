@@ -11,4 +11,4 @@ you are interested in the configuration of a particular service, starting at
 ``playbooks/service-<name>.yaml`` will show you how it is configured.
 
 Most services are deployed via containers; many of them are built or customised
-in this repository; see `docker/`.
+in this repository; see ``docker/``.
