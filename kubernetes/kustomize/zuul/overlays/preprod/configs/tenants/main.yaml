@@ -18,9 +18,6 @@
                 - pipeline
                 - nodeset
                 - secret
-              exclude:
-                - pipeline:
-                    name: third-party-check
               load-branch: preprod
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
