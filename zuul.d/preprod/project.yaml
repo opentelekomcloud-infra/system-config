@@ -1,4 +1,5 @@
 ---
+# Testing kubectl exec fix for pod-debian nodeset
 - project:
     name: opentelekomcloud-infra/system-config
     check:
