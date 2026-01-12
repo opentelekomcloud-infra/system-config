@@ -251,6 +251,15 @@ kube-prometheus-stack:
         cert-manager.io/private-key-algorithm: RSA
         cert-manager.io/private-key-size: "4096"
         cert-manager.io/private-key-rotation-policy: Always
+
+        # Block /metrics
+        nginx.ingress.kubernetes.io/server-snippet: |
+          location = /metrics {
+            return 403;
+          }
+          location ^~ /metrics/ {
+            return 403;
+          }
       enabled: true
       hosts:
       - prometheus-mon.infra.eco.tsi-dev.otc-service.com
