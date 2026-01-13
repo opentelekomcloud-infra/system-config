@@ -29,6 +29,9 @@ proxy_backends:
       - "option allbackups"
       - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
+      # Block /debug/vars on graphite-ca
+      - "acl graphite_ca_metrics path_beg /debug/vars"
+      - "http-request deny deny_status 403 if graphite_ca_metrics"
     domain_names:
       - "graphite-ca.eco.tsi-dev.otc-service.com"
     servers:
@@ -58,6 +61,9 @@ proxy_backends:
       - "default-server check weight 100 inter 5s fall 5 rise 1"
       - "http-request set-header Host dashboard.tsi-dev.otc-service.com"
       - 'http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]'
+      # Block /metrics on dashboard
+      - "acl dashboard_metrics path_beg /metrics"
+      - "http-request deny deny_status 403 if dashboard_metrics"
     domain_names:
       - "dashboard.tsi-dev.otc-service.com"
       - "dashboard-de.tsi-dev.otc-service.com"
@@ -80,6 +86,9 @@ proxy_backends:
       - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
       - 'http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]'
+      # Block /metrics on dashboard
+      - "acl dashboard_metrics path_beg /metrics"
+      - "http-request deny deny_status 403 if dashboard_metrics"
     domain_names:
       - "dashboard.eco.tsi-dev.otc-service.com"
     servers:
