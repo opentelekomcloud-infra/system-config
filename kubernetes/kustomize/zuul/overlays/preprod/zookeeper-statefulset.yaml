@@ -14,9 +14,9 @@ spec:
         - name: ZK_TICK_TIME
           value: "3000"  # Increased from 2000ms to 3000ms
         - name: ZK_MIN_SESSION_TIMEOUT
-          value: "12000"  # 4 * tickTime (increased from 4000ms)
+          value: "20000"  # ~6.7 * tickTime (increased to reduce NoNodeError)
         - name: ZK_MAX_SESSION_TIMEOUT
-          value: "120000"  # 40 * tickTime (increased from 40000ms)
+          value: "180000"  # 60 * tickTime (increased to 3 minutes)
         - name: ZK_MAX_CLIENT_CNXNS
           value: "120"  # Increased from 60 to handle more concurrent connections
         - name: ZK_SYNC_LIMIT
