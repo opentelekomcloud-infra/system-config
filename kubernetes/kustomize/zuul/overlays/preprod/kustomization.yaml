@@ -112,6 +112,9 @@ secretGenerator:
     type: kubernetes.io/dockerconfigjson
     options:
       disableNameSuffixHash: true
+      annotations:
+        replicator.v1.mittwald.de/replicate-to: "default-.*"
+        replicator.v1.mittwald.de/replicate-to-matching: "true"
     literals:
       - |
         .dockerconfigjson={

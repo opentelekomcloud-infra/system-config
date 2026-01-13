@@ -49,27 +49,8 @@ providers:
     driver: kubernetes
     max-servers: 5
     context: preprod
-    resource-groups:
-      - name: quay-pull-secret
-        resources:
-          - name: quay-image-pull-secret
-            type: secret
-            data:
-              type: kubernetes.io/dockerconfigjson
-              .dockerconfigjson:
-                from-literal: |
-                  {
-                    "auths": {
-                      "quay.io": {
-                        "auth": "<path:secret/data/zuul/registries/quay#auth>",
-                        "email": ""
-                      }
-                    }
-                  }
     pools:
       - name: default
-        resource-groups:
-          - quay-pull-secret
         labels:
           - name: pod-debian
             type: pod
