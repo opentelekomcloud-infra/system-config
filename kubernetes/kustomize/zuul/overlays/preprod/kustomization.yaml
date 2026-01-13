@@ -113,4 +113,12 @@ secretGenerator:
     options:
       disableNameSuffixHash: true
     literals:
-      - .dockerconfigjson={"auths":{"quay.io":{"username":"<path:secret/data/zuul/registries/quay#username>","password":"<path:secret/data/zuul/registries/quay#token>","auth":"<path:secret/data/zuul/registries/quay#auth>"}}}
+      - |
+        .dockerconfigjson={
+          "auths": {
+            "quay.io": {
+              "auth": "<path:secret/data/zuul/registries/quay#auth>",
+              "email": ""
+            }
+          }
+        }
