@@ -118,6 +118,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: kubernetes-replicator
+    clusters: [preprod]
+    config:
+      namespace: kube-system
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/kubernetes-replicator
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: grafana
     clusters: [preprod]
     config:
