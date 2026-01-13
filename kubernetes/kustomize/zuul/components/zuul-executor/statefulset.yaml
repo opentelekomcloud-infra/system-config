@@ -46,6 +46,8 @@ spec:
           env:
             - name: "ZUUL_EXECUTOR_SIGTERM_GRACEFUL"
               value: "1"
+            - name: "ANSIBLE_REMOTE_TMP"
+              value: "/home/zuul/.ansible/tmp"
 
           lifecycle:
             preStop:
