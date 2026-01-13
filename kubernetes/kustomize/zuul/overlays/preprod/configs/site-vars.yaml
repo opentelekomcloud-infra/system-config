@@ -1,17 +1,10 @@
 ---
 # Site-specific variables for Zuul executor
 
-# Log storage configuration
-# Reuses otcci-pool1 cloud credentials for Swift log storage
-zuul_log_cloud_config: otcci-pool1
-zuul_log_container: zuul-logs-preprod
-zuul_log_container_public: true
-zuul_log_create_indexes: true
-zuul_log_delete_after: 2592000  # 30 days in seconds
-zuul_site_upload_logs: true
+# Log storage configuration - Using local NFS storage
+# Swift upload disabled - logs stored on local zuul-config PVC mounted at /var/lib/zuul/builds
+zuul_site_upload_logs: false
 
-# OpenStack SDK configuration path
-# Point to clouds.yaml mounted in /var/run/zuul/openstack
-ansible_env:
-  OS_CLIENT_CONFIG_FILE: /var/run/zuul/openstack/clouds.yaml
+# Log retention on local storage
+zuul_log_path: "{{ zuul.executor.log_root }}"
 

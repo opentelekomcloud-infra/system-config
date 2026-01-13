@@ -63,6 +63,7 @@ images:
 resources:
   - zuul-config-pv.yaml
   - zuul-config-pvc.yaml
+  - zuul-builds-pvc.yaml
   - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
@@ -86,7 +87,7 @@ patches:
   - path: zuul-executor-volumes-patch.yaml
   - path: zuul-merger-volumes-patch.yaml
   - path: zuul-web-volumes-patch.yaml
-  - path: nodepool-builder-patch.yaml
+  # nodepool-builder-patch.yaml removed - nodepool-builder component is disabled
 
 secretGenerator:
   - name: zuul-config
