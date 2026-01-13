@@ -45,6 +45,11 @@ spec:
             # runAsGroup: 10001
 
           volumeMounts:
+            - name: "nodepool-config"
+              mountPath: "/etc/nodepool/clouds.yaml"
+              subPath: "clouds.yaml"
+              readOnly: true
+
             - name: "dev"
               mountPath: "/dev"
 
