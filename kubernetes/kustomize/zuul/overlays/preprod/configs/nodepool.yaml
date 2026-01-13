@@ -54,25 +54,35 @@ providers:
         labels:
           - name: pod-debian
             type: pod
-            image: quay.io/opentelekomcloud/python-tox:latest
-            image-pull-policy: Always
-            image-pull-secrets:
-              - quay-image-pull-secret
-            cpu: 1
-            memory: 1024
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+                  namespace: zuul
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                fsGroup: 1000
+              containers:
+                - name: pod-debian
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                  resources:
+                    requests:
+                      cpu: "1"
+                      memory: "1024Mi"
+                    limits:
+                      cpu: "1"
+                      memory: "1024Mi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: preprod
-            # Skip NFS mount for now - test if pods can start without it
-            # Will add back once we solve the mount timeout issue
-            # python-tox image has zuul user (UID 1000) pre-configured
-            run-as-user: 1000
-            run-as-group: 1000
-            env:
-              - name: HOME
-                value: /home/zuul
-              - name: USER
-                value: zuul
 
 diskimages:
   - name: debian-bookworm
