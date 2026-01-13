@@ -12,7 +12,7 @@ spec:
           configMap:
             name: nodepool-config-yaml
       containers:
-        - name: nodepool-builder
+        - name: nodepool
           volumeMounts:
             - name: nodepool-config-yaml
               mountPath: /etc/nodepool/nodepool.yaml
