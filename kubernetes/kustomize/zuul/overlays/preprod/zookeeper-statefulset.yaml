@@ -5,6 +5,22 @@ metadata:
   name: zookeeper
 spec:
   replicas: 3
+  template:
+    spec:
+      containers:
+      - name: zookeeper
+        env:
+        # Increase session timeouts to prevent premature disconnections
+        - name: ZK_TICK_TIME
+          value: "3000"  # Increased from 2000ms to 3000ms
+        - name: ZK_MIN_SESSION_TIMEOUT
+          value: "12000"  # 4 * tickTime (increased from 4000ms)
+        - name: ZK_MAX_SESSION_TIMEOUT
+          value: "120000"  # 40 * tickTime (increased from 40000ms)
+        - name: ZK_MAX_CLIENT_CNXNS
+          value: "120"  # Increased from 60 to handle more concurrent connections
+        - name: ZK_SYNC_LIMIT
+          value: "10"  # Increased from 5 for better sync tolerance
   volumeClaimTemplates:
     - metadata:
         name: data
