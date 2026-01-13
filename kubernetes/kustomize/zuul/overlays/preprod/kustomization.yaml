@@ -108,3 +108,9 @@ secretGenerator:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
+  - name: quay-image-pull-secret
+    type: kubernetes.io/dockerconfigjson
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - .dockerconfigjson={"auths":{"quay.io":{"username":"<path:secret/data/image_registries/quay#username>","password":"<path:secret/data/image_registries/quay#password>","auth":"<path:secret/data/image_registries/quay#auth>"}}}
