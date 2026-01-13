@@ -61,18 +61,8 @@ providers:
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: preprod
-            # Mount NFS root and use subPath to access builds directory
-            # Matching nfs-cleaner's configuration exactly
-            volumes:
-              - name: zuul-builds-shared
-                nfs:
-                  server: 192.168.150.233
-                  path: /
-                  readOnly: false
-            volume-mounts:
-              - name: zuul-builds-shared
-                mountPath: /var/lib/zuul/builds
-                subPath: builds
+            # Skip NFS mount for now - test if pods can start without it
+            # Will add back once we solve the mount timeout issue
 
 diskimages:
   - name: debian-bookworm
