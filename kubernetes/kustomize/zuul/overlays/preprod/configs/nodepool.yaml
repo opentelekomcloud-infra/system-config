@@ -61,17 +61,18 @@ providers:
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: preprod
-            # Mount NFS builds directory directly (not via subPath)
-            # Matching nfs-cleaner's approach more closely
+            # Mount NFS root and use subPath to access builds directory
+            # Matching nfs-cleaner's configuration exactly
             volumes:
               - name: zuul-builds-shared
                 nfs:
                   server: 192.168.150.233
-                  path: /builds
+                  path: /
                   readOnly: false
             volume-mounts:
               - name: zuul-builds-shared
                 mountPath: /var/lib/zuul/builds
+                subPath: builds
 
 diskimages:
   - name: debian-bookworm
