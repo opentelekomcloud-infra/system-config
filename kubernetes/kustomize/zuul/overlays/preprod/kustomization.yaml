@@ -7,7 +7,8 @@ namespace: zuul
 components:
   - ../../components/zuul-client
   - ../../components/zuul-merger
-  - ../../components/nodepool-builder
+  # nodepool-builder disabled - using Kubernetes pods only, no VM disk images needed
+  # - ../../components/nodepool-builder
   - ../../components/restarter
 
 configMapGenerator:
