@@ -51,10 +51,10 @@ providers:
     context: preprod
     pools:
       - name: default
+        namespace: zuul-pods
         labels:
           - name: pod-debian
             type: pod
-            namespace: zuul-pods
             spec:
               imagePullSecrets:
                 - name: quay-image-pull-secret
