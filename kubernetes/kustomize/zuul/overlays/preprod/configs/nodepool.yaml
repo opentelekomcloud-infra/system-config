@@ -51,7 +51,6 @@ providers:
     context: preprod
     pools:
       - name: default
-        namespace: zuul-pods
         labels:
           - name: pod-debian
             type: pod
