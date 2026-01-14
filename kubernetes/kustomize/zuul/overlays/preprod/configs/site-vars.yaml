@@ -9,7 +9,7 @@
 zuul_site_upload_logs: true
 
 # OpenStack cloud configuration for Swift log upload
-zuul_log_cloud_config: otc-zuul
+zuul_log_cloud_config: zuul-logs
 
 # Swift/OBS container configuration
 zuul_log_container: zuul-preprod-logs
