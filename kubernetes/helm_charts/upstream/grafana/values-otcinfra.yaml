@@ -17,6 +17,8 @@ grafana:
   grafana.ini:
     server:
       root_url: https://grafana.eco.tsi-dev.otc-service.com
+    metrics:
+      enabled: false
     auth.generic_oauth:
       enabled: true
       name: Keycloak
@@ -119,7 +121,7 @@ grafana:
   replicas: 1
 
   serviceMonitor:
-    enabled: true
+    enabled: false
     path: /metrics
     namespace: monitoring
     labels:
