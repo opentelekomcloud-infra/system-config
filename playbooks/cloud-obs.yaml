@@ -1,0 +1,19 @@
+---
+- hosts: cloud-launcher:!disabled
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Create OBS buckets for Zuul log storage
+      opentelekomcloud.cloud.obs_bucket:
+        name: "{{ item.name }}"
+        state: present
+        acl: "{{ item.acl | default('public-read') }}"
+        storage_class: "{{ item.storage_class | default('STANDARD') }}"
+      loop:
+        - name: zuul-preprod-logs
+          acl: public-read
+          storage_class: STANDARD
+      tags:
+        - obs
+        - zuul-logs
