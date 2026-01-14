@@ -28,3 +28,5 @@ clouds:
     auth_type: password
     region_name: eu-de
     interface: public
+    # Explicitly configure OBS/Swift endpoint
+    object_store_endpoint_override: https://obs.eu-de.otc.t-systems.com
