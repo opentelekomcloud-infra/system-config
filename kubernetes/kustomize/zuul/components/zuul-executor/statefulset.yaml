@@ -83,10 +83,11 @@ spec:
 
           resources:
             limits:
-              memory: "8G"
+              cpu: "16"
+              memory: "16G"
             requests:
-              cpu: "500m"
-              memory: "8G"
+              cpu: "8"
+              memory: "16G"
 
           securityContext:
             privileged: true
