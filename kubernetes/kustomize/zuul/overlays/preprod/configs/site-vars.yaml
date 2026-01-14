@@ -8,9 +8,14 @@
 # Enable Swift upload to OBS for historical log storage
 zuul_site_upload_logs: true
 
+# OpenStack cloud configuration for Swift log upload
+zuul_log_cloud_config: otc-zuul
+
 # Swift/OBS container configuration
 zuul_log_container: zuul-preprod-logs
 zuul_log_container_public: true
+zuul_log_partition: false
+zuul_log_create_indexes: true
 
 # DO NOT set delete_after for Swift - keep logs permanently in OBS
 # SFS Turbo cleanup is handled by zuul-logs-cleanup CronJob (90 days)
