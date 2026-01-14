@@ -47,3 +47,31 @@
         groups: "{{ item.groups }}"
         state: "{{ item.state | default('present') }}"
       loop: "{{ cloud_role_assignments }}"
+
+    - name: Manage IAM custom policies
+      opentelekomcloud.cloud.identity_policy:
+        cloud: "{{ item.cloud }}"
+        name: "{{ item.name }}"
+        description: "{{ item.description | default(omit) }}"
+        type: "{{ item.policy_type }}"
+        policy: "{{ item.policy_document | to_json }}"
+        state: present
+      loop: "{{ cloud_iam_policies | default([]) }}"
+      when: cloud_iam_policies is defined
+
+    - name: Attach IAM policies to users
+      opentelekomcloud.cloud.identity_role_assignment:
+        cloud: "{{ item.cloud }}"
+        project: "{{ item.project }}"
+        user: "{{ user_item }}"
+        role: "{{ item.policy_name }}"
+        state: present
+      loop: "{{ cloud_iam_policy_attachments | default([]) }}"
+      loop_control:
+        loop_var: item
+      with_subelements:
+        - "{{ cloud_iam_policy_attachments | default([]) }}"
+        - users
+      loop_control:
+        loop_var: user_item
+      when: cloud_iam_policy_attachments is defined
