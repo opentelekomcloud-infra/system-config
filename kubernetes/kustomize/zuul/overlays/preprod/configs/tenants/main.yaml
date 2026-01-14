@@ -8,11 +8,6 @@
     source:
       github:
         config-projects:
-          - zuul/zuul-jobs:
-              include:
-                - job
-                - project-template
-                - nodeset
           - opentelekomcloud-infra/zuul-infra:
               include:
                 - job
