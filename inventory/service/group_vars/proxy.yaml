@@ -32,6 +32,8 @@ proxy_backends:
       # Block /debug/vars on graphite-ca
       - "acl graphite_ca_metrics path_beg /debug/vars"
       - "http-request deny deny_status 403 if graphite_ca_metrics"
+      # Block scheme-relative / multi-leading-slash paths
+      - 'http-request set-path %[path,url_dec,regsub("^/+","/",g)]'
     domain_names:
       - "graphite-ca.eco.tsi-dev.otc-service.com"
     servers:
