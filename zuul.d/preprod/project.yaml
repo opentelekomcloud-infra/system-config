@@ -4,11 +4,11 @@
     check:
       jobs:
         - otc-tox-linters:
-            nodeset: pod-debian
+            nodeset: zuul-debian
     gate:
       jobs:
         - otc-tox-linters:
-            nodeset: pod-debian
+            nodeset: zuul-debian
     post:
       jobs:
         - project-cleanup

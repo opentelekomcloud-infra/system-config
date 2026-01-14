@@ -19,7 +19,7 @@ labels:
     min-ready: 0
     max-ready-age: 3600
 
-  - name: pod-debian
+  - name: zuul-debian
     min-ready: 0
 
 providers:
@@ -52,7 +52,7 @@ providers:
     pools:
       - name: default
         labels:
-          - name: pod-debian
+          - name: zuul-debian
             type: pod
             spec:
               imagePullSecrets:
@@ -62,7 +62,7 @@ providers:
                 runAsGroup: 1000
                 fsGroup: 1000
               containers:
-                - name: pod-debian
+                - name: zuul-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
                   imagePullPolicy: IfNotPresent
                   command: ["/bin/sh", "-c"]
