@@ -29,6 +29,7 @@ grafana_instances:
     grafana_users_login_hint: "OTC LDAP account"
     grafana_users_password_hint: "OTC LDAP password"
     vault_image: "{{ vault_image_stable }}"
+    metrics_enabled: "false"
 
   # Infra dashboard
   dashboard_infra:
