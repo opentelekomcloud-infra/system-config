@@ -70,6 +70,8 @@ kube-prometheus-stack:
       kubeScheduler: false
   grafana:
     adminPassword: <path:secret/data/prometheus/cloudmon-nl#password>
+    env:
+      GF_METRICS_ENABLED: "false"
     ingress:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
