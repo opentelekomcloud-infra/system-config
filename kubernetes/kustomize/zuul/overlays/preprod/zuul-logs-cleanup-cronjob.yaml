@@ -1,0 +1,72 @@
+---
+# CronJob to clean up logs older than 90 days from SFS Turbo storage
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: zuul-logs-cleanup
+  namespace: zuul
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app: zuul-logs-cleanup
+        spec:
+          restartPolicy: OnFailure
+          volumes:
+            - name: zuul-builds
+              persistentVolumeClaim:
+                claimName: zuul-config
+          containers:
+            - name: cleanup
+              image: quay.io/opentelekomcloud/busybox:1.37.0
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  echo "Starting cleanup of logs older than 90 days..."
+                  echo "Current date: $(date)"
+                  
+                  # Find and delete directories in /var/lib/zuul/builds older than 90 days
+                  # -mindepth 1 -maxdepth 1: only look at top-level directories (build IDs)
+                  # -type d: directories only
+                  # -mtime +90: modified more than 90 days ago
+                  DELETED=0
+                  ERRORS=0
+                  
+                  find /var/lib/zuul/builds -mindepth 1 -maxdepth 1 -type d -mtime +90 | while read dir; do
+                    echo "Deleting: $dir ($(stat -c %y "$dir" 2>/dev/null || stat -f %Sm "$dir"))"
+                    if rm -rf "$dir"; then
+                      DELETED=$((DELETED + 1))
+                    else
+                      echo "ERROR: Failed to delete $dir"
+                      ERRORS=$((ERRORS + 1))
+                    fi
+                  done
+                  
+                  echo "Cleanup completed."
+                  echo "Deleted directories: $DELETED"
+                  echo "Errors: $ERRORS"
+                  
+                  # Show disk usage after cleanup
+                  echo ""
+                  echo "Current disk usage:"
+                  df -h /var/lib/zuul/builds
+                  
+                  exit 0
+              volumeMounts:
+                - name: zuul-builds
+                  mountPath: /var/lib/zuul/builds
+                  subPath: builds
+              resources:
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
+                limits:
+                  cpu: 500m
+                  memory: 256Mi
