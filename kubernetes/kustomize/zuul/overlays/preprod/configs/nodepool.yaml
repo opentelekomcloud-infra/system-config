@@ -8,16 +8,11 @@ images-dir: /opt/nodepool/images
 zookeeper-servers:
   - host: zookeeper.zuul.svc.cluster.local
     port: 2281
-    # Increase ZooKeeper session timeout to prevent premature disconnections
-    timeout: 60
 
 zookeeper-tls:
   cert: /tls/client/tls.crt
   key: /tls/client/tls.key
   ca: /tls/client/ca.crt
-
-# Increase cleanup delay to prevent premature node deletion
-cleanup-interval: 60
 
 labels:
   - name: debian
@@ -59,6 +54,7 @@ providers:
         labels:
           - name: pod-debian
             type: pod
+            namespace: zuul-pods
             spec:
               imagePullSecrets:
                 - name: quay-image-pull-secret
@@ -66,9 +62,6 @@ providers:
                 runAsUser: 1000
                 runAsGroup: 1000
                 fsGroup: 1000
-              volumes:
-                - name: home
-                  emptyDir: {}
               containers:
                 - name: pod-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
@@ -80,9 +73,6 @@ providers:
                       value: /home/zuul
                     - name: USER
                       value: zuul
-                  volumeMounts:
-                    - name: home
-                      mountPath: /home/zuul
                   resources:
                     requests:
                       cpu: "1"

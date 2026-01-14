@@ -19,7 +19,7 @@ spec:
       containers:
         - name: git-syncer
           args:
-            - "while :; do cd /data && (test -d .git && (git fetch && git checkout $ZUUL_CONFIG_BRANCH && git pull) || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .); sleep 60; done"
+            - "while :; do cd /data && (test -d .git && (git fetch && git checkout $ZUUL_CONFIG_BRANCH && git reset --hard origin/$ZUUL_CONFIG_BRANCH) || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .); sleep 60; done"
           env:
             - name: ZUUL_CONFIG_BRANCH
               valueFrom:
