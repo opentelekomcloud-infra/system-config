@@ -1,0 +1,34 @@
+---
+# IAM Custom Policies for OTC Cloud Resources
+# These policies are managed via cloud-identity.yaml playbook
+
+cloud_iam_policies:
+  - name: OBS-Zuul-Logs-Management
+    description: "Policy for Zuul to manage OBS buckets for log storage"
+    cloud: otcci-pool1
+    type: custom
+    policy_type: json
+    policy_document:
+      Version: "1.1"
+      Statement:
+        - Effect: Allow
+          Action:
+            - "obs:bucket:CreateBucket"
+            - "obs:bucket:PutBucketAcl"
+            - "obs:bucket:ListAllMyBuckets"
+            - "obs:bucket:GetBucketAcl"
+            - "obs:object:GetObject"
+            - "obs:object:PutObject"
+            - "obs:object:DeleteObject"
+            - "obs:object:ListMultipartUploadParts"
+          Resource:
+            - "obs:*:*:bucket:zuul-*-logs"
+            - "obs:*:*:object:zuul-*-logs/*"
+
+# IAM Policy Attachments
+cloud_iam_policy_attachments:
+  - policy_name: OBS-Zuul-Logs-Management
+    cloud: otcci-pool1
+    project: eu-de_nodepool_pool1
+    users:
+      - nodepool_preprod
