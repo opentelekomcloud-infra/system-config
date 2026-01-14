@@ -86,6 +86,10 @@ proxy_backends:
       - "option forwardfor"
       - "default-server check weight 100 inter 5s fall 5 rise 1"
       - 'http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]'
+      # Block scheme-relative / multi-leading-slash paths (raw + URL-decoded)
+      - "acl graphite_ca_bad_path_raw path_reg ^/{2,}"
+      - "acl graphite_ca_bad_path_dec path,url_dec -m reg ^/{2,}"
+      - "http-request deny deny_status 400 if graphite_ca_bad_path_raw || graphite_ca_bad_path_dec"
       # Block /metrics on dashboard
       - "acl dashboard_metrics path_beg /metrics"
       - "http-request deny deny_status 403 if dashboard_metrics"
