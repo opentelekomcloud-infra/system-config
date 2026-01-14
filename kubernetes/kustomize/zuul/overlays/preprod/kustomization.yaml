@@ -24,6 +24,7 @@ configMapGenerator:
     behavior: merge
     files:
       - "configs/site-vars.yaml"
+      - "configs/ansible.cfg"
 
 labels:
   - includeSelectors: true

@@ -48,6 +48,8 @@ spec:
               value: "1"
             - name: "ANSIBLE_REMOTE_TMP"
               value: "/home/zuul/.ansible/tmp"
+            - name: "ANSIBLE_CONFIG"
+              value: "/var/run/zuul/vars/ansible.cfg"
 
           lifecycle:
             preStop:
