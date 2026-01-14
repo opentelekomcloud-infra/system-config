@@ -15,8 +15,9 @@ clouds:
        project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
        user_domain_name: <path:secret/data/clouds/otcci_nodepool_pool1#user_domain_name>
     auth_type: password
-    region_name: eu-de
+    region_name: <path:secret/data/clouds/otcci_nodepool_pool1#region_name>
     interface: public
+    object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
   zuul-logs:
     # Swift/OBS log storage configuration
     auth:
@@ -26,7 +27,7 @@ clouds:
       project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
       user_domain_name: <path:secret/data/clouds/otcci_nodepool_pool1#user_domain_name>
     auth_type: password
-    region_name: eu-de
+    region_name: <path:secret/data/clouds/otcci_nodepool_pool1#region_name>
     interface: public
-    # Explicitly configure OBS/Swift endpoint
-    object_store_endpoint_override: https://obs.eu-de.otc.t-systems.com
+    # Explicitly configure OBS/Swift endpoint from Vault
+    object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
