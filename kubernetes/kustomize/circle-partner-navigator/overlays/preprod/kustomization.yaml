@@ -73,6 +73,6 @@ secretGenerator:
 # Use latest stable version for preprod
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
-    newTag: "change_21_latest"
+    newTag: "change_103_latest"
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "0.5.3"
+    newTag: "0.5.5"
