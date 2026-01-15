@@ -80,6 +80,9 @@ spec:
               readOnly: true
             - name: cache
               mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /etc/swift
+              readOnly: true
             {{- else }}
             - mountPath: /etc/openstack
               name: clouds-config
@@ -91,6 +94,9 @@ spec:
             name: {{ include "swift-proxy.fullname" . }}-kolla-proxy-config
         - name: cache
           emptyDir: {}
+        - name: swift-rings
+          configMap:
+            name: {{ include "swift-proxy.fullname" . }}-rings
         {{- else }}
         - name: clouds-config
           secret:
