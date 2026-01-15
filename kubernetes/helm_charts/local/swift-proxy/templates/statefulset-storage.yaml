@@ -71,6 +71,9 @@ spec:
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /etc/swift
+              readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
         
@@ -105,6 +108,9 @@ spec:
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /etc/swift
+              readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
         
@@ -139,6 +145,9 @@ spec:
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /etc/swift
+              readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
       
@@ -154,6 +163,9 @@ spec:
             name: {{ include "swift-proxy.fullname" $ }}-kolla-account-config
         - name: cache
           emptyDir: {}
+        - name: swift-rings
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-rings
         - name: storage
           persistentVolumeClaim:
             claimName: {{ include "swift-proxy.fullname" $ }}-storage
