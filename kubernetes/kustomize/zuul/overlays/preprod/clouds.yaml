@@ -20,10 +20,10 @@ clouds:
     object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
   zuul-logs:
     # Internal Swift cluster for log storage (shares SFS Turbo with Zuul)
-    # Reuses log_writer credentials from OTC technical user
+    # Reuses log_writer password from OTC technical user (username adapted for Swift tempauth)
     # Swift v1 auth (tempauth) - no auth_type, SDK detects from /auth/v1.0 URL
     auth_url: http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/auth/v1.0
-    username: logs:log_writer
+    username: logs:logwriter
     password: <path:secret/data/zuul/logs/otc_technical_user#password>
     region_name: eu-de
     endpoint_type: public
