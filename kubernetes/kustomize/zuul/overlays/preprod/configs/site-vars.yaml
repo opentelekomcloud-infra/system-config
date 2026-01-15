@@ -13,7 +13,7 @@ zuul_log_cloud_config: zuul-logs
 
 # Swift/OBS container configuration
 zuul_log_container: zuul-preprod-logs
-zuul_log_container_public: true
+zuul_log_container_public: false  # Private logs - authentication required to view
 zuul_log_partition: false
 zuul_log_create_indexes: true
 
