@@ -6,6 +6,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-ring-builder
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 rules:
   - apiGroups: [""]
     resources: ["configmaps"]
@@ -22,6 +24,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-ring-builder
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
