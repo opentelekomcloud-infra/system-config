@@ -31,6 +31,24 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: setup-storage
+          image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              # Create device directory for Swift storage
+              mkdir -p /srv/node/sda
+              chown -R swift:swift /srv/node/sda
+              chmod 755 /srv/node/sda
+              echo "Swift storage device directory created"
+          volumeMounts:
+            - name: storage
+              mountPath: /srv/node
+          securityContext:
+            runAsUser: 0
       topologySpreadConstraints:
         - maxSkew: 1
           topologyKey: topology.kubernetes.io/zone
