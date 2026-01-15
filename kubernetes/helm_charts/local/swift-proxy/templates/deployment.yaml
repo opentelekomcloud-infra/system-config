@@ -45,9 +45,9 @@ spec:
           args:
             - |
               set -ex
-              sudo -E kolla_start
+              sudo -E kolla_set_configs
               cp -v /srv/rings/*.ring.gz /etc/swift/
-              exec /usr/bin/swift-proxy-server /etc/swift/proxy-server.conf
+              exec /var/lib/kolla/venv/bin/swift-proxy-server /etc/swift/proxy-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
