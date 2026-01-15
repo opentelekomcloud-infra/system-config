@@ -50,9 +50,9 @@ spec:
           args:
             - |
               set -ex
-              sudo -E kolla_start
+              sudo -E kolla_set_configs
               cp -v /srv/rings/*.ring.gz /etc/swift/
-              exec /usr/bin/swift-object-server /etc/swift/object-server.conf
+              exec /var/lib/kolla/venv/bin/swift-object-server /etc/swift/object-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -94,9 +94,9 @@ spec:
           args:
             - |
               set -ex
-              sudo -E kolla_start
+              sudo -E kolla_set_configs
               cp -v /srv/rings/*.ring.gz /etc/swift/
-              exec /usr/bin/swift-container-server /etc/swift/container-server.conf
+              exec /var/lib/kolla/venv/bin/swift-container-server /etc/swift/container-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -138,9 +138,9 @@ spec:
           args:
             - |
               set -ex
-              sudo -E kolla_start
+              sudo -E kolla_set_configs
               cp -v /srv/rings/*.ring.gz /etc/swift/
-              exec /usr/bin/swift-account-server /etc/swift/account-server.conf
+              exec /var/lib/kolla/venv/bin/swift-account-server /etc/swift/account-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
