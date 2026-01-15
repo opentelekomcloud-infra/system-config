@@ -85,8 +85,10 @@ data:
     [filter:tempauth]
     use = egg:swift#tempauth
     reseller_prefix = AUTH_
-    # Zuul user for log uploads: zuul / zuul (project: zuul)
-    user_zuul_zuul = zuul .admin .reseller_admin
+    # Zuul user for log uploads - credentials from Vault secret/data/zuul/logs/otc_technical_user
+    # Format: user_<account>_<user> = <password> <roles>
+    # Account and user are extracted from swift_username (format: account:user)
+    user_<path:secret/data/zuul/logs/otc_technical_user#swift_account>_<path:secret/data/zuul/logs/otc_technical_user#swift_user> = <path:secret/data/zuul/logs/otc_technical_user#swift_password> .admin .reseller_admin
     # Allow anonymous reads for public containers
     allow_anonymous_read = true
 
