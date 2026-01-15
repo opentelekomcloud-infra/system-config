@@ -121,7 +121,7 @@ swift:
   hashPathPrefix: "<path:secret/data/swift/config#hash_path_prefix>"
   hashPathSuffix: "<path:secret/data/swift/config#hash_path_suffix>"
   partitionPower: 14  # 2^14 = 16384 partitions
-  replicaFactor: 3
+  replicaFactor: 1  # Preprod: 1 replica (only 1 storage node), Prod: 3 replicas
   minPartHours: 24
 
   # Keystone auth configuration
