@@ -5,6 +5,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-config
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 data:
   swift.conf: |
     [swift-hash]
