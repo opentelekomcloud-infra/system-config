@@ -1,0 +1,159 @@
+{{- if eq .Values.mode "cluster" }}
+---
+# Kolla config for proxy server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-proxy-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-proxy-server /etc/swift/proxy-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/proxy-server.conf",
+          "dest": "/etc/swift/proxy-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/var/cache/swift",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+{{ .Files.Get "config/swift.conf" | default (tpl (.Values.swift.config | default "") .) | indent 4 }}
+  proxy-server.conf: |
+{{ .Files.Get "config/proxy-server.conf" | default (tpl (.Values.swift.proxyConfig | default "") .) | indent 4 }}
+
+{{- if .Values.storage.enabled }}
+---
+# Kolla config for object server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-object-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-object-server /etc/swift/object-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/object-server.conf",
+          "dest": "/etc/swift/object-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+{{ .Files.Get "config/swift.conf" | default (tpl (.Values.swift.config | default "") .) | indent 4 }}
+  object-server.conf: |
+{{ .Files.Get "config/object-server.conf" | default (tpl (.Values.swift.objectConfig | default "") .) | indent 4 }}
+
+---
+# Kolla config for container server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-container-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-container-server /etc/swift/container-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/container-server.conf",
+          "dest": "/etc/swift/container-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+{{ .Files.Get "config/swift.conf" | default (tpl (.Values.swift.config | default "") .) | indent 4 }}
+  container-server.conf: |
+{{ .Files.Get "config/container-server.conf" | default (tpl (.Values.swift.containerConfig | default "") .) | indent 4 }}
+
+---
+# Kolla config for account server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-account-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-account-server /etc/swift/account-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/account-server.conf",
+          "dest": "/etc/swift/account-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+{{ .Files.Get "config/swift.conf" | default (tpl (.Values.swift.config | default "") .) | indent 4 }}
+  account-server.conf: |
+{{ .Files.Get "config/account-server.conf" | default (tpl (.Values.swift.accountConfig | default "") .) | indent 4 }}
+{{- end }}
+{{- end }}
