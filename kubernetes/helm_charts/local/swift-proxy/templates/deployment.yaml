@@ -41,6 +41,9 @@ spec:
           {{- if eq .Values.mode "cluster" }}
           image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
           imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -72,8 +75,8 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- if eq .Values.mode "cluster" }}
-            - name: swift-config
-              mountPath: /etc/swift
+            - name: kolla-config
+              mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: cache
               mountPath: /var/cache/swift
@@ -83,9 +86,9 @@ spec:
             {{- end }}
       volumes:
         {{- if eq .Values.mode "cluster" }}
-        - name: swift-config
+        - name: kolla-config
           configMap:
-            name: {{ include "swift-proxy.fullname" . }}-config
+            name: {{ include "swift-proxy.fullname" . }}-kolla-proxy-config
         - name: cache
           emptyDir: {}
         {{- else }}
