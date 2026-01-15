@@ -1,0 +1,113 @@
+{{- if eq .Values.mode "cluster" }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-ring-builder
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: ring-builder
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "swift-proxy.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: ring-builder
+    spec:
+      restartPolicy: OnFailure
+      serviceAccountName: {{ include "swift-proxy.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: ring-builder
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
+          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -e
+              echo "Building Swift rings..."
+              
+              cd /etc/swift
+              
+              # Create account ring
+              swift-ring-builder account.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
+              {{- range $i := until (int .Values.storage.replicas) }}
+              swift-ring-builder account.builder add \
+                --region 1 --zone {{ add $i 1 }} \
+                --ip {{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0.{{ include "swift-proxy.fullname" $ }}-storage.{{ $.Release.Namespace }}.svc.cluster.local \
+                --port {{ $.Values.storage.ports.account }} \
+                --device sda --weight 100
+              {{- end }}
+              swift-ring-builder account.builder rebalance
+              
+              # Create container ring
+              swift-ring-builder container.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
+              {{- range $i := until (int .Values.storage.replicas) }}
+              swift-ring-builder container.builder add \
+                --region 1 --zone {{ add $i 1 }} \
+                --ip {{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0.{{ include "swift-proxy.fullname" $ }}-storage.{{ $.Release.Namespace }}.svc.cluster.local \
+                --port {{ $.Values.storage.ports.container }} \
+                --device sda --weight 100
+              {{- end }}
+              swift-ring-builder container.builder rebalance
+              
+              # Create object ring
+              swift-ring-builder object.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
+              {{- range $i := until (int .Values.storage.replicas) }}
+              swift-ring-builder object.builder add \
+                --region 1 --zone {{ add $i 1 }} \
+                --ip {{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0.{{ include "swift-proxy.fullname" $ }}-storage.{{ $.Release.Namespace }}.svc.cluster.local \
+                --port {{ $.Values.storage.ports.object }} \
+                --device sda --weight 100
+              {{- end }}
+              swift-ring-builder object.builder rebalance
+              
+              echo "Rings built successfully!"
+              echo "Account ring:"
+              swift-ring-builder account.builder
+              echo ""
+              echo "Container ring:"
+              swift-ring-builder container.builder
+              echo ""
+              echo "Object ring:"
+              swift-ring-builder object.builder
+              
+              # Create ConfigMap with ring files
+              echo "Creating ConfigMap with ring files..."
+              kubectl create configmap {{ include "swift-proxy.fullname" . }}-rings \
+                --from-file=account.ring.gz \
+                --from-file=container.ring.gz \
+                --from-file=object.ring.gz \
+                --from-file=account.builder \
+                --from-file=container.builder \
+                --from-file=object.builder \
+                --namespace={{ .Release.Namespace }} \
+                --dry-run=client -o yaml | kubectl apply -f -
+              
+              echo "Ring ConfigMap created successfully!"
+          volumeMounts:
+            - name: ring-workspace
+              mountPath: /etc/swift
+            - name: swift-config
+              mountPath: /etc/swift-base
+              readOnly: true
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: ring-workspace
+          emptyDir: {}
+        - name: swift-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" . }}-config
+{{- end }}

@@ -1,0 +1,166 @@
+{{- if eq .Values.mode "cluster" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+data:
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+    
+  proxy-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.proxy.port }}
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = {{ join " " .Values.swift.proxyPipeline }}
+
+    [app:proxy-server]
+    use = egg:swift#proxy
+    account_autocreate = true
+    allow_account_management = true
+
+    [filter:catch_errors]
+    use = egg:swift#catch_errors
+
+    [filter:gatekeeper]
+    use = egg:swift#gatekeeper
+
+    [filter:healthcheck]
+    use = egg:swift#healthcheck
+
+    [filter:proxy-logging]
+    use = egg:swift#proxy_logging
+
+    [filter:cache]
+    use = egg:swift#memcache
+    memcache_servers = 127.0.0.1:11211
+
+    [filter:container_sync]
+    use = egg:swift#container_sync
+
+    [filter:bulk]
+    use = egg:swift#bulk
+
+    [filter:ratelimit]
+    use = egg:swift#ratelimit
+
+    [filter:keystoneauth]
+    use = egg:swift#keystoneauth
+    operator_roles = admin,member
+    reseller_prefix = AUTH_
+
+    [filter:copy]
+    use = egg:swift#copy
+
+    [filter:container-quotas]
+    use = egg:swift#container_quotas
+
+    [filter:account-quotas]
+    use = egg:swift#account_quotas
+
+    [filter:slo]
+    use = egg:swift#slo
+
+    [filter:dlo]
+    use = egg:swift#dlo
+
+    [filter:versioned_writes]
+    use = egg:swift#versioned_writes
+
+    [filter:staticweb]
+    use = egg:swift#staticweb
+
+  object-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.object }}
+    devices = /srv/node
+    mount_check = false
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon object-server
+
+    [app:object-server]
+    use = egg:swift#object
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [object-replicator]
+    rsync_module = {replication_ip}::object
+
+    [object-updater]
+
+    [object-auditor]
+
+  container-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.container }}
+    devices = /srv/node
+    mount_check = false
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon container-server
+
+    [app:container-server]
+    use = egg:swift#container
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [container-replicator]
+    rsync_module = {replication_ip}::container
+
+    [container-updater]
+
+    [container-auditor]
+
+    [container-sync]
+
+  account-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.account }}
+    devices = /srv/node
+    mount_check = false
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon account-server
+
+    [app:account-server]
+    use = egg:swift#account
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [account-replicator]
+    rsync_module = {replication_ip}::account
+
+    [account-auditor]
+
+    [account-reaper]
+{{- end }}
