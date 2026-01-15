@@ -1,0 +1,163 @@
+{{- if and (eq .Values.mode "cluster") .Values.storage.enabled }}
+{{- range $i := until (int .Values.storage.replicas) }}
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}
+  labels:
+    {{- include "swift-proxy.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: storage
+    swift-storage-node: "{{ $i }}"
+spec:
+  serviceName: {{ include "swift-proxy.fullname" $ }}-storage
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "swift-proxy.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: storage
+      swift-storage-node: "{{ $i }}"
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/swift-config.yaml") $ | sha256sum }}
+      labels:
+        {{- include "swift-proxy.selectorLabels" $ | nindent 8 }}
+        app.kubernetes.io/component: storage
+        swift-storage-node: "{{ $i }}"
+    spec:
+      {{- with $.Values.serviceAccount }}
+      serviceAccountName: {{ include "swift-proxy.serviceAccountName" $ }}
+      {{- end }}
+      securityContext:
+        {{- toYaml $.Values.podSecurityContext | nindent 8 }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: topology.kubernetes.io/zone
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              {{- include "swift-proxy.selectorLabels" $ | nindent 14 }}
+              app.kubernetes.io/component: storage
+      containers:
+        # Swift Object Server
+        - name: object-server
+          securityContext:
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          ports:
+            - name: object
+              containerPort: {{ $.Values.storage.ports.object }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: object
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: object
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: swift-config
+              mountPath: /etc/swift
+              readOnly: true
+            - name: storage
+              mountPath: /srv/node
+            - name: cache
+              mountPath: /var/cache/swift
+          resources:
+            {{- toYaml $.Values.storage.resources | nindent 12 }}
+        
+        # Swift Container Server
+        - name: container-server
+          securityContext:
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.storage.image.container.repository }}:{{ $.Values.storage.image.container.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.container.pullPolicy }}
+          ports:
+            - name: container
+              containerPort: {{ $.Values.storage.ports.container }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: container
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: container
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: swift-config
+              mountPath: /etc/swift
+              readOnly: true
+            - name: storage
+              mountPath: /srv/node
+            - name: cache
+              mountPath: /var/cache/swift
+          resources:
+            {{- toYaml $.Values.storage.resources | nindent 12 }}
+        
+        # Swift Account Server
+        - name: account-server
+          securityContext:
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.storage.image.account.repository }}:{{ $.Values.storage.image.account.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.account.pullPolicy }}
+          ports:
+            - name: account
+              containerPort: {{ $.Values.storage.ports.account }}
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: account
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: account
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          volumeMounts:
+            - name: swift-config
+              mountPath: /etc/swift
+              readOnly: true
+            - name: storage
+              mountPath: /srv/node
+            - name: cache
+              mountPath: /var/cache/swift
+          resources:
+            {{- toYaml $.Values.storage.resources | nindent 12 }}
+      
+      volumes:
+        - name: swift-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-config
+        - name: cache
+          emptyDir: {}
+        - name: storage
+          persistentVolumeClaim:
+            claimName: {{ include "swift-proxy.fullname" $ }}-storage
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+      spec:
+        accessModes: [ "{{ $.Values.storage.persistence.accessMode }}" ]
+        {{- if $.Values.storage.persistence.storageClass }}
+        storageClassName: {{ $.Values.storage.persistence.storageClass }}
+        {{- end }}
+        {{- if and $.Values.storage.persistence.sharedNFS $.Values.storage.persistence.sharedNFS.enabled }}
+        volumeName: {{ include "swift-proxy.fullname" $ }}-storage-pv
+        {{- else if $.Values.storage.persistence.existingVolume }}
+        volumeName: {{ $.Values.storage.persistence.existingVolume }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ $.Values.storage.persistence.size }}
+{{- end }}
+{{- end }}
