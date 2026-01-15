@@ -19,15 +19,9 @@ clouds:
     interface: public
     object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
   zuul-logs:
-    # Swift/OBS log storage configuration using dedicated log_writer user
-    auth:
-      auth_url: <path:secret/data/zuul/logs/otc_technical_user#auth_url>
-      username: <path:secret/data/zuul/logs/otc_technical_user#username>
-      password: <path:secret/data/zuul/logs/otc_technical_user#password>
-      project_name: <path:secret/data/zuul/logs/otc_technical_user#project_name>
-      user_domain_name: <path:secret/data/zuul/logs/otc_technical_user#user_domain_name>
-    auth_type: password
-    region_name: <path:secret/data/zuul/logs/otc_technical_user#region_name>
-    interface: public
-    # Explicitly configure OBS/Swift endpoint from Vault
-    object_store_endpoint_override: <path:secret/data/zuul/logs/otc_technical_user#object_store_endpoint>
+    # Internal Swift cluster for log storage (shares SFS Turbo with Zuul)
+    # No authentication needed - using internal service endpoint
+    auth_type: none
+    region_name: preprod
+    # Direct connection to internal Swift cluster
+    object_store_endpoint_override: http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/v1/AUTH_zuul
