@@ -21,7 +21,7 @@ clouds:
   zuul-logs:
     # Internal Swift cluster for log storage (shares SFS Turbo with Zuul)
     # Reuses log_writer credentials from OTC technical user
-    auth_type: v1password
+    # Swift v1 auth (tempauth) - no auth_type, SDK detects from /auth/v1.0 URL
     auth_url: http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/auth/v1.0
     username: logs:log_writer
     password: <path:secret/data/zuul/logs/otc_technical_user#password>
