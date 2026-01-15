@@ -84,14 +84,9 @@ data:
     [filter:ratelimit]
     use = egg:swift#ratelimit
 
-    [filter:tempauth]
-    use = egg:swift#tempauth
-    reseller_prefix = AUTH_
-    # Zuul logwriter user (reuses log_writer password from Vault secret/zuul/logs/otc_technical_user)
-    # Account: logs, User: logwriter (no underscore - tempauth limitation)
-    user_logs_logwriter = <path:secret/data/zuul/logs/otc_technical_user#password> .admin .reseller_admin
-    # Allow anonymous reads for public containers
-    allow_anonymous_read = true
+    [filter:formpost]
+    use = egg:swift#formpost
+    # Allow uploads without authentication using X-Account-Meta-Temp-URL-Key
 
     [filter:copy]
     use = egg:swift#copy

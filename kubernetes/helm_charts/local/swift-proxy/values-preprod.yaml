@@ -143,8 +143,8 @@ swift:
     - cache
     - container_sync
     - bulk
+    - formpost
     - ratelimit
-    - tempauth
     - copy
     - container-quotas
     - account-quotas
