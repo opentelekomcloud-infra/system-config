@@ -3,11 +3,11 @@ kind: Kustomization
 
 images:
   - name: "dependencytrack/apiserver"
-    newName: "docker.io/dependencytrack/apiserver"
-    newTag: "4.8.0"
+    newName: "quay.io/opentelekomcloud/dependencytrack-apiserver"
+    newTag: "4.13.6"
   - name: "dependencytrack/frontend"
-    newName: "docker.io/dependencytrack/frontend"
-    newTag: "4.8.0"
+    newName: "quay.io/opentelekomcloud/dependencytrack-frontend"
+    newTag: "4.13.6"
 
 labels:
 - includeSelectors: true
