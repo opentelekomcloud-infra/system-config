@@ -134,6 +134,7 @@ swift:
     regionName: "<path:secret/data/zuul/logs/otc_technical_user#region_name>"
 
   # Proxy pipeline configuration
+  # Note: validatetoken filter from production is skipped (custom middleware not in Kolla)
   proxyPipeline:
     - catch_errors
     - gatekeeper
@@ -150,6 +151,7 @@ swift:
     - slo
     - dlo
     - versioned_writes
+    - symlink
     - staticweb
     - proxy-logging
     - proxy-server
