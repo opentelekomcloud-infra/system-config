@@ -46,6 +46,9 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
           ports:
             - name: object
               containerPort: {{ $.Values.storage.ports.object }}
@@ -61,8 +64,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
           volumeMounts:
-            - name: swift-config
-              mountPath: /etc/swift
+            - name: kolla-object-config
+              mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
               mountPath: /srv/node
@@ -77,6 +80,9 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.container.repository }}:{{ $.Values.storage.image.container.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.container.pullPolicy }}
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
           ports:
             - name: container
               containerPort: {{ $.Values.storage.ports.container }}
@@ -92,8 +98,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
           volumeMounts:
-            - name: swift-config
-              mountPath: /etc/swift
+            - name: kolla-container-config
+              mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
               mountPath: /srv/node
@@ -108,6 +114,9 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.account.repository }}:{{ $.Values.storage.image.account.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.account.pullPolicy }}
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
           ports:
             - name: account
               containerPort: {{ $.Values.storage.ports.account }}
@@ -123,8 +132,8 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 5
           volumeMounts:
-            - name: swift-config
-              mountPath: /etc/swift
+            - name: kolla-account-config
+              mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
               mountPath: /srv/node
@@ -134,9 +143,15 @@ spec:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
       
       volumes:
-        - name: swift-config
+        - name: kolla-object-config
           configMap:
-            name: {{ include "swift-proxy.fullname" $ }}-config
+            name: {{ include "swift-proxy.fullname" $ }}-kolla-object-config
+        - name: kolla-container-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-kolla-container-config
+        - name: kolla-account-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-kolla-account-config
         - name: cache
           emptyDir: {}
         - name: storage
