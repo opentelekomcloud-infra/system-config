@@ -496,6 +496,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: swift-proxy
+    clusters: [preprod]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/swift-proxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-zuul-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: zuul-oauth2-proxy
     clusters: [preprod]
     config:

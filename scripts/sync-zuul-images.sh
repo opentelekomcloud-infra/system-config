@@ -6,6 +6,7 @@ set -e
 
 ZUUL_VERSION="13.1.1"
 NODEPOOL_VERSION="11.0.0"  # Nodepool has different versioning
+STORAGE_PROXY_VERSION="latest"  # zuul-storage-proxy uses latest tag
 
 # Check if skopeo is available
 if ! command -v skopeo &> /dev/null; then
@@ -51,6 +52,16 @@ for component in nodepool-launcher nodepool-builder; do
     echo ""
 done
 
+echo "=== Syncing zuul-storage-proxy:${STORAGE_PROXY_VERSION} ==="
+echo ""
+
+skopeo copy --multi-arch all \
+    docker://quay.io/zuul-ci/zuul-storage-proxy:${STORAGE_PROXY_VERSION} \
+    docker://quay.io/opentelekomcloud/zuul-storage-proxy:${STORAGE_PROXY_VERSION}
+
+echo "✓ zuul-storage-proxy:${STORAGE_PROXY_VERSION} synced"
+echo ""
+
 echo "=== All images synced successfully ==="
 echo ""
 echo "Images synced:"
@@ -60,6 +71,7 @@ echo "  - zuul-merger:${ZUUL_VERSION}"
 echo "  - zuul-web:${ZUUL_VERSION}"
 echo "  - nodepool-launcher:${NODEPOOL_VERSION}"
 echo "  - nodepool-builder:${NODEPOOL_VERSION}"
+echo "  - zuul-storage-proxy:${STORAGE_PROXY_VERSION}"
 echo ""
 echo "Next steps:"
 echo "  1. Update kustomization.yaml with new versions"
