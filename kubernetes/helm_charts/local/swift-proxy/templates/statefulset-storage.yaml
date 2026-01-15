@@ -46,6 +46,13 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_start
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /usr/bin/swift-object-server /etc/swift/object-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -72,7 +79,7 @@ spec:
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
-              mountPath: /etc/swift
+              mountPath: /srv/rings
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
@@ -83,6 +90,13 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.container.repository }}:{{ $.Values.storage.image.container.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.container.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_start
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /usr/bin/swift-container-server /etc/swift/container-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -109,7 +123,7 @@ spec:
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
-              mountPath: /etc/swift
+              mountPath: /srv/rings
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
@@ -120,6 +134,13 @@ spec:
             {{- toYaml $.Values.securityContext | nindent 12 }}
           image: "{{ $.Values.storage.image.account.repository }}:{{ $.Values.storage.image.account.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.account.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_start
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /usr/bin/swift-account-server /etc/swift/account-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -146,7 +167,7 @@ spec:
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
-              mountPath: /etc/swift
+              mountPath: /srv/rings
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
