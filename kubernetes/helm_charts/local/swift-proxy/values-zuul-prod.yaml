@@ -1,0 +1,113 @@
+# Swift Proxy for Zuul Production Environment
+# This values file configures swift-proxy to use OBS as backend for Zuul log storage
+
+replicaCount: 3
+
+image:
+  repository: quay.io/opentelekomcloud/zuul-storage-proxy
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+serviceAccount:
+  create: true
+  name: "swift-proxy-zuul-prod"
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  fsGroup: 10001
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+
+service:
+  type: ClusterIP
+  port: 8000
+  targetPort: 8000
+  name: sp
+
+resources:
+  limits:
+    cpu: "2"
+    memory: "2G"
+  requests:
+    cpu: "500m"
+    memory: "1G"
+
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+# Swift proxy configuration
+swift:
+  cloudNames: "zuul-logs"
+
+# OpenStack clouds.yaml with ArgoCD Vault Plugin
+clouds: |
+  zuul-logs:
+    auth:
+      auth_url: <path:secret/data/zuul/logs/otc_technical_user#auth_url>
+      username: <path:secret/data/zuul/logs/otc_technical_user#username>
+      password: <path:secret/data/zuul/logs/otc_technical_user#password>
+      project_name: <path:secret/data/zuul/logs/otc_technical_user#project_name>
+      user_domain_name: <path:secret/data/zuul/logs/otc_technical_user#user_domain_name>
+    auth_type: password
+    region_name: <path:secret/data/zuul/logs/otc_technical_user#region_name>
+    interface: public
+    object_store_endpoint_override: <path:secret/data/zuul/logs/otc_technical_user#object_store_endpoint>
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  hosts:
+    - host: swift.zuul.otc-service.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: swift-proxy-zuul-prod-tls
+      hosts:
+        - swift.zuul.otc-service.com
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - swift-proxy
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - zuul-prod
+          topologyKey: kubernetes.io/hostname
+
+# Readiness and liveness probes
+probes:
+  readiness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
