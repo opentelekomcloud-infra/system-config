@@ -26,29 +26,29 @@ echo ""
 
 # Zuul components
 for component in zuul-executor zuul-scheduler zuul-merger zuul-web; do
-  echo "Syncing ${component}:${ZUUL_VERSION}..."
-  
-  skopeo copy --multi-arch all \
-    docker://quay.io/zuul-ci/${component}:${ZUUL_VERSION} \
-    docker://quay.io/opentelekomcloud/${component}:${ZUUL_VERSION}
-  
-  echo "✓ ${component}:${ZUUL_VERSION} synced"
-  echo ""
+    echo "Syncing ${component}:${ZUUL_VERSION}..."
+
+    skopeo copy --multi-arch all \
+        docker://quay.io/zuul-ci/${component}:${ZUUL_VERSION} \
+        docker://quay.io/opentelekomcloud/${component}:${ZUUL_VERSION}
+
+    echo "✓ ${component}:${ZUUL_VERSION} synced"
+    echo ""
 done
 
 echo "=== Syncing Nodepool images version ${NODEPOOL_VERSION} ==="
 echo ""
 
-# Nodepool components  
+# Nodepool components
 for component in nodepool-launcher nodepool-builder; do
-  echo "Syncing ${component}:${NODEPOOL_VERSION}..."
-  
-  skopeo copy --multi-arch all \
-    docker://quay.io/zuul-ci/${component}:${NODEPOOL_VERSION} \
-    docker://quay.io/opentelekomcloud/${component}:${NODEPOOL_VERSION}
-  
-  echo "✓ ${component}:${NODEPOOL_VERSION} synced"
-  echo ""
+    echo "Syncing ${component}:${NODEPOOL_VERSION}..."
+
+    skopeo copy --multi-arch all \
+        docker://quay.io/zuul-ci/${component}:${NODEPOOL_VERSION} \
+        docker://quay.io/opentelekomcloud/${component}:${NODEPOOL_VERSION}
+
+    echo "✓ ${component}:${NODEPOOL_VERSION} synced"
+    echo ""
 done
 
 echo "=== All images synced successfully ==="
