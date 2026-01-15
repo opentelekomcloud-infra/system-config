@@ -7,6 +7,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-kolla-proxy-config
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 data:
   config.json: |
     {
@@ -124,6 +126,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-kolla-object-config
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 data:
   config.json: |
     {
@@ -194,6 +198,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-kolla-container-config
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 data:
   config.json: |
     {
@@ -266,6 +272,8 @@ metadata:
   name: {{ include "swift-proxy.fullname" . }}-kolla-account-config
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
 data:
   config.json: |
     {
