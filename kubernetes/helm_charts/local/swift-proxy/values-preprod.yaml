@@ -144,7 +144,7 @@ swift:
     - container_sync
     - bulk
     - ratelimit
-    - keystoneauth
+    - tempauth
     - copy
     - container-quotas
     - account-quotas
