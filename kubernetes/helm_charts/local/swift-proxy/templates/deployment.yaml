@@ -41,6 +41,13 @@ spec:
           {{- if eq .Values.mode "cluster" }}
           image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
           imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_start
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /usr/bin/swift-proxy-server /etc/swift/proxy-server.conf
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
@@ -81,7 +88,7 @@ spec:
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
-              mountPath: /etc/swift
+              mountPath: /srv/rings
               readOnly: true
             {{- else }}
             - mountPath: /etc/openstack
