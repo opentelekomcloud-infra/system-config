@@ -5,8 +5,8 @@
 # - Swift/OBS: Long-term historical storage (uploaded for all jobs, no auto-deletion)
 # - SFS Turbo: Local logs with 90-day retention via CronJob (for quick access)
 
-# Disable Swift/OBS upload temporarily - container zuul-preprod-logs doesn't exist or lacks permissions
-zuul_site_upload_logs: false
+# Enable Swift upload to internal Swift cluster for log storage
+zuul_site_upload_logs: true
 
 # OpenStack cloud configuration for Swift log upload
 zuul_log_cloud_config: zuul-logs
