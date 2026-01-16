@@ -19,6 +19,7 @@ patchesStrategicMerge:
   - ingress-patch.yaml
   - api-statefulset-patch.yaml
   - frontend-deployment-patch.yaml
+  - trivy-statefulset-patch.yaml
 
 configMapGenerator:
   - behavior: replace
@@ -51,3 +52,4 @@ resources:
   - namespace.yaml
   - serviceaccount.yaml
   - poddisruptionbudget.yaml
+  - trivy-auth-secret.yaml

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: trivy
+spec:
+  volumeClaimTemplates:
+    - metadata:
+        name: trivy-cache
+      spec:
+        storageClassName: csi-disk-retain
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/component: trivy
+                topologyKey: kubernetes.io/hostname
+      containers:
+        - name: trivy
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "512Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
