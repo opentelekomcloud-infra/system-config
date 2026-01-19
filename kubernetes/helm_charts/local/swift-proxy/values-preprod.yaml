@@ -34,16 +34,16 @@ storage:
       tag: "2024.1-ubuntu-jammy"
   persistence:
     enabled: true
-    # Local XFS storage on OTC EVS disk (manually formatted)
+    # OTC EVS disk with CSI provisioner
     existingClaim: ""  # Create new PVC in swift-proxy namespace
-    existingVolume: ""  # Create new PV with local storage
-    storageClass: "local-storage"
-    accessMode: ReadWriteOnce  # Local storage is node-specific
-    size: 100Gi  # OTC EVS disk formatted with XFS
+    existingVolume: ""  # Let CSI provision the volume
+    storageClass: "csi-disk-retain"
+    accessMode: ReadWriteOnce
+    size: 100Gi  # OTC EVS disk
     reclaimPolicy: Retain
-    # Local storage configuration
+    # Local storage configuration (disabled for CSI)
     localStorage:
-      enabled: true
+      enabled: false
       # Node where XFS disk is mounted
       nodeName: "192.168.150.167"
       # Path where /dev/sdk is mounted with XFS
