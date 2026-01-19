@@ -41,7 +41,8 @@ spec:
                 operator: In
                 values:
                 - {{ $.Values.storage.persistence.localStorage.nodeName }}
-      {{- end }}      initContainers:
+      {{- end }}
+      initContainers:
         - name: setup-storage
           image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
           imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
