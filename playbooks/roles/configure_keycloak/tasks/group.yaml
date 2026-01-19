@@ -1,8 +1,0 @@
-- name: Create or update Keycloak group {{ group.name }}
-  community.general.keycloak_group:
-    state: "present"
-    auth_client_id: "admin-cli"
-    auth_keycloak_url: "{{ url }}"
-    token: "{{ token }}"
-    realm: "{{ group.realm }}"
-    name: "{{ group.name }}"
