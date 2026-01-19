@@ -1,8 +1,0 @@
----
-swift_storage_ip: "192.168.82.9"
-swift_listen_ip: "192.168.81.20"
-
-swift_services:
-  - "proxy"
-
-firewalld_extra_ports_enable: ["{{ swift_proxy_server_port }}/tcp"]
