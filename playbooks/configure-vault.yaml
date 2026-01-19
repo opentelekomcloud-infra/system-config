@@ -1,9 +1,0 @@
-- hosts: vault-controller:!disabled
-  name: "Configure Vault instances"
-  tasks:
-    - name: Configure vault instance
-      include_role:
-        name: "configure_vault"
-      vars:
-        vault: "{{ item.value }}"
-      loop: "{{ vault_instances | dict2items }}"
