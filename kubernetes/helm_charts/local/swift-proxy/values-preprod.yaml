@@ -50,6 +50,9 @@ storage:
       path: "/mnt/swift-storage"
     sharedNFS:
       enabled: false
+      server: ""
+      path: ""
+      mountOptions:
         - nolock
         - noresvport
         - noatime
