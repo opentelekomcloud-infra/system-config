@@ -172,6 +172,9 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    # Disable disk space checks for subdirectory-mounted devices
+    disable_fallocate = true
+    fallocate_reserve = 0
 
     [pipeline:main]
     pipeline = recon object-server
