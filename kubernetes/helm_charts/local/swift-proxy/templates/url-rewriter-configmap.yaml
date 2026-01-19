@@ -10,16 +10,16 @@ data:
     events {
       worker_connections 1024;
     }
-    
+
     http {
       server {
         listen 8081;
-        
+
         # Remove trailing slash from index.html URLs - always redirect to HTTPS
         location ~ ^(.*index\.html)/$ {
           return 301 https://$host$1;
         }
-        
+
         # Serve index.html for directory URLs (ending with /)
         location ~ ^(.+)/$ {
           proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }}$1/index.html;
@@ -28,7 +28,7 @@ data:
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
           proxy_set_header X-Forwarded-Proto $scheme;
         }
-        
+
         # Proxy all other requests to Swift
         location / {
           proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};

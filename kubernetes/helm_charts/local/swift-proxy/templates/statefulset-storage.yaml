@@ -55,7 +55,7 @@ spec:
               mkdir -p /srv/node/sda/objects /srv/node/sda/containers /srv/node/sda/accounts /srv/node/sda/tmp
               chown -R swift:swift /srv/node/sda
               chmod 755 /srv/node /srv/node/sda
-              
+
               echo "Swift storage device directory created"
           volumeMounts:
             - name: storage
@@ -118,7 +118,7 @@ spec:
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
-        
+
         # Swift Container Server
         - name: container-server
           securityContext:
@@ -164,7 +164,7 @@ spec:
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
-        
+
         # Swift Account Server
         - name: account-server
           securityContext:
@@ -210,7 +210,7 @@ spec:
               readOnly: true
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
-      
+
       volumes:
         - name: kolla-object-config
           configMap:
@@ -228,7 +228,7 @@ spec:
             name: {{ include "swift-proxy.fullname" $ }}-rings
         - name: srv-node-parent
           emptyDir: {}
-  
+
   volumeClaimTemplates:
     - metadata:
         name: storage

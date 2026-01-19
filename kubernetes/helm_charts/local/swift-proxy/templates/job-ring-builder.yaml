@@ -30,9 +30,9 @@ spec:
             - |
               set -e
               echo "Building Swift rings..."
-              
+
               cd /etc/swift
-              
+
               # Create account ring
               swift-ring-builder account.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
               {{- range $i := until (int .Values.storage.replicas) }}
@@ -43,7 +43,7 @@ spec:
                 --device sda --weight 100
               {{- end }}
               swift-ring-builder account.builder rebalance
-              
+
               # Create container ring
               swift-ring-builder container.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
               {{- range $i := until (int .Values.storage.replicas) }}
@@ -54,7 +54,7 @@ spec:
                 --device sda --weight 100
               {{- end }}
               swift-ring-builder container.builder rebalance
-              
+
               # Create object ring
               swift-ring-builder object.builder create {{ .Values.swift.partitionPower }} {{ .Values.swift.replicaFactor }} {{ .Values.swift.minPartHours }}
               {{- range $i := until (int .Values.storage.replicas) }}
@@ -65,7 +65,7 @@ spec:
                 --device sda --weight 100
               {{- end }}
               swift-ring-builder object.builder rebalance
-              
+
               echo "Rings built successfully!"
               echo "Account ring:"
               swift-ring-builder account.builder
@@ -75,15 +75,15 @@ spec:
               echo ""
               echo "Object ring:"
               swift-ring-builder object.builder
-              
+
               # Create ConfigMap with ring files
               echo "Creating ConfigMap with ring files..."
-              
+
               # Use curl to create ConfigMap via Kubernetes API
               TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)
               CACERT=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
               NAMESPACE=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
-              
+
               # Create ConfigMap YAML
               cat > /tmp/configmap.yaml <<EOF
               apiVersion: v1
@@ -99,7 +99,7 @@ spec:
                 container.builder: $(base64 -w 0 container.builder)
                 object.builder: $(base64 -w 0 object.builder)
               EOF
-              
+
               # Apply via Kubernetes API
               curl --cacert $CACERT -H "Authorization: Bearer $TOKEN" \
                 -H "Content-Type: application/yaml" \
@@ -111,7 +111,7 @@ spec:
                 -X PUT \
                 https://kubernetes.default.svc/api/v1/namespaces/$NAMESPACE/configmaps/{{ include "swift-proxy.fullname" . }}-rings \
                 --data-binary @/tmp/configmap.yaml
-              
+
               echo "Ring ConfigMap created successfully!"
           volumeMounts:
             - name: ring-workspace
