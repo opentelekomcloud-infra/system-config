@@ -13,13 +13,12 @@ zuul_log_cloud_config: zuul-logs
 
 # Swift/OBS container configuration
 zuul_log_container: zuul-preprod-logs
-zuul_log_container_public: false  # Private logs - authentication required to view
+zuul_log_container_public: false  # Private container but with public read ACL for log access
 zuul_log_partition: false
 zuul_log_create_indexes: true
 
-# DO NOT set delete_after for Swift - keep logs permanently in OBS
-# SFS Turbo cleanup is handled by zuul-logs-cleanup CronJob (90 days)
-# zuul_log_delete_after: 0
+# Swift object deletion - 90 days retention
+zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
 
 # Log path is set automatically by set-zuul-log-path-fact role
 # DO NOT set zuul_log_path here - it will be generated dynamically per build
