@@ -168,16 +168,11 @@ data:
     [DEFAULT]
     bind_ip = 0.0.0.0
     bind_port = {{ .Values.storage.ports.object }}
-    # NFS now mounted directly to /srv/node, so devices path is correct
+    # /srv/node/sda is now a real NFS mount point
     devices = /srv/node
-    mount_check = false
+    mount_check = true
     workers = auto
     user = swift
-    # Completely disable all disk space checks for subdirectory-based devices
-    disable_fallocate = true
-    fallocate_reserve = 0%
-    # Set minimum required free space to 1 byte
-    min_free_space = 1
 
     [pipeline:main]
     pipeline = recon object-server
