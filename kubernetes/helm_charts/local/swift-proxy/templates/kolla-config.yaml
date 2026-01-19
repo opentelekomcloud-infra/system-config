@@ -58,6 +58,12 @@ data:
     use = egg:swift#proxy
     account_autocreate = true
     allow_account_management = true
+    # For single-replica setup: allow writes with just 1 successful response
+    object_post_as_copy = false
+    # Set write quorum to 1 (minimum for 1 replica)
+    object_quorum_size = 1
+    container_quorum_size = 1
+    account_quorum_size = 1
 
     [filter:catch_errors]
     use = egg:swift#catch_errors
