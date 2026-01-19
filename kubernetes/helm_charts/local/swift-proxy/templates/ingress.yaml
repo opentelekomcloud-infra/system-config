@@ -33,9 +33,15 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
+                {{- if $.Values.urlRewriter.enabled }}
+                name: {{ include "swift-proxy.fullname" $ }}-url-rewriter
+                port:
+                  number: 8081
+                {{- else }}
                 name: {{ include "swift-proxy.fullname" $ }}
                 port:
                   number: {{ $.Values.service.port }}
+                {{- end }}
           {{- end }}
     {{- end }}
 {{- end }}
