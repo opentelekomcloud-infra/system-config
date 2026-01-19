@@ -28,7 +28,7 @@ spec:
           operator: In
           values:
           - {{ .Values.storage.persistence.localStorage.nodeName }}
-{{- else if .Values.storage.persistence.sharedNFS.enabled }}
+{{- else if and .Values.storage.persistence.sharedNFS .Values.storage.persistence.sharedNFS.enabled }}
 ---
 apiVersion: v1
 kind: PersistentVolume
@@ -51,3 +51,5 @@ spec:
     path: {{ .Values.storage.persistence.sharedNFS.path }}
 {{- end }}
 {{- end }}
+# Note: When using dynamic provisioning (e.g., csi-disk-retain), no PV is created here.
+# The StorageClass handles PV creation automatically when the PVC is created.
