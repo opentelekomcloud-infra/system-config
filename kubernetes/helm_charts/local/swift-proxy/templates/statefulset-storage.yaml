@@ -51,7 +51,7 @@ spec:
               
               echo "Swift storage device directory created"
           volumeMounts:
-            - name: nfs-storage
+            - name: storage
               mountPath: /mnt/nfs-data
             - name: srv-node
               mountPath: /srv/node
@@ -100,7 +100,7 @@ spec:
             - name: kolla-object-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: nfs-storage
+            - name: storage
               mountPath: /srv/node/sda
               subPath: swift-storage/sda
             - name: cache
@@ -145,7 +145,7 @@ spec:
             - name: kolla-container-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: nfs-storage
+            - name: storage
               mountPath: /srv/node/sda
               subPath: swift-storage/sda
             - name: cache
@@ -190,7 +190,7 @@ spec:
             - name: kolla-account-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: nfs-storage
+            - name: storage
               mountPath: /srv/node/sda
               subPath: swift-storage/sda
             - name: cache
@@ -218,9 +218,6 @@ spec:
             name: {{ include "swift-proxy.fullname" $ }}-rings
         - name: srv-node
           emptyDir: {}
-        - name: nfs-storage
-          persistentVolumeClaim:
-            claimName: storage-{{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0
   
   volumeClaimTemplates:
     - metadata:
