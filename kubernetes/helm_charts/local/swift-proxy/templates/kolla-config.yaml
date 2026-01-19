@@ -168,7 +168,10 @@ data:
     [DEFAULT]
     bind_ip = 0.0.0.0
     bind_port = {{ .Values.storage.ports.object }}
-    devices = /srv/node
+    # Point devices directly to the NFS mount, not the parent emptyDir
+    # This allows Swift's disk space checks to see the actual NFS capacity (500GB)
+    # instead of the overlay filesystem (30GB)
+    devices = /srv/node/sda/..
     mount_check = false
     workers = auto
     user = swift
