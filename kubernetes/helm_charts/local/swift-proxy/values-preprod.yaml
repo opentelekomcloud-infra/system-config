@@ -34,20 +34,19 @@ storage:
       tag: "2024.1-ubuntu-jammy"
   persistence:
     enabled: true
-    # Share the same SFS Turbo NFS mount as Zuul
+    # OTC EVS CSI storage with XFS filesystem for Swift
     existingClaim: ""  # Create new PVC in swift-proxy namespace
-    existingVolume: ""  # Create new PV pointing to same NFS
-    storageClass: "csi-sfsturbo"
-    accessMode: ReadWriteMany
-    size: 500Gi
+    existingVolume: ""  # Let CSI create the PV dynamically
+    storageClass: "csi-disk"  # OTC EVS CSI driver
+    accessMode: ReadWriteOnce  # Block storage is node-specific
+    size: 100Gi  # Matches the OTC swift-proxy disk size
     reclaimPolicy: Retain
-    # Shared NFS configuration (same as zuul-config)
+    # CSI will automatically attach the OTC disk and format with ext4
+    # We'll format it to XFS after first mount
+    localStorage:
+      enabled: false
     sharedNFS:
-      enabled: true
-      server: "192.168.150.233"
-      path: "/swift-storage"
-      mountOptions:
-        - vers=3
+      enabled: false
         - nolock
         - noresvport
         - noatime
