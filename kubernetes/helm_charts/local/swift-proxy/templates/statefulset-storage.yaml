@@ -39,13 +39,21 @@ spec:
           args:
             - |
               set -ex
-              # Create device directory for Swift storage
-              mkdir -p /srv/node/sda
-              chown -R swift:swift /srv/node/sda
-              chmod 755 /srv/node/sda
+              # Create device directory for Swift storage in NFS share
+              mkdir -p /mnt/nfs-data/swift-storage/sda
+              chown -R swift:swift /mnt/nfs-data/swift-storage/sda
+              chmod 755 /mnt/nfs-data/swift-storage/sda
+              
+              # Create /srv/node directory structure
+              mkdir -p /srv/node
+              chown swift:swift /srv/node
+              chmod 755 /srv/node
+              
               echo "Swift storage device directory created"
           volumeMounts:
-            - name: storage
+            - name: nfs-storage
+              mountPath: /mnt/nfs-data
+            - name: srv-node
               mountPath: /srv/node
           securityContext:
             runAsUser: 0
@@ -92,8 +100,9 @@ spec:
             - name: kolla-object-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: storage
-              mountPath: /srv/node
+            - name: nfs-storage
+              mountPath: /srv/node/sda
+              subPath: swift-storage/sda
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
@@ -136,8 +145,9 @@ spec:
             - name: kolla-container-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: storage
-              mountPath: /srv/node
+            - name: nfs-storage
+              mountPath: /srv/node/sda
+              subPath: swift-storage/sda
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
@@ -180,8 +190,9 @@ spec:
             - name: kolla-account-config
               mountPath: /var/lib/kolla/config_files
               readOnly: true
-            - name: storage
-              mountPath: /srv/node
+            - name: nfs-storage
+              mountPath: /srv/node/sda
+              subPath: swift-storage/sda
             - name: cache
               mountPath: /var/cache/swift
             - name: swift-rings
@@ -205,7 +216,9 @@ spec:
         - name: swift-rings
           configMap:
             name: {{ include "swift-proxy.fullname" $ }}-rings
-        - name: storage
+        - name: srv-node
+          emptyDir: {}
+        - name: nfs-storage
           persistentVolumeClaim:
             claimName: {{ include "swift-proxy.fullname" $ }}-storage
   
