@@ -218,10 +218,13 @@ spec:
             name: {{ include "swift-proxy.fullname" $ }}-rings
         - name: srv-node
           emptyDir: {}
+        - name: nfs-storage
+          persistentVolumeClaim:
+            claimName: storage-{{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0
   
   volumeClaimTemplates:
     - metadata:
-        name: nfs-storage
+        name: storage
       spec:
         accessModes: [ "{{ $.Values.storage.persistence.accessMode }}" ]
         {{- if $.Values.storage.persistence.storageClass }}
