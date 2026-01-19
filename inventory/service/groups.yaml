@@ -242,6 +242,6 @@ groups:
   prod_bastion:
     - bridge.eco.tsi-dev.otc-service.com
 
-  disabled:
+  disabled: []
     # We can not manage coreos with ansible by default
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
