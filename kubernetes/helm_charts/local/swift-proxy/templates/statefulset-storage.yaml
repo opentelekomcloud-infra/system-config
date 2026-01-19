@@ -39,14 +39,17 @@ spec:
           args:
             - |
               set -ex
-              # Create device subdirectories directly in NFS mount
+              # Mount NFS directly to /srv/node/sda so Swift sees it as a device mount
+              mkdir -p /srv/node
               mkdir -p /srv/node/sda/objects /srv/node/sda/containers /srv/node/sda/accounts /srv/node/sda/tmp
-              chown -R swift:swift /srv/node
-              chmod 755 /srv/node
+              chown -R swift:swift /srv/node/sda
+              chmod 755 /srv/node /srv/node/sda
               
               echo "Swift storage device directory created"
           volumeMounts:
             - name: storage
+              mountPath: /srv/node/sda
+            - name: srv-node-parent
               mountPath: /srv/node
           securityContext:
             runAsUser: 0
@@ -94,6 +97,8 @@ spec:
               mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
+              mountPath: /srv/node/sda
+            - name: srv-node-parent
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
@@ -138,6 +143,8 @@ spec:
               mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
+              mountPath: /srv/node/sda
+            - name: srv-node-parent
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
@@ -182,6 +189,8 @@ spec:
               mountPath: /var/lib/kolla/config_files
               readOnly: true
             - name: storage
+              mountPath: /srv/node/sda
+            - name: srv-node-parent
               mountPath: /srv/node
             - name: cache
               mountPath: /var/cache/swift
@@ -206,6 +215,8 @@ spec:
         - name: swift-rings
           configMap:
             name: {{ include "swift-proxy.fullname" $ }}-rings
+        - name: srv-node-parent
+          emptyDir: {}
   
   volumeClaimTemplates:
     - metadata:
