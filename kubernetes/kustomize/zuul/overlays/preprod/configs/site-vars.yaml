@@ -22,4 +22,3 @@ zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
 
 # Log path is set automatically by set-zuul-log-path-fact role
 # DO NOT set zuul_log_path here - it will be generated dynamically per build
-
