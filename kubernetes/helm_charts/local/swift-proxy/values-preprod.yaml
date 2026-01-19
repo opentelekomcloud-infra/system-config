@@ -34,17 +34,20 @@ storage:
       tag: "2024.1-ubuntu-jammy"
   persistence:
     enabled: true
-    # OTC EVS CSI storage with XFS filesystem for Swift
+    # Local XFS storage on OTC EVS disk (manually formatted)
     existingClaim: ""  # Create new PVC in swift-proxy namespace
-    existingVolume: ""  # Let CSI create the PV dynamically
-    storageClass: "csi-disk"  # OTC EVS CSI driver
-    accessMode: ReadWriteOnce  # Block storage is node-specific
-    size: 100Gi  # Matches the OTC swift-proxy disk size
+    existingVolume: ""  # Create new PV with local storage
+    storageClass: "local-storage"
+    accessMode: ReadWriteOnce  # Local storage is node-specific
+    size: 100Gi  # OTC EVS disk formatted with XFS
     reclaimPolicy: Retain
-    # CSI will automatically attach the OTC disk and format with ext4
-    # We'll format it to XFS after first mount
+    # Local storage configuration
     localStorage:
-      enabled: false
+      enabled: true
+      # Node where XFS disk is mounted
+      nodeName: "192.168.150.167"
+      # Path where /dev/sdk is mounted with XFS
+      path: "/mnt/swift-storage"
     sharedNFS:
       enabled: false
         - nolock
