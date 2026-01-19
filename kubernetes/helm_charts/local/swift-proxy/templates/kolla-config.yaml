@@ -175,6 +175,9 @@ data:
     # Disable disk space checks for subdirectory-mounted devices
     disable_fallocate = true
     fallocate_reserve = 0
+    # Set minimum required space to effectively zero (1KB)
+    # This bypasses the disk space check that fails with subdirectory mounts
+    disk_size_min = 1
 
     [pipeline:main]
     pipeline = recon object-server
