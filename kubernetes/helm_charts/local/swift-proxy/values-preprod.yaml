@@ -186,12 +186,6 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    # Redirect directory URLs to index.html for Swift staticweb
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      # If path ends with / and doesn't have a file extension, try index.html
-      if ($request_uri ~ ^(.*)/$) {
-        rewrite ^(.*)$ $1/index.html break;
-      }
   hosts:
     - host: swift-proxy.eco-preprod.tsi-dev.otc-service.com
       paths:
