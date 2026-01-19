@@ -43,7 +43,7 @@ data:
     [storage-policy:0]
     name = Policy-0
     default = yes
-    
+
   proxy-server.conf: |
     [DEFAULT]
     bind_ip = 0.0.0.0
@@ -163,7 +163,7 @@ data:
     [storage-policy:0]
     name = Policy-0
     default = yes
-    
+
   object-server.conf: |
     [DEFAULT]
     bind_ip = 0.0.0.0
@@ -236,7 +236,7 @@ data:
     [storage-policy:0]
     name = Policy-0
     default = yes
-    
+
   container-server.conf: |
     [DEFAULT]
     bind_ip = 0.0.0.0
@@ -310,7 +310,7 @@ data:
     [storage-policy:0]
     name = Policy-0
     default = yes
-    
+
   account-server.conf: |
     [DEFAULT]
     bind_ip = 0.0.0.0
