@@ -173,9 +173,11 @@ data:
     mount_check = false
     workers = auto
     user = swift
-    # Disable fallocate since we know NFS has space and Swift's checks don't work well with subdirectories
+    # Completely disable all disk space checks for subdirectory-based devices
     disable_fallocate = true
-    fallocate_reserve = 0
+    fallocate_reserve = 0%
+    # Set minimum required free space to 1 byte
+    min_free_space = 1
 
     [pipeline:main]
     pipeline = recon object-server
