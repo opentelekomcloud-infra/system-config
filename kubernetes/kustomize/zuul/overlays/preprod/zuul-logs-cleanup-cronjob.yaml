@@ -31,14 +31,14 @@ spec:
                 - |
                   echo "Starting cleanup of logs older than 90 days..."
                   echo "Current date: $(date)"
-                  
+
                   # Find and delete directories in /var/lib/zuul/builds older than 90 days
                   # -mindepth 1 -maxdepth 1: only look at top-level directories (build IDs)
                   # -type d: directories only
                   # -mtime +90: modified more than 90 days ago
                   DELETED=0
                   ERRORS=0
-                  
+
                   find /var/lib/zuul/builds -mindepth 1 -maxdepth 1 -type d -mtime +90 | while read dir; do
                     echo "Deleting: $dir ($(stat -c %y "$dir" 2>/dev/null || stat -f %Sm "$dir"))"
                     if rm -rf "$dir"; then
@@ -48,16 +48,16 @@ spec:
                       ERRORS=$((ERRORS + 1))
                     fi
                   done
-                  
+
                   echo "Cleanup completed."
                   echo "Deleted directories: $DELETED"
                   echo "Errors: $ERRORS"
-                  
+
                   # Show disk usage after cleanup
                   echo ""
                   echo "Current disk usage:"
                   df -h /var/lib/zuul/builds
-                  
+
                   exit 0
               volumeMounts:
                 - name: zuul-builds
