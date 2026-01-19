@@ -19,8 +19,8 @@ clouds:
     interface: public
     object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
   zuul-logs:
-    # Internal Swift cluster for log storage (no authentication - internal cluster)
-    # Uses direct object store endpoint without authentication
+    # Swift cluster for log storage via public Ingress
+    # Uses public HTTPS endpoint without authentication
     auth_type: none
-    endpoint: http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/v1/AUTH_zuul-preprod-logs
+    endpoint: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com/v1/AUTH_zuul-preprod-logs
     region_name: eu-de
