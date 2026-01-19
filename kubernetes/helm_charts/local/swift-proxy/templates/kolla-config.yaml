@@ -173,6 +173,9 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    # Disable fallocate since we know NFS has space and Swift's checks don't work well with subdirectories
+    disable_fallocate = true
+    fallocate_reserve = 0
 
     [pipeline:main]
     pipeline = recon object-server
