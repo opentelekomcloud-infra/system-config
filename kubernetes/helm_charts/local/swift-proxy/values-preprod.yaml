@@ -65,8 +65,8 @@ storage:
       cpu: "2"
       memory: "4Gi"
     requests:
-      cpu: "500m"
-      memory: "1Gi"
+      cpu: "200m"
+      memory: "512Mi"
   # Ports for Swift services
   ports:
     object: 6200
