@@ -16,7 +16,7 @@ data:
     [storage-policy:0]
     name = Policy-0
     default = yes
-    
+
   proxy-server.conf: |
     [DEFAULT]
     bind_ip = 0.0.0.0
