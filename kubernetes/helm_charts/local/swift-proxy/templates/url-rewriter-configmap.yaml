@@ -12,19 +12,12 @@ data:
     }
     
     http {
-      # Preserve original scheme (http/https) from X-Forwarded-Proto header
-      map $http_x_forwarded_proto $redirect_scheme {
-        default $scheme;
-        https https;
-        http http;
-      }
-      
       server {
         listen 8081;
         
-        # Remove trailing slash from index.html URLs
+        # Remove trailing slash from index.html URLs - always redirect to HTTPS
         location ~ ^(.*index\.html)/$ {
-          return 301 $redirect_scheme://$host$1;
+          return 301 https://$host$1;
         }
         
         # Proxy all other requests to Swift
