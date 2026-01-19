@@ -186,6 +186,9 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # Fix Zuul's trailing slash after index.html by rewriting the URI
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite ^(.*index\.html)/$ $1 permanent;
   hosts:
     - host: swift-proxy.eco-preprod.tsi-dev.otc-service.com
       paths:
