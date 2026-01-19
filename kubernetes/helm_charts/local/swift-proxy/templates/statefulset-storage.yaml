@@ -226,9 +226,7 @@ spec:
         {{- if $.Values.storage.persistence.storageClass }}
         storageClassName: {{ $.Values.storage.persistence.storageClass }}
         {{- end }}
-        {{- if and $.Values.storage.persistence.sharedNFS $.Values.storage.persistence.sharedNFS.enabled }}
-        volumeName: {{ include "swift-proxy.fullname" $ }}-storage-pv
-        {{- else if $.Values.storage.persistence.existingVolume }}
+        {{- if $.Values.storage.persistence.existingVolume }}
         volumeName: {{ $.Values.storage.persistence.existingVolume }}
         {{- end }}
         resources:
