@@ -15,3 +15,4 @@ Test preprod pipeline - Wed Dec  3 21:20:32 CET 2025
 # Test with zuul-jobs base jobs 1764800726
 # Test workspace copy fix - Mon Dec  8 09:56:01 CET 2025
 # Test Zuul checks Tue Jan 20 14:07:19 CET 2026
+Test Zuul checks
