@@ -344,22 +344,6 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
-  - name: kustomize-backstage-dev
-    clusters: [preprod]
-    config:
-      namespace: backstage-dev
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
-      path: kubernetes/kustomize/backstage/overlays/dev/
-      project: infra
-      kustomize: {}
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-
   - name: openapi-validator
     clusters: [preprod]
     config:
