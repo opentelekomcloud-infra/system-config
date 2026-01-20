@@ -151,7 +151,7 @@ grafana:
       memory: 2048Mi
     requests:
       cpu: 500m
-      memory: 2048Mi
+      memory: 512Mi
 
   deploymentStrategy:
     type: Recreate
@@ -160,6 +160,7 @@ grafana:
     type: pvc
     enabled: true
     storageClassName: csi-disk-retain
+    existingClaim: grafana-otcinfra
     accessModes:
       - ReadWriteOnce
     size: 1Gi
