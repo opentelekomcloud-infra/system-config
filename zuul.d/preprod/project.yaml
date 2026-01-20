@@ -5,9 +5,13 @@
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
+        - otc-tox-docs:
+            nodeset: zuul-debian
     gate:
       jobs:
         - otc-tox-linters:
+            nodeset: zuul-debian
+        - otc-tox-docs:
             nodeset: zuul-debian
     post:
       jobs:
