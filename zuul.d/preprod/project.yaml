@@ -1,6 +1,7 @@
 ---
 - project:
     name: opentelekomcloud-infra/system-config
+    merge-mode: squash-merge
     check:
       jobs:
         - otc-tox-linters:
