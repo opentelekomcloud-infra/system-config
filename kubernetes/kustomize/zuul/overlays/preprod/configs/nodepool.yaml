@@ -64,7 +64,7 @@ providers:
               containers:
                 - name: zuul-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
-                  imagePullPolicy: Always
+                  imagePullPolicy: IfNotPresent
                   command: ["/bin/sh", "-c"]
                   args: ["sleep infinity"]
                   env:
