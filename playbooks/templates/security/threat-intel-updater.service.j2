@@ -1,0 +1,15 @@
+[Unit]
+Description=Threat Intelligence Feed Updater
+After=network.target
+Requires=network.target
+
+[Service]
+Type=oneshot
+User=ansible
+Group=ansible
+ExecStart=/usr/local/bin/update-threat-intel.sh
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,97 @@
+# OTC Security Integration Variables
+# These variables extend the existing cloud-launcher.yaml configuration
+
+# Security feature toggles
+security_features:
+  enhanced_security_groups: true
+  threat_intelligence: true
+  enhanced_load_balancers: true
+  security_monitoring: true
+  automated_threat_updates: true
+
+# Security deployment modes
+# Options: full, security-groups, load-balancers, monitoring-only
+security_deployment_mode: "full"
+
+# Threat intelligence configuration
+threat_intelligence_config:
+  update_interval: "3600"  # Update every hour
+  sources:
+    spamhaus: true
+    sans: true
+    abuseipdb: true
+
+  # API credentials stored in Vault
+  vault_paths:
+    abuseipdb_api_key: "secret/abuseipdb/api_key"
+
+# Enhanced security group mappings
+# Maps existing security groups to enhanced versions
+security_group_enhancements:
+  common_sg: "enhanced_common_sg"
+  pg_sg: "enhanced_pg_sg"
+  vault_sg: "enhanced_vault_sg"
+
+# Load balancer security enhancements
+load_balancer_security:
+  # SSL/TLS hardening
+  ssl_hardening:
+    min_tls_version: "1.2"
+    strong_ciphers_only: true
+    hsts_enabled: true
+
+  # Rate limiting
+  rate_limiting:
+    enabled: true
+    requests_per_minute: 1000
+    burst_capacity: 200
+
+  # Geo-blocking
+  geo_blocking:
+    enabled: true
+    blocked_countries: ["CN", "RU", "KP", "IR"]
+    blocked_asn: ["AS4134", "AS4837", "AS12389"]
+
+# Monitoring configuration
+security_monitoring:
+  prometheus:
+    enabled: true
+    rules_path: "/etc/prometheus/rules"
+
+  alertmanager:
+    enabled: true
+    rules_path: "/etc/alertmanager/rules"
+
+  notification_channels:
+    email:
+      enabled: true
+      recipients: ["security-team@otc.example.com"]
+    pagerduty:
+      enabled: true
+      service_key: "{{ vault_pagerduty_key | default('CHANGE_ME') }}"
+
+# Automation settings
+security_automation:
+  threat_intel_updates:
+    enabled: true
+    schedule: "hourly"
+    systemd_service: true
+
+  security_reporting:
+    enabled: true
+    daily_reports: true
+    weekly_summaries: true
+
+# Integration with existing infrastructure
+integration_settings:
+  # Extend existing cloud security groups
+  extend_existing_sg: true
+
+  # Enhance existing load balancers
+  enhance_existing_lb: true
+
+  # Maintain backward compatibility
+  backward_compatible: true
+
+  # Gradual rollout mode
+  gradual_deployment: false
