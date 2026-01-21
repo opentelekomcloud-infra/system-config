@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openapi-validator
+  labels:
+    app: openapi-validator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openapi-validator
+  template:
+    metadata:
+      labels:
+        app: openapi-validator
+    spec:
+      serviceAccount: "openapi-validator"
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: openapi-validator
+          image: openapi-validator
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: openapi-validator-config
+
+          ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+          resources:
+            requests:
+              memory: "500Mi"
+              cpu: "500m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 5
+          volumeMounts:
+          - mountPath: "/secrets"
+            name: "secrets"
+      initContainers:
+        - name: "vault-agent"
+          command:
+            - "sh"
+            - "-c"
+            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
+          env:
+            - name: "VAULT_ADDR"
+              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          image: "hashicorp/vault"
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+          volumeMounts:
+            - mountPath: "/etc/vault"
+              name: "vault-agent-config"
+            - mountPath: "/secrets"
+              name: "secrets"
+            - mountPath: "/var/run/secrets/tokens"
+              name: "k8-tokens"
+              readOnly: true
+
+      volumes:
+        - name: openapivalidator-config
+          configMap:
+            defaultMode: 420
+            name: openapi-validator-config
+
+        - name: vault-agent-config
+          configMap:
+            defaultMode: 420
+            name: openapi-validator-vault-config
+
+        - name: secrets
+          emptyDir: {}
+
+        - name: "k8-tokens"
+          projected:
+            defaultMode: 420
+            sources:
+            - serviceAccountToken:
+                expirationSeconds: 7200
+                path: "vault-token"
