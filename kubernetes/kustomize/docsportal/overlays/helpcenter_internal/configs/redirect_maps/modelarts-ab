@@ -1,3 +1,4 @@
+  /en-us/usermanual/modelarts/modelarts_13_0159.html /modelarts/umn/troubleshooting/training_jobs/in-cloud_migration_adaptation_issues/error_modelarts.2763_occurred_during_training_job_creation.html;
   /en-us/usermanual/modelarts/modelarts_13_0192.html /modelarts/umn/troubleshooting/inference_deployment/service_prediction/error_mr.0105_occurred_in_real-time_service_prediction.html;
   /en-us/usermanual/modelarts/modelarts_13_0197.html /modelarts/umn/troubleshooting/apis_or_sdks/index.html;
   /en-us/usermanual/modelarts/modelarts_13_0198.html /modelarts/umn/troubleshooting/apis_or_sdks/error_could_not_install_packages_due_to_an_oserror_occurred_during_modelarts_sdk_installation.html;
@@ -195,6 +196,7 @@
   /en-us/usermanual/modelarts/resmgmt-modelarts_0010.html /modelarts/umn/resource_management/new-version_elastic_clusters/deleting_a_resource_pool.html;
   /en-us/usermanual/modelarts/resmgmt-modelarts_0011.html /modelarts/umn/resource_management/new-version_elastic_clusters/abnormal_status_of_a_dedicated_resource_pool.html;
   /en-us/usermanual/modelarts/resmgmt-modelarts_0012.html /modelarts/umn/resource_management/new-version_elastic_clusters/modelarts_network.html;
+  /en-us/usermanual/modelarts/resmgmt-modelarts_0063.html /modelarts/umn/resource_management/new-version_elastic_clusters/using_tms_tags_to_manage_resources_by_group.html;
   /sdk/modelarts/ /modelarts/sdk-ref/index.html;
   /sdk/modelarts/modelarts_04_0001.html /modelarts/sdk-ref/before_you_start.html;
   /sdk/modelarts/modelarts_04_0002.html /modelarts/sdk-ref/sdk_overview.html;
@@ -358,6 +360,7 @@
   /usermanual/modelarts/develop-modelarts-0097.html /modelarts/umn/training_management/performing_a_training/viewing_training_job_logs.html;
   /usermanual/modelarts/develop-modelarts-0104.html /modelarts/umn/training_management/performing_a_training/viewing_environment_variables_of_a_training_container.html;
   /usermanual/modelarts/develop-modelarts-0106.html /modelarts/umn/training_management/performing_a_training/logging_in_to_a_training_container_using_cloud_shell.html;
+  /usermanual/modelarts/develop-modelarts-0108.html /modelarts/umn/training_management/performing_a_training/viewing_training_job_tags.html;
   /usermanual/modelarts/devtool-modelarts_0211.html /modelarts/umn/devenviron_new/using_jupyterlab_to_develop_models/jupyterlab_plug-ins/index.html;
   /usermanual/modelarts/devtool-modelarts_0212.html /modelarts/umn/devenviron_new/using_jupyterlab_to_develop_models/jupyterlab_plug-ins/code_parametrization_plug-in.html;
   /usermanual/modelarts/docker-modelarts_0016.html /modelarts/umn/using_custom_images/faq/index.html;
@@ -848,3 +851,4 @@
   /usermanual/modelarts/resmgmt-modelarts_0010.html /modelarts/umn/resource_management/new-version_elastic_clusters/deleting_a_resource_pool.html;
   /usermanual/modelarts/resmgmt-modelarts_0011.html /modelarts/umn/resource_management/new-version_elastic_clusters/abnormal_status_of_a_dedicated_resource_pool.html;
   /usermanual/modelarts/resmgmt-modelarts_0012.html /modelarts/umn/resource_management/new-version_elastic_clusters/modelarts_network.html;
+  /usermanual/modelarts/resmgmt-modelarts_0063.html /modelarts/umn/resource_management/new-version_elastic_clusters/using_tms_tags_to_manage_resources_by_group.html;

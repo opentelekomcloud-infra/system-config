@@ -16,6 +16,7 @@
   /api/cts/cts_api_0018.html /cloud-trace-service/api-ref/out-of-date_apis/trace_management/index.html;
   /api/cts/cts_api_0019.html /cloud-trace-service/api-ref/out-of-date_apis/trace_management/querying_traces_v1.0.html;
   /api/cts/cts_api_0020.html /cloud-trace-service/api-ref/appendix/index.html;
+  /api/cts/cts_api_0023.html /cloud-trace-service/api-ref/change_history.html;
   /api/cts/cts_api_0024.html /cloud-trace-service/api-ref/calling_apis/response.html;
   /api/cts/cts_api_0025.html /cloud-trace-service/api-ref/before_you_start/api_calling.html;
   /api/cts/cts_api_0026.html /cloud-trace-service/api-ref/before_you_start/endpoints.html;
@@ -60,6 +61,7 @@
   /en-us/api/cts/cts_api_0018.html /cloud-trace-service/api-ref/out-of-date_apis/trace_management/index.html;
   /en-us/api/cts/cts_api_0019.html /cloud-trace-service/api-ref/out-of-date_apis/trace_management/querying_traces_v1.0.html;
   /en-us/api/cts/cts_api_0020.html /cloud-trace-service/api-ref/appendix/index.html;
+  /en-us/api/cts/cts_api_0023.html /cloud-trace-service/api-ref/change_history.html;
   /en-us/api/cts/cts_api_0024.html /cloud-trace-service/api-ref/calling_apis/response.html;
   /en-us/api/cts/cts_api_0025.html /cloud-trace-service/api-ref/before_you_start/api_calling.html;
   /en-us/api/cts/cts_api_0026.html /cloud-trace-service/api-ref/before_you_start/endpoints.html;

@@ -188,6 +188,7 @@
   /en-us/usermanual/ddm/ddm_05_0015.html /distributed-database-middleware/umn/parameter_template_management/modifying_the_description_of_a_parameter_template.html;
   /en-us/usermanual/ddm/ddm_05_0016.html /distributed-database-middleware/umn/parameter_template_management/deleting_a_parameter_template.html;
   /en-us/usermanual/ddm/ddm_05_0017.html /distributed-database-middleware/umn/parameter_template_management/instance_parameters.html;
+  /en-us/usermanual/ddm/ddm_05_0020.html /distributed-database-middleware/umn/account_management/managing_permissions/index.html;
   /en-us/usermanual/ddm/ddm_05_0021.html /distributed-database-middleware/umn/permissions_management/database_accounts_and_permissions.html;
   /en-us/usermanual/ddm/ddm_05_0133.html /distributed-database-middleware/umn/account_management/modifying_an_account.html;
   /en-us/usermanual/ddm/ddm_05_0134.html /distributed-database-middleware/umn/account_management/deleting_an_account.html;
@@ -264,6 +265,9 @@
   /en-us/usermanual/ddm/ddm_11_0001.html /distributed-database-middleware/umn/auditing/index.html;
   /en-us/usermanual/ddm/ddm_11_0002.html /distributed-database-middleware/umn/auditing/key_operations_recorded_by_cts.html;
   /en-us/usermanual/ddm/ddm_11_0003.html /distributed-database-middleware/umn/auditing/querying_traces.html;
+  /en-us/usermanual/ddm/ddm_12_0002.html /distributed-database-middleware/umn/account_management/managing_permissions/account_permissions.html;
+  /en-us/usermanual/ddm/ddm_12_0003.html /distributed-database-middleware/umn/account_management/managing_permissions/account_requirements.html;
+  /en-us/usermanual/ddm/ddm_12_0004.html /distributed-database-middleware/umn/account_management/managing_permissions/managing_permissions.html;
   /en-us/usermanual/ddm/ddm_12_0005.html /distributed-database-middleware/umn/backups_and_restorations/consistent_backups.html;
   /en-us/usermanual/ddm/ddm_12_0006.html /distributed-database-middleware/umn/sql_syntax/ddl/overview.html;
   /en-us/usermanual/ddm/ddm_12_0007.html /distributed-database-middleware/umn/sql_syntax/ddl/sharding_algorithms/mod_hash_ci.html;
@@ -363,6 +367,7 @@
   /usermanual/ddm/ddm_05_0015.html /distributed-database-middleware/umn/parameter_template_management/modifying_the_description_of_a_parameter_template.html;
   /usermanual/ddm/ddm_05_0016.html /distributed-database-middleware/umn/parameter_template_management/deleting_a_parameter_template.html;
   /usermanual/ddm/ddm_05_0017.html /distributed-database-middleware/umn/parameter_template_management/instance_parameters.html;
+  /usermanual/ddm/ddm_05_0020.html /distributed-database-middleware/umn/account_management/managing_permissions/index.html;
   /usermanual/ddm/ddm_05_0021.html /distributed-database-middleware/umn/permissions_management/database_accounts_and_permissions.html;
   /usermanual/ddm/ddm_05_0133.html /distributed-database-middleware/umn/account_management/modifying_an_account.html;
   /usermanual/ddm/ddm_05_0134.html /distributed-database-middleware/umn/account_management/deleting_an_account.html;
@@ -439,6 +444,9 @@
   /usermanual/ddm/ddm_11_0001.html /distributed-database-middleware/umn/auditing/index.html;
   /usermanual/ddm/ddm_11_0002.html /distributed-database-middleware/umn/auditing/key_operations_recorded_by_cts.html;
   /usermanual/ddm/ddm_11_0003.html /distributed-database-middleware/umn/auditing/querying_traces.html;
+  /usermanual/ddm/ddm_12_0002.html /distributed-database-middleware/umn/account_management/managing_permissions/account_permissions.html;
+  /usermanual/ddm/ddm_12_0003.html /distributed-database-middleware/umn/account_management/managing_permissions/account_requirements.html;
+  /usermanual/ddm/ddm_12_0004.html /distributed-database-middleware/umn/account_management/managing_permissions/managing_permissions.html;
   /usermanual/ddm/ddm_12_0005.html /distributed-database-middleware/umn/backups_and_restorations/consistent_backups.html;
   /usermanual/ddm/ddm_12_0006.html /distributed-database-middleware/umn/sql_syntax/ddl/overview.html;
   /usermanual/ddm/ddm_12_0007.html /distributed-database-middleware/umn/sql_syntax/ddl/sharding_algorithms/mod_hash_ci.html;

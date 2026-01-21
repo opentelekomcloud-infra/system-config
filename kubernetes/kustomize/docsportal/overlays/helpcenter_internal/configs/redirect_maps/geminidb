@@ -33,7 +33,7 @@
   /api/nosql/nosql_05_0156.html /geminidb/api-ref/apis_v3/instances/querying_changeable_specifications.html;
   /api/nosql/nosql_05_0203.html /geminidb/api-ref/historical_apis/index.html;
   /api/nosql/nosql_05_0205.html /geminidb/api-ref/historical_apis/parameter_templates/index.html;
-  /api/nosql/nosql_05_0211.html /geminidb/api-ref/apis_v3.1/backup_and_restoration/querying_backups_recommended.html;
+  /api/nosql/nosql_05_0211.html /geminidb/api-ref/historical_apis/backup_and_restoration/querying_backups_recommended.html;
   /api/nosql/nosql_06_0002.html /geminidb/api-ref/apis_v3.1/parameter_templates/obtaining_parameter_templates.html;
   /api/nosql/nosql_06_0003.html /geminidb/api-ref/apis_v3/parameter_templates/creating_a_parameter_template.html;
   /api/nosql/nosql_06_0004.html /geminidb/api-ref/apis_v3/parameter_templates/modifying_parameters_in_a_parameter_template.html;
@@ -112,7 +112,7 @@
   /en-us/api/nosql/nosql_05_0156.html /geminidb/api-ref/apis_v3/instances/querying_changeable_specifications.html;
   /en-us/api/nosql/nosql_05_0203.html /geminidb/api-ref/historical_apis/index.html;
   /en-us/api/nosql/nosql_05_0205.html /geminidb/api-ref/historical_apis/parameter_templates/index.html;
-  /en-us/api/nosql/nosql_05_0211.html /geminidb/api-ref/apis_v3.1/backup_and_restoration/querying_backups_recommended.html;
+  /en-us/api/nosql/nosql_05_0211.html /geminidb/api-ref/historical_apis/backup_and_restoration/querying_backups_recommended.html;
   /en-us/api/nosql/nosql_06_0002.html /geminidb/api-ref/apis_v3.1/parameter_templates/obtaining_parameter_templates.html;
   /en-us/api/nosql/nosql_06_0003.html /geminidb/api-ref/apis_v3/parameter_templates/creating_a_parameter_template.html;
   /en-us/api/nosql/nosql_06_0004.html /geminidb/api-ref/apis_v3/parameter_templates/modifying_parameters_in_a_parameter_template.html;
@@ -176,6 +176,7 @@
   /en-us/usermanual/nosql/nosql_02_0008.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/binding_an_eip.html;
   /en-us/usermanual/nosql/nosql_02_0009.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/connecting_to_a_geminidb_cassandra_instance_over_public_networks.html;
   /en-us/usermanual/nosql/nosql_02_0011.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/configuring_security_group_rules.html;
+  /en-us/usermanual/nosql/nosql_02_0116.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_a_backup_to_a_specified_point_in_time.html;
   /en-us/usermanual/nosql/nosql_03_0002.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/index.html;
   /en-us/usermanual/nosql/nosql_03_0003.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/restarting_a_db_instance.html;
   /en-us/usermanual/nosql/nosql_03_0004.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/deleting_nodes.html;
@@ -183,9 +184,9 @@
   /en-us/usermanual/nosql/nosql_03_0006.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/index.html;
   /en-us/usermanual/nosql/nosql_03_0007.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/managing_automated_backups.html;
   /en-us/usermanual/nosql/nosql_03_0008.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/managing_manual_backups.html;
-  /en-us/usermanual/nosql/nosql_03_0009.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_data_to_a_new_db_instance.html;
+  /en-us/usermanual/nosql/nosql_03_0009.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_a_backup_to_a_new_instance.html;
   /en-us/usermanual/nosql/nosql_03_0010.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/index.html;
-  /en-us/usermanual/nosql/nosql_03_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/geminidb_cassandra_metrics.html;
+  /en-us/usermanual/nosql/nosql_03_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/geminidb_cassandra_instance_metrics.html;
   /en-us/usermanual/nosql/nosql_03_0012.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/setting_alarm_rules.html;
   /en-us/usermanual/nosql/nosql_03_0013.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/viewing_metrics.html;
   /en-us/usermanual/nosql/nosql_03_0014.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/managing_tags.html;
@@ -216,7 +217,7 @@
   /en-us/usermanual/nosql/nosql_cassandra_0001.html /geminidb/umn/working_with_geminidb_cassandra_api/index.html;
   /en-us/usermanual/nosql/nosql_increase_nodes.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/adding_nodes.html;
   /en-us/usermanual/nosql/nosql_increase_storage.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/scaling_up_storage_space.html;
-  /en-us/usermanual/nosql/nosql_increase_storage1.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/configuring_auto_scale.html;
+  /en-us/usermanual/nosql/nosql_increase_storage1.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/configuring_autoscaling.html;
   /en-us/usermanual/nosql/nosql_introduction.html /geminidb/umn/introduction/what_is_geminidb.html;
   /en-us/usermanual/nosql/nosql_login.html /geminidb/umn/logging_in_to_the_geminidb_console.html;
   /en-us/usermanual/nosql/nosql_user_guide.html /geminidb/umn/introduction/index.html;
@@ -240,6 +241,7 @@
   /usermanual/nosql/nosql_02_0008.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/binding_an_eip.html;
   /usermanual/nosql/nosql_02_0009.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/connecting_to_a_geminidb_cassandra_instance_over_public_networks.html;
   /usermanual/nosql/nosql_02_0011.html /geminidb/umn/getting_started_with_geminidb_cassandra/connecting_to_a_geminidb_cassandra_instance_over_public_networks/configuring_security_group_rules.html;
+  /usermanual/nosql/nosql_02_0116.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_a_backup_to_a_specified_point_in_time.html;
   /usermanual/nosql/nosql_03_0002.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/index.html;
   /usermanual/nosql/nosql_03_0003.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/restarting_a_db_instance.html;
   /usermanual/nosql/nosql_03_0004.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/deleting_nodes.html;
@@ -247,9 +249,9 @@
   /usermanual/nosql/nosql_03_0006.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/index.html;
   /usermanual/nosql/nosql_03_0007.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/managing_automated_backups.html;
   /usermanual/nosql/nosql_03_0008.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/managing_manual_backups.html;
-  /usermanual/nosql/nosql_03_0009.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_data_to_a_new_db_instance.html;
+  /usermanual/nosql/nosql_03_0009.html /geminidb/umn/working_with_geminidb_cassandra_api/backups_and_restorations/restoring_a_backup_to_a_new_instance.html;
   /usermanual/nosql/nosql_03_0010.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/index.html;
-  /usermanual/nosql/nosql_03_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/geminidb_cassandra_metrics.html;
+  /usermanual/nosql/nosql_03_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/geminidb_cassandra_instance_metrics.html;
   /usermanual/nosql/nosql_03_0012.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/setting_alarm_rules.html;
   /usermanual/nosql/nosql_03_0013.html /geminidb/umn/working_with_geminidb_cassandra_api/monitoring_and_alarm_reporting/viewing_metrics.html;
   /usermanual/nosql/nosql_03_0014.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/managing_tags.html;
@@ -280,7 +282,7 @@
   /usermanual/nosql/nosql_cassandra_0001.html /geminidb/umn/working_with_geminidb_cassandra_api/index.html;
   /usermanual/nosql/nosql_increase_nodes.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/adding_nodes.html;
   /usermanual/nosql/nosql_increase_storage.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/scaling_up_storage_space.html;
-  /usermanual/nosql/nosql_increase_storage1.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/configuring_auto_scale.html;
+  /usermanual/nosql/nosql_increase_storage1.html /geminidb/umn/working_with_geminidb_cassandra_api/db_instance_management/configuring_autoscaling.html;
   /usermanual/nosql/nosql_introduction.html /geminidb/umn/introduction/what_is_geminidb.html;
   /usermanual/nosql/nosql_login.html /geminidb/umn/logging_in_to_the_geminidb_console.html;
   /usermanual/nosql/nosql_user_guide.html /geminidb/umn/introduction/index.html;

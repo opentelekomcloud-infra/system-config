@@ -194,11 +194,13 @@
   /en-us/usermanual/drs/drs_03_1113.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/index.html;
   /en-us/usermanual/drs/drs_03_1116.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/performing_a_primary_standby_switchover_for_dr_tasks.html;
   /en-us/usermanual/drs/drs_03_1117.html /data-replication-service/umn/real-time_migration/between_self-built_databases/from_mysql_to_mysql.html;
+  /en-us/usermanual/drs/drs_03_1118.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/from_mysql_to_mysql.html;
   /en-us/usermanual/drs/drs_03_1124.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_taurusdb_cluster.html;
   /en-us/usermanual/drs/drs_03_1130.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_parameters/checking_whether_session_replication_role_of_the_destination_database_is_correctly_set.html;
   /en-us/usermanual/drs/drs_03_1131.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/forcibly_stopping_synchronization_from_gaussdb_distributed.html;
   /en-us/usermanual/drs/drs_03_1134.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/editing_subscription_task_information.html;
   /en-us/usermanual/drs/drs_03_1135.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/modifying_connection_information.html;
+  /en-us/usermanual/drs/drs_03_1136.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/cloning_a_migration_task.html;
   /en-us/usermanual/drs/drs_03_1138.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/modifying_connection_information.html;
   /en-us/usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /en-us/usermanual/drs/drs_04_0002.html /data-replication-service/umn/backup_migration/task_management/viewing_task_details.html;
@@ -238,7 +240,6 @@
   /en-us/usermanual/drs/drs_04_0122.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_mysql_to_mysql.html;
   /en-us/usermanual/drs/drs_04_0123.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_mysql_to_taurusdb_cluster.html;
   /en-us/usermanual/drs/drs_04_0125.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_cassandra_to_cassandra.html;
-  /en-us/usermanual/drs/drs_04_0128.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/from_mysql_to_kafka.html;
   /en-us/usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /en-us/usermanual/drs/drs_04_0451.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/index.html;
   /en-us/usermanual/drs/drs_04_0452.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/index.html;
@@ -258,7 +259,6 @@
   /en-us/usermanual/drs/drs_06_0003.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/index.html;
   /en-us/usermanual/drs/drs_06_0004.html /data-replication-service/umn/real-time_synchronization/task_management/task_life_cycle/task_statuses.html;
   /en-us/usermanual/drs/drs_06_0005.html /data-replication-service/umn/real-time_synchronization/task_management/step_1_create_a_synchronization_task.html;
-  /en-us/usermanual/drs/drs_06_0010.html /data-replication-service/umn/real-time_synchronization/task_management/task_life_cycle/changing_a_single-az_task_to_a_dual-az_task.html;
   /en-us/usermanual/drs/drs_07_0007.html /data-replication-service/umn/real-time_disaster_recovery/task_management/index.html;
   /en-us/usermanual/drs/drs_07_0008.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/index.html;
   /en-us/usermanual/drs/drs_08_0001.html /data-replication-service/umn/real-time_migration/task_management/managing_objects/parameters_for_comparison.html;
@@ -339,7 +339,6 @@
   /en-us/usermanual/drs/drs_11_0071.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/ssl_connections/index.html;
   /en-us/usermanual/drs/drs_11_0072.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_configuration_items/checking_whether_the_source_database_view_name_is_valid.html;
   /en-us/usermanual/drs/drs_11_0073.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_parameters/checking_whether_the_source_database_contains_trigger_names_with_non-ascii_characters.html;
-  /en-us/usermanual/drs/drs_11_0075.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/destination_db_instance_statuses/checking_whether_destination_contains_the_configured_database.html;
   /en-us/usermanual/drs/drs_11_0076.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/disk_space/checking_whether_the_destination_server_has_sufficient_storage_space.html;
   /en-us/usermanual/drs/drs_11_0080.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_objects/checking_whether_the_source_database_contains_the_functions_or_stored_procedures_that_the_source_database_user_is_not_authorized_to_migrate.html;
   /en-us/usermanual/drs/drs_11_0105.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_configuration_items/checking_whether_the_source_database_table_name_is_valid.html;
@@ -501,11 +500,13 @@
   /usermanual/drs/drs_03_1113.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/index.html;
   /usermanual/drs/drs_03_1116.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/performing_a_primary_standby_switchover_for_dr_tasks.html;
   /usermanual/drs/drs_03_1117.html /data-replication-service/umn/real-time_migration/between_self-built_databases/from_mysql_to_mysql.html;
+  /usermanual/drs/drs_03_1118.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/from_mysql_to_mysql.html;
   /usermanual/drs/drs_03_1124.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_mysql_to_taurusdb_cluster.html;
   /usermanual/drs/drs_03_1130.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_parameters/checking_whether_session_replication_role_of_the_destination_database_is_correctly_set.html;
   /usermanual/drs/drs_03_1131.html /data-replication-service/umn/real-time_synchronization/operation_reference_in_synchronization_scenarios/forcibly_stopping_synchronization_from_gaussdb_distributed.html;
   /usermanual/drs/drs_03_1134.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/editing_subscription_task_information.html;
   /usermanual/drs/drs_03_1135.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/modifying_connection_information.html;
+  /usermanual/drs/drs_03_1136.html /data-replication-service/umn/real-time_migration/task_management/task_life_cycle/cloning_a_migration_task.html;
   /usermanual/drs/drs_03_1138.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/modifying_connection_information.html;
   /usermanual/drs/drs_04_0001.html /data-replication-service/umn/backup_migration/index.html;
   /usermanual/drs/drs_04_0002.html /data-replication-service/umn/backup_migration/task_management/viewing_task_details.html;
@@ -545,7 +546,6 @@
   /usermanual/drs/drs_04_0122.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_mysql_to_mysql.html;
   /usermanual/drs/drs_04_0123.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_mysql_to_taurusdb_cluster.html;
   /usermanual/drs/drs_04_0125.html /data-replication-service/umn/real-time_disaster_recovery/dr_scenarios/from_cassandra_to_cassandra.html;
-  /usermanual/drs/drs_04_0128.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/from_mysql_to_kafka.html;
   /usermanual/drs/drs_04_0446.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/from_oracle_to_postgresql.html;
   /usermanual/drs/drs_04_0451.html /data-replication-service/umn/real-time_synchronization/out_of_the_cloud/index.html;
   /usermanual/drs/drs_04_0452.html /data-replication-service/umn/real-time_synchronization/between_self-built_databases/index.html;
@@ -565,7 +565,6 @@
   /usermanual/drs/drs_06_0003.html /data-replication-service/umn/real-time_synchronization/to_the_cloud/index.html;
   /usermanual/drs/drs_06_0004.html /data-replication-service/umn/real-time_synchronization/task_management/task_life_cycle/task_statuses.html;
   /usermanual/drs/drs_06_0005.html /data-replication-service/umn/real-time_synchronization/task_management/step_1_create_a_synchronization_task.html;
-  /usermanual/drs/drs_06_0010.html /data-replication-service/umn/real-time_synchronization/task_management/task_life_cycle/changing_a_single-az_task_to_a_dual-az_task.html;
   /usermanual/drs/drs_07_0007.html /data-replication-service/umn/real-time_disaster_recovery/task_management/index.html;
   /usermanual/drs/drs_07_0008.html /data-replication-service/umn/real-time_disaster_recovery/task_management/task_life_cycle/index.html;
   /usermanual/drs/drs_08_0001.html /data-replication-service/umn/real-time_migration/task_management/managing_objects/parameters_for_comparison.html;
@@ -646,7 +645,6 @@
   /usermanual/drs/drs_11_0071.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/ssl_connections/index.html;
   /usermanual/drs/drs_11_0072.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_configuration_items/checking_whether_the_source_database_view_name_is_valid.html;
   /usermanual/drs/drs_11_0073.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_parameters/checking_whether_the_source_database_contains_trigger_names_with_non-ascii_characters.html;
-  /usermanual/drs/drs_11_0075.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/destination_db_instance_statuses/checking_whether_destination_contains_the_configured_database.html;
   /usermanual/drs/drs_11_0076.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/disk_space/checking_whether_the_destination_server_has_sufficient_storage_space.html;
   /usermanual/drs/drs_11_0080.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_objects/checking_whether_the_source_database_contains_the_functions_or_stored_procedures_that_the_source_database_user_is_not_authorized_to_migrate.html;
   /usermanual/drs/drs_11_0105.html /data-replication-service/umn/troubleshooting/solutions_to_failed_check_items/database_configuration_items/checking_whether_the_source_database_table_name_is_valid.html;

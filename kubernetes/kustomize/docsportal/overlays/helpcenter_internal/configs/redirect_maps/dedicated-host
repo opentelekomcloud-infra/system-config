@@ -1,7 +1,7 @@
   /api/deh/ /dedicated-host/api-ref/index.html;
   /api/deh/deh_02_0001.html /dedicated-host/api-ref/api_usage_guidelines.html;
   /api/deh/deh_02_0015.html /dedicated-host/api-ref/public_parameters/index.html;
-  /api/deh/deh_02_0016.html /dedicated-host/api-ref/public_parameters/status_codes.html;
+  /api/deh/deh_02_0016.html /dedicated-host/api-ref/appendix/status_codes.html;
   /api/deh/deh_02_0017.html /dedicated-host/api-ref/api/index.html;
   /api/deh/deh_02_0018.html /dedicated-host/api-ref/public_parameters/object_models.html;
   /api/deh/deh_02_0019.html /dedicated-host/api-ref/api/allocating_dehs.html;
@@ -23,12 +23,14 @@
   /api/deh/deh_05_0904.html /dedicated-host/api-ref/api/deh_tag_management/querying_dehs_by_tag.html;
   /api/deh/deh_06_0001.html /dedicated-host/api-ref/permissions_and_actions/index.html;
   /api/deh/deh_06_0002.html /dedicated-host/api-ref/permissions_and_actions/permissions_and_supported_actions.html;
+  /api/deh/deh_07_0100.html /dedicated-host/api-ref/appendix/index.html;
   /api/deh/deh_07_0101.html /dedicated-host/api-ref/permissions_and_actions/api_permissions.html;
+  /api/deh/deh_07_0103.html /dedicated-host/api-ref/appendix/error_codes.html;
   /api/deh/deh_appendix_0003.html /dedicated-host/api-ref/change_history.html;
   /en-us/api/deh/ /dedicated-host/api-ref/index.html;
   /en-us/api/deh/deh_02_0001.html /dedicated-host/api-ref/api_usage_guidelines.html;
   /en-us/api/deh/deh_02_0015.html /dedicated-host/api-ref/public_parameters/index.html;
-  /en-us/api/deh/deh_02_0016.html /dedicated-host/api-ref/public_parameters/status_codes.html;
+  /en-us/api/deh/deh_02_0016.html /dedicated-host/api-ref/appendix/status_codes.html;
   /en-us/api/deh/deh_02_0017.html /dedicated-host/api-ref/api/index.html;
   /en-us/api/deh/deh_02_0018.html /dedicated-host/api-ref/public_parameters/object_models.html;
   /en-us/api/deh/deh_02_0019.html /dedicated-host/api-ref/api/allocating_dehs.html;
@@ -50,7 +52,9 @@
   /en-us/api/deh/deh_05_0904.html /dedicated-host/api-ref/api/deh_tag_management/querying_dehs_by_tag.html;
   /en-us/api/deh/deh_06_0001.html /dedicated-host/api-ref/permissions_and_actions/index.html;
   /en-us/api/deh/deh_06_0002.html /dedicated-host/api-ref/permissions_and_actions/permissions_and_supported_actions.html;
+  /en-us/api/deh/deh_07_0100.html /dedicated-host/api-ref/appendix/index.html;
   /en-us/api/deh/deh_07_0101.html /dedicated-host/api-ref/permissions_and_actions/api_permissions.html;
+  /en-us/api/deh/deh_07_0103.html /dedicated-host/api-ref/appendix/error_codes.html;
   /en-us/api/deh/deh_appendix_0003.html /dedicated-host/api-ref/change_history.html;
   /en-us/usermanual/deh/ /dedicated-host/umn/index.html;
   /en-us/usermanual/deh/deh_01_0001.html /dedicated-host/umn/product_introduction/index.html;

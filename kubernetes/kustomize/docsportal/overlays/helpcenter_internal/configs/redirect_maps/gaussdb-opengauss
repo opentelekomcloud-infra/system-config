@@ -297,7 +297,7 @@
   /en-us/usermanual/opengauss/opengauss_tips_0019.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/insert.html;
   /en-us/usermanual/opengauss/opengauss_tips_0020.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/update.html;
   /en-us/usermanual/opengauss/opengauss_tips_0021.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/delete.html;
-  /en-us/usermanual/opengauss/opengauss_tips_0022.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/associated_query.html;
+  /en-us/usermanual/opengauss/opengauss_tips_0022.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/join_query.html;
   /en-us/usermanual/opengauss/opengauss_tips_0023.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/subqueries.html;
   /en-us/usermanual/opengauss/opengauss_tips_0024.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/transactions.html;
   /en-us/usermanual/opengauss/opengauss_tips_0025.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/client_programming_guidelines/jdbc.html;
@@ -468,7 +468,7 @@
   /usermanual/opengauss/opengauss_tips_0019.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/insert.html;
   /usermanual/opengauss/opengauss_tips_0020.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/update.html;
   /usermanual/opengauss/opengauss_tips_0021.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/delete.html;
-  /usermanual/opengauss/opengauss_tips_0022.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/associated_query.html;
+  /usermanual/opengauss/opengauss_tips_0022.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/join_query.html;
   /usermanual/opengauss/opengauss_tips_0023.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/subqueries.html;
   /usermanual/opengauss/opengauss_tips_0024.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/database_programming_guidelines/transactions.html;
   /usermanual/opengauss/opengauss_tips_0025.html /gaussdb-opengauss/umn/working_with_gaussdb/usage_guidelines_and_suggestions/client_programming_guidelines/jdbc.html;
