@@ -16,6 +16,10 @@ loki:
   # retention period config
   limits_config:
     retention_period: 2184h
+  runtimeConfig:
+    overrides:
+      "eco":
+        deletion_mode: "filter-and-delete"
 table_manager:
   retention_deletes_enabled: true
   retention_period: 1440h
