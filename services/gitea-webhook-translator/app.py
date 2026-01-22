@@ -16,7 +16,7 @@ from fastapi.responses import JSONResponse
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,  # Changed to DEBUG for troubleshooting
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
@@ -34,13 +34,13 @@ def verify_gitea_signature(payload: bytes, signature: str) -> bool:
     if not GITEA_WEBHOOK_SECRET:
         logger.warning("GITEA_WEBHOOK_SECRET not set, skipping signature verification")
         return True
-    
+
     expected = hmac.new(
         GITEA_WEBHOOK_SECRET.encode(),
         payload,
         hashlib.sha256
     ).hexdigest()
-    
+
     return hmac.compare_digest(expected, signature)
 
 
@@ -56,12 +56,12 @@ def sign_github_payload(payload: bytes) -> str:
 
 def convert_gitea_to_github(gitea_payload: Dict[str, Any], event_type: str) -> Dict[str, Any]:
     """Convert Gitea webhook payload to GitHub format"""
-    
+
     # For push events, Gitea and GitHub formats are very similar
     if event_type == "push":
         # Gitea format is already compatible with GitHub push events
         return gitea_payload
-    
+
     # For pull_request events
     if event_type == "pull_request":
         # Map Gitea PR actions to GitHub actions
@@ -78,10 +78,10 @@ def convert_gitea_to_github(gitea_payload: Dict[str, Any], event_type: str) -> D
             "labeled": "labeled",
             "unlabeled": "unlabeled",
         }
-        
+
         action = gitea_payload.get("action", "")
         github_action = action_map.get(action, action)
-        
+
         # Convert pull_request structure
         github_payload = {
             "action": github_action,
@@ -90,9 +90,9 @@ def convert_gitea_to_github(gitea_payload: Dict[str, Any], event_type: str) -> D
             "repository": gitea_payload.get("repository", {}),
             "sender": gitea_payload.get("sender", {}),
         }
-        
+
         return github_payload
-    
+
     # Default: return as-is
     logger.warning(f"Unknown event type: {event_type}, returning payload as-is")
     return gitea_payload
@@ -114,31 +114,31 @@ async def gitea_webhook(request: Request):
         gitea_event = request.headers.get("X-Gitea-Event", "")
         gitea_signature = request.headers.get("X-Gitea-Signature", "")
         gitea_delivery = request.headers.get("X-Gitea-Delivery", "")
-        
+
         logger.info(f"Received Gitea webhook: event={gitea_event}, delivery={gitea_delivery}")
-        
+
         # Read payload
         payload_bytes = await request.body()
-        
+
         # Verify Gitea signature
         if gitea_signature and not verify_gitea_signature(payload_bytes, gitea_signature):
             logger.error("Invalid Gitea webhook signature")
             raise HTTPException(status_code=401, detail="Invalid signature")
-        
+
         # Parse JSON payload
         try:
             gitea_payload = json.loads(payload_bytes)
         except json.JSONDecodeError as e:
             logger.error(f"Invalid JSON payload: {e}")
             raise HTTPException(status_code=400, detail="Invalid JSON")
-        
+
         # Convert to GitHub format
         github_payload = convert_gitea_to_github(gitea_payload, gitea_event)
         github_payload_bytes = json.dumps(github_payload).encode()
-        
+
         # Sign with GitHub secret
         github_signature = sign_github_payload(github_payload_bytes)
-        
+
         # Prepare headers for Zuul
         zuul_headers = {
             "Content-Type": "application/json",
@@ -147,23 +147,26 @@ async def gitea_webhook(request: Request):
             "X-GitHub-Delivery": gitea_delivery,
             "X-Hub-Signature-256": github_signature,
         }
-        
+
         # Forward to Zuul
         logger.info(f"Forwarding to Zuul: {ZUUL_WEBHOOK_URL}")
+        logger.debug(f"Payload length: {len(github_payload_bytes)} bytes")
+        logger.debug(f"Signature: {github_signature}")
+        logger.debug(f"Payload preview: {github_payload_bytes[:200]}")
         response = requests.post(
             ZUUL_WEBHOOK_URL,
             data=github_payload_bytes,
             headers=zuul_headers,
             timeout=30
         )
-        
+
         logger.info(f"Zuul response: status={response.status_code}")
-        
+
         return JSONResponse(
             status_code=response.status_code,
             content={"message": "Webhook forwarded", "zuul_status": response.status_code}
         )
-        
+
     except Exception as e:
         logger.error(f"Error processing webhook: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
