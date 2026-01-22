@@ -45,13 +45,21 @@ def verify_gitea_signature(payload: bytes, signature: str) -> bool:
 
 
 def sign_github_payload(payload: bytes) -> str:
-    """Generate GitHub webhook signature"""
+    """
+    Generate GitHub webhook signature for Zuul
+    
+    CRITICAL: Zuul's GitHub driver expects SHA1, not SHA256!
+    - Header: X-Hub-Signature (not X-Hub-Signature-256)
+    - Format: sha1=<hexdigest> (not sha256=<hexdigest>)
+    
+    See: zuul/driver/github/githubconnection.py _sign_request() (lines 101-104)
+    """
     signature = hmac.new(
         GITHUB_WEBHOOK_SECRET.encode(),
         payload,
-        hashlib.sha256
+        hashlib.sha1
     ).hexdigest()
-    return f"sha256={signature}"
+    return f"sha1={signature}"
 
 
 def convert_gitea_to_github(gitea_payload: Dict[str, Any], event_type: str) -> Dict[str, Any]:
@@ -146,7 +154,7 @@ async def gitea_webhook(request: Request):
             "User-Agent": "Gitea-Webhook-Translator/1.0",
             "X-GitHub-Event": gitea_event,
             "X-GitHub-Delivery": gitea_delivery,
-            "X-Hub-Signature-256": github_signature,
+            "X-Hub-Signature": github_signature,  # Zuul expects X-Hub-Signature, not X-Hub-Signature-256
         }
 
         # Forward to Zuul
