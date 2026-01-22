@@ -19,7 +19,7 @@ spec:
       containers:
       - name: translator
         image: gitea-webhook-translator:latest
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: http
