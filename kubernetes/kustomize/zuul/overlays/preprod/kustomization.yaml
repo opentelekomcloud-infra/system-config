@@ -109,6 +109,7 @@ secretGenerator:
     literals:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
+      - gitea.key=<path:secret/data/zuul/connections/gitea#sshkey>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
