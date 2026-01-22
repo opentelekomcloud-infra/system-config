@@ -30,7 +30,7 @@ http_client = httpx.AsyncClient(timeout=30.0)
 def translate_v3_to_v1_path(v3_path: str) -> str:
     """
     Translate GitHub API v3 paths to Gitea API v1 paths.
-    
+
     GitHub v3: /api/v3/repos/{owner}/{repo}/branches/{branch}
     Gitea v1:  /api/v1/repos/{owner}/{repo}/branches/{branch}
     """
@@ -43,7 +43,7 @@ def translate_v3_to_v1_path(v3_path: str) -> str:
         v1_path = "/api/v1" + v3_path
     else:
         v1_path = "/api/v1/" + v3_path
-    
+
     logger.debug(f"Path translation: {v3_path} -> {v1_path}")
     return v1_path
 
@@ -60,7 +60,7 @@ def translate_gitea_to_github_response(gitea_data: dict, endpoint_type: str) -> 
             "installed_version": gitea_data.get("version", "unknown"),
             "github_services_sha": "unknown"
         }
-    
+
     # For most endpoints, the structure is similar enough
     return gitea_data
 
@@ -78,16 +78,16 @@ async def get_meta():
     Translates to Gitea /version endpoint.
     """
     logger.info("Handling /api/v3/meta request")
-    
+
     try:
         gitea_url = f"{GITEA_BASE_URL}/api/v1/version"
         headers = {}
         if GITEA_API_TOKEN:
             headers["Authorization"] = f"token {GITEA_API_TOKEN}"
-        
+
         logger.debug(f"Fetching from Gitea: {gitea_url}")
         response = await http_client.get(gitea_url, headers=headers)
-        
+
         if response.status_code == 200:
             gitea_data = response.json()
             github_response = translate_gitea_to_github_response(gitea_data, "meta")
@@ -96,7 +96,7 @@ async def get_meta():
         else:
             logger.error(f"Gitea returned status {response.status_code}: {response.text}")
             raise HTTPException(status_code=response.status_code, detail=response.text)
-    
+
     except httpx.RequestError as e:
         logger.error(f"Error connecting to Gitea: {e}")
         raise HTTPException(status_code=502, detail=f"Error connecting to Gitea: {str(e)}")
@@ -109,34 +109,34 @@ async def proxy_api_request(path: str, request: Request):
     Translates v3 paths to v1 and forwards to Gitea.
     """
     logger.info(f"Proxying {request.method} request: /api/v3/{path}")
-    
+
     # Translate path
     v1_path = translate_v3_to_v1_path(f"/api/v3/{path}")
     gitea_url = f"{GITEA_BASE_URL}{v1_path}"
-    
+
     # Prepare headers
     headers = {}
     if GITEA_API_TOKEN:
         headers["Authorization"] = f"token {GITEA_API_TOKEN}"
-    
+
     # Copy relevant headers from original request
     for header in ["Content-Type", "Accept"]:
         if header.lower() in request.headers:
             headers[header] = request.headers[header.lower()]
-    
+
     # Get query parameters
     query_params = dict(request.query_params)
-    
+
     # Get request body if present
     body = None
     if request.method in ["POST", "PUT", "PATCH"]:
         body = await request.body()
-    
+
     try:
         logger.debug(f"Forwarding to Gitea: {request.method} {gitea_url}")
         logger.debug(f"Headers: {headers}")
         logger.debug(f"Query params: {query_params}")
-        
+
         # Forward request to Gitea
         gitea_response = await http_client.request(
             method=request.method,
@@ -145,9 +145,9 @@ async def proxy_api_request(path: str, request: Request):
             params=query_params,
             content=body
         )
-        
+
         logger.info(f"Gitea response: {gitea_response.status_code}")
-        
+
         # Return Gitea response (most endpoints have compatible structure)
         return Response(
             content=gitea_response.content,
@@ -155,7 +155,7 @@ async def proxy_api_request(path: str, request: Request):
             headers=dict(gitea_response.headers),
             media_type=gitea_response.headers.get("content-type", "application/json")
         )
-    
+
     except httpx.RequestError as e:
         logger.error(f"Error connecting to Gitea: {e}")
         raise HTTPException(status_code=502, detail=f"Error connecting to Gitea: {str(e)}")

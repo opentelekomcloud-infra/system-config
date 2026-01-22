@@ -10,7 +10,7 @@ resources:
 images:
   - name: gitea-api-adapter
     newName: quay.io/opentelekomcloud/gitea-api-adapter
-    newTag: "1.0.0"
+    newTag: "1.0.1"
 
 commonLabels:
   environment: preprod
