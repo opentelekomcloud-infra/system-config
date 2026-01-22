@@ -25,7 +25,7 @@ spec:
           name: http
         env:
         - name: ZUUL_WEBHOOK_URL
-          value: "http://zuul-web.zuul.svc.cluster.local:9000/api/connection/github/payload"
+          value: "http://zuul-web.zuul.svc.cluster.local:9000/api/connection/gitea/payload"
         - name: GITHUB_WEBHOOK_SECRET
           valueFrom:
             secretKeyRef:
