@@ -6,6 +6,10 @@ metadata:
 spec:
   template:
     spec:
+      hostAliases:
+        - ip: "10.247.14.72"
+          hostnames:
+            - "api.github.com"
       securityContext:
         fsGroup: 10001
       volumes:
