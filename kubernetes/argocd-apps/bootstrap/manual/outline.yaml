@@ -1,0 +1,115 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: outline
+  namespace: argocd
+spec:
+  destination:
+    namespace: outline
+    server: https://kubernetes.default.svc
+  project: infra
+
+  source:
+    repoURL: 'https://community-charts.github.io/helm-charts'
+    chart: 'outline'
+    targetRevision: '0.3.4'
+
+    helm:
+      values: |
+        # podAnnotations:
+        #   vault.hashicorp.com/agent-inject: "true"
+        #   vault.hashicorp.com/role: "outline-app-prod"
+        #   vault.hashicorp.com/agent-run-as-user: "1001"
+
+        #   vault.hashicorp.com/agent-inject-secret-oidc: "secret/data/outline/oidc-prod"
+        #   vault.hashicorp.com/agent-inject-template-oidc: |
+        #     {{- with secret "secret/data/outline/oidc-prod" -}}
+        #     {{ .Data.data.clientSecret | writeFile "/vault/secrets/oidc_client_secret" }}
+        #     {{- if .Data.data.clientId }}{{ .Data.data.clientId | writeFile "/vault/secrets/oidc_client_id" }}{{- end }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-db: "secret/data/outline/db-prod"
+        #   vault.hashicorp.com/agent-inject-template-db: |
+        #     {{- with secret "secret/data/outline/db-prod" -}}
+        #     {{ .Data.data.database_url | writeFile "/vault/secrets/database_url" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-redis: "secret/data/outline/redis-prod"
+        #   vault.hashicorp.com/agent-inject-template-redis: |
+        #     {{- with secret "secret/data/outline/redis-prod" -}}
+        #     {{ .Data.data.redis_url | writeFile "/vault/secrets/redis_url" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-app: "secret/data/outline/app-secrets-prod"
+        #   vault.hashicorp.com/agent-inject-template-app: |
+        #     {{- with secret "secret/data/outline/app-secrets-prod" -}}
+        #     {{ .Data.data.secret_key | writeFile "/vault/secrets/secret_key" }}
+        #     {{ .Data.data.utils_secret | writeFile "/vault/secrets/utils_secret" }}
+        #     {{- end }}
+        #   vault.hashicorp.com/agent-inject-secret-storage: "secret/data/outline/storage-prod"
+        #   vault.hashicorp.com/agent-inject-template-storage: |
+        #     {{- with secret "secret/data/outline/storage-prod" -}}
+        #     {{ .Data.data.accessKeyId | writeFile "/vault/secrets/storage_access_key_id" }}
+        #     {{ .Data.data.secretAccessKey | writeFile "/vault/secrets/storage_secret_access_key" }}
+        #     {{ .Data.data.bucket | writeFile "/vault/secrets/storage_bucket" }}
+        #     {{ .Data.data.region | writeFile "/vault/secrets/storage_region" }}
+        #     {{- if .Data.data.endpoint }}{{ .Data.data.endpoint | writeFile "/vault/secrets/storage_endpoint" }}{{- end }}
+        #     {{- end }}
+
+        ingress:
+          enabled: true
+          className: "nginx"
+          hosts:
+            - host: outline.eco.tsi-dev.otc-service.com
+              paths:
+                - path: /
+                  pathType: Prefix
+          tls:
+            - secretName: outline-tls-secret
+              hosts:
+                - outline.eco.tsi-dev.otc-service.com
+
+        outline:
+          url: "https://outline.eco.tsi-dev.otc-service.com"
+
+          auth:
+            oidc:
+              enabled: true
+              name: "Keycloak"
+              clientIdFile: "/vault/secrets/oidc_client_id"
+              clientSecretFile: "/vault/secrets/oidc_client_secret"
+              authUrl: "https://oidc.provider.com/auth"
+              tokenUrl: "https://oidc.provider.com/token"
+              userinfoUrl: "https://oidc.provider.com/userinfo"
+
+          postgresql:
+            enabled: false
+
+          externalPostgresql:
+            databaseUrl:
+              file: "/vault/secrets/database_url"
+
+          redis:
+            enabled: true
+            mode: local
+
+          fileStorage:
+            mode: "local"
+            enabled: true
+
+          image:
+            repository: outline/outline
+            tag: "v0.84.0"
+            pullPolicy: IfNotPresent
+
+          resources:
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+            requests:
+              cpu: 2000m
+              memory: 2Gi
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
