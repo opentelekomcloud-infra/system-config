@@ -10,6 +10,8 @@ metadata:
     cert-manager.io/private-key-rotation-policy: Always
     # NO OAuth2 annotations for API endpoints - use Zuul JWT authentication instead
     nginx.ingress.kubernetes.io/use-regex: "true"
+    # Higher priority to match before the catch-all / path with OAuth2
+    nginx.ingress.kubernetes.io/priority: "100"
 spec:
   ingressClassName: nginx
   rules:
