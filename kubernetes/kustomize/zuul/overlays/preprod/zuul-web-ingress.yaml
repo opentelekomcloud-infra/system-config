@@ -8,9 +8,9 @@ metadata:
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
     cert-manager.io/private-key-rotation-policy: Always
-    nginx.ingress.kubernetes.io/auth-url: "https://zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com/oauth2/auth"
-    nginx.ingress.kubernetes.io/auth-signin: "https://zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com/oauth2/start?rd=$scheme://$best_http_host$request_uri"
-    nginx.ingress.kubernetes.io/auth-response-headers: "X-Auth-Request-User,X-Auth-Request-Email,X-Auth-Request-Access-Token"
+    # OAuth2 removed - Zuul has its own authentication system
+    # API endpoints use JWT authentication
+    # Web UI uses Zitadel OIDC authentication configured in zuul.conf
 spec:
   ingressClassName: nginx
   rules:
