@@ -22,6 +22,13 @@ spec:
                 name: zuul-web
                 port:
                   number: 9000
+          - path: /api/tenant/[^/]+/status
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: zuul-web
+                port:
+                  number: 9000
   tls:
     - hosts:
         - zuul.eco-preprod.tsi-dev.otc-service.com
