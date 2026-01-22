@@ -11,4 +11,4 @@ resources:
 images:
 - name: gitea-webhook-translator
   newName: quay.io/opentelekomcloud/gitea-webhook-translator
-  newTag: latest
+  newTag: "1.0.2"
