@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
     cert-manager.io/private-key-rotation-policy: Always
+    nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/priority: "100"
 spec:
   ingressClassName: nginx
@@ -15,15 +16,15 @@ spec:
     - host: zuul.eco-preprod.tsi-dev.otc-service.com
       http:
         paths:
-          - path: /api/tenant/preprod/enqueue
-            pathType: Prefix
+          - path: /api/tenant/[^/]+/enqueue
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: zuul-web
                 port:
                   number: 9000
-          - path: /api/tenant/preprod/status
-            pathType: Prefix
+          - path: /api/tenant/[^/]+/status
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: zuul-web
