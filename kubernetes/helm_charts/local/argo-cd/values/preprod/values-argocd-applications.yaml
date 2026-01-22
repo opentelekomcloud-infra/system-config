@@ -263,7 +263,7 @@ applications:
     config:
       namespace: giji
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Helm_charts_restructure&Pre-Prod_setup'
+      targetRevision: 'giji_first_build'
       path: kubernetes/kustomize/giji/base/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
