@@ -7,10 +7,6 @@ metadata:
 spec:
   template:
     spec:
-      hostAliases:
-        - ip: "10.247.14.72"
-          hostnames:
-            - "api.github.com"
       volumes:
         - name: zuul-ssh-keys
           secret:
