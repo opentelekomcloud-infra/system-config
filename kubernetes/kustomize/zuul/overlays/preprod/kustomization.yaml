@@ -65,6 +65,7 @@ resources:
   - zuul-config-pv.yaml
   - zuul-config-pvc.yaml
   - zuul-web-webhook-ingress.yaml
+  - zuul-web-api-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
 
