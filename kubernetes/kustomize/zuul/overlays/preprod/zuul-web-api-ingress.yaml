@@ -13,18 +13,11 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: zuul.eco-preprod.tsi-dev.otc-service.com
+    - host: api.zuul.eco-preprod.tsi-dev.otc-service.com
       http:
         paths:
-          - path: /api/tenant/[^/]+/enqueue
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: zuul-web
-                port:
-                  number: 9000
-          - path: /api/tenant/[^/]+/status
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: zuul-web
@@ -32,5 +25,5 @@ spec:
                   number: 9000
   tls:
     - hosts:
-        - zuul.eco-preprod.tsi-dev.otc-service.com
-      secretName: zuul-preprod-cert
+        - api.zuul.eco-preprod.tsi-dev.otc-service.com
+      secretName: zuul-preprod-api-cert
