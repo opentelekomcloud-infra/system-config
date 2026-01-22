@@ -14,6 +14,8 @@ spec:
       labels:
         app: gitea-webhook-translator
     spec:
+      imagePullSecrets:
+      - name: quay-image-pull-secret
       containers:
       - name: translator
         image: gitea-webhook-translator:latest
