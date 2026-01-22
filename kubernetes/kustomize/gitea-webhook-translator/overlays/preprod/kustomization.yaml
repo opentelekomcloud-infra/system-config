@@ -6,7 +6,7 @@ namespace: zuul
 resources:
 - ../../base
 - ingress.yaml
-- external-secret.yaml
+- secret.yaml
 
 images:
 - name: gitea-webhook-translator
