@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-webhook-translator
+  labels:
+    app: gitea-webhook-translator
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gitea-webhook-translator
+  template:
+    metadata:
+      labels:
+        app: gitea-webhook-translator
+    spec:
+      containers:
+      - name: translator
+        image: gitea-webhook-translator:latest
+        ports:
+        - containerPort: 8080
+          name: http
+        env:
+        - name: ZUUL_WEBHOOK_URL
+          value: "http://zuul-web.zuul.svc.cluster.local:9000/api/connection/github/payload"
+        - name: GITHUB_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: gitea-webhook-translator
+              key: github-webhook-secret
+        - name: GITEA_WEBHOOK_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: gitea-webhook-translator
+              key: gitea-webhook-secret
+              optional: true
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 200m
+            memory: 256Mi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
