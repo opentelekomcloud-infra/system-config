@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="Gitea to GitHub Webhook Translator")
 
 # Configuration
-ZUUL_WEBHOOK_URL = os.getenv("ZUUL_WEBHOOK_URL", "http://zuul-web:9000/api/connection/github/payload")
+ZUUL_WEBHOOK_URL = os.getenv("ZUUL_WEBHOOK_URL", "http://zuul-web:9000/api/connection/gitea/payload")
 GITHUB_WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET", "")
 GITEA_WEBHOOK_SECRET = os.getenv("GITEA_WEBHOOK_SECRET", "")
 
