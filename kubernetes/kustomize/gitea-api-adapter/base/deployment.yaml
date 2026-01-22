@@ -20,8 +20,8 @@ spec:
       - name: adapter
         image: gitea-api-adapter:latest
         ports:
-        - containerPort: 8080
-          name: http
+        - containerPort: 443
+          name: https
         env:
         - name: GITEA_BASE_URL
           value: "https://gitea.eco.tsi-dev.otc-service.com"
@@ -35,13 +35,15 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 443
+            scheme: HTTPS
           initialDelaySeconds: 10
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /health
-            port: 8080
+            port: 443
+            scheme: HTTPS
           initialDelaySeconds: 5
           periodSeconds: 5
         resources:
