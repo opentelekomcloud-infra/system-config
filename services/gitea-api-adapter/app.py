@@ -102,10 +102,71 @@ async def get_meta():
         raise HTTPException(status_code=502, detail=f"Error connecting to Gitea: {str(e)}")
 
 
-@app.api_route("/api/v3/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
-async def proxy_api_request(path: str, request: Request):
+@app.api_route("/repos/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_repos_request(path: str, request: Request):
     """
-    Generic proxy for all other GitHub API v3 requests.
+    Proxy for GitHub API requests starting with /repos/.
+    This handles the standard GitHub API format (api.github.com/repos/...).
+    Translates to Gitea API v1 paths.
+    """
+    logger.info(f"Proxying {request.method} request: /repos/{path}")
+
+    # Translate path - add /api/v1/repos/ prefix for Gitea
+    v1_path = f"/api/v1/repos/{path}"
+    gitea_url = f"{GITEA_BASE_URL}{v1_path}"
+
+    # Prepare headers
+    headers = {}
+    if GITEA_API_TOKEN:
+        headers["Authorization"] = f"token {GITEA_API_TOKEN}"
+
+    # Copy relevant headers from original request
+    for header in ["Content-Type", "Accept"]:
+        if header.lower() in request.headers:
+            headers[header] = request.headers[header.lower()]
+
+    # Get query parameters
+    query_params = dict(request.query_params)
+
+    # Get request body if present
+    body = None
+    if request.method in ["POST", "PUT", "PATCH"]:
+        body = await request.body()
+
+    try:
+        logger.debug(f"Forwarding to Gitea: {request.method} {gitea_url}")
+        logger.debug(f"Headers: {headers}")
+        logger.debug(f"Query params: {query_params}")
+
+        # Forward request to Gitea
+        gitea_response = await http_client.request(
+            method=request.method,
+            url=gitea_url,
+            headers=headers,
+            params=query_params,
+            content=body
+        )
+
+        logger.info(f"Gitea response: {gitea_response.status_code}")
+
+        # Return Gitea response (most endpoints have compatible structure)
+        return Response(
+            content=gitea_response.content,
+            status_code=gitea_response.status_code,
+            headers=dict(gitea_response.headers),
+            media_type=gitea_response.headers.get("content-type", "application/json")
+        )
+
+    except httpx.RequestError as e:
+        logger.error(f"Error connecting to Gitea: {e}")
+        raise HTTPException(status_code=502, detail=f"Error connecting to Gitea: {str(e)}")
+
+
+@app.api_route("/api/v3/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
+async def proxy_api_v3_request(path: str, request: Request):
+    """
+    Generic proxy for GitHub API v3 requests with /api/v3/ prefix.
+    This handles GitHub Enterprise format paths.
     Translates v3 paths to v1 and forwards to Gitea.
     """
     logger.info(f"Proxying {request.method} request: /api/v3/{path}")
