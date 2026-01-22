@@ -134,7 +134,8 @@ async def gitea_webhook(request: Request):
 
         # Convert to GitHub format
         github_payload = convert_gitea_to_github(gitea_payload, gitea_event)
-        github_payload_bytes = json.dumps(github_payload).encode()
+        # Use compact JSON encoding without extra spaces (same as GitHub)
+        github_payload_bytes = json.dumps(github_payload, separators=(',', ':')).encode('utf-8')
 
         # Sign with GitHub secret
         github_signature = sign_github_payload(github_payload_bytes)
