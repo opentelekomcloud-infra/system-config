@@ -29,3 +29,8 @@
                 - preprod
               extra-config-paths:
                 - zuul.d/preprod
+      gitea:
+        untrusted-projects:
+          - infra/system-config:
+              include-branches:
+                - preprod
