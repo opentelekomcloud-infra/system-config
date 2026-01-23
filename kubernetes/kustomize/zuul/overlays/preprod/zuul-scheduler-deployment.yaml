@@ -40,7 +40,7 @@ spec:
               readOnly: true
         - name: api-proxy
           image: quay.io/opentelekomcloud/zuul-api-proxy:1.0.0
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
               name: proxy
