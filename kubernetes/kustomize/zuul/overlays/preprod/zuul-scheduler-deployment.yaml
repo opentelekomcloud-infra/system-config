@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       hostAliases:
-        - ip: "80.158.23.198"
+        - ip: "10.247.122.183"
           hostnames:
             - "api.github.com"
       securityContext:
@@ -24,6 +24,7 @@ spec:
               - key: main.yaml
                 path: preprod/main.yaml
       containers:
+        - name: zuul
           image: zuul/zuul-scheduler
           volumeMounts:
             - name: zuul-ssh-keys
