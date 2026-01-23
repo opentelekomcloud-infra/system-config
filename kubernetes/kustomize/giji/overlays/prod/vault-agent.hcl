@@ -1,0 +1,82 @@
+pid_file = "/home/vault/pidfile"
+
+auto_auth {
+    method "kubernetes" {
+        mount_path = "auth/kubernetes_otcinfra2"
+        config = {
+            role = "giji"
+            token_path = "/var/run/secrets/tokens/vault-token"
+        }
+    }
+    sink "file" {
+        config = {
+            path = "/home/vault/.vault-token"
+        }
+    }
+}
+
+api_proxy {
+    use_auto_auth_token = "force"
+    enforce_consistency = "always"
+}
+
+listener "tcp" {
+    address = "127.0.0.1:8100"
+    tls_disable = true
+}
+
+# Jira certificate (PEM)
+template {
+    destination = "/secrets/jira-cert.pem"
+    contents = <<EOT
+{{ with secret "secret/data/jira/autoecobot" -}}
+{{ .Data.data.jira_pem }}
+{{- end }}
+EOT
+    perms = "0600"
+}
+
+# Jira private key
+template {
+    destination = "/secrets/jira-key.pem"
+    contents = <<EOT
+{{ with secret "secret/data/jira/autoecobot" -}}
+{{ .Data.data.jira_key }}
+{{- end }}
+EOT
+    perms = "0600"
+}
+
+# Environment variables
+template {
+    destination = "/secrets/giji-env"
+    contents = <<EOT
+{{ with secret "secret/data/github/otcbot" -}}
+export GITHUB_TOKEN={{ .Data.data.otcbot_giji_token }}
+{{- end }}
+{{ with secret "secret/data/helpcenter/monitoring/github" -}}
+export GITHUB_API_URL={{ .Data.data.github_api_url }}
+export GITHUB_ORGS={{ .Data.data.github_orgs }}
+{{- end }}
+
+{{ with secret "secret/data/helpcenter/monitoring/postgresql" -}}
+export DB_HOST={{ .Data.data.host }}
+export DB_PORT={{ .Data.data.port }}
+export DB_CSV={{ .Data.data.dbname }}
+export DB_USER={{ .Data.data.username }}
+export DB_PASSWORD={{ .Data.data.password }}
+{{- end }}
+
+{{ with secret "secret/data/gitea" -}}
+export BASE_GITEA_URL={{ .Data.data.base_url }}
+{{- end }}
+
+{{ with secret "secret/data/jira/autoecobot" -}}
+export JIRA_API_URL={{ .Data.data.jira_api_url }}
+export JIRA_TOKEN={{ .Data.data.jira_api_key }}
+{{- end }}
+export JIRA_CERT_PATH=/secrets/jira-cert.pem
+export JIRA_KEY_PATH=/secrets/jira-key.pem
+EOT
+    perms = "0600"
+}
