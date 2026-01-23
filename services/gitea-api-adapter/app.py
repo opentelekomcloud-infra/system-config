@@ -102,6 +102,32 @@ async def get_meta():
         raise HTTPException(status_code=502, detail=f"Error connecting to Gitea: {str(e)}")
 
 
+@app.get("/meta")
+async def github_meta():
+    """
+    GitHub Enterprise /meta endpoint compatibility.
+    Returns minimal info that Zuul expects to detect GitHub Enterprise.
+    """
+    try:
+        # Get Gitea version
+        gitea_version_url = f"{GITEA_BASE_URL}/api/v1/version"
+        response = await http_client.get(gitea_version_url)
+        gitea_info = response.json() if response.status_code == 200 else {}
+        
+        # Return GitHub Enterprise-compatible response
+        return JSONResponse({
+            "installed_version": gitea_info.get("version", "1.24.0"),
+            "github_enterprise": True
+        })
+    except Exception as e:
+        logger.error(f"Error getting Gitea version: {e}")
+        # Return default response even on error
+        return JSONResponse({
+            "installed_version": "1.24.0",
+            "github_enterprise": True
+        })
+
+
 @app.api_route("/repos/{path:path}", methods=["GET", "POST", "PUT", "PATCH", "DELETE"])
 async def proxy_repos_request(path: str, request: Request):
     """
