@@ -50,7 +50,7 @@ spec:
               mountPath: /mitmproxy-ca
               readOnly: true
         - name: api-proxy
-          image: quay.io/opentelekomcloud/zuul-api-proxy:1.0.4
+          image: quay.io/opentelekomcloud/zuul-api-proxy:1.0.5
           imagePullPolicy: Always
           volumeMounts:
             - name: mitmproxy-ca
