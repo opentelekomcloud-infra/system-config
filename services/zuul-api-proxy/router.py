@@ -1,0 +1,51 @@
+"""
+Mitmproxy addon to intelligently route GitHub API calls.
+
+Routes:
+- /app/* → api.github.com (GitHub App API - real GitHub)
+- /repos/infra/* → gitea-api-adapter (Gitea repos)
+- everything else → api.github.com (fallback)
+"""
+import re
+from mitmproxy import http
+
+
+# Gitea organization/users that should be routed to gitea-api-adapter
+GITEA_ORGS = ["infra"]
+
+# Target for Gitea API calls
+GITEA_API_ADAPTER = "gitea-api-adapter.zuul.svc.cluster.local"
+REAL_GITHUB_API = "api.github.com"
+
+
+class APIRouter:
+    def request(self, flow: http.HTTPFlow) -> None:
+        # Only process requests to api.github.com
+        if flow.request.host != REAL_GITHUB_API:
+            return
+
+        path = flow.request.path
+        
+        # GitHub App API calls must go to real GitHub
+        if path.startswith("/app/"):
+            # Keep destination as api.github.com
+            return
+        
+        # Check if this is a Gitea repository path
+        # Pattern: /repos/{org}/{repo}/*
+        repo_match = re.match(r'^/repos/([^/]+)/', path)
+        if repo_match:
+            org = repo_match.group(1)
+            if org in GITEA_ORGS:
+                # Route to gitea-api-adapter
+                flow.request.host = GITEA_API_ADAPTER
+                flow.request.port = 443
+                # Keep the path as-is, gitea-api-adapter will translate
+                return
+        
+        # All other requests go to real GitHub (default)
+        # This includes /user, /meta, etc.
+        pass
+
+
+addons = [APIRouter()]
