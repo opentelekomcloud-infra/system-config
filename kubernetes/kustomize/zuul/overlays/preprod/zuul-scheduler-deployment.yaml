@@ -22,6 +22,7 @@ spec:
       containers:
         - name: zuul
           image: zuul/zuul-scheduler
+          imagePullPolicy: Always
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
