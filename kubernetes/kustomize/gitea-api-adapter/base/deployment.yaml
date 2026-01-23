@@ -20,6 +20,8 @@ spec:
       - name: adapter
         image: gitea-api-adapter:latest
         ports:
+        - containerPort: 443
+          name: https
         - containerPort: 8080
           name: http
         env:
