@@ -20,8 +20,8 @@ REAL_GITHUB_API = "api.github.com"
 
 class APIRouter:
     def request(self, flow: http.HTTPFlow) -> None:
-        # Only process requests to api.github.com
-        if flow.request.host != REAL_GITHUB_API:
+        # Process requests to api.github.com and gitea.eco.tsi-dev.otc-service.com
+        if flow.request.host not in [REAL_GITHUB_API, "gitea.eco.tsi-dev.otc-service.com"]:
             return
 
         path = flow.request.path
@@ -29,6 +29,8 @@ class APIRouter:
         # GitHub App API calls must go to real GitHub
         if path.startswith("/app/"):
             # Keep destination as api.github.com
+            flow.request.host = REAL_GITHUB_API
+            flow.request.port = 443
             return
         
         # GitHub Enterprise /meta endpoint - route to gitea-api-adapter
