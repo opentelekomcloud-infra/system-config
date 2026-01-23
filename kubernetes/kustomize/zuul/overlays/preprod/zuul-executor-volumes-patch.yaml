@@ -20,7 +20,7 @@ spec:
             defaultMode: 0644
       initContainers:
         - name: fix-permissions
-          image: busybox
+          image: alpine:3.19
           command: ['sh', '-c', 'chown -R 10001:10001 /var/lib/zuul/ansible || true; chmod -R 755 /var/lib/zuul/ansible || true']
           volumeMounts:
             - name: zuul-var
