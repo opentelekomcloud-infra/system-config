@@ -32,5 +32,9 @@
       gitea:
         untrusted-projects:
           - infra/system-config:
+              include:
+                - project
               include-branches:
                 - preprod
+              extra-config-paths:
+                - zuul.d/preprod
