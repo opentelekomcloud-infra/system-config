@@ -6,6 +6,8 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       securityContext:
         fsGroup: 10001
       volumes:
@@ -38,6 +40,7 @@ spec:
               readOnly: true
         - name: api-proxy
           image: quay.io/opentelekomcloud/zuul-api-proxy:1.0.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
               name: proxy
