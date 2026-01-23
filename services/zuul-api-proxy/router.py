@@ -33,7 +33,8 @@ class APIRouter:
         
         # GitHub Enterprise /meta endpoint - route to gitea-api-adapter
         # This is called by Zuul to detect GitHub Enterprise installation
-        if path == "/meta" or path.startswith("/meta?"):
+        # GitHub API v3 uses /api/v3/meta path
+        if path == "/meta" or path.startswith("/meta?") or path == "/api/v3/meta" or path.startswith("/api/v3/meta?"):
             flow.request.host = GITEA_API_ADAPTER
             flow.request.port = 443
             return
