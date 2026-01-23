@@ -17,16 +17,29 @@ spec:
         - name: gitconfig
           configMap:
             name: zuul-merger-gitconfig
+        - name: zuul-home
+          emptyDir: {}
+      initContainers:
+        - name: setup-gitconfig
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              cp /etc/zuul-git/gitconfig /var/lib/zuul/.gitconfig
+              chmod 644 /var/lib/zuul/.gitconfig
+          volumeMounts:
+            - name: gitconfig
+              mountPath: /etc/zuul-git
+              readOnly: true
+            - name: zuul-home
+              mountPath: /var/lib/zuul
       containers:
         - name: zuul
           image: zuul/zuul-merger
-          env:
-            - name: GIT_CONFIG_GLOBAL
-              value: /etc/zuul-git/gitconfig
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
               readOnly: true
-            - name: gitconfig
-              mountPath: /etc/zuul-git
-              readOnly: true
+            - name: zuul-home
+              mountPath: /var/lib/zuul
