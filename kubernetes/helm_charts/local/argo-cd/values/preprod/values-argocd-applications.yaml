@@ -547,3 +547,4 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - SelfHeal=true
