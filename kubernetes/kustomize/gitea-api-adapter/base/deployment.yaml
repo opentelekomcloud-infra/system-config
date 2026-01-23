@@ -22,6 +22,8 @@ spec:
         ports:
         - containerPort: 443
           name: https
+        - containerPort: 8080
+          name: http
         env:
         - name: GITEA_BASE_URL
           value: "https://gitea.eco.tsi-dev.otc-service.com"
@@ -35,15 +37,15 @@ spec:
         livenessProbe:
           httpGet:
             path: /health
-            port: 443
-            scheme: HTTPS
+            port: 8080
+            scheme: HTTP
           initialDelaySeconds: 10
           periodSeconds: 10
         readinessProbe:
           httpGet:
             path: /health
-            port: 443
-            scheme: HTTPS
+            port: 8080
+            scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 5
         resources:
