@@ -14,10 +14,19 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0400
+        - name: gitconfig
+          configMap:
+            name: zuul-merger-gitconfig
       containers:
         - name: zuul
           image: zuul/zuul-merger
+          env:
+            - name: GIT_CONFIG_GLOBAL
+              value: /etc/zuul/gitconfig
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: gitconfig
+              mountPath: /etc/zuul
               readOnly: true
