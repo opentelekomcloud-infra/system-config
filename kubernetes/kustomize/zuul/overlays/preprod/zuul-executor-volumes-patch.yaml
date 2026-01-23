@@ -18,6 +18,18 @@ spec:
           secret:
             secretName: nodepool-config
             defaultMode: 0644
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              chown -R 10001:10001 /var/lib/zuul/ansible || true
+              chmod -R 755 /var/lib/zuul/ansible || true
+          volumeMounts:
+            - name: zuul-var
+              mountPath: /var/lib/zuul
       containers:
         - name: zuul
           imagePullPolicy: Always
