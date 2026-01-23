@@ -63,9 +63,9 @@ providers:
                 fsGroup: 1000
               volumes:
                 - name: zuul-workspace
-                  hostPath:
-                    path: /var/lib/zuul/builds
-                    type: Directory
+                  nfs:
+                    server: 192.168.150.233
+                    path: /builds
               containers:
                 - name: zuul-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
