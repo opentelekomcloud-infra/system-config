@@ -103,10 +103,12 @@ async def get_meta():
 
 
 @app.get("/meta")
+@app.get("/api/v3/meta")
 async def github_meta():
     """
     GitHub Enterprise /meta endpoint compatibility.
     Returns minimal info that Zuul expects to detect GitHub Enterprise.
+    Supports both /meta and /api/v3/meta paths.
     """
     try:
         # Get Gitea version
