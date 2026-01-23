@@ -24,6 +24,7 @@ spec:
       containers:
         - name: zuul
           image: zuul/zuul-merger
+          imagePullPolicy: Always
           env:
             - name: GIT_SSH_COMMAND
               value: "ssh -F /etc/ssh-config/config"

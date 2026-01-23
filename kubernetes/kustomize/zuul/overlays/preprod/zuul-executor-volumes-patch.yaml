@@ -20,6 +20,7 @@ spec:
             defaultMode: 0644
       containers:
         - name: zuul
+          imagePullPolicy: Always
           lifecycle:
             postStart:
               exec:
