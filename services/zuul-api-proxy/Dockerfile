@@ -9,9 +9,5 @@ WORKDIR /app
 # Expose proxy port
 EXPOSE 8080
 
-# Run mitmproxy in transparent mode with the routing addon
-CMD ["mitmdump", \
-     "--mode", "regular@8080", \
-     "--ssl-insecure", \
-     "-s", "/app/router.py", \
-     "--set", "upstream_cert=false"]
+# Copy CA cert to shared volume and run proxy
+CMD sh -c "cp /root/.mitmproxy/mitmproxy-ca-cert.pem /mitmproxy-ca/ 2>/dev/null || true; mitmdump --mode regular@8080 --ssl-insecure -s /app/router.py --set upstream_cert=false"
