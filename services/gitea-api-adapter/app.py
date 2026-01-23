@@ -153,8 +153,13 @@ async def proxy_repos_request(path: str, request: Request):
         if header.lower() in request.headers:
             headers[header] = request.headers[header.lower()]
 
-    # Get query parameters
+    # Get query parameters and translate GitHub params to Gitea params
     query_params = dict(request.query_params)
+    
+    # Translate GitHub query parameters to Gitea equivalents
+    if "per_page" in query_params:
+        query_params["limit"] = query_params.pop("per_page")
+        logger.debug(f"Translated query param: per_page -> limit")
 
     # Get request body if present
     body = None
@@ -213,8 +218,13 @@ async def proxy_api_v3_request(path: str, request: Request):
         if header.lower() in request.headers:
             headers[header] = request.headers[header.lower()]
 
-    # Get query parameters
+    # Get query parameters and translate GitHub params to Gitea params
     query_params = dict(request.query_params)
+    
+    # Translate GitHub query parameters to Gitea equivalents
+    if "per_page" in query_params:
+        query_params["limit"] = query_params.pop("per_page")
+        logger.debug(f"Translated query param: per_page -> limit")
 
     # Get request body if present
     body = None
