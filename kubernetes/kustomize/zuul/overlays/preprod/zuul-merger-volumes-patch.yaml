@@ -22,9 +22,8 @@ spec:
       initContainers:
         - name: setup-gitconfig
           image: busybox
-          command:
-            - sh
-            - -c
+          command: ["/bin/sh", "-c"]
+          args:
             - |
               cp /etc/zuul-git/gitconfig /var/lib/zuul/.gitconfig
               chmod 644 /var/lib/zuul/.gitconfig
