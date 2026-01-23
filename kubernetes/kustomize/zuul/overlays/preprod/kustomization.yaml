@@ -112,6 +112,12 @@ secretGenerator:
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
       - gitea.key=<path:secret/data/zuul/connections/gitea#sshkey>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
+  - name: zuul-merger-known-hosts
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - known_hosts=<path:secret/data/zuul/merger#known_hosts>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
     options:

@@ -17,6 +17,10 @@ spec:
         - name: ssh-config
           configMap:
             name: zuul-merger-ssh-config
+        - name: ssh-known-hosts
+          secret:
+            secretName: zuul-merger-known-hosts
+            defaultMode: 0600
       containers:
         - name: zuul
           image: zuul/zuul-merger
@@ -29,5 +33,8 @@ spec:
               readOnly: true
             - name: ssh-config
               mountPath: /etc/ssh-config
+              readOnly: true
+            - name: ssh-known-hosts
+              mountPath: /var/lib/zuul/.ssh
               readOnly: true
 
