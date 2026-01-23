@@ -22,6 +22,13 @@ spec:
       containers:
         - name: zuul
           image: zuul/zuul-scheduler
+          env:
+            - name: HTTPS_PROXY
+              value: "http://localhost:8080"
+            - name: HTTP_PROXY
+              value: "http://localhost:8080"
+            - name: NO_PROXY
+              value: "localhost,127.0.0.1,.svc.cluster.local,zookeeper.zuul.svc.cluster.local"
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
@@ -29,3 +36,9 @@ spec:
             - name: tenant-config
               mountPath: /etc/zuul-config/tenants
               readOnly: true
+        - name: api-proxy
+          image: quay.io/opentelekomcloud/zuul-api-proxy:1.0.0
+          ports:
+            - containerPort: 8080
+              name: proxy
+              protocol: TCP
