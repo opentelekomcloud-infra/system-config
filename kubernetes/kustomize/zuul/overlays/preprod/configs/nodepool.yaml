@@ -61,6 +61,11 @@ providers:
                 runAsUser: 1000
                 runAsGroup: 1000
                 fsGroup: 1000
+              volumes:
+                - name: zuul-workspace
+                  hostPath:
+                    path: /var/lib/zuul/builds
+                    type: Directory
               containers:
                 - name: zuul-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
@@ -72,6 +77,10 @@ providers:
                       value: /home/zuul
                     - name: USER
                       value: zuul
+                  volumeMounts:
+                    - name: zuul-workspace
+                      mountPath: /home/zuul
+                      subPathExpr: $(ZUUL_UUID)/work
                   resources:
                     requests:
                       cpu: "1"
