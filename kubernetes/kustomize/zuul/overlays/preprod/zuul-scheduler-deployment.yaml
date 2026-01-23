@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       hostAliases:
-        - ip: "127.0.0.1"
+        - ip: "80.158.23.198"
           hostnames:
             - "api.github.com"
       securityContext:
@@ -23,27 +23,7 @@ spec:
             items:
               - key: main.yaml
                 path: preprod/main.yaml
-        - name: envoy-config
-          configMap:
-            name: envoy-config
       containers:
-        - name: envoy
-          image: envoyproxy/envoy:v1.28-latest
-          args:
-            - -c
-            - /etc/envoy/envoy.yaml
-          ports:
-            - containerPort: 443
-              name: proxy
-              protocol: TCP
-            - containerPort: 9901
-              name: admin
-              protocol: TCP
-          volumeMounts:
-            - name: envoy-config
-              mountPath: /etc/envoy
-              readOnly: true
-        - name: zuul
           image: zuul/zuul-scheduler
           volumeMounts:
             - name: zuul-ssh-keys
