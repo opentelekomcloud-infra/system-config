@@ -7,11 +7,13 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        fsGroup: 10001
       volumes:
         - name: zuul-ssh-keys
           secret:
             secretName: zuul-ssh-keys
-            defaultMode: 0600
+            defaultMode: 0400
       containers:
         - name: zuul
           image: zuul/zuul-merger
