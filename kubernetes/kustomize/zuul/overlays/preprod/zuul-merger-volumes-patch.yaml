@@ -22,11 +22,11 @@ spec:
           image: zuul/zuul-merger
           env:
             - name: GIT_CONFIG_GLOBAL
-              value: /etc/zuul/gitconfig
+              value: /etc/zuul-git/gitconfig
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
               readOnly: true
             - name: gitconfig
-              mountPath: /etc/zuul
+              mountPath: /etc/zuul-git
               readOnly: true
