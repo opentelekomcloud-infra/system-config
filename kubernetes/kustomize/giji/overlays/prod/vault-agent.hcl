@@ -75,6 +75,23 @@ export BASE_GITEA_URL={{ .Data.data.base_url }}
 export JIRA_API_URL={{ .Data.data.jira_api_url }}
 export JIRA_TOKEN={{ .Data.data.jira_api_key }}
 {{- end }}
+
+{{ with secret "secret/data/giji/master_component" -}}
+export DEH="{{ .Data.data.dedicated-host }}"
+export ASG="{{ .Data.data.auto-scaling }}"
+export ECS="{{ .Data.data.elastic-cloud-server }}"
+export IMS="{{ .Data.data.image-management-service }}"
+export BMS="{{ .Data.data.bare-metal-server }}"
+export RDS="{{ .Data.data.relational-database-service }}"
+export OPENGAUSS="{{ .Data.data.gaussdb-opengauss }}"
+export GEMINIDB="{{ .Data.data.geminidb }}"
+export MYSQL="{{ .Data.data.gaussdb-mysql }}"
+export DRS="{{ .Data.data.data-replication-service }}"
+export DAS="{{ .Data.data.data-admin-service }}"
+export DDM="{{ .Data.data.distributed-database-middleware }}"
+export DDS="{{ .Data.data.document-database-service }}"
+{{ end }}
+
 export JIRA_CERT_PATH=/secrets/jira-cert.pem
 export JIRA_KEY_PATH=/secrets/jira-key.pem
 EOT
