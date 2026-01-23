@@ -67,6 +67,7 @@ resources:
   - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
+  - envoy-config.yaml
 
 bases:
   - ../../base
