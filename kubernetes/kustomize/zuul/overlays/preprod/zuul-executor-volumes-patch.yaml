@@ -13,7 +13,7 @@ spec:
         - name: zuul-ssh-keys
           secret:
             secretName: zuul-ssh-keys
-            defaultMode: 0600
+            defaultMode: 0644
         - name: openstack-config
           secret:
             secretName: nodepool-config
