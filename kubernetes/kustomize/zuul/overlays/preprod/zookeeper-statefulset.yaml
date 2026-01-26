@@ -25,7 +25,7 @@ spec:
     - metadata:
         name: data
       spec:
-        storageClassName: csi-disk
+        storageClassName: csi-disk-retain
         accessModes:
           - ReadWriteOnce
         resources:
