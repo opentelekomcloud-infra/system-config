@@ -21,7 +21,7 @@ spec:
       initContainers:
         - name: fix-permissions
           image: alpine:3.19
-          command: ['sh', '-c', 'chown -R 10001:10001 /var/lib/zuul/ansible /var/lib/zuul/builds || true; chmod -R 755 /var/lib/zuul/ansible /var/lib/zuul/builds || true']
+          command: ['sh', '-c', 'chown -R 10001:10001 /var/lib/zuul || true; chmod -R 755 /var/lib/zuul || true']
           volumeMounts:
             - name: zuul-var
               mountPath: /var/lib/zuul
