@@ -108,7 +108,7 @@ secretGenerator:
     options:
       disableNameSuffixHash: true
       annotations:
-        replicator.v1.mittwald.de/replicate-to: "default-*"
+        replicator.v1.mittwald.de/replicate-to: default-.*
     literals:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
