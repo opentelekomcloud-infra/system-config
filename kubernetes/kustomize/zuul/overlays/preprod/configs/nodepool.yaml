@@ -66,6 +66,8 @@ providers:
                   secret:
                     secretName: zuul-ssh-keys
                     defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
               containers:
                 - name: zuul-debian
                   image: quay.io/opentelekomcloud/python-tox:latest
@@ -81,6 +83,8 @@ providers:
                     - name: zuul-ssh-keys
                       mountPath: /etc/zuul-ssh-keys
                       readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
                   resources:
                     requests:
                       cpu: "1"
