@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zookeeper-pv-0
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-disk-retain
+  csi:
+    driver: disk.csi.everest.io
+    fsType: ext4
+    volumeHandle: zookeeper-pv-0
+  claimRef:
+    name: data-zookeeper-0
+    namespace: zuul
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zookeeper-pv-1
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-disk-retain
+  csi:
+    driver: disk.csi.everest.io
+    fsType: ext4
+    volumeHandle: zookeeper-pv-1
+  claimRef:
+    name: data-zookeeper-1
+    namespace: zuul
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zookeeper-pv-2
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: csi-disk-retain
+  csi:
+    driver: disk.csi.everest.io
+    fsType: ext4
+    volumeHandle: zookeeper-pv-2
+  claimRef:
+    name: data-zookeeper-2
+    namespace: zuul
