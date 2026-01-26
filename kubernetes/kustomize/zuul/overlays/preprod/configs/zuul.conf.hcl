@@ -62,6 +62,17 @@ api_token=<path:secret/data/zuul/connections/gitlab#api_token>
 webhook_token=<path:secret/data/zuul/connections/gitlab#webhook_token>
 sshkey=<path:secret/data/zuul/connections/gitlab#ssh_key>
 
+[connection "gitea"]
+name=gitea
+driver=gitea
+canonical_hostname=gitea.eco.tsi-dev.otc-service.com
+server=https://gitea.eco.tsi-dev.otc-service.com
+api_token=<path:secret/data/zuul/connections/gitea#api_token>
+webhook_token=<path:secret/data/zuul/connections/gitea#webhook_token>
+sshkey=<path:secret/data/zuul/connections/gitea#ssh_key>
+git_host=gitea.eco.tsi-dev.otc-service.com
+git_port=2222
+
 [connection "opendev"]
 name=opendev
 driver=git
