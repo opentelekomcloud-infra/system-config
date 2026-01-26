@@ -65,24 +65,24 @@ outline:
     type: ClusterIP
     port: 3000
 
-  # Ingress with TLS
-  ingress:
-    enabled: true
-    className: "nginx"
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/proxy-body-size: "50m"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-    hosts:
-      - host: outline.eco-preprod.tsi-dev.otc-service.com
-        paths:
-          - path: /
-            pathType: Prefix
-    tls:
-      - secretName: outline-tls
-        hosts:
-          - outline.eco-preprod.tsi-dev.otc-service.com
+  # # Ingress with TLS
+  # ingress:
+  #   enabled: true
+  #   className: "nginx"
+  #   annotations:
+  #     cert-manager.io/cluster-issuer: letsencrypt-prod
+  #     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  #     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+  #     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+  #   hosts:
+  #     - host: outline.eco-preprod.tsi-dev.otc-service.com
+  #       paths:
+  #         - path: /
+  #           pathType: Prefix
+  #   tls:
+  #     - secretName: outline-tls
+  #       hosts:
+  #         - outline.eco-preprod.tsi-dev.otc-service.com
 
   # Resource limits
   resources:
