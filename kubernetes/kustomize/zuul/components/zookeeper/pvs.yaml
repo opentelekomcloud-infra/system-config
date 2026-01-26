@@ -56,17 +56,18 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteOnce
-  persisteAttributes:
-      everest.io/disk-mode: SCSI
-      everest.io/disk-volume-type: SAS
-      everest.io/enterprise-project-id: "0"
-      storage.kubernetes.io/csiProvisionerIdentity: everest-csi-provisioner
-    volumeHandle: zookeeper-pv-2-volume-id Retain
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: csi-disk-retain
   csi:
     driver: disk.csi.everest.io
     fsType: ext4
-    volumeHandle: zookeeper-pv-2
+    volumeAttributes:
+      everest.io/disk-mode: SCSI
+      everest.io/disk-volume-type: SAS
+      everest.io/enterprise-project-id: "0"
+      storage.kubernetes.io/csiProvisionerIdentity: everest-csi-provisioner
+    volumeHandle: zookeeper-pv-2-volume-id
   claimRef:
     name: data-zookeeper-2
     namespace: zuul
+
