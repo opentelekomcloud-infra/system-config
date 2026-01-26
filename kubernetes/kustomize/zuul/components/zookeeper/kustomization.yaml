@@ -27,4 +27,3 @@ resources:
   - service.yaml
   - statefulset.yaml
   - pdb.yaml
-  - pvs.yaml
