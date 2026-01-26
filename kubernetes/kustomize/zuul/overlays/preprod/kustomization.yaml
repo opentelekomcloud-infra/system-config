@@ -43,15 +43,15 @@ images:
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v4"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v4"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v4"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
