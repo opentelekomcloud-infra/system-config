@@ -51,7 +51,7 @@ images:
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea-v3"
+    newTag: "13.1.1-gitea"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
