@@ -6,14 +6,18 @@
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
+            branches: ^([^m].*|m[^a].*|ma[^i].*|mai[^n].*)$
         - otc-tox-docs:
             nodeset: zuul-debian
+            branches: ^([^m].*|m[^a].*|ma[^i].*|mai[^n].*)$
     gate:
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
+            branches: ^([^m].*|m[^a].*|ma[^i].*|mai[^n].*)$
         - otc-tox-docs:
             nodeset: zuul-debian
+            branches: ^([^m].*|m[^a].*|ma[^i].*|mai[^n].*)$
     post:
       jobs:
         - project-cleanup
