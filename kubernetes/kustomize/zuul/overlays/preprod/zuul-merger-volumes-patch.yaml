@@ -38,4 +38,3 @@ spec:
             - name: ssh-known-hosts
               mountPath: /var/lib/zuul/.ssh
               readOnly: true
-
