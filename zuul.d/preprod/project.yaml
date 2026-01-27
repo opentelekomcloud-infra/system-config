@@ -6,14 +6,18 @@
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
+            branches: ^.*$
         - otc-tox-docs:
             nodeset: zuul-debian
+            branches: ^.*$
     gate:
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
+            branches: ^.*$
         - otc-tox-docs:
             nodeset: zuul-debian
+            branches: ^.*$
     post:
       jobs:
         - project-cleanup
