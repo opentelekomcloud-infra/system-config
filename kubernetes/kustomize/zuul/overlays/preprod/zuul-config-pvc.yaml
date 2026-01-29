@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: "zuul"
     app.kubernetes.io/component: "zuul-config"
 spec:
-  storageClassName: ""
+  storageClassName: "csi-sfsturbo"
   volumeName: zuul-config-sfs-turbo
   accessModes:
     - ReadWriteMany
