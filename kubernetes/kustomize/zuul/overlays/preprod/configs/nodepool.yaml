@@ -94,7 +94,20 @@ providers:
                       memory: "1024Mi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
+<<<<<<< HEAD
             context: preprod
+=======
+            # Mount shared NFS storage directly (not via PVC)
+            # Direct NFS mount works across all namespaces
+            volumes:
+              - name: zuul-builds-shared
+                nfs:
+                  server: 192.168.150.233
+                  path: /builds
+            volume-mounts:
+              - name: zuul-builds-shared
+                mountPath: /var/lib/zuul/builds
+>>>>>>> b29e9324 (Add shell-type to pod-debian label for proper kubectl exec connection)
 
 diskimages:
   - name: debian-bookworm
