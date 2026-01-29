@@ -6,10 +6,10 @@
       jobs:
         - otc-tox-linters:
             nodeset: zuul-debian
-            branches: ^.*$
+            branches: ^(?!main$).*$
         - otc-tox-docs:
             nodeset: zuul-debian
-            branches: ^.*$
+            branches: ^(?!main$).*$
     gate:
       jobs:
         - otc-tox-linters:
