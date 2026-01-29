@@ -10,6 +10,6 @@ kubernetes-replicator:
     limits:
       cpu: 200m
       memory: 256Mi
-  
+
   # Watch all namespaces
   watchNamespace: ""
