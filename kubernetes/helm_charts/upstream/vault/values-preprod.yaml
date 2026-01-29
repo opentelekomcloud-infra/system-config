@@ -135,14 +135,14 @@ server:
   dataStorage:
     enabled: true
     size: 10Gi
-    storageClass: "csi-disk"
+    storageClass: "csi-disk-retain"
     accessMode: ReadWriteOnce
 
   # Audit storage configuration
   auditStorage:
     enabled: true
     size: 5Gi
-    storageClass: "csi-disk"
+    storageClass: "csi-disk-retain"
     accessMode: ReadWriteOnce
 
   # High Availability configuration
