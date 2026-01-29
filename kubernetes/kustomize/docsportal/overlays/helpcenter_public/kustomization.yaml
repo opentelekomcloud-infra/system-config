@@ -204,9 +204,12 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
-  - name: "object-storage-service-3rd-party"
+  - name: "object-storage-service-3rd-party-aa"
     files:
-      - "configs/redirect_maps/object-storage-service-3rd-party"
+      - "configs/redirect_maps/object-storage-service-3rd-party-aa"
+  - name: "object-storage-service-3rd-party-ab"
+    files:
+      - "configs/redirect_maps/object-storage-service-3rd-party-ab"
   - name: "object-storage-service-aa"
     files:
       - "configs/redirect_maps/object-storage-service-aa"
