@@ -5,6 +5,8 @@ metadata:
   annotations:
     # Certificate Management
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    # File Upload Size (avoid 413)
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
 
     # TLS Security - MitM Protection
     # nginx.ingress.kubernetes.io/ssl-redirect: "true"

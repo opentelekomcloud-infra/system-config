@@ -3,11 +3,14 @@ kind: Kustomization
 
 images:
   - name: "dependencytrack/apiserver"
-    newName: "docker.io/dependencytrack/apiserver"
+    newName: "quay.io/opentelekomcloud/dependencytrack-apiserver"
     newTag: "4.13.6"
   - name: "dependencytrack/frontend"
-    newName: "docker.io/dependencytrack/frontend"
+    newName: "quay.io/opentelekomcloud/dependencytrack-frontend"
     newTag: "4.13.6"
+  - name: "aquasec/trivy"
+    newName: "quay.io/opentelekomcloud/trivy"
+    newTag: "0.68.2"
 
 labels:
 - includeSelectors: true
@@ -22,6 +25,8 @@ resources:
 - api.yaml
 - frontend.yaml
 - ingress.yaml
+- trivy-statefulset.yaml
+- trivy-service.yaml
 
 configMapGenerator:
 - envs:
