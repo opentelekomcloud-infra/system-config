@@ -95,8 +95,12 @@ providers:
             python-path: /usr/bin/python3
             shell-type: /bin/bash
 <<<<<<< HEAD
+<<<<<<< HEAD
             context: preprod
 =======
+=======
+            context: preprod
+>>>>>>> 9cfe9caa (Add context: preprod to pod-debian label)
             # Mount shared NFS storage directly (not via PVC)
             # Direct NFS mount works across all namespaces
             volumes:
