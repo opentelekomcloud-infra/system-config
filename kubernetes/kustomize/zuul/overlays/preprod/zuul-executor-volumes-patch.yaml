@@ -30,6 +30,10 @@ spec:
                     mkdir -p /var/lib/zuul/openstack-config
                     cp /var/run/zuul/openstack/clouds.yaml /var/lib/zuul/openstack-config/clouds.yaml
                     chmod 600 /var/lib/zuul/openstack-config/clouds.yaml
+                    # Copy clouds.yaml to /var/run/zuul/ for log upload
+                    mkdir -p /var/run/zuul
+                    cp /var/run/zuul/openstack/clouds.yaml /var/run/zuul/clouds.yaml
+                    chmod 644 /var/run/zuul/clouds.yaml
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh

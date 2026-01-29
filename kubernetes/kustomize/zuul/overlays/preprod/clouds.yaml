@@ -16,3 +16,14 @@ clouds:
        secret_access_key: <path:secret/data/clouds/otcci_nodepool_pool1#secret_access_key>
     auth_type: v3applicationcredential
     private: true
+  zuul-logs:
+    # Swift/OBS log storage configuration
+    auth:
+      auth_url: <path:secret/data/clouds/otcci_nodepool_pool1#auth_url>
+      username: <path:secret/data/clouds/otcci_nodepool_pool1#username>
+      password: <path:secret/data/clouds/otcci_nodepool_pool1#password>
+      project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
+      user_domain_name: <path:secret/data/clouds/otcci_nodepool_pool1#user_domain_name>
+    auth_type: password
+    region_name: eu-de
+    interface: public
