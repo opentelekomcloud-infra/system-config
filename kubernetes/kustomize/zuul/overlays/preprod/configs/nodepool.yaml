@@ -54,6 +54,7 @@ providers:
         labels:
           - name: zuul-debian
             type: pod
+<<<<<<< HEAD
             spec:
               imagePullSecrets:
                 - name: quay-image-pull-secret
@@ -92,6 +93,12 @@ providers:
                     limits:
                       cpu: "1"
                       memory: "1024Mi"
+=======
+            image: quay.io/opentelekomcloud/python-tox:latest
+            image-pull-policy: Always
+            cpu: 1
+            memory: 1024
+>>>>>>> 24a20d1d (Set imagePullPolicy to Always for python-tox pods)
             python-path: /usr/bin/python3
             shell-type: /bin/bash
 <<<<<<< HEAD
