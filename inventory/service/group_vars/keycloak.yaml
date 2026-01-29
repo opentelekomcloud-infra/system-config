@@ -1,4 +1,0 @@
-keycloak_servername: "keycloak.eco.tsi-dev.otc-service.com"
-keycloak_run_local_postgres: true
-keycloak_postgres_image: "{{ keycloak_postgres_image_stable }}"
-keycloak_image: "{{ keycloak_image_stable }}"

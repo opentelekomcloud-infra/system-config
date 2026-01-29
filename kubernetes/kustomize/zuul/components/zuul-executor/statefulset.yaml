@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: "zuul"
     app.kubernetes.io/component: "zuul-executor"
 spec:
-  replicas: 1
+  replicas: 3
   serviceName: "zuul-executor"
   selector:
     matchLabels:
@@ -46,6 +46,10 @@ spec:
           env:
             - name: "ZUUL_EXECUTOR_SIGTERM_GRACEFUL"
               value: "1"
+            - name: "ANSIBLE_REMOTE_TMP"
+              value: "/tmp"
+            - name: "ANSIBLE_CONFIG"
+              value: "/var/run/zuul/vars/ansible.cfg"
 
           lifecycle:
             preStop:
@@ -79,10 +83,11 @@ spec:
 
           resources:
             limits:
-              memory: "8G"
+              cpu: "16"
+              memory: "16G"
             requests:
-              cpu: "500m"
-              memory: "8G"
+              cpu: "12"
+              memory: "16G"
 
           securityContext:
             privileged: true
@@ -103,9 +108,6 @@ spec:
             - name: "zuul-trusted-ro"
               mountPath: "/var/run/zuul/trusted-ro"
               readOnly: true
-
-      nodeSelector:
-        dedicated: zuul-ci
 
       serviceAccountName: "zuul"
       terminationGracePeriodSeconds: 120

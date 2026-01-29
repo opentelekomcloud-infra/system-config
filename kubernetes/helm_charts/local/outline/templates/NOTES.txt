@@ -1,0 +1,32 @@
+1. Get the Redis connection information:
+   
+   Redis Host: {{ include "redis-minimal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+   Redis Port: {{ .Values.service.port }}
+   
+{{- if .Values.redis.auth.enabled }}
+   Redis Password: {{ .Values.redis.auth.password }}
+{{- else }}
+   Redis Password: No authentication required
+{{- end }}
+
+2. To connect to Redis from within the cluster:
+
+   kubectl run redis-client --rm -it --image=redis:7-alpine -- sh
+   
+{{- if .Values.redis.auth.enabled }}
+   redis-cli -h {{ include "redis-minimal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local -p {{ .Values.service.port }} -a {{ .Values.redis.auth.password }}
+{{- else }}
+   redis-cli -h {{ include "redis-minimal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local -p {{ .Values.service.port }}
+{{- end }}
+
+3. To check if Redis is working:
+   
+   PING
+   # Should return PONG
+
+4. For Outline configuration, use:
+   REDIS_HOST: {{ include "redis-minimal.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+   REDIS_PORT: {{ .Values.service.port }}
+{{- if .Values.redis.auth.enabled }}
+   REDIS_PASSWORD: {{ .Values.redis.auth.password }}
+{{- end }}

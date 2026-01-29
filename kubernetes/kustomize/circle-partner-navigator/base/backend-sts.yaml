@@ -8,6 +8,9 @@ spec:
     matchLabels:
       app: cpn-backend
   serviceName: cpn-backend-service
+  persistentVolumeClaimRetentionPolicy:
+    whenDeleted: Delete
+    whenScaled: Retain
   template:
     metadata:
       labels:
@@ -15,33 +18,6 @@ spec:
     spec:
       serviceAccountName: cpn
       terminationGracePeriodSeconds: 10
-      nodeSelector:
-        topology.kubernetes.io/zone: eu-de-02
-      initContainers:
-      - name: "vault-agent"
-        command:
-          - "sh"
-          - "-c"
-          - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
-        env:
-          - name: "VAULT_ADDR"
-            value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-        image: "hashicorp/vault"
-        resources:
-          limits:
-            cpu: "100m"
-            memory: "100Mi"
-          requests:
-            cpu: "50m"
-            memory: "50Mi"
-        volumeMounts:
-          - mountPath: "/etc/vault"
-            name: "vault-agent-config"
-          - mountPath: "/secrets"
-            name: "secrets"
-          - mountPath: "/var/run/secrets/tokens"
-            name: "k8-tokens"
-            readOnly: true
       containers:
       - name: cpn-backend
         image: quay.io/opentelekomcloud/circle-partner-navigator-backend
@@ -57,34 +33,16 @@ spec:
         - mountPath: "/secrets"
           name: "secrets"
       volumes:
-      - name: vault-agent-config
-        configMap:
-          defaultMode: 420
-          name: cpn-vault-config
       - name: secrets
         emptyDir: {}
-      - name: "k8-tokens"
-        projected:
-          defaultMode: 420
-          sources:
-          - serviceAccountToken:
-              expirationSeconds: 7200
-              path: "vault-token"
   volumeClaimTemplates:
     - apiVersion: v1
       kind: PersistentVolumeClaim
       metadata:
         name: cpn-backend-persistent-storage
-        labels:
-          topology.kubernetes.io/zone: eu-de-02
-        annotations:
-          everest.io/disk-volume-type: "SAS"
-          everest.io/disk-mode: "SCSI"
-          everest.io/enterprise-project-id: "0"
       spec:
         accessModes: ["ReadWriteOnce"]
         storageClassName: csi-disk-retain
-        volumeName: pvc-5c569e31-4f5f-420f-8d09-9ea8624ae166
         resources:
           requests:
             storage: 300Gi

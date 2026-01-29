@@ -1,0 +1,55 @@
+{{- if and (eq .Values.mode "cluster") .Values.storage.enabled .Values.storage.persistence.enabled }}
+{{- if .Values.storage.persistence.localStorage.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage-pv
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+spec:
+  capacity:
+    storage: {{ .Values.storage.persistence.size }}
+  accessModes:
+    - {{ .Values.storage.persistence.accessMode }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.persistence.reclaimPolicy }}
+  storageClassName: {{ .Values.storage.persistence.storageClass }}
+  # Local storage configuration
+  local:
+    path: {{ .Values.storage.persistence.localStorage.path }}
+    fsType: xfs
+  # Node affinity ensures PV is only used on the specified node
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - {{ .Values.storage.persistence.localStorage.nodeName }}
+{{- else if and .Values.storage.persistence.sharedNFS .Values.storage.persistence.sharedNFS.enabled }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage-pv
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+spec:
+  capacity:
+    storage: {{ .Values.storage.persistence.size }}
+  accessModes:
+    - {{ .Values.storage.persistence.accessMode }}
+  persistentVolumeReclaimPolicy: {{ .Values.storage.persistence.reclaimPolicy }}
+  storageClassName: {{ .Values.storage.persistence.storageClass }}
+  mountOptions:
+    {{- toYaml .Values.storage.persistence.sharedNFS.mountOptions | nindent 4 }}
+  nfs:
+    server: {{ .Values.storage.persistence.sharedNFS.server }}
+    path: {{ .Values.storage.persistence.sharedNFS.path }}
+{{- end }}
+{{- end }}
+# Note: When using dynamic provisioning (e.g., csi-disk-retain), no PV is created here.
+# The StorageClass handles PV creation automatically when the PVC is created.

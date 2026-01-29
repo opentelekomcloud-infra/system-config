@@ -1,0 +1,40 @@
+---
+- hosts: cloud-launcher:!disabled
+  gather_facts: false
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+  tasks:
+    - name: Create OBS buckets
+      opentelekomcloud.cloud.obs_bucket:
+        cloud: "{{ item.cloud }}"
+        name: "{{ item.name }}"
+        state: present
+        acl: "{{ item.acl | default('private') }}"
+        storage_class: "{{ item.storage_class | default('STANDARD') }}"
+      loop: "{{ cloud_obs_buckets | default([]) }}"
+      when: cloud_obs_buckets is defined
+      tags:
+        - obs
+        - obs-buckets
+
+    - name: Set OBS bucket policies
+      opentelekomcloud.cloud.obs_bucket_policy:
+        cloud: "{{ item.cloud }}"
+        bucket: "{{ item.name }}"
+        policy: "{{ item.policy | to_json }}"
+        state: present
+      loop: "{{ cloud_obs_buckets | default([]) }}"
+      when:
+        - cloud_obs_buckets is defined
+        - item.policy is defined
+      tags:
+        - obs
+        - obs-policies
+
+    - name: Display bucket information
+      debug:
+        msg: "Bucket {{ item.name }} configured with ACL: {{ item.acl | default('private') }}"
+      loop: "{{ cloud_obs_buckets | default([]) }}"
+      when: cloud_obs_buckets is defined
+      tags:
+        - obs

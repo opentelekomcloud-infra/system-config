@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - deployment.yaml
+  - service.yaml
+
+commonLabels:
+  app: gitea-api-adapter
+
+images:
+  - name: gitea-api-adapter
+    newName: quay.io/opentelekomcloud/gitea-api-adapter
+    newTag: "1.0.10"

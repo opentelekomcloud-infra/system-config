@@ -1,7 +1,0 @@
----
-packages:
-  - podman
-  - uidmap
-  - default-jre-headless
-
-container_command: podman

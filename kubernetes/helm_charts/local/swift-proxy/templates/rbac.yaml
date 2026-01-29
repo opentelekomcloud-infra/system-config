@@ -1,0 +1,37 @@
+{{- if eq .Values.mode "cluster" }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-ring-builder
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["create", "get", "update", "patch"]
+    resourceNames: ["{{ include "swift-proxy.fullname" . }}-rings"]
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["create"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-ring-builder
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ include "swift-proxy.fullname" . }}-ring-builder
+subjects:
+  - kind: ServiceAccount
+    name: {{ include "swift-proxy.serviceAccountName" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

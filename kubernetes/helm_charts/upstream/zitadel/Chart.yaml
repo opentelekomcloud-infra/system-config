@@ -1,0 +1,9 @@
+apiVersion: v2
+name: zitadel
+description: ZITADEL - Open Source Identity and Access Management
+type: application
+version: 0.1.0
+dependencies:
+  - name: zitadel
+    version: "9.4.0"
+    repository: "https://charts.zitadel.com"

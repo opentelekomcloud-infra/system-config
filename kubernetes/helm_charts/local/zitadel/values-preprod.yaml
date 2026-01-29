@@ -1,0 +1,71 @@
+masterkey: "<path:secret/data/zitadel/config#masterkey>"
+
+configData: |
+  ExternalSecure: true
+  ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
+  API:
+    GRPC:
+      Enabled: true
+    HTTP:
+      Enabled: true
+  Login:
+    LanguageCookieName: zitadel.login.lang # ZITADEL_LOGIN_LANGUAGECOOKIENAME
+    CSRFCookieName: zitadel.login.csrf # ZITADEL_LOGIN_CSRFCOOKIENAME
+    Cache:
+      MaxAge: 12h # ZITADEL_LOGIN_CACHE_MAXAGE # 168h is 7 days, one week
+      SharedMaxAge: 168h
+    DefaultPaths:
+      BasePath: "/ui/v2/login"
+      PasswordSetPath: "/password/set?code={{.Code}}&userId={{.UserID}}&organization={{.OrgID}}"
+      EmailCodePath: "/verify?code={{.Code}}&userId={{.UserID}}&organization={{.OrgID}}"
+      OTPEmailPath: "/otp/verify?code={{.Code}}&userID={{.UserID}}&sessionId={{.SessionID}}"
+  Auth:
+    SearchLimit: 1000 # ZITADEL_AUTH_SEARCHLIMIT
+    Spooler:
+      TransactionDuration: 10s #ZITADEL_AUTH_SPOOLER_TRANSACTIONDURATION
+      BulkLimit: 100 #ZITADEL_AUTH_SPOOLER_BULKLIMIT
+      FailureCountUntilSkip: 5 #ZITADEL_AUTH_SPOOLER_FAILURECOUNTUNTILSKIP
+    AmountOfCachedAuthRequests: 10000 #ZITADEL_AUTH_AMOUNTOFCACHEDAUTHREQUESTS
+  Database:
+    postgres:
+      Database: "<path:secret/data/postgresql/zitadel#database>"
+      Host: "<path:secret/data/postgresql/zitadel#host>"
+      Port: 5432
+      MaxOpenConns: 20
+      MaxConnLifetime: 30m
+      MaxConnIdleTime: 30m
+      User:
+        Username: "<path:secret/data/postgresql/zitadel#username>"
+        Password: "<path:secret/data/postgresql/zitadel#user-password>"
+        SSL:
+          Mode: "require"
+      Admin:
+        Username: "<path:secret/data/postgresql/admin#postgres-username>"
+        Password: "<path:secret/data/postgresql/admin#postgres-password>"
+        SSL:
+          Mode: "require"
+  FirstInstance:
+    Skip: false
+    InstanceName: "eco-preprod"
+    # Pre-configure the first admin user
+    Org:
+      LoginClient:
+        Machine:
+          Name: Automatically Initialized IAM Login Client
+          Username: login-client
+        Pat.ExpirationDate: "2029-01-01T00:00:00Z"
+      ValidateOrgDomains: false
+      Name: "<path:secret/data/zitadel/config#org>"
+      Human:
+        UserName: "<path:secret/data/zitadel/config#username>"
+        FirstName: "<path:secret/data/zitadel/config#firstname>"
+        LastName: "<path:secret/data/zitadel/config#lastname>"
+        Password: "<path:secret/data/zitadel/config#password>"
+        PasswordChangeRequired: false
+        Email:
+          Adress: "<path:secret/data/zitadel/config#email>"
+          Verified: true
+      Machine:
+        Machine:
+          Username: "machine-admin"
+          Name: "Machine Admin"

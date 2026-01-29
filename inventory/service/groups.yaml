@@ -24,7 +24,7 @@ groups:
     # - executor2.apimon.eco.tsi-dev.otc-service.com
       #- executor3.apimon.eco.tsi-dev.otc-service.com
       #- executor4.apimon.eco.tsi-dev.otc-service.com
-    - executor5.apimon.eco.tsi-dev.otc-service.com    
+    - executor5.apimon.eco.tsi-dev.otc-service.com
     - hybrid.apimon.eco.tsi-dev.otc-service.com
     - preprod.apimon.eco.tsi-dev.otc-service.com
 
@@ -192,16 +192,6 @@ groups:
     - graphite3.cloudmon.eco.tsi-dev.otc-service.com
     - graphite5.apimon.eco.tsi-dev.otc-service.com
 
-  zookeeper: []
-    # - zk1.zuul.eco.tsi-dev.otc-service.com
-    # - zk2.zuul.eco.tsi-dev.otc-service.com
-    # - zk3.zuul.eco.tsi-dev.otc-service.com
-
-  #  zuul-zookeeper:
-  #    - zk1.zuul.eco.tsi-dev.otc-service.com
-  #    - zk2.zuul.eco.tsi-dev.otc-service.com
-  #    - zk3.zuul.eco.tsi-dev.otc-service.com
-
   zuul:
     - bridge.eco.tsi-dev.otc-service.com
 
@@ -225,19 +215,6 @@ groups:
     - worker-nl-02.cloudmon.eco.tsi-dev.otc-service.com
     - worker-ch-01.cloudmon.eco.tsi-dev.otc-service.com
     - worker-ch-02.cloudmon.eco.tsi-dev.otc-service.com
-
-  swift:
-    - proxy1.swift.eco.tsi-dev.otc-service.com
-    - proxy2.swift.eco.tsi-dev.otc-service.com
-    - proxy3.swift.eco.tsi-dev.otc-service.com
-    - storage1.swift.eco.tsi-dev.otc-service.com
-    - storage2.swift.eco.tsi-dev.otc-service.com
-    - storage3.swift.eco.tsi-dev.otc-service.com
-    - storage4.swift.eco.tsi-dev.otc-service.com
-    - storage5.swift.eco.tsi-dev.otc-service.com
-    - storage6.swift.eco.tsi-dev.otc-service.com
-    - storage7.swift.eco.tsi-dev.otc-service.com
-    - storage8.swift.eco.tsi-dev.otc-service.com
 
   vault:
     - bridge.eco.tsi-dev.otc-service.com
@@ -265,9 +242,6 @@ groups:
   prod_bastion:
     - bridge.eco.tsi-dev.otc-service.com
 
-  disabled:
+  disabled: []
     # We can not manage coreos with ansible by default
     # - graphite1.apimon.eco.tsi-dev.otc-service.com
-    - zk1.zuul.eco.tsi-dev.otc-service.com
-    - zk2.zuul.eco.tsi-dev.otc-service.com
-    - zk3.zuul.eco.tsi-dev.otc-service.com

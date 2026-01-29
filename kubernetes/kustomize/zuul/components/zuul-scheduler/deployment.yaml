@@ -65,9 +65,10 @@ spec:
 
           resources:
             limits:
-              memory: "2048Mi"
+              cpu: "4000m"
+              memory: "4Gi"
             requests:
-              cpu: "100m"
+              cpu: "500m"
               memory: "2048Mi"
 
           securityContext:
@@ -87,8 +88,6 @@ spec:
               mountPath: "/var/lib/zuul"
             - name: "zuul-var-run"
               mountPath: "/var/run/zuul"
-      nodeSelector:
-        dedicated: zuul-ci
       serviceAccountName: "zuul"
       volumes:
         - name: "zuul-config"
