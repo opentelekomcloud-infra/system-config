@@ -16,12 +16,18 @@ spec:
         - name: cpn-front
           image: "quay.io/opentelekomcloud/circle-partner-navigator-frontend:change_1_latest"
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           volumeMounts:
             - name: cpn-front-nginx
-              mountPath: /etc/nginx/conf.d/cpn-front-nginx.conf
+              mountPath: /etc/nginx/conf.d/default.conf
               subPath: cpn-front-nginx.conf
               readOnly: true
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
+            - name: nginx-logs
+              mountPath: /var/log/nginx
           resources:
             limits:
               cpu: "200m"
@@ -33,3 +39,9 @@ spec:
         - name: cpn-front-nginx
           configMap:
             name: cpn-front-nginx
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
+        - name: nginx-logs
+          emptyDir: {}

@@ -1,0 +1,68 @@
+projects:
+  - name: infra
+    description: "Infrastructure project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: []
+
+  - name: system-config
+    description: "Project dedicated to system configurations"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: https://kubernetes.default.svc
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: []
+
+  - name: cloudmon
+    description: "Common cloudmon project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: '*'
+        namespace: '*'
+        server: https://80.158.77.76:5443
+      - name: '*'
+        namespace: '*'
+        server: https://80.158.32.132:5443
+      - name: '*'
+        namespace: '*'
+        server: https://192.168.170.211:5443
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'
+
+  - name: acr
+    description: "Architecture Center project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: '*'
+        namespace: '*'
+        server: '*'
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'

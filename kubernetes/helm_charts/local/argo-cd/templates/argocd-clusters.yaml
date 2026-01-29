@@ -1,0 +1,27 @@
+{{- if .Values.clusters }}
+{{- range $clusterName, $cluster := .Values.clusters }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ $clusterName }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+    app.kubernetes.io/part-of: argocd
+    app.kubernetes.io/component: cluster-secret
+type: Opaque
+stringData:
+  name: {{ $cluster.name }}
+  server: {{ $cluster.server }}
+  config: |
+    {"tlsClientConfig":{"insecure":{{ $cluster.config.tlsClientConfig.insecure | toJson }},
+        {{- $tlsConfig := list -}}
+          {{- $tlsConfig = append $tlsConfig (printf "\"certData\":\"<path:secret/data/argocd/clusters/%s#certData>\"" $cluster.name) -}}
+          {{- $tlsConfig = append $tlsConfig (printf "\"keyData\":\"<path:secret/data/argocd/clusters/%s#keyData>\"" $cluster.name) -}}
+          {{- $tlsConfig = append $tlsConfig (printf "\"caData\":\"<path:secret/data/argocd/clusters/%s#caData>\"" $cluster.name) -}}
+        {{- if $tlsConfig -}}
+          {{ join "," $tlsConfig }}
+        {{- end }}}}
+{{- end }}
+{{- end }}

@@ -1,0 +1,446 @@
+applications:
+  - name: argocd-projects
+    clusters: [preprod]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-clusters
+    clusters: [preprod]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/preprod/values-argocd-clusters.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-repositories
+    clusters: [preprod]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd
+    clusters: [preprod]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: argocd
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/argo-cd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: cert-manager
+    clusters: [preprod]
+    config:
+      namespace: cert-manager
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/cert-manager
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values.yaml --set installCRDs=true'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: cert-manager-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: cert-manager
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/cert-manager
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: grafana
+    clusters: [preprod]
+    config:
+      namespace: grafana-infra
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/grafana
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/outline
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki
+    clusters: [preprod]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/outline
+      pluginName: argocd-vault-plugin-helm
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: system-config-gitea-runner
+    clusters: [preprod]
+    config:
+      namespace: gitea-runner
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/gitea-runner
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel
+    clusters: [preprod]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # - name: victoria-metrics-auth
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: monitoring
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/upstream/victoria-metrics-auth
+  #     pluginName: argocd-vault-plugin-helm
+  #     pluginEnv: '-f values-preprod.yaml'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+  # - name: promtail
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: promtail
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/upstream/promtail
+  #     pluginName: argocd-vault-plugin-helm
+  #     pluginEnv: '-f values-preprod.yaml'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+  # - name: cert-exporter
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: cert-manager
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/upstream/cert-exporter
+  #     pluginName: argocd-vault-plugin-helm
+  #     pluginEnv: '-f values.yaml'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+
+#####################################
+########## KUSTOMIZE APPS ###########
+#####################################
+
+  - name: kustomize-backstage-dev
+    clusters: [preprod]
+    config:
+      namespace: backstage-dev
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/backstage/overlays/dev/
+      project: infra
+      kustomize: {}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: openapi-validator
+    clusters: [preprod]
+    config:
+      namespace: openapi-validator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/openapi-validator/overlays/dev/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: circle-partner-navigator
+    clusters: [preprod]
+    config:
+      namespace: circle-partner-navigator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/circle-partner-navigator/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: umami
+    clusters: [preprod]
+    config:
+      namespace: analytics
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/umami/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: mcaptcha
+    clusters: [preprod]
+    config:
+      namespace: mcaptcha
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/mcaptcha/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: redis
+    clusters: [preprod]
+    config:
+      namespace: redis
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/redis/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: eyes-on-docs
+    clusters: [preprod]
+    config:
+      namespace: eyes-on-docs
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/eyes-on-docs/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: dependency-track
+    clusters: [preprod]
+    config:
+      namespace: dependencytrack
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/kustomize/dependency-track/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

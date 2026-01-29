@@ -1,0 +1,15 @@
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    release: prometheus
+spec:
+  groups:
+  - name: vm-health
+    rules:
+{{- toYaml .Values.prometheusRules.vmHealth | nindent 6 }}
+  - name: vm-cluster
+    rules:
+{{- toYaml .Values.prometheusRules.vmCluster | nindent 6 }}

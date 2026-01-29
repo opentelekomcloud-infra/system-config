@@ -116,7 +116,10 @@
   /en-us/usermanual/deh/deh_faq_0020.html /dedicated-host/umn/faqs/deh_faqs/can_i_allocate_dehs_by_myself.html;
   /en-us/usermanual/deh/deh_faq_0021.html /dedicated-host/umn/faqs/deh_faqs/can_i_use_dehs_to_build_websites.html;
   /en-us/usermanual/deh/deh_faq_0022.html /dedicated-host/umn/faqs/deh_faqs/what_hypervisor_is_used_by_dehs.html;
+<<<<<<< HEAD
   /en-us/usermanual/deh/deh_faq_0029.html /dedicated-host/umn/faqs/deh_faqs/why_is_it_not_possible_to_successfully_create_an_ecs_on_a_deh_even_when_there_are_more_available_resources_on_the_deh_than_what_the_ecs_requires.html;
+=======
+>>>>>>> 28c6212 (Creation of ArgoCD app in app)
   /en-us/usermanual/deh/deh_faq_0100.html /dedicated-host/umn/faqs/deh_faqs/index.html;
   /en-us/usermanual/deh/deh_faq_0200.html /dedicated-host/umn/faqs/ecs_faqs/index.html;
   /en-us/usermanual/deh/deh_faq_0300.html /dedicated-host/umn/faqs/billing_faqs/index.html;
@@ -186,7 +189,10 @@
   /usermanual/deh/deh_faq_0020.html /dedicated-host/umn/faqs/deh_faqs/can_i_allocate_dehs_by_myself.html;
   /usermanual/deh/deh_faq_0021.html /dedicated-host/umn/faqs/deh_faqs/can_i_use_dehs_to_build_websites.html;
   /usermanual/deh/deh_faq_0022.html /dedicated-host/umn/faqs/deh_faqs/what_hypervisor_is_used_by_dehs.html;
+<<<<<<< HEAD
   /usermanual/deh/deh_faq_0029.html /dedicated-host/umn/faqs/deh_faqs/why_is_it_not_possible_to_successfully_create_an_ecs_on_a_deh_even_when_there_are_more_available_resources_on_the_deh_than_what_the_ecs_requires.html;
+=======
+>>>>>>> 28c6212 (Creation of ArgoCD app in app)
   /usermanual/deh/deh_faq_0100.html /dedicated-host/umn/faqs/deh_faqs/index.html;
   /usermanual/deh/deh_faq_0200.html /dedicated-host/umn/faqs/ecs_faqs/index.html;
   /usermanual/deh/deh_faq_0300.html /dedicated-host/umn/faqs/billing_faqs/index.html;

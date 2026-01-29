@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: eyes-on-docs
+  labels:
+    app.kubernetes.io/name: eyes-on-docs
+    app.kubernetes.io/instance: preprod
+    environment: preprod
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
