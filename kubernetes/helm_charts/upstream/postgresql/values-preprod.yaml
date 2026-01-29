@@ -172,7 +172,7 @@ postgresql:
       restartPolicy: OnFailure
       storage:
         size: "10Gi"
-        storageClassName: "csi-disk"
+        storageClassName: "csi-disk-retain"
 
   # Pod Disruption Budget for high availability
   pdb:
