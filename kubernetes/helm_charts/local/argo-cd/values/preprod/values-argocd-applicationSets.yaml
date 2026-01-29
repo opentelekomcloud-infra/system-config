@@ -1,0 +1,68 @@
+applicationSets:
+  # - name: prometheus
+  #   project: infra
+  #   applications:
+  #     - name: prometheus
+  #       namespace: monitoring
+  #       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #       targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #       path: kubernetes/helm_charts/upstream/kube-prometheus-stack
+  #       pluginName: argocd-vault-plugin-helm
+  #       pluginEnv: '-f values-preprod.yaml'
+  #       clusters: [in-cluster]
+  #       project: infra
+  #       syncPolicy:
+  #         automated:
+  #           prune: true
+  #           selfHeal: true
+  #         syncOptions:
+  #           - CreateNamespace=true
+  #     - name: prometheus-additional-manifests
+  #       namespace: monitoring
+  #       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #       targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #       path: kubernetes/helm_charts/local/kube-prometheus-stack
+  #       pluginName: argocd-vault-plugin-helm
+  #       pluginEnv: '-f values.yaml'
+  #       clusters: [in-cluster]
+  #       project: infra
+  #       syncPolicy:
+  #         automated:
+  #           prune: true
+  #           selfHeal: true
+  #         syncOptions:
+  #           - CreateNamespace=true
+
+  # - name: victoria-metrics-cluster
+  #   project: infra
+  #   applications:
+  #     - name: victoria-metrics-cluster
+  #       namespace: monitoring
+  #       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #       targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #       path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
+  #       pluginName: argocd-vault-plugin-helm
+  #       pluginEnv: '-f values-preprod.yaml'
+  #       clusters: [in-cluster]
+  #       project: infra
+  #       syncPolicy:
+  #         automated:
+  #           prune: true
+  #           selfHeal: true
+  #         syncOptions:
+  #           - CreateNamespace=true
+  #     - name: victoria-metrics-cluster-additional-manifests
+  #       namespace: monitoring
+  #       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #       targetRevision: feature-1299-Make_ArgoCD_a_part_of_the_ArgoCD_Apps
+  #       path: kubernetes/helm_charts/local/victoria-metrics-cluster
+  #       pluginName: argocd-vault-plugin-helm
+  #       pluginEnv: '-f values.yaml'
+  #       clusters: [in-cluster]
+  #       project: infra
+  #       syncPolicy:
+  #         automated:
+  #           prune: true
+  #           selfHeal: true
+  #         syncOptions:
+  #           - CreateNamespace=true

@@ -1,0 +1,53 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  annotations:
+    # Enable AVP plugin processing
+    avp.kubernetes.io/path: "secret/data/dependencytrack"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: preprod
+      app.kubernetes.io/environment: preprod
+
+namespace: dependencytrack
+
+patchesStrategicMerge:
+  - ingress-patch.yaml
+  - api-statefulset-patch.yaml
+  - frontend-deployment-patch.yaml
+
+configMapGenerator:
+  - behavior: replace
+    envs:
+      - dependencytrack.env
+    name: dependencytrack-config
+  - behavior: replace
+    envs:
+      - dependencytrack-api.env
+    name: dependencytrack-api-config
+
+secretGenerator:
+  - name: dependencytrack-db-credentials
+    literals:
+      - ALPINE_DATABASE_URL=<path:secret/data/dependencytrack/postgres#jdbc-url>
+      - ALPINE_DATABASE_USERNAME=<path:secret/data/dependencytrack/postgres#username>
+      - ALPINE_DATABASE_PASSWORD=<path:secret/data/dependencytrack/postgres#password>
+      - ALPINE_DATABASE_DRIVER=org.postgresql.Driver
+      - ALPINE_DATABASE_POOL_ENABLED=true
+      - ALPINE_DATABASE_POOL_MAX_SIZE=20
+      - ALPINE_DATABASE_POOL_MIN_IDLE=10
+      - ALPINE_DATABASE_POOL_IDLE_TIMEOUT=300000
+      - ALPINE_DATABASE_POOL_MAX_LIFETIME=600000
+  - name: dependencytrack-oidc-credentials
+    literals:
+      - ALPINE_OIDC_CLIENT_SECRET=<path:secret/data/dependencytrack/oidc#client-secret>
+
+resources:
+  - ../../base
+  - namespace.yaml
+  - serviceaccount.yaml
+  - poddisruptionbudget.yaml

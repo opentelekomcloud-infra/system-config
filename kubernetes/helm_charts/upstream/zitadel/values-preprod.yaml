@@ -1,0 +1,352 @@
+# Note: The ingress-nginx controller must be configured with a default SSL certificate
+# Add to ingress-nginx-controller deployment:
+# --default-ssl-certificate=default/zitadel-tls
+
+zitadel:
+  # Default values for zitadel.
+  # Disable the login component to avoid the secret dependency
+  login:
+    enabled: false
+
+  zitadel:
+    # The ZITADEL config under configmapConfig is written to a Kubernetes ConfigMap
+    # See all defaults here:
+    # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
+    configmapConfig:
+      # The configmapConfig should be minimal as the main config comes from the secret
+      TLS:
+        Enabled: false
+      Machine:
+        Identification:
+          Hostname:
+            Enabled: true
+          Webhook:
+            Enabled: false
+
+    # The ZITADEL config under secretConfig is written to a Kubernetes Secret
+    # See all defaults here:
+    # https://github.com/zitadel/zitadel/blob/main/cmd/defaults.yaml
+    # secretConfig:
+
+    # Annotations set on secretConfig secret
+    secretConfigAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    # Reference the name of a secret that contains ZITADEL configuration.
+    configSecretName: zitadel-config
+    # The key under which the ZITADEL configuration is located in the secret.
+    configSecretKey: config
+
+    # ZITADEL uses the masterkey for symmetric encryption.
+    # You can generate it for example with tr -dc A-Za-z0-9 </dev/urandom | head -c 32
+    masterkey: ""
+    # Reference the name of the secret that contains the masterkey. The key should be named "masterkey".
+    # Note: Either zitadel.masterkey or zitadel.masterkeySecretName must be set
+    masterkeySecretName: "zitadel-masterkey"
+
+    # Annotations set on masterkey secret
+    masterkeyAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    # The CA Certificate needed for establishing secure database connections
+    dbSslCaCrt: ""
+
+    # Annotations set on database SSL CA certificate secret
+    dbSslCaCrtAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    # The Secret containing the CA certificate at key ca.crt needed for establishing secure database connections
+    dbSslCaCrtSecret: ""
+
+    # The db admins secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
+    dbSslAdminCrtSecret: ""
+
+    # The db users secret containing the client certificate and key at tls.crt and tls.key needed for establishing secure database connections
+    dbSslUserCrtSecret: ""
+
+    # The Secret containing the certificate at key tls.crt and tls.key for listening on HTTPS
+    serverSslCrtSecret: ""
+
+    # Generate a self-signed certificate using an init container
+    # This will also mount the generated files to /etc/tls/ so that you can reference them in the pod.
+    # E.G. KeyPath: /etc/tls/tls.key CertPath: /etc/tls/tls.crt
+    # By default, the SAN DNS names include, localhost, the POD IP address and the POD name. You may include one more by using additionalDnsName like "my.zitadel.fqdn".
+    selfSignedCert:
+      enabled: false
+      additionalDnsName:
+
+    # Enabling this will create a debug pod that can be used to inspect the ZITADEL configuration and run zitadel commands using the zitadel binary.
+    # This is useful for debugging and troubleshooting.
+    # After the debug pod is created, you can open a shell within the pod.
+    # See more instructions by printing the pods logs using kubectl logs [pod name].
+    debug:
+      enabled: false  # Enable debug pod for troubleshooting
+      annotations:
+        helm.sh/hook: pre-install,pre-upgrade
+        helm.sh/hook-weight: "1"
+      initContainers: []
+      extraContainers: []
+
+    # initContainers allow you to add any init containers you wish to use globally.
+    # Additionally, they follow the same structure as extraContainers
+    initContainers: []
+    # extraContainers allows you to add any sidecar containers you wish to use globally.
+    # Currently this is the Zitadel Deployment, Setup Job**, Init Job** and debug_replicaset**  **If Enabled
+    extraContainers: []
+      # # Example; You wish to deploy a cloud-sql-proxy sidecar to all deployments:
+      # - name: cloud-sql-proxy
+      #   image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.1
+      #   command:
+      #     - /cloud-sql-proxy
+      #   args:
+      #     - my-project:my-region:my-instance
+      #     - --port=5432
+      #     - --auto-iam-authn
+      #     - --health-check
+      #     - "--http-address=0.0.0.0"
+      #   ports:
+      #     - containerPort: 5432
+      #   startupProbe:
+      #     httpGet:
+      #       path: /startup
+      #       port: 9090
+      #     periodSeconds: 1
+      #     timeoutSeconds: 5
+      #   livenessProbe:
+      #     httpGet:
+      #       path: /liveness
+      #       port: 9090
+      #     initialDelaySeconds: 0
+      #     periodSeconds: 60
+      #     timeoutSeconds: 30
+      #     failureThreshold: 5
+      #   securityContext:
+      #     runAsNonRoot: true
+      #     readOnlyRootFilesystem: true
+      #     allowPrivilegeEscalation: false
+      #   lifecycle:
+      #     postStart:
+      #       exec:
+      #         command: ["/cloud-sql-proxy", "wait"]
+
+  replicaCount: 3
+
+  image:
+    repository: ghcr.io/zitadel/zitadel
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: ""
+
+  # Annotations to add to the deployment
+  annotations: {}
+
+  # Annotations to add to the configMap
+  configMap:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: true
+    # Annotations to add to the service account
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  podAnnotations: {}
+
+  podAdditionalLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    privileged: false
+
+  # Additional environment variables
+  env:
+    - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
+      value: "false"
+    # - name: ZITADEL_TLS_MODE
+    #   value: "external"  # Use external TLS mode for ingress TLS termination
+    # - name: ZITADEL_EXTERNALSECURE
+    #   value: "true"
+    # - name: ZITADEL_EXTERNALDOMAIN
+    #   value: "zitadel.eco-preprod.tsi-dev.otc-service.com"
+    # - name: ZITADEL_EXTERNALPORT
+    #   value: "443"
+    # - name: ZITADEL_DATABASE_POSTGRES_HOST
+    #   valueFrom:
+    #     secretKeyRef:
+    #       name: postgres-pguser-postgres
+    #       key: host
+
+  # Additional environment variables from the given secret name
+  # Zitadel can be configured using environment variables from a secret.
+  # Reference: https://zitadel.com/docs/self-hosting/manage/configure#configure-by-environment-variables
+  envVarsSecret: ""
+
+  service:
+    type: ClusterIP
+    # If service type is "ClusterIP", this can optionally be set to a fixed IP address.
+    clusterIP: ""
+    # If service type is "LoadBalancer", this can optionally be set to either "Cluster" or "Local"
+    externalTrafficPolicy: ""
+    port: 8080
+    protocol: http  # Use "http" as protocol so port name will be "http-server"
+    appProtocol: http  # Use standard HTTP protocol instead of h2c/gRPC
+    labels: {}
+    scheme: HTTP  # HTTP because we disabled internal TLS
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"  # Use HTTP instead of GRPC
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/preserve-host: "true"
+      nginx.ingress.kubernetes.io/auth-tls-verify-client: "off"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - host: zitadel.eco-preprod.tsi-dev.otc-service.com
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zitadel-preprod
+                port:
+                  number: 8080
+    tls:
+      - hosts:
+          - zitadel.eco-preprod.tsi-dev.otc-service.com
+        secretName: zitadel-tls
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  topologySpreadConstraints: []
+
+  initJob:
+    # Once ZITADEL is installed, the initJob can be disabled.
+    enabled: true
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "1"
+    resources: {}
+    backoffLimit: 5
+    activeDeadlineSeconds: 600  # Increased timeout
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    # Available init commands :
+    # "": initialize ZITADEL instance (without skip anything)
+    # database: initialize only the database
+    # grant: set ALL grant to user
+    # user: initialize only the database user
+    # zitadel: initialize ZITADEL internals (skip "create user" and "create database")
+    command: ""
+
+  setupJob:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "2"
+    resources: {}
+    activeDeadlineSeconds: 300
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    additionalArgs:
+      - "--init-projections=true"
+      - "--tlsMode=enabled"
+    machinekeyWriter:
+      image:
+        repository: alpine/k8s
+        tag: "1.31.4"
+      resources: {}
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  startupProbe:
+    enabled: true
+    periodSeconds: 1
+    failureThreshold: 30
+
+  metrics:
+    enabled: false
+    serviceMonitor:
+      # If true, the chart creates a ServiceMonitor that is compatible with Prometheus Operator
+      # https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#monitoring.coreos.com/v1.ServiceMonitor.
+      # The Prometheus community Helm chart installs this operator
+      # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack#kube-prometheus-stack
+      enabled: false
+      honorLabels: false
+      honorTimestamps: true
+
+  pdb:
+    enabled: false
+    # these values are used for the PDB and are mutally exclusive
+    minAvailable: 1
+    # maxUnavailable: 1
+    annotations: {}
+
+  # extraContainers allows you to add any sidecar containers you wish to use in the Zitadel pod.
+  extraContainers: []
+
+  extraVolumes: []
+    # - name: ca-certs
+    #   secret:
+    #     defaultMode: 420
+    #     secretName: ca-certs
+
+  extraVolumeMounts: []
+    # - name: ca-certs
+    #   mountPath: /etc/ssl/certs/myca.pem
+    #   subPath: myca.pem
+    #   readOnly: true
+
+  # extraManifests allows you to add your own Kubernetes manifests
+  extraManifests: []
+  # We're using a simpler approach with a single ingress configured for HTTP

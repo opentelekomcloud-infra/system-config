@@ -1,0 +1,49 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dependencytrack-frontend
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: dependencytrack-frontend
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: dependencytrack-frontend
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: frontend
+          image: dependencytrack/frontend
+          envFrom:
+            - configMapRef:
+                name: dependencytrack-config
+
+          ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          resources:
+            requests:
+              memory: "512M"
+              cpu: "1.0"
+            limits:
+              memory: "2G"
+              cpu: "2.0"
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 5
+
+      volumes:
+        - name: dependencytrack-config
+          configMap:
+            defaultMode: 420
+            name: dependencytrack-config
