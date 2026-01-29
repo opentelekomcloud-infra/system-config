@@ -155,6 +155,7 @@
   /en-us/usermanual/dns/dns_usermanual_0024.html /domain-name-service/umn/record_sets/exporting_record_sets.html;
   /en-us/usermanual/dns/dns_usermanual_0025.html /domain-name-service/umn/permissions_management/index.html;
   /en-us/usermanual/dns/dns_usermanual_0027.html /domain-name-service/umn/permissions_management/creating_a_user_and_granting_dns_permissions.html;
+  /en-us/usermanual/dns/dns_usermanual_0029.html /domain-name-service/umn/resolver/index.html;
   /en-us/usermanual/dns/dns_usermanual_0030.html /domain-name-service/umn/public_zones/overview.html;
   /en-us/usermanual/dns/dns_usermanual_0031.html /domain-name-service/umn/public_zones/managing_public_zones.html;
   /en-us/usermanual/dns/dns_usermanual_0032.html /domain-name-service/umn/private_zones/overview.html;
@@ -173,7 +174,12 @@
   /en-us/usermanual/dns/dns_usermanual_0049.html /domain-name-service/umn/change_history.html;
   /en-us/usermanual/dns/dns_usermanual_0050.html /domain-name-service/umn/glossary.html;
   /en-us/usermanual/dns/dns_usermanual_0051.html /domain-name-service/umn/permissions_management/creating_custom_policies.html;
+  /en-us/usermanual/dns/dns_usermanual_05046.html /domain-name-service/umn/private_zones/configuring_recursive_resolution_for_subdomains.html;
   /en-us/usermanual/dns/dns_usermanual_0601.html /domain-name-service/umn/record_sets/adding_record_sets/record_set_types_and_configuration_rules.html;
+  /en-us/usermanual/dns/dns_usermanual_1030.html /domain-name-service/umn/resolver/overview.html;
+  /en-us/usermanual/dns/dns_usermanual_1031.html /domain-name-service/umn/resolver/managing_outbound_endpoints.html;
+  /en-us/usermanual/dns/dns_usermanual_1032.html /domain-name-service/umn/resolver/managing_inbound_endpoints.html;
+  /en-us/usermanual/dns/dns_usermanual_1033.html /domain-name-service/umn/resolver/managing_endpoint_rules.html;
   /en-us/usermanual/dns/en-us_topic_0035204977.html /domain-name-service/umn/overview/index.html;
   /en-us/usermanual/dns/en-us_topic_00352049771.html /domain-name-service/umn/public_zones/index.html;
   /en-us/usermanual/dns/en-us_topic_0035467691.html /domain-name-service/umn/overview/what_is_dns.html;
@@ -228,6 +234,7 @@
   /usermanual/dns/dns_usermanual_0024.html /domain-name-service/umn/record_sets/exporting_record_sets.html;
   /usermanual/dns/dns_usermanual_0025.html /domain-name-service/umn/permissions_management/index.html;
   /usermanual/dns/dns_usermanual_0027.html /domain-name-service/umn/permissions_management/creating_a_user_and_granting_dns_permissions.html;
+  /usermanual/dns/dns_usermanual_0029.html /domain-name-service/umn/resolver/index.html;
   /usermanual/dns/dns_usermanual_0030.html /domain-name-service/umn/public_zones/overview.html;
   /usermanual/dns/dns_usermanual_0031.html /domain-name-service/umn/public_zones/managing_public_zones.html;
   /usermanual/dns/dns_usermanual_0032.html /domain-name-service/umn/private_zones/overview.html;
@@ -246,7 +253,12 @@
   /usermanual/dns/dns_usermanual_0049.html /domain-name-service/umn/change_history.html;
   /usermanual/dns/dns_usermanual_0050.html /domain-name-service/umn/glossary.html;
   /usermanual/dns/dns_usermanual_0051.html /domain-name-service/umn/permissions_management/creating_custom_policies.html;
+  /usermanual/dns/dns_usermanual_05046.html /domain-name-service/umn/private_zones/configuring_recursive_resolution_for_subdomains.html;
   /usermanual/dns/dns_usermanual_0601.html /domain-name-service/umn/record_sets/adding_record_sets/record_set_types_and_configuration_rules.html;
+  /usermanual/dns/dns_usermanual_1030.html /domain-name-service/umn/resolver/overview.html;
+  /usermanual/dns/dns_usermanual_1031.html /domain-name-service/umn/resolver/managing_outbound_endpoints.html;
+  /usermanual/dns/dns_usermanual_1032.html /domain-name-service/umn/resolver/managing_inbound_endpoints.html;
+  /usermanual/dns/dns_usermanual_1033.html /domain-name-service/umn/resolver/managing_endpoint_rules.html;
   /usermanual/dns/en-us_topic_0035204977.html /domain-name-service/umn/overview/index.html;
   /usermanual/dns/en-us_topic_00352049771.html /domain-name-service/umn/public_zones/index.html;
   /usermanual/dns/en-us_topic_0035467691.html /domain-name-service/umn/overview/what_is_dns.html;

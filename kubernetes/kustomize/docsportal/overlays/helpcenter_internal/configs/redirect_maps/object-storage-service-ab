@@ -1,3 +1,6 @@
+  /usermanual/obs/obs_03_0010.html /object-storage-service/umn/obs_console_operation_guide/monitoring/monitored_obs_metrics.html;
+  /usermanual/obs/obs_03_0012.html /object-storage-service/umn/obs_browser_operation_guide/storage_classes.html;
+  /usermanual/obs/obs_03_0016.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/index.html;
   /usermanual/obs/obs_03_0017.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/will_an_object_deletion_in_a_source_bucket_be_synchronized_to_the_destination_bucket.html;
   /usermanual/obs/obs_03_0018.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/what_are_the_application_scenarios_of_cross-region_replication.html;
   /usermanual/obs/obs_03_0020.html /object-storage-service/umn/obs_console_operation_guide/cloud_trace_service.html;
@@ -42,7 +45,7 @@
   /usermanual/obs/obs_03_0102.html /object-storage-service/umn/obs_console_operation_guide/object_metadata/about_object_metadata_content-type.html;
   /usermanual/obs/obs_03_0109.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/permission_control_mechanisms/index.html;
   /usermanual/obs/obs_03_0110.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/permission_control_mechanisms/iam_policies.html;
-  /usermanual/obs/obs_03_0114.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/permission_control_mechanisms/which_permissions_apply_when_they_conflict.html;
+  /usermanual/obs/obs_03_0114.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/permission_control_mechanisms/which_access_control_policies_apply_when_they_conflict.html;
   /usermanual/obs/obs_03_0115.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/bucket_policy_parameters/effect.html;
   /usermanual/obs/obs_03_0118.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/bucket_policy_parameters/resources.html;
   /usermanual/obs/obs_03_0120.html /object-storage-service/umn/obs_console_operation_guide/permissions_control/bucket_policy_parameters/conditions.html;
@@ -123,7 +126,7 @@
   /usermanual/obs/obs_03_0347.html /object-storage-service/umn/obs_console_operation_guide/troubleshooting/time_difference_is_longer_than_15_minutes_between_the_client_and_server.html;
   /usermanual/obs/obs_03_0348.html /object-storage-service/umn/obs_console_operation_guide/error_code_list.html;
   /usermanual/obs/obs_03_0350.html /object-storage-service/umn/obs_console_operation_guide/requester_pays.html;
-  /usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/constraints.html;
+  /usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/notes_and_constraints.html;
   /usermanual/obs/obs_03_0400.html /object-storage-service/umn/obs_browser_operation_guide/index.html;
   /usermanual/obs/obs_03_0401.html /object-storage-service/umn/obs_browser_operation_guide/introduction_to_obs_browser/index.html;
   /usermanual/obs/obs_03_0402.html /object-storage-service/umn/obs_browser_operation_guide/introduction_to_obs_browser/function_description.html;
@@ -161,6 +164,10 @@
   /usermanual/obs/obs_03_0443.html /object-storage-service/umn/obs_browser_operation_guide/troubleshooting/tasks_are_not_displayed_in_the_task_list_when_objects_are_managed_using_obs_browser.html;
   /usermanual/obs/obs_03_0444.html /object-storage-service/umn/obs_browser_operation_guide/troubleshooting/time_difference_is_longer_than_15_minutes_between_the_client_and_server.html;
   /usermanual/obs/obs_03_0445.html /object-storage-service/umn/obs_browser_operation_guide/list_of_obs_error_codes.html;
+  /usermanual/obs/obs_03_063603.html /object-storage-service/umn/obs_console_operation_guide/monitoring/monitored_obs_events.html;
+  /usermanual/obs/obs_03_0716.html /object-storage-service/umn/obs_console_operation_guide/worm/worm_overview.html;
+  /usermanual/obs/obs_03_0717.html /object-storage-service/umn/obs_console_operation_guide/worm/index.html;
+  /usermanual/obs/obs_03_0718.html /object-storage-service/umn/obs_console_operation_guide/worm/configuring_worm_retention.html;
   /usermanual/obs/obs_03_100528.html /object-storage-service/umn/faq/buckets_and_objects/what_is_the_best_practice_to_delete_objects_and_deal_with_versioning.html;
   /usermanual/obs/obs_03_9998.html /object-storage-service/umn/glossary.html;
   /usermanual/obs/obs_03_9999.html /object-storage-service/umn/change_history.html;
@@ -222,3 +229,4 @@
   /usermanual/obs/obs_faq_101803.html /object-storage-service/umn/faq/how_do_i_use_cross-region_replication/why_does_storage_differ_between_source_and_destination_buckets_for_multipart_upload_replication_without_versioning.html;
   /usermanual/obs/obs_faq_1100.html /object-storage-service/umn/faq/access_control/index.html;
   /usermanual/obs/obs_faq_1200.html /object-storage-service/umn/faq/buckets_and_objects/index.html;
+  /utiltg/obs/ /object-storage-service/tool-guide-obsutil/index.html;

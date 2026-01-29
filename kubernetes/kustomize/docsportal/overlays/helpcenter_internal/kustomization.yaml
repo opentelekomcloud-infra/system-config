@@ -42,6 +42,9 @@ configMapGenerator:
   - name: "cloud-backup-recovery"
     files:
       - "configs/redirect_maps/cloud-backup-recovery"
+  - name: "cloud-connect"
+    files:
+      - "configs/redirect_maps/cloud-connect"
   - name: "cloud-container-engine-aa"
     files:
       - "configs/redirect_maps/cloud-container-engine-aa"
@@ -150,6 +153,9 @@ configMapGenerator:
   - name: "elastic-volume-service"
     files:
       - "configs/redirect_maps/elastic-volume-service"
+  - name: "enterprise-project-service"
+    files:
+      - "configs/redirect_maps/enterprise-project-service"
   - name: "enterprise-router"
     files:
       - "configs/redirect_maps/enterprise-router"
@@ -210,9 +216,12 @@ configMapGenerator:
   - name: "nat-gateway"
     files:
       - "configs/redirect_maps/nat-gateway"
-  - name: "object-storage-service-3rd-party"
+  - name: "object-storage-service-3rd-party-aa"
     files:
-      - "configs/redirect_maps/object-storage-service-3rd-party"
+      - "configs/redirect_maps/object-storage-service-3rd-party-aa"
+  - name: "object-storage-service-3rd-party-ab"
+    files:
+      - "configs/redirect_maps/object-storage-service-3rd-party-ab"
   - name: "object-storage-service-aa"
     files:
       - "configs/redirect_maps/object-storage-service-aa"
@@ -261,6 +270,9 @@ configMapGenerator:
   - name: "taurusdb"
     files:
       - "configs/redirect_maps/taurusdb"
+  - name: "ubiquitous-cloud-native-service"
+    files:
+      - "configs/redirect_maps/ubiquitous-cloud-native-service"
   - name: "virtual-private-cloud"
     files:
       - "configs/redirect_maps/virtual-private-cloud"

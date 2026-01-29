@@ -23,7 +23,7 @@
   /api/iam/en-us_topic_0057845579.html /identity-access-management/api-ref/apis/permission_management/index.html;
   /api/iam/en-us_topic_0057845581.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/querying_the_identity_provider_list.html;
   /api/iam/en-us_topic_0057845582.html /identity-access-management/api-ref/before_you_start.html;
-  /api/iam/en-us_topic_0057845583.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token.html;
+  /api/iam/en-us_topic_0057845583.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token_through_password_authentication.html;
   /api/iam/en-us_topic_0057845585.html /identity-access-management/api-ref/apis/token_management/verifying_a_token_and_returning_a_valid_token.html;
   /api/iam/en-us_topic_0057845586.html /identity-access-management/api-ref/apis/token_management/verifying_a_token.html;
   /api/iam/en-us_topic_0057845587.html /identity-access-management/api-ref/apis/services_and_endpoints/querying_services.html;
@@ -147,11 +147,14 @@
   /api/iam/iam_02_0511.html /identity-access-management/api-ref/calling_apis/response.html;
   /api/iam/iam_02_0512.html /identity-access-management/api-ref/appendix/index.html;
   /api/iam/iam_02_0519.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_for_all_projects.html;
+  /api/iam/iam_02_0633.html /identity-access-management/api-ref/apis/enterprise_project_management/granting_permissions_to_agencies_associated_with_specified_enterprise_projects.html;
+  /api/iam/iam_02_0634.html /identity-access-management/api-ref/apis/enterprise_project_management/removing_permissions_of_agencies_associated_with_specified_enterprise_projects.html;
   /api/iam/iam_03_0001.html /identity-access-management/api-ref/apis/access_key_management/creating_a_permanent_access_key.html;
   /api/iam/iam_03_0002.html /identity-access-management/api-ref/apis/access_key_management/querying_a_permanent_access_key.html;
   /api/iam/iam_03_0003.html /identity-access-management/api-ref/apis/access_key_management/listing_permanent_access_keys.html;
   /api/iam/iam_03_0004.html /identity-access-management/api-ref/apis/access_key_management/modifying_a_permanent_access_key.html;
   /api/iam/iam_03_0005.html /identity-access-management/api-ref/apis/access_key_management/deleting_a_permanent_access_key.html;
+  /api/iam/iam_03_0006.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token_through_password_authentication_and_virtual_mfa.html;
   /api/iam/iam_08_0004.html /identity-access-management/api-ref/apis/user_management/querying_user_details_recommended.html;
   /api/iam/iam_08_0011.html /identity-access-management/api-ref/apis/user_management/modifying_user_information_including_email_address_and_mobile_number_as_the_administrator.html;
   /api/iam/iam_08_0012.html /identity-access-management/api-ref/apis/security_settings/querying_mfa_device_information_of_users.html;
@@ -171,6 +174,7 @@
   /api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments_discarded.html;
   /api/iam/iam_11_0016.html /identity-access-management/api-ref/apis/custom_policy_management/creating_a_custom_policy.html;
   /api/iam/iam_11_0017.html /identity-access-management/api-ref/apis/custom_policy_management/modifying_a_custom_policy.html;
+  /api/iam/iam_12_0513.html /identity-access-management/api-ref/apis/enterprise_project_management/index.html;
   /api/iam/iam_13_0207.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/creating_an_openid_connect_identity_provider.html;
   /api/iam/iam_13_0208.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/updating_an_openid_connect_identity_provider.html;
   /api/iam/iam_13_0209.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/querying_an_openid_connect_identity_provider.html;
@@ -205,7 +209,7 @@
   /en-us/api/iam/en-us_topic_0057845579.html /identity-access-management/api-ref/apis/permission_management/index.html;
   /en-us/api/iam/en-us_topic_0057845581.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/querying_the_identity_provider_list.html;
   /en-us/api/iam/en-us_topic_0057845582.html /identity-access-management/api-ref/before_you_start.html;
-  /en-us/api/iam/en-us_topic_0057845583.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token.html;
+  /en-us/api/iam/en-us_topic_0057845583.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token_through_password_authentication.html;
   /en-us/api/iam/en-us_topic_0057845585.html /identity-access-management/api-ref/apis/token_management/verifying_a_token_and_returning_a_valid_token.html;
   /en-us/api/iam/en-us_topic_0057845586.html /identity-access-management/api-ref/apis/token_management/verifying_a_token.html;
   /en-us/api/iam/en-us_topic_0057845587.html /identity-access-management/api-ref/apis/services_and_endpoints/querying_services.html;
@@ -329,11 +333,14 @@
   /en-us/api/iam/iam_02_0511.html /identity-access-management/api-ref/calling_apis/response.html;
   /en-us/api/iam/iam_02_0512.html /identity-access-management/api-ref/appendix/index.html;
   /en-us/api/iam/iam_02_0519.html /identity-access-management/api-ref/apis/permission_management/granting_permissions_to_a_user_group_for_all_projects.html;
+  /en-us/api/iam/iam_02_0633.html /identity-access-management/api-ref/apis/enterprise_project_management/granting_permissions_to_agencies_associated_with_specified_enterprise_projects.html;
+  /en-us/api/iam/iam_02_0634.html /identity-access-management/api-ref/apis/enterprise_project_management/removing_permissions_of_agencies_associated_with_specified_enterprise_projects.html;
   /en-us/api/iam/iam_03_0001.html /identity-access-management/api-ref/apis/access_key_management/creating_a_permanent_access_key.html;
   /en-us/api/iam/iam_03_0002.html /identity-access-management/api-ref/apis/access_key_management/querying_a_permanent_access_key.html;
   /en-us/api/iam/iam_03_0003.html /identity-access-management/api-ref/apis/access_key_management/listing_permanent_access_keys.html;
   /en-us/api/iam/iam_03_0004.html /identity-access-management/api-ref/apis/access_key_management/modifying_a_permanent_access_key.html;
   /en-us/api/iam/iam_03_0005.html /identity-access-management/api-ref/apis/access_key_management/deleting_a_permanent_access_key.html;
+  /en-us/api/iam/iam_03_0006.html /identity-access-management/api-ref/apis/token_management/obtaining_a_user_token_through_password_authentication_and_virtual_mfa.html;
   /en-us/api/iam/iam_08_0004.html /identity-access-management/api-ref/apis/user_management/querying_user_details_recommended.html;
   /en-us/api/iam/iam_08_0011.html /identity-access-management/api-ref/apis/user_management/modifying_user_information_including_email_address_and_mobile_number_as_the_administrator.html;
   /en-us/api/iam/iam_08_0012.html /identity-access-management/api-ref/apis/security_settings/querying_mfa_device_information_of_users.html;
@@ -353,6 +360,7 @@
   /en-us/api/iam/iam_11_0003.html /identity-access-management/api-ref/apis/permission_management/querying_role_assignments_discarded.html;
   /en-us/api/iam/iam_11_0016.html /identity-access-management/api-ref/apis/custom_policy_management/creating_a_custom_policy.html;
   /en-us/api/iam/iam_11_0017.html /identity-access-management/api-ref/apis/custom_policy_management/modifying_a_custom_policy.html;
+  /en-us/api/iam/iam_12_0513.html /identity-access-management/api-ref/apis/enterprise_project_management/index.html;
   /en-us/api/iam/iam_13_0207.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/creating_an_openid_connect_identity_provider.html;
   /en-us/api/iam/iam_13_0208.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/updating_an_openid_connect_identity_provider.html;
   /en-us/api/iam/iam_13_0209.html /identity-access-management/api-ref/apis/federated_identity_authentication_management/identity_provider/querying_an_openid_connect_identity_provider.html;

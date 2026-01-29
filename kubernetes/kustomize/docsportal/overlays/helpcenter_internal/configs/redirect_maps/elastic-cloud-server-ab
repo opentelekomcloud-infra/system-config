@@ -1,7 +1,9 @@
+  /usermanual/ecs/en-us_topic_0140323151.html /elastic-cloud-server/umn/security/security_groups/index.html;
+  /usermanual/ecs/en-us_topic_0140323152.html /elastic-cloud-server/umn/security/security_groups/security_group_configuration_examples.html;
   /usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_groups_and_rules.html;
   /usermanual/ecs/en-us_topic_0140323157.html /elastic-cloud-server/umn/security/security_groups/overview.html;
   /usermanual/ecs/en-us_topic_0140963099.html /elastic-cloud-server/umn/elastic_network_interfaces/dynamically_assigning_ipv6_addresses.html;
-  /usermanual/ecs/en-us_topic_0142266317.html /elastic-cloud-server/umn/instances/managing_ecs_configurations/changing_ecs_names.html;
+  /usermanual/ecs/en-us_topic_0142266317.html /elastic-cloud-server/umn/instances/managing_my_ecss/changing_ecs_names.html;
   /usermanual/ecs/en-us_topic_0144542149.html /elastic-cloud-server/umn/eips/overview.html;
   /usermanual/ecs/en-us_topic_0145756657.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/why_no_audio_file_can_be_properly_played_on_my_windows_ecs_logged_in_using_vnc.html;
   /usermanual/ecs/en-us_topic_0149470468.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/manually_installing_a_tesla_driver_on_a_gpu-accelerated_ecs.html;
@@ -30,7 +32,7 @@
   /usermanual/ecs/en-us_topic_0170265914.html /elastic-cloud-server/umn/using_iam_to_grant_access_to_ecs/ecs_custom_policies.html;
   /usermanual/ecs/en-us_topic_0170880184.html /elastic-cloud-server/umn/faqs/ecs_creation/what_should_i_do_if_the_ecs_resources_to_be_purchased_are_sold_out.html;
   /usermanual/ecs/en-us_topic_0174917535.html /elastic-cloud-server/umn/eips/binding_an_eip.html;
-  /usermanual/ecs/en-us_topic_0176502615.html /elastic-cloud-server/umn/instances/managing_ecs_configurations/index.html;
+  /usermanual/ecs/en-us_topic_0176502615.html /elastic-cloud-server/umn/instances/managing_my_ecss/index.html;
   /usermanual/ecs/en-us_topic_0177457773.html /elastic-cloud-server/umn/images/overview.html;
   /usermanual/ecs/en-us_topic_0177457774.html /elastic-cloud-server/umn/images/index.html;
   /usermanual/ecs/en-us_topic_0177512565.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_specifications/a_summary_list_of_ecs_specifications.html;
@@ -82,7 +84,7 @@
   /usermanual/ecs/en-us_topic_0264235948.html /elastic-cloud-server/umn/faqs/remote_login/remote_login_errors_on_windows/why_am_i_seeing_an_error_message_that_says_user_account_is_not_authorized_for_remote_login_when_i_log_in_to_a_windows_ecs.html;
   /usermanual/ecs/en-us_topic_0264235950.html /elastic-cloud-server/umn/faqs/remote_login/remote_login_errors_on_windows/why_does_my_remote_desktop_session_end_because_another_user_logs_in_when_i_log_in_to_a_windows_ecs.html;
   /usermanual/ecs/en-us_topic_0271001300.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/index.html;
-  /usermanual/ecs/en-us_topic_0275383051.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/logging_in_to_a_windows_ecs_from_a_linux_computer.html;
+  /usermanual/ecs/en-us_topic_0275383051.html /elastic-cloud-server/umn/instances/logging_in_to_a_windows_ecs/logging_in_to_a_windows_ecs_from_a_linux_server.html;
   /usermanual/ecs/en-us_topic_0277097520.html /elastic-cloud-server/umn/faqs/remote_login/remote_login_errors_on_linux/why_am_i_seeing_the_error_message_access_denied_when_i_remotely_log_in_to_a_linux_ecs.html;
   /usermanual/ecs/en-us_topic_0277132844.html /elastic-cloud-server/umn/faqs/remote_login/remote_login_errors_on_linux/what_should_i_do_if_error_message_disconnected_no_supported_authentication_methods_available_is_displayed_when_i_remotely_log_in_to_a_linux_ecs.html;
   /usermanual/ecs/en-us_topic_0295091738.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/how_can_i_transfer_files_from_a_local_mac_to_a_windows_ecs.html;
