@@ -379,7 +379,7 @@
   /en-us/usermanual/vpc/FlowLog_0004.html /virtual-private-cloud/umn/vpc_flow_log/viewing_a_vpc_flow_log.html;
   /en-us/usermanual/vpc/FlowLog_0005.html /virtual-private-cloud/umn/vpc_flow_log/deleting_a_vpc_flow_log.html;
   /en-us/usermanual/vpc/FlowLog_0006.html /virtual-private-cloud/umn/vpc_flow_log/enabling_or_disabling_vpc_flow_log.html;
-  /en-us/usermanual/vpc/SecurityGroup_0003.html /virtual-private-cloud/umn/access_control/security_group/default_security_group.html;
+  /en-us/usermanual/vpc/SecurityGroup_0003.html /virtual-private-cloud/umn/access_control/security_group/default_security_group_and_its_rules.html;
   /en-us/usermanual/vpc/SecurityGroup_0004.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/fast-adding_security_group_rules.html;
   /en-us/usermanual/vpc/SecurityGroup_0005.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/allowing_common_ports_with_a_few_clicks.html;
   /en-us/usermanual/vpc/SecurityGroup_0006.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/changing_the_security_group_of_an_ecs.html;
@@ -441,6 +441,7 @@
   /en-us/usermanual/vpc/vpc010015.html /virtual-private-cloud/umn/interconnecting_with_cts/index.html;
   /en-us/usermanual/vpc/vpc010016.html /virtual-private-cloud/umn/interconnecting_with_cts/supported_vpc_operations.html;
   /en-us/usermanual/vpc/vpc010017.html /virtual-private-cloud/umn/interconnecting_with_cts/viewing_traces.html;
+  /en-us/usermanual/vpc/vpc_0002.html /virtual-private-cloud/umn/vpc_and_subnet/ipv4_and_ipv6_dual-stack_network.html;
   /en-us/usermanual/vpc/vpc_0003.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/index.html;
   /en-us/usermanual/vpc/vpc_0004.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/index.html;
   /en-us/usermanual/vpc/vpc_Concepts_0001.html /virtual-private-cloud/umn/service_overview/basic_concepts/index.html;
@@ -457,6 +458,7 @@
   /en-us/usermanual/vpc/vpc_SecurityGroup_0006.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/deleting_a_security_group_rule.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0007.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/importing_and_exporting_security_group_rules.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0008.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/deleting_a_security_group.html;
+  /en-us/usermanual/vpc/vpc_SecurityGroup_0009.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/cloning_a_security_group.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0010.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/modifying_a_security_group.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0011.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/viewing_the_security_group_of_an_ecs.html;
   /en-us/usermanual/vpc/vpc_SecurityGroup_0012.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/index.html;
@@ -584,7 +586,7 @@
   /usermanual/vpc/FlowLog_0004.html /virtual-private-cloud/umn/vpc_flow_log/viewing_a_vpc_flow_log.html;
   /usermanual/vpc/FlowLog_0005.html /virtual-private-cloud/umn/vpc_flow_log/deleting_a_vpc_flow_log.html;
   /usermanual/vpc/FlowLog_0006.html /virtual-private-cloud/umn/vpc_flow_log/enabling_or_disabling_vpc_flow_log.html;
-  /usermanual/vpc/SecurityGroup_0003.html /virtual-private-cloud/umn/access_control/security_group/default_security_group.html;
+  /usermanual/vpc/SecurityGroup_0003.html /virtual-private-cloud/umn/access_control/security_group/default_security_group_and_its_rules.html;
   /usermanual/vpc/SecurityGroup_0004.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/fast-adding_security_group_rules.html;
   /usermanual/vpc/SecurityGroup_0005.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/allowing_common_ports_with_a_few_clicks.html;
   /usermanual/vpc/SecurityGroup_0006.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/changing_the_security_group_of_an_ecs.html;
@@ -646,6 +648,7 @@
   /usermanual/vpc/vpc010015.html /virtual-private-cloud/umn/interconnecting_with_cts/index.html;
   /usermanual/vpc/vpc010016.html /virtual-private-cloud/umn/interconnecting_with_cts/supported_vpc_operations.html;
   /usermanual/vpc/vpc010017.html /virtual-private-cloud/umn/interconnecting_with_cts/viewing_traces.html;
+  /usermanual/vpc/vpc_0002.html /virtual-private-cloud/umn/vpc_and_subnet/ipv4_and_ipv6_dual-stack_network.html;
   /usermanual/vpc/vpc_0003.html /virtual-private-cloud/umn/vpc_and_subnet/vpc/index.html;
   /usermanual/vpc/vpc_0004.html /virtual-private-cloud/umn/vpc_and_subnet/subnet/index.html;
   /usermanual/vpc/vpc_Concepts_0001.html /virtual-private-cloud/umn/service_overview/basic_concepts/index.html;
@@ -662,6 +665,7 @@
   /usermanual/vpc/vpc_SecurityGroup_0006.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/deleting_a_security_group_rule.html;
   /usermanual/vpc/vpc_SecurityGroup_0007.html /virtual-private-cloud/umn/access_control/security_group/managing_security_group_rules/importing_and_exporting_security_group_rules.html;
   /usermanual/vpc/vpc_SecurityGroup_0008.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/deleting_a_security_group.html;
+  /usermanual/vpc/vpc_SecurityGroup_0009.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/cloning_a_security_group.html;
   /usermanual/vpc/vpc_SecurityGroup_0010.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/modifying_a_security_group.html;
   /usermanual/vpc/vpc_SecurityGroup_0011.html /virtual-private-cloud/umn/access_control/security_group/managing_instances_associated_with_a_security_group/viewing_the_security_group_of_an_ecs.html;
   /usermanual/vpc/vpc_SecurityGroup_0012.html /virtual-private-cloud/umn/access_control/security_group/managing_a_security_group/index.html;
