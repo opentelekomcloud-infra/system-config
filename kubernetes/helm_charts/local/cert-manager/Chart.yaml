@@ -1,0 +1,4 @@
+apiVersion: v2
+name: cert-manager-additional-manifests
+description: A custom/local Helm Chart used for deployement of Cert Manager's additional manifests
+version: 0.1.0

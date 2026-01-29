@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: postgresql-tls
+  namespace: {{ .Values.namespace }}
+spec:
+  secretName: postgresql-tls
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: {{ .Values.clusterIssuerName }}
+  commonName: {{ .Values.commonName }}
+  dnsNames:
+    {{- range .Values.dnsNames }}
+    - {{ . }}
+    {{- end }}
+  usages:
+    - digital signature
+    - key encipherment
+    - server auth

@@ -28,7 +28,7 @@ template {
   destination = "/secrets/app-config.production.yaml"
   contents = <<EOT
 app:
-  baseUrl: https://backstage-dev.eco.tsi-dev.otc-service.com
+  baseUrl: https://backstage-dev.eco-preprod.tsi-dev.otc-service.com
 
 backend:
   auth:
@@ -42,11 +42,11 @@ backend:
   #   keys:
   #     - secret: ${BACKEND_SECRET}
 
-  baseUrl: https://backstage-dev.eco.tsi-dev.otc-service.com
+  baseUrl: https://backstage-dev.eco-preprod.tsi-dev.otc-service.com
   listen:
     port: 7007
   cors:
-    origin: https://backstage-dev.eco.tsi-dev.otc-service.com
+    origin: https://backstage-dev.eco-preprod.tsi-dev.otc-service.com
 
 auth:
   environment: production
@@ -64,9 +64,9 @@ auth:
 {{- with secret "secret/data/backstage/gitea" }}
     gitea:
       development:
-        metadataUrl: https://gitea.eco.tsi-dev.otc-service.com/.well-known/openid-configuration
-        authorizationUrl: https://gitea.eco.tsi-dev.otc-service.com/login/oauth/authorize
-        tokenUrl: https://gitea.eco.tsi-dev.otc-service.com/login/oauth/access_token
+        metadataUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/.well-known/openid-configuration
+        authorizationUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/login/oauth/authorize
+        tokenUrl: https://gitea.eco-preprod.tsi-dev.otc-service.com/login/oauth/access_token
         clientId: {{ .Data.data.clientId }}
         clientSecret: {{ .Data.data.clientSecret }}
 {{- end }}
@@ -76,7 +76,7 @@ catalog:
   providers:
     keycloakOrg:
       default:
-        baseUrl: https://keycloak.eco.tsi-dev.otc-service.com/
+        baseUrl: https://keycloak.eco-preprod.tsi-dev.otc-service.com/
         loginRealm: {{ .Data.data.realm }}
         realm: {{ .Data.data.realm }}
         clientId: {{ .Data.data.client_id }}
@@ -87,18 +87,18 @@ catalog:
   locations:
     # General
     - type: url
-      target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog/contents/blob/main/otc-catalog.yaml
+      target: https://gitea.eco-preprod.tsi-dev.otc-service.com/backstage/catalog/contents/blob/main/otc-catalog.yaml
       rules:
         - allow: [Domain, Group, User, Location, Component, Resource, API, System]
     # Compute
     - type: url
-      target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-compute/contents/blob/main/catalog.yaml
+      target: https://gitea.eco-preprod.tsi-dev.otc-service.com/backstage/catalog-compute/contents/blob/main/catalog.yaml
     # Ecosystem
     - type: url
-      target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-ecosystem/contents/blob/main/catalog.yaml
+      target: https://gitea.eco-preprod.tsi-dev.otc-service.com/backstage/catalog-ecosystem/contents/blob/main/catalog.yaml
     # templates
     #- type: url
-    #  target: https://gitea.eco.tsi-dev.otc-service.com/backstage/catalog-templates/contents/blob/main/catalog.yaml
+    #  target: https://gitea.eco-preprod.tsi-dev.otc-service.com/backstage/catalog-templates/contents/blob/main/catalog.yaml
     #  rules:
     #    - allow: [Template]
     - type: url
@@ -109,7 +109,7 @@ catalog:
 integrations:
   gitea:
 {{- with secret "secret/data/backstage/gitea" }}
-    - host: gitea.eco.tsi-dev.otc-service.com
+    - host: gitea.eco-preprod.tsi-dev.otc-service.com
       password: {{ .Data.data.token }}
 {{- end }}
   github:
@@ -147,7 +147,7 @@ proxy:
       Authorization: "Bearer {{ .Data.data.token }}"
 {{- end }}
   '/dependencytrack':
-    target: https://dependencytrack.eco.tsi-dev.otc-service.com
+    target: https://dependencytrack.eco-preprod.tsi-dev.otc-service.com
     allowedMethods: ['GET']
     headers:
 {{- with secret "secret/data/backstage/dependencytrack" }}

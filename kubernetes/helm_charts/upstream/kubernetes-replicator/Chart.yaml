@@ -1,0 +1,9 @@
+---
+apiVersion: v2
+name: kubernetes-replicator
+description: Kubernetes Replicator for automatic secret replication across namespaces
+version: 0.1.0
+dependencies:
+  - name: kubernetes-replicator
+    version: "2.10.0"
+    repository: "https://helm.mittwald.de"
