@@ -82,10 +82,13 @@ data:
     [filter:ratelimit]
     use = egg:swift#ratelimit
 
-    [filter:keystoneauth]
-    use = egg:swift#keystoneauth
-    operator_roles = admin,member
+    [filter:tempauth]
+    use = egg:swift#tempauth
     reseller_prefix = AUTH_
+    # Zuul user for log uploads: zuul / zuul (project: zuul)
+    user_zuul_zuul = zuul .admin .reseller_admin
+    # Allow anonymous reads for public containers
+    allow_anonymous_read = true
 
     [filter:copy]
     use = egg:swift#copy
