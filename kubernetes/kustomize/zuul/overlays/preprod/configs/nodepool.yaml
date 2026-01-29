@@ -54,7 +54,6 @@ providers:
         labels:
           - name: zuul-debian
             type: pod
-<<<<<<< HEAD
             spec:
               imagePullSecrets:
                 - name: quay-image-pull-secret
@@ -93,32 +92,9 @@ providers:
                     limits:
                       cpu: "1"
                       memory: "1024Mi"
-=======
-            image: quay.io/opentelekomcloud/python-tox:latest
-            image-pull-policy: Always
-            cpu: 1
-            memory: 1024
->>>>>>> 24a20d1d (Set imagePullPolicy to Always for python-tox pods)
             python-path: /usr/bin/python3
             shell-type: /bin/bash
-<<<<<<< HEAD
-<<<<<<< HEAD
             context: preprod
-=======
-=======
-            context: preprod
->>>>>>> 9cfe9caa (Add context: preprod to pod-debian label)
-            # Mount shared NFS storage directly (not via PVC)
-            # Direct NFS mount works across all namespaces
-            volumes:
-              - name: zuul-builds-shared
-                nfs:
-                  server: 192.168.150.233
-                  path: /builds
-            volume-mounts:
-              - name: zuul-builds-shared
-                mountPath: /var/lib/zuul/builds
->>>>>>> b29e9324 (Add shell-type to pod-debian label for proper kubectl exec connection)
 
 diskimages:
   - name: debian-bookworm
