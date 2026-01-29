@@ -514,36 +514,36 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
-  - name: gitea-webhook-translator
-    clusters: [preprod]
-    config:
-      namespace: zuul
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
-      path: kubernetes/kustomize/gitea-webhook-translator/overlays/preprod/
-      pluginName: argocd-vault-plugin-kustomize
-      pluginEnv: '.'
-      project: infra
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+  # - name: gitea-webhook-translator
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: zuul
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/kustomize/gitea-webhook-translator/overlays/preprod/
+  #     pluginName: argocd-vault-plugin-kustomize
+  #     pluginEnv: '.'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
 
-  - name: gitea-api-adapter
-    clusters: [preprod]
-    config:
-      namespace: zuul
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
-      path: kubernetes/kustomize/gitea-api-adapter/overlays/preprod/
-      pluginName: argocd-vault-plugin-kustomize
-      pluginEnv: '.'
-      project: infra
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
+  # - name: gitea-api-adapter
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: zuul
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/kustomize/gitea-api-adapter/overlays/preprod/
+  #     pluginName: argocd-vault-plugin-kustomize
+  #     pluginEnv: '.'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
