@@ -16,57 +16,85 @@ zookeeper-tls:
 
 labels:
   - name: debian
-    min-ready: 1
+    min-ready: 0
     max-ready-age: 3600
 
-  - name: pod-debian
+  - name: zuul-debian
     min-ready: 0
 
 providers:
-  # OpenStack providers for VM-based nodes
-  - name: otcci-pool1
-    driver: openstack
-    cloud: otcci-pool1
-    boot-timeout: 300
-    launch-timeout: 600
-    launch-retries: 3
-    image-name-format: '{image_name}-{timestamp}'
-    rate: 1.0
-    diskimages:
-      - name: debian-bookworm
-        config-drive: true
-    pools:
-      - name: main
-        max-servers: 10
-        labels:
-          - name: debian
-            diskimage: debian-bookworm
-            flavor-name: s3.medium.4
-            key-name: nodepool
+  # OpenStack providers for VM-based nodes (disabled for preprod)
+  # - name: otcci-pool1
+  #   driver: openstack
+  #   cloud: otcci-pool1
+  #   boot-timeout: 300
+  #   launch-timeout: 600
+  #   launch-retries: 3
+  #   image-name-format: '{image_name}-{timestamp}'
+  #   rate: 1.0
+  #   diskimages:
+  #     - name: debian-bookworm
+  #       config-drive: true
+  #   pools:
+  #     - name: main
+  #       max-servers: 10
+  #       labels:
+  #         - name: debian
+  #           diskimage: debian-bookworm
+  #           flavor-name: s3.medium.4
+  #           key-name: nodepool
 
-  # Kubernetes provider for pod-based nodes (in-cluster)
+  # Kubernetes provider for pod-based nodes (in-cluster) - for linters only
   - name: preprod-k8s
     driver: kubernetes
-    max-servers: 20
+    max-servers: 5
+    context: preprod
     pools:
       - name: default
         labels:
-          - name: pod-debian
+          - name: zuul-debian
             type: pod
-            image: quay.io/opentelekomcloud/zuul-executor:11.1.0
-            cpu: 0.5
-            memory: 512
-            python-path: /usr/local/bin/python3
-            # Mount shared NFS storage for builds directory
-            # Uses zuul-config PVC (SFS-Turbo NFS) with builds subdirectory
-            volumes:
-              - name: zuul-builds-shared
-                persistentVolumeClaim:
-                  claimName: zuul-config
-            volume-mounts:
-              - name: zuul-builds-shared
-                mountPath: /var/lib/zuul/builds
-                subPath: builds
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 1000
+                runAsGroup: 1000
+                fsGroup: 1000
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                  resources:
+                    requests:
+                      cpu: "1"
+                      memory: "1024Mi"
+                    limits:
+                      cpu: "1"
+                      memory: "1024Mi"
+            python-path: /usr/bin/python3
+            shell-type: /bin/bash
+            context: preprod
 
 diskimages:
   - name: debian-bookworm
@@ -85,7 +113,6 @@ diskimages:
       - debian-minimal
       - vm
       - simple-init
-      - growroot
-      - openssh-server
-      - nodepool-base
-# Test after otc-tox parent fix
+        - growroot
+        - openssh-server
+        - nodepool-base
