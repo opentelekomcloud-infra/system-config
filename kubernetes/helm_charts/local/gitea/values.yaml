@@ -47,19 +47,24 @@ tolerations: []
 
 affinity: {}
 
-# Ingress configuration
+# Ingress with TLS
 ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
   hosts:
-    - host: chart-example.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+    - host: gitea.eco-preprod.tsi-dev.otc-service.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: outline-tls
+      hosts:
+        - gitea.eco-preprod.tsi-dev.otc-service.com
 
 # ServiceAccount configuration
 createServiceAccount: true
