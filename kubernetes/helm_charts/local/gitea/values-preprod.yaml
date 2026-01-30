@@ -1,0 +1,21 @@
+# Preproduction environment values for Gitea
+replicaCount: 2
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+service:
+  type: ClusterIP
+  port: 3000
+
+image:
+  tag: "1.21.0"
+
+nodeSelector: {}
+
+affinity: {}
