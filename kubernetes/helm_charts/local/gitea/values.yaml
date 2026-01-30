@@ -49,7 +49,7 @@ affinity: {}
 
 # Ingress with TLS
 ingress:
-  enabled: false
+  enabled: true
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-staging
@@ -62,7 +62,7 @@ ingress:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: outline-tls
+    - secretName: gitea-tls
       hosts:
         - gitea.eco-preprod.tsi-dev.otc-service.com
 
