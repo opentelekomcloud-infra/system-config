@@ -15,15 +15,6 @@ service:
 image:
   tag: "1.21.0"
 
-nodeSelector:
-  kubernetes.io/os: linux
+nodeSelector: {}
 
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: node-role.kubernetes.io/worker
-          operator: In
-          values:
-          - "true"
+affinity: {}
