@@ -1,0 +1,45 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "gitea.fullname" . -}}
+{{- $svcPort := .Values.service.port -}}
+{{- if semverCompare "^1.19" .Capabilities.KubeVersion.Version -}}
+apiVersion: networking.k8s.io/v1
+{{- else -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- end }}
+kind: Ingress
+metadata:
+  name: {{ $fullName }}
+  labels:
+    {{- include "gitea.labels" . | nindent 4 }}
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    {{- range .Values.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          {{- range .Values.ingress.paths }}
+          - path: {{ .path }}
+            {{- if and $.Capabilities.APIVersions.Has "networking.k8s.io/v1" (semverCompare ">=1.19-0" $.Capabilities.KubeVersion.Version) }}
+            pathType: {{ .pathType }}
+            {{- end }}
+            backend:
+              {{- if and $.Capabilities.APIVersions.Has "networking.k8s.io/v1" (semverCompare ">=1.19-0" $.Capabilities.KubeVersion.Version) }}
+              service:
+                name: {{ $fullName }}
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
+              serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+              {{- end }}
+          {{- end }}
+    {{- end }}
+{{- end }}
