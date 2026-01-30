@@ -11,6 +11,7 @@ resources:
 
 service:
   type: ClusterIP
+  port: 3000
 
 image:
   tag: "1.21.0"
