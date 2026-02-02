@@ -25,6 +25,10 @@ spec:
       serviceAccountName: {{ include "gitea.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      volumes:
+        - name: gitea-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "gitea.fullname" .) }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -62,6 +66,10 @@ spec:
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          
+          volumeMounts:
+            - name: gitea-data
+              mountPath: {{ .Values.persistence.mountPath | default "/data" }}
 
       {{- with .Values.nodeSelector }}
       nodeSelector:

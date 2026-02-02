@@ -75,3 +75,10 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  size: 10Gi
+  storageClassName: csi-disk-retain
+  mountPath: /data
