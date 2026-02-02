@@ -56,6 +56,9 @@ ingress:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
     nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "240"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "2400"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "2400"
   hosts:
     - host: gitea.eco-preprod.tsi-dev.otc-service.com
       paths:
