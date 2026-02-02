@@ -62,9 +62,6 @@ spec:
 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-            - name: data
-              mountPath: /data
 
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -80,9 +77,3 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ include "gitea.fullname" . }}-pvc
-
