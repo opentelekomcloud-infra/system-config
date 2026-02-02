@@ -1,5 +1,5 @@
 # Preproduction environment values for Gitea
-replicaCount: 2
+replicaCount: 1
 
 resources:
   limits:
