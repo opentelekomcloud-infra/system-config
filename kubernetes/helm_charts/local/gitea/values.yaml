@@ -72,3 +72,8 @@ serviceAccount:
   create: true
   annotations: {}
   name: ""
+
+persistence:
+  enabled: true
+  size: 10Gi
+  accessMode: ReadWriteOnce
