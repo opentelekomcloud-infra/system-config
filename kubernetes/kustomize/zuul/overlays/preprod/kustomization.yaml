@@ -39,19 +39,19 @@ images:
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "13.1.1-gitea-v2"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "13.1.1-gitea-v2"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea-v2"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea-v2"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
