@@ -74,6 +74,8 @@ export BASE_GITEA_URL={{ .Data.data.base_url }}
 {{ with secret "secret/data/jira/autoecobot" -}}
 export JIRA_API_URL={{ .Data.data.jira_api_url }}
 export JIRA_TOKEN={{ .Data.data.jira_api_key }}
+export JIRA_CERT_PATH={{ .Data.data.jira_pem }}
+export JIRA_KEY_PATH={{ .Data.data.jira_key }}
 {{- end }}
 
 {{ with secret "secret/data/giji/master_component" -}}
@@ -91,9 +93,13 @@ export DAS="{{ .Data.data.data-admin-service }}"
 export DDM="{{ .Data.data.distributed-database-middleware }}"
 export DDS="{{ .Data.data.document-database-service }}"
 {{ end }}
+{{ with secret "secret/data/giji/config" -}}
+export JIRA_PROJECT_KEY="{{ .Data.data.jira_project_key }}"
+export TARGET_SQUADS="{{ .Data.data.target_squads }}"
+export IMPORTED_LABEL="{{ .Data.data.imported_label }}"
+export JIRA_ISSUE_TYPE="{{ .Data.data.jira_issue_type }}"
+{{ end }}
 
-export JIRA_CERT_PATH=/secrets/jira-cert.pem
-export JIRA_KEY_PATH=/secrets/jira-key.pem
 EOT
     perms = "0600"
 }
