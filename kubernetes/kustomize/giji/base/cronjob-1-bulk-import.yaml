@@ -2,53 +2,56 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: giji-bulk-import
+  namespace: giji
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 20 11 9 *"
+  schedule: "0 2 * * 0" # This is example timing, we can change it as soon as everything will be ready to deploy
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            vault.hashicorp.com/agent-inject: "true"
+            vault.hashicorp.com/role: "giji"
+            vault.hashicorp.com/agent-inject-secret-giji-env: "secret/data/giji/config"
+            vault.hashicorp.com/agent-inject-template-giji-env: |
+              {{- with secret "secret/data/giji/config" -}}
+              export JIRA_PROJECT_KEY="{{ .Data.data.jira_project_key }}"
+              export TARGET_SQUADS="{{ .Data.data.target_squads }}"
+              export IMPORTED_LABEL="{{ .Data.data.imported_label }}"
+              # ... остальные переменные
+              {{- end }}
         spec:
-          serviceAccount: "giji"
+          serviceAccount: giji
           restartPolicy: OnFailure
           containers:
-            - name: giji-bulk-import
+            - name: bulk-import
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop:
                     - ALL
-                readOnlyRootFilesystem: true
-              image: quay.io/opentelekomcloud/giji
+                readOnlyRootFilesystem: false  # Python нужно писать в /tmp
+                runAsNonRoot: true
+                runAsUser: 1000
+              image: quay.io/opentelekomcloud/giji:latest
               imagePullPolicy: IfNotPresent
               command:
-              - "/bin/sh"
-              - "-c"
-              - "source /secrets/giji-env; python3 bulk_import.py"
-              envFrom:
-                - secretRef:
-                    name: giji-config
-              startupProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 20
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 12
-              readinessProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 5
-                periodSeconds: 10
-                timeoutSeconds: 3
-                failureThreshold: 3
-              livenessProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 60
-                periodSeconds: 30
-                timeoutSeconds: 5
-                failureThreshold: 3
+                - /bin/sh
+                - -c
+                - |
+                  source /vault/secrets/giji-env
+                  python3 -m scripts.bulk_import
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}

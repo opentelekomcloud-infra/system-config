@@ -2,53 +2,82 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: giji-bug-postgres
+  namespace: giji
 spec:
   concurrencyPolicy: Forbid
-  schedule: "15 20 11 9 *"
+  schedule: "*/30 * * * *"
   jobTemplate:
     spec:
       template:
+        metadata:
+          annotations:
+            vault.hashicorp.com/agent-inject: "true"
+            vault.hashicorp.com/role: "giji"
+            vault.hashicorp.com/agent-inject-secret-giji-env: "secret/data/giji/config"
+            vault.hashicorp.com/agent-inject-template-giji-env: |
+              {{- with secret "secret/data/giji/config" -}}
+              export JIRA_PROJECT_KEY="{{ .Data.data.jira_project_key }}"
+              export TARGET_SQUADS="{{ .Data.data.target_squads }}"
+              export IMPORTED_LABEL="{{ .Data.data.imported_label }}"
+              export JIRA_ISSUE_TYPE="{{ .Data.data.jira_issue_type }}"
+              export DB_HOST="{{ .Data.data.db_host }}"
+              export DB_PORT="{{ .Data.data.db_port }}"
+              export DB_NAME="{{ .Data.data.db_name }}"
+              export DB_USER="{{ .Data.data.db_user }}"
+              export DB_PASSWORD="{{ .Data.data.db_password }}"
+              export GITHUB_TOKEN="{{ .Data.data.github_token }}"
+              export GITHUB_API_URL="{{ .Data.data.github_api_url }}"
+              export GITHUB_ORGS="{{ .Data.data.github_orgs }}"
+              export JIRA_TOKEN="{{ .Data.data.jira_token }}"
+              export JIRA_API_URL="{{ .Data.data.jira_api_url }}"
+              export JIRA_CERT_PATH="{{ .Data.data.jira_cert_path }}"
+              export JIRA_KEY_PATH="{{ .Data.data.jira_key_path }}"
+              export BASE_GITEA_URL="{{ .Data.data.base_gitea_url }}"
+              export DEH="{{ .Data.data.deh }}"
+              export ASG="{{ .Data.data.asg }}"
+              export ECS="{{ .Data.data.ecs }}"
+              export IMS="{{ .Data.data.ims }}"
+              export BMS="{{ .Data.data.bms }}"
+              export RDS="{{ .Data.data.rds }}"
+              export OPENGAUSS="{{ .Data.data.opengauss }}"
+              export GEMINIDB="{{ .Data.data.geminidb }}"
+              export MYSQL="{{ .Data.data.mysql }}"
+              export DRS="{{ .Data.data.drs }}"
+              export DAS="{{ .Data.data.das }}"
+              export DDM="{{ .Data.data.ddm }}"
+              export DDS="{{ .Data.data.dds }}"
+              {{- end }}
         spec:
-          serviceAccount: "giji"
+          serviceAccount: giji
           restartPolicy: OnFailure
           containers:
-            - name: giji-bulk-import
+            - name: bug-postgres
               securityContext:
                 allowPrivilegeEscalation: false
                 capabilities:
                   drop:
                     - ALL
-                readOnlyRootFilesystem: true
-              image: quay.io/opentelekomcloud/giji
+                readOnlyRootFilesystem: false
+                runAsNonRoot: true
+                runAsUser: 1000
+              image: quay.io/opentelekomcloud/giji:latest
               imagePullPolicy: IfNotPresent
               command:
-              - "/bin/sh"
-              - "-c"
-              - "source /secrets/giji-env; python3 bug_postgres.py"
-              envFrom:
-                - secretRef:
-                    name: giji-config
-              startupProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 20
-                periodSeconds: 10
-                timeoutSeconds: 5
-                failureThreshold: 12
-              readinessProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 5
-                periodSeconds: 10
-                timeoutSeconds: 3
-                failureThreshold: 3
-              livenessProbe:
-                httpGet:
-                  path: /
-                  port: http
-                initialDelaySeconds: 60
-                periodSeconds: 30
-                timeoutSeconds: 5
-                failureThreshold: 3
+                - /bin/sh
+                - -c
+                - |
+                  source /vault/secrets/giji-env
+                  python3 -m scripts.bug_postgres
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}
