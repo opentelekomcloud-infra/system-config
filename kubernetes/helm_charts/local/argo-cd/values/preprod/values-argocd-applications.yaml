@@ -271,6 +271,7 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # Vault - HashiCorp Vault for secrets management
   - name: vault
     clusters: [preprod]
     config:
@@ -288,6 +289,7 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # Vault additional manifests (NetworkPolicy, etc.)
   - name: vault-additional-manifests
     clusters: [preprod]
     config:

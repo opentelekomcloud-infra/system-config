@@ -162,6 +162,20 @@ server:
         # Plugin directory
         plugin_directory = "/usr/local/libexec/vault"
 
+        # OTC KMS Auto-Unseal configuration (OPTIONAL - currently disabled)
+        # Uncomment to enable auto-unseal with OTC DEW (AWS KMS compatible)
+        # This also provides encryption for Raft data at rest
+        # IMPORTANT: Enabling this on an existing Vault requires migration!
+        # See: https://developer.hashicorp.com/vault/docs/concepts/seal#seal-migration
+        #
+        # seal "awskms" {
+        #   # OTC DEW endpoint for eu-de region
+        #   endpoint   = "https://kms.eu-de.otc.t-systems.com"
+        #   region     = "eu-de"
+        #   # KMS Key ID - loaded from VAULT_AWSKMS_SEAL_KEY_ID env var
+        #   # Create key via: OTC Console > DEW > Key Management > Create Key
+        # }
+
         listener "tcp" {
           tls_disable = 1
           address = "[::]:8200"
@@ -254,3 +268,20 @@ serverTelemetry:
 extraEnvironmentVars:
   VAULT_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
   VAULT_API_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+
+# OTC KMS Auto-Unseal credentials (OPTIONAL - currently disabled)
+# Uncomment when enabling KMS auto-unseal
+# extraEnvironmentVars:
+#   AWS_REGION: "eu-de"
+#   AWS_CA_BUNDLE: ""
+#
+# extraSecretEnvironmentVars:
+#   - envName: AWS_ACCESS_KEY_ID
+#     secretName: vault-kms-credentials
+#     secretKey: access_key
+#   - envName: AWS_SECRET_ACCESS_KEY
+#     secretName: vault-kms-credentials
+#     secretKey: secret_key
+#   - envName: VAULT_AWSKMS_SEAL_KEY_ID
+#     secretName: vault-kms-credentials
+#     secretKey: kms_key_id

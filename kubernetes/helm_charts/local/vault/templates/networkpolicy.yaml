@@ -48,6 +48,19 @@ spec:
           protocol: TCP
         - port: {{ .Values.networkPolicy.clusterPort }}
           protocol: TCP
+    {{- if .Values.networkPolicy.allowPrometheus }}
+    # Allow Prometheus to scrape metrics
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.prometheusNamespace | default "monitoring" }}
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: prometheus
+      ports:
+        - port: 8200
+          protocol: TCP
+    {{- end }}
   egress:
     # Vault to Vault (raft replication)
     - to:

@@ -1,13 +1,16 @@
 # Vault additional manifests configuration for preprod
+# This chart provides supplementary resources not available in upstream Vault Helm chart
 
 networkPolicy:
   enabled: true
+  
   # Pod selector for Vault pods
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vault
   
   # Namespaces allowed to access Vault (by label)
+  # Add label: vault-access: "true" to namespaces that need Vault access
   allowedNamespaces:
     labelSelector:
       matchLabels:
@@ -20,38 +23,12 @@ networkPolicy:
       podSelector:
         app.kubernetes.io/name: argocd-repo-server
   
+  # Allow Prometheus to scrape Vault metrics
+  allowPrometheus: true
+  prometheusNamespace: monitoring
+  
   # Vault API port
   vaultPort: 8200
   
   # Vault cluster port (for raft replication)
   clusterPort: 8201
-
-# Vault configuration scripts and auto-unseal
-vaultConfig:
-  enabled: true
-  
-  # ArgoCD Kubernetes auth configuration
-  argocd:
-    # Service account used by argocd-repo-server
-    serviceAccountName: argocd-repo-server
-    namespace: argocd
-    # Token TTL - short-lived tokens for security
-    ttl: 1h
-  
-  # Auto-unseal configuration (optional)
-  # Enable only if you want automatic unsealing
-  autoUnseal:
-    enabled: false
-    # Check every minute
-    schedule: "*/1 * * * *"
-    # Vault address
-    vaultAddr: "http://vault.vault.svc.cluster.local:8200"
-    skipVerify: "true"
-    # Image for unseal job
-    image: hashicorp/vault:1.15.4
-    # Service account for the cronjob
-    serviceAccountName: vault-unseal
-    # Secret containing unseal keys (UNSEAL_KEY_1, UNSEAL_KEY_2, UNSEAL_KEY_3)
-    unsealKeysSecret: vault-unseal-keys
-    # Number of keys required to unseal (threshold)
-    keyThreshold: 3
