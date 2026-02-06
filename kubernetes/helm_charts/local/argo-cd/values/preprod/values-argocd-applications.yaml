@@ -271,6 +271,40 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: vault
+    clusters: [preprod]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/vault
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: vault-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/vault
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # - name: victoria-metrics-auth
   #   clusters: [preprod]
   #   config:

@@ -1,0 +1,105 @@
+{{- if .Values.vaultConfig.enabled }}
+# This ConfigMap contains scripts to configure Vault with:
+# - Kubernetes auth method
+# - ArgoCD role with least-privilege policy
+# Run these commands after Vault is initialized and unsealed
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vault-config-scripts
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "10"
+data:
+  configure-k8s-auth.sh: |
+    #!/bin/sh
+    set -e
+    
+    echo "Configuring Vault Kubernetes authentication..."
+    
+    # Enable Kubernetes auth if not already enabled
+    vault auth list | grep -q 'kubernetes/' || vault auth enable kubernetes
+    
+    # Configure Kubernetes auth to use the in-cluster service account
+    vault write auth/kubernetes/config \
+      kubernetes_host="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}" \
+      kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+    
+    echo "Kubernetes auth configured successfully"
+
+  configure-argocd-policy.sh: |
+    #!/bin/sh
+    set -e
+    
+    echo "Creating ArgoCD read-only policy..."
+    
+    # Create least-privilege policy for ArgoCD
+    vault policy write argocd-secrets-read - <<EOF
+    # ArgoCD Vault Plugin - Read-only access to secrets
+    # Only read capability, no list/write/delete
+    
+    # Preprod secrets
+    path "secret/data/preprod/*" {
+      capabilities = ["read"]
+    }
+    
+    # Production secrets (when ready)
+    path "secret/data/prod/*" {
+      capabilities = ["read"]
+    }
+    
+    # KV v2 metadata access (required for some operations)
+    path "secret/metadata/*" {
+      capabilities = ["read", "list"]
+    }
+    EOF
+    
+    echo "ArgoCD policy created successfully"
+
+  configure-argocd-role.sh: |
+    #!/bin/sh
+    set -e
+    
+    echo "Creating ArgoCD Kubernetes auth role..."
+    
+    # Create role for ArgoCD repo-server
+    vault write auth/kubernetes/role/argocd \
+      bound_service_account_names={{ .Values.vaultConfig.argocd.serviceAccountName }} \
+      bound_service_account_namespaces={{ .Values.vaultConfig.argocd.namespace }} \
+      policies=argocd-secrets-read \
+      ttl={{ .Values.vaultConfig.argocd.ttl }}
+    
+    echo "ArgoCD role created successfully"
+
+  setup-all.sh: |
+    #!/bin/sh
+    set -e
+    
+    echo "=== Vault Configuration Setup ==="
+    echo ""
+    
+    # Wait for Vault to be ready
+    until vault status 2>/dev/null; do
+      echo "Waiting for Vault to be ready..."
+      sleep 5
+    done
+    
+    echo "Vault is ready, configuring..."
+    
+    # Run all configuration scripts
+    /scripts/configure-k8s-auth.sh
+    /scripts/configure-argocd-policy.sh
+    /scripts/configure-argocd-role.sh
+    
+    echo ""
+    echo "=== Vault Configuration Complete ==="
+    echo ""
+    echo "ArgoCD can now authenticate using:"
+    echo "  - Auth method: kubernetes"
+    echo "  - Role: argocd"
+    echo "  - Service Account: {{ .Values.vaultConfig.argocd.serviceAccountName }}"
+    echo "  - Namespace: {{ .Values.vaultConfig.argocd.namespace }}"
+{{- end }}
