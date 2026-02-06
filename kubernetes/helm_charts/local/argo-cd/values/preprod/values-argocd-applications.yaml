@@ -271,20 +271,21 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
-  # Vault - HashiCorp Vault for secrets management
+  # Vault upstream Helm chart
+  # Using --release-name vault to match existing StatefulSet (not vault-preprod)
   - name: vault
     clusters: [preprod]
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'feature/vault-network-policy'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
         automated:
-          prune: true
+          prune: false
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
@@ -295,7 +296,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'feature/vault-network-policy'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'

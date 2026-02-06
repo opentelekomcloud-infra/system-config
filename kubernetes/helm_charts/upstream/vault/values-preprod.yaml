@@ -120,6 +120,31 @@ server:
         - name: plugins
           mountPath: /usr/local/libexec/vault
 
+  # Bank-Vaults Unsealer sidecar - automatically unseals Vault using Shamir keys
+  # https://bank-vaults.dev/docs/unseal-keys/
+  extraContainers:
+    - name: vault-unsealer
+      image: "ghcr.io/bank-vaults/bank-vaults:v1.31.3"
+      command:
+        - bank-vaults
+        - unseal
+        - --mode
+        - k8s
+        - --k8s-secret-namespace
+        - vault
+        - --k8s-secret-name
+        - vault-unseal-keys
+      env:
+        - name: VAULT_ADDR
+          value: "http://127.0.0.1:8200"
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          cpu: 100m
+          memory: 128Mi
+
   # Extra volumes for plugins
   volumes:
     - name: plugins

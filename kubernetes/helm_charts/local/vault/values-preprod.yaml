@@ -3,60 +3,50 @@
 
 networkPolicy:
   enabled: true
-  
+
   # Pod selector for Vault pods
   podSelector:
     matchLabels:
       app.kubernetes.io/name: vault
-  
+
   # Namespaces allowed to access Vault (by label)
   # Add label: vault-access: "true" to namespaces that need Vault access
   allowedNamespaces:
     labelSelector:
       matchLabels:
         vault-access: "true"
-  
+
   # Fine-grained access: specific pods in specific namespaces
   # Only argocd-repo-server needs Vault access (runs vault-plugin)
   allowedPods:
     - namespace: argocd
       podSelector:
         app.kubernetes.io/name: argocd-repo-server
-  
+
   # Allow Prometheus to scrape Vault metrics
   allowPrometheus: true
   prometheusNamespace: monitoring
-  
+
   # Vault API port
   vaultPort: 8200
-  
+
   # Vault cluster port (for raft replication)
   clusterPort: 8201
 
 # Auto-unseal configuration
-# Uses a CronJob to automatically unseal Vault if it becomes sealed
-autoUnseal:
-  enabled: true
-  
-  # Check every minute
-  schedule: "*/1 * * * *"
-  
-  # Vault address (internal cluster address)
-  vaultAddr: "http://vault.vault.svc.cluster.local:8200"
-  
-  # Skip TLS verification (internal communication)
-  skipVerify: "true"
-  
-  # Vault image for the unseal job
-  image: hashicorp/vault:1.19.0
-  
-  # Service account to use (uses existing vault SA)
-  serviceAccountName: vault
-  createServiceAccount: false
-  
-  # Secret containing unseal keys
-  # Must have keys: UNSEAL_KEY_1, UNSEAL_KEY_2, UNSEAL_KEY_3, etc.
-  unsealKeysSecret: vault-unseal-keys
-  
-  # Number of keys required to unseal (Shamir threshold)
-  keyThreshold: 3
+# Bank-Vaults unsealer runs as a sidecar in the upstream Vault chart
+# The unsealer sidecar watches for sealed state and auto-unseals using K8s secret
+#
+# Required secret format (vault-unseal-keys in vault namespace):
+# The Bank-Vaults unsealer stores keys in a specific format.
+# For initial setup, create the secret with unseal keys from 'vault operator init':
+#
+#   kubectl -n vault create secret generic vault-unseal-keys \
+#     --from-literal=vault-root=<root-token> \
+#     --from-literal=vault-unseal-0=<key1> \
+#     --from-literal=vault-unseal-1=<key2> \
+#     --from-literal=vault-unseal-2=<key3> \
+#     --from-literal=vault-unseal-3=<key4> \
+#     --from-literal=vault-unseal-4=<key5>
+#
+# See: https://bank-vaults.dev/docs/unseal-keys/
