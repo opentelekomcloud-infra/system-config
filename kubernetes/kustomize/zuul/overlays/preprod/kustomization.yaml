@@ -64,6 +64,8 @@ images:
 resources:
   - zuul-config-pv.yaml
   - zuul-config-pvc.yaml
+  - zuul-scheduler-keys-pv.yaml
+  - zuul-scheduler-keys-pvc.yaml
   - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
@@ -89,6 +91,11 @@ patches:
   - path: zuul-merger-volumes-patch.yaml
   - path: zuul-web-volumes-patch.yaml
   # nodepool-builder-patch.yaml removed - nodepool-builder component is disabled
+  # JSON 6902 patch to replace zuul-var-lib emptyDir with PVC for key persistence
+  - path: zuul-scheduler-keys-jsonpatch.yaml
+    target:
+      kind: Deployment
+      name: zuul-scheduler
 
 secretGenerator:
   - name: zuul-config
