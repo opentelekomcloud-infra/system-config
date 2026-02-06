@@ -32,3 +32,31 @@ networkPolicy:
   
   # Vault cluster port (for raft replication)
   clusterPort: 8201
+
+# Auto-unseal configuration
+# Uses a CronJob to automatically unseal Vault if it becomes sealed
+autoUnseal:
+  enabled: true
+  
+  # Check every minute
+  schedule: "*/1 * * * *"
+  
+  # Vault address (internal cluster address)
+  vaultAddr: "http://vault.vault.svc.cluster.local:8200"
+  
+  # Skip TLS verification (internal communication)
+  skipVerify: "true"
+  
+  # Vault image for the unseal job
+  image: hashicorp/vault:1.19.0
+  
+  # Service account to use (uses existing vault SA)
+  serviceAccountName: vault
+  createServiceAccount: false
+  
+  # Secret containing unseal keys
+  # Must have keys: UNSEAL_KEY_1, UNSEAL_KEY_2, UNSEAL_KEY_3, etc.
+  unsealKeysSecret: vault-unseal-keys
+  
+  # Number of keys required to unseal (Shamir threshold)
+  keyThreshold: 3

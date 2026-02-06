@@ -1,0 +1,113 @@
+{{- if .Values.autoUnseal.enabled }}
+# Auto-unseal CronJob for Vault
+# Checks if Vault is sealed and unseals it automatically
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: vault-auto-unseal
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  schedule: {{ .Values.autoUnseal.schedule | default "*/1 * * * *" | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 60
+      template:
+        metadata:
+          labels:
+            app: vault-auto-unseal
+        spec:
+          serviceAccountName: {{ .Values.autoUnseal.serviceAccountName | default "vault" }}
+          restartPolicy: Never
+          containers:
+            - name: unseal
+              image: {{ .Values.autoUnseal.image | default "hashicorp/vault:1.19.0" }}
+              env:
+                - name: VAULT_ADDR
+                  value: {{ .Values.autoUnseal.vaultAddr | default "http://vault.vault.svc.cluster.local:8200" | quote }}
+                - name: VAULT_SKIP_VERIFY
+                  value: {{ .Values.autoUnseal.skipVerify | default "true" | quote }}
+              envFrom:
+                - secretRef:
+                    name: {{ .Values.autoUnseal.unsealKeysSecret | default "vault-unseal-keys" }}
+              command:
+                - /bin/sh
+                - -c
+                - |
+                  set -e
+                  
+                  echo "Checking Vault seal status..."
+                  
+                  # Check if Vault is reachable
+                  if ! vault status -format=json > /tmp/status.json 2>/dev/null; then
+                    echo "Vault is not reachable or returned error"
+                    cat /tmp/status.json 2>/dev/null || true
+                    # Check if it's just sealed (exit code 2)
+                    vault status -format=json 2>/dev/null || true
+                  fi
+                  
+                  # Get seal status
+                  SEALED=$(vault status -format=json 2>/dev/null | grep -o '"sealed":[^,]*' | cut -d: -f2 | tr -d ' ')
+                  
+                  if [ "$SEALED" = "true" ]; then
+                    echo "Vault is sealed. Attempting to unseal..."
+                    
+                    # Unseal with available keys
+                    UNSEAL_COUNT=0
+                    KEY_THRESHOLD={{ .Values.autoUnseal.keyThreshold | default 3 }}
+                    
+                    for i in 1 2 3 4 5; do
+                      eval KEY=\$UNSEAL_KEY_$i
+                      if [ -n "$KEY" ] && [ "$UNSEAL_COUNT" -lt "$KEY_THRESHOLD" ]; then
+                        echo "Applying unseal key $i..."
+                        if vault operator unseal "$KEY" > /dev/null 2>&1; then
+                          UNSEAL_COUNT=$((UNSEAL_COUNT + 1))
+                          echo "Key $i applied successfully ($UNSEAL_COUNT/$KEY_THRESHOLD)"
+                        else
+                          echo "Key $i failed or already used"
+                        fi
+                        
+                        # Check if we're unsealed now
+                        STILL_SEALED=$(vault status -format=json 2>/dev/null | grep -o '"sealed":[^,]*' | cut -d: -f2 | tr -d ' ')
+                        if [ "$STILL_SEALED" = "false" ]; then
+                          echo "Vault successfully unsealed!"
+                          exit 0
+                        fi
+                      fi
+                    done
+                    
+                    # Final check
+                    FINAL_STATUS=$(vault status -format=json 2>/dev/null | grep -o '"sealed":[^,]*' | cut -d: -f2 | tr -d ' ')
+                    if [ "$FINAL_STATUS" = "false" ]; then
+                      echo "Vault successfully unsealed!"
+                    else
+                      echo "ERROR: Failed to unseal Vault after applying $UNSEAL_COUNT keys"
+                      exit 1
+                    fi
+                  else
+                    echo "Vault is already unsealed. Nothing to do."
+                  fi
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 64Mi
+                limits:
+                  cpu: 100m
+                  memory: 128Mi
+---
+# ServiceAccount for auto-unseal (if not using default vault SA)
+{{- if .Values.autoUnseal.createServiceAccount }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.autoUnseal.serviceAccountName | default "vault-auto-unseal" }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+{{- end }}
+{{- end }}
