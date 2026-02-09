@@ -1,312 +1,314 @@
 # Vault configuration for OTC preprod environment
 # This configuration sets up Vault with external load balancer access
+# Values are nested under vault: for the dependency chart
 
-global:
-  enabled: true
-  tlsDisable: true
-
-  # External vault server address will be set after deployment
-  # externalVaultAddr: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com:8200"
-
-# Vault Agent Injector configuration
-injector:
-  enabled: true
-  replicas: 1
-
-  # Resource limits for injector
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 250m
-    limits:
-      memory: 512Mi
-      cpu: 500m
-
-  # Vault agent image configuration
-  agentImage:
-    repository: "hashicorp/vault"
-    tag: "1.19.0"
-
-  # Agent defaults for injected containers
-  agentDefaults:
-    cpuLimit: "500m"
-    cpuRequest: "250m"
-    memLimit: "256Mi"
-    memRequest: "128Mi"
-    template: "map"
-
-# Vault Server configuration
-server:
-  enabled: true
-
-  # Image configuration
-  image:
-    repository: "hashicorp/vault"
-    tag: "1.19.0"
-    pullPolicy: IfNotPresent
-
-  # Resource configuration
-  resources:
-    requests:
-      memory: 1Gi
-      cpu: 500m
-    limits:
-      memory: 2Gi
-      cpu: 1000m
-
-  # Ingress configuration for external access
-  ingress:
+vault:
+  global:
     enabled: true
-    ingressClassName: "nginx"
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-redirect: "true"
-      cert-manager.io/private-key-algorithm: RSA
-      cert-manager.io/private-key-size: "4096"
-      cert-manager.io/private-key-rotation-policy: Always
-    hosts:
-      - host: vault-lb.eco-preprod.tsi-dev.otc-service.com
-        paths:
-          - /
-    pathType: Prefix
-    tls:
-      - secretName: vault-tls-cert
-        hosts:
-          - vault-lb.eco-preprod.tsi-dev.otc-service.com
-
-    # Override the default service to use the main vault service instead of vault-active
-    activeService: false
-
-  # Service configuration
-  service:
+    tlsDisable: true
+  
+    # External vault server address will be set after deployment
+    # externalVaultAddr: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com:8200"
+  
+  # Vault Agent Injector configuration
+  injector:
     enabled: true
-    type: ClusterIP
-    port: 8200
-    targetPort: 8200
-    annotations: {}
-
-  # Enable Kubernetes auth method
-  authDelegator:
+    replicas: 1
+  
+    # Resource limits for injector
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+  
+    # Vault agent image configuration
+    agentImage:
+      repository: "hashicorp/vault"
+      tag: "1.19.0"
+  
+    # Agent defaults for injected containers
+    agentDefaults:
+      cpuLimit: "500m"
+      cpuRequest: "250m"
+      memLimit: "256Mi"
+      memRequest: "128Mi"
+      template: "map"
+  
+  # Vault Server configuration
+  server:
     enabled: true
-
-  # Security context
-  securityContext:
-    runAsNonRoot: true
-    runAsUser: 100
-    runAsGroup: 1000
-    fsGroup: 1000
-
-  # Init containers to download OpenStack plugin
-  extraInitContainers:
-    - name: download-openstack-plugin
-      image: "curlimages/curl:latest"
-      command: [sh, -c]
-      args:
-        - >-
-          echo "Downloading OpenStack plugin..." &&
-          cd /tmp &&
-          LATEST_VERSION=$(curl -s https://api.github.com/repos/opentelekomcloud/vault-plugin-secrets-openstack/releases/latest | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4) &&
-          echo "Latest version: $LATEST_VERSION" &&
-          curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/${LATEST_VERSION}/vault-plugin-secrets-openstack_1.3.31_linux_amd64.tar.gz" -o vault-plugin-secrets-openstack.tar.gz &&
-          tar -xzf vault-plugin-secrets-openstack.tar.gz &&
-          chmod +x vault-plugin-secrets-openstack &&
-          cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
-          echo "Plugin installed successfully:" &&
-          ls -la /usr/local/libexec/vault/
-      volumeMounts:
-        - name: plugins
-          mountPath: /usr/local/libexec/vault
-
-  # Bank-Vaults Unsealer sidecar - automatically unseals Vault using Shamir keys
-  # https://bank-vaults.dev/docs/unseal-keys/
-  extraContainers:
-    - name: vault-unsealer
-      image: "ghcr.io/bank-vaults/bank-vaults:v1.31.3"
-      command:
-        - bank-vaults
-        - unseal
-        - --mode
-        - k8s
-        - --k8s-secret-namespace
-        - vault
-        - --k8s-secret-name
-        - vault-unseal-keys
-      env:
-        - name: VAULT_ADDR
-          value: "http://127.0.0.1:8200"
-      resources:
-        requests:
-          cpu: 50m
-          memory: 64Mi
-        limits:
-          cpu: 100m
-          memory: 128Mi
-
-  # Extra volumes for plugins
-  volumes:
-    - name: plugins
-      emptyDir: {}
-
-  # Volume mounts for plugins
-  volumeMounts:
-    - mountPath: /usr/local/libexec/vault
-      name: plugins
-      readOnly: true
-
-  # Data storage configuration
-  dataStorage:
-    enabled: true
-    size: 10Gi
-    storageClass: "csi-disk-retain"
-    accessMode: ReadWriteOnce
-
-  # Audit storage configuration
-  auditStorage:
-    enabled: true
-    size: 5Gi
-    storageClass: "csi-disk-retain"
-    accessMode: ReadWriteOnce
-
-  # High Availability configuration
-  ha:
-    enabled: true
-    replicas: 2  # Using 2 replicas for 2-node cluster
-
-    # Disable anti-affinity for small clusters
-    affinity: ""
-
-    # Integrated Raft storage for HA
-    raft:
+  
+    # Image configuration
+    image:
+      repository: "hashicorp/vault"
+      tag: "1.19.0"
+      pullPolicy: IfNotPresent
+  
+    # Resource configuration
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m
+      limits:
+        memory: 2Gi
+        cpu: 1000m
+  
+    # Ingress configuration for external access
+    ingress:
       enabled: true
-      setNodeId: true
-
-      config: |-
-        # Plugin directory
-        plugin_directory = "/usr/local/libexec/vault"
-
-        # OTC KMS Auto-Unseal configuration (OPTIONAL - currently disabled)
-        # Uncomment to enable auto-unseal with OTC DEW (AWS KMS compatible)
-        # This also provides encryption for Raft data at rest
-        # IMPORTANT: Enabling this on an existing Vault requires migration!
-        # See: https://developer.hashicorp.com/vault/docs/concepts/seal#seal-migration
-        #
-        # seal "awskms" {
-        #   # OTC DEW endpoint for eu-de region
-        #   endpoint   = "https://kms.eu-de.otc.t-systems.com"
-        #   region     = "eu-de"
-        #   # KMS Key ID - loaded from VAULT_AWSKMS_SEAL_KEY_ID env var
-        #   # Create key via: OTC Console > DEW > Key Management > Create Key
-        # }
-
-        listener "tcp" {
-          tls_disable = 1
-          address = "[::]:8200"
-          cluster_address = "[::]:8201"
-          # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+      ingressClassName: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      hosts:
+        - host: vault-lb.eco-preprod.tsi-dev.otc-service.com
+          paths:
+            - /
+      pathType: Prefix
+      tls:
+        - secretName: vault-tls-cert
+          hosts:
+            - vault-lb.eco-preprod.tsi-dev.otc-service.com
+  
+      # Override the default service to use the main vault service instead of vault-active
+      activeService: false
+  
+    # Service configuration
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 8200
+      targetPort: 8200
+      annotations: {}
+  
+    # Enable Kubernetes auth method
+    authDelegator:
+      enabled: true
+  
+    # Security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      runAsGroup: 1000
+      fsGroup: 1000
+  
+    # Init containers to download OpenStack plugin
+    extraInitContainers:
+      - name: download-openstack-plugin
+        image: "curlimages/curl:latest"
+        command: [sh, -c]
+        args:
+          - >-
+            echo "Downloading OpenStack plugin..." &&
+            cd /tmp &&
+            LATEST_VERSION=$(curl -s https://api.github.com/repos/opentelekomcloud/vault-plugin-secrets-openstack/releases/latest | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4) &&
+            echo "Latest version: $LATEST_VERSION" &&
+            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/${LATEST_VERSION}/vault-plugin-secrets-openstack_1.3.31_linux_amd64.tar.gz" -o vault-plugin-secrets-openstack.tar.gz &&
+            tar -xzf vault-plugin-secrets-openstack.tar.gz &&
+            chmod +x vault-plugin-secrets-openstack &&
+            cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
+            echo "Plugin installed successfully:" &&
+            ls -la /usr/local/libexec/vault/
+        volumeMounts:
+          - name: plugins
+            mountPath: /usr/local/libexec/vault
+  
+    # Bank-Vaults Unsealer sidecar - automatically unseals Vault using Shamir keys
+    # https://bank-vaults.dev/docs/unseal-keys/
+    extraContainers:
+      - name: vault-unsealer
+        image: "ghcr.io/bank-vaults/bank-vaults:v1.31.3"
+        command:
+          - bank-vaults
+          - unseal
+          - --mode
+          - k8s
+          - --k8s-secret-namespace
+          - vault
+          - --k8s-secret-name
+          - vault-unseal-keys
+        env:
+          - name: VAULT_ADDR
+            value: "http://127.0.0.1:8200"
+        resources:
+          requests:
+            cpu: 50m
+            memory: 64Mi
+          limits:
+            cpu: 100m
+            memory: 128Mi
+  
+    # Extra volumes for plugins
+    volumes:
+      - name: plugins
+        emptyDir: {}
+  
+    # Volume mounts for plugins
+    volumeMounts:
+      - mountPath: /usr/local/libexec/vault
+        name: plugins
+        readOnly: true
+  
+    # Data storage configuration
+    dataStorage:
+      enabled: true
+      size: 10Gi
+      storageClass: "csi-disk-retain"
+      accessMode: ReadWriteOnce
+  
+    # Audit storage configuration
+    auditStorage:
+      enabled: true
+      size: 5Gi
+      storageClass: "csi-disk-retain"
+      accessMode: ReadWriteOnce
+  
+    # High Availability configuration
+    ha:
+      enabled: true
+      replicas: 2  # Using 2 replicas for 2-node cluster
+  
+      # Disable anti-affinity for small clusters
+      affinity: ""
+  
+      # Integrated Raft storage for HA
+      raft:
+        enabled: true
+        setNodeId: true
+  
+        config: |-
+          # Plugin directory
+          plugin_directory = "/usr/local/libexec/vault"
+  
+          # OTC KMS Auto-Unseal configuration (OPTIONAL - currently disabled)
+          # Uncomment to enable auto-unseal with OTC DEW (AWS KMS compatible)
+          # This also provides encryption for Raft data at rest
+          # IMPORTANT: Enabling this on an existing Vault requires migration!
+          # See: https://developer.hashicorp.com/vault/docs/concepts/seal#seal-migration
+          #
+          # seal "awskms" {
+          #   # OTC DEW endpoint for eu-de region
+          #   endpoint   = "https://kms.eu-de.otc.t-systems.com"
+          #   region     = "eu-de"
+          #   # KMS Key ID - loaded from VAULT_AWSKMS_SEAL_KEY_ID env var
+          #   # Create key via: OTC Console > DEW > Key Management > Create Key
+          # }
+  
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+            # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+            telemetry {
+              unauthenticated_metrics_access = "true"
+            }
+          }
+  
+          storage "raft" {
+            path = "/vault/data"
+  
+            retry_join {
+              leader_api_addr = "http://vault-preprod-0.vault-preprod-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-preprod-1.vault-preprod-internal:8200"
+            }
+          }
+  
+          # API and cluster addresses
+          api_addr = "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+          cluster_addr = "http://POD_IP:8201"
+  
+          # Enable Kubernetes auth method
+          auth "kubernetes" {
+            type = "kubernetes"
+          }
+  
+          # Enable KV v2 secrets engine
+          path "secret" {
+            type = "kv-v2"
+          }
+  
+          # OpenStack secrets engine will be enabled via API after plugin registration
+          # path "openstack" {
+          #   plugin_name = "vault-plugin-secrets-openstack"
+          #   type = "plugin"
+          # }
+  
+          # Telemetry configuration for monitoring
           telemetry {
-            unauthenticated_metrics_access = "true"
+            prometheus_retention_time = "30s"
+            disable_hostname = true
           }
-        }
-
-        storage "raft" {
-          path = "/vault/data"
-
-          retry_join {
-            leader_api_addr = "http://vault-preprod-0.vault-preprod-internal:8200"
+  
+          # Audit logging
+          audit "file" {
+            type = "file"
+            path = "/vault/audit/audit.log"
           }
-          retry_join {
-            leader_api_addr = "http://vault-preprod-1.vault-preprod-internal:8200"
-          }
-        }
-
-        # API and cluster addresses
-        api_addr = "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
-        cluster_addr = "http://POD_IP:8201"
-
-        # Enable Kubernetes auth method
-        auth "kubernetes" {
-          type = "kubernetes"
-        }
-
-        # Enable KV v2 secrets engine
-        path "secret" {
-          type = "kv-v2"
-        }
-
-        # OpenStack secrets engine will be enabled via API after plugin registration
-        # path "openstack" {
-        #   plugin_name = "vault-plugin-secrets-openstack"
-        #   type = "plugin"
-        # }
-
-        # Telemetry configuration for monitoring
-        telemetry {
-          prometheus_retention_time = "30s"
-          disable_hostname = true
-        }
-
-        # Audit logging
-        audit "file" {
-          type = "file"
-          path = "/vault/audit/audit.log"
-        }
-
-  # Standalone configuration (disabled in favor of HA)
-  standalone:
+  
+    # Standalone configuration (disabled in favor of HA)
+    standalone:
+      enabled: false
+  
+  # UI configuration
+  ui:
     enabled: false
-
-# UI configuration
-ui:
-  enabled: false
-  serviceType: "ClusterIP"
-
-# CSI Provider (for secret injection)
-csi:
-  enabled: true
-
-  image:
-    repository: "hashicorp/vault-csi-provider"
-    tag: "1.5.0"
-    pullPolicy: IfNotPresent
-
-  # Resources for CSI provider
-  resources:
-    requests:
-      memory: 256Mi
-      cpu: 250m
-    limits:
-      memory: 256Mi
-      cpu: 250m
-
-  # Mount path for CSI volumes
-  volumeMountPath: "/vault/secrets"
-
-# Network policies
-serverTelemetry:
-  # Enable Prometheus metrics
-  prometheusOperator: true
-
-# Additional environment variables
-extraEnvironmentVars:
-  VAULT_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
-  VAULT_API_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
-
-# OTC KMS Auto-Unseal credentials (OPTIONAL - currently disabled)
-# Uncomment when enabling KMS auto-unseal
-# extraEnvironmentVars:
-#   AWS_REGION: "eu-de"
-#   AWS_CA_BUNDLE: ""
-#
-# extraSecretEnvironmentVars:
-#   - envName: AWS_ACCESS_KEY_ID
-#     secretName: vault-kms-credentials
-#     secretKey: access_key
-#   - envName: AWS_SECRET_ACCESS_KEY
-#     secretName: vault-kms-credentials
-#     secretKey: secret_key
-#   - envName: VAULT_AWSKMS_SEAL_KEY_ID
-#     secretName: vault-kms-credentials
-#     secretKey: kms_key_id
+    serviceType: "ClusterIP"
+  
+  # CSI Provider (for secret injection)
+  csi:
+    enabled: true
+  
+    image:
+      repository: "hashicorp/vault-csi-provider"
+      tag: "1.5.0"
+      pullPolicy: IfNotPresent
+  
+    # Resources for CSI provider
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 256Mi
+        cpu: 250m
+  
+    # Mount path for CSI volumes
+    volumeMountPath: "/vault/secrets"
+  
+  # Network policies
+  serverTelemetry:
+    # Enable Prometheus metrics
+    prometheusOperator: true
+  
+  # Additional environment variables
+  extraEnvironmentVars:
+    VAULT_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+    VAULT_API_ADDR: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+  
+  # OTC KMS Auto-Unseal credentials (OPTIONAL - currently disabled)
+  # Uncomment when enabling KMS auto-unseal
+  # extraEnvironmentVars:
+  #   AWS_REGION: "eu-de"
+  #   AWS_CA_BUNDLE: ""
+  #
+  # extraSecretEnvironmentVars:
+  #   - envName: AWS_ACCESS_KEY_ID
+  #     secretName: vault-kms-credentials
+  #     secretKey: access_key
+  #   - envName: AWS_SECRET_ACCESS_KEY
+  #     secretName: vault-kms-credentials
+  #     secretKey: secret_key
+  #   - envName: VAULT_AWSKMS_SEAL_KEY_ID
+  #     secretName: vault-kms-credentials
+  #     secretKey: kms_key_id
