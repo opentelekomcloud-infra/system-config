@@ -112,7 +112,8 @@ vault:
             cd /tmp &&
             LATEST_VERSION=$(curl -s https://api.github.com/repos/opentelekomcloud/vault-plugin-secrets-openstack/releases/latest | grep -o '"tag_name": "[^"]*"' | cut -d'"' -f4) &&
             echo "Latest version: $LATEST_VERSION" &&
-            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/${LATEST_VERSION}/vault-plugin-secrets-openstack_1.3.31_linux_amd64.tar.gz" -o vault-plugin-secrets-openstack.tar.gz &&
+            VERSION_NUM=$(echo $LATEST_VERSION | sed 's/^v//') &&
+            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/${LATEST_VERSION}/vault-plugin-secrets-openstack_${VERSION_NUM}_linux_amd64.tar.gz" -o vault-plugin-secrets-openstack.tar.gz &&
             tar -xzf vault-plugin-secrets-openstack.tar.gz &&
             chmod +x vault-plugin-secrets-openstack &&
             cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
