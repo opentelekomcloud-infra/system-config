@@ -50,3 +50,10 @@ networkPolicy:
 #     --from-literal=vault-unseal-4=<key5>
 #
 # See: https://bank-vaults.dev/docs/unseal-keys/
+
+# Unsealer RBAC - grants access to the vault-unseal-keys secret
+unsealer:
+  enabled: true
+  secretName: vault-unseal-keys
+  # The upstream vault chart creates ServiceAccount with fullnameOverride name
+  serviceAccountName: vault-preprod
