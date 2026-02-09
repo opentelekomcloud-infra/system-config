@@ -278,7 +278,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'feature/vault-network-policy'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -296,7 +296,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'feature/vault-network-policy'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'

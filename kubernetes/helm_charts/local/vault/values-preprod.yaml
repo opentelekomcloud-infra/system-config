@@ -27,6 +27,19 @@ networkPolicy:
   allowPrometheus: true
   prometheusNamespace: monitoring
 
+  # Allow ingress controller to forward external traffic
+  # Required for Gitea runners to access Vault via public ingress
+  allowIngress:
+    enabled: true
+    namespace: default
+    podSelector:
+      app.kubernetes.io/name: ingress-nginx
+
+  # Allow external IPs to access Vault (e.g., Gitea runners)
+  # Format: CIDR notation (e.g., "80.158.23.198/32" for single IP)
+  allowExternalIPs:
+    - "80.158.23.198/32"  # Gitea (gitea.eco.tsi-dev.otc-service.com)
+
   # Vault API port
   vaultPort: 8200
 

@@ -61,6 +61,30 @@ spec:
         - port: 8200
           protocol: TCP
     {{- end }}
+    {{- if .Values.networkPolicy.allowIngress.enabled }}
+    # Allow ingress controller to forward external traffic (for Gitea runners, etc.)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.allowIngress.namespace | default "default" }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.allowIngress.podSelector | nindent 14 }}
+      ports:
+        - port: {{ .Values.networkPolicy.vaultPort }}
+          protocol: TCP
+    {{- end }}
+    {{- if .Values.networkPolicy.allowExternalIPs }}
+    # Allow external IPs (e.g., Gitea runners accessing Vault via public address)
+    {{- range .Values.networkPolicy.allowExternalIPs }}
+    - from:
+        - ipBlock:
+            cidr: {{ . }}
+      ports:
+        - port: {{ $.Values.networkPolicy.vaultPort }}
+          protocol: TCP
+    {{- end }}
+    {{- end }}
   egress:
     # Vault to Vault (raft replication)
     - to:
