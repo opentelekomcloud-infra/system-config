@@ -4,5 +4,5 @@ description: A Helm chart for Kubernetes that includes Victoria Auth Proxy
 version: 0.1.0
 dependencies:
   - name: victoria-metrics-auth
-    version: "0.15.0"
+    version: "0.24.0"
     repository: https://victoriametrics.github.io/helm-charts
