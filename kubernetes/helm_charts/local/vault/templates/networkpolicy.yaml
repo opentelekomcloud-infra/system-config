@@ -78,7 +78,7 @@ spec:
         - namespaceSelector: {}
           podSelector:
             matchLabels:
-              k8s-app: kube-dns
+              k8s-app: coredns
       ports:
         - port: 53
           protocol: UDP
