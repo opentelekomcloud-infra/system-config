@@ -97,3 +97,20 @@ applications:
       path: github/system-config/kubernetes/helm_charts/upstream/sealed-secrets
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-{{ .cluster.name }}.yaml'
+
+  - name: openapi-validator
+    clusters: [otcinfra]
+    config:
+      namespace: openapi-validator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'openapi-prod'
+      path: kubernetes/kustomize/openapi-validator/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
