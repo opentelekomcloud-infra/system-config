@@ -6,7 +6,7 @@ metadata:
   name: {{ .Release.Name }}-unsealer-role
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "vault.labels" . | nindent 4 }}
+    {{- include "vault-additional.labels" . | nindent 4 }}
 rules:
 - apiGroups: [""]
   resources: ["secrets"]
@@ -19,7 +19,7 @@ metadata:
   name: {{ .Release.Name }}-unsealer-rolebinding
   namespace: {{ .Release.Namespace }}
   labels:
-    {{- include "vault.labels" . | nindent 4 }}
+    {{- include "vault-additional.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
