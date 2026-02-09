@@ -3,7 +3,7 @@ name: gitea
 description: A Helm chart for Gitea
 type: application
 version: 0.1.0
-appVersion: "1.21.0"
+appVersion: "1.24.7"
 home: https://gitea.io
 keywords:
   - gitea
