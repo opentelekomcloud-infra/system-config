@@ -105,7 +105,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'openapi-prod'
       path: kubernetes/kustomize/openapi-validator/overlays/prod/
-      pluginName: argocd-vault-plugin-kustomize
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '.'
       project: infra
       syncPolicy:
