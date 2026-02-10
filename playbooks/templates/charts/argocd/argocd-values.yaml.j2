@@ -105,18 +105,6 @@ repoServer:
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
-      env:
-        - name: VAULT_ADDR
-          value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-        - name: AVP_AUTH_TYPE
-          value: "token"
-        - name: AVP_TYPE
-          value: "vault"
-        - name: VAULT_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: vault-token
-              key: token
       volumeMounts:
         - mountPath: /var/run/argocd
           name: var-files
