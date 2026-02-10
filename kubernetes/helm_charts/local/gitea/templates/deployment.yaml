@@ -29,6 +29,12 @@ spec:
         - name: gitea-data
           persistentVolumeClaim:
             claimName: {{ .Values.persistence.existingClaim | default (include "gitea.fullname" .) }}
+        - name: gitea-appini
+          configMap:
+            name: {{ include "gitea.fullname" . }}-appini
+        - name: gitea-secrets
+          secret:
+            secretName: {{ .Values.gitea.secrets.existingSecret }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
@@ -69,7 +75,13 @@ spec:
           
           volumeMounts:
             - name: gitea-data
-              mountPath: {{ .Values.persistence.mountPath | default "/data" }}
+              mountPath: /data
+            - name: gitea-appini
+              mountPath: /data/gitea/conf/app.ini
+              subPath: app.ini
+            - name: gitea-secrets
+              mountPath: /etc/gitea
+              readOnly: true
 
       {{- with .Values.nodeSelector }}
       nodeSelector:

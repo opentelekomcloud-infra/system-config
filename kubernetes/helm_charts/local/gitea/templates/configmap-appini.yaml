@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "gitea.fullname" . }}-appini
+data:
+  app.ini: |
+    [database]
+    DB_TYPE  = postgres
+    HOST     = {{ .Values.gitea.database.host }}
+    NAME     = {{ .Values.gitea.database.name }}
+    USER     = {{ .Values.gitea.database.user }}
+    PASSWD   = {{ .Values.gitea.database.password | default "" }}
+
+    [security]
+    INSTALL_LOCK = true
+    SECRET_KEY_URI = file:/etc/gitea/secret_key
+    INTERNAL_TOKEN_URI = file:/etc/gitea/internal_token
+
+    [server]
+    DOMAIN   = {{ .Values.gitea.server.domain }}
+    ROOT_URL = {{ .Values.gitea.server.rootUrl }}
