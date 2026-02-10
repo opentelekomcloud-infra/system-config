@@ -78,7 +78,6 @@ serviceAccount:
 
 persistence:
   enabled: true
+  existingClaim: pvc-gitea
   accessMode: ReadWriteOnce
-  size: 10Gi
-  storageClassName: csi-disk-retain
   mountPath: /data
