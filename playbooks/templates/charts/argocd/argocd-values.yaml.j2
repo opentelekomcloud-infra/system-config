@@ -110,6 +110,8 @@ repoServer:
           name: var-files
         - mountPath: /home/argocd/cmp-server/plugins
           name: plugins
+        - mountPath: /tmp
+          name: tmp
         - mountPath: /home/argocd/cmp-server/config/plugin.yaml
           subPath: argocd-vault-plugin-kustomize.yaml
           name: cmp-plugin
