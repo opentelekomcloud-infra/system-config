@@ -1,0 +1,221 @@
+applications:
+  - name: argocd-projects
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/local/argocd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/prod/values-argocd-projects.yaml'
+      project: default
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-clusters
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/local/argocd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/prod/values-argocd-clusters.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-repositories
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/local/argocd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/prod/values-argocd-repositories.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/upstream/argocd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: argocd-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/local/argocd
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/prod/values-argocd-additional-manifests.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: vault
+    clusters: [otcinfra2]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Vault_migration'
+      path: kubernetes/helm_charts/upstream/vault
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml --set installCRDs=true'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: vault-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Vault_migration'
+      path: kubernetes/helm_charts/local/vault
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel
+    clusters: [otcinfra2]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zitadel_migration_to_prod'
+      path: kubernetes/helm_charts/upstream/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml --set installCRDs=true'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: zitadel-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: zitadel
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zitadel_migration_to_prod'
+      path: kubernetes/helm_charts/local/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # - name: cert-manager
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: cert-manager
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/upstream/cert-manager
+  #     pluginName: argocd-vault-plugin-helm-with-args
+  #     pluginEnv: '-f values.yaml --set installCRDs=true'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+  # - name: cert-manager-additional-manifests
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: cert-manager
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/local/cert-manager
+  #     pluginName: argocd-vault-plugin-helm-with-args
+  #     pluginEnv: '-f values.yaml'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+  # - name: kubernetes-replicator
+  #   clusters: [preprod]
+  #   config:
+  #     namespace: kube-system
+  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+  #     targetRevision: 'preprod'
+  #     path: kubernetes/helm_charts/upstream/kubernetes-replicator
+  #     pluginName: argocd-vault-plugin-helm-with-args
+  #     pluginEnv: '-f values-preprod.yaml'
+  #     project: infra
+  #     syncPolicy:
+  #       automated:
+  #         prune: true
+  #         selfHeal: true
+  #       syncOptions:
+  #         - CreateNamespace=true
+
+  - name: giji
+    clusters: [otcinfra2]
+    config:
+      namespace: giji
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Giji_improvements'
+      path: kubernetes/kustomize/giji/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
