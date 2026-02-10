@@ -45,7 +45,7 @@ repoServer:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
 
-  initContainers: 
+  initContainers:
     - name: download-tools
       image: registry.access.redhat.com/ubi8
       env:
@@ -118,11 +118,17 @@ repoServer:
         - mountPath: /usr/local/bin/argocd-vault-plugin
           subPath: argocd-vault-plugin
           name: custom-tools
-  volumes: 
+  volumes:
     - configMap:
         name: argocd-cmp-cm
       name: cmp-plugin
     - name: custom-tools
+      emptyDir: {}
+    - name: var-files
+      emptyDir: {}
+    - name: plugins
+      emptyDir: {}
+    - name: tmp
       emptyDir: {}
   containerSecurityContext:
     seccompProfile:
@@ -162,7 +168,7 @@ configs:
 
   cmp:
     create: true
-    plugins: 
+    plugins:
       argocd-vault-plugin-helm:
         discover:
           find:
@@ -171,7 +177,7 @@ configs:
               - "-c"
               - "find . -name 'Chart.yaml' && find . -name 'values.yaml'"
         init:
-          command: 
+          command:
             - bash
             - "-c"
             - |
