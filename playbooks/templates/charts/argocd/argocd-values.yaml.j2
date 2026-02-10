@@ -99,6 +99,25 @@ repoServer:
         - mountPath: /usr/local/bin/argocd-vault-plugin
           subPath: argocd-vault-plugin
           name: custom-tools
+    - name: avp-kustomize
+      command: [/var/run/argocd/argocd-cmp-server]
+      image: quay.io/argoproj/argocd:v3.0.5
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+      volumeMounts:
+        - mountPath: /var/run/argocd
+          name: var-files
+        - mountPath: /home/argocd/cmp-server/plugins
+          name: plugins
+        - mountPath: /tmp
+          name: tmp
+        - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+          subPath: argocd-vault-plugin-kustomize.yaml
+          name: cmp-plugin
+        - mountPath: /usr/local/bin/argocd-vault-plugin
+          subPath: argocd-vault-plugin
+          name: custom-tools
   volumes: 
     - configMap:
         name: argocd-cmp-cm
@@ -188,4 +207,20 @@ configs:
           - -c
           - |
             helm dependency build
+        lockRepo: false
+      argocd-vault-plugin-kustomize:
+        discover:
+          find:
+            command:
+            - find
+            - "."
+            - -name
+            - kustomization.yaml
+        generate:
+          command:
+          - bash
+          - -c
+          - |
+            kustomize build . | argocd-vault-plugin generate -s argocd:argocd-secret -
+        allowConcurrency: true
         lockRepo: false
