@@ -81,5 +81,5 @@ persistence:
   accessMode: ReadWriteOnce
   mountPath: /data
   storageClassName: csi-disk-retain
-  size: 500Gi
+  size: 1024Gi
   reclaimPolicy: Retain
