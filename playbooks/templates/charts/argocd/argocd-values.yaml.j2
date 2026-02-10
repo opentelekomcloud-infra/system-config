@@ -124,6 +124,12 @@ repoServer:
       name: cmp-plugin
     - name: custom-tools
       emptyDir: {}
+    - name: var-files
+      emptyDir: {}
+    - name: plugins
+      emptyDir: {}
+    - name: tmp
+      emptyDir: {}
   containerSecurityContext:
     seccompProfile:
       type: Unconfined

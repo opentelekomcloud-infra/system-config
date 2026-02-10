@@ -1,0 +1,629 @@
+# Processed ArgoCD values for vault plugin deployment
+
+# Values for the argo-cd subchart
+argo-cd:
+  nameOverride: argocd
+
+  createAggregateRoles: false
+  createClusterRoles: true
+
+  crds:
+    install: false
+    keep: true
+
+  dex:
+    enabled: false
+
+  global:
+    domain: argocd-k8s.eco.tsi-dev.otc-service.com
+    # Enable repository credentials management
+    repositoryCredentials:
+      enabled: true
+    # Additional global configurations for vault plugin
+    env:
+      - name: ARGOCD_VAULT_PLUGIN_ENABLED
+        value: "true"
+      - name: ARGOCD_EXEC_TIMEOUT
+        value: "300"
+      - name: ARGOCD_JWT_CLAIM_FLATTEN
+        value: "true"
+      - name: ARGOCD_OIDC_GROUPS_FLATTEN
+        value: "true"
+      # Help ArgoCD find the groups in Zitadel's nested structure
+      - name: ARGOCD_OIDC_CLAIMS_PREFIX
+        value: ""
+
+  ## Server
+  server:
+    extensions:
+      containerSecurityContext:
+        seccompProfile:
+          type: Unconfined
+
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
+
+    # Service account for Vault authentication
+    serviceAccount:
+      create: true
+      name: argocd-server
+      automountServiceAccountToken: true
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "argocd"
+
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      ingressClassName: "nginx"
+      hosts:
+        - argocd-k8s.eco.tsi-dev.otc-service.com
+      tls:
+        - hosts:
+            - argocd-k8s.eco.tsi-dev.otc-service.com
+          secretName: argocd-server-tls
+
+    # Environment variables for Vault access and OIDC handling
+    env:
+      - name: VAULT_ADDR
+        value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+      - name: AVP_AUTH_TYPE
+        value: "token"
+      - name: AVP_TYPE
+        value: "vault"
+      - name: ARGOCD_JWT_CLAIM_FLATTEN
+        value: "true"
+      - name: ARGOCD_OIDC_CLAIMS_PREFIX
+        value: "urn:zitadel:iam:org:project:"
+      - name: SERVER_RBAC_LOG_ENFORCE_ENABLE
+        value: "true"
+      - name: VAULT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: vault-token
+            key: token
+
+    # InitContainer to resolve admin password from Vault
+    initContainers:
+      - name: vault-secret-resolver
+        image: hashicorp/vault:1.20
+        command:
+          - sh
+          - -c
+          - |
+            set -e
+            echo "Authenticating to Vault using direct token..."
+
+            # Use the provided Vault token directly
+            export VAULT_TOKEN="$VAULT_TOKEN_VALUE"
+
+            echo "Authentication successful! Using provided token."
+
+            echo "Retrieving secrets from Vault..."
+            ADMIN_PASSWORD=$(vault kv get -field=admin_password secret/argocd/config)
+            SERVER_SECRET_KEY=$(vault kv get -field=server_secret_key secret/argocd/config)
+            OIDC_ZITADEL_CLIENT_SECRET=$(vault kv get -field=oidc_zitadel_client_secret secret/argocd/config)
+            OIDC_ZITADEL_CLIENT_ID=$(vault kv get -field=oidc_zitadel_client_id secret/argocd/config)
+            VAULT_ADDRESS=$(vault kv get -field=vault_address secret/argocd/config)
+
+            echo "Storing secrets in shared volume..."
+            echo -n "$ADMIN_PASSWORD" > /shared/admin_password
+            echo -n "$SERVER_SECRET_KEY" > /shared/server_secret_key
+            echo -n "$OIDC_ZITADEL_CLIENT_SECRET" > /shared/OIDC_ZITADEL_CLIENT_SECRET
+            echo -n "$OIDC_ZITADEL_CLIENT_ID" > /shared/OIDC_ZITADEL_CLIENT_ID
+            echo -n "$VAULT_ADDRESS" > /shared/vault_address
+
+            echo "Vault secrets retrieved successfully!"
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          - name: VAULT_SKIP_VERIFY
+            value: "false"
+          - name: VAULT_TOKEN_VALUE
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - name: shared-secrets
+            mountPath: /shared
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false
+      - name: kubectl-patcher
+        image: alpine/k8s:1.29.4
+        command:
+          - sh
+          - -c
+          - |
+            set -e
+            echo "Managing argocd-secret..."
+
+            # Read secrets from shared volume
+            ADMIN_PASSWORD=$(cat /shared/admin_password)
+            SERVER_SECRET_KEY=$(cat /shared/server_secret_key)
+            OIDC_ZITADEL_CLIENT_SECRET=$(cat /shared/OIDC_ZITADEL_CLIENT_SECRET)
+            OIDC_ZITADEL_CLIENT_ID=$(cat /shared/OIDC_ZITADEL_CLIENT_ID)
+            VAULT_ADDRESS=$(cat /shared/vault_address)
+
+            # Generate current timestamp for password mtime
+            CURRENT_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+            # Check if secret exists
+            if kubectl get secret argocd-secret -n argocd-k8s >/dev/null 2>&1; then
+              echo "Secret exists, updating it..."
+              # Patch the existing secret
+              kubectl patch secret argocd-secret -n argocd-k8s --type='json' -p='[
+                {
+                  "op": "replace",
+                  "path": "/data/admin.password",
+                  "value": "'$(echo -n "$ADMIN_PASSWORD" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/admin.passwordMtime",
+                  "value": "'$(echo -n "$CURRENT_TIME" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/server.secretkey",
+                  "value": "'$(echo -n "$SERVER_SECRET_KEY" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/oidc.zitadel.clientSecret",
+                  "value": "'$(echo -n "$OIDC_ZITADEL_CLIENT_SECRET" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/oidc.zitadel.clientID",
+                  "value": "'$(echo -n "$OIDC_ZITADEL_CLIENT_ID" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/VAULT_ADDR",
+                  "value": "'$(echo -n "$VAULT_ADDRESS" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_AUTH_TYPE",
+                  "value": "'$(echo -n "token" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_TYPE",
+                  "value": "'$(echo -n "vault" | base64 -w 0)'"
+                }
+              ]'
+            else
+              echo "Secret doesn't exist, creating it..."
+              # Create the secret
+              kubectl create secret generic argocd-secret -n argocd-k8s \
+                --from-literal=admin.password="$ADMIN_PASSWORD" \
+                --from-literal=admin.passwordMtime="$CURRENT_TIME" \
+                --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
+                --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
+                --from-literal=oidc.zitadel.clientID="$OIDC_ZITADEL_CLIENT_ID" \
+                --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
+                --from-literal=AVP_AUTH_TYPE="token" \
+                --from-literal=AVP_TYPE="vault"
+            fi
+
+            echo "Secret management completed successfully!"
+        volumeMounts:
+          - name: shared-secrets
+            mountPath: /shared
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false
+
+    # Additional volumes for init containers
+    volumes:
+      - name: shared-secrets
+        emptyDir: {}
+
+  repoServer:
+    env:
+      - name: ARGOCD_GPG_ENABLED
+        value: "false"
+      - name: VAULT_ADDR
+        value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+      - name: AVP_AUTH_TYPE
+        value: "token"
+      - name: AVP_TYPE
+        value: "vault"
+      - name: VAULT_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: vault-token
+            key: token
+    serviceAccount:
+      create: true
+      name: argocd-repo-server
+      automountServiceAccountToken: true
+      annotations:
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "argocd"
+
+    rbac:
+      - apiGroups: [""]
+        resources: ["secrets"]
+        verbs: ["get", "list", "watch"]
+
+    initContainers:
+      - name: download-tools
+        image: registry.access.redhat.com/ubi8
+        env:
+          - name: AVP_VERSION
+            value: 1.18.1
+        command: [sh, -c]
+        args:
+          - >-
+            cd /tmp &&
+            curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
+            chmod +x argocd-vault-plugin &&
+            cp argocd-vault-plugin /custom-tools/
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 1001
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          readOnlyRootFilesystem: false
+        volumeMounts:
+          - mountPath: /custom-tools
+            name: custom-tools
+    extraContainers:
+      - name: avp
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          - name: AVP_AUTH_TYPE
+            value: "token"
+          - name: AVP_TYPE
+            value: "vault"
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-vault-plugin-helm.yaml
+            name: cmp-plugin
+          - mountPath: /usr/local/bin/argocd-vault-plugin
+            subPath: argocd-vault-plugin
+            name: custom-tools
+      - name: avp-with-args
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          - name: AVP_AUTH_TYPE
+            value: "token"
+          - name: AVP_TYPE
+            value: "vault"
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-vault-plugin-helm-with-args.yaml
+            name: cmp-plugin
+          - mountPath: /usr/local/bin/argocd-vault-plugin
+            subPath: argocd-vault-plugin
+            name: custom-tools
+      - name: avp-kustomize
+        command: [/var/run/argocd/argocd-cmp-server]
+        image: quay.io/argoproj/argocd:v3.0.5
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 999
+        env:
+          - name: VAULT_ADDR
+            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          - name: AVP_AUTH_TYPE
+            value: "token"
+          - name: AVP_TYPE
+            value: "vault"
+          - name: VAULT_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: vault-token
+                key: token
+        volumeMounts:
+          - mountPath: /var/run/argocd
+            name: var-files
+          - mountPath: /home/argocd/cmp-server/plugins
+            name: plugins
+          - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+            subPath: argocd-vault-plugin-kustomize.yaml
+            name: cmp-plugin
+          - mountPath: /usr/local/bin/argocd-vault-plugin
+            subPath: argocd-vault-plugin
+            name: custom-tools
+    volumes:
+      - configMap:
+          name: argocd-cmp-cm
+        name: cmp-plugin
+      - name: custom-tools
+        emptyDir: {}
+
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
+
+  ## ApplicationSet controller
+  applicationSet:
+    containerSecurityContext:
+      seccompProfile:
+        type: Unconfined
+
+  ## Redis configuration
+  redis:
+    enabled: true
+    # Disable the secret init job that keeps recreating secrets
+    secretInit:
+      enabled: false
+    # Disable automatic secret creation to prevent conflicts
+    auth:
+      enabled: false
+    # Use existing secret instead of creating new ones
+    existingSecret: ""
+
+  redis-ha:
+    enabled: false
+
+  configs:
+    rbac:
+      create: true
+      policy.csv: |
+        # Admin roles
+        g, /argocd-ac, role:admin
+
+        # Zitadel Admin roles
+        g, argocd_admins, role:admin
+
+        # Application management role
+        g, /argocd-developers, role:ac
+        p, role:ac, applications, *, docusaurus/*, allow
+        p, role:ac, applications, get, *, allow
+        p, role:ac, applications, list, *, allow
+        p, role:ac, repositories, get, *, allow
+        p, role:ac, repositories, list, *, allow
+        p, role:ac, secrets, *, docusaurus/*, allow
+
+        # Read-only role - NO secrets access
+        # g, /argocd-viewers, role:readonly
+        # p, role:readonly, applications, get, *, allow
+        # p, role:readonly, applications, list, *, allow
+        # p, role:readonly, repositories, get, *, allow
+        # p, role:readonly, repositories, list, *, allow
+        # p, role:readonly, secrets, *, *, deny
+
+        # No-secrets role - explicitly denied secrets access
+        # g, /argocd-no-secrets, role:no-secrets
+        # p, role:no-secrets, applications, get, *, allow
+        # p, role:no-secrets, applications, list, *, allow
+        # p, role:no-secrets, repositories, get, *, allow
+        # p, role:no-secrets, repositories, list, *, allow
+        # p, role:no-secrets, secrets, *, *, deny
+
+        # System role for service accounts - LIMITED permissions
+        p, role:system, applications, get, *, allow
+        p, role:system, applications, list, *, allow
+        p, role:system, repositories, get, *, allow
+        p, role:system, repositories, list, *, allow
+        p, role:system, secrets, *, *, deny
+
+        # Special vault-reader role - ONLY for ArgoCD internal operations
+        # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
+        p, role:vault-reader, secrets, get, argocd/*, allow
+        p, role:vault-reader, secrets, list, argocd/*, allow
+        p, role:vault-reader, secrets, get, */vault-token, allow
+        p, role:vault-reader, secrets, get, */argocd-secret, allow
+
+        # Assign service account to vault-reader (restricted scope)
+        g, argocd-prod-repo-server, role:vault-reader
+
+        # Explicit denials for all other combinations
+        p, role:vault-reader, secrets, create, *, deny
+        p, role:vault-reader, secrets, update, *, deny
+        p, role:vault-reader, secrets, patch, *, deny
+        p, role:vault-reader, secrets, delete, *, deny
+
+        # Define role:none to deny access to everything
+        p, role:none, applications, *, *, deny
+        p, role:none, clusters, *, *, deny
+        p, role:none, repositories, *, *, deny
+        p, role:none, certificates, *, *, deny
+        p, role:none, accounts, *, *, deny
+        p, role:none, gpgkeys, *, *, deny
+        p, role:none, projects, *, *, deny
+        p, role:none, secrets, *, *, deny
+        p, role:none, logs, *, *, deny
+        p, role:none, exec, *, *, deny
+        p, role:none, session, *, *, deny
+        p, role:none, applicationsets, *, *, deny
+        p, role:none, notifications, *, *, deny
+        p, role:none, *, *, *, deny    # Catch-all for any future resources
+      # Sets users without group assignments to role:none (denied all access)
+      policy.default: "role:none"
+      policy.matchMode: "glob"
+      scopes: "[groups]"
+
+    cm:
+      admin.enabled: "true"
+      url: https://argocd-k8s.eco.tsi-dev.otc-service.com
+      oidc.config: |
+        name: Zitadel
+        issuer: https://zitadel.eco.tsi-dev.otc-service.com
+        clientID: $oidc.zitadel.clientID
+        clientSecret: $oidc.zitadel.clientSecret
+        requestedScopes:
+          - openid
+          - profile
+          - email
+          - groups
+          - urn:zitadel:iam:org:project:roles
+          - urn:zitadel:iam:user:metadata
+        logoutURL: https://argocd-k8s.eco.tsi-dev.otc-service.com
+      # Additional cluster configuration
+      cluster.inClusterEnabled: "true"
+      application.instanceLabelKey: argocd.argoproj.io/instance
+
+    secret:
+      # Don't let Helm create/manage the secret - let init containers handle it
+      createSecret: false
+      # Reference the existing secret that will be managed by init containers
+      extra: {}
+    cmp:
+      create: true
+      plugins:
+        argocd-vault-plugin-helm:
+          discover:
+            find:
+              command:
+                - sh
+                - "-c"
+                - "find . -name 'Chart.yaml' && find . -name 'values.yaml'"
+          init:
+            command:
+              - bash
+              - "-c"
+              - |
+                helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
+                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add jetstack https://charts.jetstack.io --force-update || true
+                helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
+                helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
+                helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
+                helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
+                helm dependency build
+          generate:
+            command:
+              - bash
+              - "-c"
+              - |
+                # Build Helm set parameters from environment variables
+                HELM_SETS=""
+                for var in $(env | grep "^HELM_PARAM_" | cut -d= -f1); do
+                  param_name=$(echo "$var" | sed 's/^HELM_PARAM_//' | sed 's/_/./g' | tr '[:upper:]' '[:lower:]')
+                  param_value=$(eval echo \$$var)
+
+                  # Check if value is numeric (for ports, etc) and set without quotes
+                  if echo "$param_value" | grep -E '^[0-9]+$' > /dev/null; then
+                    HELM_SETS="$HELM_SETS --set $param_name=$param_value"
+                  else
+                    HELM_SETS="$HELM_SETS --set $param_name=\"$param_value\""
+                  fi
+                done
+
+                # Generate helm template with vault processing
+                if [ -n "$ARGOCD_ENV_HELM_VALUES" ]; then
+                  helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") $HELM_SETS . |
+                  argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                else
+                  helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . |
+                  argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                fi
+          allowConcurrency: true
+          lockRepo: false
+        argocd-vault-plugin-helm-with-args:
+          allowConcurrency: true
+          discover:
+            find:
+              command:
+                - sh
+                - -c
+                - find . -name 'Chart.yaml' && find . -name 'values.yaml'
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                # Build Helm set parameters from environment variables
+                HELM_SETS=""
+                for var in $(env | grep "^HELM_PARAM_" | cut -d= -f1); do
+                  param_name=$(echo "$var" | sed 's/^HELM_PARAM_//' | sed 's/_/./g' | tr '[:upper:]' '[:lower:]')
+                  param_value=$(eval echo \$$var)
+
+                  # Check if value is numeric (for ports, etc) and set without quotes
+                  if echo "$param_value" | grep -E '^[0-9]+$' > /dev/null; then
+                    HELM_SETS="$HELM_SETS --set $param_name=$param_value"
+                  else
+                    HELM_SETS="$HELM_SETS --set $param_name=\"$param_value\""
+                  fi
+                done
+
+                # Generate helm template with vault processing
+                helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds |
+                argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+          init:
+            command:
+              - bash
+              - -c
+              - |
+                helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
+                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add jetstack https://charts.jetstack.io --force-update || true
+                helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
+                helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
+                helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
+                helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
+                helm dependency build
+          lockRepo: false
+        argocd-vault-plugin-kustomize:
+          discover:
+            find:
+              command:
+                - find
+                - "."
+                - -name
+                - kustomization.yaml
+          generate:
+            command:
+              - bash
+              - -c
+              - |
+                kustomize build . | argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+          allowConcurrency: true
+          lockRepo: false

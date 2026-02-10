@@ -1,0 +1,4 @@
+repoServerSecretAccess:
+  enabled: true
+  namespace: argocd-k8s
+  serviceAccount: argocd-repo-server

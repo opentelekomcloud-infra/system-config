@@ -1,0 +1,48 @@
+clusters:
+  cluster-192.168.150.27-3666497632:
+    name: preprod
+    server: "<path:secret/data/argocd/clusters/preprod#server>"
+    config:
+      tlsClientConfig:
+        insecure: false
+        hasCaData: true
+
+  cluster-80.158.77.76-930267037:
+    name: cloudmon-nl
+    server: "<path:secret/data/argocd/clusters/cloudmon-nl#server>"
+    config:
+      tlsClientConfig:
+        insecure: false
+        hasCaData: true
+
+  cluster-80.158.32.132-3571022737:
+    name: cloudmon-de
+    server: "<path:secret/data/argocd/clusters/cloudmon-de#server>"
+    config:
+      tlsClientConfig:
+        insecure: false
+        hasCaData: true
+
+  cluster-192.168.21.182-3116733375:
+    name: otcci
+    server: "<path:secret/data/argocd/clusters/otcci#server>"
+    config:
+      tlsClientConfig:
+        insecure: true
+        hasCaData: false
+
+  cluster-192.168.171.211-1985661808:
+    name: otcinfra2
+    server: "<path:secret/data/argocd/clusters/otcinfra2#server>"
+    config:
+      tlsClientConfig:
+        insecure: true
+        hasCaData: false
+
+  cluster-192.168.170.211-1812979853:
+    name: otcinfra
+    server: "<path:secret/data/argocd/clusters/otcinfra#server>"
+    config:
+      tlsClientConfig:
+        insecure: true
+        hasCaData: false
