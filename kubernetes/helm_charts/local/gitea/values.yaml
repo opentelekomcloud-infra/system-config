@@ -81,3 +81,4 @@ persistence:
   existingClaim: pvc-gitea
   accessMode: ReadWriteOnce
   mountPath: /data
+  reclaimPolicy: Retain
