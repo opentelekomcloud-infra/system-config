@@ -5,6 +5,9 @@ metadata:
   name: {{ .Values.persistence.claimName | default (include "gitea.fullname" .) | quote }}
   labels:
     {{- include "gitea.labels" . | nindent 4 }}
+    {{- with .Values.persistence.pvLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}

@@ -85,6 +85,9 @@ persistence:
   volumeName: "pv-evs-gitea-preprod"
   size: 1024Gi
   storageClassName: "csi-disk"
+  pvLabels:
+    failure-domain.beta.kubernetes.io/region: "eu-de"
+    failure-domain.beta.kubernetes.io/zone: "eu-de-01"
 
 gitea:
   database:
