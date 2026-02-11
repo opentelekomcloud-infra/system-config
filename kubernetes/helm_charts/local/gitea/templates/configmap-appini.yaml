@@ -9,7 +9,7 @@ data:
     HOST     = {{ .Values.gitea.database.host }}
     NAME     = {{ .Values.gitea.database.name }}
     USER     = {{ .Values.gitea.database.user }}
-    PASSWD   = {{ .Values.gitea.database.password | default "" }}
+    PASSWD   = {{ .Values.gitea.database.password }}
 
     [security]
     INSTALL_LOCK = true
