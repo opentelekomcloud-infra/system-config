@@ -35,12 +35,47 @@ spec:
         - name: gitea-secrets
           secret:
             secretName: {{ .Values.gitea.secrets.existingSecret }}
+      initContainers:
+        - name: init-appini
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              mkdir -p /data/gitea/conf
+              cp /config/app.ini /data/gitea/conf/app.ini
+          volumeMounts:
+            - name: gitea-data
+              mountPath: /data
+            - name: gitea-appini
+              mountPath: /config
+
       containers:
+        - name: {{ .Chart.Name }}
+          volumeMounts:
+            - name: gitea-data
+              mountPath: {{ .Values.persistence.mountPath | default "/data" }}
+            - name: gitea-db-secret
+              mountPath: /etc/gitea-db
+              readOnly: true
+
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: GITEA__database__DB_TYPE
+              value: "postgres"
+            - name: GITEA__database__HOST
+              value: {{ .Values.gitea.database.host | quote }}
+            - name: GITEA__database__NAME
+              value: {{ .Values.gitea.database.name | quote }}
+            - name: GITEA__database__USER
+              value: {{ .Values.gitea.database.user | quote }}
+            - name: GITEA__database__PASSWD__FILE
+              value: "/etc/gitea-db/password"
           ports:
             - name: http
               containerPort: 3000

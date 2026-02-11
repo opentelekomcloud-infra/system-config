@@ -6,10 +6,9 @@ data:
   app.ini: |
     [database]
     DB_TYPE  = postgres
-    HOST     = {{ .Values.gitea.database.host }}
-    NAME     = {{ .Values.gitea.database.name }}
-    USER     = {{ .Values.gitea.database.user }}
-    PASSWD   = {{ .Values.gitea.database.password }}
+    HOST     = {{ .Values.gitea.database.host | quote }}
+    NAME     = {{ .Values.gitea.database.name | quote }}
+    USER     = {{ .Values.gitea.database.user | quote }}
 
     [security]
     INSTALL_LOCK = true
@@ -17,5 +16,5 @@ data:
     INTERNAL_TOKEN_URI = file:/etc/gitea/internal_token
 
     [server]
-    DOMAIN   = {{ .Values.gitea.server.domain }}
-    ROOT_URL = {{ .Values.gitea.server.rootUrl }}
+    DOMAIN   = {{ .Values.gitea.server.domain | quote }}
+    ROOT_URL = {{ .Values.gitea.server.rootUrl | quote }}
