@@ -5,9 +5,13 @@ metadata:
   name: {{ .Values.persistence.claimName | default (include "gitea.fullname" .) | quote }}
   labels:
     {{- include "gitea.labels" . | nindent 4 }}
-    {{- with .Values.persistence.pvLabels }}
+    {{- with .Values.persistence.pvMatchLabels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+  {{- with .Values.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode | quote }}
@@ -15,7 +19,10 @@ spec:
     requests:
       storage: {{ .Values.persistence.size | quote }}
   storageClassName: {{ .Values.persistence.storageClassName | quote }}
-  {{- if .Values.persistence.volumeName }}
   volumeName: {{ .Values.persistence.volumeName | quote }}
+  {{- with .Values.persistence.pvMatchLabels }}
+  selector:
+    matchLabels:
+      {{- toYaml . | nindent 6 }}
   {{- end }}
 {{- end }}

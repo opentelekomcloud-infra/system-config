@@ -90,6 +90,10 @@ persistence:
     failure-domain.beta.kubernetes.io/zone: "eu-de-01"
     topology.kubernetes.io/region: "eu-de"
     topology.kubernetes.io/zone: "eu-de-01"
+  annotations:
+    everest.io/crypt-key-id: "fe4abed2-330d-476a-8e0e-ea5a66d4cfe4"
+    everest.io/disk-volume-type: "SAS"
+    everest.io/enterprise-project-id: "0"
 
 gitea:
   database:
