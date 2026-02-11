@@ -88,6 +88,8 @@ persistence:
   pvLabels:
     failure-domain.beta.kubernetes.io/region: "eu-de"
     failure-domain.beta.kubernetes.io/zone: "eu-de-01"
+    topology.kubernetes.io/region: "eu-de"
+    topology.kubernetes.io/zone: "eu-de-01"
 
 gitea:
   database:
