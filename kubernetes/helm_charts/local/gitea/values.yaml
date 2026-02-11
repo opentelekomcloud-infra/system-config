@@ -81,6 +81,9 @@ persistence:
   existingClaim: pv-evs-gitea-preprod
   accessMode: ReadWriteOnce
   mountPath: /data
+  createClaim: true
+  claimName: "pv-evs-gitea-preprod"
+  volumeName: "pv-evs-gitea-preprod"
 
 gitea:
   database:
