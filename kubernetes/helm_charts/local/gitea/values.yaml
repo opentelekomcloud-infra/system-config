@@ -78,12 +78,13 @@ serviceAccount:
 
 persistence:
   enabled: true
-  existingClaim: pv-evs-gitea-preprod
   accessMode: ReadWriteOnce
   mountPath: /data
   createClaim: true
   claimName: "pv-evs-gitea-preprod"
   volumeName: "pv-evs-gitea-preprod"
+  size: 1024Gi
+  storageClassName: "csi-disk-retain"
 
 gitea:
   database:
