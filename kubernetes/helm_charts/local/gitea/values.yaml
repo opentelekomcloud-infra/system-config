@@ -78,6 +78,7 @@ serviceAccount:
 
 persistence:
   enabled: true
+  existingClaim: "pv-evs-gitea-preprod"
   accessMode: ReadWriteOnce
   mountPath: /data
   createClaim: true
