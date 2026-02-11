@@ -83,7 +83,7 @@ persistence:
   createClaim: true
   claimName: "pv-evs-gitea-preprod"
   volumeName: "pv-evs-gitea-preprod"
-  size: 1024Gi
+  size: 1Ti
   storageClassName: "csi-disk"
   pvLabels:
     failure-domain.beta.kubernetes.io/region: "eu-de"
