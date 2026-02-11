@@ -84,7 +84,7 @@ persistence:
   claimName: "pv-evs-gitea-preprod"
   volumeName: "pv-evs-gitea-preprod"
   size: 1024Gi
-  storageClassName: "csi-disk-retain"
+  storageClassName: "csi-disk"
 
 gitea:
   database:
