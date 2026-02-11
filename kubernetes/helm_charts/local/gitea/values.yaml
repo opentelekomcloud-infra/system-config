@@ -97,4 +97,6 @@ gitea:
     domain: "gitea.eco-preprod.tsi-dev.otc-service.com"
     rootUrl: "https://gitea.eco-preprod.tsi-dev.otc-service.com/"
   runtimeSecrets:
-    existingSecret: "gitea-runtime-secrets"
+    name: gitea-runtime-secrets
+    secretKey: "<path:secret/data/gitea/config#secret_key>"
+    internalToken: "<path:secret/data/gitea/config#internal_token>"

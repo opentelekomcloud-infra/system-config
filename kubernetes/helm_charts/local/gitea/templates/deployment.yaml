@@ -31,7 +31,7 @@ spec:
       volumes:
         - name: gitea-data
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "gitea.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (.Values.persistence.claimName | default (include "gitea.fullname" .)) }}
 
         - name: gitea-appini
           configMap:
@@ -39,11 +39,12 @@ spec:
 
         - name: gitea-db-secret
           secret:
-            secretName: {{ .Values.gitea.database.existingSecret }}
+            secretName: gitea-db-credentials
+
 
         - name: gitea-runtime-secrets
           secret:
-            secretName: {{ .Values.gitea.runtimeSecrets.existingSecret }}
+            secretName: gitea-runtime-secrets
 
       initContainers:
         - name: init-appini
@@ -60,6 +61,13 @@ spec:
               mountPath: /data
             - name: gitea-appini
               mountPath: /config
+            - name: gitea-runtime-secrets
+              mountPath: /etc/gitea
+              readOnly: true
+            - name: gitea-db-secret
+              mountPath: /etc/gitea-db
+              readOnly: true
+
 
       containers:
         - name: gitea
