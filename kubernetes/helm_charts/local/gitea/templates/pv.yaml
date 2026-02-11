@@ -1,0 +1,30 @@
+{{- if and .Values.persistence.enabled .Values.persistence.createPV -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.persistence.volumeName | default (include "gitea.fullname" .) }}
+  labels:
+    {{- with .Values.persistence.pvLabels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  annotations:
+    pv.kubernetes.io/provisioned-by: everest-csi-provisioner
+spec:
+  accessModes:
+    - {{ .Values.persistence.accessMode | quote }}
+  capacity:
+    storage: {{ .Values.persistence.size | quote }}
+  storageClassName: {{ .Values.persistence.storageClassName | quote }}
+  persistentVolumeReclaimPolicy: {{ .Values.persistence.pv.reclaimPolicy | default "Retain" }}
+  volumeMode: Filesystem
+  csi:
+    driver: disk.csi.everest.io
+    fsType: {{ .Values.persistence.pv.fsType | default "ext4" }}
+    volumeHandle: {{ .Values.persistence.pv.volumeHandle | quote }}
+    volumeAttributes:
+      everest.io/crypt-key-id: {{ .Values.persistence.pv.cryptKeyId | quote }}
+      everest.io/disk-mode: {{ .Values.persistence.pv.diskMode | default "SCSI" }}
+      everest.io/disk-volume-type: {{ .Values.persistence.pv.diskVolumeType | default "SAS" }}
+      everest.io/enterprise-project-id: {{ .Values.persistence.pv.enterpriseProjectId | default "0" | quote }}
+      storage.kubernetes.io/csiProvisionerIdentity: everest-csi-provisioner
+{{- end }}
