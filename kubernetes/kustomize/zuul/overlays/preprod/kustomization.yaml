@@ -139,7 +139,7 @@ secretGenerator:
         .dockerconfigjson={
           "auths": {
             "quay.io": {
-              "auth": "<path:secret/data/zuul/registries/quay#auth>",
+              "auth": "<path:secret/data/image_registries/quay#auth>",
               "email": ""
             }
           }
