@@ -208,7 +208,6 @@
   /browsertg/obs/obs_03_1024.html /object-storage-service/tool-guide/faqs/index.html;
   /browsertg/obs/obs_03_1025.html /object-storage-service/tool-guide/uninstalling_obs_browser.html;
   /browsertg/obs/obs_03_1026.html /object-storage-service/tool-guide/change_history.html;
-  /browsertg/obs/obs_03_1034.html /object-storage-service/tool-guide/faqs/how_can_i_locate_common_network_errors.html;
   /browsertg/obs/obs_03_1035.html /object-storage-service/tool-guide/faqs/how_can_i_permanently_share_files_or_folders_with_other_users.html;
   /browsertg/obs/obs_03_1036.html /object-storage-service/tool-guide/faqs/how_can_i_access_a_specific_bucket_or_directory.html;
   /browsertg/obs/obs_03_1037.html /object-storage-service/tool-guide/faqs/can_i_cancel_the_directory_sharing_after_a_directory_has_been_shared_with_others.html;
@@ -426,7 +425,6 @@
   /en-us/browsertg/obs/obs_03_1024.html /object-storage-service/tool-guide/faqs/index.html;
   /en-us/browsertg/obs/obs_03_1025.html /object-storage-service/tool-guide/uninstalling_obs_browser.html;
   /en-us/browsertg/obs/obs_03_1026.html /object-storage-service/tool-guide/change_history.html;
-  /en-us/browsertg/obs/obs_03_1034.html /object-storage-service/tool-guide/faqs/how_can_i_locate_common_network_errors.html;
   /en-us/browsertg/obs/obs_03_1035.html /object-storage-service/tool-guide/faqs/how_can_i_permanently_share_files_or_folders_with_other_users.html;
   /en-us/browsertg/obs/obs_03_1036.html /object-storage-service/tool-guide/faqs/how_can_i_access_a_specific_bucket_or_directory.html;
   /en-us/browsertg/obs/obs_03_1037.html /object-storage-service/tool-guide/faqs/can_i_cancel_the_directory_sharing_after_a_directory_has_been_shared_with_others.html;
@@ -560,7 +558,7 @@
   /en-us/usermanual/obs/obs_03_0346.html /object-storage-service/umn/obs_console_operation_guide/troubleshooting/failed_to_configure_event_notifications.html;
   /en-us/usermanual/obs/obs_03_0347.html /object-storage-service/umn/obs_console_operation_guide/troubleshooting/time_difference_is_longer_than_15_minutes_between_the_client_and_server.html;
   /en-us/usermanual/obs/obs_03_0348.html /object-storage-service/umn/obs_console_operation_guide/error_code_list.html;
-  /en-us/usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/constraints.html;
+  /en-us/usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/notes_and_constraints.html;
   /en-us/usermanual/obs/obs_03_0716.html /object-storage-service/umn/obs_console_operation_guide/worm/worm_overview.html;
   /en-us/usermanual/obs/obs_03_0717.html /object-storage-service/umn/obs_console_operation_guide/worm/index.html;
   /en-us/usermanual/obs/obs_03_0718.html /object-storage-service/umn/obs_console_operation_guide/worm/configuring_worm_retention.html;
@@ -744,7 +742,7 @@
   /usermanual/obs/obs_03_0346.html /object-storage-service/umn/obs_console_operation_guide/troubleshooting/failed_to_configure_event_notifications.html;
   /usermanual/obs/obs_03_0347.html /object-storage-service/umn/obs_console_operation_guide/troubleshooting/time_difference_is_longer_than_15_minutes_between_the_client_and_server.html;
   /usermanual/obs/obs_03_0348.html /object-storage-service/umn/obs_console_operation_guide/error_code_list.html;
-  /usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/constraints.html;
+  /usermanual/obs/obs_03_0360.html /object-storage-service/umn/service_overview/notes_and_constraints.html;
   /usermanual/obs/obs_03_0716.html /object-storage-service/umn/obs_console_operation_guide/worm/worm_overview.html;
   /usermanual/obs/obs_03_0717.html /object-storage-service/umn/obs_console_operation_guide/worm/index.html;
   /usermanual/obs/obs_03_0718.html /object-storage-service/umn/obs_console_operation_guide/worm/configuring_worm_retention.html;

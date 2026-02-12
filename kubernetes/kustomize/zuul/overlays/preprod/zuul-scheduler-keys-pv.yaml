@@ -1,0 +1,31 @@
+---
+# PV for Zuul scheduler keys persistence
+# Keys are stored in /var/lib/zuul/keys/ and must persist across pod restarts
+# to maintain encrypted secrets (pkcs1-oaep) functionality
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zuul-scheduler-keys-sfs-turbo
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: csi-sfsturbo
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    # NFSv3 with performance optimizations
+    - vers=3
+    - nolock
+    - noresvport
+    - noatime
+    - nodiratime
+    - rsize=1048576
+    - wsize=1048576
+    - timeo=600
+    - retrans=2
+    - hard
+    - actimeo=120
+  nfs:
+    path: /zuul-scheduler-keys
+    server: 192.168.150.233

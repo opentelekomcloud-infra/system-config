@@ -1,0 +1,72 @@
+# Vault additional manifests configuration for preprod
+# This chart provides supplementary resources not available in upstream Vault Helm chart
+
+networkPolicy:
+  enabled: true
+
+  # Pod selector for Vault pods
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vault
+
+  # Namespaces allowed to access Vault (by label)
+  # Add label: vault-access: "true" to namespaces that need Vault access
+  allowedNamespaces:
+    labelSelector:
+      matchLabels:
+        vault-access: "true"
+
+  # Fine-grained access: specific pods in specific namespaces
+  # Only argocd-repo-server needs Vault access (runs vault-plugin)
+  allowedPods:
+    - namespace: argocd
+      podSelector:
+        app.kubernetes.io/name: argocd-repo-server
+
+  # Allow Prometheus to scrape Vault metrics
+  allowPrometheus: true
+  prometheusNamespace: monitoring
+
+  # Allow ingress controller to forward external traffic
+  # Required for Gitea runners to access Vault via public ingress
+  allowIngress:
+    enabled: true
+    namespace: default
+    podSelector:
+      app.kubernetes.io/name: ingress-nginx
+
+  # Allow external IPs to access Vault (e.g., Gitea runners)
+  # Format: CIDR notation (e.g., "80.158.23.198/32" for single IP)
+  allowExternalIPs:
+    - "80.158.23.198/32"  # Gitea (gitea.eco.tsi-dev.otc-service.com)
+
+  # Vault API port
+  vaultPort: 8200
+
+  # Vault cluster port (for raft replication)
+  clusterPort: 8201
+
+# Auto-unseal configuration
+# Bank-Vaults unsealer runs as a sidecar in the upstream Vault chart
+# The unsealer sidecar watches for sealed state and auto-unseals using K8s secret
+#
+# Required secret format (vault-unseal-keys in vault namespace):
+# The Bank-Vaults unsealer stores keys in a specific format.
+# For initial setup, create the secret with unseal keys from 'vault operator init':
+#
+#   kubectl -n vault create secret generic vault-unseal-keys \
+#     --from-literal=vault-root=<root-token> \
+#     --from-literal=vault-unseal-0=<key1> \
+#     --from-literal=vault-unseal-1=<key2> \
+#     --from-literal=vault-unseal-2=<key3> \
+#     --from-literal=vault-unseal-3=<key4> \
+#     --from-literal=vault-unseal-4=<key5>
+#
+# See: https://bank-vaults.dev/docs/unseal-keys/
+
+# Unsealer RBAC - grants access to the vault-unseal-keys secret
+unsealer:
+  enabled: true
+  secretName: vault-unseal-keys
+  # The upstream vault chart creates ServiceAccount with fullnameOverride name
+  serviceAccountName: vault-preprod

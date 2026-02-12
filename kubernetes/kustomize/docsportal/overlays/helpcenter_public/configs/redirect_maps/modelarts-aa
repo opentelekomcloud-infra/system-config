@@ -705,6 +705,7 @@
   /en-us/usermanual/modelarts/develop-modelarts-0097.html /modelarts/umn/training_management/performing_a_training/viewing_training_job_logs.html;
   /en-us/usermanual/modelarts/develop-modelarts-0104.html /modelarts/umn/training_management/performing_a_training/viewing_environment_variables_of_a_training_container.html;
   /en-us/usermanual/modelarts/develop-modelarts-0106.html /modelarts/umn/training_management/performing_a_training/logging_in_to_a_training_container_using_cloud_shell.html;
+  /en-us/usermanual/modelarts/develop-modelarts-0108.html /modelarts/umn/training_management/performing_a_training/viewing_training_job_tags.html;
   /en-us/usermanual/modelarts/devtool-modelarts_0211.html /modelarts/umn/devenviron_new/using_jupyterlab_to_develop_models/jupyterlab_plug-ins/index.html;
   /en-us/usermanual/modelarts/devtool-modelarts_0212.html /modelarts/umn/devenviron_new/using_jupyterlab_to_develop_models/jupyterlab_plug-ins/code_parametrization_plug-in.html;
   /en-us/usermanual/modelarts/docker-modelarts_0016.html /modelarts/umn/using_custom_images/faq/index.html;
@@ -997,4 +998,3 @@
   /en-us/usermanual/modelarts/modelarts_13_0121.html /modelarts/umn/troubleshooting/training_jobs/obs_operation_issues/what_do_i_do_if_error_message_no_such_file_or_directory_is_displayed_in_training_job_logs.html;
   /en-us/usermanual/modelarts/modelarts_13_0122.html /modelarts/umn/troubleshooting/inference_deployment/index.html;
   /en-us/usermanual/modelarts/modelarts_13_0157.html /modelarts/umn/troubleshooting/general_issues/incorrect_obs_path_on_modelarts.html;
-  /en-us/usermanual/modelarts/modelarts_13_0159.html /modelarts/umn/troubleshooting/training_jobs/in-cloud_migration_adaptation_issues/error_modelarts.2763_occurred_during_training_job_creation.html;

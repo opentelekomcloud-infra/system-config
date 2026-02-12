@@ -140,7 +140,7 @@ applications:
     config:
       namespace: gitea
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Gitea_enahncements'
+      targetRevision: 'gitea-preprod'
       path: kubernetes/helm_charts/local/gitea
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -278,6 +278,43 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/zitadel
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # Vault upstream Helm chart
+  # Using --release-name vault to match existing StatefulSet (not vault-preprod)
+  - name: vault
+    clusters: [preprod]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/vault
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # Vault additional manifests (NetworkPolicy, etc.)
+  - name: vault-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: vault
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra

@@ -7,17 +7,6 @@ cache:
     port: 5
     floating-ip: 5
 clouds:
-  otcci-pool1:
-    auth:
-       auth_url: <path:secret/data/clouds/otcci_nodepool_pool1#auth_url>
-       username: <path:secret/data/clouds/otcci_nodepool_pool1#username>
-       password: <path:secret/data/clouds/otcci_nodepool_pool1#password>
-       project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
-       user_domain_name: <path:secret/data/clouds/otcci_nodepool_pool1#user_domain_name>
-    auth_type: password
-    region_name: <path:secret/data/clouds/otcci_nodepool_pool1#region_name>
-    interface: public
-    object_store_endpoint_override: <path:secret/data/clouds/otcci_nodepool_pool1#object_store_endpoint>
   zuul-logs:
     # Swift cluster for log storage via public Ingress
     # Uses public HTTPS endpoint without authentication

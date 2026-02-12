@@ -39,19 +39,19 @@ images:
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v4"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea"
+    newTag: "13.1.1-gitea-v3"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
@@ -64,6 +64,8 @@ images:
 resources:
   - zuul-config-pv.yaml
   - zuul-config-pvc.yaml
+  - zuul-scheduler-keys-pv.yaml
+  - zuul-scheduler-keys-pvc.yaml
   - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
@@ -89,6 +91,11 @@ patches:
   - path: zuul-merger-volumes-patch.yaml
   - path: zuul-web-volumes-patch.yaml
   # nodepool-builder-patch.yaml removed - nodepool-builder component is disabled
+  # JSON 6902 patch to replace zuul-var-lib emptyDir with PVC for key persistence
+  - path: zuul-scheduler-keys-jsonpatch.yaml
+    target:
+      kind: Deployment
+      name: zuul-scheduler
 
 secretGenerator:
   - name: zuul-config
@@ -132,7 +139,7 @@ secretGenerator:
         .dockerconfigjson={
           "auths": {
             "quay.io": {
-              "auth": "<path:secret/data/zuul/registries/quay#auth>",
+              "auth": "<path:secret/data/image_registries/quay#auth>",
               "email": ""
             }
           }
