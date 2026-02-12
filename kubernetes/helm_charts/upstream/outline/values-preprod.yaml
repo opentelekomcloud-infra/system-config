@@ -90,7 +90,7 @@ outline:
       cpu: 1000m
       memory: 1Gi
     requests:
-      cpu: 500m
+      cpu: 50m
       memory: 512Mi
 
   # Security contexts

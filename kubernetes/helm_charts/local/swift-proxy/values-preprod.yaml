@@ -68,7 +68,7 @@ storage:
       cpu: "2"
       memory: "4Gi"
     requests:
-      cpu: "200m"
+      cpu: "50m"
       memory: "512Mi"
   # Ports for Swift services
   ports:
@@ -110,7 +110,7 @@ resources:
     cpu: "2"
     memory: "2Gi"
   requests:
-    cpu: "250m"
+    cpu: "75m"
     memory: "1Gi"
 
 autoscaling:

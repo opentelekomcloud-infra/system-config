@@ -1,5 +1,7 @@
 # Vault additional manifests configuration for preprod
 # This chart provides supplementary resources not available in upstream Vault Helm chart
+#
+# NetworkPolicy: deny-all by default, only explicitly listed consumers can reach Vault.
 
 networkPolicy:
   enabled: true
@@ -9,36 +11,24 @@ networkPolicy:
     matchLabels:
       app.kubernetes.io/name: vault
 
-  # Namespaces allowed to access Vault (by label)
-  # Add label: vault-access: "true" to namespaces that need Vault access
-  allowedNamespaces:
-    labelSelector:
-      matchLabels:
-        vault-access: "true"
-
-  # Fine-grained access: specific pods in specific namespaces
-  # Only argocd-repo-server needs Vault access (runs vault-plugin)
-  allowedPods:
+  # Explicit list of namespaces/pods allowed to connect to Vault on port 8200.
+  # Each entry creates a separate ingress rule. All unlisted namespaces are denied.
+  allowedConsumers:
+    # ArgoCD — vault-agent sidecars on argocd-server and argocd-repo-server
+    # repo-server also runs argocd-vault-plugin for secret injection
     - namespace: argocd
+
+    # Prometheus — scrape Vault /v1/sys/metrics
+    - namespace: monitoring
       podSelector:
-        app.kubernetes.io/name: argocd-repo-server
+        app.kubernetes.io/name: prometheus
 
-  # Allow Prometheus to scrape Vault metrics
-  allowPrometheus: true
-  prometheusNamespace: monitoring
-
-  # Allow ingress controller to forward external traffic
-  # Required for Gitea runners to access Vault via public ingress
+  # Ingress controller — required for external access (e.g., Gitea runners)
   allowIngress:
     enabled: true
     namespace: default
     podSelector:
       app.kubernetes.io/name: ingress-nginx
-
-  # Allow external IPs to access Vault (e.g., Gitea runners)
-  # Format: CIDR notation (e.g., "80.158.23.198/32" for single IP)
-  allowExternalIPs:
-    - "80.158.23.198/32"  # Gitea (gitea.eco.tsi-dev.otc-service.com)
 
   # Vault API port
   vaultPort: 8200

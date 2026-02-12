@@ -15,28 +15,6 @@ spec:
     - Ingress
     - Egress
   ingress:
-    # Allow from namespaces with vault-access label
-    - from:
-        - namespaceSelector:
-            {{- with .Values.networkPolicy.allowedNamespaces.labelSelector }}
-            {{- toYaml . | nindent 12 }}
-            {{- end }}
-      ports:
-        - port: {{ .Values.networkPolicy.vaultPort }}
-          protocol: TCP
-    # Allow from explicitly listed namespaces with specific pod selectors
-    {{- range .Values.networkPolicy.allowedPods }}
-    - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: {{ .namespace }}
-          podSelector:
-            matchLabels:
-              {{- toYaml .podSelector | nindent 14 }}
-      ports:
-        - port: {{ $.Values.networkPolicy.vaultPort }}
-          protocol: TCP
-    {{- end }}
     # Allow Vault-to-Vault communication (raft/cluster)
     - from:
         - podSelector:
@@ -48,42 +26,33 @@ spec:
           protocol: TCP
         - port: {{ .Values.networkPolicy.clusterPort }}
           protocol: TCP
-    {{- if .Values.networkPolicy.allowPrometheus }}
-    # Allow Prometheus to scrape metrics
+    # Allow from explicitly listed namespaces (with optional pod selector)
+    {{- range .Values.networkPolicy.allowedConsumers }}
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: {{ .Values.networkPolicy.prometheusNamespace | default "monitoring" }}
+              kubernetes.io/metadata.name: {{ .namespace }}
+          {{- if .podSelector }}
           podSelector:
             matchLabels:
-              app.kubernetes.io/name: prometheus
+              {{- toYaml .podSelector | nindent 14 }}
+          {{- end }}
       ports:
-        - port: 8200
+        - port: {{ $.Values.networkPolicy.vaultPort }}
           protocol: TCP
     {{- end }}
     {{- if .Values.networkPolicy.allowIngress.enabled }}
-    # Allow ingress controller to forward external traffic (for Gitea runners, etc.)
+    # Allow ingress controller (for remote cluster vault-agent access via LB)
     - from:
         - namespaceSelector:
             matchLabels:
-              kubernetes.io/metadata.name: {{ .Values.networkPolicy.allowIngress.namespace | default "default" }}
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.allowIngress.namespace }}
           podSelector:
             matchLabels:
               {{- toYaml .Values.networkPolicy.allowIngress.podSelector | nindent 14 }}
       ports:
         - port: {{ .Values.networkPolicy.vaultPort }}
           protocol: TCP
-    {{- end }}
-    {{- if .Values.networkPolicy.allowExternalIPs }}
-    # Allow external IPs (e.g., Gitea runners accessing Vault via public address)
-    {{- range .Values.networkPolicy.allowExternalIPs }}
-    - from:
-        - ipBlock:
-            cidr: {{ . }}
-      ports:
-        - port: {{ $.Values.networkPolicy.vaultPort }}
-          protocol: TCP
-    {{- end }}
     {{- end }}
   egress:
     # Vault to Vault (raft replication)
