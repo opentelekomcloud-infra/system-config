@@ -24,7 +24,7 @@ spec:
           - 'source /secrets/mcaptcha-env && /usr/local/bin/mcaptcha'
         resources:
           requests:
-            cpu: "500m"
+            cpu: "100m"
             memory: "256Mi"
         livenessProbe:
           httpGet:
