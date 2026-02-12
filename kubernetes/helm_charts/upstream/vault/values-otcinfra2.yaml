@@ -1,0 +1,232 @@
+# Vault configuration for OTC production environment (otcinfra2)
+# Based on preprod configuration, adapted for production use
+# Deployed on otcinfra2 cluster where ArgoCD resides
+# Values are nested under vault: for the dependency chart
+
+vault:
+  global:
+    enabled: true
+    tlsDisable: true
+
+  # Vault Agent Injector configuration
+  injector:
+    enabled: true
+    replicas: 1
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 512Mi
+        cpu: 500m
+
+    agentImage:
+      repository: "hashicorp/vault"
+      tag: "1.19.0"
+
+    agentDefaults:
+      cpuLimit: "500m"
+      cpuRequest: "250m"
+      memLimit: "256Mi"
+      memRequest: "128Mi"
+      template: "map"
+
+  # Vault Server configuration
+  server:
+    enabled: true
+
+    image:
+      repository: "hashicorp/vault"
+      tag: "1.19.0"
+      pullPolicy: IfNotPresent
+
+    resources:
+      requests:
+        memory: 1Gi
+        cpu: 500m
+      limits:
+        memory: 2Gi
+        cpu: 1000m
+
+    # Ingress configuration for external access
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      hosts:
+        - host: vault-k8s.eco.tsi-dev.otc-service.com
+          paths:
+            - /
+      pathType: Prefix
+      tls:
+        - secretName: vault-tls-cert
+          hosts:
+            - vault-k8s.eco.tsi-dev.otc-service.com
+
+      # Override the default service to use the main vault service instead of vault-active
+      activeService: false
+
+    # Service configuration
+    service:
+      enabled: true
+      type: ClusterIP
+      port: 8200
+      targetPort: 8200
+      annotations: {}
+
+    # Enable Kubernetes auth method
+    authDelegator:
+      enabled: true
+
+    # Security context
+    securityContext:
+      runAsNonRoot: true
+      runAsUser: 100
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    # Init containers to download plugins
+    # Note: GitHub plugin (vault-plugin-secrets-github) can be added later
+    # if dynamic GitHub token generation is needed (paths: github, github_otcbot, github_zuul)
+    extraInitContainers:
+      - name: download-openstack-plugin
+        image: "curlimages/curl:latest"
+        command: [sh, -c]
+        args:
+          - >-
+            echo "Downloading OpenStack plugin..." &&
+            cd /tmp &&
+            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.3.3/vault-plugin-secrets-openstack_1.3.3_linux_amd64.tar.gz"
+            -o vault-plugin-secrets-openstack.tar.gz &&
+            tar -xzf vault-plugin-secrets-openstack.tar.gz &&
+            chmod +x vault-plugin-secrets-openstack &&
+            cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
+            echo "OpenStack plugin installed successfully"
+        volumeMounts:
+          - name: plugins
+            mountPath: /usr/local/libexec/vault
+
+    # Extra volumes for plugins
+    volumes:
+      - name: plugins
+        emptyDir: {}
+
+    # Volume mounts for plugins
+    volumeMounts:
+      - mountPath: /usr/local/libexec/vault
+        name: plugins
+        readOnly: true
+
+    # Data storage configuration
+    dataStorage:
+      enabled: true
+      size: 10Gi
+      storageClass: "csi-disk-retain"
+      accessMode: ReadWriteOnce
+
+    # Audit storage configuration
+    auditStorage:
+      enabled: true
+      size: 5Gi
+      storageClass: "csi-disk-retain"
+      accessMode: ReadWriteOnce
+
+    # High Availability configuration
+    ha:
+      enabled: true
+      replicas: 3
+
+      # Integrated Raft storage for HA
+      raft:
+        enabled: true
+        setNodeId: true
+
+        config: |-
+          # Plugin directory
+          plugin_directory = "/usr/local/libexec/vault"
+
+          listener "tcp" {
+            tls_disable = 1
+            address = "[::]:8200"
+            cluster_address = "[::]:8201"
+            # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+            telemetry {
+              unauthenticated_metrics_access = "true"
+            }
+          }
+
+          storage "raft" {
+            path = "/vault/data"
+
+            retry_join {
+              leader_api_addr = "http://vault-0.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-1.vault-internal:8200"
+            }
+            retry_join {
+              leader_api_addr = "http://vault-2.vault-internal:8200"
+            }
+          }
+
+          # API and cluster addresses
+          api_addr = "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          cluster_addr = "http://POD_IP:8201"
+
+          # Telemetry configuration for monitoring
+          telemetry {
+            prometheus_retention_time = "30s"
+            disable_hostname = true
+          }
+
+          # Audit logging
+          audit "file" {
+            type = "file"
+            path = "/vault/audit/audit.log"
+          }
+
+    # Standalone configuration (disabled in favor of HA)
+    standalone:
+      enabled: false
+
+  # UI configuration
+  ui:
+    enabled: false
+    serviceType: "ClusterIP"
+
+  # CSI Provider (for secret injection)
+  csi:
+    enabled: true
+
+    image:
+      repository: "hashicorp/vault-csi-provider"
+      tag: "1.5.0"
+      pullPolicy: IfNotPresent
+
+    resources:
+      requests:
+        memory: 256Mi
+        cpu: 250m
+      limits:
+        memory: 256Mi
+        cpu: 250m
+
+    volumeMountPath: "/vault/secrets"
+
+  # Prometheus metrics
+  serverTelemetry:
+    prometheusOperator: true
+
+  # Additional environment variables
+  extraEnvironmentVars:
+    VAULT_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+    VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
