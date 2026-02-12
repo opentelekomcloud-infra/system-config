@@ -1,8 +1,0 @@
-- hosts: "keycloak:!disabled"
-  name: "Base: configure keycloak"
-  become: true
-  roles:
-    # Group should be responsible for defining open ports
-    - firewalld
-    - keycloak
-    #- fail2ban

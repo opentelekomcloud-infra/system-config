@@ -1,0 +1,34 @@
+---
+# OBS Buckets Configuration
+# These buckets are managed via cloud-obs.yaml playbook
+
+cloud_obs_buckets:
+  - name: zuul-preprod-logs
+    cloud: otcci-pool1
+    acl: public-read
+    storage_class: STANDARD
+    description: "Zuul preprod job logs storage"
+    policy:
+      Statement:
+        - Sid: "AllowNodepoolPreproAccess"
+          Effect: Allow
+          Principal:
+            ID:
+              - "domain/OTC00000000001000000449:user/nodepool_preprod"
+          Action:
+            - "GetObject"
+            - "PutObject"
+            - "DeleteObject"
+            - "ListBucket"
+            - "GetBucketAcl"
+          Resource:
+            - "zuul-preprod-logs/*"
+            - "zuul-preprod-logs"
+        - Sid: "AllowPublicRead"
+          Effect: Allow
+          Principal:
+            ID: ["*"]
+          Action:
+            - "GetObject"
+          Resource:
+            - "zuul-preprod-logs/*"

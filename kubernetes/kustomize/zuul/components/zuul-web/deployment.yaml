@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: zuul
     app.kubernetes.io/component: "zuul-web"
 spec:
-  replicas: 5
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: "zuul"
@@ -51,9 +51,10 @@ spec:
 
           resources:
             limits:
-              memory: "500Mi"
+              cpu: "1000m"
+              memory: "1Gi"
             requests:
-              cpu: "20m"
+              cpu: "50m"
               memory: "500Mi"
 
           securityContext:
@@ -71,8 +72,6 @@ spec:
               mountPath: "/etc/zuul-config"
 
       serviceAccountName: "zuul"
-      nodeSelector:
-        dedicated: zuul-ci
       volumes:
         - name: "zuul-config"
           secret:

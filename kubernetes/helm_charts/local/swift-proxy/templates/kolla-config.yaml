@@ -1,0 +1,341 @@
+{{- if eq .Values.mode "cluster" }}
+---
+# Kolla config for proxy server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-proxy-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-proxy-server /etc/swift/proxy-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/proxy-server.conf",
+          "dest": "/etc/swift/proxy-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/var/cache/swift",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  proxy-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.proxy.port }}
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = {{ join " " .Values.swift.proxyPipeline }}
+
+    [app:proxy-server]
+    use = egg:swift#proxy
+    account_autocreate = true
+    allow_account_management = true
+    # For single-replica setup: allow writes with just 1 successful response
+    object_post_as_copy = false
+    # Set write quorum to 1 (minimum for 1 replica)
+    object_quorum_size = 1
+    container_quorum_size = 1
+    account_quorum_size = 1
+
+    [filter:catch_errors]
+    use = egg:swift#catch_errors
+
+    [filter:gatekeeper]
+    use = egg:swift#gatekeeper
+
+    [filter:healthcheck]
+    use = egg:swift#healthcheck
+
+    [filter:proxy-logging]
+    use = egg:swift#proxy_logging
+
+    [filter:cache]
+    use = egg:swift#memcache
+    memcache_servers = 127.0.0.1:11211
+
+    [filter:container_sync]
+    use = egg:swift#container_sync
+
+    [filter:bulk]
+    use = egg:swift#bulk
+
+    [filter:ratelimit]
+    use = egg:swift#ratelimit
+
+    [filter:formpost]
+    use = egg:swift#formpost
+    # Allow uploads without authentication using X-Account-Meta-Temp-URL-Key
+
+    [filter:copy]
+    use = egg:swift#copy
+
+    [filter:container-quotas]
+    use = egg:swift#container_quotas
+
+    [filter:account-quotas]
+    use = egg:swift#account_quotas
+
+    [filter:slo]
+    use = egg:swift#slo
+
+    [filter:dlo]
+    use = egg:swift#dlo
+
+    [filter:versioned_writes]
+    use = egg:swift#versioned_writes
+
+    [filter:symlink]
+    use = egg:swift#symlink
+
+    [filter:staticweb]
+    use = egg:swift#staticweb
+
+{{- if .Values.storage.enabled }}
+---
+# Kolla config for object server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-object-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-object-server /etc/swift/object-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/object-server.conf",
+          "dest": "/etc/swift/object-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  object-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.object }}
+    # /srv/node/sda is now a real NFS mount point
+    devices = /srv/node
+    mount_check = true
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon object-server
+
+    [app:object-server]
+    use = egg:swift#object
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [object-replicator]
+    rsync_module = {replication_ip}::object
+
+    [object-updater]
+
+    [object-auditor]
+
+---
+# Kolla config for container server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-container-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-container-server /etc/swift/container-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/container-server.conf",
+          "dest": "/etc/swift/container-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  container-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.container }}
+    devices = /srv/node
+    mount_check = false
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon container-server
+
+    [app:container-server]
+    use = egg:swift#container
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [container-replicator]
+    rsync_module = {replication_ip}::container
+
+    [container-updater]
+
+    [container-auditor]
+
+    [container-sync]
+
+---
+# Kolla config for account server
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-account-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-account-server /etc/swift/account-server.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/account-server.conf",
+          "dest": "/etc/swift/account-server.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/srv/node",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  account-server.conf: |
+    [DEFAULT]
+    bind_ip = 0.0.0.0
+    bind_port = {{ .Values.storage.ports.account }}
+    devices = /srv/node
+    mount_check = false
+    workers = auto
+    user = swift
+
+    [pipeline:main]
+    pipeline = recon account-server
+
+    [app:account-server]
+    use = egg:swift#account
+    replication_server = true
+
+    [filter:recon]
+    use = egg:swift#recon
+    recon_cache_path = /var/cache/swift
+
+    [account-replicator]
+    rsync_module = {replication_ip}::account
+
+    [account-auditor]
+
+    [account-reaper]
+{{- end }}
+{{- end }}

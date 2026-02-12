@@ -1,0 +1,118 @@
+---
+# Production-ready Outline Wiki Configuration
+# Successfully tested and working with community-charts
+
+# Disable PostgreSQL subchart (we use external PostgreSQL)
+postgresql:
+  enabled: false
+
+# Disable Redis subchart completely - try running without Redis cache
+redis:
+  enabled: false
+
+outline:
+  # Secrets - will be overridden by ArgoCD parameters
+  secretKey: "<path:secret/data/outline/app#secretKey>"
+  utilsSecret: "<path:secret/data/outline/app#utilsSecret>"
+  url: "https://outline.eco-preprod.tsi-dev.otc-service.com"  # Explicitly setting the URL
+
+  # Zitadel OIDC Authentication with PKCE
+  auth:
+    oidc:
+      # Enable OIDC authentication
+      enabled: true
+      # Client ID registered in Zitadel
+      clientId: "<path:secret/data/outline/zitadel#clientId>"
+      # Client secret from Zitadel
+      clientSecret: "<path:secret/data/outline/zitadel#client-secret>"
+      # Zitadel authorization endpoint
+      authUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/authorize"
+      # Zitadel token endpoint
+      tokenUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/token"
+      # Zitadel userinfo endpoint
+      userInfoUri: "<path:secret/data/outline/zitadel#baseUrl>/oidc/v1/userinfo"
+      logoutUri: "https://outline.eco-preprod.tsi-dev.otc-service.com"
+
+      # Display name shown on the login button
+      displayName: "Zitadel SSO"
+      # The claim to use as the username
+      usernameClaim: "preferred_username"
+      # Required OAuth scopes
+      scopes:
+        - openid
+        - profile
+        - email
+        - state
+        - nonce
+
+  # Use external PostgreSQL (our managed instance)
+  externalPostgresql:
+    host: "<path:secret/data/postgresql/outline#host>"
+    username: "<path:secret/data/postgresql/outline#username>"
+    password: "<path:secret/data/postgresql/outline#password>"
+    database: "<path:secret/data/postgresql/outline#database>"
+    port: 5432  # Default port as integer
+
+  # Use minimal Redis instance for required functionality
+  externalRedis:
+    host: "outline-wiki-additional-manifests-preprod-redis-minimal"
+    port: 6379
+    password: "dummy"  # No password needed for minimal Redis
+
+  # Service configuration
+  service:
+    enabled: true
+    type: ClusterIP
+    port: 3000
+
+  # Ingress with TLS
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    hosts:
+      - host: outline.eco-preprod.tsi-dev.otc-service.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - secretName: outline-tls
+        hosts:
+          - outline.eco-preprod.tsi-dev.otc-service.com
+
+  # Resource limits
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 1Gi
+    requests:
+      cpu: 50m
+      memory: 512Mi
+
+  # Security contexts
+  podSecurityContext:
+    fsGroup: 1001
+    runAsNonRoot: true
+
+  securityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    readOnlyRootFilesystem: false
+    runAsNonRoot: true
+    runAsUser: 1001
+    runAsGroup: 1001
+
+  # File storage configuration
+  fileStorage:
+    mode: local
+    local:
+      persistence:
+        enabled: true
+        size: 50Gi
+        storageClass: "csi-disk-retain"

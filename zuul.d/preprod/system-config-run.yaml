@@ -1,0 +1,21 @@
+# Simplified system-config-run jobs for preprod
+# No bridge or vault connections needed
+---
+- job:
+    name: system-config-run
+    description: |
+      Run the "base" playbook for system-config hosts (preprod).
+
+      This is a parent job designed to be inherited.
+    abstract: true
+    pre-run: playbooks/zuul/run-base-pre.yaml
+    run: playbooks/zuul/run-base.yaml
+    post-run: playbooks/zuul/run-base-post.yaml
+    vars:
+      zuul_copy_output: "{{ copy_output | combine(host_copy_output | default({})) }}"
+      stage_dir: "{{ ansible_user_dir }}/zuul-output"
+      copy_output:
+        '/var/log/syslog': logs_txt
+        '/var/log/messages': logs_txt
+        '/var/log/docker': logs
+        '/var/log/containers': logs
