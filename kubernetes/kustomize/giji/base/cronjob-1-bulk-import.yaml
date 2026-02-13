@@ -31,7 +31,7 @@ spec:
                 capabilities:
                   drop:
                     - ALL
-                readOnlyRootFilesystem: false  # Python нужно писать в /tmp
+                readOnlyRootFilesystem: false
                 runAsNonRoot: true
                 runAsUser: 1000
               image: quay.io/opentelekomcloud/giji:latest
