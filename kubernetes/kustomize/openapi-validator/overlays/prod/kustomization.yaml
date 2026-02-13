@@ -1,0 +1,71 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: openapi-validator
+namePrefix: ""
+nameSuffix: ""
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: prod
+
+images:
+  - name: openapi-validator
+    newName: quay.io/opentelekomcloud/openapi-validator
+    newTag: v0.7.0
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+configMapGenerator:
+  - name: config
+    behavior: replace
+    envs:
+      - openapi-validator.env
+
+patches:
+  - target:
+      kind: Ingress
+      name: ingress
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: openapi-validator.eco.tsi-dev.otc-service.com
+      - op: replace
+        path: /spec/tls/0/hosts/0
+        value: openapi-validator.eco.tsi-dev.otc-service.com
+      - op: replace
+        path: /spec/tls/0/secretName
+        value: openapi-validator-tls-cert-prod
+      - op: replace
+        path: /spec/rules/0/http/paths/0/backend/service/name
+        value: openapi-validator-svc
+
+  - target:
+      kind: Deployment
+      name: openapi-validator
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1
+      - op: add
+        path: /spec/template/metadata/labels/version
+        value: prod
+      - op: replace
+        path: /spec/template/spec/containers/0/resources
+        value:
+          requests:
+            memory: "128Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      - op: replace
+        path: /spec/template/spec/containers/0/env
+        value:
+          - name: NODE_ENV
+            value: "prod"
+          - name: PORT
+            value: "3000"
