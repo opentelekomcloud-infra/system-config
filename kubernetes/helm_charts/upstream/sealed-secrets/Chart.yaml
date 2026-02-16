@@ -4,5 +4,5 @@ description: A Helm chart for managing Sealed Secrets with custom manifests
 version: 0.1.0
 dependencies:
   - name: sealed-secrets
-    version: "2.17.3"
+    version: "2.18.1"
     repository: "https://bitnami-labs.github.io/sealed-secrets"
