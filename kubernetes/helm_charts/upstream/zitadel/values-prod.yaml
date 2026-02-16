@@ -1,0 +1,254 @@
+# Production ZITADEL deployment on otcinfra2 cluster
+# Based on values-preprod.yaml with production hardening
+#
+# Prerequisites:
+#   1. Create namespace: kubectl create ns zitadel (on otcinfra2)
+#   2. Create secrets (from Vault or manually):
+#      - zitadel-config:    Opaque secret with key "config" containing ZITADEL YAML config
+#      - zitadel-masterkey: Opaque secret with key "masterkey" (32-char random string)
+#   3. DNS record: zitadel.eco.tsi-dev.otc-service.com -> 80.158.58.167 (otcinfra2 ELB)
+#
+# Note: The ingress-nginx controller must be configured with a default SSL certificate
+# Add to ingress-nginx-controller deployment:
+# --default-ssl-certificate=zitadel/zitadel-tls
+
+zitadel:
+  # Default values for zitadel.
+  # Disable the login component to avoid the secret dependency
+  login:
+    enabled: false
+
+  zitadel:
+    configmapConfig:
+      TLS:
+        Enabled: false
+      Machine:
+        Identification:
+          Hostname:
+            Enabled: true
+          Webhook:
+            Enabled: false
+
+    secretConfigAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    # Reference the name of a secret that contains ZITADEL configuration.
+    configSecretName: zitadel-config
+    configSecretKey: config
+
+    # Masterkey for symmetric encryption — stored in K8s secret, never in values file
+    masterkey: ""
+    masterkeySecretName: "zitadel-masterkey"
+
+    masterkeyAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    dbSslCaCrt: ""
+    dbSslCaCrtAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+    dbSslCaCrtSecret: "zitadel-db-ssl-ca-crt"
+    dbSslAdminCrtSecret: ""
+    dbSslUserCrtSecret: ""
+    serverSslCrtSecret: ""
+
+    selfSignedCert:
+      enabled: false
+      additionalDnsName:
+
+    # Debug pod disabled in production
+    debug:
+      enabled: false
+      annotations:
+        helm.sh/hook: pre-install,pre-upgrade
+        helm.sh/hook-weight: "1"
+      initContainers: []
+      extraContainers: []
+
+    initContainers: []
+    extraContainers: []
+
+  # Production: 3 replicas for HA
+  replicaCount: 3
+
+  image:
+    repository: ghcr.io/zitadel/zitadel
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  annotations: {}
+
+  configMap:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+  serviceAccount:
+    create: true
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+    name: ""
+
+  podAnnotations: {}
+
+  podAdditionalLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    privileged: false
+
+  env:
+    - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
+      value: "false"
+
+  envVarsSecret: ""
+
+  service:
+    type: ClusterIP
+    clusterIP: ""
+    externalTrafficPolicy: ""
+    port: 8080
+    protocol: http
+    appProtocol: http
+    labels: {}
+    scheme: HTTP
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/preserve-host: "true"
+      nginx.ingress.kubernetes.io/auth-tls-verify-client: "off"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - host: zitadel.eco.tsi-dev.otc-service.com
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zitadel-prod
+                port:
+                  number: 8080
+    tls:
+      - hosts:
+          - zitadel.eco.tsi-dev.otc-service.com
+        secretName: zitadel-tls
+
+  # Production resource limits
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: zitadel
+
+  initJob:
+    enabled: true
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "1"
+    resources: {}
+    backoffLimit: 5
+    activeDeadlineSeconds: 600
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    command: ""
+
+  setupJob:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "2"
+    resources: {}
+    activeDeadlineSeconds: 300
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    additionalArgs:
+      - "--init-projections=true"
+      - "--tlsMode=enabled"
+    machinekeyWriter:
+      image:
+        repository: alpine/k8s
+        tag: "1.31.4"
+      resources: {}
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  startupProbe:
+    enabled: true
+    periodSeconds: 1
+    failureThreshold: 30
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      honorLabels: false
+      honorTimestamps: true
+
+  pdb:
+    enabled: true
+    minAvailable: 1
+    annotations: {}
+
+  extraContainers: []
+
+  extraVolumes: []
+
+  extraVolumeMounts: []
+
+  extraManifests: []
