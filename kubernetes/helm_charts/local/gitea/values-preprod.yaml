@@ -30,7 +30,8 @@ securityContext:
 
 service:
   type: ClusterIP
-  port: 3000
+  name: anubis
+  port: 80
 
 image:
   tag: "1.24.7"

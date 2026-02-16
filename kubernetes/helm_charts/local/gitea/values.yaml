@@ -27,6 +27,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
+  name: gitea
   port: 3000
 
 resources: {}
