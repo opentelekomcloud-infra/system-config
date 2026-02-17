@@ -12,7 +12,6 @@ labels:
 images:
   - name: openapi-validator
     newName: quay.io/opentelekomcloud/openapi-validator
-    newTag: v0.7.0
 
 resources:
 - service.yaml
