@@ -7,12 +7,8 @@ resources:
   - cronjob-1-bulk-import.yaml
   - cronjob-2-bug-postgres.yaml
   - cronjob-3-demand-postgres.yaml
+  - ../../base
 
 images:
   - name: "quay.io/opentelekomcloud/giji"
     newTag: "1.0.0"
-
-generatorOptions:
-  disableNameSuffixHash: false
-  labels:
-    app.kubernetes.io/managed-by: kustomize
