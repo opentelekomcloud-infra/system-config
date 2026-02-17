@@ -67,10 +67,8 @@ persistence:
   enabled: true
   accessMode: ReadWriteOnce
   mountPath: /data
-  # createClaim: true
-  createPV: true  # PV already exists - unencrypted
-  # claimName: "pv-evs-gitea-preprod-data-unencrypted"
-  # volumeName: "pv-evs-gitea-preprod-data-unencrypted"
+  createClaim: true
+  volumeName: ""
   size: 1Ti
   storageClassName: "csi-disk"
   pvLabels:
