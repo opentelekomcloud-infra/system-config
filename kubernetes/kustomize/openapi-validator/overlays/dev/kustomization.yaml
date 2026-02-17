@@ -28,7 +28,7 @@ configMapGenerator:
 patches:
   - target:
       kind: Ingress
-      name: ingress
+      name: openapi-validator
     patch: |-
       - op: replace
         path: /spec/rules/0/host
