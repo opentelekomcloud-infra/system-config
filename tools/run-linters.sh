@@ -49,13 +49,15 @@ else
         else
             DIFF_FILES=$(git diff --name-only --diff-filter=ACMR "$MERGE_BASE" HEAD || true)
             if [ -z "$DIFF_FILES" ]; then
-                echo "No files changed vs $TARGET_REF. Nothing to lint."
-                exit 0
+                echo "*** No files changed vs $TARGET_REF — falling back to full lint ***"
+                echo "(This may indicate the PR checkout failed — check workspace setup)"
+                FULL=1
+            else
+                echo "=== Files changed in this PR (vs $TARGET_REF, merge-base $MERGE_BASE) ==="
+                echo "$DIFF_FILES"
+                echo "================================="
+                FULL=0
             fi
-            echo "=== Files changed in this PR (vs $TARGET_REF, merge-base $MERGE_BASE) ==="
-            echo "$DIFF_FILES"
-            echo "================================="
-            FULL=0
         fi
     fi
 fi
