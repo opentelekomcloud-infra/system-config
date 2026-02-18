@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: anubis-hc-public
+  namespace: argocd
+spec:
+  destination:
+    namespace: analytics
+    server: https://kubernetes.default.svc
+  project: infra
+  source:
+    path: kubernetes/kustomize/anubis/overlays/prod/umami
+    repoURL: https://github.com/opentelekomcloud-infra/system-config
+    targetRevision: umami-fix
+  syncPolicy:
+    automated:
+      prune: true
+    syncOptions:
+      - PruneLast=true

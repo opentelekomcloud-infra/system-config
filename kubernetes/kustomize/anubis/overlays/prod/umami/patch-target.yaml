@@ -1,50 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: umami
-  labels:
-    app: umami
+  name: anubis
 spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: umami
   template:
-    metadata:
-      labels:
-        app: umami
     spec:
-      serviceAccount: "analytics"
-      containers:
-      - name: umami
-        command:
-          ["/bin/sh", "-c"]
-        args:
-          ['source /secrets/analytics-env && yarn start-docker']
-        image: umami
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 3000
-        resources:
-          requests:
-            cpu: "500m"
-            memory: "500Mi"
-          limits:
-            cpu: "500m"
-            memory: "500Mi"
-        readinessProbe:
-          tcpSocket:
-            port: 3000
-          initialDelaySeconds: 20
-          periodSeconds: 10
-        livenessProbe:
-          tcpSocket:
-            port: 3000
-          initialDelaySeconds: 20
-          periodSeconds: 5
-        volumeMounts:
-        - mountPath: "/secrets"
-          name: "secrets"
+      serviceAccountName: anubis-vault-auth
       initContainers:
         - name: "vault-agent"
           command:
@@ -54,6 +15,10 @@ spec:
           env:
             - name: "VAULT_ADDR"
               value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+          securityContext:
+            runAsUser: 100
+            runAsGroup: 1000
+            fsGroup: 1000
           image: "hashicorp/vault"
           resources:
             limits:
@@ -74,7 +39,7 @@ spec:
         - name: vault-agent-config
           configMap:
             defaultMode: 420
-            name: analytics-vault-config
+            name: vault-agent-config
 
         - name: secrets
           emptyDir: {}
@@ -86,3 +51,13 @@ spec:
             - serviceAccountToken:
                 expirationSeconds: 7200
                 path: "vault-token"
+
+      containers:
+        - name: anubis
+          volumeMounts:
+            - name: secrets
+              mountPath: "/secrets"
+              readOnly: true
+          env:
+            - name: TARGET
+              value: "http://umami:3000"
