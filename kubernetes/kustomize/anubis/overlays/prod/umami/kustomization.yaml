@@ -13,3 +13,7 @@ configMapGenerator:
   - name: vault-agent-config
     files:
       - vault-agent.hcl
+  - name: anubis-policy
+    behavior: merge
+    files:
+      - botPolicies-umami.yaml=./config/botPolicies-umami.yaml

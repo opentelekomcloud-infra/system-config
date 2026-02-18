@@ -61,3 +61,5 @@ spec:
           env:
             - name: TARGET
               value: "http://umami:3000"
+            - name: POLICY_FNAME
+              value: "/etc/anubis/botPolicies-umami.yaml"
