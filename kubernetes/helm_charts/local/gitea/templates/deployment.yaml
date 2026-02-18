@@ -56,7 +56,7 @@ spec:
               set -e
               mkdir -p /data/gitea/conf
               cp /config/app.ini /data/gitea/conf/app.ini
-              chown -R 1000:1000 /data/gitea
+              chown -R 1000:1000 /data
           volumeMounts:
             - name: gitea-data
               mountPath: /data
