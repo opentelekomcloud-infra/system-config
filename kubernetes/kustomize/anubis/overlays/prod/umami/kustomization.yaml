@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: analytics
+
+resources:
+  - ../../../base
+  - service-account.yaml
+
+patchesStrategicMerge:
+  - patch-target.yaml
+
+configMapGenerator:
+  - name: vault-agent-config
+    files:
+      - vault-agent.hcl
+  - name: anubis-policy
+    behavior: merge
+    files:
+      - botPolicies-umami.yaml=./config/botPolicies-umami.yaml
