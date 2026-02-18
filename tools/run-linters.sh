@@ -1,12 +1,16 @@
 #!/bin/bash
 # Run linters only on files changed in the current change/PR.
 #
-# In Zuul's check pipeline, the repo is checked out with the change
-# applied as a commit on top of the target branch. Therefore
-# `git diff --name-only HEAD~1` gives exactly the files changed in
-# the PR vs the target branch.
+# In Zuul's environment the workspace is a full git clone checked out
+# at the PR head. We diff against the merge-base with the target
+# branch to find exactly which files the PR changes.
 #
-# Set FULL_LINT=1 to force linting the entire repository.
+# Environment variables (set by Zuul playbook / tox passenv):
+#   ZUUL_TARGET_BRANCH  – the target branch of the PR (e.g. "preprod")
+#   FULL_LINT=1         – force linting the entire repository
+#
+# If ZUUL_TARGET_BRANCH is not set, the script tries to auto-detect
+# the target branch from the remote.
 
 set -eo pipefail
 
@@ -17,19 +21,43 @@ cd "$ROOT"
 if [ "${FULL_LINT:-0}" = "1" ]; then
     echo "*** FULL_LINT=1 — running linters against entire repository ***"
     FULL=1
-elif git rev-parse HEAD~1 >/dev/null 2>&1; then
-    DIFF_FILES=$(git diff --name-only --diff-filter=ACMR HEAD~1 || true)
-    if [ -z "$DIFF_FILES" ]; then
-        echo "No files changed. Nothing to lint."
-        exit 0
-    fi
-    echo "=== Files changed in this PR ==="
-    echo "$DIFF_FILES"
-    echo "================================="
-    FULL=0
 else
-    echo "*** Cannot determine parent commit — running full lint ***"
-    FULL=1
+    # Resolve the target (base) branch
+    if [ -n "${ZUUL_TARGET_BRANCH:-}" ]; then
+        TARGET_REF="origin/${ZUUL_TARGET_BRANCH}"
+        echo "Using ZUUL_TARGET_BRANCH=${ZUUL_TARGET_BRANCH}"
+    else
+        # Auto-detect: try preprod, then main, then master
+        TARGET_REF=""
+        for branch in preprod main master; do
+            if git rev-parse --verify "origin/$branch" >/dev/null 2>&1; then
+                TARGET_REF="origin/$branch"
+                echo "Auto-detected target branch: $branch"
+                break
+            fi
+        done
+    fi
+
+    if [ -z "$TARGET_REF" ]; then
+        echo "*** Cannot determine target branch — running full lint ***"
+        FULL=1
+    else
+        MERGE_BASE=$(git merge-base "$TARGET_REF" HEAD 2>/dev/null || true)
+        if [ -z "$MERGE_BASE" ]; then
+            echo "*** Cannot find merge-base with $TARGET_REF — running full lint ***"
+            FULL=1
+        else
+            DIFF_FILES=$(git diff --name-only --diff-filter=ACMR "$MERGE_BASE" HEAD || true)
+            if [ -z "$DIFF_FILES" ]; then
+                echo "No files changed vs $TARGET_REF. Nothing to lint."
+                exit 0
+            fi
+            echo "=== Files changed in this PR (vs $TARGET_REF, merge-base $MERGE_BASE) ==="
+            echo "$DIFF_FILES"
+            echo "================================="
+            FULL=0
+        fi
+    fi
 fi
 
 ERRORS=0
