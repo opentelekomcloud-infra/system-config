@@ -1,4 +1,13 @@
 bots:
+  # --- Umami tracking must be unchallenged ---
+  - name: umami-tracker-script
+    path_regex: ^/script\.js$
+    action: ALLOW
+
+  - name: umami-collect-send
+    path_regex: ^/api/send$
+    action: ALLOW
+
   # Import IP whitelist from Vault
   - import: /secrets/ip-whitelist.yaml
   # Pathological bots to deny
