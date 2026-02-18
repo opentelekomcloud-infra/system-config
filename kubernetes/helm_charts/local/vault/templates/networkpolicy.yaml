@@ -1,0 +1,89 @@
+{{- if .Values.networkPolicy.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vault-network-policy
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    {{- with .Values.networkPolicy.podSelector }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # Allow Vault-to-Vault communication (raft/cluster)
+    - from:
+        - podSelector:
+            {{- with .Values.networkPolicy.podSelector }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+      ports:
+        - port: {{ .Values.networkPolicy.vaultPort }}
+          protocol: TCP
+        - port: {{ .Values.networkPolicy.clusterPort }}
+          protocol: TCP
+    # Allow from explicitly listed namespaces (with optional pod selector)
+    {{- range .Values.networkPolicy.allowedConsumers }}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .namespace }}
+          {{- if .podSelector }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .podSelector | nindent 14 }}
+          {{- end }}
+      ports:
+        - port: {{ $.Values.networkPolicy.vaultPort }}
+          protocol: TCP
+    {{- end }}
+    {{- if .Values.networkPolicy.allowIngress.enabled }}
+    # Allow ingress controller (for remote cluster vault-agent access via LB)
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ .Values.networkPolicy.allowIngress.namespace }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .Values.networkPolicy.allowIngress.podSelector | nindent 14 }}
+      ports:
+        - port: {{ .Values.networkPolicy.vaultPort }}
+          protocol: TCP
+    {{- end }}
+  egress:
+    # Vault to Vault (raft replication)
+    - to:
+        - podSelector:
+            {{- with .Values.networkPolicy.podSelector }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+      ports:
+        - port: {{ .Values.networkPolicy.vaultPort }}
+          protocol: TCP
+        - port: {{ .Values.networkPolicy.clusterPort }}
+          protocol: TCP
+    # DNS resolution
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: coredns
+      ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
+    # Allow egress to Kubernetes API (for K8s auth)
+    - to:
+        - ipBlock:
+            cidr: 0.0.0.0/0
+      ports:
+        - port: 443
+          protocol: TCP
+        - port: 6443
+          protocol: TCP
+{{- end }}
