@@ -11,22 +11,15 @@ resources:
 
 # Security contexts - run as non-root with read-only filesystem
 podSecurityContext:
-  runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 1000
+  # fsGroup ensures the git user (1000) can access PVC files
   fsGroup: 1000
   seccompProfile:
     type: RuntimeDefault
 
 securityContext:
-  allowPrivilegeEscalation: false
-  readOnlyRootFilesystem: false  # Gitea needs to write to some dirs
-  runAsNonRoot: true
-  runAsUser: 1000
-  runAsGroup: 1000
-  capabilities:
-    drop:
-      - ALL
+  # gitea/gitea (non-rootless) uses s6-overlay which must start as root
+  # and drops privileges to uid 1000 internally
+  readOnlyRootFilesystem: false
 
 service:
   type: ClusterIP
