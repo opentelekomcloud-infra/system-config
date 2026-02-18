@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: placeholder
+spec:
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          annotations:
+            vault.hashicorp.com/agent-inject-template-bug-config: |
+              {{- with secret "secret/data/giji/config" -}}
+              export JIRA_PROJECT_KEY="{{ .Data.data.jira_project_key }}"
+              export TARGET_SQUADS="{{ .Data.data.target_squads }}"
+              export IMPORTED_LABEL="{{ .Data.data.imported_label }}"
+              export JIRA_ISSUE_TYPE="{{ .Data.data.jira_issue_type }}"
+              {{- end }}
