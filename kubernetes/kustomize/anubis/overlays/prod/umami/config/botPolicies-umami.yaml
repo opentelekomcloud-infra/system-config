@@ -3,7 +3,6 @@ bots:
   - name: umami-tracker-script
     path_regex: ^/script\.js$
     action: ALLOW
-
   - name: umami-collect-send
     path_regex: ^/api/send$
     action: ALLOW
