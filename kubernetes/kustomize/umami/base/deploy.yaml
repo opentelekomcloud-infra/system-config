@@ -21,7 +21,7 @@ spec:
           ["/bin/sh", "-c"]
         args:
           ['source /secrets/analytics-env && yarn start-docker']
-        image: quay.io/opentelekomcloud/umami:3.0.3
+        image: umami
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3000

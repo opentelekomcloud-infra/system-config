@@ -11,5 +11,5 @@ configMapGenerator:
 
 images:
   - name: umami
-    newName: ghcr.io/umami-software/umami
+    newName: quay.io/opentelekomcloud/umami
     newTag: "3.0.3"
