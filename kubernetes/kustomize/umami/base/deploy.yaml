@@ -33,15 +33,28 @@ spec:
             cpu: "500m"
             memory: "500Mi"
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/heartbeat
             port: 3000
-          initialDelaySeconds: 20
           periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 6
+
         livenessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/heartbeat
             port: 3000
-          initialDelaySeconds: 20
-          periodSeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+
+        startupProbe:
+          httpGet:
+            path: /api/heartbeat
+            port: 3000
+          periodSeconds: 2
+          timeoutSeconds: 2
+          failureThreshold: 9
         volumeMounts:
         - mountPath: "/secrets"
           name: "secrets"
