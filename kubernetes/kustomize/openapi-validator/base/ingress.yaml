@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: openapi-validator.eco.tsi-dev.otc-service.com
+    - host: openapi-validator.example.com
       http:
         paths:
           - backend:
@@ -27,5 +27,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - openapi-validator.eco.tsi-dev.otc-service.com
+        - openapi-validator.example.com
       secretName: openapi-validator-tls-cert
