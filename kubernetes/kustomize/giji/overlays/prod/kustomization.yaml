@@ -4,8 +4,6 @@ kind: Kustomization
 resources:
   - ../../base
 
-namespace: giji
-
 images:
   - name: "quay.io/opentelekomcloud/giji"
     newTag: "1.0.0"

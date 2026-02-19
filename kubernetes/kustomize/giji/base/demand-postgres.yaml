@@ -6,8 +6,12 @@ metadata:
 spec:
   concurrencyPolicy: Forbid
   schedule: "*/30 * * * *"  # Every 30 minutes - adjust as needed
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 300
   jobTemplate:
     spec:
+      backoffLimit: 3
       template:
         spec:
           serviceAccount: giji
@@ -23,7 +27,7 @@ spec:
                 runAsNonRoot: true
                 runAsUser: 1000
               image: quay.io/opentelekomcloud/giji:latest
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: Always
               command:
                 - /bin/sh
                 - -c

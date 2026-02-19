@@ -19,7 +19,7 @@ patches:
   # Apply bug/bulk-specific config
   - target:
       kind: CronJob
-      name: gigi-bulk-import
+      name: giji-bulk-import
     path: bug-demand-config-patch.yaml
   - target:
       kind: CronJob

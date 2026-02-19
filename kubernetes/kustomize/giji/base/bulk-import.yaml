@@ -6,8 +6,12 @@ metadata:
 spec:
   concurrencyPolicy: Forbid
   schedule: "0 2 * * 0"  # Every Sunday at 02:00 UTC - adjust as needed
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 600
   jobTemplate:
     spec:
+      backoffLimit: 3
       template:
         spec:
           serviceAccount: giji
@@ -23,13 +27,11 @@ spec:
                 runAsNonRoot: true
                 runAsUser: 1000
               image: quay.io/opentelekomcloud/giji:latest
-              imagePullPolicy: IfNotPresent
+              imagePullPolicy: Always
               command:
                 - /bin/sh
                 - -c
                 - |
-                  source /vault/secrets/giji-env
-                  source /vault/secrets/bug-config
                   python3 -m scripts.bulk_import
               resources:
                 requests:
