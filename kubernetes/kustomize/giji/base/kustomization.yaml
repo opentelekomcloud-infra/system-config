@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: giji
+
+resources:
+  - 00-namespace.yaml
+  - 01-sa.yaml
+  - secret-giji-env.yaml
+  - secret-bug-config.yaml
+  - secret-demand-config.yaml
+  - secret-jira-certs.yaml
+  - bulk-import.yaml
+  - bug-postgres.yaml
+  - demand-postgres.yaml
