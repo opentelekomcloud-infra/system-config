@@ -1,0 +1,4 @@
+---
+# Values for kubernetes-replicator local chart (prod)
+# This chart manages additional resources for the replicator deployment
+# such as secrets that need to be replicated across namespaces

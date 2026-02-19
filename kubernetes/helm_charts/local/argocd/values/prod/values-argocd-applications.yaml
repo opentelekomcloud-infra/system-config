@@ -152,6 +152,40 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: kubernetes-replicator
+    clusters: [otcinfra2]
+    config:
+      namespace: kube-system
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/upstream/kubernetes-replicator
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: kubernetes-replicator-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: kube-system
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Argocd_migratio_to_prod'
+      path: kubernetes/helm_charts/local/kubernetes-replicator
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # - name: cert-manager
   #   clusters: [preprod]
   #   config:
@@ -208,7 +242,7 @@ applications:
     config:
       namespace: giji
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Giji_improvements'
+      targetRevision: 'giji_first_build'
       path: kubernetes/kustomize/giji/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
