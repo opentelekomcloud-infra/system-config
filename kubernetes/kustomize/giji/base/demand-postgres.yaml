@@ -56,4 +56,4 @@ spec:
             - name: jira-certs
               secret:
                 secretName: giji-jira-certs
-                defaultMode: 0600
+                defaultMode: 0640
