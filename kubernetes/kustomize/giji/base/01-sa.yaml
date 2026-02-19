@@ -4,4 +4,4 @@ metadata:
   name: giji
   namespace: giji
 imagePullSecrets:
-  - name: default-secret
+  - name: quay-pull-secret
