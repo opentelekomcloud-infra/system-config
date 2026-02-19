@@ -13,7 +13,7 @@ labels:
 images:
   - name: openapi-validator
     newName: quay.io/opentelekomcloud/openapi-validator
-    newTag: v0.6.2
+    newTag: v0.8.0
 
 resources:
   - ../../base
@@ -28,7 +28,7 @@ configMapGenerator:
 patches:
   - target:
       kind: Ingress
-      name: ingress
+      name: openapi-validator
     patch: |-
       - op: replace
         path: /spec/rules/0/host

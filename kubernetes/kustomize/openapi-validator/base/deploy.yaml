@@ -24,7 +24,7 @@ spec:
         prometheus.io/path: "/metrics"
     spec:
       serviceAccountName: openapi-validator
-      automountServiceAccountToken: false
+      automountServiceAccountToken: true
       terminationGracePeriodSeconds: 30
       securityContext:
         runAsNonRoot: true

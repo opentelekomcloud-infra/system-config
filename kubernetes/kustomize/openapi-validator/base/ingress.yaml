@@ -6,8 +6,8 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "50m"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
-    nginx.ingress.kubernetes.io/rate-limit: "100"
-    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/limit-rps: "100"
+    nginx.ingress.kubernetes.io/limit-rpm: "6000"
     cert-manager.io/cluster-issuer: letsencrypt-prod
     cert-manager.io/private-key-algorithm: RSA
     cert-manager.io/private-key-size: "4096"
@@ -15,7 +15,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: openapi-validator.eco-preprod.tsi-dev.otc-service.com
+    - host: openapi-validator.example.com
       http:
         paths:
           - backend:
@@ -27,5 +27,5 @@ spec:
             pathType: Prefix
   tls:
     - hosts:
-        - openapi-validator.eco-preprod.tsi-dev.otc-service.com
+        - openapi-validator.example.com
       secretName: openapi-validator-tls-cert
