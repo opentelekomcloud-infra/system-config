@@ -23,7 +23,7 @@ spec:
                 runAsNonRoot: true
                 runAsUser: 1000
               image: quay.io/opentelekomcloud/giji:latest
-              imagePullPolicy: Always
+              imagePullPolicy: IfNotPresent
               command:
                 - /bin/sh
                 - -c
