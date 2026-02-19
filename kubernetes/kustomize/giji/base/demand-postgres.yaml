@@ -29,12 +29,14 @@ spec:
               image: quay.io/opentelekomcloud/giji:latest
               imagePullPolicy: Always
               command:
-                - /bin/sh
-                - -c
-                - |
-                  source /vault/secrets/giji-env
-                  source /vault/secrets/demand-config
-                  python3 -m scripts.demand_postgres
+                - python3
+                - -m
+                - scripts.demand_postgres
+              envFrom:
+                - secretRef:
+                    name: giji-env
+                - secretRef:
+                    name: giji-demand-config
               resources:
                 requests:
                   memory: "256Mi"
@@ -45,6 +47,13 @@ spec:
               volumeMounts:
                 - name: tmp
                   mountPath: /tmp
+                - name: jira-certs
+                  mountPath: /etc/giji/certs
+                  readOnly: true
           volumes:
             - name: tmp
               emptyDir: {}
+            - name: jira-certs
+              secret:
+                secretName: giji-jira-certs
+                defaultMode: 0600
