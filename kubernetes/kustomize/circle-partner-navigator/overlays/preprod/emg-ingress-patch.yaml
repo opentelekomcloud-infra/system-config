@@ -1,0 +1,24 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: express-mail-gateway
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  rules:
+    - host: cpn-mail.eco-preprod.tsi-dev.otc-service.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: express-mail-gateway
+                port:
+                  number: 6000
+  tls:
+    - hosts:
+        - cpn-mail.eco-preprod.tsi-dev.otc-service.com
+      secretName: emg-tls

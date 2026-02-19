@@ -1,9 +1,0 @@
-- hosts: keycloak-controller:!disabled
-  name: "Configure Keycloak instances"
-  tasks:
-    - name: Configure Keycloak instance
-      include_role:
-        name: "configure_keycloak"
-      vars:
-        keycloak: "{{ item.value }}"
-      loop: "{{ keycloak_instances | dict2items }}"

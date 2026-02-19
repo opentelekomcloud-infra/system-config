@@ -1,0 +1,37 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+images:
+  - name: "dependencytrack/apiserver"
+    newName: "quay.io/opentelekomcloud/dependencytrack-apiserver"
+    newTag: "4.13.6"
+  - name: "dependencytrack/frontend"
+    newName: "quay.io/opentelekomcloud/dependencytrack-frontend"
+    newTag: "4.13.6"
+  - name: "aquasec/trivy"
+    newName: "quay.io/opentelekomcloud/trivy"
+    newTag: "0.68.2"
+
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: base
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: dependencytrack
+    app.kubernetes.io/version: 1.0.0
+
+resources:
+- service.yaml
+- api.yaml
+- frontend.yaml
+- ingress.yaml
+- trivy-statefulset.yaml
+- trivy-service.yaml
+
+configMapGenerator:
+- envs:
+  - dependencytrack.env
+  name: dependencytrack-config
+- envs:
+  - dependencytrack-api.env
+  name: dependencytrack-api-config

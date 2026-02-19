@@ -1,0 +1,8 @@
+apiVersion: v2
+name: vault
+description: HashiCorp Vault for OTC preprod environment
+version: 0.1.0
+dependencies:
+  - name: vault
+    version: "0.30.0"
+    repository: "https://helm.releases.hashicorp.com"

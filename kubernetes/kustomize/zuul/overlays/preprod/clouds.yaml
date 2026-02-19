@@ -1,0 +1,15 @@
+---
+# Nodepool openstacksdk configuration for preprod environment
+# Using ArgoCD Vault Plugin syntax
+cache:
+  expiration:
+    server: 5
+    port: 5
+    floating-ip: 5
+clouds:
+  zuul-logs:
+    # Swift cluster for log storage via public Ingress
+    # Uses public HTTPS endpoint without authentication
+    auth_type: none
+    endpoint: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com/v1/AUTH_zuul-preprod-logs
+    region_name: eu-de

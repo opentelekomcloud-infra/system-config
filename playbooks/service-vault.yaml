@@ -1,8 +1,0 @@
-- hosts: "vault:!disabled"
-  become: true
-  name: "Vault: configure vault instances"
-  serial: 1
-  roles:
-    # Group should be responsible for defining open ports
-    - firewalld
-    - hashivault

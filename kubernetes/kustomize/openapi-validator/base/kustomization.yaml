@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+- includeSelectors: true
+  pairs:
+    app.kubernetes.io/instance: base
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: openapi-validator
+    app.kubernetes.io/version: 1.0.0
+
+images:
+  - name: openapi-validator
+    newName: quay.io/opentelekomcloud/openapi-validator
+
+resources:
+- service.yaml
+- ingress.yaml
+- deploy.yaml
+- sa.yaml
+- secret.yaml
+
+configMapGenerator:
+- name: config
+  envs:
+  - openapi-validator.env
+
+replicas:
+- name: openapi-validator
+  count: 1
+
+generatorOptions:
+  disableNameSuffixHash: false
+  labels:
+    app.kubernetes.io/managed-by: kustomize

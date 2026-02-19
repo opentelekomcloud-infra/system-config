@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea-api-adapter
+  labels:
+    app: gitea-api-adapter
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gitea-api-adapter
+  template:
+    metadata:
+      labels:
+        app: gitea-api-adapter
+    spec:
+      imagePullSecrets:
+      - name: quay-image-pull-secret
+      containers:
+      - name: adapter
+        image: gitea-api-adapter:latest
+        ports:
+        - containerPort: 443
+          name: https
+        - containerPort: 8080
+          name: http
+        env:
+        - name: GITEA_BASE_URL
+          value: "https://gitea.eco.tsi-dev.otc-service.com"
+        - name: GITEA_API_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: gitea-api-adapter-secret
+              key: gitea-api-token
+        - name: DEBUG
+          value: "true"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "500m"

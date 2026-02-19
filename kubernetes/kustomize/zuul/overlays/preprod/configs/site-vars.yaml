@@ -1,0 +1,24 @@
+---
+# Site-specific variables for Zuul executor
+
+# Log storage configuration - Hybrid approach:
+# - Swift/OBS: Long-term historical storage (uploaded for all jobs, no auto-deletion)
+# - SFS Turbo: Local logs with 90-day retention via CronJob (for quick access)
+
+# Enable Swift upload to internal Swift cluster for log storage
+zuul_site_upload_logs: true
+
+# OpenStack cloud configuration for Swift log upload
+zuul_log_cloud_config: zuul-logs
+
+# Swift/OBS container configuration
+zuul_log_container: zuul-preprod-logs
+zuul_log_container_public: false  # Private container but with public read ACL for log access
+zuul_log_partition: false
+zuul_log_create_indexes: true
+
+# Swift object deletion - 90 days retention
+zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
+
+# Log path is set automatically by set-zuul-log-path-fact role
+# DO NOT set zuul_log_path here - it will be generated dynamically per build

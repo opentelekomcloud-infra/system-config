@@ -1,0 +1,85 @@
+victoria-metrics-auth:
+  replicaCount: 2
+  image:
+    repository: victoriametrics/vmauth
+    tag: "v1.117.1"
+    pullPolicy: IfNotPresent
+  containerWorkingDir: "/"
+  rbac:
+    pspEnabled: true
+  serviceAccount:
+    create: true
+  podDisruptionBudget:
+    enabled: false
+  extraArgs:
+    reloadAuthKey: <path:secret/data/victoriametrics/preprod#vmauth_password>
+    flagsAuthKey: <path:secret/data/victoriametrics/preprod#vmauth_password>
+    metricsAuthKey: <path:secret/data/victoriametrics/preprod#vmauth_password>
+    envflag.enable: "true"
+    envflag.prefix: VM_
+    loggerFormat: json
+  service:
+    enabled: true
+    servicePort: 8427
+    type: ClusterIP
+  ingress:
+    enabled: true
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
+    hosts:
+      - name: vm.eco-preprod.tsi-dev.otc-service.com
+        path: /
+        port: http
+    tls:
+      - secretName: vmauth-ingress-tls
+        hosts:
+          - vm.eco-preprod.tsi-dev.otc-service.com
+    ingressClassName: nginx
+    pathType: Prefix
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+  config:
+    users:
+      - username: <path:secret/data/victoriametrics/preprod#vmauth_username>
+        password: <path:secret/data/victoriametrics/preprod#vmauth_password>
+        url_map:
+          - src_paths:
+              - /api/v1/write
+            url_prefix: "http://victoria-metrics-cluster-preprod-vminsert.monitoring.svc.cluster.local:8480/insert/0/prometheus"
+          - src_paths:
+              - /vmui/.*
+              - /prometheus/vmui/.*
+              - /prometheus/graph
+              - /prometheus/api/v1/label.*
+              - /prometheus/api/v1/query.*
+              - /prometheus/api/v1/rules
+              - /prometheus/api/v1/alerts
+              - /prometheus/api/v1/metadata
+              - /prometheus/api/v1/series.*
+              - /prometheus/api/v1/status.*
+              - /prometheus/api/v1/export.*
+              - /prometheus/federate
+              - /prometheus/api/v1/admin/tsdb/delete_series
+            url_prefix: "http://victoria-metrics-cluster-preprod-vmselect.monitoring.svc.cluster.local:8481/select/0"
+          - src_paths:
+              - /
+            url_prefix: "http://victoria-metrics-cluster-preprod-vmselect.monitoring.svc.cluster.local:8481/select/0/vmui/"
+          - src_paths:
+              - /vminsert/.+
+            drop_src_path_prefix_parts: 1
+            url_prefix: "http://victoria-metrics-cluster-preprod-vminsert.monitoring.svc.cluster.local:8480/"
+          - src_paths:
+              - /vmselect/.+
+            drop_src_path_prefix_parts: 1
+            url_prefix: "http://victoria-metrics-cluster-preprod-vmselect.monitoring.svc.cluster.local:8481/"
+          - src_paths:
+              - /vmstorage/.+
+            drop_src_path_prefix_parts: 1
+            url_prefix: "http://victoria-metrics-cluster-preprod-vmstorage.monitoring.svc.cluster.local:8482/"

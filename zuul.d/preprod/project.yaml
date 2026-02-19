@@ -1,0 +1,23 @@
+---
+- project:
+    name: opentelekomcloud-infra/system-config
+    merge-mode: squash-merge
+    check:
+      jobs:
+        - otc-tox-linters:
+            nodeset: zuul-debian
+            branches: ^(?!main$).*$
+        - otc-tox-docs:
+            nodeset: zuul-debian
+            branches: ^(?!main$).*$
+    gate:
+      jobs:
+        - otc-tox-linters:
+            nodeset: zuul-debian
+            branches: ^.*$
+        - otc-tox-docs:
+            nodeset: zuul-debian
+            branches: ^.*$
+    post:
+      jobs:
+        - project-cleanup

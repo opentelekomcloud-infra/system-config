@@ -29,7 +29,7 @@ spec:
             - "-f"
             - "-d"
             - "-c"
-            - "/data/nodepool/nodepool.yaml"
+            - "/etc/nodepool/nodepool.yaml"
 
           resources:
             limits:
@@ -43,6 +43,16 @@ spec:
             runAsGroup: 10001
 
           volumeMounts:
+            - name: "nodepool-config-yaml"
+              mountPath: "/etc/nodepool/nodepool.yaml"
+              subPath: "nodepool.yaml"
+              readOnly: true
+
+            - name: "nodepool-config"
+              mountPath: "/etc/openstack/clouds.yaml"
+              subPath: "clouds.yaml"
+              readOnly: true
+
             - name: "zookeeper-client-tls"
               mountPath: "/tls/client"
               readOnly: true
@@ -53,11 +63,12 @@ spec:
             - name: "nodepool-lib"
               mountPath: "/var/lib/nodepool"
 
-      nodeSelector:
-        dedicated: zuul-ci
-
       serviceAccountName: "zuul"
       volumes:
+        - name: "nodepool-config-yaml"
+          configMap:
+            name: "nodepool-config-yaml"
+
         - name: "nodepool-config"
           secret:
             secretName: "nodepool-config"
