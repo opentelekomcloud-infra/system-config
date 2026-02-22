@@ -29,7 +29,7 @@ template {
   contents = <<EOT
 http_address = "0.0.0.0:4180"
 provider = "oidc"
-redirect_url = "https://backstage.eco.tsi-dev.otc-service.com/oauth2/callback"
+redirect_url = "https://backstage.eco-preprod.tsi-dev.otc-service.com/oauth2/callback"
 email_domains = [
     "*"
 ]
@@ -44,7 +44,7 @@ client_id = "{{ .Data.data.client_id }}"
 client_secret = "{{ .Data.data.client_secret }}"
 cookie_secret = "{{ .Data.data.cookie_secret }}"
 {{- end }}
-oidc_issuer_url = "https://keycloak.eco.tsi-dev.otc-service.com/realms/eco"
+oidc_issuer_url = "https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco"
 allowed_groups = [
     "/backstage",
 ]

@@ -11,31 +11,12 @@ spec:
         spec:
           serviceAccount: "eyes-on-docs"
           restartPolicy: OnFailure
-          initContainers:
-            - name: "vault-agent"
-              command:
-                - "sh"
-                - "-c"
-                - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
-              env:
-                - name: "VAULT_ADDR"
-                  value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-              image: "hashicorp/vault"
-              resources:
-                limits:
-                  cpu: "100m"
-                  memory: "100Mi"
-                requests:
-                  cpu: "50m"
-                  memory: "50Mi"
-              volumeMounts:
-                - mountPath: "/etc/vault"
-                  name: "vault-agent-config"
-                - mountPath: "/secrets"
-                  name: "secrets"
-                - mountPath: "/var/run/secrets/tokens"
-                  name: "k8-tokens"
-                  readOnly: true
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
           containers:
             - name: eyes-on-docs-scheduler
               image: quay.io/opentelekomcloud/eyes_on_docs
@@ -43,21 +24,23 @@ spec:
               command:
               - "/bin/sh"
               - "-c"
-              - "source /secrets/gdm-env; python3 main.py --eod9"
-              volumeMounts:
-                - mountPath: "/secrets"
-                  name: "secrets"
-          volumes:
-            - name: vault-agent-config
-              configMap:
-                defaultMode: 420
-                name: eyes-on-docs-vault-config
-            - name: secrets
-              emptyDir: {}
-            - name: "k8-tokens"
-              projected:
-                defaultMode: 420
-                sources:
-                - serviceAccountToken:
-                    expirationSeconds: 7200
-                    path: "vault-token"
+              args:
+              - "python3 main.py --eod9"
+              envFrom:
+              - secretRef:
+                  name: eyes-on-docs-credentials
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                  - ALL
+                readOnlyRootFilesystem: false
+                runAsNonRoot: true
+                runAsUser: 1000
+              resources:
+                limits:
+                  cpu: "500m"
+                  memory: "512Mi"
+                requests:
+                  cpu: "100m"
+                  memory: "128Mi"

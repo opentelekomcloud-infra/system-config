@@ -18,9 +18,9 @@ spec:
       containers:
       - name: umami
         command:
-          ["/bin/sh", "-c"]
+          - "node"
         args:
-          ['source /secrets/analytics-env && yarn start-docker']
+          - "/app/server.js"
         image: umami
         imagePullPolicy: IfNotPresent
         ports:
@@ -33,56 +33,18 @@ spec:
             cpu: "500m"
             memory: "500Mi"
         readinessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/config
             port: 3000
           initialDelaySeconds: 20
           periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3
         livenessProbe:
-          tcpSocket:
+          httpGet:
+            path: /api/config
             port: 3000
-          initialDelaySeconds: 20
-          periodSeconds: 5
-        volumeMounts:
-        - mountPath: "/secrets"
-          name: "secrets"
-      initContainers:
-        - name: "vault-agent"
-          command:
-            - "sh"
-            - "-c"
-            - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
-          env:
-            - name: "VAULT_ADDR"
-              value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-          image: "hashicorp/vault"
-          resources:
-            limits:
-              cpu: "100m"
-              memory: "100Mi"
-            requests:
-              cpu: "50m"
-              memory: "50Mi"
-          volumeMounts:
-            - mountPath: "/etc/vault"
-              name: "vault-agent-config"
-            - mountPath: "/secrets"
-              name: "secrets"
-            - mountPath: "/var/run/secrets/tokens"
-              name: "k8-tokens"
-              readOnly: true
-      volumes:
-        - name: vault-agent-config
-          configMap:
-            defaultMode: 420
-            name: analytics-vault-config
-
-        - name: secrets
-          emptyDir: {}
-
-        - name: "k8-tokens"
-          projected:
-            defaultMode: 420
-            sources:
-            - serviceAccountToken:
-                expirationSeconds: 7200
-                path: "vault-token"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 5

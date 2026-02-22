@@ -1,7 +1,0 @@
----
-- name: Write swift rsyslog conf
-  ansible.builtin.template:
-    dest: "/etc/rsyslog.d/10-swift.conf"
-    src: "rsyslog.swift.conf.j2"
-  notify:
-    - Restart rsyslog

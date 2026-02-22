@@ -1,0 +1,62 @@
+# Vault additional manifests configuration for preprod
+# This chart provides supplementary resources not available in upstream Vault Helm chart
+#
+# NetworkPolicy: deny-all by default, only explicitly listed consumers can reach Vault.
+
+networkPolicy:
+  enabled: true
+
+  # Pod selector for Vault pods
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: vault
+
+  # Explicit list of namespaces/pods allowed to connect to Vault on port 8200.
+  # Each entry creates a separate ingress rule. All unlisted namespaces are denied.
+  allowedConsumers:
+    # ArgoCD — vault-agent sidecars on argocd-server and argocd-repo-server
+    # repo-server also runs argocd-vault-plugin for secret injection
+    - namespace: argocd
+
+    # Prometheus — scrape Vault /v1/sys/metrics
+    - namespace: monitoring
+      podSelector:
+        app.kubernetes.io/name: prometheus
+
+  # Ingress controller — required for external access (e.g., Gitea runners)
+  allowIngress:
+    enabled: true
+    namespace: default
+    podSelector:
+      app.kubernetes.io/name: ingress-nginx
+
+  # Vault API port
+  vaultPort: 8200
+
+  # Vault cluster port (for raft replication)
+  clusterPort: 8201
+
+# Auto-unseal configuration
+# Bank-Vaults unsealer runs as a sidecar in the upstream Vault chart
+# The unsealer sidecar watches for sealed state and auto-unseals using K8s secret
+#
+# Required secret format (vault-unseal-keys in vault namespace):
+# The Bank-Vaults unsealer stores keys in a specific format.
+# For initial setup, create the secret with unseal keys from 'vault operator init':
+#
+#   kubectl -n vault create secret generic vault-unseal-keys \
+#     --from-literal=vault-root=<root-token> \
+#     --from-literal=vault-unseal-0=<key1> \
+#     --from-literal=vault-unseal-1=<key2> \
+#     --from-literal=vault-unseal-2=<key3> \
+#     --from-literal=vault-unseal-3=<key4> \
+#     --from-literal=vault-unseal-4=<key5>
+#
+# See: https://bank-vaults.dev/docs/unseal-keys/
+
+# Unsealer RBAC - grants access to the vault-unseal-keys secret
+unsealer:
+  enabled: true
+  secretName: vault-unseal-keys
+  # The upstream vault chart creates ServiceAccount with fullnameOverride name
+  serviceAccountName: vault-preprod

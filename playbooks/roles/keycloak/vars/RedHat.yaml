@@ -1,6 +1,0 @@
----
-packages:
-  - podman
-  - java-latest-openjdk-headless
-
-container_command: podman
