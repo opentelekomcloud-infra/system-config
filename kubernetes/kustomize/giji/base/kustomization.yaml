@@ -6,28 +6,10 @@ namespace: giji
 resources:
   - 00-namespace.yaml
   - 01-sa.yaml
+  - secret-giji-env.yaml
+  - secret-bug-config.yaml
+  - secret-demand-config.yaml
+  - secret-jira-certs.yaml
   - bulk-import.yaml
   - bug-postgres.yaml
   - demand-postgres.yaml
-
-patches:
-  # Apply common Vault annotations to all cronjobs
-  - target:
-      kind: CronJob
-    path: vault-annotations-patch.yaml
-
-  # Apply bug/bulk-specific config
-  - target:
-      kind: CronJob
-      name: giji-bulk-import
-    path: bug-demand-config-patch.yaml
-  - target:
-      kind: CronJob
-      name: giji-bug-postgres
-    path: bug-demand-config-patch.yaml
-
-  # Apply demand-specific config
-  - target:
-      kind: CronJob
-      name: giji-demand-postgres
-    path: demand-config-patch.yaml
