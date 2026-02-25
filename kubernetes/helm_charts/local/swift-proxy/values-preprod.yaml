@@ -1,0 +1,244 @@
+# Swift Proxy for Zuul Preprod Environment
+# This values file configures swift-proxy with full Swift cluster in Kubernetes
+
+# Deployment mode: "obs-only" (zuul-storage-proxy to OBS) or "cluster" (full Swift cluster)
+mode: "cluster"
+
+replicaCount: 2
+
+# Proxy configuration
+proxy:
+  image:
+    repository: quay.io/openstack.kolla/swift-proxy-server
+    pullPolicy: IfNotPresent
+    tag: "2024.1-ubuntu-jammy"
+  port: 8080
+
+# Storage nodes configuration (only used in cluster mode)
+storage:
+  enabled: true
+  replicas: 1  # Single storage node using shared SFS Turbo
+  image:
+    # Kolla uses separate images for each service
+    object:
+      repository: quay.io/openstack.kolla/swift-object
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+    container:
+      repository: quay.io/openstack.kolla/swift-container
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+    account:
+      repository: quay.io/openstack.kolla/swift-account
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+  persistence:
+    enabled: true
+    # OTC EVS disk with CSI provisioner
+    existingClaim: ""  # Create new PVC in swift-proxy namespace
+    existingVolume: ""  # Let CSI provision the volume
+    storageClass: "csi-disk-retain"
+    accessMode: ReadWriteOnce
+    size: 100Gi  # OTC EVS disk
+    reclaimPolicy: Retain
+    # Local storage configuration (disabled for CSI)
+    localStorage:
+      enabled: false
+      # Node where XFS disk is mounted
+      nodeName: "192.168.150.167"
+      # Path where /dev/sdk is mounted with XFS
+      path: "/mnt/swift-storage"
+    sharedNFS:
+      enabled: false
+      server: ""
+      path: ""
+      mountOptions:
+        - nolock
+        - noresvport
+        - noatime
+        - nodiratime
+        - rsize=1048576
+        - wsize=1048576
+        - timeo=600
+        - retrans=2
+        - hard
+        - actimeo=120
+  resources:
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+    requests:
+      cpu: "50m"
+      memory: "512Mi"
+  # Ports for Swift services
+  ports:
+    object: 6200
+    container: 6201
+    account: 6202
+    rsync: 873
+
+serviceAccount:
+  create: true
+  name: "swift-proxy-zuul-preprod"
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
+  fsGroup: 42424
+
+securityContext:
+  allowPrivilegeEscalation: true
+  capabilities:
+    add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+  readOnlyRootFilesystem: false
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  name: http
+
+resources:
+  limits:
+    cpu: "2"
+    memory: "2Gi"
+  requests:
+    cpu: "75m"
+    memory: "1Gi"
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+# Swift configuration
+swift:
+  # Swift cluster configuration (used in cluster mode)
+  hashPathPrefix: "<path:secret/data/swift/config#hash_path_prefix>"
+  hashPathSuffix: "<path:secret/data/swift/config#hash_path_suffix>"
+  partitionPower: 14  # 2^14 = 16384 partitions
+  replicaFactor: 1  # Preprod: 1 replica (only 1 storage node), Prod: 3 replicas
+  minPartHours: 24
+
+  # Keystone auth configuration
+  keystoneAuth:
+    authUrl: "<path:secret/data/zuul/logs/otc_technical_user#auth_url>"
+    username: "<path:secret/data/zuul/logs/otc_technical_user#username>"
+    password: "<path:secret/data/zuul/logs/otc_technical_user#password>"
+    projectName: "<path:secret/data/zuul/logs/otc_technical_user#project_name>"
+    userDomainName: "<path:secret/data/zuul/logs/otc_technical_user#user_domain_name>"
+    regionName: "<path:secret/data/zuul/logs/otc_technical_user#region_name>"
+
+  # Proxy pipeline configuration
+  # Note: validatetoken filter from production is skipped (custom middleware not in Kolla)
+  proxyPipeline:
+    - catch_errors
+    - gatekeeper
+    - healthcheck
+    - proxy-logging
+    - cache
+    - container_sync
+    - bulk
+    - formpost
+    - ratelimit
+    - copy
+    - container-quotas
+    - account-quotas
+    - slo
+    - dlo
+    - versioned_writes
+    - symlink
+    - staticweb
+    - proxy-logging
+    - proxy-server
+
+# Legacy OBS-only configuration (kept for backward compatibility)
+# Only used when mode: "obs-only"
+cloudNames: "zuul-logs"
+
+# OpenStack clouds.yaml with ArgoCD Vault Plugin (OBS-only mode)
+clouds: |
+  zuul-logs:
+    auth:
+      auth_url: <path:secret/data/zuul/logs/otc_technical_user#auth_url>
+      username: <path:secret/data/zuul/logs/otc_technical_user#username>
+      password: <path:secret/data/zuul/logs/otc_technical_user#password>
+      project_name: <path:secret/data/zuul/logs/otc_technical_user#project_name>
+      user_domain_name: <path:secret/data/zuul/logs/otc_technical_user#user_domain_name>
+    auth_type: password
+    region_name: <path:secret/data/zuul/logs/otc_technical_user#region_name>
+    interface: public
+    object_store_endpoint_override: <path:secret/data/zuul/logs/otc_technical_user#object_store_endpoint>
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/duration: "8760h"  # 365 days
+    cert-manager.io/renew-before: "720h"  # 30 days before expiry
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+  hosts:
+    - host: swift-proxy.eco-preprod.tsi-dev.otc-service.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: swift-proxy-zuul-preprod-tls
+      hosts:
+        - swift-proxy.eco-preprod.tsi-dev.otc-service.com
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - swift-proxy
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - zuul-preprod
+          topologyKey: kubernetes.io/hostname
+
+# Readiness and liveness probes
+probes:
+  readiness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+  liveness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 5
+
+# URL Rewriter - nginx proxy that fixes trailing slash issue
+urlRewriter:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nginx
+    tag: "1.27-alpine"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "100m"
+      memory: "128Mi"

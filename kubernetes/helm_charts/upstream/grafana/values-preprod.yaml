@@ -1,0 +1,167 @@
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      defaultFolderName: "General"
+      label: grafana_dashboard
+      labelValue: "1"
+      folderAnnotation: grafana_folder
+      searchNamespace: grafana-preprod
+      provider:
+        name: sidecarProvider
+        orgId: 1
+        type: file
+        disableDelete: false
+        allowUiUpdates: true
+        foldersFromFilesStructure: true
+  grafana.ini:
+    server:
+      root_url: https://grafana.eco-preprod.tsi-dev.otc-service.com
+    auth.generic_oauth:
+      enabled: true
+      name: Keycloak
+      allow_sign_up: true
+      scopes: openid email profile
+      client_id: <path:secret/data/grafana/preprod#keycloak_client_id>
+      client_secret: <path:secret/data/grafana/preprod#keycloak_client_secret>
+      auth_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/auth
+      token_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/token
+      api_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/userinfo
+      role_attribute_path: contains(client_roles[*], 'grafana-preprod-admin') && 'Admin' || contains(client_roles[*], 'grafana-preprod-dev') && 'Viewer'
+      role_attribute_strict: true
+      tls_skip_verify_insecure: true
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+      - name: 'grafana-dashboards-kubernetes'
+        orgId: 1
+        folder: 'kubernetes'
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
+      - name: 'victoria-metrics'
+        orgId: 1
+        folder: 'victoria-metrics'
+        type: file
+        disableDeletion: true
+        editable: true
+        options:
+          path: /var/lib/grafana/dashboards/victoria-metrics
+  dashboards:
+    grafana-dashboards-kubernetes:
+      k8s-system-api-server:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-api-server.json
+        token: ''
+      k8s-system-coredns:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-system-coredns.json
+        token: ''
+      k8s-views-global:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-global.json
+        token: ''
+      k8s-views-namespaces:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-namespaces.json
+        token: ''
+      k8s-views-nodes:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-nodes.json
+        token: ''
+      k8s-views-pods:
+        url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
+        token: ''
+    victoria-metrics:
+      victoria-metrics-cluster:
+        url: https://raw.githubusercontent.com/VictoriaMetrics/VictoriaMetrics/master/dashboards/victoriametrics-cluster.json
+        token: ''
+      vmagent:
+        url: https://raw.githubusercontent.com/VictoriaMetrics/VictoriaMetrics/master/dashboards/vmagent.json
+        token: ''
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+      - name: Loki
+        type: loki
+        access: proxy
+        url: https://loki.eco-preprod.tsi-dev.otc-service.com
+        orgId: '1'
+        uid: 'loki'
+        basicAuth: true
+        basicAuthUser: <path:secret/data/grafana/preprod#loki_username>
+        isDefault: false
+        jsonData:
+          maxLines: 1000
+          tlsSkipVerify: true
+          httpHeaderName1: 'X-Scope-OrgID'
+        secureJsonData:
+          basicAuthPassword: <path:secret/data/grafana/preprod#loki_password>
+          httpHeaderValue1: <path:secret/data/grafana/preprod#loki_orgid>
+        version: '1'
+        editable: true
+      - name: Victoria Metrics
+        type: prometheus
+        access: proxy
+        orgId: '1'
+        uid: 'victoria-metrics'
+        url: https://vm.eco-preprod.tsi-dev.otc-service.com/prometheus
+        basicAuth: true
+        basicAuthUser: <path:secret/data/grafana/preprod#vm_username>
+        isDefault: true
+        jsonData:
+          tlsSkipVerify: true
+        secureJsonData:
+          basicAuthPassword: <path:secret/data/grafana/preprod#vm_password>
+        version: '1'
+        editable: true
+
+  replicas: 1
+
+  serviceMonitor:
+    enabled: true
+    path: /metrics
+    namespace: monitoring
+    labels:
+      release: prometheus-otcpreprod
+    interval: 30s
+    scheme: http
+    scrapeTimeout: 30s
+
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
+    path: /
+    port: http
+    pathType: Prefix
+    hosts:
+      - grafana.eco-preprod.tsi-dev.otc-service.com
+    tls:
+      - secretName: grafana-ingress-tls
+        hosts:
+          - grafana.eco-preprod.tsi-dev.otc-service.com
+
+  resources:
+    limits:
+      memory: 2048Mi
+    requests:
+      cpu: 50m
+      memory: 2048Mi
+
+  deploymentStrategy:
+    type: Recreate
+
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: csi-disk-retain
+    accessModes:
+      - ReadWriteOnce
+    size: 1Gi
+
+  assertNoLeakedSecrets: false

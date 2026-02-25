@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: eyes-on-docs
+
+# Use ArgoCD Vault Plugin (AVP) instead of Vault Agent sidecar
+# AVP annotations will be applied to secrets, not to pods directly
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: "preprod"
+      app.kubernetes.io/managed-by: "argocd"
+      environment: "preprod"
+
+resources:
+  - ../../base
+  - namespace.yaml
+
+# Secret with AVP annotations for Vault integration
+secretGenerator:
+  - name: eyes-on-docs-credentials
+    literals:
+      # GitHub credentials
+      - GITHUB_TOKEN=<path:secret/data/eyes-on-docs/github#token>
+      - GITHUB_FALLBACK_TOKEN=<path:secret/data/eyes-on-docs/github#fallback-token>
+      # PostgreSQL database credentials
+      - DB_HOST=<path:secret/data/eyes-on-docs/postgresql#host>
+      - DB_PORT=<path:secret/data/eyes-on-docs/postgresql#port>
+      - DB_NAME=<path:secret/data/eyes-on-docs/postgresql#dbname>
+      - DB_USER=<path:secret/data/eyes-on-docs/postgresql#username>
+      - DB_PASSWORD=<path:secret/data/eyes-on-docs/postgresql#password>
+      - DB_ORPH=<path:secret/data/eyes-on-docs/postgresql#dborph>
+      - DB_CSV=<path:secret/data/eyes-on-docs/postgresql#dbcsv>
+      - DB_ZUUL=<path:secret/data/eyes-on-docs/postgresql#dbzuul>
+      # Zulip bot credentials
+      #- OTC_BOT_API=<path:secret/data/eyes-on-docs/zulip#token>
+      # Gitea credentials
+      #- GITEA_TOKEN=<path:secret/data/eyes-on-docs/gitea#token>
+
+# Use latest stable version for preprod
+images:
+  - name: "quay.io/opentelekomcloud/eyes_on_docs"
+    newTag: "0.1.37"

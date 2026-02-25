@@ -1,9 +1,0 @@
-- name: Create or update Keycloak realm {{ realm.name }}
-  community.general.keycloak_realm:
-    state: "present"
-    auth_client_id: "admin-cli"
-    auth_keycloak_url: "{{ url }}"
-    token: "{{ token }}"
-    id: "{{ realm.name }}"
-    realm: "{{ realm.name }}"
-    enabled: True

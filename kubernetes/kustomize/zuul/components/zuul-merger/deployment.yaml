@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/part-of: "zuul"
     app.kubernetes.io/component: "zuul-merger"
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app.kubernetes.io/name: "zuul"
@@ -65,7 +65,8 @@ spec:
 
           resources:
             limits:
-              memory: "600Mi"
+              cpu: "2000m"
+              memory: "1Gi"
             requests:
               cpu: "50m"
               memory: "600Mi"
@@ -85,9 +86,6 @@ spec:
               mountPath: "/etc/zuul-config"
             - name: "zuul-var"
               mountPath: "/var/lib/zuul"
-
-      nodeSelector:
-        dedicated: zuul-ci
 
       serviceAccountName: "zuul"
       terminationGracePeriodSeconds: 120

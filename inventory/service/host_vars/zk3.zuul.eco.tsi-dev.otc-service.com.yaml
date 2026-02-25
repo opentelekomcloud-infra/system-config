@@ -1,3 +1,0 @@
-zookeeper_instance_group: "zuul-zookeeper"
-
-firewalld_extra_ports_enable: ['2181/tcp', '2281/tcp', '2888/tcp', '3888/tcp']

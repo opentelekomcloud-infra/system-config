@@ -14,24 +14,6 @@ spec:
     spec:
       serviceAccountName: mcaptcha
       terminationGracePeriodSeconds: 10
-      initContainers:
-      - name: "vault-agent"
-        image: "hashicorp/vault"
-        command:
-          - "sh"
-          - "-c"
-          - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
-        env:
-          - name: "VAULT_ADDR"
-            value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
-        volumeMounts:
-          - name: "vault-agent-config"
-            mountPath: "/etc/vault"
-          - name: "secrets"
-            mountPath: "/secrets"
-          - name: "k8-tokens"
-            mountPath: "/var/run/secrets/tokens"
-            readOnly: true
       containers:
       - name: mcaptcha
         image: quay.io/opentelekomcloud/mcaptcha
@@ -40,12 +22,9 @@ spec:
         command: ["/bin/bash", "-c"]
         args:
           - 'source /secrets/mcaptcha-env && /usr/local/bin/mcaptcha'
-        volumeMounts:
-          - name: "secrets"
-            mountPath: "/secrets"
         resources:
           requests:
-            cpu: "500m"
+            cpu: "100m"
             memory: "256Mi"
         livenessProbe:
           httpGet:
@@ -59,15 +38,3 @@ spec:
             port: 7001
           initialDelaySeconds: 5
           periodSeconds: 5
-      volumes:
-        - name: "vault-agent-config"
-          configMap:
-            name: "mcaptcha-vault-config"
-        - name: "secrets"
-          emptyDir: {}
-        - name: "k8-tokens"
-          projected:
-            sources:
-              - serviceAccountToken:
-                  path: "vault-token"
-                  expirationSeconds: 7200

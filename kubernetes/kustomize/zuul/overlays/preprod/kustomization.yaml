@@ -1,0 +1,146 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: zuul
+
+components:
+  - ../../components/zuul-client
+  - ../../components/zuul-merger
+  # nodepool-builder disabled - using Kubernetes pods only, no VM disk images needed
+  # - ../../components/nodepool-builder
+  - ../../components/restarter
+
+configMapGenerator:
+  - name: "zuul-instance-config"
+    literals:
+      - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-infra/
+      - ZUUL_CONFIG_BRANCH=preprod
+  - name: "nodepool-config-yaml"
+    files:
+      - "configs/nodepool.yaml"
+      - configs/tenants/main.yaml
+  - name: "zuul-executor-vars"
+    behavior: merge
+    files:
+      - "configs/site-vars.yaml"
+      - "configs/ansible.cfg"
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: zuul-preprod
+      app.kubernetes.io/environment: preprod
+
+images:
+  - name: "busybox"
+    newName: "quay.io/opentelekomcloud/busybox"
+    newTag: "1.37.0"
+
+  - name: "zuul/zuul-executor"
+    newName: "quay.io/opentelekomcloud/zuul-executor"
+    newTag: "13.1.1-gitea-v3"
+
+  - name: "zuul/zuul-merger"
+    newName: "quay.io/opentelekomcloud/zuul-merger"
+    newTag: "13.1.1-gitea-v3"
+
+  - name: "zuul/zuul-scheduler"
+    newName: "quay.io/opentelekomcloud/zuul-scheduler"
+    newTag: "13.1.1-gitea-v4"
+
+  - name: "zuul/zuul-web"
+    newName: "quay.io/opentelekomcloud/zuul-web"
+    newTag: "13.1.1-gitea-v3"
+
+  - name: "zuul/nodepool-builder"
+    newName: "quay.io/opentelekomcloud/nodepool-builder"
+    newTag: "11.0.0"
+
+  - name: "zuul/nodepool-launcher"
+    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newTag: "11.0.0"
+
+resources:
+  - zuul-config-pv.yaml
+  - zuul-config-pvc.yaml
+  - zuul-scheduler-keys-pv.yaml
+  - zuul-scheduler-keys-pvc.yaml
+  - zuul-web-webhook-ingress.yaml
+  - crb.yaml
+  - crb_admin.yaml
+  - zuul-merger-git-credentials.yaml
+
+bases:
+  - ../../base
+
+patches:
+  - path: zuul-config-pvc.yaml
+    target:
+      kind: PersistentVolumeClaim
+      name: zuul-config
+  - path: zuul-config-deployment.yaml
+  - path: zookeeper-statefulset.yaml
+  - path: zookeeper-cert-patch.yaml
+  - path: zuul-executor-statefulset.yaml
+  - path: zuul-executor-resources-patch.yaml
+  - path: zuul-scheduler-deployment.yaml
+  - path: zuul-web-ingress.yaml
+  - path: zuul-volumes-patch.yaml
+  - path: zuul-executor-volumes-patch.yaml
+  - path: zuul-merger-volumes-patch.yaml
+  - path: zuul-web-volumes-patch.yaml
+  # nodepool-builder-patch.yaml removed - nodepool-builder component is disabled
+  # JSON 6902 patch to replace zuul-var-lib emptyDir with PVC for key persistence
+  - path: zuul-scheduler-keys-jsonpatch.yaml
+    target:
+      kind: Deployment
+      name: zuul-scheduler
+
+secretGenerator:
+  - name: zuul-config
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
+    files:
+      - configs/zuul.conf
+  - name: nodepool-config
+    behavior: replace
+    options:
+      disableNameSuffixHash: true
+    files:
+      - clouds.yaml
+  - name: zuul-ssh-keys
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+      annotations:
+        replicator.v1.mittwald.de/replicate-to: default-.*
+    literals:
+      - github.key=<path:secret/data/zuul/connections/github#app_key>
+      - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
+      - gitea.key=<path:secret/data/zuul/connections/gitea#sshkey>
+      - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
+  - name: zuul-merger-known-hosts
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - known_hosts=<path:secret/data/zuul/merger#known_hosts>
+  - name: quay-image-pull-secret
+    type: kubernetes.io/dockerconfigjson
+    options:
+      disableNameSuffixHash: true
+      annotations:
+        replicator.v1.mittwald.de/replicate-to: "default-.*"
+        replicator.v1.mittwald.de/replicate-to-matching: "true"
+    literals:
+      - |
+        .dockerconfigjson={
+          "auths": {
+            "quay.io": {
+              "auth": "<path:secret/data/image_registries/quay#auth>",
+              "email": ""
+            }
+          }
+        }
