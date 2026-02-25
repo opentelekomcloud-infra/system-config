@@ -9,10 +9,6 @@ labels:
     app.kubernetes.io/name: openapi-validator
     app.kubernetes.io/version: 1.0.0
 
-images:
-  - name: openapi-validator
-    newName: quay.io/opentelekomcloud/openapi-validator
-
 resources:
 - service.yaml
 - ingress.yaml
