@@ -20,31 +20,6 @@ networkPolicy:
       podSelector:
         app.kubernetes.io/name: argocd-repo-server
 
-    # Backstage — vault-agent sidecar (auth/kubernetes_otcinfra2)
-    - namespace: backstage
-
-    # Circle Partner Navigator — vault-agent sidecar (auth/kubernetes_otcinfra2)
-    - namespace: circle-partner-navigator
-
-    # Dependency Track — vault-agent sidecar for postgres secrets (auth/kubernetes_otcinfra2)
-    - namespace: dependencytrack
-
-    # Eyes on Docs — vault-agent sidecar (auth/kubernetes_otcinfra2)
-    - namespace: eyes-on-docs
-
-    # mCaptcha — vault-agent sidecar (auth/kubernetes_otcinfra2)
-    - namespace: mcaptcha
-
-    # Prometheus — scrape Vault /v1/sys/metrics
-    - namespace: monitoring
-      podSelector:
-        app.kubernetes.io/name: prometheus
-
-    # ZITADEL — vault-agent sidecar (auth/kubernetes_otcinfra2)
-    - namespace: zitadel
-      podSelector:
-        app.kubernetes.io/name: zitadel
-
   # Ingress controller — required for remote clusters to reach Vault via LB
   # Remote consumers:
   #   otcinfra1: anubis, docsportal, swift-proxy, umami (auth/kubernetes_otcinfra1)

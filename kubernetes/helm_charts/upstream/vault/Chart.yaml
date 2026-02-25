@@ -1,6 +1,6 @@
 apiVersion: v2
 name: vault
-description: HashiCorp Vault for OTC preprod environment
+description: HashiCorp Vault for OTC prod environment
 version: 0.1.0
 dependencies:
   - name: vault
