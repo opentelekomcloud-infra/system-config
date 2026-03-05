@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: element
+
+resources:
+  - ../../base
+  - maubot-pv.yaml
+
+images:
+  - name: maubot
+    newName: quay.io/opentelekomcloud/maubot
+    newTag: v1.0.0
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: maubot
+    patch: |
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: quay-pull-secret
+
+# -- Maubot config.yaml is mounted from this ConfigMap
+# Create it manually or add it here:
+#   kubectl -n matrix create configmap maubot-config --from-file=config.yaml=<path-to-config>
+#
+# Or use configMapGenerator:
+# configMapGenerator:
+#   - name: maubot-config
+#     files:
+#       - config.yaml=maubot-config.yaml
+#     options:
+#       disableNameSuffixHash: true

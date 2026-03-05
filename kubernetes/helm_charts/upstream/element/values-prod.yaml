@@ -24,6 +24,8 @@ matrix-stack:
     className: nginx
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/duration: "8760h"
+      cert-manager.io/renew-before: "720h"
     controllerType: ingress-nginx
 
   # =====================

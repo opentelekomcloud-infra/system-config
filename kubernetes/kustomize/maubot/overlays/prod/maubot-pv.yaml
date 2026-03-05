@@ -1,0 +1,39 @@
+# NFS-backed PV + PVC for Maubot data directory
+# Uses existing SFS Turbo NFS share at 192.168.171.186 (same as Element media)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: maubot-nfs-data
+  labels:
+    app.kubernetes.io/name: maubot
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - vers=3
+    - nolock
+    - noresvport
+    - timeo=600
+    - tcp
+  nfs:
+    server: "192.168.171.186"
+    path: "/maubot"
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "csi-sfsturbo-retain"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: maubot-data
+  labels:
+    app.kubernetes.io/name: maubot
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: maubot-nfs-data
+  storageClassName: "csi-sfsturbo-retain"

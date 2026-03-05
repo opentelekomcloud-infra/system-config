@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maubot
+spec:
+  serviceName: maubot
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: maubot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: maubot
+    spec:
+      containers:
+        - name: maubot
+          image: maubot
+          ports:
+            - name: maubot
+              containerPort: 29316
+              protocol: TCP
+          volumeMounts:
+            - name: maubot-config
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+            - name: maubot-data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+      volumes:
+        - name: maubot-config
+          configMap:
+            name: maubot-config
+            defaultMode: 420
+        - name: maubot-data
+          persistentVolumeClaim:
+            claimName: maubot-data

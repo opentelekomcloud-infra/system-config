@@ -1,12 +1,12 @@
 {{- if .Values.elementCall.enabled }}
 {{- /*
   Element Call — Standalone video/voice calling frontend.
-  
+
   This deploys the Element Call web application at call.eco.tsi-dev.otc-service.com.
-  It provides a dedicated URL for video conferencing without needing 
+  It provides a dedicated URL for video conferencing without needing
   the full Element Web chat client.
-  
-  Element Call is also available as a built-in widget in Element Web — 
+
+  Element Call is also available as a built-in widget in Element Web —
   this standalone deployment is optional but useful for sharing call links
   with external users.
 */ -}}
@@ -92,6 +92,8 @@ metadata:
     app.kubernetes.io/name: element-call
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/duration: "8760h"
+    cert-manager.io/renew-before: "720h"
 spec:
   ingressClassName: nginx
   tls:
