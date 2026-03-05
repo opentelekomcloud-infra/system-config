@@ -8,6 +8,12 @@ elementCall:
   replicas: 1
   host: call.eco.tsi-dev.otc-service.com
 
+# -- Upstream chart release name (needed for cross-chart service selectors)
+# The SFU TCP LoadBalancer service lives in this (local) chart but must
+# select pods deployed by the upstream chart, which has a different
+# Helm release name.
+sfuReleaseName: element-otcinfra2
+
 # -- NFS PersistentVolume for Synapse media store
 mediaStorage:
   nfs:

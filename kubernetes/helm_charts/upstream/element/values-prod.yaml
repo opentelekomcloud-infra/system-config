@@ -259,6 +259,11 @@ matrix-stack:
               # To re-enable UDP: open inbound UDP 30882 in the security group
               # and set this to false.
               force_tcp: true
+              # tcp_port must be set explicitly because we disabled
+              # exposedServices.rtcTcp (it hard-codes PreferDualStack).
+              # Without this, LiveKit defaults to port 7881 while the
+              # ELB forwards 30881 → port mismatch → ICE fails.
+              tcp_port: 30881
 
   # =====================
   #  Well-Known Delegation

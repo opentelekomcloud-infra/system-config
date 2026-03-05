@@ -33,7 +33,7 @@ spec:
   ipFamilies:
     - IPv4
   selector:
-    app.kubernetes.io/instance: {{ .Release.Name }}-matrix-rtc-sfu
+    app.kubernetes.io/instance: {{ .Values.sfuReleaseName }}-matrix-rtc-sfu
   ports:
     - name: rtc-tcp
       port: 30881
