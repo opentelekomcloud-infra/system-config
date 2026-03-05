@@ -156,9 +156,13 @@ matrix-stack:
     extraVolumes:
       - name: nginx-cache
         emptyDir: {}
+      - name: nginx-run
+        emptyDir: {}
     extraVolumeMounts:
       - name: nginx-cache
         mountPath: /var/cache/nginx
+      - name: nginx-run
+        mountPath: /var/run
 
     # -- Additional Element Web config
     # See: https://github.com/element-hq/element-web/blob/develop/docs/config.md

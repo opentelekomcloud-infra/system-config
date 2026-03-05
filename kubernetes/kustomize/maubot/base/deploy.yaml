@@ -16,6 +16,12 @@ spec:
       containers:
         - name: maubot
           image: maubot
+          command:
+            - /bin/sh
+            - -c
+            - |
+              mkdir -p /opt/maubot/maubot/management/frontend/build/static
+              exec python -m maubot -c /data/config.yaml
           ports:
             - name: maubot
               containerPort: 29316
