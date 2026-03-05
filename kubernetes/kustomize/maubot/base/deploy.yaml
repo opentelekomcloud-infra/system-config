@@ -26,6 +26,7 @@ spec:
               subPath: config.yaml
             - name: maubot-data
               mountPath: /data
+              subPath: maubot
           resources:
             requests:
               cpu: 50m
@@ -34,8 +35,8 @@ spec:
               memory: 256Mi
       volumes:
         - name: maubot-config
-          configMap:
-            name: maubot-config
+          secret:
+            secretName: maubot-config
             defaultMode: 420
         - name: maubot-data
           persistentVolumeClaim:

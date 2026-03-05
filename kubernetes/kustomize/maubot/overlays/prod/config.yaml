@@ -1,0 +1,61 @@
+# Maubot configuration
+# Ref: https://docs.mau.fi/maubot/usage/setup/
+
+# Database for maubot itself (plugins, instances, clients)
+database: sqlite:///data/maubot.db
+
+# Crypto database for end-to-end encryption
+crypto_database:
+  type: default
+
+plugin_directories:
+  upload: /data/plugins
+  load:
+    - /data/plugins
+  trash: /data/trash
+
+server:
+  hostname: 0.0.0.0
+  port: 29316
+  public_url: https://matrix.eco.tsi-dev.otc-service.com/_matrix/maubot
+  ui_base_path: /_matrix/maubot
+
+# Homeserver for registering appservice bots
+homeservers:
+  matrix.eco.tsi-dev.otc-service.com:
+    url: http://element-otcinfra2-synapse:8008
+    secret: "<path:secret/data/element/synapse#registration-shared-secret>"
+
+# Admin user(s) — password set on first login via the web UI
+admins:
+  admin: ""
+
+api_features:
+  login: true
+  plugin: true
+  instance: true
+  client: true
+  log: true
+
+logging:
+  version: 1
+  formatters:
+    colored:
+      (): maubot.lib.color_log.ColorFormatter
+      format: "[%(asctime)s] [%(levelname)s@%(name)s] %(message)s"
+    normal:
+      format: "[%(asctime)s] [%(levelname)s@%(name)s] %(message)s"
+  handlers:
+    console:
+      class: logging.StreamHandler
+      formatter: colored
+  loggers:
+    maubot:
+      level: DEBUG
+    mautrix:
+      level: DEBUG
+    aiohttp:
+      level: INFO
+  root:
+    level: DEBUG
+    handlers: [console]

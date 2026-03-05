@@ -22,14 +22,9 @@ patches:
         value:
           - name: quay-pull-secret
 
-# -- Maubot config.yaml is mounted from this ConfigMap
-# Create it manually or add it here:
-#   kubectl -n matrix create configmap maubot-config --from-file=config.yaml=<path-to-config>
-#
-# Or use configMapGenerator:
-# configMapGenerator:
-#   - name: maubot-config
-#     files:
-#       - config.yaml=maubot-config.yaml
-#     options:
-#       disableNameSuffixHash: true
+secretGenerator:
+  - name: maubot-config
+    files:
+      - config.yaml
+    options:
+      disableNameSuffixHash: true

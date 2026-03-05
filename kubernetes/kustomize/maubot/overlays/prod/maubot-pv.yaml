@@ -19,7 +19,7 @@ spec:
     - tcp
   nfs:
     server: "192.168.171.186"
-    path: "/maubot"
+    path: "/"
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "csi-sfsturbo-retain"
 ---

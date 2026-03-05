@@ -51,7 +51,7 @@ matrix-stack:
     postgres:
       host: "192.168.14.3"
       port: 5432
-      user: "synapse"
+      user: "root"
       database: "synapse"
       sslMode: verify-ca
       password:
@@ -149,6 +149,16 @@ matrix-stack:
 
     ingress:
       host: element.eco.tsi-dev.otc-service.com
+
+    # -- Fix for vectorim/element-web image with readOnlyRootFilesystem
+    # The stock nginx image writes cache to /var/cache/nginx which is read-only.
+    # Mount an emptyDir there so nginx can create its temp directories.
+    extraVolumes:
+      - name: nginx-cache
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: nginx-cache
+        mountPath: /var/cache/nginx
 
     # -- Additional Element Web config
     # See: https://github.com/element-hq/element-web/blob/develop/docs/config.md
