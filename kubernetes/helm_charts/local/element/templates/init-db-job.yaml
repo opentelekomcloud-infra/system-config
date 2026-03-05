@@ -39,9 +39,7 @@ spec:
             - name: PGPASSWORD
               value: "<path:secret/data/postgres/element/admin#postgres-password>"
             - name: PGSSLMODE
-              value: "verify-ca"
-            - name: PGSSLROOTCERT
-              value: "/db-ssl-ca-crt/ca.crt"
+              value: "require"
           command:
             - /bin/sh
             - -ec
@@ -54,20 +52,9 @@ spec:
                 psql -d postgres -c "CREATE DATABASE synapse ENCODING 'UTF8' LC_COLLATE='C' LC_CTYPE='C' TEMPLATE=template0;"
                 echo "Database 'synapse' created successfully."
               fi
-          volumeMounts:
-            - name: db-ssl-ca-crt
-              mountPath: /db-ssl-ca-crt
-              readOnly: true
           resources:
             requests:
               cpu: 50m
               memory: 32Mi
             limits:
               memory: 64Mi
-      volumes:
-        - name: db-ssl-ca-crt
-          secret:
-            secretName: matrix-db-ssl-ca-crt
-            items:
-              - key: ca.crt
-                path: ca.crt
