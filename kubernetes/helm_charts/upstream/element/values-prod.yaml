@@ -214,11 +214,14 @@ matrix-stack:
 
       # -- Set to true if cluster nodes have public IPs directly
       # Otherwise LiveKit uses STUN to discover its public IP
-      useStunToDiscoverPublicIP: true
-      # manualIP: ""    # <-- Set if STUN doesn't work
+      useStunToDiscoverPublicIP: false
+      # Node public IP for ICE candidates (SFU STUN discovery failed in OTC)
+      manualIP: "80.158.44.171"
 
-      # -- Host networking (use if NodePort doesn't work for UDP)
-      hostNetwork: false
+      # -- Host networking — required for bidirectional UDP.
+      # Without this, kube-proxy SNATs outbound SFU packets to a random
+      # source port, breaking ICE connectivity checks.
+      hostNetwork: true
 
       # -- Exposed services for WebRTC media
       # These ports MUST be reachable from the internet
