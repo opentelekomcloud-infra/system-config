@@ -141,7 +141,6 @@ matrix-stack:
                 - openid
                 - profile
                 - email
-                - urn:zitadel:iam:org:project:roles
               user_mapping_provider:
                 config:
                   # Map Zitadel 'sub' claim to Matrix localpart
@@ -151,10 +150,8 @@ matrix-stack:
               allow_existing_users: true
               # Skip the "Click to confirm" page in Synapse
               skip_verification: true
-              # Only allow users with the element_users role in Zitadel
-              attribute_requirements:
-                - attribute: "urn:zitadel:iam:org:project:roles"
-                  value: "element_users"
+              # Access control is handled in Zitadel: only users authorised
+              # for the Element OIDC application can log in.
 
     resources:
       requests:
