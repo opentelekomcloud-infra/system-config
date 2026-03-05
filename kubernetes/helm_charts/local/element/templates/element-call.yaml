@@ -10,6 +10,26 @@
   this standalone deployment is optional but useful for sharing call links
   with external users.
 */ -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: element-call-config
+  labels:
+    app.kubernetes.io/name: element-call
+data:
+  config.json: |
+    {
+      "default_server_config": {
+        "m.homeserver": {
+          "base_url": "https://{{ .Values.elementCall.homeserverHost | default "matrix.eco.tsi-dev.otc-service.com" }}",
+          "server_name": "{{ .Values.elementCall.homeserverHost | default "matrix.eco.tsi-dev.otc-service.com" }}"
+        }
+      },
+      "livekit": {
+        "livekit_service_url": "https://{{ .Values.elementCall.livekitHost | default "matrixrtc.eco.tsi-dev.otc-service.com" }}/sfu/get"
+      }
+    }
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -32,7 +52,7 @@ spec:
       containers:
         - name: element-call
           image: {{ .Values.elementCall.image | default "quay.io/opentelekomcloud/element-call:v0.17.0" }}
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
           ports:
             - name: http
               containerPort: 8080
@@ -64,9 +84,16 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: config
+              mountPath: /app/config.json
+              subPath: config.json
+              readOnly: true
       volumes:
         - name: tmp
           emptyDir: {}
+        - name: config
+          configMap:
+            name: element-call-config
 ---
 apiVersion: v1
 kind: Service
