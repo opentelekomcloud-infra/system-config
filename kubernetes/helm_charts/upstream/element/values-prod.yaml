@@ -179,7 +179,7 @@ matrix-stack:
           "brand": "OTC Chat",
           "element_call": {
             "url": "https://call.eco.tsi-dev.otc-service.com",
-            "use_exclusively": false,
+            "use_exclusively": true,
             "participant_limit": 8,
             "brand": "Element Call"
           }
