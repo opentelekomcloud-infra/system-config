@@ -175,7 +175,7 @@ matrix-stack:
     additional:
       extra-config.json: |
         {
-          "default_theme": "light",
+          "default_theme": "dark",
           "brand": "OTC Chat",
           "element_call": {
             "url": "https://call.eco.tsi-dev.otc-service.com",
@@ -252,10 +252,16 @@ matrix-stack:
 
       # -- Additional LiveKit SFU config
       # See: https://docs.livekit.io/home/self-hosting/deployment/#configuration
-      # additional:
-      #   0-custom:
-      #     config: |
-      #       <any valid LiveKit SFU configuration>
+      additional:
+        0-force-tcp:
+          config: |
+            rtc:
+              # Force all WebRTC connections to use TCP (ICE-TCP on port 30881).
+              # Required because the OTC security group on CCE worker nodes
+              # blocks inbound UDP, causing all UDP ICE candidate pairs to fail.
+              # To re-enable UDP: open inbound UDP 30882 in the security group
+              # and set this to false.
+              force_tcp: true
 
   # =====================
   #  Well-Known Delegation
