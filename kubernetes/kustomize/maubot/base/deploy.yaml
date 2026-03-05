@@ -24,6 +24,7 @@ spec:
               BUILD=/opt/maubot/maubot/management/frontend/build
               mkdir -p "$BUILD/static"
               echo '{"files":{}}' > "$BUILD/asset-manifest.json"
+              echo '{}' > "$BUILD/manifest.json"
               echo '<html><body>management UI not included</body></html>' > "$BUILD/index.html"
               exec python -m maubot -c /data/config.yaml
           ports:
