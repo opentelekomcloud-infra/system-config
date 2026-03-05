@@ -225,21 +225,14 @@ matrix-stack:
       hostNetwork: true
 
       # -- Exposed services for WebRTC media
-      # These ports MUST be reachable from the internet
+      # The rtcTcp service is managed by the local chart
+      # (sfu-tcp-service.yaml) because the upstream chart hard-codes
+      # ipFamilyPolicy: PreferDualStack which OTC union ELBs reject.
       exposedServices:
         rtcTcp:
-          enabled: true
-          # LoadBalancer creates an OTC ELB with a real public IP.
-          # NodePort alone was unreachable because 80.158.44.171 is an
-          # SNAT-only gateway with no inbound DNAT rules.
-          portType: LoadBalancer
-          port: 30881
-          externalTrafficPolicy: Local
+          enabled: false
         rtcMuxedUdp:
           enabled: false
-          portType: NodePort
-          port: 30882
-          externalTrafficPolicy: Cluster
         rtcUdp:
           enabled: false
         turnTLS:
