@@ -163,6 +163,12 @@ matrix-stack:
         mountPath: /var/cache/nginx
       - name: nginx-run
         mountPath: /var/run
+      # Mount config.json where nginx expects it (/tmp/element-web-config/config.json)
+      # The 18-load-element-modules.sh entrypoint that copies it is absent in this image version
+      - name: config
+        mountPath: /tmp/element-web-config/config.json
+        subPath: config.json
+        readOnly: true
 
     # -- Additional Element Web config
     # See: https://github.com/element-hq/element-web/blob/develop/docs/config.md
