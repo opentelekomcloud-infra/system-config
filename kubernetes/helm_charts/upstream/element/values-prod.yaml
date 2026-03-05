@@ -218,9 +218,7 @@ matrix-stack:
       # Node public IP for ICE candidates (SFU STUN discovery failed in OTC)
       manualIP: "80.158.44.171"
 
-      # -- Host networking — required for bidirectional UDP.
-      # Without this, kube-proxy SNATs outbound SFU packets to a random
-      # source port, breaking ICE connectivity checks.
+      # -- Host networking for direct port binding
       hostNetwork: true
 
       # -- Exposed services for WebRTC media
@@ -228,11 +226,14 @@ matrix-stack:
       exposedServices:
         rtcTcp:
           enabled: true
-          portType: NodePort
+          # LoadBalancer creates an OTC ELB with a real public IP.
+          # NodePort alone was unreachable because 80.158.44.171 is an
+          # SNAT-only gateway with no inbound DNAT rules.
+          portType: LoadBalancer
           port: 30881
-          externalTrafficPolicy: Cluster
+          externalTrafficPolicy: Local
         rtcMuxedUdp:
-          enabled: true
+          enabled: false
           portType: NodePort
           port: 30882
           externalTrafficPolicy: Cluster
