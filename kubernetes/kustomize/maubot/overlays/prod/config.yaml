@@ -2,7 +2,7 @@
 # Ref: https://docs.mau.fi/maubot/usage/setup/
 
 # Database for maubot itself (plugins, instances, clients)
-database: sqlite:///data/maubot.db
+database: sqlite:maubot.db
 
 # Crypto database for end-to-end encryption
 crypto_database:
