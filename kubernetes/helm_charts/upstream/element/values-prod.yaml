@@ -215,8 +215,11 @@ matrix-stack:
       # -- Set to true if cluster nodes have public IPs directly
       # Otherwise LiveKit uses STUN to discover its public IP
       useStunToDiscoverPublicIP: false
-      # Node public IP for ICE candidates (SFU STUN discovery failed in OTC)
-      manualIP: "80.158.44.171"
+      # ELB public IP (shared with ingress-nginx controller).
+      # This is the IP advertised in ICE candidates so browsers can connect.
+      # The SFU TCP LoadBalancer service uses the same ELB via
+      # annotation kubernetes.io/elb.id=510d12e5-...
+      manualIP: "80.158.58.167"
 
       # -- Host networking for direct port binding
       hostNetwork: true
