@@ -1,4 +1,7 @@
 applications:
+  # =====================================================
+  #  Helm Chart Applications (argocd-vault-plugin-helm-with-args)
+  # =====================================================
   - name: argocd-projects
     clusters: [otcinfra2]
     config:
@@ -220,6 +223,60 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: element
+    clusters: [otcinfra2]
+    config:
+      namespace: element
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Metrix_reloader'
+      path: kubernetes/helm_charts/upstream/element
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: element-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: element
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Metrix_reloader'
+      path: kubernetes/helm_charts/local/element
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: maubot
+    clusters: [otcinfra2]
+    config:
+      namespace: element
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Metrix_reloader'
+      path: kubernetes/kustomize/maubot/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # =====================================================
+  #  Kustomize Applications (argocd-vault-plugin-kustomize)
+  # =====================================================
   - name: giji
     clusters: [otcinfra2]
     config:
