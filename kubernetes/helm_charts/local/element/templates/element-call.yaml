@@ -32,7 +32,7 @@ spec:
       containers:
         - name: element-call
           image: {{ .Values.elementCall.image | default "quay.io/opentelekomcloud/element-call:v0.17.0" }}
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
