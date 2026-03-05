@@ -1,6 +1,0 @@
-dependencies:
-- name: matrix-stack
-  repository: oci://ghcr.io/element-hq/ess-helm
-  version: 26.2.3
-digest: sha256:d685e27f650fd8785181ed32d55b5e3c9a82e8e826400776fa3cc1c0323079c7
-generated: "2026-03-05T08:50:22.397291+01:00"

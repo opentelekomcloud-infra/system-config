@@ -143,10 +143,9 @@ matrix-stack:
                 - email
               user_mapping_provider:
                 config:
-                  # Map Zitadel 'sub' claim to Matrix localpart
-                  localpart_template: "{{ '{{' }} user.preferred_username {{ '}}' }}"
-                  display_name_template: "{{ '{{' }} user.name {{ '}}' }}"
-                  email_template: "{{ '{{' }} user.email {{ '}}' }}"
+                  localpart_template: "{{ user.preferred_username }}"
+                  display_name_template: "{{ user.name }}"
+                  email_template: "{{ user.email }}"
               allow_existing_users: true
               # Skip the "Click to confirm" page in Synapse
               skip_verification: true
@@ -203,6 +202,7 @@ matrix-stack:
         {
           "default_theme": "dark",
           "brand": "OTC Chat",
+          "disable_custom_urls": false,
           "element_call": {
             "url": "https://call.eco.tsi-dev.otc-service.com",
             "use_exclusively": true,
