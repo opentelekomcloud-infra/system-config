@@ -1,0 +1,17 @@
+# -- Element Call standalone frontend deployment
+# Element Call is already available as a widget inside Element Web.
+# Enable this only if you want a dedicated call.eco.tsi-dev.otc-service.com URL
+# for standalone video conferencing (without the full chat client).
+elementCall:
+  enabled: true
+  image: quay.io/opentelekomcloud/element-call:v0.17.0
+  replicas: 1
+  host: call.eco.tsi-dev.otc-service.com
+
+# -- NFS PersistentVolume for Synapse media store
+mediaStorage:
+  nfs:
+    server: "192.168.171.186"
+    path: "/"
+  capacity: "500Gi"
+  storageClassName: "csi-sfsturbo-retain"

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: element-additional-manifests
+description: Additional manifests for Element (Matrix) deployment - secrets, PV/PVC, Element Call
+version: 0.1.0
