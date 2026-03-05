@@ -127,6 +127,35 @@ matrix-stack:
           # -- Reporting
           report_stats: true
 
+      2-oidc-zitadel:
+        config: |
+          # -- OIDC provider: Zitadel
+          # Allows users to sign in via Zitadel SSO.
+          oidc_providers:
+            - idp_id: zitadel
+              idp_name: "Zitadel SSO"
+              issuer: "<path:secret/data/element/oidc#issuer>"
+              client_id: "<path:secret/data/element/oidc#client_id>"
+              client_secret: "<path:secret/data/element/oidc#client_secret>"
+              scopes:
+                - openid
+                - profile
+                - email
+                - urn:zitadel:iam:org:project:roles
+              user_mapping_provider:
+                config:
+                  # Map Zitadel 'sub' claim to Matrix localpart
+                  localpart_template: "{{ '{{' }} user.preferred_username {{ '}}' }}"
+                  display_name_template: "{{ '{{' }} user.name {{ '}}' }}"
+                  email_template: "{{ '{{' }} user.email {{ '}}' }}"
+              allow_existing_users: true
+              # Skip the "Click to confirm" page in Synapse
+              skip_verification: true
+              # Only allow users with the element_users role in Zitadel
+              attribute_requirements:
+                - attribute: "urn:zitadel:iam:org:project:roles"
+                  value: "element_users"
+
     resources:
       requests:
         cpu: 100m
