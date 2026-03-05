@@ -20,7 +20,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              mkdir -p /opt/maubot/maubot/management/frontend/build/static
+              # Create stub frontend so maubot starts without the management UI build
+              BUILD=/opt/maubot/maubot/management/frontend/build
+              mkdir -p "$BUILD/static"
+              echo '{"files":{}}' > "$BUILD/asset-manifest.json"
+              echo '<html><body>management UI not included</body></html>' > "$BUILD/index.html"
               exec python -m maubot -c /data/config.yaml
           ports:
             - name: maubot
