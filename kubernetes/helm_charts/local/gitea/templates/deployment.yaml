@@ -1,0 +1,152 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gitea.fullname" . }}
+  labels:
+    {{- include "gitea.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "gitea.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gitea.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      serviceAccountName: {{ include "gitea.serviceAccountName" . }}
+
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+
+      volumes:
+        - name: gitea-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (.Values.persistence.claimName | default (include "gitea.fullname" .)) }}
+
+        - name: gitea-appini
+          configMap:
+            name: {{ include "gitea.fullname" . }}-appini
+
+        - name: gitea-db-secret
+          secret:
+            secretName: gitea-db-credentials
+
+
+        - name: gitea-runtime-secrets
+          secret:
+            secretName: gitea-runtime-secrets
+
+      initContainers:
+        - name: init-appini
+          image: busybox:1.36
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              mkdir -p /data/gitea/conf
+              cp /config/app.ini /data/gitea/conf/app.ini
+              chown -R 1000:1000 /data
+          volumeMounts:
+            - name: gitea-data
+              mountPath: /data
+            - name: gitea-appini
+              mountPath: /config
+            - name: gitea-runtime-secrets
+              mountPath: /etc/gitea
+              readOnly: true
+            - name: gitea-db-secret
+              mountPath: /etc/gitea-db
+              readOnly: true
+
+
+      containers:
+        - name: gitea
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          env:
+            - name: GITEA__database__DB_TYPE
+              value: "postgres"
+            - name: GITEA__database__HOST
+              value: {{ .Values.gitea.database.host | quote }}
+            - name: GITEA__database__NAME
+              value: {{ .Values.gitea.database.name | quote }}
+            - name: GITEA__database__USER
+              value: {{ .Values.gitea.database.user | quote }}
+            - name: GITEA__database__PASSWD__FILE
+              value: "/etc/gitea-db/password"
+
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+
+          startupProbe:
+            httpGet:
+              path: /api/healthz
+              port: http
+            periodSeconds: 5
+            timeoutSeconds: 5
+            failureThreshold: 60
+
+          livenessProbe:
+            httpGet:
+              path: /api/healthz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          readinessProbe:
+            httpGet:
+              path: /api/healthz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+
+          volumeMounts:
+            - name: gitea-data
+              mountPath: {{ .Values.persistence.mountPath | default "/data" }}
+
+            - name: gitea-db-secret
+              mountPath: /etc/gitea-db
+              readOnly: true
+
+            - name: gitea-runtime-secrets
+              mountPath: /etc/gitea
+              readOnly: true
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

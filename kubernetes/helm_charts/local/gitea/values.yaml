@@ -1,0 +1,110 @@
+# Default values for gitea.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: gitea/gitea
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "1.24.7"
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  name: gitea
+  port: 3000
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as
+  # a conscious choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Ingress with TLS
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "240"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "2400"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "2400"
+  hosts:
+    - host: gitea.eco-preprod.tsi-dev.otc-service.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: gitea-tls
+      hosts:
+        - gitea.eco-preprod.tsi-dev.otc-service.com
+
+# ServiceAccount configuration
+createServiceAccount: true
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+persistence:
+  enabled: true
+  accessMode: ReadWriteOnce
+  mountPath: /data
+  createClaim: true
+  claimName: "pv-evs-gitea-preprod"
+  volumeName: "pv-evs-gitea-preprod"
+  size: 1Ti
+  storageClassName: "csi-disk"
+  pvLabels:
+    failure-domain.beta.kubernetes.io/region: "eu-de"
+    failure-domain.beta.kubernetes.io/zone: "eu-de-01"
+  annotations:
+    everest.io/crypt-key-id: "fe4abed2-330d-476a-8e0e-ea5a66d4cfe4"
+    everest.io/disk-volume-type: "SAS"
+    everest.io/enterprise-project-id: "0"
+
+gitea:
+  database:
+    host: "192.168.150.110:5432"
+    name: "<path:secret/data/gitea/config#db_name>"
+    user: "<path:secret/data/gitea/config#db_username>"
+    password: "<path:secret/data/gitea/config#db_password>"
+    existingSecret: "gitea-db-credentials"
+  server:
+    domain: "gitea.eco-preprod.tsi-dev.otc-service.com"
+    rootUrl: "https://gitea.eco-preprod.tsi-dev.otc-service.com/"
+  runtimeSecrets:
+    name: gitea-runtime-secrets
+    secretKey: "<path:secret/data/gitea/config#secret_key>"
+    internalToken: "<path:secret/data/gitea/config#internal_token>"
