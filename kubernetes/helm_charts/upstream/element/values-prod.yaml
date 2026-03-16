@@ -3,9 +3,10 @@
 # -------------------------------------------------------
 matrix-stack:
 
-  # -- Matrix server name (embedded in user IDs: @user:matrix.eco.tsi-dev.otc-service.com)
+  # -- Matrix server name (embedded in user IDs: @user:matrix.otc-service.com)
   # WARNING: This CANNOT be changed after initial deployment!
-  serverName: matrix.eco.tsi-dev.otc-service.com
+  # Migrated from legacy Ansible deployment to preserve user IDs and room history.
+  serverName: matrix.otc-service.com
 
   # -- Global matrix-tools image (init containers, etc.)
   matrixTools:
@@ -45,7 +46,7 @@ matrix-stack:
         - name: quay-pull-secret
 
     ingress:
-      host: matrix.eco.tsi-dev.otc-service.com
+      host: matrix.otc-service.com
 
     # -- External PostgreSQL RDS (OTC RDS instance)
     postgres:
@@ -173,7 +174,7 @@ matrix-stack:
         - name: quay-pull-secret
 
     ingress:
-      host: element.eco.tsi-dev.otc-service.com
+      host: element.otc-service.com
 
     # -- Fix for vectorim/element-web image with readOnlyRootFilesystem
     # The stock nginx image writes cache to /var/cache/nginx which is read-only.
@@ -204,7 +205,7 @@ matrix-stack:
           "brand": "OTC Chat",
           "disable_custom_urls": false,
           "element_call": {
-            "url": "https://call.eco.tsi-dev.otc-service.com",
+            "url": "https://call.otc-service.com",
             "use_exclusively": true,
             "participant_limit": 8,
             "brand": "Element Call"
@@ -226,7 +227,7 @@ matrix-stack:
         - name: quay-pull-secret
 
     ingress:
-      host: matrixrtc.eco.tsi-dev.otc-service.com
+      host: matrixrtc.otc-service.com
 
     sfu:
       enabled: true
@@ -304,7 +305,7 @@ matrix-stack:
     # -- Redirect base domain to Element Web
     baseDomainRedirect:
       enabled: true
-      url: "https://element.eco.tsi-dev.otc-service.com"
+      url: "https://element.otc-service.com"
 
     # -- Additional well-known config
     # The chart auto-populates .well-known/matrix/server and /client

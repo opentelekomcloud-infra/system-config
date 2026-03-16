@@ -2,7 +2,7 @@
 {{- /*
   Element Call — Standalone video/voice calling frontend.
 
-  This deploys the Element Call web application at call.eco.tsi-dev.otc-service.com.
+  This deploys the Element Call web application at call.otc-service.com.
   It provides a dedicated URL for video conferencing without needing
   the full Element Web chat client.
 
@@ -21,12 +21,12 @@ data:
     {
       "default_server_config": {
         "m.homeserver": {
-          "base_url": "https://{{ .Values.elementCall.homeserverHost | default "matrix.eco.tsi-dev.otc-service.com" }}",
-          "server_name": "{{ .Values.elementCall.homeserverHost | default "matrix.eco.tsi-dev.otc-service.com" }}"
+          "base_url": "https://{{ .Values.elementCall.homeserverHost | default "matrix.otc-service.com" }}",
+          "server_name": "{{ .Values.elementCall.homeserverHost | default "matrix.otc-service.com" }}"
         }
       },
       "livekit": {
-        "livekit_service_url": "https://{{ .Values.elementCall.livekitHost | default "matrixrtc.eco.tsi-dev.otc-service.com" }}/sfu/get"
+        "livekit_service_url": "https://{{ .Values.elementCall.livekitHost | default "matrixrtc.otc-service.com" }}/sfu/get"
       }
     }
 ---
@@ -125,10 +125,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - {{ .Values.elementCall.host | default "call.eco.tsi-dev.otc-service.com" }}
+        - {{ .Values.elementCall.host | default "call.otc-service.com" }}
       secretName: element-call-tls
   rules:
-    - host: {{ .Values.elementCall.host | default "call.eco.tsi-dev.otc-service.com" }}
+    - host: {{ .Values.elementCall.host | default "call.otc-service.com" }}
       http:
         paths:
           - path: /

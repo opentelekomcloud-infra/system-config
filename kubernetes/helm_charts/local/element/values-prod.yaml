@@ -1,12 +1,12 @@
 # -- Element Call standalone frontend deployment
 # Element Call is already available as a widget inside Element Web.
-# Enable this only if you want a dedicated call.eco.tsi-dev.otc-service.com URL
+# Enable this only if you want a dedicated call.otc-service.com URL
 # for standalone video conferencing (without the full chat client).
 elementCall:
   enabled: true
   image: quay.io/opentelekomcloud/element-call:v0.17.0
   replicas: 1
-  host: call.eco.tsi-dev.otc-service.com
+  host: call.otc-service.com
 
 # -- Upstream chart release name (needed for cross-chart service selectors)
 # The SFU TCP LoadBalancer service lives in this (local) chart but must
