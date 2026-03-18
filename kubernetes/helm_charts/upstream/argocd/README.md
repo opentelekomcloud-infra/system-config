@@ -21,7 +21,7 @@ Replace `<root_token>` with your actual Vault root token or a token with appropr
 After creating the vault-token secret, you can deploy ArgoCD with:
 
 ```bash
-helm upgrade --install argocd . --namespace argocd --create-namespace --values values-preprod.yaml
+helm upgrade --install argocd . --namespace argocd --create-namespace --values values-"environment".yaml
 ```
 
 ## Vault Integration Details

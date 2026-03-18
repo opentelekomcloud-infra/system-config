@@ -35,6 +35,10 @@ argo-cd:
 
   ## Server
   server:
+    # Enable TLS on server for native gRPC (HTTP/2) support
+    extraArgs:
+      - --insecure=false
+
     extensions:
       containerSecurityContext:
         seccompProfile:
@@ -59,7 +63,6 @@ argo-cd:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-        nginx.ingress.kubernetes.io/ssl-passthrough: "false"
         cert-manager.io/private-key-algorithm: RSA
         cert-manager.io/private-key-size: "4096"
         cert-manager.io/private-key-rotation-policy: Always
@@ -70,6 +73,21 @@ argo-cd:
         - hosts:
             - argocd-k8s.eco.tsi-dev.otc-service.com
           secretName: argocd-server-tls
+
+    # Dedicated gRPC ingress for ArgoCD CLI access (native HTTP/2)
+    # GRPCS = gRPC over TLS to the backend (server runs with --insecure=false)
+    ingressGrpc:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        nginx.ingress.kubernetes.io/backend-protocol: "GRPCS"
+      ingressClassName: "nginx"
+      hosts:
+        - grpc.argocd-k8s.eco.tsi-dev.otc-service.com
+      tls:
+        - hosts:
+            - grpc.argocd-k8s.eco.tsi-dev.otc-service.com
+          secretName: grpc-argocd-server-tls
 
     # Environment variables for Vault access and OIDC handling
     env:
@@ -417,19 +435,28 @@ argo-cd:
       create: true
       policy.csv: |
         # Admin roles
-        g, /argocd-ac, role:admin
+        g, /argocd-admin, role:admin
 
         # Zitadel Admin roles
         g, argocd_admins, role:admin
 
         # Application management role
-        g, /argocd-developers, role:ac
+        g, /argocd-ac, role:ac
         p, role:ac, applications, *, docusaurus/*, allow
         p, role:ac, applications, get, *, allow
         p, role:ac, applications, list, *, allow
         p, role:ac, repositories, get, *, allow
         p, role:ac, repositories, list, *, allow
         p, role:ac, secrets, *, docusaurus/*, allow
+
+        # Status Dashboard management role
+        g, /status-dashboard, role:sd
+        p, role:sd, applications, *, sd3/*, allow
+        p, role:sd, applications, get, *, allow
+        p, role:sd, applications, list, *, allow
+        p, role:sd, repositories, get, *, allow
+        p, role:sd, repositories, list, *, allow
+        p, role:sd, secrets, *, sde/*, allow
 
         # Read-only role - NO secrets access
         # g, /argocd-viewers, role:readonly

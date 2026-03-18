@@ -40,11 +40,91 @@ configs:
 
   # RBAC configuration
   rbac:
+    create: true
     policy.csv: |
-      # Format: g, <group/user>, <role>
+      # Admin roles
       g, /argocd-admin, role:admin
-      g, /argocd-ac, role:admin
+
+      # Zitadel Admin roles
+      g, argocd_admins, role:admin
+
+      # Application management role
+      g, /argocd-ac, role:ac
       p, role:ac, applications, *, docusaurus/*, allow
+      p, role:ac, applications, get, *, allow
+      p, role:ac, applications, list, *, allow
+      p, role:ac, repositories, get, *, allow
+      p, role:ac, repositories, list, *, allow
+      p, role:ac, secrets, *, docusaurus/*, allow
+
+      # Status Dashboard management role
+      g, /status-dashboard, role:sd
+      p, role:sd, applications, *, sd3/*, allow
+      p, role:sd, applications, get, *, allow
+      p, role:sd, applications, list, *, allow
+      p, role:sd, repositories, get, *, allow
+      p, role:sd, repositories, list, *, allow
+      p, role:sd, secrets, *, sde/*, allow
+
+      # Read-only role - NO secrets access
+      # g, /argocd-viewers, role:readonly
+      # p, role:readonly, applications, get, *, allow
+      # p, role:readonly, applications, list, *, allow
+      # p, role:readonly, repositories, get, *, allow
+      # p, role:readonly, repositories, list, *, allow
+      # p, role:readonly, secrets, *, *, deny
+
+      # No-secrets role - explicitly denied secrets access
+      # g, /argocd-no-secrets, role:no-secrets
+      # p, role:no-secrets, applications, get, *, allow
+      # p, role:no-secrets, applications, list, *, allow
+      # p, role:no-secrets, repositories, get, *, allow
+      # p, role:no-secrets, repositories, list, *, allow
+      # p, role:no-secrets, secrets, *, *, deny
+
+      # System role for service accounts - LIMITED permissions
+      p, role:system, applications, get, *, allow
+      p, role:system, applications, list, *, allow
+      p, role:system, repositories, get, *, allow
+      p, role:system, repositories, list, *, allow
+      p, role:system, secrets, *, *, deny
+
+      # Special vault-reader role - ONLY for ArgoCD internal operations
+      # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
+      p, role:vault-reader, secrets, get, argocd/*, allow
+      p, role:vault-reader, secrets, list, argocd/*, allow
+      p, role:vault-reader, secrets, get, */vault-token, allow
+      p, role:vault-reader, secrets, get, */argocd-secret, allow
+
+      # Assign service account to vault-reader (restricted scope)
+      g, argocd-preprod-repo-server, role:vault-reader
+
+      # Explicit denials for all other combinations
+      p, role:vault-reader, secrets, create, *, deny
+      p, role:vault-reader, secrets, update, *, deny
+      p, role:vault-reader, secrets, patch, *, deny
+      p, role:vault-reader, secrets, delete, *, deny
+
+      # Define role:none to deny access to everything
+      p, role:none, applications, *, *, deny
+      p, role:none, clusters, *, *, deny
+      p, role:none, repositories, *, *, deny
+      p, role:none, certificates, *, *, deny
+      p, role:none, accounts, *, *, deny
+      p, role:none, gpgkeys, *, *, deny
+      p, role:none, projects, *, *, deny
+      p, role:none, secrets, *, *, deny
+      p, role:none, logs, *, *, deny
+      p, role:none, exec, *, *, deny
+      p, role:none, session, *, *, deny
+      p, role:none, applicationsets, *, *, deny
+      p, role:none, notifications, *, *, deny
+      p, role:none, *, *, *, deny    # Catch-all for any future resources
+    # Sets users without group assignments to role:none (denied all access)
+    # Test after applying:
+    # 1. Create test user in Zitadel without groups
+    # 2. Try login - should see access denied
+    # 3. Add user to valid group - should then get access
     policy.default: "role:none"
     policy.matchMode: "glob"
     scopes: "[groups]"
@@ -100,6 +180,10 @@ configs:
 
 # Server configuration
 server:
+  # Enable TLS on server for native gRPC (HTTP/2) support
+  extraArgs:
+    - --insecure=false
+
   containerSecurityContext:
     runAsNonRoot: true
     readOnlyRootFilesystem: true
@@ -126,8 +210,6 @@ server:
       cert-manager.io/cluster-issuer: letsencrypt-prod
       kubernetes.io/tls-acme: "true"
       nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
       cert-manager.io/private-key-algorithm: RSA
       cert-manager.io/private-key-size: "4096"
       cert-manager.io/private-key-rotation-policy: Always
@@ -139,16 +221,14 @@ server:
           - argocd.eco.tsi-dev.otc-service.com
         secretName: argocd-server-tls
 
-  # Dedicated gRPC ingress for better performance
+  # Dedicated gRPC ingress for ArgoCD CLI access (native HTTP/2)
+  # GRPCS = gRPC over TLS to the backend (server runs with --insecure=false)
   ingressGrpc:
     enabled: true
     annotations:
-      kubernetes.io/ingress.class: "nginx"
-      kubernetes.io/tls-acme: "true"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
       cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-      nginx.ingress.kubernetes.io/backend-protocol: "GRPC"
+      nginx.ingress.kubernetes.io/backend-protocol: "GRPCS"
+    ingressClassName: "nginx"
     hosts:
       - grpc.argocd.eco.tsi-dev.otc-service.com
     tls:

@@ -7,7 +7,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-projects.yaml'
@@ -24,7 +24,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-clusters.yaml'
@@ -41,7 +41,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-repositories.yaml'
@@ -58,7 +58,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -75,7 +75,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-additional-manifests.yaml'
@@ -92,7 +92,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Vault_migration'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml --set installCRDs=true'
@@ -109,7 +109,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Vault_migration'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -126,7 +126,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Zitadel_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml --set installCRDs=true'
@@ -143,7 +143,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Zitadel_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -160,7 +160,7 @@ applications:
     config:
       namespace: kube-system
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/kubernetes-replicator
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -177,7 +177,7 @@ applications:
     config:
       namespace: kube-system
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_migratio_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/kubernetes-replicator
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -194,7 +194,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Cert-manager_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml --set installCRDs=true'
@@ -211,7 +211,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Cert-manager_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
@@ -228,7 +228,7 @@ applications:
     config:
       namespace: element
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Metrix_reloader'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/element
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -245,7 +245,7 @@ applications:
     config:
       namespace: element
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Metrix_reloader'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/element
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -262,7 +262,7 @@ applications:
     config:
       namespace: element
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Metrix_reloader'
+      targetRevision: 'main'
       path: kubernetes/kustomize/maubot/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -282,7 +282,7 @@ applications:
     config:
       namespace: giji
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'giji_first_build'
+      targetRevision: 'main'
       path: kubernetes/kustomize/giji/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'

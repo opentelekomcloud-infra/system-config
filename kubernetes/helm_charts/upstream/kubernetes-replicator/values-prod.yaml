@@ -1,5 +1,5 @@
 ---
-# Kubernetes Replicator configuration for preprod
+# Kubernetes Replicator configuration for prod
 # Automatically replicates secrets/configmaps across namespaces
 
 kubernetes-replicator:

@@ -37,10 +37,10 @@ projects:
     destinations:
       - name: '*'
         namespace: '*'
-        server: https://80.158.77.76:5443
+        server: https://192.168.120.60:5443
       - name: '*'
         namespace: '*'
-        server: https://80.158.32.132:5443
+        server: https://192.168.121.4:5443
       - name: '*'
         namespace: '*'
         server: https://192.168.170.211:5443
