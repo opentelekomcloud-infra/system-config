@@ -45,7 +45,7 @@ repoServer:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
 
-  initContainers: 
+  initContainers:
     - name: download-tools
       image: registry.access.redhat.com/ubi8
       env:
@@ -118,7 +118,7 @@ repoServer:
         - mountPath: /usr/local/bin/argocd-vault-plugin
           subPath: argocd-vault-plugin
           name: custom-tools
-  volumes: 
+  volumes:
     - configMap:
         name: argocd-cmp-cm
       name: cmp-plugin
@@ -166,9 +166,87 @@ configs:
     policy.csv: |
       g, /argocd-admin, role:admin
 
+      # Zitadel Admin roles
+      g, argocd_admins, role:admin
+
+      # Application management role
+      g, /argocd-ac, role:ac
+      p, role:ac, applications, *, docusaurus/*, allow
+      p, role:ac, applications, get, *, allow
+      p, role:ac, applications, list, *, allow
+      p, role:ac, repositories, get, *, allow
+      p, role:ac, repositories, list, *, allow
+      p, role:ac, secrets, *, docusaurus/*, allow
+
+      # Status Dashboard management role
+      g, /status-dashboard, role:sd
+      p, role:sd, applications, *, sd3/*, allow
+      p, role:sd, repositories, get, *, allow
+      p, role:sd, repositories, list, *, allow
+      p, role:sd, secrets, *, sd3/*, allow
+
+      # Read-only role - NO secrets access
+      # g, /argocd-viewers, role:readonly
+      # p, role:readonly, applications, get, *, allow
+      # p, role:readonly, applications, list, *, allow
+      # p, role:readonly, repositories, get, *, allow
+      # p, role:readonly, repositories, list, *, allow
+      # p, role:readonly, secrets, *, *, deny
+
+      # No-secrets role - explicitly denied secrets access
+      # g, /argocd-no-secrets, role:no-secrets
+      # p, role:no-secrets, applications, get, *, allow
+      # p, role:no-secrets, applications, list, *, allow
+      # p, role:no-secrets, repositories, get, *, allow
+      # p, role:no-secrets, repositories, list, *, allow
+      # p, role:no-secrets, secrets, *, *, deny
+
+      # System role for service accounts - LIMITED permissions
+      p, role:system, applications, get, *, allow
+      p, role:system, applications, list, *, allow
+      p, role:system, repositories, get, *, allow
+      p, role:system, repositories, list, *, allow
+      p, role:system, secrets, *, *, deny
+
+      # Special vault-reader role - ONLY for ArgoCD internal operations
+      # This should ONLY be used by ArgoCD's own service accounts for Vault plugin
+      p, role:vault-reader, secrets, get, argocd/*, allow
+      p, role:vault-reader, secrets, list, argocd/*, allow
+      p, role:vault-reader, secrets, get, */vault-token, allow
+      p, role:vault-reader, secrets, get, */argocd-secret, allow
+
+      # Assign service account to vault-reader (restricted scope)
+      g, argocd-prod-repo-server, role:vault-reader
+
+      # Explicit denials for all other combinations
+      p, role:vault-reader, secrets, create, *, deny
+      p, role:vault-reader, secrets, update, *, deny
+      p, role:vault-reader, secrets, patch, *, deny
+      p, role:vault-reader, secrets, delete, *, deny
+
+      # Define role:none to deny access to everything
+      p, role:none, applications, *, *, deny
+      p, role:none, clusters, *, *, deny
+      p, role:none, repositories, *, *, deny
+      p, role:none, certificates, *, *, deny
+      p, role:none, accounts, *, *, deny
+      p, role:none, gpgkeys, *, *, deny
+      p, role:none, projects, *, *, deny
+      p, role:none, secrets, *, *, deny
+      p, role:none, logs, *, *, deny
+      p, role:none, exec, *, *, deny
+      p, role:none, session, *, *, deny
+      p, role:none, applicationsets, *, *, deny
+      p, role:none, notifications, *, *, deny
+      p, role:none, *, *, *, deny    # Catch-all for any future resources
+    # Sets users without group assignments to role:none (denied all access)
+    policy.default: "role:none"
+    policy.matchMode: "glob"
+    scopes: "[groups]"
+
   cmp:
     create: true
-    plugins: 
+    plugins:
       argocd-vault-plugin-helm:
         discover:
           find:
@@ -177,7 +255,7 @@ configs:
               - "-c"
               - "find . -name 'Chart.yaml' && find . -name 'values.yaml'"
         init:
-          command: 
+          command:
             - bash
             - "-c"
             - |
