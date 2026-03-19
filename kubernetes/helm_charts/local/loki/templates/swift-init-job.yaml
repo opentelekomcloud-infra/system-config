@@ -1,80 +1,14 @@
 {{- /*
-  Job to initialize Swift containers for Loki storage.
-  Runs once to ensure the required Swift containers exist.
+  Secret for Loki Swift storage credentials.
+  Managed as a regular resource so it persists across syncs.
 */ -}}
 {{- if .Values.swift.enabled }}
----
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: loki-swift-init
-  namespace: {{ .Release.Namespace }}
-  annotations:
-    argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: HookSucceeded
-    argocd.argoproj.io/sync-wave: "0"
-spec:
-  backoffLimit: 3
-  template:
-    spec:
-      restartPolicy: OnFailure
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        seccompProfile:
-          type: RuntimeDefault
-      containers:
-        - name: swift-init
-          image: curlimages/curl:8.7.1
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities:
-              drop:
-                - ALL
-          env:
-            - name: SWIFT_URL
-              value: {{ .Values.swift.proxy_url | quote }}
-            - name: SWIFT_USER
-              valueFrom:
-                secretKeyRef:
-                  name: loki-swift-creds
-                  key: username
-            - name: SWIFT_PASS
-              valueFrom:
-                secretKeyRef:
-                  name: loki-swift-creds
-                  key: password
-          command:
-            - /bin/sh
-            - -c
-            - |
-              set -e
-              # Get auth token
-              AUTH=$(curl -sf -i \
-                -H "X-Auth-User: $SWIFT_USER" \
-                -H "X-Auth-Key: $SWIFT_PASS" \
-                "$SWIFT_URL/auth/v1.0")
-              TOKEN=$(echo "$AUTH" | grep -i 'X-Auth-Token' | awk '{print $2}' | tr -d '\r')
-              STORAGE_URL=$(echo "$AUTH" | grep -i 'X-Storage-Url' | awk '{print $2}' | tr -d '\r')
-
-              {{- range .Values.swift.containers }}
-              echo "Creating Swift container: {{ . }}"
-              curl -sf -X PUT \
-                -H "X-Auth-Token: $TOKEN" \
-                "$STORAGE_URL/{{ . }}" || true
-              {{- end }}
-              echo "Swift containers initialized."
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: loki-swift-creds
   namespace: {{ .Release.Namespace }}
-  annotations:
-    argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
-    argocd.argoproj.io/sync-wave: "-1"
 type: Opaque
 stringData:
   username: {{ .Values.swift.username | quote }}
