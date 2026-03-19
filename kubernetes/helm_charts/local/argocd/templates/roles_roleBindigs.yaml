@@ -1,0 +1,26 @@
+{{- if and .Values.repoServerSecretAccess (hasKey .Values.repoServerSecretAccess "enabled") .Values.repoServerSecretAccess.enabled }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: argocd-repo-server-secrets
+  namespace: {{ .Values.repoServerSecretAccess.namespace | default $.Release.Namespace }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argocd-repo-server-secrets
+  namespace: {{ .Values.repoServerSecretAccess.namespace | default $.Release.Namespace }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: argocd-repo-server-secrets
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.repoServerSecretAccess.serviceAccount | default "argocd-preprod-repo-server" }}
+    namespace: {{ .Values.repoServerSecretAccess.namespace | default $.Release.Namespace }}
+{{- end }}

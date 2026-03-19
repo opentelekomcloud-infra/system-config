@@ -1,0 +1,87 @@
+projects:
+  - name: infra
+    description: "Infrastructure project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        server: '*'
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: []
+
+  - name: cloudmon
+    description: "Common cloudmon project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: '*'
+        namespace: '*'
+        server: https://192.168.120.60:5443
+      - name: '*'
+        namespace: '*'
+        server: https://192.168.121.4:5443
+      - name: '*'
+        namespace: 'otcinfra'
+        server: https://192.168.170.211:5443
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'
+
+  - name: acr
+    description: "Architecture Center project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: 'otcinfra'
+        namespace: 'docs-next'
+        server: 'https://192.168.170.211:5443'
+      - name: 'otcinfra'
+        namespace: 'docs-next-stg'
+        server: 'https://192.168.170.211:5443'
+      - name: 'otcinfra'
+        namespace: 'typesense-system'
+        server: 'https://192.168.170.211:5443'
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - '*'
+
+  - name: status-dashboard
+    description: "Project dedicated to Status Dashboard application"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    destinations:
+      - name: 'otcinfra2'
+        namespace: 'status-dashboard'
+        server: 'https://192.168.171.211:5443'
+      - name: 'otcinfra2'
+        namespace: 'sd3-test'
+        server: 'https://192.168.171.211:5443'
+      - name: 'otcinfra2'
+        namespace: 'status-dashboard-ch-prod'
+        server: 'https://192.168.171.211:5443'
+      - name: 'otcinfra2'
+        namespace: 'status-dashboard-fe-prod'
+        server: 'https://192.168.171.211:5443'
+    namespaceResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    sourceRepos:
+      - 'https://github.com/opentelekomcloud-infra/stackmon-config'
+      - 'https://github.com/opentelekomcloud-infra/system-config'

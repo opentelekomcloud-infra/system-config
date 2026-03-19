@@ -1,0 +1,18 @@
+{{- if and .Values.repositorySecret (hasKey .Values.repositorySecret "enabled") .Values.repositorySecret.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    managed-by: argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: {{ .Values.repositorySecret.name }}
+  namespace: {{ .Values.repositorySecret.namespace | default $.Release.Namespace }}
+type: Opaque
+data:
+  name: {{ .Values.repositorySecret.data.name | quote }}
+  project: {{ .Values.repositorySecret.data.project | quote }}
+  type: {{ .Values.repositorySecret.data.type | quote }}
+  url: {{ .Values.repositorySecret.data.url | quote }}
+{{- end }}

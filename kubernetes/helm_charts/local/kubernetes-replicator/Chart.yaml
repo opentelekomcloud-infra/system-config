@@ -1,0 +1,4 @@
+apiVersion: v2
+name: kubernetes-replicator
+description: A custom/local Helm Chart used for deployment of Kubernetes Replicator
+version: 0.1.0
