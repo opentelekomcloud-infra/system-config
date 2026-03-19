@@ -1,8 +1,0 @@
----
-- name: Import Zulip configuration
-  postgresql.community.postgresql_query:
-    db: "{{ alerta.alerta_db_name }}"
-    login_host: "{{ alerta.alerta_db_host }}"
-    login_user: "{{ alerta.alerta_db_user }}"
-    login_password: "{{ alerta.alerta_db_password }}"
-    path_to_script: "data.sql"

@@ -1,0 +1,4 @@
+apiVersion: v2
+name: loki-additional-manifests
+description: A custom/local Helm Chart for Loki additional manifests (PVs, Swift container init)
+version: 0.1.0

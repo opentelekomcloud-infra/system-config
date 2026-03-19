@@ -1,0 +1,73 @@
+{{- /*
+  PrometheusRules for monitoring OTel Collectors.
+  These rules fire when collectors are unhealthy.
+*/ -}}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: otel-collector-alerts
+  namespace: {{ .Release.Namespace }}
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: otel-collector-health
+      rules:
+        - alert: OtelCollectorDown
+          expr: up{job=~".*otel.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "OTel Collector {{ $labels.instance }} is down"
+            description: "The OpenTelemetry Collector instance {{ $labels.instance }} (job {{ $labels.job }}) has been down for more than 5 minutes."
+
+        - alert: OtelCollectorHighMemory
+          expr: |
+            container_memory_working_set_bytes{container=~".*otel.*"}
+            / container_spec_memory_limit_bytes{container=~".*otel.*"}
+            > 0.85
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "OTel Collector {{ $labels.pod }} memory usage above 85%"
+            description: "The OTel Collector pod {{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory limit."
+
+        - alert: OtelExporterFailedRequests
+          expr: |
+            rate(otelcol_exporter_send_failed_spans_total[5m]) > 0
+            or
+            rate(otelcol_exporter_send_failed_metric_points_total[5m]) > 0
+            or
+            rate(otelcol_exporter_send_failed_log_records_total[5m]) > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "OTel Collector exporter {{ $labels.exporter }} has failed exports"
+            description: "Exporter {{ $labels.exporter }} on {{ $labels.instance }} is failing to export telemetry data."
+
+        - alert: OtelReceiverRefusedData
+          expr: |
+            rate(otelcol_receiver_refused_spans_total[5m]) > 0
+            or
+            rate(otelcol_receiver_refused_metric_points_total[5m]) > 0
+            or
+            rate(otelcol_receiver_refused_log_records_total[5m]) > 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "OTel Collector receiver {{ $labels.receiver }} is refusing data"
+            description: "Receiver {{ $labels.receiver }} on {{ $labels.instance }} is refusing incoming telemetry. This may indicate backpressure or misconfiguration."
+
+        - alert: OtelCollectorQueueAlmostFull
+          expr: otelcol_exporter_queue_size / otelcol_exporter_queue_capacity > 0.8
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "OTel Collector export queue for {{ $labels.exporter }} is {{ $value | humanizePercentage }} full"
+            description: "The export queue on {{ $labels.instance }} for exporter {{ $labels.exporter }} is almost full. Data may be dropped if this continues."

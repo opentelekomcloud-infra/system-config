@@ -1,7 +1,0 @@
-- hosts: "!disabled"
-  name: "Base: check availability of promtail and restart on failure"
-  tasks:
-    - include_role:
-        name: "promtail"
-        tasks_from: "monitor.yaml"
-

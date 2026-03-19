@@ -19,17 +19,17 @@ grafana:
       root_url: https://grafana.eco-preprod.tsi-dev.otc-service.com
     auth.generic_oauth:
       enabled: true
-      name: Keycloak
+      name: Zitadel
       allow_sign_up: true
-      scopes: openid email profile
-      client_id: <path:secret/data/grafana/preprod#keycloak_client_id>
-      client_secret: <path:secret/data/grafana/preprod#keycloak_client_secret>
-      auth_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/auth
-      token_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/token
-      api_url: https://keycloak.eco-preprod.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/userinfo
-      role_attribute_path: contains(client_roles[*], 'grafana-preprod-admin') && 'Admin' || contains(client_roles[*], 'grafana-preprod-dev') && 'Viewer'
+      scopes: openid email profile groups urn:zitadel:iam:org:project:roles
+      client_id: <path:secret/data/grafana/config#zitadel_client_id>
+      client_secret: <path:secret/data/grafana/config#zitadel_client_secret>
+      auth_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oauth/v2/authorize
+      token_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oauth/v2/token
+      api_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oidc/v1/userinfo
+      role_attribute_path: contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'
       role_attribute_strict: true
-      tls_skip_verify_insecure: true
+      tls_skip_verify_insecure: false
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
@@ -42,14 +42,6 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
-      - name: 'victoria-metrics'
-        orgId: 1
-        folder: 'victoria-metrics'
-        type: file
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/victoria-metrics
   dashboards:
     grafana-dashboards-kubernetes:
       k8s-system-api-server:
@@ -70,13 +62,6 @@ grafana:
       k8s-views-pods:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
         token: ''
-    victoria-metrics:
-      victoria-metrics-cluster:
-        url: https://raw.githubusercontent.com/VictoriaMetrics/VictoriaMetrics/master/dashboards/victoriametrics-cluster.json
-        token: ''
-      vmagent:
-        url: https://raw.githubusercontent.com/VictoriaMetrics/VictoriaMetrics/master/dashboards/vmagent.json
-        token: ''
 
   datasources:
     datasources.yaml:
@@ -89,30 +74,26 @@ grafana:
         orgId: '1'
         uid: 'loki'
         basicAuth: true
-        basicAuthUser: <path:secret/data/grafana/preprod#loki_username>
+        basicAuthUser: <path:secret/data/grafana/config#loki_username>
         isDefault: false
         jsonData:
           maxLines: 1000
-          tlsSkipVerify: true
+          tlsSkipVerify: false
           httpHeaderName1: 'X-Scope-OrgID'
         secureJsonData:
-          basicAuthPassword: <path:secret/data/grafana/preprod#loki_password>
-          httpHeaderValue1: <path:secret/data/grafana/preprod#loki_orgid>
+          basicAuthPassword: <path:secret/data/grafana/config#loki_password>
+          httpHeaderValue1: <path:secret/data/grafana/config#loki_orgid>
         version: '1'
         editable: true
-      - name: Victoria Metrics
+      - name: Prometheus
         type: prometheus
         access: proxy
         orgId: '1'
-        uid: 'victoria-metrics'
-        url: https://vm.eco-preprod.tsi-dev.otc-service.com/prometheus
-        basicAuth: true
-        basicAuthUser: <path:secret/data/grafana/preprod#vm_username>
+        uid: 'prometheus'
+        url: http://prometheus-otcpreprod-kube-prometh-prometheus.monitoring.svc.cluster.local:9090
         isDefault: true
         jsonData:
-          tlsSkipVerify: true
-        secureJsonData:
-          basicAuthPassword: <path:secret/data/grafana/preprod#vm_password>
+          tlsSkipVerify: false
         version: '1'
         editable: true
 

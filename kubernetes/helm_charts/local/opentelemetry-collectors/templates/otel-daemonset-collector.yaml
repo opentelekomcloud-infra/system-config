@@ -1,0 +1,253 @@
+{{- /*
+  OTel Collector DaemonSet — deployed on every node.
+  Collects: pod logs (filelog), journal logs, host metrics.
+  Replaces: Promtail DaemonSet.
+*/ -}}
+---
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-node
+  namespace: {{ .Release.Namespace }}
+spec:
+  mode: daemonset
+  image: {{ .Values.daemonset.image | quote }}
+  serviceAccount: otel-node-collector
+  resources:
+{{ toYaml .Values.daemonset.resources | indent 4 }}
+  securityContext:
+    runAsUser: 0
+    runAsGroup: 0
+  podSecurityContext:
+    fsGroup: 0
+  env:
+    - name: NODE_NAME
+      valueFrom:
+        fieldRef:
+          fieldPath: spec.nodeName
+    - name: LOKI_URL
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_url
+    - name: LOKI_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_username
+    - name: LOKI_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_password
+    - name: LOKI_TENANT_ID
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_tenant_id
+
+  volumeMounts:
+    - name: varlogpods
+      mountPath: /var/log/pods
+      readOnly: true
+    - name: varlogjournal
+      mountPath: /var/log/journal
+      readOnly: true
+    - name: varlibdockercontainers
+      mountPath: /var/lib/docker/containers
+      readOnly: true
+  volumes:
+    - name: varlogpods
+      hostPath:
+        path: /var/log/pods
+    - name: varlogjournal
+      hostPath:
+        path: /var/log/journal
+    - name: varlibdockercontainers
+      hostPath:
+        path: /var/lib/docker/containers
+  config:
+    receivers:
+      # Kubernetes pod log collection (replaces Promtail k8s log collection)
+      filelog/pods:
+        include:
+          - /var/log/pods/*/*/*.log
+        exclude:
+          - /var/log/pods/*/otc-container/*.log
+        start_at: end
+        include_file_path: true
+        include_file_name: false
+        operators:
+          # Parse CRI log format
+          - type: router
+            id: get-format
+            routes:
+              - output: parser-docker
+                expr: 'body matches "^\\{"'
+              - output: parser-crio
+                expr: 'body matches "^[^ Z]+ "'
+              - output: parser-containerd
+                expr: 'body matches "^[^ Z]+Z"'
+          - type: regex_parser
+            id: parser-docker
+            regex: '^(?P<time>[^ ]+) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          - type: regex_parser
+            id: parser-crio
+            regex: '^(?P<time>[^ Z]+) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%L%j'
+          - type: regex_parser
+            id: parser-containerd
+            regex: '^(?P<time>[^ ^Z]+Z) (?P<stream>stdout|stderr) (?P<logtag>[^ ]*) ?(?P<log>.*)$'
+            timestamp:
+              parse_from: attributes.time
+              layout: '%Y-%m-%dT%H:%M:%S.%LZ'
+          # Extract k8s metadata from file path
+          - type: regex_parser
+            id: extract_metadata_from_filepath
+            regex: '^.*\/(?P<namespace>[^_]+)_(?P<pod_name>[^_]+)_(?P<uid>[a-f0-9\-]+)\/(?P<container_name>[^\._]+)\/(?P<restart_count>\d+)\.log$'
+            parse_from: attributes["log.file.path"]
+          - type: move
+            from: attributes.log
+            to: body
+          - type: move
+            from: attributes.stream
+            to: attributes["log.iostream"]
+          - type: move
+            from: attributes.namespace
+            to: resource["k8s.namespace.name"]
+          - type: move
+            from: attributes.pod_name
+            to: resource["k8s.pod.name"]
+          - type: move
+            from: attributes.container_name
+            to: resource["k8s.container.name"]
+          - type: move
+            from: attributes.uid
+            to: resource["k8s.pod.uid"]
+
+      # Journald / systemd log collection (replaces Promtail journal scrape)
+      journald:
+        directory: /var/log/journal
+        units:
+          - kubelet
+          - containerd
+          - docker
+          - sshd
+          - cron
+        priority: info
+
+      # Host metrics (replaces node-exporter scrape for basic metrics)
+      hostmetrics:
+        collection_interval: 30s
+        scrapers:
+          cpu:
+            metrics:
+              system.cpu.utilization:
+                enabled: true
+          disk: {}
+          filesystem:
+            exclude_mount_points:
+              mount_points:
+                - /dev/*
+                - /proc/*
+                - /sys/*
+              match_type: regexp
+          load: {}
+          memory:
+            metrics:
+              system.memory.utilization:
+                enabled: true
+          network: {}
+
+    processors:
+      batch:
+        send_batch_size: 8192
+        timeout: 5s
+
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+
+      # Add cluster and node labels to all telemetry
+      resource/cluster:
+        attributes:
+          - key: cluster
+            value: {{ .Values.clusterName | quote }}
+            action: upsert
+          - key: node
+            value: "${NODE_NAME}"
+            action: upsert
+
+      # Transform log attributes to Loki-compatible labels
+      attributes/loki:
+        actions:
+          - key: loki.attribute.labels
+            value: "cluster, node"
+            action: insert
+
+      resource/loki:
+        attributes:
+          - key: loki.resource.labels
+            value: "k8s.namespace.name, k8s.pod.name, k8s.container.name"
+            action: insert
+
+    exporters:
+      # Ship logs to Loki
+      loki:
+        endpoint: "${LOKI_URL}"
+        default_labels_enabled:
+          exporter: false
+          job: true
+          instance: true
+          level: true
+        auth:
+          authenticator: basicauth/loki
+        headers:
+          X-Scope-OrgID: "${LOKI_TENANT_ID}"
+
+      # Expose metrics for Prometheus scraping
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        resource_to_telemetry_conversion:
+          enabled: true
+
+    extensions:
+      basicauth/loki:
+        client_auth:
+          username: "${LOKI_USERNAME}"
+          password: "${LOKI_PASSWORD}"
+      health_check:
+        endpoint: 0.0.0.0:13133
+
+    service:
+      extensions:
+        - health_check
+        - basicauth/loki
+      pipelines:
+        logs:
+          receivers:
+            - filelog/pods
+            - journald
+          processors:
+            - memory_limiter
+            - resource/cluster
+            - resource/loki
+            - attributes/loki
+            - batch
+          exporters:
+            - loki
+        metrics:
+          receivers:
+            - hostmetrics
+          processors:
+            - memory_limiter
+            - resource/cluster
+            - batch
+          exporters:
+            - prometheus

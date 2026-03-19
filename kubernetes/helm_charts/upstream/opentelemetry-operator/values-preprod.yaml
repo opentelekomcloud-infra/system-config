@@ -1,0 +1,37 @@
+opentelemetry-operator:
+  manager:
+    image:
+      repository: ghcr.io/open-telemetry/opentelemetry-operator/opentelemetry-operator
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 128Mi
+    serviceMonitor:
+      enabled: true
+    containerSecurityContext:
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      seccompProfile:
+        type: RuntimeDefault
+      capabilities:
+        drop:
+          - ALL
+
+  admissionWebhooks:
+    certManager:
+      enabled: true
+      issuerRef:
+        kind: ClusterIssuer
+        name: letsencrypt-prod
+
+  kubeRBACProxy:
+    enabled: true
+    resources:
+      limits:
+        memory: 64Mi
+      requests:
+        cpu: 10m
+        memory: 32Mi
