@@ -21,12 +21,16 @@ grafana:
       enabled: true
       name: Zitadel
       allow_sign_up: true
+      auto_login: false
       scopes: openid email profile groups urn:zitadel:iam:org:project:roles
       client_id: <path:secret/data/grafana/config#zitadel_client_id>
       client_secret: <path:secret/data/grafana/config#zitadel_client_secret>
       auth_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oauth/v2/authorize
       token_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oauth/v2/token
       api_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oidc/v1/userinfo
+      use_pkce: true
+      use_refresh_token: true
+      signout_redirect_url: https://zitadel.eco-preprod.tsi-dev.otc-service.com/oidc/v1/end_session
       role_attribute_path: contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-editor') && 'Editor' || 'Viewer'
       role_attribute_strict: true
       tls_skip_verify_insecure: false
