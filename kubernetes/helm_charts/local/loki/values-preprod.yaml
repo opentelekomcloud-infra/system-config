@@ -1,7 +1,7 @@
 # Swift container initialization for Loki
 swift:
   enabled: true
-  proxy_url: "http://swift-proxy-preprod-svc.swift-proxy.svc.cluster.local:8000"
+  proxy_url: "http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080"
   username: <path:secret/data/loki#swift_username>
   password: <path:secret/data/loki#swift_password>
   containers:
