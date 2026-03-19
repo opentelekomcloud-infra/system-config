@@ -140,7 +140,7 @@ applications:
     config:
       namespace: grafana-infra
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
       path: kubernetes/helm_charts/upstream/grafana
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -584,3 +584,117 @@ applications:
   #         selfHeal: true
   #       syncOptions:
   #         - CreateNamespace=true
+
+#########################################
+####  OBSERVABILITY STACK (NEW)  ########
+#########################################
+
+  # OpenTelemetry Operator — manages OTel Collector CRDs
+  - name: opentelemetry-operator
+    clusters: [preprod]
+    config:
+      namespace: opentelemetry
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/upstream/opentelemetry-operator
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # OTel Collector instances (DaemonSet + Deployment)
+  - name: opentelemetry-collectors
+    clusters: [preprod]
+    config:
+      namespace: opentelemetry
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/local/opentelemetry-collectors
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # Loki 3.x — distributed log storage with Swift backend
+  - name: loki
+    clusters: [preprod]
+    config:
+      namespace: loki
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/upstream/loki
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # Loki additional manifests (Swift init job, credentials)
+  - name: loki-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: loki
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/local/loki
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # kube-prometheus-stack (Prometheus, Alertmanager, ServiceMonitors)
+  - name: kube-prometheus-stack
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/upstream/kube-prometheus-stack
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # kube-prometheus-stack additional manifests (go-neb, extra configs)
+  - name: kube-prometheus-stack-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/local/kube-prometheus-stack
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

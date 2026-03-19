@@ -1,0 +1,23 @@
+{{- /*
+  ServiceMonitor for OTel Collector self-telemetry.
+  Prometheus scrapes the collectors' own /metrics endpoint.
+*/ -}}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: otel-collectors
+  namespace: {{ .Release.Namespace }}
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/managed-by: opentelemetry-operator
+  endpoints:
+    - port: monitoring
+      interval: 30s
+      path: /metrics
