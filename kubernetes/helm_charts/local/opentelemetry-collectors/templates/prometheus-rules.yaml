@@ -20,8 +20,8 @@ spec:
           labels:
             severity: critical
           annotations:
-            summary: "OTel Collector {{ $labels.instance }} is down"
-            description: "The OpenTelemetry Collector instance {{ $labels.instance }} (job {{ $labels.job }}) has been down for more than 5 minutes."
+            summary: "OTel Collector {{`{{ $labels.instance }}`}} is down"
+            description: "The OpenTelemetry Collector instance {{`{{ $labels.instance }}`}} (job {{`{{ $labels.job }}`}}) has been down for more than 5 minutes."
 
         - alert: OtelCollectorHighMemory
           expr: |
@@ -32,8 +32,8 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "OTel Collector {{ $labels.pod }} memory usage above 85%"
-            description: "The OTel Collector pod {{ $labels.pod }} is using {{ $value | humanizePercentage }} of its memory limit."
+            summary: "OTel Collector {{`{{ $labels.pod }}`}} memory usage above 85%"
+            description: "The OTel Collector pod {{`{{ $labels.pod }}`}} is using {{`{{ $value | humanizePercentage }}`}} of its memory limit."
 
         - alert: OtelExporterFailedRequests
           expr: |
@@ -46,8 +46,8 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "OTel Collector exporter {{ $labels.exporter }} has failed exports"
-            description: "Exporter {{ $labels.exporter }} on {{ $labels.instance }} is failing to export telemetry data."
+            summary: "OTel Collector exporter {{`{{ $labels.exporter }}`}} has failed exports"
+            description: "Exporter {{`{{ $labels.exporter }}`}} on {{`{{ $labels.instance }}`}} is failing to export telemetry data."
 
         - alert: OtelReceiverRefusedData
           expr: |
@@ -60,8 +60,8 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "OTel Collector receiver {{ $labels.receiver }} is refusing data"
-            description: "Receiver {{ $labels.receiver }} on {{ $labels.instance }} is refusing incoming telemetry. This may indicate backpressure or misconfiguration."
+            summary: "OTel Collector receiver {{`{{ $labels.receiver }}`}} is refusing data"
+            description: "Receiver {{`{{ $labels.receiver }}`}} on {{`{{ $labels.instance }}`}} is refusing incoming telemetry. This may indicate backpressure or misconfiguration."
 
         - alert: OtelCollectorQueueAlmostFull
           expr: otelcol_exporter_queue_size / otelcol_exporter_queue_capacity > 0.8
@@ -69,5 +69,5 @@ spec:
           labels:
             severity: warning
           annotations:
-            summary: "OTel Collector export queue for {{ $labels.exporter }} is {{ $value | humanizePercentage }} full"
-            description: "The export queue on {{ $labels.instance }} for exporter {{ $labels.exporter }} is almost full. Data may be dropped if this continues."
+            summary: "OTel Collector export queue for {{`{{ $labels.exporter }}`}} is {{`{{ $value | humanizePercentage }}`}} full"
+            description: "The export queue on {{`{{ $labels.instance }}`}} for exporter {{`{{ $labels.exporter }}`}} is almost full. Data may be dropped if this continues."

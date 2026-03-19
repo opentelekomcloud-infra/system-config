@@ -10,7 +10,7 @@ opentelemetry-operator:
         memory: 128Mi
     serviceMonitor:
       enabled: true
-    containerSecurityContext:
+    securityContext:
       runAsNonRoot: true
       readOnlyRootFilesystem: true
       allowPrivilegeEscalation: false

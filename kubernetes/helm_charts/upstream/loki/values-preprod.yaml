@@ -15,6 +15,10 @@ loki:
 
     storage:
       type: swift
+      bucketNames:
+        chunks: loki-chunks
+        ruler: loki-ruler
+        admin: loki-admin
       swift:
         auth_url: "http://swift-proxy-preprod-svc.swift-proxy.svc.cluster.local:8000/auth/v1.0"
         username: <path:secret/data/loki#swift_username>
