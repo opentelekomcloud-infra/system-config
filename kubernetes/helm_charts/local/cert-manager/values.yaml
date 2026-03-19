@@ -1,3 +1,7 @@
+selfSignedClusterIssuer:
+  enabled: true
+  name: selfsigned-issuer
+
 clusterIssuers:
   - name: letsencrypt-prod
     email: your-email@telekom.de
