@@ -139,10 +139,6 @@ grafana:
 
   persistence:
     type: pvc
-    enabled: true
-    storageClassName: csi-disk-retain
-    accessModes:
-      - ReadWriteOnce
-    size: 1Gi
+    enabled: false
 
   assertNoLeakedSecrets: false
