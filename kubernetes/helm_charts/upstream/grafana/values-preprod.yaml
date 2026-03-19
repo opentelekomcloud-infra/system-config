@@ -6,7 +6,7 @@ grafana:
       label: grafana_dashboard
       labelValue: "1"
       folderAnnotation: grafana_folder
-      searchNamespace: grafana-preprod
+      searchNamespace: grafana
       provider:
         name: sidecarProvider
         orgId: 1
@@ -90,7 +90,7 @@ grafana:
         access: proxy
         orgId: '1'
         uid: 'prometheus'
-        url: http://prometheus-otcpreprod-kube-prometh-prometheus.monitoring.svc.cluster.local:9090
+        url: http://kube-prometheus-stack-prep-prometheus.monitoring.svc.cluster.local:9090
         isDefault: true
         jsonData:
           tlsSkipVerify: false
@@ -104,7 +104,7 @@ grafana:
     path: /metrics
     namespace: monitoring
     labels:
-      release: prometheus-otcpreprod
+      release: kube-prometheus-stack-preprod
     interval: 30s
     scheme: http
     scrapeTimeout: 30s

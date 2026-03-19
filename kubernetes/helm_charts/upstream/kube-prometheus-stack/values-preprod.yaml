@@ -3,6 +3,8 @@ goNeb:
   enabled: false
 
 kube-prometheus-stack:
+  grafana:
+    enabled: false
   crds:
     enabled: true
   alertmanager:

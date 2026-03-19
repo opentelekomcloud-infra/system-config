@@ -121,11 +121,11 @@ applications:
   - name: grafana
     clusters: [preprod]
     config:
-      namespace: grafana-infra
+      namespace: grafana
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Migration_of_monitoring_and_loging_stack'
       path: kubernetes/helm_charts/upstream/grafana
-      pluginName: argocd-vault-plugin-helm
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
@@ -134,7 +134,6 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true
 
   - name: outline-wiki-additional-manifests
     clusters: [preprod]
