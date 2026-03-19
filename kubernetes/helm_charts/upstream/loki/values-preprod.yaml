@@ -42,7 +42,7 @@ loki:
       per_stream_rate_limit_burst: 15MB
 
     commonConfig:
-      replication_factor: 2
+      replication_factor: 1
 
     # Enable memberlist for ring coordination
     memberlist:
@@ -59,18 +59,24 @@ loki:
     querier:
       max_concurrent: 4
 
-  # ── Deployment sizing — HA with 2 replicas each ──
+  # ── Disable memcached caches (too heavy for preprod) ──
+  chunksCache:
+    enabled: false
+  resultsCache:
+    enabled: false
+
+  # ── Deployment sizing — single replica for preprod ──
   read:
-    replicas: 2
+    replicas: 1
     persistence:
       storageClass: csi-disk-retain
       size: 10Gi
     resources:
       requests:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 100m
+        memory: 256Mi
       limits:
-        memory: 2048Mi
+        memory: 1024Mi
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -85,16 +91,16 @@ loki:
               topologyKey: kubernetes.io/hostname
 
   write:
-    replicas: 2
+    replicas: 1
     persistence:
       storageClass: csi-disk-retain
       size: 10Gi
     resources:
       requests:
-        cpu: 200m
-        memory: 1024Mi
+        cpu: 100m
+        memory: 512Mi
       limits:
-        memory: 2048Mi
+        memory: 1024Mi
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
@@ -109,14 +115,14 @@ loki:
               topologyKey: kubernetes.io/hostname
 
   backend:
-    replicas: 2
+    replicas: 1
     persistence:
       enabled: true
       storageClass: csi-disk-retain
       size: 10Gi
     resources:
       requests:
-        cpu: 200m
+        cpu: 100m
         memory: 256Mi
       limits:
         memory: 512Mi
@@ -127,7 +133,7 @@ loki:
 
   # ── Gateway with ingress + basic auth ──
   gateway:
-    replicas: 2
+    replicas: 1
     ingress:
       enabled: true
       ingressClassName: nginx

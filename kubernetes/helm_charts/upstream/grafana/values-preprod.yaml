@@ -129,10 +129,10 @@ grafana:
 
   resources:
     limits:
-      memory: 2048Mi
+      memory: 1024Mi
     requests:
       cpu: 50m
-      memory: 2048Mi
+      memory: 1024Mi
 
   deploymentStrategy:
     type: Recreate
