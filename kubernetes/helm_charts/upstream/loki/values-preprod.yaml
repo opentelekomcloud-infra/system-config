@@ -23,7 +23,6 @@ loki:
         auth_url: "http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/auth/v1.0"
         username: <path:secret/data/loki#swift_username>
         password: <path:secret/data/loki#swift_password>
-        storage_url: "http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/v1/AUTH_admin"
         container_name: "loki-chunks"
 
     compactor:

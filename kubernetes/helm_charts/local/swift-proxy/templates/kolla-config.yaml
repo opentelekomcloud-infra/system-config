@@ -118,6 +118,14 @@ data:
     [filter:staticweb]
     use = egg:swift#staticweb
 
+    [filter:tempauth]
+    use = egg:swift#tempauth
+    {{- if .Values.swift.tempauth.enabled }}
+    {{- range .Values.swift.tempauth.users }}
+    user_{{ .account }}_{{ .username }} = {{ .password }} {{ .groups }}
+    {{- end }}
+    {{- end }}
+
 {{- if .Values.storage.enabled }}
 ---
 # Kolla config for object server

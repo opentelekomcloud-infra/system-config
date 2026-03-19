@@ -134,6 +134,7 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   - name: outline-wiki-additional-manifests
     clusters: [preprod]
@@ -626,6 +627,7 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   # Loki additional manifests (Swift init job, credentials)
   - name: loki-additional-manifests
@@ -644,6 +646,7 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   # kube-prometheus-stack (Prometheus, Alertmanager, ServiceMonitors)
   - name: kube-prometheus-stack

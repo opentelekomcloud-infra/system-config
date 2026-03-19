@@ -146,6 +146,7 @@ swift:
     - healthcheck
     - proxy-logging
     - cache
+    - tempauth
     - container_sync
     - bulk
     - formpost
@@ -160,6 +161,15 @@ swift:
     - staticweb
     - proxy-logging
     - proxy-server
+
+  # Tempauth users for internal services (Loki, etc.)
+  tempauth:
+    enabled: true
+    users:
+      - account: admin
+        username: <path:secret/data/loki#swift_user>
+        password: <path:secret/data/loki#swift_password>
+        groups: .admin
 
 # Legacy OBS-only configuration (kept for backward compatibility)
 # Only used when mode: "obs-only"
