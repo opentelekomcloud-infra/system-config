@@ -1,3 +1,7 @@
+# go-neb is disabled (templates in this chart require this key)
+goNeb:
+  enabled: false
+
 kube-prometheus-stack:
   crds:
     enabled: true
