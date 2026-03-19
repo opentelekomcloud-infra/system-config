@@ -7,10 +7,11 @@ kube-prometheus-stack:
     config:
       receivers:
       - name: "null"
-      - name: matrix-webhook
-        webhook_configs:
-        - send_resolved: true
-          url: <path:secret/data/prometheus/config#matrix_webhook_url>
+      # Matrix webhook disabled
+      # - name: matrix-webhook
+      #   webhook_configs:
+      #   - send_resolved: true
+      #     url: <path:secret/data/prometheus/config#matrix_webhook_url>
       - name: slack-webhook
         slack_configs:
         - api_url: <path:secret/data/prometheus/config#slack_webhook_url>
@@ -36,10 +37,11 @@ kube-prometheus-stack:
           matchers:
           - alertname =~ "InfoInhibitor|Watchdog"
           receiver: "null"
-        - continue: true
-          matchers:
-          - severity =~ "critical|warning"
-          receiver: matrix-webhook
+        # Matrix route disabled
+        # - continue: true
+        #   matchers:
+        #   - severity =~ "critical|warning"
+        #   receiver: matrix-webhook
         - receiver: slack-webhook
     ingress:
       annotations:

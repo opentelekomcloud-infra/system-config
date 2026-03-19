@@ -27,7 +27,6 @@ loki:
       retention_delete_delay: 2h
       working_directory: /var/loki/compactor
       delete_request_store: swift
-      shared_store: swift
 
     limits_config:
       retention_period: 2184h
