@@ -1,3 +1,6 @@
+global:
+  dnsService: "coredns"
+
 loki:
   # ── Loki core config ──
   loki:
