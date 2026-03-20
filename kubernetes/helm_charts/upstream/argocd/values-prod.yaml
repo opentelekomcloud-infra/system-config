@@ -451,10 +451,10 @@ argo-cd:
 
         # Status Dashboard management role
         g, /status-dashboard, role:sd
-        p, role:sd, applications, *, sd3/*, allow
+        p, role:sd, applications, *, status-dashboard/*, allow
         p, role:sd, repositories, get, *, allow
         p, role:sd, repositories, list, *, allow
-        p, role:sd, secrets, *, sd3/*, allow
+        p, role:sd, secrets, *, status-dashboard/*, allow
 
         # Read-only role - NO secrets access
         # g, /argocd-viewers, role:readonly
