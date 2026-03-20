@@ -114,7 +114,6 @@ all_users:
 base_users:
   - vhasko
   - smartynov
-  - magnus
   - yustina
   - sgode
   - lcuper
@@ -126,6 +125,7 @@ extra_users: []
 disabled_users:
   - kucerakk
   - ashakhba
+  - magnus
 
 # Default distro cloud image names to remove
 disabled_distro_cloud_users:
