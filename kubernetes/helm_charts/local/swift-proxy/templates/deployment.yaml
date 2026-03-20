@@ -35,6 +35,19 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: 30
       containers:
+        {{- if and (eq .Values.mode "cluster") .Values.swift.tempauth.enabled }}
+        - name: memcached
+          image: memcached:1.6-alpine
+          args: ["-m", "64", "-c", "1024", "-u", "memcache"]
+          ports:
+            - containerPort: 11211
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 96Mi
+        {{- end }}
         - name: swift-proxy
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
