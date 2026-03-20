@@ -159,6 +159,8 @@ loki:
       enabled: true
       username: <path:secret/data/loki#gateway_username>
       password: <path:secret/data/loki#gateway_password>
+      htpasswd: >-
+        <path:secret/data/loki#gateway_htpasswd>
     resources:
       requests:
         cpu: 100m
