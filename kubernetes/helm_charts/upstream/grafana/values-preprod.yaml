@@ -78,14 +78,14 @@ grafana:
         orgId: '1'
         uid: 'loki'
         basicAuth: true
-        basicAuthUser: <path:secret/data/grafana/config#loki_username>
+        basicAuthUser: <path:secret/data/loki#gateway_username>
         isDefault: false
         jsonData:
           maxLines: 1000
           tlsSkipVerify: false
           httpHeaderName1: 'X-Scope-OrgID'
         secureJsonData:
-          basicAuthPassword: <path:secret/data/grafana/config#loki_password>
+          basicAuthPassword: <path:secret/data/loki#gateway_password>
           httpHeaderValue1: <path:secret/data/grafana/config#loki_orgid>
         version: '1'
         editable: true
