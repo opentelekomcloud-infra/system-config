@@ -31,7 +31,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fill": 1,
         "fillGradient": 0,
@@ -72,7 +72,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_duration_seconds{instance=~\"$target\"}",
             "format": "time_series",
@@ -116,7 +116,7 @@
         "collapsed": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -131,7 +131,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -142,7 +142,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -221,7 +221,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_success{instance=~\"$target\"}",
             "format": "time_series",
@@ -240,7 +240,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fill": 1,
         "fillGradient": 0,
@@ -281,7 +281,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_http_duration_seconds{instance=~\"$target\"}",
             "format": "time_series",
@@ -328,7 +328,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fill": 1,
         "fillGradient": 0,
@@ -369,7 +369,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_duration_seconds{instance=~\"$target\"}",
             "format": "time_series",
@@ -412,7 +412,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -492,7 +492,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_http_status_code{instance=~\"$target\"}",
             "format": "time_series",
@@ -507,7 +507,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -570,7 +570,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_http_version{instance=~\"$target\"}",
             "format": "time_series",
@@ -584,7 +584,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -663,7 +663,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_http_ssl{instance=~\"$target\"}",
             "format": "time_series",
@@ -678,7 +678,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -758,7 +758,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "probe_ssl_earliest_cert_expiry{instance=~\"$target\"} - time()",
             "format": "time_series",
@@ -773,7 +773,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -836,7 +836,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(probe_duration_seconds{instance=~\"$target\"})",
             "format": "time_series",
@@ -851,7 +851,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -915,7 +915,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(probe_dns_lookup_time_seconds{instance=~\"$target\"})",
             "format": "time_series",
@@ -1035,7 +1035,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "victoria-metrics"
+            "uid": "prometheus"
           },
           "definition": "",
           "hide": 0,

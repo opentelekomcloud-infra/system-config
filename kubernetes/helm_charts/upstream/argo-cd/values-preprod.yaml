@@ -35,6 +35,13 @@ argo-cd:
 
   ## Server
   server:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
     extensions:
       containerSecurityContext:
         seccompProfile:
@@ -242,6 +249,13 @@ argo-cd:
         emptyDir: {}
 
   repoServer:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
     env:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
@@ -387,11 +401,28 @@ argo-cd:
       seccompProfile:
         type: Unconfined
 
+  ## Application controller
+  controller:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
+
   ## ApplicationSet controller
   applicationSet:
     containerSecurityContext:
       seccompProfile:
         type: Unconfined
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
 
   ## Redis configuration
   redis:

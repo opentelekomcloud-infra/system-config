@@ -5,7 +5,7 @@
           "builtIn": 1,
           "datasource": {
             "type": "prometheus",
-            "uid": "victoria-metrics"
+            "uid": "prometheus"
           },
           "enable": true,
           "hide": true,
@@ -27,7 +27,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -88,7 +88,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "up{job=\"vault\"}",
             "format": "time_series",
@@ -103,7 +103,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -175,7 +175,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "editorMode": "code",
             "exemplar": false,
@@ -222,7 +222,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -265,7 +265,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_identity_num_entities)",
             "interval": "",
@@ -279,7 +279,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -336,7 +336,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "editorMode": "code",
             "expr": "avg without(instance) (vault_identity_entity_alias_count)",
@@ -353,7 +353,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -417,7 +417,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "max(1 + vault_core_unsealed{})",
             "format": "time_series",
@@ -432,7 +432,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -487,7 +487,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_expire_num_leases)",
             "interval": "",
@@ -502,7 +502,7 @@
         "collapsed": true,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -519,7 +519,7 @@
             "dashes": false,
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "decimals": 0,
             "fieldConfig": {
@@ -570,7 +570,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(increase(vault_route_create_${mountpoint}__count[5m]))",
                 "format": "time_series",
@@ -582,7 +582,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(increase(vault_route_delete_${mountpoint}__count[5m]))",
                 "hide": false,
@@ -593,7 +593,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(increase(vault_route_read_${mountpoint}__count[5m]))",
                 "format": "time_series",
@@ -607,7 +607,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(increase(vault_route_list_${mountpoint}__count[5m]))",
                 "format": "time_series",
@@ -619,7 +619,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(increase(vault_route_rollback_${mountpoint}__count[5m]))",
                 "hide": true,
@@ -669,7 +669,7 @@
             "dashes": false,
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "decimals": 0,
             "fieldConfig": {
@@ -720,7 +720,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(rate(vault_route_create_${mountpoint}__sum[1m]) / rate(vault_route_create_${mountpoint}__count[1m]) * 1000)",
                 "format": "time_series",
@@ -732,7 +732,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(rate(vault_route_delete_${mountpoint}__sum[1m]) / rate(vault_route_delete_${mountpoint}__count[1m]) * 1000)",
                 "interval": "",
@@ -742,7 +742,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(rate(vault_route_read_${mountpoint}__sum[1m]) / rate(vault_route_read_${mountpoint}__count[1m]) * 1000)",
                 "hide": false,
@@ -753,7 +753,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(rate(vault_route_list_${mountpoint}__sum[1m]) / rate(vault_route_list_${mountpoint}__count[1m]) * 1000)",
                 "hide": false,
@@ -764,7 +764,7 @@
               {
                 "datasource": {
                   "type": "prometheus",
-                  "uid": "victoria-metrics"
+                  "uid": "prometheus"
                 },
                 "expr": "avg(rate(vault_route_rollback_${mountpoint}__sum[1m]) / rate(vault_route_rollback_${mountpoint}__count[1m]) * 1000)",
                 "hide": true,
@@ -814,7 +814,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -826,7 +826,7 @@
         "collapsed": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -840,7 +840,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -851,7 +851,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "description": "",
         "fieldConfig": {
@@ -900,7 +900,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_runtime_heap_objects{} / vault_runtime_malloc_count{})",
             "interval": "",
@@ -915,7 +915,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -971,7 +971,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_runtime_num_goroutines{})",
             "interval": "",
@@ -989,7 +989,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 3,
         "fieldConfig": {
@@ -1040,7 +1040,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_runtime_alloc_bytes{})",
             "interval": "",
@@ -1085,7 +1085,7 @@
         "collapsed": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -1099,7 +1099,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -1110,7 +1110,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -1154,7 +1154,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_token_count)",
             "interval": "",
@@ -1172,7 +1172,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 0,
         "fieldConfig": {
@@ -1221,7 +1221,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg without(instance) (vault_token_count_by_policy)",
             "interval": "",
@@ -1266,7 +1266,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -1326,7 +1326,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(vault_token_create_count - vault_token_store_count)",
             "format": "time_series",
@@ -1346,7 +1346,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 0,
         "fieldConfig": {
@@ -1395,7 +1395,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg without(instance) (vault_token_count_by_ttl)",
             "format": "time_series",
@@ -1445,7 +1445,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 0,
         "fieldConfig": {
@@ -1494,7 +1494,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg without(instance) (vault_token_count_by_auth)",
             "interval": "",
@@ -1543,7 +1543,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 0,
         "fieldConfig": {
@@ -1593,7 +1593,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg by(auth_method, creation_ttl) (vault_token_creation)",
             "format": "time_series",
@@ -1647,7 +1647,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 0,
         "fieldConfig": {
@@ -1695,7 +1695,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg without(instance) (vault_token_create_count)",
             "format": "time_series",
@@ -1708,7 +1708,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg without(instance) (vault_token_store_count)",
             "format": "time_series",
@@ -1762,7 +1762,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 3,
         "fieldConfig": {
@@ -1813,7 +1813,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_token_lookup_count[1m]))",
             "hide": false,
@@ -1861,7 +1861,7 @@
         "collapsed": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -1875,7 +1875,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -1886,7 +1886,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "description": "",
         "fieldConfig": {
@@ -1934,7 +1934,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "max(idelta(vault_audit_log_request_failure[1m]))",
             "format": "time_series",
@@ -1953,7 +1953,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "decimals": 3,
         "fieldConfig": {
@@ -2005,7 +2005,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_audit_log_request_count[1m]))",
             "format": "time_series",
@@ -2018,7 +2018,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_audit_log_response_count[1m]))",
             "format": "time_series",
@@ -2032,7 +2032,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_core_handle_request_count[1m]))",
             "format": "time_series",
@@ -2081,7 +2081,7 @@
       {
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "description": "",
         "fieldConfig": {
@@ -2129,7 +2129,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "max(idelta(vault_audit_log_response_failure[1m]))",
             "format": "time_series",
@@ -2145,7 +2145,7 @@
         "collapsed": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "gridPos": {
           "h": 1,
@@ -2159,7 +2159,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "refId": "A"
           }
@@ -2176,7 +2176,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -2224,7 +2224,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_policy_set_policy_count[1m]))",
             "format": "time_series",
@@ -2276,7 +2276,7 @@
         "dashes": false,
         "datasource": {
           "type": "prometheus",
-          "uid": "victoria-metrics"
+          "uid": "prometheus"
         },
         "fieldConfig": {
           "defaults": {
@@ -2323,7 +2323,7 @@
           {
             "datasource": {
               "type": "prometheus",
-              "uid": "victoria-metrics"
+              "uid": "prometheus"
             },
             "expr": "avg(irate(vault_policy_get_policy_count[1m]))",
             "format": "time_series",
@@ -2385,7 +2385,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "victoria-metrics"
+            "uid": "prometheus"
           },
           "definition": "label_values(up{job=\"vault\"}, instance)",
           "hide": 2,
@@ -2413,7 +2413,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "victoria-metrics"
+            "uid": "prometheus"
           },
           "definition": "label_values(up{job=\"vault\",instance=~\"$node:(.*)\"}, instance)",
           "hide": 2,
@@ -2440,7 +2440,7 @@
           },
           "datasource": {
             "type": "prometheus",
-            "uid": "victoria-metrics"
+            "uid": "prometheus"
           },
           "definition": "label_values(vault_secret_kv_count, mount_point)",
           "hide": 0,
