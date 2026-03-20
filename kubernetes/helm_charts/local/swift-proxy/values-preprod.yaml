@@ -4,7 +4,7 @@
 # Deployment mode: "obs-only" (zuul-storage-proxy to OBS) or "cluster" (full Swift cluster)
 mode: "cluster"
 
-replicaCount: 2
+replicaCount: 1
 
 # Proxy configuration
 proxy:
