@@ -159,6 +159,9 @@ configMapGenerator:
   - name: "enterprise-router"
     files:
       - "configs/redirect_maps/enterprise-router"
+  - name: "enterprise-switch"
+    files:
+      - "configs/redirect_maps/enterprise-switch"
   - name: "function-graph"
     files:
       - "configs/redirect_maps/function-graph"

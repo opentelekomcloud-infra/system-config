@@ -460,7 +460,7 @@
   /en-us/usermanual/ecs/en-us_topic_0000001128445638.html /elastic-cloud-server/umn/backup_using_cbr/overview.html;
   /en-us/usermanual/ecs/en-us_topic_0000001128604648.html /elastic-cloud-server/umn/backup_using_cbr/backing_up_an_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0000001138811177.html /elastic-cloud-server/umn/faqs/ecs_failure/why_cant_my_linux_ecs_obtain_metadata.html;
-  /en-us/usermanual/ecs/en-us_topic_0000001143214829.html /elastic-cloud-server/umn/troubleshooting/how_do_i_configure_atop_and_kdump_on_linux_ecss_for_performance_analysis.html;
+  /en-us/usermanual/ecs/en-us_topic_0000001143214829.html /elastic-cloud-server/umn/troubleshooting/how_do_i_configure_atop_and_kdump_on_linux_ecss.html;
   /en-us/usermanual/ecs/en-us_topic_0000001174675379.html /elastic-cloud-server/umn/service_overview/security/fault_recovery.html;
   /en-us/usermanual/ecs/en-us_topic_0000001189572473.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/why_do_i_fail_to_connect_to_a_linux_ecs_using_winscp.html;
   /en-us/usermanual/ecs/en-us_topic_0000001194242043.html /elastic-cloud-server/umn/security/methods_for_improving_ecs_security.html;
@@ -483,6 +483,7 @@
   /en-us/usermanual/ecs/en-us_topic_0000002371724753.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/index.html;
   /en-us/usermanual/ecs/en-us_topic_0000002424701056.html /elastic-cloud-server/umn/security/configuring_tpm_for_an_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0000002488064958.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_linux_data_disk_parted.html;
+  /en-us/usermanual/ecs/en-us_topic_0000002498531278.html /elastic-cloud-server/umn/faqs/os/best_practices_for_performance_configuration.html;
   /en-us/usermanual/ecs/en-us_topic_0000002520144801.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_linux_data_disk_fdisk.html;
   /en-us/usermanual/ecs/en-us_topic_0000002520224813.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_windows_data_disk_windows_server_2019.html;
   /en-us/usermanual/ecs/en-us_topic_0013771089.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_overview_linux.html;
@@ -776,7 +777,7 @@
   /usermanual/ecs/en-us_topic_0000001128445638.html /elastic-cloud-server/umn/backup_using_cbr/overview.html;
   /usermanual/ecs/en-us_topic_0000001128604648.html /elastic-cloud-server/umn/backup_using_cbr/backing_up_an_ecs.html;
   /usermanual/ecs/en-us_topic_0000001138811177.html /elastic-cloud-server/umn/faqs/ecs_failure/why_cant_my_linux_ecs_obtain_metadata.html;
-  /usermanual/ecs/en-us_topic_0000001143214829.html /elastic-cloud-server/umn/troubleshooting/how_do_i_configure_atop_and_kdump_on_linux_ecss_for_performance_analysis.html;
+  /usermanual/ecs/en-us_topic_0000001143214829.html /elastic-cloud-server/umn/troubleshooting/how_do_i_configure_atop_and_kdump_on_linux_ecss.html;
   /usermanual/ecs/en-us_topic_0000001174675379.html /elastic-cloud-server/umn/service_overview/security/fault_recovery.html;
   /usermanual/ecs/en-us_topic_0000001189572473.html /elastic-cloud-server/umn/faqs/file_upload_data_transfer/why_do_i_fail_to_connect_to_a_linux_ecs_using_winscp.html;
   /usermanual/ecs/en-us_topic_0000001194242043.html /elastic-cloud-server/umn/security/methods_for_improving_ecs_security.html;
@@ -799,6 +800,7 @@
   /usermanual/ecs/en-us_topic_0000002371724753.html /elastic-cloud-server/umn/faqs/ecs_lag_linux/index.html;
   /usermanual/ecs/en-us_topic_0000002424701056.html /elastic-cloud-server/umn/security/configuring_tpm_for_an_ecs.html;
   /usermanual/ecs/en-us_topic_0000002488064958.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_linux_data_disk_parted.html;
+  /usermanual/ecs/en-us_topic_0000002498531278.html /elastic-cloud-server/umn/faqs/os/best_practices_for_performance_configuration.html;
   /usermanual/ecs/en-us_topic_0000002520144801.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_linux_data_disk_fdisk.html;
   /usermanual/ecs/en-us_topic_0000002520224813.html /elastic-cloud-server/umn/getting_started/initializing_evs_data_disks/initializing_a_windows_data_disk_windows_server_2019.html;
   /usermanual/ecs/en-us_topic_0013771089.html /elastic-cloud-server/umn/instances/logging_in_to_a_linux_ecs/login_overview_linux.html;
@@ -996,5 +998,3 @@
   /usermanual/ecs/en-us_topic_0140313879.html /elastic-cloud-server/umn/instances/managing_my_ecss/obtaining_metadata_and_passing_user_data/index.html;
   /usermanual/ecs/en-us_topic_0140313880.html /elastic-cloud-server/umn/disks/overview.html;
   /usermanual/ecs/en-us_topic_0140313881.html /elastic-cloud-server/umn/passwords_and_key_pairs/index.html;
-  /usermanual/ecs/en-us_topic_0140313883.html /elastic-cloud-server/umn/eips/index.html;
-  /usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_lifecycle.html;
