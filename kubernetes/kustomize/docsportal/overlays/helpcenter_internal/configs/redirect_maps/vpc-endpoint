@@ -3,8 +3,8 @@
   /api/vpcep/vpcep_05_0000.html /vpc-endpoint/api-ref/api_usage_guidelines.html;
   /api/vpcep/vpcep_06_0000.html /vpc-endpoint/api-ref/apis/index.html;
   /api/vpcep/vpcep_06_0100.html /vpc-endpoint/api-ref/apis/version_management/index.html;
-  /api/vpcep/vpcep_06_0101.html /vpc-endpoint/api-ref/apis/version_management/querying_versions_of_vpcep_apis.html;
-  /api/vpcep/vpcep_06_0102.html /vpc-endpoint/api-ref/apis/version_management/querying_the_version_of_a_specified_vpcep_api.html;
+  /api/vpcep/vpcep_06_0101.html /vpc-endpoint/api-ref/apis/version_management/querying_versions_of_vpc_endpoint_apis.html;
+  /api/vpcep/vpcep_06_0102.html /vpc-endpoint/api-ref/apis/version_management/querying_the_version_of_a_specified_vpc_endpoint_api.html;
   /api/vpcep/vpcep_06_0200.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/index.html;
   /api/vpcep/vpcep_06_0201.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/creating_a_vpc_endpoint_service.html;
   /api/vpcep/vpcep_06_0202.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/querying_details_about_a_vpc_endpoint_service.html;
@@ -44,8 +44,8 @@
   /en-us/api/vpcep/vpcep_05_0000.html /vpc-endpoint/api-ref/api_usage_guidelines.html;
   /en-us/api/vpcep/vpcep_06_0000.html /vpc-endpoint/api-ref/apis/index.html;
   /en-us/api/vpcep/vpcep_06_0100.html /vpc-endpoint/api-ref/apis/version_management/index.html;
-  /en-us/api/vpcep/vpcep_06_0101.html /vpc-endpoint/api-ref/apis/version_management/querying_versions_of_vpcep_apis.html;
-  /en-us/api/vpcep/vpcep_06_0102.html /vpc-endpoint/api-ref/apis/version_management/querying_the_version_of_a_specified_vpcep_api.html;
+  /en-us/api/vpcep/vpcep_06_0101.html /vpc-endpoint/api-ref/apis/version_management/querying_versions_of_vpc_endpoint_apis.html;
+  /en-us/api/vpcep/vpcep_06_0102.html /vpc-endpoint/api-ref/apis/version_management/querying_the_version_of_a_specified_vpc_endpoint_api.html;
   /en-us/api/vpcep/vpcep_06_0200.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/index.html;
   /en-us/api/vpcep/vpcep_06_0201.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/creating_a_vpc_endpoint_service.html;
   /en-us/api/vpcep/vpcep_06_0202.html /vpc-endpoint/api-ref/apis/apis_for_managing_vpc_endpoint_services/querying_details_about_a_vpc_endpoint_service.html;

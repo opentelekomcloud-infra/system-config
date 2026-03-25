@@ -610,6 +610,7 @@
   /en-us/usermanual/vpc/vpc_acl_0010.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/modifying_a_firewall.html;
   /en-us/usermanual/vpc/vpc_acl_0011.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/enabling_or_disabling_a_firewall.html;
   /en-us/usermanual/vpc/vpc_acl_0012.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/deleting_a_firewall.html;
+  /en-us/usermanual/vpc/vpc_acl_0013.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/managing_firewall_tags.html;
   /en-us/usermanual/vpc/vpc_acl_0014.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/index.html;
   /en-us/usermanual/vpc/vpc_acl_0015.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/index.html;
   /en-us/usermanual/vpc/vpc_acl_0016.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/index.html;
@@ -838,6 +839,7 @@
   /usermanual/vpc/vpc_acl_0010.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/modifying_a_firewall.html;
   /usermanual/vpc/vpc_acl_0011.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/enabling_or_disabling_a_firewall.html;
   /usermanual/vpc/vpc_acl_0012.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/deleting_a_firewall.html;
+  /usermanual/vpc/vpc_acl_0013.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/managing_firewall_tags.html;
   /usermanual/vpc/vpc_acl_0014.html /virtual-private-cloud/umn/access_control/firewall/managing_firewalls/index.html;
   /usermanual/vpc/vpc_acl_0015.html /virtual-private-cloud/umn/access_control/firewall/management_firewall_rules/index.html;
   /usermanual/vpc/vpc_acl_0016.html /virtual-private-cloud/umn/access_control/firewall/managing_subnets_associated_with_a_firewall/index.html;
