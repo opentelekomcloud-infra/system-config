@@ -1,0 +1,5 @@
+namespace: postgres  # Replace with your actual namespace
+clusterIssuerName: letsencrypt-prod
+commonName: postgres.eco-preprod.tsi-dev.otc-service.com
+dnsNames:
+  - postgres.eco-preprod.tsi-dev.otc-service.com
