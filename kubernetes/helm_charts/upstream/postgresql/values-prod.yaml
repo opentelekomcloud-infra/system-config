@@ -1,6 +1,8 @@
 postgresql:
   global:
     defaultStorageClass: "csi-disk"
+    imagePullSecrets:
+      - default-secret
 
   auth:
     enablePostgresUser: true
