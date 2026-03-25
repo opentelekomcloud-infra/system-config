@@ -283,7 +283,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Outline_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -300,7 +300,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Outline_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -317,7 +317,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Outline_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -334,7 +334,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Outline_migration_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/outline
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'

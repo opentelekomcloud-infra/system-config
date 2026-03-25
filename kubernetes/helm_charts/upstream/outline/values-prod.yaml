@@ -63,7 +63,7 @@ outline:
 
   # Use minimal Redis instance for required functionality
   externalRedis:
-    host: "outline-wiki-additional-manifests-prod-redis-minimal"
+    host: "outline-wiki-additional-manifests-otcinfra2-redis-minimal"
     port: 6379
     password: "dummy"  # No password needed for minimal Redis
 
