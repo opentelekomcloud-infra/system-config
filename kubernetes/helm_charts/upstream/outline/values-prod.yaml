@@ -16,6 +16,14 @@ outline:
   utilsSecret: "<path:secret/data/outline/config#utilsSecret>"
   url: "https://outline-k8s.eco.tsi-dev.otc-service.com"  # Explicitly setting the URL
 
+  # Image configuration - use quay.io mirror
+  image:
+    repository: quay.io/opentelekomcloud/outline
+    tag: "0.84.0"
+    pullPolicy: IfNotPresent
+  imagePullSecrets:
+    - name: quay-pull-secret
+
   # Zitadel OIDC Authentication with PKCE
   auth:
     oidc:

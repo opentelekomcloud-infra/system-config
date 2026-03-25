@@ -3,6 +3,8 @@ postgresql:
     defaultStorageClass: "csi-disk"
     imagePullSecrets:
       - quay-pull-secret
+    security:
+      allowInsecureImages: true
 
   auth:
     enablePostgresUser: true
