@@ -2,7 +2,7 @@ postgresql:
   global:
     defaultStorageClass: "csi-disk"
     imagePullSecrets:
-      - default-secret
+      - quay-pull-secret
 
   auth:
     enablePostgresUser: true
@@ -16,6 +16,9 @@ postgresql:
 
   # Security hardening
   image:
+    registry: quay.io
+    repository: opentelekomcloud/postgresql
+    tag: "18.3.0"
     pullPolicy: IfNotPresent
     debug: false
 
@@ -132,9 +135,9 @@ postgresql:
   metrics:
     enabled: true
     image:
-      registry: docker.io
-      repository: bitnami/postgres-exporter
-      tag: "0.15.0-debian-12-r13"
+      registry: quay.io
+      repository: opentelekomcloud/postgres-exporter
+      tag: "0.19.1"
       pullPolicy: IfNotPresent
 
     resources:
@@ -161,9 +164,9 @@ postgresql:
 
   volumePermissions:
     image:
-      registry: docker.io
-      repository: debian
-      tag: 12
+      registry: quay.io
+      repository: opentelekomcloud/debian
+      tag: "12"
 
   # Backup configuration for data protection
   backup:
