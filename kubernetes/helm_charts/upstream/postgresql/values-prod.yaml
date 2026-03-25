@@ -21,7 +21,7 @@ postgresql:
     registry: quay.io
     repository: opentelekomcloud/postgresql
     tag: "18.3.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
     debug: false
 
   # TLS Configuration - re-enabling to fix certificate issues
@@ -140,7 +140,7 @@ postgresql:
       registry: quay.io
       repository: opentelekomcloud/postgres-exporter
       tag: "0.19.1"
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
 
     resources:
       limits:
@@ -169,6 +169,7 @@ postgresql:
       registry: quay.io
       repository: opentelekomcloud/debian
       tag: "12"
+      pullPolicy: Always
 
   # Backup configuration for data protection
   backup:

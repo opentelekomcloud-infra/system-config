@@ -32,7 +32,7 @@ outline:
       # Client ID registered in Zitadel
       clientId: "<path:secret/data/outline/zitadel#clientId>"
       # Client secret from Zitadel
-      clientSecret: "<path:secret/data/outline/zitadel#client-secret>"
+      clientSecret: "<path:secret/data/outline/zitadel#clientSecret>"
       # Zitadel authorization endpoint
       authUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/authorize"
       # Zitadel token endpoint
