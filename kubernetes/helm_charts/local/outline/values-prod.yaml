@@ -7,7 +7,7 @@ replicaCount: 1
 image:
   repository: quay.io/opentelekomcloud/redis
   tag: "7-alpine"
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets:
   - name: quay-pull-secret

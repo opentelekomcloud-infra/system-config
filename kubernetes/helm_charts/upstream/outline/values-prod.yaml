@@ -20,7 +20,7 @@ outline:
   image:
     repository: quay.io/opentelekomcloud/outline
     tag: "0.84.0"
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   imagePullSecrets:
     - name: quay-pull-secret
 

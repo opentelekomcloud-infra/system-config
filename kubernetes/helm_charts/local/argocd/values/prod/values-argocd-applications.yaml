@@ -319,7 +319,7 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'Outline_migration_to_prod'
       path: kubernetes/helm_charts/upstream/outline
-      pluginName: argocd-vault-plugin-helm
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
       project: infra
       syncPolicy:
