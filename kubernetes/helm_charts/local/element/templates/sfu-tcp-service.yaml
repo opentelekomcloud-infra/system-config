@@ -1,0 +1,42 @@
+{{/*
+  SFU TCP LoadBalancer Service
+  ----------------------------
+  Managed here (not in the upstream matrix-stack chart) because OTC CCE
+  requires:
+    1. kubernetes.io/elb.id  annotation pointing to an existing union ELB
+    2. ipFamilyPolicy: SingleStack (union ELBs reject IPv6 / DualStack)
+
+  The upstream chart hard-codes ipFamilyPolicy: PreferDualStack, so we
+  disable its rtcTcp service and provide our own.
+*/}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-matrix-rtc-sfu-tcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/component: matrix-rtc-voip-server
+    app.kubernetes.io/instance: {{ .Release.Name }}-matrix-rtc-sfu-rtc
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: matrix-rtc-sfu-rtc
+    app.kubernetes.io/part-of: matrix-stack
+  annotations:
+    # Share the existing ingress-nginx ELB (80.158.58.167)
+    kubernetes.io/elb.id: "510d12e5-a578-46e5-acb0-32bc0ffcb04c"
+    kubernetes.io/elb.class: union
+    kubernetes.io/elb.pass-through: onlyLocal
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  # OTC union ELBs do not support IPv6 — must be SingleStack IPv4
+  ipFamilyPolicy: SingleStack
+  ipFamilies:
+    - IPv4
+  selector:
+    app.kubernetes.io/instance: {{ .Values.sfuReleaseName }}-matrix-rtc-sfu
+  ports:
+    - name: rtc-tcp
+      port: 30881
+      targetPort: 30881
+      protocol: TCP
+      nodePort: 30881

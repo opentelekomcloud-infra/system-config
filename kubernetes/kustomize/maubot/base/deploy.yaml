@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: maubot
+spec:
+  serviceName: maubot
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: maubot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: maubot
+    spec:
+      containers:
+        - name: maubot
+          image: maubot
+          command:
+            - /bin/sh
+            - -c
+            - |
+              # Create stub frontend so maubot starts without the management UI build
+              BUILD=/opt/maubot/maubot/management/frontend/build
+              mkdir -p "$BUILD/static"
+              echo '{"files":{}}' > "$BUILD/asset-manifest.json"
+              echo '{}' > "$BUILD/manifest.json"
+              printf '\x89PNG\r\n\x1a\n' > "$BUILD/favicon.png"
+              echo '<html><body>management UI not included</body></html>' > "$BUILD/index.html"
+              exec python -m maubot -c /data/config.yaml
+          ports:
+            - name: maubot
+              containerPort: 29316
+              protocol: TCP
+          volumeMounts:
+            - name: maubot-config
+              mountPath: /data/config.yaml
+              subPath: config.yaml
+            - name: maubot-data
+              mountPath: /data
+              subPath: maubot
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+      volumes:
+        - name: maubot-config
+          secret:
+            secretName: maubot-config
+            defaultMode: 420
+        - name: maubot-data
+          persistentVolumeClaim:
+            claimName: maubot-data

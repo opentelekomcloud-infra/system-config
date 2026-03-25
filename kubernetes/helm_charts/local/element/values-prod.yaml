@@ -1,0 +1,23 @@
+# -- Element Call standalone frontend deployment
+# Element Call is already available as a widget inside Element Web.
+# Enable this only if you want a dedicated call.otc-service.com URL
+# for standalone video conferencing (without the full chat client).
+elementCall:
+  enabled: true
+  image: quay.io/opentelekomcloud/element-call:v0.17.0
+  replicas: 1
+  host: call.otc-service.com
+
+# -- Upstream chart release name (needed for cross-chart service selectors)
+# The SFU TCP LoadBalancer service lives in this (local) chart but must
+# select pods deployed by the upstream chart, which has a different
+# Helm release name.
+sfuReleaseName: element-otcinfra2
+
+# -- NFS PersistentVolume for Synapse media store
+mediaStorage:
+  nfs:
+    server: "192.168.171.186"
+    path: "/"
+  capacity: "500Gi"
+  storageClassName: "csi-sfsturbo-retain"

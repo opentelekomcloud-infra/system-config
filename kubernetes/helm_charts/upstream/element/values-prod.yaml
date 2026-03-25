@@ -1,0 +1,382 @@
+# -------------------------------------------------------
+# matrix-stack subchart values (key must match dependency name)
+# -------------------------------------------------------
+matrix-stack:
+
+  # -- Matrix server name (embedded in user IDs: @user:matrix.otc-service.com)
+  # WARNING: This CANNOT be changed after initial deployment!
+  # Migrated from legacy Ansible deployment to preserve user IDs and room history.
+  serverName: matrix.otc-service.com
+
+  # -- Global matrix-tools image (init containers, etc.)
+  matrixTools:
+    image:
+      registry: quay.io
+      repository: opentelekomcloud/matrix-tools
+      tag: "0.7.3"
+      pullSecrets:
+        - name: quay-pull-secret
+
+  # -- Global ingress settings
+  certManager:
+    clusterIssuer: letsencrypt-prod
+
+  ingress:
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/duration: "8760h"
+      cert-manager.io/renew-before: "720h"
+    controllerType: ingress-nginx
+
+  # =====================
+  #  Synapse
+  # =====================
+  synapse:
+    enabled: true
+
+    # -- Override image to use standard upstream Synapse (publicly available)
+    # The chart default uses oci.element.io/synapse which may require
+    # Element registry credentials. Uncomment below to use standard images:
+    image:
+      registry: quay.io
+      repository: opentelekomcloud/synapse
+      tag: "v1.125.0"
+      pullSecrets:
+        - name: quay-pull-secret
+
+    ingress:
+      host: matrix.otc-service.com
+
+    # -- External PostgreSQL RDS (OTC RDS instance)
+    postgres:
+      host: "192.168.14.3"
+      port: 5432
+      user: "root"
+      database: "synapse"
+      sslMode: verify-ca
+      password:
+        secret: matrix-db-credentials
+        secretKey: password
+
+    # -- Mount the RDS CA certificate into the Synapse pod
+    extraVolumes:
+      - name: db-ssl-ca-crt
+        secret:
+          secretName: matrix-db-ssl-ca-crt
+          items:
+            - key: ca.crt
+              path: ca.crt
+    extraVolumeMounts:
+      - name: db-ssl-ca-crt
+        mountPath: /db-ssl-ca-crt
+        readOnly: true
+
+    # -- Media storage on existing NFS PersistentVolume
+    media:
+      storage:
+        existingClaim: matrix-media-pvc
+      maxUploadSize: 100M
+
+    # -- Synapse signing key (existing key from vault)
+    # Provide the full ed25519 key string
+    signingKey:
+      secret: matrix-secrets
+      secretKey: signing-key
+
+    # -- Registration shared secret
+    registrationSharedSecret:
+      secret: matrix-secrets
+      secretKey: registration-shared-secret
+
+    # -- Additional Synapse configuration
+    additional:
+      0-database-ssl:
+        config: |
+          # -- PostgreSQL SSL CA certificate path for verify-ca mode
+          database:
+            args:
+              sslrootcert: /db-ssl-ca-crt/ca.crt
+      1-matrixrtc:
+        config: |
+          # -- MatrixRTC experimental features (required for Element Call)
+          experimental_features:
+            msc3266_enabled: true
+            msc4222_enabled: true
+
+          # -- Delayed events (MSC4140) — required for MatrixRTC
+          max_event_delay_duration: 24h
+
+          # -- Rate limiting adjustments for calls
+          rc_message:
+            per_second: 0.5
+            burst_count: 30
+          rc_delayed_event_mgmt:
+            per_second: 1
+            burst_count: 20
+
+          # -- Macaroon secret key
+          # macaroon_secret_key: "<REPLACE_ME>"
+
+          # -- Form secret
+          # form_secret: "<REPLACE_ME>"
+
+          # -- Trusted key servers
+          trusted_key_servers:
+            - server_name: "matrix.org"
+
+          # -- Reporting
+          report_stats: true
+
+      2-oidc-zitadel:
+        config: |
+          # -- OIDC provider: Zitadel
+          # Allows users to sign in via Zitadel SSO.
+          oidc_providers:
+            - idp_id: zitadel
+              idp_name: "Zitadel SSO"
+              issuer: "<path:secret/data/element/oidc#issuer>"
+              client_id: "<path:secret/data/element/oidc#client_id>"
+              client_secret: "<path:secret/data/element/oidc#client_secret>"
+              scopes:
+                - openid
+                - profile
+                - email
+              user_mapping_provider:
+                config:
+                  localpart_template: "{{ user.preferred_username }}"
+                  display_name_template: "{{ user.name }}"
+                  email_template: "{{ user.email }}"
+              allow_existing_users: true
+              # Skip the "Click to confirm" page in Synapse
+              skip_verification: true
+              # Access control is handled in Zitadel: only users authorised
+              # for the Element OIDC application can log in.
+
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 1Gi
+
+  # =====================
+  #  Element Web
+  # =====================
+  elementWeb:
+    enabled: true
+
+    image:
+      registry: quay.io
+      repository: opentelekomcloud/element-web
+      tag: "v1.11.86"
+      pullSecrets:
+        - name: quay-pull-secret
+
+    ingress:
+      host: element.otc-service.com
+
+    # -- Fix for vectorim/element-web image with readOnlyRootFilesystem
+    # The stock nginx image writes cache to /var/cache/nginx which is read-only.
+    # Mount an emptyDir there so nginx can create its temp directories.
+    extraVolumes:
+      - name: nginx-cache
+        emptyDir: {}
+      - name: nginx-run
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: nginx-cache
+        mountPath: /var/cache/nginx
+      - name: nginx-run
+        mountPath: /var/run
+      # Mount config.json where nginx expects it (/tmp/element-web-config/config.json)
+      # The 18-load-element-modules.sh entrypoint that copies it is absent in this image version
+      - name: config
+        mountPath: /tmp/element-web-config/config.json
+        subPath: config.json
+        readOnly: true
+
+    # -- Additional Element Web config
+    # See: https://github.com/element-hq/element-web/blob/develop/docs/config.md
+    additional:
+      extra-config.json: |
+        {
+          "default_theme": "dark",
+          "brand": "OTC Chat",
+          "disable_custom_urls": false,
+          "element_call": {
+            "url": "https://call.otc-service.com",
+            "use_exclusively": true,
+            "participant_limit": 8,
+            "brand": "Element Call"
+          }
+        }
+
+  # =====================
+  #  MatrixRTC (LiveKit SFU + lk-jwt-service)
+  # =====================
+  matrixRTC:
+    enabled: true
+
+    # -- lk-jwt-service image (directly under matrixRTC)
+    image:
+      registry: quay.io
+      repository: opentelekomcloud/lk-jwt-service
+      tag: "0.3.0"
+      pullSecrets:
+        - name: quay-pull-secret
+
+    ingress:
+      host: matrixrtc.otc-service.com
+
+    sfu:
+      enabled: true
+
+      image:
+        registry: quay.io
+        repository: opentelekomcloud/livekit-server
+        tag: "v1.9.1"
+        pullSecrets:
+          - name: quay-pull-secret
+
+      # -- Set to true if cluster nodes have public IPs directly
+      # Otherwise LiveKit uses STUN to discover its public IP
+      useStunToDiscoverPublicIP: false
+      # ELB public IP (shared with ingress-nginx controller).
+      # This is the IP advertised in ICE candidates so browsers can connect.
+      # The SFU TCP LoadBalancer service uses the same ELB via
+      # annotation kubernetes.io/elb.id=510d12e5-...
+      manualIP: "80.158.58.167"
+
+      # -- Host networking for direct port binding
+      hostNetwork: true
+
+      # -- Exposed services for WebRTC media
+      # The rtcTcp service is managed by the local chart
+      # (sfu-tcp-service.yaml) because the upstream chart hard-codes
+      # ipFamilyPolicy: PreferDualStack which OTC union ELBs reject.
+      exposedServices:
+        rtcTcp:
+          enabled: false
+        rtcMuxedUdp:
+          enabled: false
+        rtcUdp:
+          enabled: false
+        turnTLS:
+          enabled: false
+        turn:
+          enabled: false
+
+      resources:
+        requests:
+          cpu: 100m
+          memory: 150Mi
+        limits:
+          memory: 4Gi
+
+      # -- Additional LiveKit SFU config
+      # See: https://docs.livekit.io/home/self-hosting/deployment/#configuration
+      additional:
+        0-force-tcp:
+          config: |
+            rtc:
+              # Force all WebRTC connections to use TCP (ICE-TCP on port 30881).
+              # Required because the OTC security group on CCE worker nodes
+              # blocks inbound UDP, causing all UDP ICE candidate pairs to fail.
+              # To re-enable UDP: open inbound UDP 30882 in the security group
+              # and set this to false.
+              force_tcp: true
+              # tcp_port must be set explicitly because we disabled
+              # exposedServices.rtcTcp (it hard-codes PreferDualStack).
+              # Without this, LiveKit defaults to port 7881 while the
+              # ELB forwards 30881 → port mismatch → ICE fails.
+              tcp_port: 30881
+
+  # =====================
+  #  Well-Known Delegation
+  # =====================
+  wellKnownDelegation:
+    enabled: true
+
+    # Note: wellKnownDelegation uses serverName as its hostname automatically.
+    # No 'host' property is needed or allowed in its ingress config.
+    ingress: {}
+
+    # -- Redirect base domain to Element Web
+    baseDomainRedirect:
+      enabled: true
+      url: "https://element.otc-service.com"
+
+    # -- Additional well-known config
+    # The chart auto-populates .well-known/matrix/server and /client
+    # based on synapse.ingress.host and matrixRTC config.
+    # Add custom entries here if needed:
+    # additional:
+    #   client: |
+    #     {"custom": "value"}
+    #   server: |
+    #     {"custom": "value"}
+
+  # =====================
+  #  HAProxy
+  # =====================
+  haproxy:
+    replicas: 1
+    image:
+      registry: quay.io
+      repository: opentelekomcloud/haproxy
+      tag: "3.2-alpine"
+      pullSecrets:
+        - name: quay-pull-secret
+    resources:
+      requests:
+        cpu: 100m
+        memory: 100Mi
+      limits:
+        memory: 200Mi
+
+  # =====================
+  #  Redis
+  # =====================
+  redis:
+    maxMemory: 40mb
+    maxMemoryPolicy: allkeys-lru
+    resources:
+      requests:
+        cpu: 50m
+        memory: 50Mi
+      limits:
+        memory: 50Mi
+
+  # =====================
+  #  DISABLED COMPONENTS
+  # =====================
+
+  # -- Built-in PostgreSQL (disabled — using external DB)
+  postgres:
+    enabled: false
+
+  # -- Matrix Authentication Service (disabled)
+  # Enable this ONLY if you want to migrate from legacy Synapse auth to MAS.
+  # Migration requires the syn2mas tool and its own PostgreSQL database.
+  # See: https://element-hq.github.io/matrix-authentication-service/
+  matrixAuthenticationService:
+    enabled: false
+
+  # -- Element Admin (disabled — requires oci.element.io credentials)
+  elementAdmin:
+    enabled: false
+
+  # -- Deployment Markers (disabled when MAS is disabled)
+  deploymentMarkers:
+    enabled: false
+
+  # -- Hookshot bridge (disabled — not needed)
+  hookshot:
+    enabled: false
+
+  # -- Init Secrets job
+  # When enabled, auto-generates missing secrets (signing key, shared secret, etc.)
+  # Disable if you provide all secrets manually via existing K8s Secrets.
+  initSecrets:
+    enabled: true
