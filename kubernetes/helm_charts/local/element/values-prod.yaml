@@ -17,7 +17,7 @@ sfuReleaseName: element-otcinfra2
 # -- NFS PersistentVolume for Synapse media store
 mediaStorage:
   nfs:
-    server: "192.168.171.186"
+    server: <path:secret/data/element/synapse#server-name>
     path: "/"
   capacity: "500Gi"
   storageClassName: "csi-sfsturbo-retain"
