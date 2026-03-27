@@ -13,7 +13,7 @@ labels:
 images:
   - name: openapi-validator
     newName: quay.io/opentelekomcloud/openapi-validator
-    newTag: v0.9.2
+    newTag: v1.0.0
 
 resources:
   - ../../base
