@@ -5,6 +5,22 @@
     name: "otcinfra-bridge"
     public_key: "{{ bastion_public_key }}"
 
+- name: "Create boot volume"
+  openstack.cloud.volume:
+    state: "present"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
+    name: "{{ hostvars[host].inventory_hostname }}-boot"
+    size: "{{ item.size }}"
+    availability_zone: "{{ hostvars[host].location.az }}"
+    volume_type: "{{ item.type | default(omit) }}"
+    image: "{{ hostvars[host].image }}"
+    metadata:
+      __system__encrypted: 1
+      __system__cmkid: "{{ hostvars[host].kms_id }}"
+    wait: true
+  register: root_volume_result
+  when: hostvars[host].root_volume is defined
+  
 - name: "Create data disk if requested for {{ host }}"
   openstack.cloud.volume:
     state: "present"
@@ -41,3 +57,24 @@
     auto_ip: "{{ hostvars[host].auto_ip | default(omit) }}"
     volumes:  "{{ data_volumes_idlist | default(omit) }}"
     userdata: "{{ hostvars[host].userdata  | default(omit) }}"
+  when: hostvars[host].root_volume is not defined
+
+- name: "Provision server {{ hostvars[host].inventory_hostname }}"
+  openstack.cloud.server:
+    state: "present"
+    cloud: "{{ cloud_token.data.data |default(cloud) }}"
+    name: "{{ hostvars[host].inventory_hostname }}"
+    flavor: "{{ hostvars[host].flavor }}"
+    key_name: "otcinfra-bridge"
+    availability_zone: "{{ hostvars[host].location.az }}"
+    security_groups: "{{ hostvars[host].security_groups }}"
+    timeout: 600
+    nics: "{{ hostvars[host].nics }}"
+    boot_volume: "{{ root_volume_result.id }}"
+    boot_from_volume: false
+    terminate_volume: true
+    delete_fip: true
+    auto_ip: "{{ hostvars[host].auto_ip | default(omit) }}"
+    volumes:  "{{ data_volumes_idlist | default(omit) }}"
+    userdata: "{{ hostvars[host].userdata  | default(omit) }}"
+  when: hostvars[host].root_volume is defined
