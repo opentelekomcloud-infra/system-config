@@ -88,6 +88,8 @@ kube-prometheus-stack:
     extraSecret:
       data:
         auth: <path:secret/data/prometheus/config#basic_auth>
+        vmauth_username: <path:secret/data/victoriametrics/preprod#vmauth_username>
+        vmauth_password: <path:secret/data/victoriametrics/preprod#vmauth_password>
       name: basic-auth
     ingress:
       annotations:
@@ -113,5 +115,18 @@ kube-prometheus-stack:
         cluster: otcpreprod
       externalUrl: https://prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
       retention: 7d
+      remoteWrite:
+        - url: "https://vm.eco-preprod.tsi-dev.otc-service.com/api/v1/write"
+          queueConfig:
+            maxSamplesPerSend: 10000
+            capacity: 20000
+            maxShards: 30
+          basicAuth:
+            username:
+              name: basic-auth
+              key: vmauth_username
+            password:
+              name: basic-auth
+              key: vmauth_password
       serviceMonitorSelector: {}
       serviceMonitorSelectorNilUsesHelmValues: false

@@ -17,7 +17,7 @@ victoria-metrics-cluster:
 
   vmselect:
     enabled: true
-    replicaCount: 2
+    replicaCount: 1
     image:
       variant: cluster
     ports:
@@ -28,7 +28,6 @@ victoria-metrics-cluster:
       envflag.prefix: VM_
       loggerFormat: json
       dedup.minScrapeInterval: "30s"
-      replicationFactor: "2"
     probe:
       readiness:
         initialDelaySeconds: 5
@@ -46,21 +45,21 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "1Gi"
+        memory: "512Mi"
       requests:
-        cpu: "1000m"
-        memory: "1Gi"
+        cpu: "200m"
+        memory: "256Mi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
       extraLabels:
-        release: prometheus-otcinfra
+        release: kube-prometheus-stack-preprod
       interval: 30s
       scheme: http
 
   vminsert:
     enabled: true
-    replicaCount: 2
+    replicaCount: 1
     image:
       variant: cluster
     ports:
@@ -70,7 +69,6 @@ victoria-metrics-cluster:
       envflag.enable: "true"
       envflag.prefix: VM_
       loggerFormat: json
-      replicationFactor: "2"
     probe:
       readiness:
         initialDelaySeconds: 5
@@ -88,21 +86,21 @@ victoria-metrics-cluster:
       type: ClusterIP
     resources:
       limits:
-        memory: "1Gi"
+        memory: "512Mi"
       requests:
-        cpu: "1000m"
-        memory: "1Gi"
+        cpu: "200m"
+        memory: "256Mi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
       extraLabels:
-        release: prometheus-otcinfra
+        release: kube-prometheus-stack-preprod
       interval: 30s
       scheme: http
 
   vmstorage:
     enabled: true
-    replicaCount: 2
+    replicaCount: 1
     image:
       variant: cluster
     ports:
@@ -118,7 +116,7 @@ victoria-metrics-cluster:
       enabled: true
       name: vmstorage-volume
       mountPath: /storage
-      size: 300Gi
+      size: 50Gi
       storageClassName: "csi-disk-retain"
     service:
       servicePort: 8482
@@ -142,14 +140,14 @@ victoria-metrics-cluster:
         failureThreshold: 10
     resources:
       limits:
-        memory: "4Gi"
+        memory: "1Gi"
       requests:
-        cpu: "500m"
-        memory: "4Gi"
+        cpu: "200m"
+        memory: "512Mi"
     serviceMonitor:
       enabled: true
       namespace: monitoring
       extraLabels:
-        release: prometheus-otcinfra
+        release: kube-prometheus-stack-preprod
       interval: 30s
       scheme: http
