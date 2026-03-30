@@ -136,6 +136,23 @@ applications:
           - CreateNamespace=true
           - ServerSideApply=true
 
+  - name: grafana-dashboards
+    clusters: [preprod]
+    config:
+      namespace: grafana
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/local/grafana
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: ''
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: outline-wiki-additional-manifests
     clusters: [preprod]
     config:
