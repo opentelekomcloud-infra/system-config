@@ -102,18 +102,18 @@ kube-prometheus-stack:
         cert-manager.io/private-key-rotation-policy: Always
       enabled: true
       hosts:
-      - prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+      - prometheus-mon.eco-preprod.tsi-dev.otc-service.com
       ingressClassName: nginx
       paths:
       - /
       tls:
       - hosts:
-        - prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+        - prometheus-mon.eco-preprod.tsi-dev.otc-service.com
         secretName: prometheus-mon
     prometheusSpec:
       externalLabels:
         cluster: otcpreprod
-      externalUrl: https://prometheus-mon.preprod.eco-preprod.tsi-dev.otc-service.com
+      externalUrl: https://prometheus-mon.eco-preprod.tsi-dev.otc-service.com
       retention: 7d
       remoteWrite:
         - url: "https://vm.eco-preprod.tsi-dev.otc-service.com/api/v1/write"
