@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: umami
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       securityContext:
@@ -41,7 +41,7 @@ spec:
               memory: "1Gi"
             requests:
               cpu: "50m"
-              memory: "512Mi"
+              memory: "256Mi"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
