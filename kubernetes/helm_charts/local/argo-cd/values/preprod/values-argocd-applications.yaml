@@ -136,7 +136,7 @@ applications:
           - CreateNamespace=true
           - ServerSideApply=true
 
-  - name: grafana-dashboards
+  - name: grafana-additional-manifests
     clusters: [preprod]
     config:
       namespace: grafana
@@ -152,6 +152,7 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   - name: outline-wiki-additional-manifests
     clusters: [preprod]
