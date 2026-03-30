@@ -97,13 +97,13 @@ loki:
     replicas: 1
     persistence:
       storageClass: csi-disk-retain
-      size: 10Gi
+      size: 20Gi
     resources:
       requests:
         cpu: 100m
         memory: 512Mi
       limits:
-        memory: 1024Mi
+        memory: 2Gi
     affinity:
       podAntiAffinity:
         preferredDuringSchedulingIgnoredDuringExecution:
