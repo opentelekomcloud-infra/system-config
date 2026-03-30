@@ -116,17 +116,10 @@ kube-prometheus-stack:
       externalUrl: https://prometheus-mon.eco-preprod.tsi-dev.otc-service.com
       retention: 7d
       remoteWrite:
-        - url: "https://vm.eco-preprod.tsi-dev.otc-service.com/api/v1/write"
+        - url: "http://victoria-metrics-cluster-preprod-vminsert.monitoring.svc.cluster.local:8480/insert/0/prometheus/api/v1/write"
           queueConfig:
             maxSamplesPerSend: 5000
             capacity: 10000
             maxShards: 5
-          basicAuth:
-            username:
-              name: basic-auth
-              key: vmauth_username
-            password:
-              name: basic-auth
-              key: vmauth_password
       serviceMonitorSelector: {}
       serviceMonitorSelectorNilUsesHelmValues: false
