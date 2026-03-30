@@ -118,9 +118,9 @@ kube-prometheus-stack:
       remoteWrite:
         - url: "https://vm.eco-preprod.tsi-dev.otc-service.com/api/v1/write"
           queueConfig:
-            maxSamplesPerSend: 10000
-            capacity: 20000
-            maxShards: 30
+            maxSamplesPerSend: 5000
+            capacity: 10000
+            maxShards: 5
           basicAuth:
             username:
               name: basic-auth
