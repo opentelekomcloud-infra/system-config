@@ -1,5 +1,11 @@
 grafana:
   sidecar:
+    resources:
+      limits:
+        memory: 256Mi
+      requests:
+        cpu: 10m
+        memory: 128Mi
     dashboards:
       enabled: true
       defaultFolderName: "General"
@@ -176,10 +182,10 @@ grafana:
 
   resources:
     limits:
-      memory: 1024Mi
+      memory: 512Mi
     requests:
       cpu: 50m
-      memory: 1024Mi
+      memory: 256Mi
 
   deploymentStrategy:
     type: Recreate
