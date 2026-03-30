@@ -96,6 +96,8 @@ grafana:
         orgId: 1
       - name: Prometheus
         orgId: 1
+      - name: Victoria Metrics
+        orgId: 1
       datasources:
       - name: Loki
         type: loki
@@ -121,9 +123,24 @@ grafana:
         orgId: '1'
         uid: 'prometheus'
         url: http://kube-prometheus-stack-prep-prometheus.monitoring.svc.cluster.local:9090
-        isDefault: true
+        isDefault: false
         jsonData:
           tlsSkipVerify: false
+        version: '1'
+        editable: true
+      - name: Victoria Metrics
+        type: prometheus
+        access: proxy
+        orgId: '1'
+        uid: 'victoriametrics'
+        url: https://vm.eco-preprod.tsi-dev.otc-service.com/prometheus
+        isDefault: true
+        basicAuth: true
+        basicAuthUser: <path:secret/data/victoriametrics/preprod#vmauth_username>
+        jsonData:
+          tlsSkipVerify: false
+        secureJsonData:
+          basicAuthPassword: <path:secret/data/victoriametrics/preprod#vmauth_password>
         version: '1'
         editable: true
 
