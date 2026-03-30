@@ -130,16 +130,16 @@ spec:
             from: attributes.uid
             to: resource["k8s.pod.uid"]
 
-      # Journald / systemd log collection (replaces Promtail journal scrape)
-      journald:
-        directory: /var/log/journal
-        units:
-          - kubelet
-          - containerd
-          - docker
-          - sshd
-          - cron
-        priority: info
+      # Journald / systemd log collection — disabled: journalctl not available in otel-contrib image
+      # journald:
+      #   directory: /var/log/journal
+      #   units:
+      #     - kubelet
+      #     - containerd
+      #     - docker
+      #     - sshd
+      #     - cron
+      #   priority: info
 
       # Host metrics (replaces node-exporter scrape for basic metrics)
       hostmetrics:
@@ -233,7 +233,6 @@ spec:
         logs:
           receivers:
             - filelog/pods
-            - journald
           processors:
             - memory_limiter
             - resource/cluster
