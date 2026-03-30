@@ -58,7 +58,7 @@ applications:
       targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-preprod.yaml'
+      pluginEnv: '-f values-preprod.yaml --api-versions monitoring.coreos.com/v1'
       project: infra
       syncPolicy:
         automated:
