@@ -97,7 +97,7 @@ loki:
     replicas: 1
     persistence:
       storageClass: csi-disk-retain
-      size: 20Gi
+      size: 10Gi
     resources:
       requests:
         cpu: 100m
