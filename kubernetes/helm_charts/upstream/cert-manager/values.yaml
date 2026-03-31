@@ -1,10 +1,11 @@
-crds:
-  keep: true
+cert-manager:
+  crds:
+    keep: true
 
-prometheus:
-  enabled: true
-  servicemonitor:
+  prometheus:
     enabled: true
+    servicemonitor:
+      enabled: true
 
-extraArgs:
-  - --feature-gates=AdditionalCertificateOutputFormats=true
+  extraArgs:
+    - --feature-gates=AdditionalCertificateOutputFormats=true
