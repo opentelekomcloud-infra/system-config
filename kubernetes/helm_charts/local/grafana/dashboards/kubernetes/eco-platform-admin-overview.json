@@ -79,7 +79,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "up{job=\"apiserver\"}",
+          "expr": "up{job=\"apiserver\", cluster=\"$cluster\"}",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -116,7 +116,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "count(kube_node_info)",
+          "expr": "count(count by (node) (kube_node_info{cluster=\"$cluster\"}))",
           "legendFormat": "Total",
           "range": true,
           "refId": "A"
@@ -155,13 +155,13 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "count(kube_node_spec_taint{effect=\"NoSchedule\"}) OR vector(0)",
+          "expr": "count(kube_node_spec_taint{key=\"node.kubernetes.io/not-ready\", cluster=\"$cluster\"}) OR vector(0)",
           "legendFormat": "NotReady",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Unschedulable Nodes",
+      "title": "Not Ready Nodes",
       "type": "stat"
     },
     {
@@ -192,13 +192,13 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "count(kube_pod_info{namespace=~\"$namespace\"})",
+          "expr": "sum(kube_pod_status_phase{phase=\"Running\", cluster=\"$cluster\", namespace=~\"$namespace\"})",
           "legendFormat": "Running",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Total Pods",
+      "title": "Running Pods",
       "type": "stat"
     },
     {
@@ -231,7 +231,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "count(kube_pod_status_phase{namespace=~\"$namespace\", phase=~\"Failed|Unknown|Pending\"}) OR vector(0)",
+          "expr": "sum(kube_pod_status_phase{phase!~\"Running|Succeeded\", cluster=\"$cluster\", namespace=~\"$namespace\"}) > 0 OR vector(0)",
           "legendFormat": "Unhealthy",
           "range": true,
           "refId": "A"
@@ -270,7 +270,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "count(ALERTS{alertstate=\"firing\"}) OR vector(0)",
+          "expr": "count(ALERTS{alertstate=\"firing\", cluster=\"$cluster\"}) OR vector(0)",
           "legendFormat": "Firing",
           "range": true,
           "refId": "A"
@@ -320,7 +320,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 - (avg(rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "expr": "avg(sum by (instance, cpu) (rate(node_cpu_seconds_total{mode!~\"idle|iowait|steal\", cluster=\"$cluster\", job=~\"$job\"}[$__rate_interval]))) * 100",
           "legendFormat": "Cluster CPU",
           "range": true,
           "refId": "A"
@@ -363,13 +363,13 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))",
-          "legendFormat": "{{instance}}",
+          "expr": "(sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} - node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"}) / sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"})) * 100",
+          "legendFormat": "Cluster Memory",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Memory Usage per Node",
+      "title": "Cluster Memory Usage",
       "type": "gauge"
     },
     {
@@ -378,17 +378,17 @@
         "defaults": {
           "color": { "mode": "continuous-GrYlRd" },
           "decimals": 1,
-          "max": 100,
+          "max": 1,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               { "color": "green", "value": null },
-              { "color": "yellow", "value": 75 },
-              { "color": "red", "value": 90 }
+              { "color": "yellow", "value": 0.75 },
+              { "color": "red", "value": 0.9 }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -406,13 +406,13 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 * (1 - (node_filesystem_avail_bytes{mountpoint=\"/\",fstype!=\"tmpfs\"} / node_filesystem_size_bytes{mountpoint=\"/\",fstype!=\"tmpfs\"}))",
-          "legendFormat": "{{instance}}",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\", cluster=\"$cluster\"}[$__rate_interval])) / sum(machine_cpu_cores{cluster=\"$cluster\"})",
+          "legendFormat": "CPU Usage / Capacity",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Disk Usage per Node (/)",
+      "title": "Container CPU vs Capacity",
       "type": "gauge"
     },
     {
@@ -421,17 +421,17 @@
         "defaults": {
           "color": { "mode": "continuous-GrYlRd" },
           "decimals": 1,
-          "max": 100,
+          "max": 1,
           "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
               { "color": "green", "value": null },
-              { "color": "yellow", "value": 75 },
-              { "color": "red", "value": 90 }
+              { "color": "yellow", "value": 0.75 },
+              { "color": "red", "value": 0.9 }
             ]
           },
-          "unit": "percent"
+          "unit": "percentunit"
         },
         "overrides": []
       },
@@ -449,13 +449,13 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 * sum(kube_pod_info{namespace=~\"$namespace\"}) / sum(kube_node_status_allocatable{resource=\"pods\"})",
-          "legendFormat": "Pod capacity used",
+          "expr": "sum(container_memory_working_set_bytes{image!=\"\", cluster=\"$cluster\"}) / sum(machine_memory_bytes{cluster=\"$cluster\"})",
+          "legendFormat": "Memory Usage / Capacity",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Pod Capacity",
+      "title": "Container Memory vs Capacity",
       "type": "gauge"
     },
     {
@@ -491,8 +491,8 @@
             "stacking": { "group": "A", "mode": "none" },
             "thresholdsStyle": { "mode": "off" }
           },
-          "unit": "percent",
-          "decimals": 1
+          "unit": "short",
+          "decimals": 2
         },
         "overrides": []
       },
@@ -506,7 +506,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100)",
+          "expr": "avg(sum by (instance, cpu) (rate(node_cpu_seconds_total{mode!~\"idle|iowait|steal\", cluster=\"$cluster\", job=~\"$job\"}[$__rate_interval]))) by (instance)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -541,8 +541,7 @@
             "stacking": { "group": "A", "mode": "none" },
             "thresholdsStyle": { "mode": "off" }
           },
-          "unit": "percent",
-          "decimals": 1
+          "unit": "bytes"
         },
         "overrides": []
       },
@@ -556,7 +555,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "100 * (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes))",
+          "expr": "sum(node_memory_MemTotal_bytes{cluster=\"$cluster\", job=~\"$job\"} - node_memory_MemAvailable_bytes{cluster=\"$cluster\", job=~\"$job\"}) by (instance)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -570,6 +569,111 @@
       "gridPos": { "h": 1, "w": 24, "x": 0, "y": 21 },
       "id": 103,
       "title": "Namespace Resource Usage",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
+      "id": 13,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "right", "sortBy": "Last *", "sortDesc": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "editorMode": "code",
+          "expr": "sum(rate(container_cpu_usage_seconds_total{image!=\"\", cluster=\"$cluster\", namespace=~\"$namespace\"}[$__rate_interval])) by (namespace)",
+          "legendFormat": "{{namespace}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "CPU Usage by Namespace",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "prometheus", "uid": "${datasource}" },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "none",
+            "hideFrom": { "legend": false, "tooltip": false, "viz": false },
+            "insertNulls": false,
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": { "type": "linear" },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": { "group": "A", "mode": "normal" },
+            "thresholdsStyle": { "mode": "off" }
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
+      "id": 14,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "right", "sortBy": "Last *", "sortDesc": true },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "datasource": { "type": "prometheus", "uid": "${datasource}" },
+          "editorMode": "code",
+          "expr": "sum(container_memory_working_set_bytes{image!=\"\", cluster=\"$cluster\", namespace=~\"$namespace\"}) by (namespace)",
+          "legendFormat": "{{namespace}}",
+          "range": true,
+          "refId": "A"
+        }
+      ],
+      "title": "Memory Usage by Namespace",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
+      "id": 104,
+      "title": "Pod Health Details",
       "type": "row"
     },
     {
@@ -602,23 +706,23 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 22 },
-      "id": 13,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 31 },
+      "id": 21,
       "options": {
-        "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "right", "sortBy": "Last *", "sortDesc": true },
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "sum by (namespace) (rate(container_cpu_usage_seconds_total{namespace=~\"$namespace\", image!=\"\"}[5m]))",
+          "expr": "sum(increase(kube_pod_container_status_restarts_total{namespace=~\"${namespace}\", cluster=\"$cluster\"}[$__rate_interval])) by (namespace) > 0",
           "legendFormat": "{{namespace}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "CPU Usage by Namespace",
+      "title": "Container Restarts by Namespace",
       "type": "timeseries"
     },
     {
@@ -647,103 +751,28 @@
             "stacking": { "group": "A", "mode": "normal" },
             "thresholdsStyle": { "mode": "off" }
           },
-          "unit": "bytes"
+          "unit": "short"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 22 },
-      "id": 14,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 31 },
+      "id": 22,
       "options": {
-        "legend": { "calcs": ["lastNotNull"], "displayMode": "table", "placement": "right", "sortBy": "Last *", "sortDesc": true },
+        "legend": { "calcs": ["sum"], "displayMode": "table", "placement": "right", "sortBy": "Total", "sortDesc": true },
         "tooltip": { "mode": "multi", "sort": "desc" }
       },
       "targets": [
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "sum by (namespace) (container_memory_working_set_bytes{namespace=~\"$namespace\", image!=\"\"})",
+          "expr": "sum(increase(container_oom_events_total{namespace=~\"${namespace}\", cluster=\"$cluster\"}[$__rate_interval])) by (namespace) > 0",
           "legendFormat": "{{namespace}}",
           "range": true,
           "refId": "A"
         }
       ],
-      "title": "Memory Usage by Namespace",
+      "title": "OOM Events by Namespace",
       "type": "timeseries"
-    },
-    {
-      "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 30 },
-      "id": 104,
-      "title": "Pod Health Details",
-      "type": "row"
-    },
-    {
-      "datasource": { "type": "prometheus", "uid": "${datasource}" },
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": {
-            "align": "auto",
-            "cellOptions": { "type": "auto" },
-            "inspect": false
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              { "color": "green", "value": null }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": { "id": "byName", "options": "Restarts" },
-            "properties": [
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    { "color": "green", "value": null },
-                    { "color": "yellow", "value": 3 },
-                    { "color": "red", "value": 10 }
-                  ]
-                }
-              },
-              { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }
-            ]
-          }
-        ]
-      },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 31 },
-      "id": 15,
-      "options": {
-        "cellHeight": "sm",
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
-        "showHeader": true,
-        "sortBy": [{ "desc": true, "displayName": "Restarts" }]
-      },
-      "targets": [
-        {
-          "datasource": { "type": "prometheus", "uid": "${datasource}" },
-          "editorMode": "code",
-          "expr": "sort_desc(sum by (namespace, pod) (kube_pod_container_status_restarts_total{namespace=~\"$namespace\"}) > 0)",
-          "format": "table",
-          "instant": true,
-          "legendFormat": "__auto",
-          "refId": "A"
-        }
-      ],
-      "title": "Pods with Restarts",
-      "transformations": [
-        {
-          "id": "organize",
-          "options": {
-            "excludeByName": { "Time": true },
-            "renameByName": { "Value": "Restarts", "namespace": "Namespace", "pod": "Pod" }
-          }
-        }
-      ],
-      "type": "table"
     },
     {
       "datasource": { "type": "prometheus", "uid": "${datasource}" },
@@ -783,7 +812,7 @@
         {
           "datasource": { "type": "prometheus", "uid": "${datasource}" },
           "editorMode": "code",
-          "expr": "kube_pod_status_phase{namespace=~\"$namespace\", phase=~\"Failed|Unknown|Pending\"} == 1",
+          "expr": "sum(kube_pod_status_phase{phase!~\"Running|Succeeded\", namespace=~\"$namespace\", cluster=\"$cluster\"}) by (pod, namespace, phase) > 0",
           "format": "table",
           "instant": true,
           "legendFormat": "__auto",
@@ -795,7 +824,7 @@
         {
           "id": "organize",
           "options": {
-            "excludeByName": { "Time": true, "Value": true, "__name__": true, "job": true, "uid": true, "instance": true },
+            "excludeByName": { "Time": true, "Value": true },
             "renameByName": { "namespace": "Namespace", "phase": "Phase", "pod": "Pod" }
           }
         }
@@ -827,19 +856,31 @@
                   { "color": "red", "value": 90 }
                 ]
               },
-              "unit": "percent",
               "decimals": 1
             },
             "overrides": [
               {
                 "matcher": { "id": "byName", "options": "Used %" },
                 "properties": [
+                  { "id": "unit", "value": "percent" },
                   { "id": "custom.cellOptions", "value": { "mode": "gradient", "type": "color-background" } }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Used" },
+                "properties": [
+                  { "id": "unit", "value": "bytes" }
+                ]
+              },
+              {
+                "matcher": { "id": "byName", "options": "Capacity" },
+                "properties": [
+                  { "id": "unit", "value": "bytes" }
                 ]
               }
             ]
           },
-          "gridPos": { "h": 8, "w": 24, "x": 0, "y": 48 },
+          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 48 },
           "id": 17,
           "options": {
             "cellHeight": "sm",
@@ -851,20 +892,51 @@
             {
               "datasource": { "type": "prometheus", "uid": "${datasource}" },
               "editorMode": "code",
-              "expr": "100 * (1 - kubelet_volume_stats_available_bytes{namespace=~\"$namespace\"} / kubelet_volume_stats_capacity_bytes{namespace=~\"$namespace\"})",
+              "expr": "max(kubelet_volume_stats_used_bytes{namespace=~\"$namespace\", cluster=\"$cluster\"}) by (persistentvolumeclaim, namespace) / max(kubelet_volume_stats_capacity_bytes{namespace=~\"$namespace\", cluster=\"$cluster\"}) by (persistentvolumeclaim, namespace) * 100",
               "format": "table",
               "instant": true,
               "legendFormat": "__auto",
               "refId": "A"
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "max(kubelet_volume_stats_used_bytes{namespace=~\"$namespace\", cluster=\"$cluster\"}) by (persistentvolumeclaim, namespace)",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "__auto",
+              "refId": "B",
+              "hide": false
+            },
+            {
+              "datasource": { "type": "prometheus", "uid": "${datasource}" },
+              "editorMode": "code",
+              "expr": "max(kubelet_volume_stats_capacity_bytes{namespace=~\"$namespace\", cluster=\"$cluster\"}) by (persistentvolumeclaim, namespace)",
+              "format": "table",
+              "instant": true,
+              "legendFormat": "__auto",
+              "refId": "C",
+              "hide": false
             }
           ],
           "title": "PVC Disk Usage",
           "transformations": [
             {
+              "id": "merge",
+              "options": {}
+            },
+            {
               "id": "organize",
               "options": {
-                "excludeByName": { "Time": true, "__name__": true, "endpoint": true, "instance": true, "job": true, "metrics_path": true, "node": true, "service": true },
-                "renameByName": { "Value": "Used %", "namespace": "Namespace", "persistentvolumeclaim": "PVC" }
+                "excludeByName": { "Time": true, "Time 1": true, "Time 2": true, "Time 3": true },
+                "indexByName": {
+                  "namespace": 0,
+                  "persistentvolumeclaim": 1,
+                  "Value #A": 2,
+                  "Value #B": 3,
+                  "Value #C": 4
+                },
+                "renameByName": { "Value #A": "Used %", "Value #B": "Used", "Value #C": "Capacity", "namespace": "Namespace", "persistentvolumeclaim": "PVC" }
               }
             }
           ],
@@ -881,7 +953,7 @@
       "panels": [
         {
           "datasource": { "type": "loki", "uid": "loki" },
-          "gridPos": { "h": 10, "w": 24, "x": 0, "y": 49 },
+          "gridPos": { "h": 12, "w": 24, "x": 0, "y": 49 },
           "id": 18,
           "options": {
             "dedupStrategy": "exact",
@@ -897,12 +969,12 @@
             {
               "datasource": { "type": "loki", "uid": "loki" },
               "editorMode": "code",
-              "expr": "{namespace=~\"$namespace\"} | json | level =~ \"error|Error|ERROR|fatal|Fatal|FATAL|panic|warn|Warn|WARNING\"",
+              "expr": "{namespace=~\"$namespace\"} |~ \"(?i)(error|fatal|panic|exception|fail)\"",
               "queryType": "range",
               "refId": "A"
             }
           ],
-          "title": "Error & Warning Logs",
+          "title": "Error Logs (text match)",
           "type": "logs"
         }
       ]
@@ -954,8 +1026,8 @@
             {
               "datasource": { "type": "prometheus", "uid": "${datasource}" },
               "editorMode": "code",
-              "expr": "sum by (namespace) (rate(container_network_receive_bytes_total{namespace=~\"$namespace\"}[5m]))",
-              "legendFormat": "{{namespace}} rx",
+              "expr": "sum(rate(container_network_receive_bytes_total{namespace=~\"$namespace\", cluster=\"$cluster\"}[$__rate_interval])) by (namespace)",
+              "legendFormat": "{{namespace}}",
               "range": true,
               "refId": "A"
             }
@@ -1003,8 +1075,8 @@
             {
               "datasource": { "type": "prometheus", "uid": "${datasource}" },
               "editorMode": "code",
-              "expr": "sum by (namespace) (rate(container_network_transmit_bytes_total{namespace=~\"$namespace\"}[5m]))",
-              "legendFormat": "{{namespace}} tx",
+              "expr": "sum(rate(container_network_transmit_bytes_total{namespace=~\"$namespace\", cluster=\"$cluster\"}[$__rate_interval])) by (namespace)",
+              "legendFormat": "{{namespace}}",
               "range": true,
               "refId": "A"
             }
@@ -1041,7 +1113,47 @@
       {
         "current": {},
         "datasource": { "type": "prometheus", "uid": "${datasource}" },
-        "definition": "label_values(kube_namespace_labels, namespace)",
+        "definition": "label_values(kube_node_info, cluster)",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "cluster",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(kube_node_info, cluster)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
+        "definition": "label_values(node_exporter_build_info{cluster=\"$cluster\"}, job)",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "job",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(node_exporter_build_info{cluster=\"$cluster\"}, job)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {},
+        "datasource": { "type": "prometheus", "uid": "${datasource}" },
+        "definition": "label_values(kube_namespace_labels{cluster=\"$cluster\"}, namespace)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -1049,7 +1161,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(kube_namespace_labels, namespace)",
+          "query": "label_values(kube_namespace_labels{cluster=\"$cluster\"}, namespace)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 2,
@@ -1068,6 +1180,6 @@
   "timezone": "",
   "title": "ECO Platform Admin Overview",
   "uid": "eco-platform-admin-overview",
-  "version": 1,
+  "version": 2,
   "weekStart": ""
 }
