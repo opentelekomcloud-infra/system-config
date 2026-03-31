@@ -432,6 +432,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: cap
+    clusters: [preprod]
+    config:
+      namespace: cap
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'cap-mcaptcha'
+      path: kubernetes/kustomize/cap/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: mcaptcha
     clusters: [preprod]
     config:

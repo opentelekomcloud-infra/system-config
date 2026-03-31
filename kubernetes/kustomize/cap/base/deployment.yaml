@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cap
+  labels:
+    app: cap
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cap
+  template:
+    metadata:
+      labels:
+        app: cap
+    spec:
+      serviceAccountName: cap
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: cap
+        image: tiago2/cap:2.2.1
+        ports:
+        - containerPort: 3000
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 1000m
+            memory: 512Mi
+        envFrom:
+        - secretRef:
+            name: cap-credentials
+        - configMapRef:
+            name: cap-config
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
