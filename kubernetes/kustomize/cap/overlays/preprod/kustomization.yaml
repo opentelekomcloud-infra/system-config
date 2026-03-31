@@ -13,9 +13,7 @@ labels:
 resources:
   - ../../base
   - namespace.yaml
-
-components:
-  - ../../components/valkey
+  - ../../components/valkey/deployment.yaml
 
 patchesStrategicMerge:
   - deployment-patch.yaml
