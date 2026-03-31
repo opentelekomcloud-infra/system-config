@@ -73,6 +73,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
+  storageClassName: csi-disk
   resources:
     requests:
       storage: 20Gi
