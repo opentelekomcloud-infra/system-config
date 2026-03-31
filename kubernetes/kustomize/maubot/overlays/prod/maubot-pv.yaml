@@ -18,7 +18,7 @@ spec:
     - timeo=600
     - tcp
   nfs:
-    server: "192.168.171.186"
+    server: <path:secret/data/element/synapse#server-name>
     path: "/"
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "csi-sfsturbo-retain"

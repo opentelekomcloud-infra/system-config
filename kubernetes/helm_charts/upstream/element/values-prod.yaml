@@ -50,9 +50,9 @@ matrix-stack:
 
     # -- External PostgreSQL RDS (OTC RDS instance)
     postgres:
-      host: "192.168.14.3"
+      host: "<path:secret/data/postgres/element/admin#pg_host>"
       port: 5432
-      user: "root"
+      user: "<path:secret/data/postgres/element/admin#postgres-username>"
       database: "synapse"
       sslMode: verify-ca
       password:
@@ -126,7 +126,7 @@ matrix-stack:
             - server_name: "matrix.org"
 
           # -- Reporting
-          report_stats: true
+          report_stats: false
 
       2-oidc-zitadel:
         config: |
@@ -246,7 +246,7 @@ matrix-stack:
       # This is the IP advertised in ICE candidates so browsers can connect.
       # The SFU TCP LoadBalancer service uses the same ELB via
       # annotation kubernetes.io/elb.id=510d12e5-...
-      manualIP: "80.158.58.167"
+      manualIP: "<secret:data/element/config#sfu_eip>"
 
       # -- Host networking for direct port binding
       hostNetwork: true

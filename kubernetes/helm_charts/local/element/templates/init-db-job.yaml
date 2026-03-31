@@ -31,9 +31,9 @@ spec:
           image: postgres:16-alpine
           env:
             - name: PGHOST
-              value: "192.168.14.3"
+              value: "<path:secret/data/postgres/element/admin#pg_host>"
             - name: PGPORT
-              value: "5432"
+              value: "<path:secret/data/postgres/element/admin#pg_port>"
             - name: PGUSER
               value: "<path:secret/data/postgres/element/admin#postgres-username>"
             - name: PGPASSWORD
