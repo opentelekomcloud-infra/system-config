@@ -58,7 +58,7 @@
               "uid": "loki"
             },
             "editorMode": "code",
-            "expr": "{cluster=\"$cluster\", namespace=\"$namespace\", app=\"$workload\"} |~ \"$search\"",
+            "expr": "{k8s_namespace_name=\"$namespace\", service_name=\"$workload\"} |~ \"$search\"",
             "queryType": "range",
             "refId": "A"
           }
@@ -74,39 +74,7 @@
     "templating": {
       "list": [
         {
-          "current": {
-            "selected": false,
-            "text": "otcinfra",
-            "value": "otcinfra"
-          },
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "definition": "",
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "cluster",
-          "options": [],
-          "query": {
-            "label": "cluster",
-            "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "",
-            "type": 1
-          },
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
-        {
-          "current": {
-            "selected": false,
-            "text": "hc-public",
-            "value": "hc-public"
-          },
+          "current": {},
           "datasource": {
             "type": "loki",
             "uid": "loki"
@@ -118,15 +86,15 @@
           "name": "namespace",
           "options": [],
           "query": {
-            "label": "namespace",
+            "label": "k8s_namespace_name",
             "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "{cluster=~\"$cluster\"}",
+            "stream": "",
             "type": 1
           },
           "refresh": 1,
           "regex": "",
           "skipUrlSync": false,
-          "sort": 0,
+          "sort": 1,
           "type": "query"
         },
         {
@@ -146,9 +114,9 @@
           "name": "workload",
           "options": [],
           "query": {
-            "label": "app",
+            "label": "service_name",
             "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "{namespace=~\"$namespace\"}",
+            "stream": "{k8s_namespace_name=~\"$namespace\"}",
             "type": 1
           },
           "refresh": 1,

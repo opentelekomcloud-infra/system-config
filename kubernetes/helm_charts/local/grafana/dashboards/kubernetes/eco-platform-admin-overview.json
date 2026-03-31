@@ -969,7 +969,7 @@
             {
               "datasource": { "type": "loki", "uid": "loki" },
               "editorMode": "code",
-              "expr": "{namespace=~\"$namespace\"} |~ \"(?i)(error|fatal|panic|exception|fail)\"",
+              "expr": "{k8s_namespace_name=~\"$namespace\"} |~ \"(?i)(error|fatal|panic|exception|fail)\"",
               "queryType": "range",
               "refId": "A"
             }
