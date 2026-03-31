@@ -1131,9 +1131,10 @@
         "type": "query"
       },
       {
+        "allValue": ".*",
         "current": {},
         "datasource": { "type": "prometheus", "uid": "${datasource}" },
-        "definition": "label_values(node_exporter_build_info{cluster=\"$cluster\"}, job)",
+        "definition": "label_values(node_cpu_seconds_total{cluster=\"$cluster\"}, job)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -1141,7 +1142,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(node_exporter_build_info{cluster=\"$cluster\"}, job)",
+          "query": "label_values(node_cpu_seconds_total{cluster=\"$cluster\"}, job)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -1151,24 +1152,27 @@
         "type": "query"
       },
       {
+        "allValue": ".*",
         "current": {},
         "datasource": { "type": "prometheus", "uid": "${datasource}" },
-        "definition": "label_values(kube_namespace_labels{cluster=\"$cluster\"}, namespace)",
+        "definition": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "namespace",
         "options": [],
         "query": {
-          "qryType": 1,
-          "query": "label_values(kube_namespace_labels{cluster=\"$cluster\"}, namespace)",
-          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          "query": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
+          "refId": "StandardVariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
-        "type": "query"
+        "tagValuesQuery": "",
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
@@ -1180,6 +1184,6 @@
   "timezone": "",
   "title": "ECO Platform Admin Overview",
   "uid": "eco-platform-admin-overview",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
