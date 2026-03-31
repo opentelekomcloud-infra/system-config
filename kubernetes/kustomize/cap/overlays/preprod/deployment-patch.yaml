@@ -13,11 +13,6 @@ spec:
           type: RuntimeDefault
       containers:
       - name: cap
-        command:
-        - "bun"
-        args:
-        - "run"
-        - "start"
         securityContext:
           allowPrivilegeEscalation: false
           readOnlyRootFilesystem: false
