@@ -6,16 +6,15 @@ resources:
   - service.yaml
   - ingress.yaml
   - sa.yaml
-  - components/valkey
 
 labels:
-- includeSelectors: true
-  pairs:
-    app.kubernetes.io/instance: base
-    app.kubernetes.io/managed-by: kustomize
-    app.kubernetes.io/name: cap
-    app.kubernetes.io/version: 2.2.1
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: base
+      app.kubernetes.io/managed-by: kustomize
+      app.kubernetes.io/name: cap
+      app.kubernetes.io/version: 2.2.1
 
 images:
-  - name: "tiago2/cap"
+  - name: tiago2/cap
     newTag: "2.2.1"
