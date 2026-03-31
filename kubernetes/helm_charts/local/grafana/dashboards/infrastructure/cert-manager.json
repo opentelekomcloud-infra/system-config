@@ -718,9 +718,9 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "default",
-          "value": "default"
+          "selected": true,
+          "text": "Victoria Metrics",
+          "value": "victoriametrics"
         },
         "hide": 0,
         "includeAll": false,
@@ -798,5 +798,6 @@
   "title": "Cert-manager-Kubernetes",
   "uid": "cdhrcds8aosg0c",
   "version": 2,
-  "weekStart": ""
+  "weekStart": "",
+  "__inputs": []
 }

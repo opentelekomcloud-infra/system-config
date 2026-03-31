@@ -71,7 +71,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "format": "ops",
       "gauge": {
@@ -156,7 +156,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "format": "none",
       "gauge": {
@@ -242,7 +242,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "format": "percentunit",
       "gauge": {
@@ -327,7 +327,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 0,
       "format": "none",
@@ -414,7 +414,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 0,
       "format": "none",
@@ -497,7 +497,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 2,
       "editable": true,
@@ -610,7 +610,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 2,
       "editable": false,
@@ -714,7 +714,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 2,
       "editable": true,
@@ -833,7 +833,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 2,
       "editable": false,
@@ -938,7 +938,7 @@
       "dashes": false,
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "decimals": 3,
       "editable": false,
@@ -1044,7 +1044,7 @@
       "columns": [],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fontSize": "100%",
       "gridPos": {
@@ -1272,7 +1272,7 @@
       ],
       "datasource": {
         "type": "prometheus",
-        "uid": "prometheus"
+        "uid": "${datasource}"
       },
       "fontSize": "100%",
       "gridPos": {
@@ -1356,6 +1356,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": true,
+          "text": "Victoria Metrics",
+          "value": "victoriametrics"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "queryValue": "",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": ".*",
         "current": {
           "text": "All",
@@ -1363,7 +1381,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${datasource}"
         },
         "hide": 0,
         "includeAll": true,
@@ -1389,7 +1407,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${datasource}"
         },
         "hide": 0,
         "includeAll": true,
@@ -1415,7 +1433,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${datasource}"
         },
         "hide": 0,
         "includeAll": true,
@@ -1442,7 +1460,7 @@
         },
         "datasource": {
           "type": "prometheus",
-          "uid": "prometheus"
+          "uid": "${datasource}"
         },
         "hide": 0,
         "includeAll": true,
