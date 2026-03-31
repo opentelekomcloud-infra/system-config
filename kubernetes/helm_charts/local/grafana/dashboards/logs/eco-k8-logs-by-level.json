@@ -171,7 +171,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({namespace=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\" [$__auto]))",
+          "expr": "sum by (level) (count_over_time({k8s_namespace_name=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\" [$__auto]))",
           "legendFormat": "{{level}}",
           "queryType": "range",
           "refId": "A"
@@ -209,7 +209,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "{namespace=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\"",
+          "expr": "{k8s_namespace_name=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -236,7 +236,7 @@
         "name": "namespace",
         "options": [],
         "query": {
-          "label": "namespace",
+          "label": "k8s_namespace_name",
           "refId": "LokiVariableQueryEditor-VariableQuery",
           "stream": "",
           "type": 1
@@ -262,7 +262,7 @@
         "query": {
           "label": "level",
           "refId": "LokiVariableQueryEditor-VariableQuery",
-          "stream": "{namespace=\"$namespace\"}",
+          "stream": "{k8s_namespace_name=\"$namespace\"}",
           "type": 1
         },
         "refresh": 1,
