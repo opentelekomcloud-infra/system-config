@@ -15,9 +15,22 @@ resources:
   - ../../base
   - namespace.yaml
 
+components:
+  - ../components/valkey
+
 patchesStrategicMerge:
   - deployment-patch.yaml
   - ingress-patch.yaml
+
+configMapGenerator:
+  - name: cap-config
+    literals:
+      - SERVER_PORT=3000
+      - SERVER_HOSTNAME=0.0.0.0
+      - REDIS_URL=redis://valkey.valkey.svc.cluster.local:6379
+      - DEMO_MODE=false
+      - SHOW_ERRORS=false
+      - DISABLE_ERROR_LOGGING=false
 
 secretGenerator:
   - name: cap-credentials
