@@ -1152,7 +1152,7 @@
         "type": "query"
       },
       {
-        "allValue": ".*",
+        "allValue": ".+",
         "current": {},
         "datasource": { "type": "prometheus", "uid": "${datasource}" },
         "definition": "label_values(kube_pod_info{cluster=\"$cluster\"}, namespace)",
