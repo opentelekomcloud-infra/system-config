@@ -1,14 +1,5 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
+  "__inputs": [],
   "__elements": [],
   "__requires": [
     {
@@ -2820,7 +2811,7 @@
   ],
   "preload": false,
   "refresh": "30s",
-  "schemaVersion": 42,
+  "schemaVersion": 39,
   "tags": [
     "Kubernetes",
     "Prometheus"
@@ -2829,16 +2820,20 @@
     "list": [
       {
         "current": {
-          "selected": false,
-          "text": "",
-          "value": ""
+          "selected": true,
+          "text": "Victoria Metrics",
+          "value": "victoriametrics"
         },
+        "hide": 0,
         "includeAll": false,
+        "multi": false,
         "name": "datasource",
         "options": [],
         "query": "prometheus",
+        "queryValue": "",
         "refresh": 1,
         "regex": "",
+        "skipUrlSync": false,
         "type": "datasource"
       },
       {
