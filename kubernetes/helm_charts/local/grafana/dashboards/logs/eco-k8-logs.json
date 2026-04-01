@@ -100,23 +100,22 @@
         {
           "current": {},
           "datasource": {
-            "type": "loki",
-            "uid": "loki"
+            "type": "prometheus",
+            "uid": "prometheus"
           },
-          "definition": "",
+          "definition": "query_result(kube_pod_status_phase{namespace=\"$namespace\", phase=\"Running\"} == 1)",
           "hide": 0,
           "includeAll": true,
           "multi": true,
           "name": "pod",
           "options": [],
           "query": {
-            "label": "k8s_pod_name",
-            "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "{k8s_namespace_name=\"$namespace\"}",
-            "type": 1
+            "qryType": 3,
+            "query": "query_result(kube_pod_status_phase{namespace=\"$namespace\", phase=\"Running\"} == 1)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
           },
-          "refresh": 1,
-          "regex": "",
+          "refresh": 2,
+          "regex": "/.*pod=\"([^\"]+)\".*/",
           "skipUrlSync": false,
           "sort": 1,
           "type": "query"
