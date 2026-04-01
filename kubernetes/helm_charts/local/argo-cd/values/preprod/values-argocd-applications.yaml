@@ -542,7 +542,7 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
       path: kubernetes/kustomize/zuul/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -559,7 +559,7 @@ applications:
     config:
       namespace: swift-proxy
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
       path: kubernetes/helm_charts/local/swift-proxy
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
