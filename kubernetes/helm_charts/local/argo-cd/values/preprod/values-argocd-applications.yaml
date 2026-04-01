@@ -663,6 +663,25 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # Tempo — distributed tracing backend
+  - name: tempo
+    clusters: [preprod]
+    config:
+      namespace: tempo
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/upstream/tempo
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
   # Loki 3.x — distributed log storage with Swift backend
   - name: loki
     clusters: [preprod]

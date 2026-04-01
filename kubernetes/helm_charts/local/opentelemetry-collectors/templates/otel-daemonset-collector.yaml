@@ -45,6 +45,8 @@ spec:
         secretKeyRef:
           name: otel-endpoints
           key: loki_tenant_id
+    - name: TEMPO_URL
+      value: "http://tempo-preprod.tempo.svc.cluster.local:4317"
 
   volumeMounts:
     - name: varlogpods
@@ -167,19 +169,18 @@ spec:
             from: attributes.uid
             to: resource["k8s.pod.uid"]
 
-      # Journald / systemd log collection — disabled: journalctl not available in otel-contrib image
-      # journald:
-      #   directory: /var/log/journal
-      #   units:
-      #     - kubelet
-      #     - containerd
-      #     - docker
-      #     - sshd
-      #     - cron
-      #   priority: info
+      # OTLP receiver for traces (and future metrics/logs from instrumented apps)
+      otlp:
+        protocols:
+          grpc:
+            endpoint: 0.0.0.0:4317
+          http:
+            endpoint: 0.0.0.0:4318
 
       # Host metrics (replaces node-exporter scrape for basic metrics)
       hostmetrics:
+
+
         collection_interval: 30s
         scrapers:
           cpu:
@@ -254,6 +255,12 @@ spec:
         resource_to_telemetry_conversion:
           enabled: true
 
+      # Ship traces to Tempo via OTLP gRPC
+      otlp/tempo:
+        endpoint: "${TEMPO_URL}"
+        tls:
+          insecure: true
+
     extensions:
       basicauth/loki:
         client_auth:
@@ -287,3 +294,12 @@ spec:
             - batch
           exporters:
             - prometheus
+        traces:
+          receivers:
+            - otlp
+          processors:
+            - memory_limiter
+            - resource/cluster
+            - batch
+          exporters:
+            - otlp/tempo

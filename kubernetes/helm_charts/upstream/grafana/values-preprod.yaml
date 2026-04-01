@@ -83,6 +83,8 @@ grafana:
         orgId: 1
       - name: Victoria Metrics
         orgId: 1
+      - name: Tempo
+        orgId: 1
       datasources:
       - name: Loki
         type: loki
@@ -126,6 +128,26 @@ grafana:
           tlsSkipVerify: false
         secureJsonData:
           basicAuthPassword: <path:secret/data/victoriametrics/preprod#vmauth_password>
+        version: '1'
+        editable: true
+      - name: Tempo
+        type: tempo
+        access: proxy
+        orgId: '1'
+        uid: 'tempo'
+        url: http://tempo-preprod.tempo.svc.cluster.local:3100
+        isDefault: false
+        jsonData:
+          tracesToLogsV2:
+            datasourceUid: 'loki'
+            filterByTraceID: true
+            filterBySpanID: true
+          tracesToMetrics:
+            datasourceUid: 'prometheus'
+          nodeGraph:
+            enabled: true
+          serviceMap:
+            datasourceUid: 'prometheus'
         version: '1'
         editable: true
 

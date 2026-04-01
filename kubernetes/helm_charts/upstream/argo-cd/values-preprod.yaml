@@ -569,6 +569,7 @@ argo-cd:
                 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
                 helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
                 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts --force-update || true
+                helm repo add tempo https://grafana.github.io/helm-charts --force-update || true
                 helm dependency build
           generate:
             command:
@@ -642,6 +643,7 @@ argo-cd:
                 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
                 helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
                 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts --force-update || true
+                helm repo add tempo https://grafana.github.io/helm-charts --force-update || true
                 helm dependency build
           lockRepo: false
         argocd-vault-plugin-kustomize:
