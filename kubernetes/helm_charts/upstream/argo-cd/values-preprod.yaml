@@ -47,6 +47,12 @@ argo-cd:
         seccompProfile:
           type: Unconfined
 
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-server
+      - --otlp-attrs=cluster:preprod
+
     containerSecurityContext:
       seccompProfile:
         type: Unconfined
@@ -256,6 +262,11 @@ argo-cd:
         namespace: monitoring
         additionalLabels:
           release: kube-prometheus-stack-preprod
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-repo-server
+      - --otlp-attrs=cluster:preprod
     env:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
@@ -403,6 +414,11 @@ argo-cd:
 
   ## Application controller
   controller:
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-controller
+      - --otlp-attrs=cluster:preprod
     metrics:
       enabled: true
       serviceMonitor:
@@ -537,10 +553,6 @@ argo-cd:
           - urn:zitadel:iam:org:project:roles
           - urn:zitadel:iam:user:metadata
         logoutURL: https://argocd.eco-preprod.tsi-dev.otc-service.com
-      # OpenTelemetry tracing
-      otlp.address: "otel-node-collector.opentelemetry.svc.cluster.local:4317"
-      otlp.insecure: "true"
-      otlp.attrs: "service.name=argocd,cluster=preprod"
       # Additional cluster configuration
       cluster.inClusterEnabled: "true"
       application.instanceLabelKey: argocd.argoproj.io/instance
