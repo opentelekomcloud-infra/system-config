@@ -162,13 +162,19 @@ swift:
     - proxy-logging
     - proxy-server
 
-  # Tempauth users for internal services (Loki, etc.)
+  # Tempauth users for internal services
   tempauth:
     enabled: true
     users:
+      # Loki log storage
       - account: admin
         username: <path:secret/data/loki#swift_user>
         password: <path:secret/data/loki#swift_password>
+        groups: .admin
+      # Zuul log uploads
+      - account: zuul-preprod-logs
+        username: <path:secret/data/swift/users/zuul#username>
+        password: <path:secret/data/swift/users/zuul#password>
         groups: .admin
 
 # Legacy OBS-only configuration (kept for backward compatibility)
