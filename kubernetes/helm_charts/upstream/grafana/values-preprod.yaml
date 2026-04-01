@@ -135,7 +135,7 @@ grafana:
         access: proxy
         orgId: '1'
         uid: 'tempo'
-        url: http://tempo-preprod.tempo.svc.cluster.local:3100
+        url: http://tempo-preprod.tempo.svc.cluster.local:3200
         isDefault: false
         jsonData:
           tracesToLogsV2:

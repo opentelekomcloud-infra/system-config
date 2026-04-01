@@ -24,7 +24,8 @@ tempo:
           http:
             endpoint: "0.0.0.0:4318"
     metricsGenerator:
-      enabled: false
+      enabled: true
+      remoteWriteUrl: http://kube-prometheus-stack-prep-prometheus.monitoring.svc.cluster.local:9090/api/v1/write
   persistence:
     enabled: true
     storageClassName: csi-disk-retain
