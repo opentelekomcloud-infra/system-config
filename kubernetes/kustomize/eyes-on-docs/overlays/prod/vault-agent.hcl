@@ -37,6 +37,8 @@ export OTC_BOT_API={{ .Data.data.token }}
 {{- end }}
 {{ with secret "secret/data/helpcenter/monitoring/gitea" -}}
 export GITEA_TOKEN={{ .Data.data.token }}
+{{ with secret "secret/data/gitea/config" -}}
+export BASE_GITEA_URL={{ .Data.data.gitea_address }}
 {{- end }}
 
 EOT
