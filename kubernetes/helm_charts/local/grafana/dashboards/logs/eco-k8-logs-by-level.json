@@ -171,8 +171,8 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({k8s_namespace_name=\"$namespace\", level=~\"$level\"} |~ \"$search\" [$__auto]))",
-          "legendFormat": "{{level}}",
+          "expr": "sum by (detected_level) (count_over_time({k8s_namespace_name=\"$namespace\", k8s_pod_name=~\"$pod\"} | detected_level=~\"$level\" |~ \"$search\" [$__auto]))",
+          "legendFormat": "{{detected_level}}",
           "queryType": "range",
           "refId": "A"
         }
@@ -209,7 +209,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "{k8s_namespace_name=\"$namespace\", level=~\"$level\"} |~ \"$search\"",
+          "expr": "{k8s_namespace_name=\"$namespace\", k8s_pod_name=~\"$pod\"} | detected_level=~\"$level\" |~ \"$search\"",
           "queryType": "range",
           "refId": "A"
         }
@@ -257,19 +257,65 @@
         "hide": 0,
         "includeAll": true,
         "multi": true,
-        "name": "level",
+        "name": "pod",
         "options": [],
         "query": {
-          "label": "level",
+          "label": "k8s_pod_name",
           "refId": "LokiVariableQueryEditor-VariableQuery",
           "stream": "{k8s_namespace_name=\"$namespace\"}",
           "type": 1
         },
-        "refresh": 1,
+        "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
         "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": ["All"],
+          "value": ["$__all"]
+        },
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "level",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "error",
+            "value": "error"
+          },
+          {
+            "selected": false,
+            "text": "warn",
+            "value": "warn"
+          },
+          {
+            "selected": false,
+            "text": "info",
+            "value": "info"
+          },
+          {
+            "selected": false,
+            "text": "debug",
+            "value": "debug"
+          },
+          {
+            "selected": false,
+            "text": "unknown",
+            "value": "unknown"
+          }
+        ],
+        "query": "error,warn,info,debug,unknown",
+        "skipUrlSync": false,
+        "type": "custom"
       },
       {
         "current": {

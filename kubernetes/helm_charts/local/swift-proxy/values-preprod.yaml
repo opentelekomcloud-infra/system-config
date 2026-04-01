@@ -39,7 +39,7 @@ storage:
     existingVolume: ""  # Let CSI provision the volume
     storageClass: "csi-disk-retain"
     accessMode: ReadWriteOnce
-    size: 100Gi  # OTC EVS disk
+    size: 350Gi  # OTC EVS disk
     reclaimPolicy: Retain
     # Local storage configuration (disabled for CSI)
     localStorage:

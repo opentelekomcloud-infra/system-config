@@ -70,6 +70,9 @@ kube-prometheus-stack:
         secretName: alertmanager-mon
   coreDns:
     enabled: true
+    service:
+      selector:
+        k8s-app: coredns
   defaultRules:
     rules:
       etcd: false
