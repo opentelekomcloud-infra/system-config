@@ -171,7 +171,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "sum by (level) (count_over_time({k8s_namespace_name=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\" [$__auto]))",
+          "expr": "sum by (level) (count_over_time({k8s_namespace_name=\"$namespace\", level=~\"$level\"} |~ \"$search\" [$__auto]))",
           "legendFormat": "{{level}}",
           "queryType": "range",
           "refId": "A"
@@ -209,7 +209,7 @@
             "uid": "loki"
           },
           "editorMode": "code",
-          "expr": "{k8s_namespace_name=\"$namespace\"} | json | level =~ \"$level\" | line_format \"{{.message}}\" |~ \"$search\"",
+          "expr": "{k8s_namespace_name=\"$namespace\", level=~\"$level\"} |~ \"$search\"",
           "queryType": "range",
           "refId": "A"
         }

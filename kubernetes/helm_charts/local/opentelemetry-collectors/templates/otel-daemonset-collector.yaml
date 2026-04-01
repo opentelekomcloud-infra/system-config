@@ -114,6 +114,43 @@ spec:
           - type: move
             from: attributes.log
             to: body
+          # Extract severity from log body (JSON "level"/"severity" fields or text keywords)
+          - type: severity_parser
+            parse_from: body
+            preset: none
+            mapping:
+              fatal:
+                - FATAL
+                - fatal
+                - Fatal
+                - CRITICAL
+                - critical
+                - Critical
+              error:
+                - ERROR
+                - error
+                - Error
+                - ERR
+                - err
+              warn:
+                - WARN
+                - warn
+                - Warn
+                - WARNING
+                - warning
+                - Warning
+              info:
+                - INFO
+                - info
+                - Info
+              debug:
+                - DEBUG
+                - debug
+                - Debug
+              trace:
+                - TRACE
+                - trace
+                - Trace
           - type: move
             from: attributes.stream
             to: attributes["log.iostream"]
