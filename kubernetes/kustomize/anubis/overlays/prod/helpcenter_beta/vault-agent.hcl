@@ -32,7 +32,7 @@ template {
 {{- $ipSecret := . }}
 {{- $ips := ($ipSecret.Data.data.ips | parseJSON) }}
 {{- with secret "secret/data/anubis/user-agent" }}
-{{- $ua := .Data.data.user-agent }}
+{{- $ua := index .Data.data "user-agent" }}
 - name: whitelisted-ips-user-agent-allow
   action: ALLOW
   user_agent_regex: {{ $ua | toJSON }}
