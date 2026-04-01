@@ -52,14 +52,6 @@ grafana:
         editable: true
         options:
           path: /var/lib/grafana/dashboards/grafana-dashboards-kubernetes
-      - name: 'grafana-dashboards-infrastructure'
-        orgId: 1
-        folder: 'Infrastructure'
-        type: file
-        disableDeletion: true
-        editable: true
-        options:
-          path: /var/lib/grafana/dashboards/grafana-dashboards-infrastructure
   dashboards:
     grafana-dashboards-kubernetes:
       k8s-system-api-server:
@@ -80,19 +72,6 @@ grafana:
       k8s-views-pods:
         url: https://raw.githubusercontent.com/dotdc/grafana-dashboards-kubernetes/master/dashboards/k8s-views-pods.json
         token: ''
-    grafana-dashboards-infrastructure:
-      argocd:
-        gnetId: 14584
-        revision: 1
-        datasource: Prometheus
-      nginx-ingress:
-        gnetId: 9614
-        revision: 1
-        datasource: Prometheus
-      cert-manager:
-        gnetId: 20842
-        revision: 3
-        datasource: Prometheus
 
   datasources:
     datasources.yaml:

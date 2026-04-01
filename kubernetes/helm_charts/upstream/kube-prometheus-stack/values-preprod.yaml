@@ -69,7 +69,7 @@ kube-prometheus-stack:
         - alertamanager-mon.preprod.eco-preprod.tsi-dev.otc-service.com
         secretName: alertmanager-mon
   coreDns:
-    enabled: false
+    enabled: true
   defaultRules:
     rules:
       etcd: false
