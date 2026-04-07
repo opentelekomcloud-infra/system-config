@@ -437,7 +437,7 @@ applications:
     config:
       namespace: cap
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'cap-mcaptcha'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/cap/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
