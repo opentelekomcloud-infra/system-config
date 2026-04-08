@@ -176,7 +176,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(log_messages_total{app=\"loki\",level=~\"error|warn\"}[1m])) by (level)\n",
+          "expr": "sum(rate(loki_log_messages_total{namespace=\"loki\",level=~\"error|warn\"}[1m])) by (level)\n",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -185,7 +185,7 @@
           "refId": "A"
         },
         {
-          "expr": "log_messages_total",
+          "expr": "loki_log_messages_total{namespace=\"loki\"}",
           "format": "time_series",
           "hide": true,
           "interval": "",
@@ -386,7 +386,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(log_messages_total{app_kubernetes_io_name=\"promtail\",level=~\"error|warn\"}[1m])) by (level)\n",
+          "expr": "sum(rate(loki_log_messages_total{namespace=\"opentelemetry\",level=~\"error|warn\"}[1m])) by (level)\n",
           "format": "time_series",
           "hide": false,
           "interval": "",
@@ -407,7 +407,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Error/warning messages logged by Promtail",
+      "title": "Error/warning messages logged by OTel Collector",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -471,14 +471,14 @@
       "pluginVersion": "7.3.5",
       "targets": [
         {
-          "expr": "{app=\"promtail\"} | logfmt | level=\"warn\" or level=\"error\"",
+          "expr": "{namespace=\"opentelemetry\"} | logfmt | level=\"warn\" or level=\"error\"",
           "legendFormat": "",
           "refId": "A"
         }
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Error/warning messages logged by Promtail",
+      "title": "Error/warning messages logged by OTel Collector",
       "type": "logs"
     },
     {
@@ -712,7 +712,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(promtail_dropped_entries_total[1m])*60",
+          "expr": "rate(loki_discarded_samples_total{namespace=\"loki\"}[1m])*60",
           "instant": false,
           "interval": "",
           "legendFormat": "pod={{kubernetes_pod_name}}, instance={{instance}}",
@@ -731,7 +731,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Promtail - dropped log entries",
+      "title": "OTel Collector - dropped log entries",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1287,7 +1287,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * max by(pod,container) (container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"loki.*\"})\n/\non (pod,container) group_left  kube_pod_container_resource_limits_memory_bytes{pod=~\"loki.*\"}",
+          "expr": "100 * max by(pod,container) (container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"loki.*\"})\n/\non (pod,container) group_left  kube_pod_container_resource_limits{resource=\"memory\",pod=~\"loki.*\"}",
           "hide": false,
           "interval": "",
           "legendFormat": "Usage (pod={{pod}}, container={{container}}, name={{name}})",
@@ -1433,13 +1433,13 @@
           "step": 10
         },
         {
-          "expr": "min(kube_pod_container_resource_limits_memory_bytes{pod=~\"loki.*\"})",
+          "expr": "min(kube_pod_container_resource_limits{resource=\"memory\",pod=~\"loki.*\"})",
           "interval": "",
           "legendFormat": "Limit",
           "refId": "B"
         },
         {
-          "expr": "min(kube_pod_container_resource_requests_memory_bytes{pod=~\"loki.*\"})",
+          "expr": "min(kube_pod_container_resource_requests{resource=\"memory\",pod=~\"loki.*\"})",
           "interval": "",
           "legendFormat": "Request",
           "refId": "C"
@@ -1588,7 +1588,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100* max by(pod,container) (container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"promtail.*\"})\n/\non (pod,container) (kube_pod_container_resource_limits_memory_bytes{pod=~\"promtail.*\"})",
+          "expr": "100* max by(pod,container) (container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"otel-node-collector.*\"})\n/\non (pod,container) (kube_pod_container_resource_limits{resource=\"memory\",pod=~\"otel-node-collector.*\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "",
@@ -1607,7 +1607,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Promtail memory usage (% of Kubernetes memory limit)",
+      "title": "OTel Collector memory usage (% of Kubernetes memory limit)",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1724,7 +1724,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"promtail.*\"}",
+          "expr": "container_memory_working_set_bytes{container!=\"\",container!=\"POD\",pod=~\"otel-node-collector.*\"}",
           "interval": "10s",
           "intervalFactor": 1,
           "legendFormat": "Usage (pod={{pod}}, container={{container}})",
@@ -1733,13 +1733,13 @@
           "step": 10
         },
         {
-          "expr": "min(kube_pod_container_resource_limits_memory_bytes{pod=~\"promtail.*\"})",
+          "expr": "min(kube_pod_container_resource_limits{resource=\"memory\",pod=~\"otel-node-collector.*\"})",
           "interval": "",
           "legendFormat": "Limit",
           "refId": "B"
         },
         {
-          "expr": "min(kube_pod_container_resource_requests_memory_bytes{pod=~\"promtail.*\"})",
+          "expr": "min(kube_pod_container_resource_requests{resource=\"memory\",pod=~\"otel-node-collector.*\"})",
           "interval": "",
           "legendFormat": "Request",
           "refId": "C"
@@ -1749,7 +1749,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Promtail memory usage vs Kubernetes limit and request",
+      "title": "OTel Collector memory usage vs Kubernetes limit and request",
       "tooltip": {
         "msResolution": false,
         "shared": true,
@@ -1905,7 +1905,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100* rate(container_cpu_usage_seconds_total{container!=\"POD\",container!=\"\",pod=~\"loki.*\"}[1m])\n/\non (pod,container) kube_pod_container_resource_limits_cpu_cores{container=\"loki\"}",
+          "expr": "100* rate(container_cpu_usage_seconds_total{container!=\"POD\",container!=\"\",pod=~\"loki.*\"}[1m])\n/\non (pod,container) kube_pod_container_resource_limits{resource=\"cpu\",container=\"loki\"}",
           "interval": "10s",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -2054,13 +2054,13 @@
           "step": 10
         },
         {
-          "expr": "min(kube_pod_container_resource_limits_cpu_cores{pod=~\"loki.*\"})",
+          "expr": "min(kube_pod_container_resource_limits{resource=\"cpu\",pod=~\"loki.*\"})",
           "interval": "",
           "legendFormat": "CPU Limit",
           "refId": "B"
         },
         {
-          "expr": "min(kube_pod_container_resource_requests_cpu_cores{pod=~\"loki.*\"})",
+          "expr": "min(kube_pod_container_resource_requests{resource=\"cpu\",pod=~\"loki.*\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "CPU Request",
@@ -2210,7 +2210,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "100 * rate(container_cpu_usage_seconds_total{container!=\"\",container!=\"POD\",pod=~\"promtail.*\"}[1m])\n/\non (pod,container) kube_pod_container_resource_limits_cpu_cores{pod=~\"promtail.*\"}",
+          "expr": "100 * rate(container_cpu_usage_seconds_total{container!=\"\",container!=\"POD\",pod=~\"otel-node-collector.*\"}[1m])\n/\non (pod,container) kube_pod_container_resource_limits{resource=\"cpu\",pod=~\"otel-node-collector.*\"}",
           "interval": "10s",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -2231,7 +2231,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Promtail CPU usage (% of Kubernetes limit)",
+      "title": "OTel Collector CPU usage (% of Kubernetes limit)",
       "tooltip": {
         "msResolution": true,
         "shared": true,
@@ -2349,7 +2349,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_cpu_usage_seconds_total{container!=\"\",container!=\"POD\",pod=~\"promtail.*\"}[1m])",
+          "expr": "rate(container_cpu_usage_seconds_total{container!=\"\",container!=\"POD\",pod=~\"otel-node-collector.*\"}[1m])",
           "interval": "10s",
           "intervalFactor": 1,
           "legendFormat": "CPU Usage (pod={{pod}}, container={{container}})",
@@ -2358,13 +2358,13 @@
           "step": 10
         },
         {
-          "expr": "min(kube_pod_container_resource_limits_cpu_cores{pod=~\"promtail.*\"})",
+          "expr": "min(kube_pod_container_resource_limits{resource=\"cpu\",pod=~\"otel-node-collector.*\"})",
           "interval": "",
           "legendFormat": "CPU Limit",
           "refId": "B"
         },
         {
-          "expr": "min(kube_pod_container_resource_requests_cpu_cores{pod=~\"promtail.*\"})",
+          "expr": "min(kube_pod_container_resource_requests{resource=\"cpu\",pod=~\"otel-node-collector.*\"})",
           "hide": false,
           "interval": "",
           "legendFormat": "CPU Request",
@@ -2375,7 +2375,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Promtail CPU usage vs Kubernetes limit and request",
+      "title": "OTel Collector CPU usage vs Kubernetes limit and request",
       "tooltip": {
         "msResolution": true,
         "shared": true,
