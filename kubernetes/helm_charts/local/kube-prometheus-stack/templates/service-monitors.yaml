@@ -46,7 +46,7 @@ spec:
     matchLabels:
       app.kubernetes.io/name: vault
       app.kubernetes.io/instance: {{ .Values.serviceMonitors.vault.instance }}
-      component: server
+      vault-internal: "true"
   endpoints:
     - port: http
       interval: 30s
