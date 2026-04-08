@@ -227,6 +227,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "{{ instance }}",
           "refId": "A"
         }
       ],
@@ -498,6 +499,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "{{ instance }}",
           "refId": "A"
         }
       ],
@@ -575,6 +577,7 @@
           "expr": "probe_http_version{instance=~\"$target\"}",
           "format": "time_series",
           "intervalFactor": 1,
+          "legendFormat": "{{ instance }}",
           "refId": "A"
         }
       ],
@@ -669,6 +672,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "{{ instance }}",
           "refId": "A"
         }
       ],
@@ -764,6 +768,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "{{ instance }}",
           "refId": "A"
         }
       ],
@@ -842,6 +847,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "avg duration",
           "refId": "A"
         }
       ],
@@ -921,6 +927,7 @@
           "format": "time_series",
           "interval": "$interval",
           "intervalFactor": 1,
+          "legendFormat": "avg dns",
           "refId": "A"
         }
       ],
