@@ -5,10 +5,6 @@ metadata:
   name: zuul-executor
 spec:
   replicas: 1
-  template:
-    metadata:
-      annotations:
-        instrumentation.opentelemetry.io/inject-python: "opentelemetry/otel-instrumentation"
   volumeClaimTemplates:
     - metadata:
         name: zuul-var

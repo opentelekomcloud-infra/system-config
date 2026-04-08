@@ -5,9 +5,6 @@ metadata:
   name: zuul-scheduler
 spec:
   template:
-    metadata:
-      annotations:
-        instrumentation.opentelemetry.io/inject-python: "opentelemetry/otel-instrumentation"
     spec:
       securityContext:
         fsGroup: 10001
