@@ -48,10 +48,10 @@ spec:
             - ALL
         resources:
           requests:
-            memory: "6Gi"
+            memory: "3Gi"
             cpu: "10m"
           limits:
-            memory: "16Gi"
+            memory: "8Gi"
             cpu: "4.0"
         livenessProbe:
           $patch: replace
