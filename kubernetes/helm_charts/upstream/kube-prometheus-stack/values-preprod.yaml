@@ -74,6 +74,8 @@ kube-prometheus-stack:
   additionalPrometheusRulesMap: {}
 
   defaultRules:
+    disabled:
+      NodeSystemSaturation: true
     rules:
       etcd: false
       kubeControllerManager: false

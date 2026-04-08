@@ -477,4 +477,20 @@ spec:
           annotations:
             summary: "Anubis is challenging >80% of requests"
             description: "Most visitors to Outline are being challenged. Possible bot flood or overly aggressive policy."
+
+    # Override upstream node-exporter rule with higher threshold
+    # Cloud VMs with EVS disks have inflated load averages due to I/O wait
+    - name: node-exporter
+      rules:
+        - alert: NodeSystemSaturation
+          expr: >
+            node_load1{job="node-exporter"}
+            / count without (cpu, mode) (node_cpu_seconds_total{job="node-exporter", mode="idle"})
+            > 8
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "System saturation on {{`{{ $labels.instance }}`}}"
+            description: "1-minute load per CPU core is {{`{{ $value | humanize }}`}} (threshold: 8). High I/O wait on cloud EVS disks can inflate this metric."
 {{- end }}
