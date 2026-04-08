@@ -1,3 +1,6 @@
+prometheusRules:
+  enabled: true
+
 goNeb:
   enabled: true
   userId: <path:secret/data/prometheus/config#go_neb_user_id>
