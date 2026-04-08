@@ -41,7 +41,7 @@ spec:
       containers:
         - name: "zuul"
           image: "zuul/zuul-scheduler"
-          args: ["/usr/local/bin/zuul-scheduler", "-f", "-d"]
+          args: ["/usr/local/bin/zuul-scheduler", "-f"]
 
           ports:
             - containerPort: 9091

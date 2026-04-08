@@ -24,7 +24,7 @@ spec:
       containers:
         - name: "zuul"
           image: "zuul/zuul-web"
-          args: ["/usr/local/bin/zuul-web", "-f", "-d"]
+          args: ["/usr/local/bin/zuul-web", "-f"]
 
           ports:
             - containerPort: 9000
