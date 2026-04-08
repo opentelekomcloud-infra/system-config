@@ -30,7 +30,7 @@ spec:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://otel-node-collector.{{ .Release.Namespace }}.svc.cluster.local:4317
   nodejs:
-    image: quay.io/opentelekomcloud/autoinstrumentation-nodejs:0.57.1
+    image: quay.io/opentelekomcloud/autoinstrumentation-nodejs:0.57.1-amd64
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://otel-node-collector.{{ .Release.Namespace }}.svc.cluster.local:4317
