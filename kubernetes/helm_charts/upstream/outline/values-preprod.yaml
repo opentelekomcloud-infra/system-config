@@ -94,6 +94,9 @@ outline:
       memory: 512Mi
 
   # Security contexts
+  podAnnotations:
+    instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
+
   podSecurityContext:
     fsGroup: 1001
     runAsNonRoot: true

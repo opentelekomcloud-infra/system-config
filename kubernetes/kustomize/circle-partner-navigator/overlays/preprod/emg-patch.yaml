@@ -5,6 +5,9 @@ metadata:
   name: express-mail-gateway
 spec:
   template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
       securityContext:
         runAsNonRoot: true

@@ -15,6 +15,9 @@ spec:
         requests:
           storage: 10Gi
   template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "opentelemetry/otel-instrumentation"
     spec:
       serviceAccount: dependencytrack
       securityContext:
