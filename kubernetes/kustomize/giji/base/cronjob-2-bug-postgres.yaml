@@ -1,0 +1,54 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: giji-bug-postgres
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "15 20 11 9 *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccount: "giji"
+          restartPolicy: OnFailure
+          containers:
+            - name: giji-bulk-import
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+              image: quay.io/opentelekomcloud/giji
+              imagePullPolicy: IfNotPresent
+              command:
+              - "/bin/sh"
+              - "-c"
+              - "source /secrets/giji-env; python3 bug_postgres.py"
+              envFrom:
+                - secretRef:
+                    name: giji-config
+              startupProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 20
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 12
+              readinessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 5
+                periodSeconds: 10
+                timeoutSeconds: 3
+                failureThreshold: 3
+              livenessProbe:
+                httpGet:
+                  path: /
+                  port: http
+                initialDelaySeconds: 60
+                periodSeconds: 30
+                timeoutSeconds: 5
+                failureThreshold: 3
