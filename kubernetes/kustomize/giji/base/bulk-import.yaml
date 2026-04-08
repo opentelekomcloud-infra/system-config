@@ -1,0 +1,59 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: giji-bulk-import
+  namespace: giji
+spec:
+  concurrencyPolicy: Forbid
+  schedule: "0 2 * * 0"  # Every Sunday at 02:00 UTC - adjust as needed
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  startingDeadlineSeconds: 600
+  jobTemplate:
+    spec:
+      backoffLimit: 3
+      template:
+        spec:
+          serviceAccount: giji
+          restartPolicy: OnFailure
+          containers:
+            - name: bulk-import
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: true
+                runAsUser: 1000
+              image: quay.io/opentelekomcloud/giji:latest
+              imagePullPolicy: Always
+              command:
+                - python3
+                - -m
+                - scripts.bulk_import
+              envFrom:
+                - secretRef:
+                    name: giji-env
+                - secretRef:
+                    name: giji-bug-config
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+                - name: jira-certs
+                  mountPath: /etc/giji/certs
+                  readOnly: true
+          volumes:
+            - name: tmp
+              emptyDir: {}
+            - name: jira-certs
+              secret:
+                secretName: giji-jira-certs
+                defaultMode: 0640
