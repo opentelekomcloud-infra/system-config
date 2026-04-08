@@ -24,6 +24,8 @@ spec:
         prometheus.io/path: "/metrics"
         instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       serviceAccountName: openapi-validator
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 30

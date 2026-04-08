@@ -19,6 +19,8 @@ spec:
       annotations:
         instrumentation.opentelemetry.io/inject-java: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       serviceAccount: dependencytrack
       securityContext:
         runAsUser: 1000
