@@ -4,7 +4,7 @@ tempo:
       limits:
         memory: 1Gi
       requests:
-        cpu: 100m
+        cpu: 20m
         memory: 256Mi
     retention: 72h
     multitenancyEnabled: false

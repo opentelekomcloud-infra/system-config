@@ -44,7 +44,7 @@ victoria-metrics-auth:
     limits:
       memory: 256Mi
     requests:
-      cpu: 100m
+      cpu: 10m
       memory: 256Mi
   config:
     users:
