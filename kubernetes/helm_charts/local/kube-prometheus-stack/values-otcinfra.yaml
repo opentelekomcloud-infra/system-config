@@ -1,6 +1,20 @@
 prometheusRules:
   enabled: true
 
+serviceMonitors:
+  loki:
+    enabled: false
+    instance: loki-otcinfra
+  vault:
+    enabled: false
+    instance: vault-otcinfra
+  zitadel:
+    enabled: false
+    instance: zitadel-otcinfra
+  anubis:
+    enabled: false
+    instance: anubis
+
 goNeb:
   enabled: true
   userId: <path:secret/data/prometheus/infra#go_neb_user_id>

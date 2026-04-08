@@ -312,4 +312,169 @@ spec:
           annotations:
             summary: "Tempo has {{`{{ $value }}`}} live traces on {{`{{ $labels.instance }}`}}"
             description: "High number of live traces in Tempo ingester may indicate memory pressure and lead to OOM."
+
+    # ── Loki / Logging ──────────────────────────────────────────
+    - name: loki
+      rules:
+        - alert: LokiRequestErrors
+          expr: >
+            100 * sum(rate(loki_request_duration_seconds_count{status_code=~"5.."}[5m])) by (namespace, job, route)
+            /
+            sum(rate(loki_request_duration_seconds_count[5m])) by (namespace, job, route)
+            > 10
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Loki {{`{{ $labels.job }}`}} route {{`{{ $labels.route }}`}} has {{`{{ printf \"%.1f\" $value }}`}}% errors"
+            description: "Loki route {{`{{ $labels.route }}`}} in {{`{{ $labels.namespace }}`}} is returning >10% server errors."
+
+        - alert: LokiRequestPanics
+          expr: increase(loki_panic_total[15m]) > 0
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Loki panic on {{`{{ $labels.instance }}`}}"
+            description: "Loki instance {{`{{ $labels.instance }}`}} has experienced a panic. Check logs immediately."
+
+        - alert: LokiCompactorFailing
+          expr: increase(loki_boltdb_shipper_compact_tables_operation_total{status="failure"}[1h]) > 3
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Loki compactor failing on {{`{{ $labels.instance }}`}}"
+            description: "Loki boltdb compactor has had multiple failures in the last hour. Log retention and index compaction may be affected."
+
+    # ── Vault ───────────────────────────────────────────────────
+    - name: vault
+      rules:
+        - alert: VaultDown
+          expr: up{job=~".*vault.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Vault instance {{`{{ $labels.instance }}`}} is down"
+            description: "Vault metrics endpoint on {{`{{ $labels.instance }}`}} is unreachable."
+
+        - alert: VaultSealed
+          expr: vault_core_unsealed == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Vault instance {{`{{ $labels.instance }}`}} is sealed"
+            description: "Vault on {{`{{ $labels.instance }}`}} is sealed. Secrets cannot be read or written. Manual unseal or auto-unseal recovery is needed."
+
+        - alert: VaultNotActive
+          expr: vault_core_active == 0
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Vault instance {{`{{ $labels.instance }}`}} is not active"
+            description: "No Vault node is in active mode. The cluster may lack a leader."
+
+        - alert: VaultAutopilotUnhealthy
+          expr: vault_autopilot_healthy == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Vault Autopilot reports unhealthy cluster"
+            description: "Vault Autopilot indicates the Raft cluster is not healthy. Check node status."
+
+        - alert: VaultAutopilotNodeUnhealthy
+          expr: vault_autopilot_node_healthy == 0
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Vault node {{`{{ $labels.node_id }}`}} is unhealthy"
+            description: "Vault Autopilot reports node {{`{{ $labels.node_id }}`}} as unhealthy. It may be partitioned or overloaded."
+
+        - alert: VaultHighGoroutines
+          expr: vault_runtime_num_goroutines > 1000
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Vault {{`{{ $labels.instance }}`}} has {{`{{ $value }}`}} goroutines"
+            description: "High goroutine count on Vault may indicate a leak or excessive concurrent requests."
+
+    # ── Zitadel / Identity ──────────────────────────────────────
+    - name: zitadel
+      rules:
+        - alert: ZitadelDown
+          expr: up{job=~".*zitadel.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Zitadel instance {{`{{ $labels.instance }}`}} is down"
+            description: "Zitadel metrics endpoint on {{`{{ $labels.instance }}`}} is unreachable. SSO/authentication will be impacted."
+
+        - alert: ZitadelHighErrorRate
+          expr: >
+            sum(rate(grpc_server_grpc_status_code_total{return_code=~"500|503|13|14"}[5m])) by (instance)
+            /
+            sum(rate(grpc_server_grpc_status_code_total[5m])) by (instance)
+            > 0.05
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Zitadel gRPC error rate is {{`{{ $value | humanizePercentage }}`}} on {{`{{ $labels.instance }}`}}"
+            description: "Zitadel is returning >5% server errors on gRPC calls. Authentication may be degraded."
+
+        - alert: ZitadelSlowResponses
+          expr: >
+            histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{job=~".*zitadel.*"}[5m])) by (le, instance))
+            > 2000
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Zitadel p95 latency is {{`{{ $value | humanize }}`}}ms on {{`{{ $labels.instance }}`}}"
+            description: "Zitadel HTTP p95 latency exceeds 2 seconds. Users may experience slow login."
+
+    # ── Anubis / Outline Protection ─────────────────────────────
+    - name: anubis
+      rules:
+        - alert: AnubisDown
+          expr: up{job=~".*anubis.*"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Anubis (Outline proxy) is down on {{`{{ $labels.instance }}`}}"
+            description: "The Anubis challenge proxy protecting Outline is unreachable."
+
+        - alert: AnubisHighDenyRate
+          expr: >
+            sum(rate(anubis_policy_results{action="DENY"}[10m]))
+            /
+            sum(rate(anubis_policy_results[10m]))
+            > 0.3
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Anubis is denying >30% of requests"
+            description: "Anubis bot protection is blocking a high proportion of traffic. This may indicate an attack or misconfigured rules affecting legitimate users."
+
+        - alert: AnubisHighChallengeRate
+          expr: >
+            sum(rate(anubis_policy_results{action="CHALLENGE"}[10m]))
+            /
+            sum(rate(anubis_policy_results[10m]))
+            > 0.8
+          for: 15m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Anubis is challenging >80% of requests"
+            description: "Most visitors to Outline are being challenged. Possible bot flood or overly aggressive policy."
 {{- end }}

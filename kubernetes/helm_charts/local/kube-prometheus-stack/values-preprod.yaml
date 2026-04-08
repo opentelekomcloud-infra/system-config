@@ -1,6 +1,20 @@
 prometheusRules:
   enabled: true
 
+serviceMonitors:
+  loki:
+    enabled: true
+    instance: loki-preprod
+  vault:
+    enabled: true
+    instance: vault-preprod
+  zitadel:
+    enabled: true
+    instance: zitadel-preprod
+  anubis:
+    enabled: true
+    instance: anubis
+
 goNeb:
   enabled: true
   userId: <path:secret/data/prometheus/config#go_neb_user_id>

@@ -1,0 +1,95 @@
+{{- /*
+  ServiceMonitors for platform services that don't ship their own.
+  Deployed in the monitoring namespace so Prometheus auto-discovers them.
+  Each monitor is gated on a per-service toggle in values.
+*/ -}}
+{{- if .Values.serviceMonitors.loki.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: loki
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - loki
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: loki
+      app.kubernetes.io/instance: {{ .Values.serviceMonitors.loki.instance }}
+  endpoints:
+    - port: http-metrics
+      interval: 30s
+      path: /metrics
+{{- end }}
+
+{{- if .Values.serviceMonitors.vault.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: vault
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - vault
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: vault
+      app.kubernetes.io/instance: {{ .Values.serviceMonitors.vault.instance }}
+      component: server
+  endpoints:
+    - port: http
+      interval: 30s
+      path: /v1/sys/metrics
+      params:
+        format: ["prometheus"]
+{{- end }}
+
+{{- if .Values.serviceMonitors.zitadel.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: zitadel
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - zitadel
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zitadel
+      app.kubernetes.io/instance: {{ .Values.serviceMonitors.zitadel.instance }}
+  endpoints:
+    - port: http-server
+      interval: 30s
+      path: /debug/metrics
+{{- end }}
+
+{{- if .Values.serviceMonitors.anubis.enabled }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: anubis
+  labels:
+    release: prometheus
+spec:
+  namespaceSelector:
+    matchNames:
+      - outline
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: anubis
+      app.kubernetes.io/instance: {{ .Values.serviceMonitors.anubis.instance }}
+  endpoints:
+    - port: metrics
+      interval: 30s
+      path: /metrics
+{{- end }}
