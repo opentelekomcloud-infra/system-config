@@ -1,0 +1,150 @@
+{
+  "annotations": {"list": []},
+  "editable": true,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "title": "HTTP Request Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 0},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "sum(rate({__name__=\"http.server.request_count_total\", job=~\"$job\"}[$__rate_interval])) by (pod)", "legendFormat": "{{pod}}"}],
+      "fieldConfig": {"defaults": {"unit": "reqps"}}
+    },
+    {
+      "title": "HTTP Latency p50 / p95 / p99",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 0},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [
+        {"expr": "histogram_quantile(0.50, sum(rate({__name__=\"http.server.duration_milliseconds_bucket\", job=~\"$job\"}[$__rate_interval])) by (le))", "legendFormat": "p50"},
+        {"expr": "histogram_quantile(0.95, sum(rate({__name__=\"http.server.duration_milliseconds_bucket\", job=~\"$job\"}[$__rate_interval])) by (le))", "legendFormat": "p95"},
+        {"expr": "histogram_quantile(0.99, sum(rate({__name__=\"http.server.duration_milliseconds_bucket\", job=~\"$job\"}[$__rate_interval])) by (le))", "legendFormat": "p99"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "ms"}}
+    },
+    {
+      "title": "HTTP Error Rate (5xx)",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 0},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "sum(rate({__name__=\"http.server.return_code_counter_total\", job=~\"$job\", grpc_code=~\"5..\"}[$__rate_interval])) by (grpc_code)", "legendFormat": "{{grpc_code}}"}],
+      "fieldConfig": {"defaults": {"unit": "reqps"}}
+    },
+    {
+      "title": "gRPC Request Rate",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 8},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "sum(rate({__name__=\"grpc.server.request_counter_total\", job=~\"$job\"}[$__rate_interval])) by (grpc_method)", "legendFormat": "{{grpc_method}}"}],
+      "fieldConfig": {"defaults": {"unit": "reqps"}}
+    },
+    {
+      "title": "gRPC Status Codes",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 8},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "sum(rate({__name__=\"grpc.server.grpc_status_code_total\", job=~\"$job\"}[$__rate_interval])) by (grpc_code)", "legendFormat": "{{grpc_code}}"}],
+      "fieldConfig": {"defaults": {"unit": "reqps"}}
+    },
+    {
+      "title": "HTTP Request/Response Size",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 8},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [
+        {"expr": "sum(rate({__name__=\"http.server.request.size_bytes_total\", job=~\"$job\"}[$__rate_interval]))", "legendFormat": "Request bytes/s"},
+        {"expr": "sum(rate({__name__=\"http.server.response.size_bytes_total\", job=~\"$job\"}[$__rate_interval]))", "legendFormat": "Response bytes/s"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "Bps"}}
+    },
+    {
+      "title": "Projection Events Processed",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 16},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "sum(rate(projection_events_processed_total{job=~\"$job\"}[$__rate_interval])) by (projection)", "legendFormat": "{{projection}}"}],
+      "fieldConfig": {"defaults": {"unit": "ops"}}
+    },
+    {
+      "title": "Projection Latency p95",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 16},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "histogram_quantile(0.95, sum(rate(projection_state_latency_seconds_bucket{job=~\"$job\"}[$__rate_interval])) by (le, projection))", "legendFormat": "{{projection}}"}],
+      "fieldConfig": {"defaults": {"unit": "s"}}
+    },
+    {
+      "title": "River Job Queue",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 16},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [
+        {"expr": "sum(rate({__name__=\"river.work_count_total\", job=~\"$job\"}[$__rate_interval]))", "legendFormat": "Jobs/s"},
+        {"expr": "sum(rate({__name__=\"river.insert_count_total\", job=~\"$job\"}[$__rate_interval]))", "legendFormat": "Inserts/s"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "ops"}}
+    },
+    {
+      "title": "Go Goroutines",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 0, "y": 24},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "go_goroutines{job=~\"$job\"}", "legendFormat": "{{pod}}"}]
+    },
+    {
+      "title": "Go Heap Memory",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 8, "y": 24},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [
+        {"expr": "go_memstats_heap_inuse_bytes{job=~\"$job\"}", "legendFormat": "{{pod}} heap in-use"},
+        {"expr": "go_memstats_heap_alloc_bytes{job=~\"$job\"}", "legendFormat": "{{pod}} heap alloc"}
+      ],
+      "fieldConfig": {"defaults": {"unit": "bytes"}}
+    },
+    {
+      "title": "Process CPU",
+      "type": "timeseries",
+      "gridPos": {"h": 8, "w": 8, "x": 16, "y": 24},
+      "datasource": {"type": "prometheus", "uid": "$datasource"},
+      "targets": [{"expr": "rate(process_cpu_seconds_total{job=~\"$job\"}[$__rate_interval])", "legendFormat": "{{pod}}"}],
+      "fieldConfig": {"defaults": {"unit": "percentunit"}}
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["zitadel", "iam"],
+  "templating": {
+    "list": [
+      {
+        "current": {"selected": false, "text": "default", "value": "default"},
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "prometheus",
+        "refresh": 1,
+        "type": "datasource"
+      },
+      {
+        "current": {},
+        "datasource": {"type": "prometheus", "uid": "$datasource"},
+        "definition": "label_values(up{job=~\".*zitadel.*\"}, job)",
+        "hide": 0,
+        "includeAll": true,
+        "multi": false,
+        "name": "job",
+        "query": "label_values(up{job=~\".*zitadel.*\"}, job)",
+        "refresh": 2,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {},
+  "timezone": "",
+  "title": "Zitadel Overview",
+  "uid": "zitadel-overview"
+}
