@@ -85,7 +85,7 @@ postgresql:
       log_line_prefix = '%m [%p] %q%u@%d '
 
       # Basic performance settings
-      max_connections = 100
+      max_connections = 200
       shared_buffers = 256MB
       effective_cache_size = 1GB
 
