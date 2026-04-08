@@ -21,7 +21,6 @@ spec:
     spec:
       serviceAccount: dependencytrack
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:

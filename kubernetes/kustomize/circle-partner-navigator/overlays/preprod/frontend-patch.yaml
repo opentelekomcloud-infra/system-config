@@ -11,7 +11,6 @@ spec:
         instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
       securityContext:
-        runAsNonRoot: true
         runAsUser: 101
         fsGroup: 101
         seccompProfile:
