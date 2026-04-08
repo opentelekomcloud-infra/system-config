@@ -213,7 +213,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "repeatDirection": "v",
@@ -485,7 +485,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "repeatDirection": "h",
@@ -565,7 +565,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "targets": [
@@ -658,7 +658,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "repeatDirection": "v",
@@ -754,7 +754,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "repeatDirection": "h",
@@ -834,7 +834,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "targets": [
@@ -913,7 +913,7 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "textMode": "value"
       },
       "pluginVersion": "10.1.5",
       "repeatDirection": "h",
