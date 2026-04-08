@@ -1,0 +1,110 @@
+prometheus-blackbox-exporter:
+  config:
+    modules:
+      http_2xx:
+        prober: http
+        timeout: 5s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          follow_redirects: true
+          preferred_ip_protocol: "ip4"
+          valid_status_codes: [200, 202]
+      http_403:
+        prober: http
+        timeout: 5s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          follow_redirects: true
+          preferred_ip_protocol: "ip4"
+          valid_status_codes: [403]
+
+  serviceMonitor:
+    enabled: true
+    defaults:
+      interval: 30s
+      scrapeTimeout: 10s
+    targets:
+      # ArgoCD
+      - name: argocd
+        url: https://argocd.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Grafana
+      - name: grafana
+        url: https://grafana.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Zuul CI/CD
+      - name: zuul
+        url: https://zuul.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Dependency Track
+      - name: dependencytrack
+        url: https://dependencytrack.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Outline Wiki
+      - name: outline
+        url: https://outline.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Zitadel Auth
+      - name: zitadel
+        url: https://zitadel.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Vault
+      - name: vault
+        url: https://vault-lb.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Victoria Metrics
+      - name: victoria-metrics
+        url: https://vm.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Loki
+      - name: loki
+        url: https://loki.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Prometheus
+      - name: prometheus
+        url: https://prometheus-mon.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Umami Analytics
+      - name: analytics
+        url: https://analytics.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # OpenAPI Validator
+      - name: openapi-validator
+        url: https://openapi-validator.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Circle Partner Navigator
+      - name: cpn
+        url: https://cpn.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Backstage
+      - name: backstage
+        url: https://backstage.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # mCaptcha
+      - name: mcaptcha
+        url: https://mcaptcha.eco-preprod.tsi-dev.otc-service.com
+        module: http_2xx
+      # Swift Proxy
+      - name: swift-proxy
+        url: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com
+        module: http_403
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
+
+  securityContext:
+    readOnlyRootFilesystem: true
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000

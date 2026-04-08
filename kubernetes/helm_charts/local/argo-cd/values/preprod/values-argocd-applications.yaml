@@ -720,6 +720,24 @@ applications:
           - CreateNamespace=true
           - ServerSideApply=true
 
+  # Prometheus Blackbox Exporter (endpoint probing)
+  - name: prometheus-blackbox-exporter
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      path: kubernetes/helm_charts/upstream/prometheus-blackbox-exporter
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # kube-prometheus-stack (Prometheus, Alertmanager, ServiceMonitors)
   - name: kube-prometheus-stack
     clusters: [preprod]
