@@ -140,10 +140,10 @@ victoria-metrics-cluster:
         failureThreshold: 10
     resources:
       limits:
-        memory: "512Mi"
+        memory: "1536Mi"
       requests:
         cpu: "50m"
-        memory: "256Mi"
+        memory: "512Mi"
     serviceMonitor:
       enabled: true
       namespace: monitoring

@@ -19,6 +19,11 @@ spec:
     matchLabels:
       app.kubernetes.io/name: loki
       app.kubernetes.io/instance: {{ .Values.serviceMonitors.loki.instance }}
+    matchExpressions:
+      - key: app.kubernetes.io/component
+        operator: NotIn
+        values:
+          - gateway
   endpoints:
     - port: http-metrics
       interval: 30s
