@@ -26,34 +26,16 @@ spec:
       value: "cluster={{ .Values.clusterName }}"
   python:
     image: quay.io/opentelekomcloud/autoinstrumentation-python:0.51b0
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 65534
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop: ["ALL"]
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://otel-node-collector.{{ .Release.Namespace }}.svc.cluster.local:4317
   nodejs:
     image: quay.io/opentelekomcloud/autoinstrumentation-nodejs:0.57.1-amd64
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 65534
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop: ["ALL"]
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://otel-node-collector.{{ .Release.Namespace }}.svc.cluster.local:4317
   java:
     image: quay.io/opentelekomcloud/autoinstrumentation-java:2.12.0
-    securityContext:
-      runAsNonRoot: true
-      runAsUser: 65534
-      allowPrivilegeEscalation: false
-      capabilities:
-        drop: ["ALL"]
     env:
       - name: OTEL_EXPORTER_OTLP_ENDPOINT
         value: http://otel-node-collector.{{ .Release.Namespace }}.svc.cluster.local:4317
