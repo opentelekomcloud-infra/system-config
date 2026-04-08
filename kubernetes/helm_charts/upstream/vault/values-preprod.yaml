@@ -18,8 +18,8 @@ vault:
     # Resource limits for injector
     resources:
       requests:
-        memory: 256Mi
-        cpu: 50m
+        memory: 64Mi
+        cpu: 10m
       limits:
         memory: 512Mi
         cpu: 500m
@@ -50,8 +50,8 @@ vault:
     # Resource configuration
     resources:
       requests:
-        memory: 1Gi
-        cpu: 100m
+        memory: 256Mi
+        cpu: 30m
       limits:
         memory: 2Gi
         cpu: 1000m
@@ -142,7 +142,7 @@ vault:
             value: "http://127.0.0.1:8200"
         resources:
           requests:
-            cpu: 50m
+            cpu: 10m
             memory: 64Mi
           limits:
             cpu: 100m
@@ -278,8 +278,8 @@ vault:
     # Resources for CSI provider
     resources:
       requests:
-        memory: 256Mi
-        cpu: 50m
+        memory: 64Mi
+        cpu: 10m
       limits:
         memory: 256Mi
         cpu: 250m

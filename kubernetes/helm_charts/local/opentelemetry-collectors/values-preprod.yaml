@@ -13,9 +13,10 @@ daemonset:
   image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.120.0"
   resources:
     limits:
+      cpu: 1000m
       memory: 2Gi
     requests:
-      cpu: 100m
+      cpu: 50m
       memory: 512Mi
 
 # Deployment collector — cluster-level receivers (k8s events, cluster metrics)

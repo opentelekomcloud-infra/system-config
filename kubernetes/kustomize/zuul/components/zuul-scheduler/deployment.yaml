@@ -68,8 +68,8 @@ spec:
               cpu: "4000m"
               memory: "4Gi"
             requests:
-              cpu: "100m"
-              memory: "2048Mi"
+              cpu: "20m"
+              memory: "512Mi"
 
           securityContext:
             runAsUser: 10001
