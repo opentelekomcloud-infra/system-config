@@ -9,6 +9,14 @@ prometheus-blackbox-exporter:
           follow_redirects: true
           preferred_ip_protocol: "ip4"
           valid_status_codes: [200, 202]
+      http_auth:
+        prober: http
+        timeout: 5s
+        http:
+          valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+          follow_redirects: true
+          preferred_ip_protocol: "ip4"
+          valid_status_codes: [200, 401, 403]
       http_403:
         prober: http
         timeout: 5s
@@ -48,9 +56,9 @@ prometheus-blackbox-exporter:
       - name: zitadel
         url: https://zitadel.eco-preprod.tsi-dev.otc-service.com
         module: http_2xx
-      # Vault
+      # Vault (returns 307/redirect on root, use /v1/sys/health which returns 200 when initialized+unsealed)
       - name: vault
-        url: https://vault-lb.eco-preprod.tsi-dev.otc-service.com
+        url: https://vault-lb.eco-preprod.tsi-dev.otc-service.com/v1/sys/health
         module: http_2xx
       # Victoria Metrics
       - name: victoria-metrics
@@ -60,10 +68,10 @@ prometheus-blackbox-exporter:
       - name: loki
         url: https://loki.eco-preprod.tsi-dev.otc-service.com
         module: http_2xx
-      # Prometheus
+      # Prometheus (behind basic auth - 401 is expected without credentials)
       - name: prometheus
         url: https://prometheus-mon.eco-preprod.tsi-dev.otc-service.com
-        module: http_2xx
+        module: http_auth
       # Umami Analytics
       - name: analytics
         url: https://analytics.eco-preprod.tsi-dev.otc-service.com
@@ -84,10 +92,10 @@ prometheus-blackbox-exporter:
       - name: mcaptcha
         url: https://mcaptcha.eco-preprod.tsi-dev.otc-service.com
         module: http_2xx
-      # Swift Proxy
+      # Swift Proxy (returns 401/403 without credentials)
       - name: swift-proxy
         url: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com
-        module: http_403
+        module: http_auth
 
   resources:
     requests:
