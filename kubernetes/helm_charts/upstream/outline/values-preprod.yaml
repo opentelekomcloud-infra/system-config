@@ -84,6 +84,9 @@ outline:
         hosts:
           - outline.eco-preprod.tsi-dev.otc-service.com
 
+  imagePullSecrets:
+    - name: quay-image-pull-secret
+
   # Resource limits
   resources:
     limits:
