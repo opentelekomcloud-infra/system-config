@@ -24,6 +24,8 @@ spec:
   env:
     - name: OTEL_RESOURCE_ATTRIBUTES
       value: "cluster={{ .Values.clusterName }}"
+    - name: OTEL_EXPORTER_OTLP_PROTOCOL
+      value: grpc
   python:
     image: quay.io/opentelekomcloud/autoinstrumentation-python:0.51b0
     env:
