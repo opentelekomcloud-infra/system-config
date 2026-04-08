@@ -13,11 +13,10 @@ kube-prometheus-stack:
     config:
       receivers:
       - name: "null"
-      # Matrix webhook disabled
-      # - name: matrix-webhook
-      #   webhook_configs:
-      #   - send_resolved: true
-      #     url: <path:secret/data/prometheus/config#matrix_webhook_url>
+      - name: matrix-webhook
+        webhook_configs:
+        - send_resolved: true
+          url: <path:secret/data/prometheus/config#matrix_webhook_url>
       - name: slack-webhook
         slack_configs:
         - api_url: <path:secret/data/prometheus/config#slack_webhook_url>
@@ -43,11 +42,10 @@ kube-prometheus-stack:
           matchers:
           - alertname =~ "InfoInhibitor|Watchdog"
           receiver: "null"
-        # Matrix route disabled
-        # - continue: true
-        #   matchers:
-        #   - severity =~ "critical|warning"
-        #   receiver: matrix-webhook
+        - continue: true
+          matchers:
+          - severity =~ "critical|warning"
+          receiver: matrix-webhook
         - receiver: slack-webhook
     ingress:
       annotations:
@@ -73,6 +71,250 @@ kube-prometheus-stack:
     service:
       selector:
         k8s-app: coredns
+  additionalPrometheusRulesMap:
+    preprod-alerts:
+      groups:
+        # ── Blackbox / Endpoint Monitoring ──────────────────────
+        - name: blackbox-exporter
+          rules:
+            - alert: BlackboxProbeFailed
+              expr: probe_success == 0
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Endpoint {{ $labels.instance }} is down"
+                description: "Blackbox probe against {{ $labels.instance }} has been failing for 5 minutes."
+
+            - alert: BlackboxProbeHttpFailure
+              expr: probe_http_status_code > 0 and (probe_http_status_code <= 199 or probe_http_status_code >= 400)
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "HTTP failure on {{ $labels.instance }}"
+                description: "Endpoint {{ $labels.instance }} returned HTTP {{ $value }}."
+
+            - alert: BlackboxSslCertExpiringSoon
+              expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 20
+              for: 10m
+              labels:
+                severity: warning
+              annotations:
+                summary: "SSL cert for {{ $labels.instance }} expires in {{ $value | humanize }} days"
+                description: "The SSL certificate on {{ $labels.instance }} will expire within 20 days."
+
+            - alert: BlackboxSslCertExpiryCritical
+              expr: (probe_ssl_earliest_cert_expiry - time()) / 86400 < 3
+              for: 10m
+              labels:
+                severity: critical
+              annotations:
+                summary: "SSL cert for {{ $labels.instance }} expires in {{ $value | humanize }} days"
+                description: "The SSL certificate on {{ $labels.instance }} will expire within 3 days."
+
+            - alert: BlackboxSlowProbe
+              expr: avg_over_time(probe_duration_seconds[5m]) > 3
+              for: 10m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Slow probe on {{ $labels.instance }}"
+                description: "Probe on {{ $labels.instance }} takes {{ $value | humanize }}s on average."
+
+        # ── cert-manager ────────────────────────────────────────
+        - name: cert-manager
+          rules:
+            - alert: CertManagerCertNotReady
+              expr: certmanager_certificate_ready_status{condition="True"} == 0
+              for: 30m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Certificate {{ $labels.namespace }}/{{ $labels.name }} is not ready"
+                description: "cert-manager certificate {{ $labels.name }} in namespace {{ $labels.namespace }} has been in not-ready state for 30 minutes."
+
+            - alert: CertManagerCertExpirySoon
+              expr: (certmanager_certificate_expiration_timestamp_seconds - time()) / 86400 < 14
+              for: 1h
+              labels:
+                severity: warning
+              annotations:
+                summary: "cert-manager cert {{ $labels.namespace }}/{{ $labels.name }} expiring in {{ $value | humanize }} days"
+                description: "Certificate {{ $labels.name }} in {{ $labels.namespace }} expires within 14 days. cert-manager may be failing to renew it."
+
+        # ── PostgreSQL ──────────────────────────────────────────
+        - name: postgresql
+          rules:
+            - alert: PostgresExporterDown
+              expr: pg_exporter_last_scrape_error == 1
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "PostgreSQL exporter scrape failing on {{ $labels.instance }}"
+                description: "The postgres_exporter cannot scrape metrics from {{ $labels.instance }}."
+
+            - alert: PostgresReplicationLagHigh
+              expr: pg_replication_lag_seconds > 30
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "PostgreSQL replication lag is {{ $value | humanize }}s on {{ $labels.instance }}"
+                description: "Replication lag on {{ $labels.instance }} has been above 30 seconds for 5 minutes."
+
+            - alert: PostgresReplicationLagCritical
+              expr: pg_replication_lag_seconds > 120
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "PostgreSQL replication lag is {{ $value | humanize }}s on {{ $labels.instance }}"
+                description: "Replication lag on {{ $labels.instance }} has been above 2 minutes for 5 minutes."
+
+            - alert: PostgresTooManyLocks
+              expr: pg_locks_count > 200
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "High lock count ({{ $value }}) on {{ $labels.instance }}"
+                description: "PostgreSQL instance {{ $labels.instance }} has {{ $value }} locks, which may indicate contention."
+
+            - alert: PostgresTooManyConnections
+              expr: >
+                sum by (instance) (pg_stat_activity_count)
+                /
+                on (instance) pg_settings_max_connections
+                > 0.85
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "PostgreSQL connections at {{ $value | humanizePercentage }} on {{ $labels.instance }}"
+                description: "{{ $labels.instance }} is using more than 85% of max_connections."
+
+            - alert: PostgresDatabaseSizeCritical
+              expr: pg_database_size_bytes > 10 * 1024 * 1024 * 1024
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Database {{ $labels.datname }} is {{ $value | humanize1024 }}B on {{ $labels.instance }}"
+                description: "Database {{ $labels.datname }} has grown above 10 GiB."
+
+        # ── ArgoCD ──────────────────────────────────────────────
+        - name: argocd
+          rules:
+            - alert: ArgoCDAppOutOfSync
+              expr: argocd_app_info{sync_status!="Synced"} == 1
+              for: 30m
+              labels:
+                severity: warning
+              annotations:
+                summary: "ArgoCD app {{ $labels.name }} is out of sync"
+                description: "Application {{ $labels.name }} has been out of sync for 30 minutes (status: {{ $labels.sync_status }})."
+
+            - alert: ArgoCDAppUnhealthy
+              expr: argocd_app_info{health_status!~"Healthy|Progressing"} == 1
+              for: 30m
+              labels:
+                severity: warning
+              annotations:
+                summary: "ArgoCD app {{ $labels.name }} is unhealthy"
+                description: "Application {{ $labels.name }} has been in {{ $labels.health_status }} state for 30 minutes."
+
+            - alert: ArgoCDSyncFailed
+              expr: increase(argocd_app_sync_total{phase!="Succeeded"}[15m]) > 0
+              for: 5m
+              labels:
+                severity: warning
+              annotations:
+                summary: "ArgoCD sync failed for {{ $labels.name }}"
+                description: "Application {{ $labels.name }} has had a failed sync in the last 15 minutes."
+
+        # ── PVC / Persistent Storage ────────────────────────────
+        - name: persistent-storage
+          rules:
+            - alert: PVCAlmostFull
+              expr: >
+                (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) > 0.85
+                and kubelet_volume_stats_capacity_bytes > 0
+              for: 15m
+              labels:
+                severity: warning
+              annotations:
+                summary: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is {{ $value | humanizePercentage }} full"
+                description: "Persistent volume claim {{ $labels.persistentvolumeclaim }} in {{ $labels.namespace }} has been above 85% utilization for 15 minutes."
+
+            - alert: PVCCriticallyFull
+              expr: >
+                (kubelet_volume_stats_used_bytes / kubelet_volume_stats_capacity_bytes) > 0.95
+                and kubelet_volume_stats_capacity_bytes > 0
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "PVC {{ $labels.namespace }}/{{ $labels.persistentvolumeclaim }} is {{ $value | humanizePercentage }} full"
+                description: "Persistent volume claim {{ $labels.persistentvolumeclaim }} in {{ $labels.namespace }} is above 95% utilization."
+
+        # ── Pod / Container Health ──────────────────────────────
+        - name: pod-health
+          rules:
+            - alert: PodOOMKilled
+              expr: >
+                increase(kube_pod_container_status_restarts_total[15m]) > 0
+                and on (namespace, pod, container)
+                kube_pod_container_status_last_terminated_reason{reason="OOMKilled"} == 1
+              for: 0m
+              labels:
+                severity: warning
+              annotations:
+                summary: "{{ $labels.namespace }}/{{ $labels.pod }} ({{ $labels.container }}) OOM killed"
+                description: "Container {{ $labels.container }} in pod {{ $labels.pod }} was OOM killed and has restarted."
+
+            - alert: HighPodRestartRate
+              expr: increase(kube_pod_container_status_restarts_total[1h]) > 5
+              for: 10m
+              labels:
+                severity: warning
+              annotations:
+                summary: "{{ $labels.namespace }}/{{ $labels.pod }} restarting frequently"
+                description: "Container {{ $labels.container }} in {{ $labels.namespace }}/{{ $labels.pod }} has restarted {{ $value }} times in the last hour."
+
+        # ── Node Health ─────────────────────────────────────────
+        - name: node-health
+          rules:
+            - alert: NodeDiskPressure
+              expr: >
+                (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) > 0.85
+              for: 15m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Disk {{ $labels.mountpoint }} on {{ $labels.instance }} is {{ $value | humanizePercentage }} full"
+                description: "Filesystem on {{ $labels.mountpoint }} ({{ $labels.device }}) is above 85% utilization."
+
+            - alert: NodeDiskCritical
+              expr: >
+                (1 - node_filesystem_avail_bytes{fstype!~"tmpfs|overlay"} / node_filesystem_size_bytes{fstype!~"tmpfs|overlay"}) > 0.95
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Disk {{ $labels.mountpoint }} on {{ $labels.instance }} is {{ $value | humanizePercentage }} full"
+                description: "Filesystem on {{ $labels.mountpoint }} ({{ $labels.device }}) is critically full."
+
+            - alert: NodeHighMemoryUsage
+              expr: (1 - node_memory_AvailableBytes / node_memory_MemTotal_bytes) > 0.90
+              for: 15m
+              labels:
+                severity: warning
+              annotations:
+                summary: "Node {{ $labels.instance }} memory at {{ $value | humanizePercentage }}"
+                description: "Node {{ $labels.instance }} has been above 90% memory utilization for 15 minutes."
+
   defaultRules:
     rules:
       etcd: false
