@@ -289,8 +289,8 @@ vault:
 
   # Network policies
   serverTelemetry:
-    # Enable Prometheus metrics
-    prometheusOperator: true
+    # ServiceMonitor is managed in the local kube-prometheus-stack chart
+    prometheusOperator: false
 
   # Additional environment variables
   extraEnvironmentVars:

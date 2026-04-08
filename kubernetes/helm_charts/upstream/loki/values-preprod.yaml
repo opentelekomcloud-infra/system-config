@@ -213,15 +213,7 @@ loki:
               annotations:
                 summary: "Loki has panicked {{ $value }} times"
     serviceMonitor:
-      enabled: true
-      namespace: monitoring
-      namespaceSelector:
-        matchNames:
-          - loki
-      labels:
-        release: "prometheus"
-      metricsInstance:
-        enabled: false
+      enabled: false
 
   # ── Disable test pod ──
   test:
