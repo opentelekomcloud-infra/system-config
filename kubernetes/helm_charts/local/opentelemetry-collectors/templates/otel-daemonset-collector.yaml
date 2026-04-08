@@ -204,7 +204,7 @@ spec:
 
     processors:
       batch:
-        send_batch_size: 8192
+        send_batch_size: 2048
         timeout: 5s
 
       memory_limiter:
