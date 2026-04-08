@@ -107,7 +107,7 @@ postgresql:
     resources:
       limits:
         memory: "2Gi"
-        cpu: "1000m"
+        cpu: "2000m"
       requests:
         memory: "1Gi"
         cpu: "250m"
