@@ -53,6 +53,9 @@ spec:
       path: /v1/sys/metrics
       params:
         format: ["prometheus"]
+      relabelings:
+        - targetLabel: job
+          replacement: vault
 {{- end }}
 
 {{- if .Values.serviceMonitors.zitadel.enabled }}
