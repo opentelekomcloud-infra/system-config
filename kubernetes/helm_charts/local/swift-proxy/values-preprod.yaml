@@ -39,7 +39,7 @@ storage:
     existingVolume: ""  # Let CSI provision the volume
     storageClass: "csi-disk-retain"
     accessMode: ReadWriteOnce
-    size: 350Gi  # OTC EVS disk
+    size: 500Gi  # OTC EVS disk (expanded from 350Gi - was 87% full)
     reclaimPolicy: Retain
     # Local storage configuration (disabled for CSI)
     localStorage:
@@ -76,6 +76,10 @@ storage:
     container: 6201
     account: 6202
     rsync: 873
+  # Object expiry - delete objects older than N days
+  expiry:
+    enabled: true
+    days: 30  # Keep Zuul job logs for 30 days
 
 serviceAccount:
   create: true

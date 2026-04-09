@@ -200,6 +200,80 @@ data:
 
     [object-auditor]
 
+    [object-expirer]
+    # Expirer runs as a daemon, deleting objects with X-Delete-At metadata
+    interval = 300
+    reclaim_age = 604800
+
+---
+# Kolla config for object-expirer sidecar
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-expirer-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-object-expirer /etc/swift/object-expirer.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/object-expirer.conf",
+          "dest": "/etc/swift/object-expirer.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/var/cache/swift",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  object-expirer.conf: |
+    [DEFAULT]
+    user = swift
+
+    [object-expirer]
+    interval = 300
+    reclaim_age = 604800
+    # Use internal proxy for object deletion
+    auto_create_account_prefix = .
+    concurrency = 1
+
+    [pipeline:main]
+    pipeline = catch_errors cache proxy-server
+
+    [app:proxy-server]
+    use = egg:swift#proxy
+
+    [filter:cache]
+    use = egg:swift#memcache
+    memcache_servers = {{ include "swift-proxy.fullname" . }}-memcached:11211
+
+    [filter:catch_errors]
+    use = egg:swift#catch_errors
+
 ---
 # Kolla config for container server
 apiVersion: v1
