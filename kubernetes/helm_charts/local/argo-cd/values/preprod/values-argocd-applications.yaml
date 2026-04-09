@@ -4,7 +4,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
@@ -21,7 +21,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-clusters.yaml'
@@ -38,7 +38,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
@@ -55,7 +55,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml --api-versions monitoring.coreos.com/v1'
@@ -72,7 +72,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-additional-manifests.yaml'
@@ -89,7 +89,7 @@ applications:
     config:
       namespace: cert-manager
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/cert-manager
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml --set installCRDs=true'
@@ -106,7 +106,7 @@ applications:
     config:
       namespace: kube-system
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/kubernetes-replicator
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -123,7 +123,7 @@ applications:
     config:
       namespace: grafana
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/grafana
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -141,7 +141,7 @@ applications:
     config:
       namespace: grafana
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/grafana
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: ''
@@ -159,7 +159,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/outline
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -176,7 +176,7 @@ applications:
     config:
       namespace: outline
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/outline
       pluginName: argocd-vault-plugin-helm
       pluginEnv: '-f values-preprod.yaml'
@@ -193,7 +193,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -210,7 +210,7 @@ applications:
     config:
       namespace: postgres
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/postgresql
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -227,7 +227,7 @@ applications:
     config:
       namespace: gitea-runner
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -244,7 +244,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -261,7 +261,7 @@ applications:
     config:
       namespace: zitadel
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/zitadel
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -280,7 +280,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -298,7 +298,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -315,7 +315,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -333,7 +333,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/victoria-metrics-cluster
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values.yaml'
@@ -350,7 +350,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/victoria-metrics-auth
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -367,7 +367,7 @@ applications:
   #   config:
   #     namespace: promtail
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Migration_of_monitoring_and_loging_stack'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/helm_charts/upstream/promtail
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values-preprod.yaml'
@@ -384,7 +384,7 @@ applications:
   #   config:
   #     namespace: cert-manager
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Migration_of_monitoring_and_loging_stack'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/helm_charts/upstream/cert-exporter
   #     pluginName: argocd-vault-plugin-helm
   #     pluginEnv: '-f values.yaml'
@@ -406,7 +406,7 @@ applications:
     config:
       namespace: circle-partner-navigator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/anubis/overlays/preprod/circle-partner-navigator/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -423,7 +423,7 @@ applications:
     config:
       namespace: openapi-validator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/openapi-validator/overlays/dev/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -440,7 +440,7 @@ applications:
     config:
       namespace: circle-partner-navigator
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/circle-partner-navigator/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -457,7 +457,7 @@ applications:
     config:
       namespace: analytics
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/umami/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -474,7 +474,7 @@ applications:
     config:
       namespace: mcaptcha
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/mcaptcha/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -491,7 +491,7 @@ applications:
     config:
       namespace: redis
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/redis/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -508,7 +508,7 @@ applications:
     config:
       namespace: eyes-on-docs
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/eyes-on-docs/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -525,7 +525,7 @@ applications:
     config:
       namespace: dependencytrack
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/dependency-track/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -542,7 +542,7 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/zuul/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -559,7 +559,7 @@ applications:
     config:
       namespace: swift-proxy
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/swift-proxy
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -576,7 +576,7 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/kustomize/oauth2-proxy/overlays/preprod/zuul/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -593,7 +593,7 @@ applications:
   #   config:
   #     namespace: zuul
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Migration_of_monitoring_and_loging_stack'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/kustomize/gitea-webhook-translator/overlays/preprod/
   #     pluginName: argocd-vault-plugin-kustomize
   #     pluginEnv: '.'
@@ -610,7 +610,7 @@ applications:
   #   config:
   #     namespace: zuul
   #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'Migration_of_monitoring_and_loging_stack'
+  #     targetRevision: 'preprod'
   #     path: kubernetes/kustomize/gitea-api-adapter/overlays/preprod/
   #     pluginName: argocd-vault-plugin-kustomize
   #     pluginEnv: '.'
@@ -632,7 +632,7 @@ applications:
     config:
       namespace: opentelemetry
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/opentelemetry-operator
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -651,7 +651,7 @@ applications:
     config:
       namespace: opentelemetry
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/opentelemetry-collectors
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -669,7 +669,7 @@ applications:
     config:
       namespace: tempo
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/tempo
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -688,7 +688,7 @@ applications:
     config:
       namespace: loki
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/loki
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -707,7 +707,7 @@ applications:
     config:
       namespace: loki
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/loki
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -726,7 +726,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/prometheus-blackbox-exporter
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -744,7 +744,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/kube-prometheus-stack
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
@@ -763,7 +763,7 @@ applications:
     config:
       namespace: monitoring
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_monitoring_and_loging_stack'
+      targetRevision: 'preprod'
       path: kubernetes/helm_charts/local/kube-prometheus-stack
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'

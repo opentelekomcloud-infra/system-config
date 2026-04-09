@@ -71,11 +71,6 @@ webhook_token={{ .Data.data.webhook_token }}
 {{- end }}
 sshkey=/etc/zuul/connections/gitlab.key
 
-[connection "opendev"]
-name=opendev
-driver=git
-baseurl=https://opendev.org
-
 [connection "gitea"]
 name=gitea
 driver=gitea
