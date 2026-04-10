@@ -1,0 +1,34 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zuul-web-webhook
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: RSA
+    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-rotation-policy: Always
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: zuul.eco-preprod.tsi-dev.otc-service.com
+      http:
+        paths:
+          - path: /api/connection
+            pathType: Prefix
+            backend:
+              service:
+                name: zuul-web
+                port:
+                  number: 9000
+          - path: /api/webhook
+            pathType: Prefix
+            backend:
+              service:
+                name: zuul-web
+                port:
+                  number: 9000
+  tls:
+    - hosts:
+        - zuul.eco-preprod.tsi-dev.otc-service.com
+      secretName: zuul-preprod-cert

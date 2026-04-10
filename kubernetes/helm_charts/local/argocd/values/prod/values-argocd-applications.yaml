@@ -303,7 +303,7 @@ applications:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'main'
-      path: kubernetes/kustomize/zuul/overlays/new_prod/
+      path: kubernetes/kustomize/zuul/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
       project: infra
@@ -322,7 +322,7 @@ applications:
       targetRevision: 'main'
       path: kubernetes/helm_charts/local/swift-proxy
       pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-new-prod.yaml'
+      pluginEnv: '-f values-prod.yaml'
       project: infra
       syncPolicy:
         automated:

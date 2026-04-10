@@ -1,0 +1,40 @@
+---
+# Mount SSH keys and SSH config for merger
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-merger
+spec:
+  template:
+    spec:
+      securityContext:
+        fsGroup: 10001
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0400
+        - name: ssh-config
+          configMap:
+            name: zuul-merger-ssh-config
+        - name: ssh-known-hosts
+          secret:
+            secretName: zuul-merger-known-hosts
+            defaultMode: 0600
+      containers:
+        - name: zuul
+          image: zuul/zuul-merger
+          imagePullPolicy: Always
+          env:
+            - name: GIT_SSH_COMMAND
+              value: "ssh -F /etc/ssh-config/config"
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: ssh-config
+              mountPath: /etc/ssh-config
+              readOnly: true
+            - name: ssh-known-hosts
+              mountPath: /var/lib/zuul/.ssh
+              readOnly: true
