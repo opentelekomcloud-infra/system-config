@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepool-launcher
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: nodepool
+          resources:
+            limits:
+              memory: "300Mi"
+            requests:
+              cpu: "50m"
+              memory: "256Mi"

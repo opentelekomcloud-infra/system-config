@@ -1,0 +1,11 @@
+---
+# Patch PVC for Zuul config - override storageClass for new-prod
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zuul-config
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/component: "zuul-config"
+spec:
+  storageClassName: "csi-sfsturbo"

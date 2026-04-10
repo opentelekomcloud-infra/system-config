@@ -1,0 +1,17 @@
+---
+# Site-specific variables for Zuul executor (new-prod)
+
+# Log storage configuration
+zuul_site_upload_logs: true
+
+# OpenStack cloud configuration for Swift log upload
+zuul_log_cloud_config: zuul-logs
+
+# Swift/OBS container configuration
+zuul_log_container: zuul-new-prod-logs
+zuul_log_container_public: false
+zuul_log_partition: false
+zuul_log_create_indexes: true
+
+# Swift object deletion - 90 days retention
+zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
