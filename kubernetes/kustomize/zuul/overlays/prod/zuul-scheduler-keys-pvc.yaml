@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/component: "zuul-scheduler"
 spec:
   storageClassName: "csi-sfsturbo"
-  volumeName: zuul-new-prod-scheduler-keys-sfs-turbo
+  volumeName: zuul-prod-scheduler-keys-sfs-turbo
   accessModes:
     - ReadWriteOnce
   resources:

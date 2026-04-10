@@ -1,5 +1,5 @@
 ---
-# Nodepool configuration for Zuul new-prod environment
+# Nodepool configuration for Zuul prod environment
 
 elements-dir: /etc/nodepool/elements
 images-dir: /opt/nodepool/images
@@ -23,10 +23,10 @@ labels:
 
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
-  - name: new-prod-k8s
+  - name: prod-k8s
     driver: kubernetes
     max-servers: 5
-    context: new-prod
+    context: prod
     pools:
       - name: default
         labels:
@@ -72,7 +72,7 @@ providers:
                       memory: "1024Mi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
-            context: new-prod
+            context: prod
 
 diskimages:
   - name: debian-bookworm

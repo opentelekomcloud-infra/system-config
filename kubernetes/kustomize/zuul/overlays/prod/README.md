@@ -4,7 +4,7 @@ This overlay deploys Zuul to the **new production** environment on the `otcinfra
 
 ## Key Differences from Existing Production (zuul_ci)
 
-| Aspect | new_prod | zuul_ci (existing) |
+| Aspect | prod | zuul_ci (existing) |
 |--------|----------|-------------------|
 | Namespace | `zuul` | `zuul-ci` |
 | Secret Management | ArgoCD Vault Plugin | Vault Agent sidecars |

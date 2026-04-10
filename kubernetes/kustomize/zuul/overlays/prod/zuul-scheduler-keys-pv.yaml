@@ -1,10 +1,10 @@
 ---
 # PV for Zuul scheduler keys persistence (SFS Turbo NFS)
-# TODO: Update NFS server IP when new-prod SFS Turbo is provisioned
+# TODO: Update NFS server IP when prod SFS Turbo is provisioned
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: zuul-new-prod-scheduler-keys-sfs-turbo
+  name: zuul-prod-scheduler-keys-sfs-turbo
 spec:
   capacity:
     storage: 100Mi

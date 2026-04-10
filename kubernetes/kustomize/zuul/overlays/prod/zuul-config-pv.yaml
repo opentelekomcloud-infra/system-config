@@ -1,6 +1,6 @@
 ---
-# Patch PV for Zuul config shared storage - override NFS server for new-prod
-# TODO: Update NFS server IP when new-prod SFS Turbo is provisioned
+# Patch PV for Zuul config shared storage - override NFS server for prod
+# TODO: Update NFS server IP when prod SFS Turbo is provisioned
 apiVersion: v1
 kind: PersistentVolume
 metadata:

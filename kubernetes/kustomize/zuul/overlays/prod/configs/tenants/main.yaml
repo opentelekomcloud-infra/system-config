@@ -1,5 +1,5 @@
 ---
-# Production tenant configuration for Zuul (new-prod)
+# Production tenant configuration for Zuul (prod)
 
 - tenant:
     name: production
