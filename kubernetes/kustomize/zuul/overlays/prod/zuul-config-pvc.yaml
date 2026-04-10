@@ -1,5 +1,5 @@
 ---
-# Patch PVC for Zuul config - override storageClass for new-prod
+# Patch PVC for Zuul config - override storageClass for prod
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:

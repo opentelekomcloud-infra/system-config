@@ -1,5 +1,5 @@
 ---
-# Nodepool openstacksdk configuration for new-prod environment
+# Nodepool openstacksdk configuration for prod environment
 # Using ArgoCD Vault Plugin syntax
 cache:
   expiration:

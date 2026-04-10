@@ -27,4 +27,4 @@ spec:
   tls:
     - hosts:
         - zuul.eco.tsi-dev.otc-service.com
-      secretName: zuul-new-prod-cert
+      secretName: zuul-prod-cert

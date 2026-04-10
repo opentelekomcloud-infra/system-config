@@ -1,5 +1,5 @@
 ---
-# Site-specific variables for Zuul executor (new-prod)
+# Site-specific variables for Zuul executor (prod)
 
 # Log storage configuration
 zuul_site_upload_logs: true
@@ -8,7 +8,7 @@ zuul_site_upload_logs: true
 zuul_log_cloud_config: zuul-logs
 
 # Swift/OBS container configuration
-zuul_log_container: zuul-new-prod-logs
+zuul_log_container: zuul-prod-logs
 zuul_log_container_public: false
 zuul_log_partition: false
 zuul_log_create_indexes: true

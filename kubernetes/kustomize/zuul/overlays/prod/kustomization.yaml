@@ -30,8 +30,8 @@ configMapGenerator:
 labels:
   - includeSelectors: true
     pairs:
-      app.kubernetes.io/instance: zuul-new-prod
-      app.kubernetes.io/environment: new-prod
+      app.kubernetes.io/instance: zuul-prod
+      app.kubernetes.io/environment: prod
 
 images:
   - name: "busybox"
