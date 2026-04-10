@@ -293,3 +293,57 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+
+  # =====================================================
+  #  Zuul New Production
+  # =====================================================
+  - name: zuul
+    clusters: [otcinfra2]
+    config:
+      namespace: zuul
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/kustomize/zuul/overlays/new_prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: swift-proxy
+    clusters: [otcinfra2]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/swift-proxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-new-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: oauth2-proxy
+    clusters: [otcinfra2]
+    config:
+      namespace: zuul
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/kustomize/oauth2-proxy/overlays/new_prod/zuul/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

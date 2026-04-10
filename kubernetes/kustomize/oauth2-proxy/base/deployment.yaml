@@ -1,0 +1,88 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth-proxy
+  labels:
+    app.kubernetes.io/component: oauth-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: oauth-proxy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: oauth-proxy
+    spec:
+      terminationGracePeriodSeconds: 10
+      serviceAccount: "oauth-proxy"
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534  # nobody user
+        runAsGroup: 65534
+        fsGroup: 65534
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: oauth-proxy
+          image: oauth2-proxy
+          imagePullPolicy: IfNotPresent
+          ports:
+          - name: oauth2-proxy
+            containerPort: 4180
+            protocol: TCP
+          args:
+            - '--config=/config/oauth2-proxy.cfg'
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+          readinessProbe:
+            httpGet:
+              path: /ping
+              port: 4180
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /ping
+              port: 4180
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "50Mi"
+            limits:
+              cpu: "100m"
+              memory: "200Mi"
+          volumeMounts:
+            - mountPath: "/config"
+              name: "config"
+              readOnly: true
+            - mountPath: "/tmp"
+              name: "tmp-volume"
+
+      volumes:
+        - name: config
+          secret:
+            secretName: oauth2-proxy-config
+            defaultMode: 0444  # Read-only
+        - name: tmp-volume
+          emptyDir:
+            sizeLimit: 100Mi

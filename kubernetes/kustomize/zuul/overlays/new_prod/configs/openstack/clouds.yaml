@@ -1,0 +1,20 @@
+---
+# Nodepool openstacksdk configuration for new-prod environment
+# Using ArgoCD Vault Plugin syntax
+cache:
+  expiration:
+    server: 5
+    port: 5
+    floating-ip: 5
+clouds:
+  otcci-pool1:
+    auth:
+       auth_url: <path:secret/data/cloud_users/448_nodepool#auth_url>
+       user_domain_name: <path:secret/data/cloud_users/448_nodepool#user_domain_name>
+       username: <path:secret/data/cloud_users/448_nodepool#username>
+       password: <path:secret/data/cloud_users/448_nodepool#password>
+       project_name: <path:secret/data/clouds/otcci_nodepool_pool1#project_name>
+    region_name: eu-de
+    private: true
+    identity_api_version: 3
+    object_store_api_version: 1
