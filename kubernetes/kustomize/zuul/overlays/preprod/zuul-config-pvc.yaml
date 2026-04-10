@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zuul-config
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/component: "zuul-config"
+spec:
+  storageClassName: "csi-sfsturbo"
+  volumeName: zuul-config-sfs-turbo
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 500Gi

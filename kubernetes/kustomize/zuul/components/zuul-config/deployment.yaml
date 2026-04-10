@@ -53,9 +53,6 @@ spec:
             - name: "zuul-config-data"
               mountPath: "/data"
 
-      nodeSelector:
-        dedicated: zuul-ci
-
       volumes:
         - name: "zuul-instance-config"
           secret:

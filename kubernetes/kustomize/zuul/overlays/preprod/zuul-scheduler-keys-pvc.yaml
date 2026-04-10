@@ -1,0 +1,19 @@
+---
+# PVC for Zuul scheduler keys persistence
+# The scheduler generates keypairs for encrypting secrets in zuul-project-config
+# These keys MUST persist across pod restarts to decrypt existing secrets
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: zuul-scheduler-keys
+  labels:
+    app.kubernetes.io/name: "zuul"
+    app.kubernetes.io/component: "zuul-scheduler"
+spec:
+  storageClassName: "csi-sfsturbo"
+  volumeName: zuul-scheduler-keys-sfs-turbo
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Mi
