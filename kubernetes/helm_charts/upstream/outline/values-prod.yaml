@@ -14,7 +14,7 @@ outline:
   # Secrets - will be overridden by ArgoCD parameters
   secretKey: "<path:secret/data/outline/config#secretKey>"
   utilsSecret: "<path:secret/data/outline/config#utilsSecret>"
-  url: "https://outline-k8s.eco.tsi-dev.otc-service.com"  # Explicitly setting the URL
+  url: "https://<path:secret/data/outline/config#externalURL>"
 
   # Image configuration - use quay.io mirror
   image:
@@ -39,7 +39,7 @@ outline:
       tokenUri: "<path:secret/data/outline/zitadel#baseUrl>/oauth/v2/token"
       # Zitadel userinfo endpoint
       userInfoUri: "<path:secret/data/outline/zitadel#baseUrl>/oidc/v1/userinfo"
-      logoutUri: "https://outline-k8s.eco.tsi-dev.otc-service.com"
+      logoutUri: "https://<path:secret/data/outline/config#externalURL>"
 
       # Display name shown on the login button
       displayName: "Zitadel SSO"
@@ -83,14 +83,14 @@ outline:
       nginx.ingress.kubernetes.io/proxy-body-size: "50m"
       nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
     hosts:
-      - host: outline-k8s.eco.tsi-dev.otc-service.com
+      - host: <path:secret/data/outline/config#externalURL>
         paths:
           - path: /
             pathType: Prefix
     tls:
       - secretName: outline-tls
         hosts:
-          - outline-k8s.eco.tsi-dev.otc-service.com
+          - <path:secret/data/outline/config#externalURL>
 
   # Resource limits
   resources:
