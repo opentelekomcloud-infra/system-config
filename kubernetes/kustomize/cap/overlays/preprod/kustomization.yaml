@@ -16,9 +16,9 @@ resources:
   - namespace.yaml
   - ../../components/valkey
 
-patchesStrategicMerge:
-  - deployment-patch.yaml
-  - ingress-patch.yaml
+patches:
+  - path: deployment-patch.yaml
+  - path: ingress-patch.yaml
 
 configMapGenerator:
   - name: cap-config
