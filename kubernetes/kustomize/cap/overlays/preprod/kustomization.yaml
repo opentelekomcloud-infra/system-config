@@ -14,7 +14,7 @@ labels:
 resources:
   - ../../base
   - namespace.yaml
-  - ../../components/valkey
+  - ../../resources/valkey
 
 patches:
   - path: deployment-patch.yaml

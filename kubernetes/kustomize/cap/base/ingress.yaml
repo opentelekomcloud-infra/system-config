@@ -22,5 +22,5 @@ spec:
               number: 80
   tls:
   - hosts:
-    - cap.eco-preprod.tsi-dev.otc-service.com
+    - cap.example.com
     secretName: cap-tls
