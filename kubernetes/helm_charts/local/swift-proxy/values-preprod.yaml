@@ -79,7 +79,7 @@ storage:
   # Object expiry - delete objects older than N days
   expiry:
     enabled: true
-    days: 30  # Keep Zuul job logs for 30 days
+    days: 15  # Keep Zuul job logs for 15 days
 
 serviceAccount:
   create: true
