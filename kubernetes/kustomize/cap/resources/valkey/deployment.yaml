@@ -77,4 +77,4 @@ spec:
   storageClassName: csi-disk
   resources:
     requests:
-      storage: 20Gi
+      storage: 1Gi
