@@ -23,7 +23,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: cap
-        image: tiago2/cap:2.2.1
+        image: quay.io/opentelekomcloud/cap:2.2.1
         ports:
         - containerPort: 3000
         resources:
