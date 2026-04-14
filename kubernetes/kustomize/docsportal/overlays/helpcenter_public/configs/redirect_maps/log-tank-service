@@ -228,8 +228,6 @@
   /en-us/usermanual/lts/lts_04_1031.html /log-tank-service/umn/log_ingestion/using_icagent_to_collect_host_logs/ingesting_ecs_text_logs_to_lts.html;
   /en-us/usermanual/lts/lts_04_1032.html /log-tank-service/umn/log_ingestion/using_apis_to_ingest_logs_to_lts/collecting_logs_using_apis.html;
   /en-us/usermanual/lts/lts_04_1053.html /log-tank-service/umn/log_management/index.html;
-  /en-us/usermanual/lts/lts_04_1112.html /log-tank-service/umn/log_ingestion/other_ingestion_modes/ingesting_logs_to_lts_across_iam_accounts.html;
-  /en-us/usermanual/lts/lts_04_1121.html /log-tank-service/umn/log_ingestion/other_ingestion_modes/index.html;
   /en-us/usermanual/lts/lts_04_1123.html /log-tank-service/umn/log_alarms/configuring_an_alarm_notification_rule/index.html;
   /en-us/usermanual/lts/lts_04_1153.html /log-tank-service/umn/log_management/overview.html;
   /en-us/usermanual/lts/lts_04_1154.html /log-tank-service/umn/log_management/viewing_log_management.html;
@@ -332,8 +330,6 @@
   /usermanual/lts/lts_04_1031.html /log-tank-service/umn/log_ingestion/using_icagent_to_collect_host_logs/ingesting_ecs_text_logs_to_lts.html;
   /usermanual/lts/lts_04_1032.html /log-tank-service/umn/log_ingestion/using_apis_to_ingest_logs_to_lts/collecting_logs_using_apis.html;
   /usermanual/lts/lts_04_1053.html /log-tank-service/umn/log_management/index.html;
-  /usermanual/lts/lts_04_1112.html /log-tank-service/umn/log_ingestion/other_ingestion_modes/ingesting_logs_to_lts_across_iam_accounts.html;
-  /usermanual/lts/lts_04_1121.html /log-tank-service/umn/log_ingestion/other_ingestion_modes/index.html;
   /usermanual/lts/lts_04_1123.html /log-tank-service/umn/log_alarms/configuring_an_alarm_notification_rule/index.html;
   /usermanual/lts/lts_04_1153.html /log-tank-service/umn/log_management/overview.html;
   /usermanual/lts/lts_04_1154.html /log-tank-service/umn/log_management/viewing_log_management.html;

@@ -1,9 +1,7 @@
   /api/kms/ /key-management-service/api-ref/index.html;
-  /api/kms/GenerateMac.html /key-management-service/api-ref/apis/key_management_service/mac/generating_a_mac.html;
   /api/kms/ShowPublicKey.html /key-management-service/api-ref/apis/key_management_service/cmk_management/querying_a_public_key.html;
   /api/kms/Sign.html /key-management-service/api-ref/apis/key_management_service/cmk_management/signing_data.html;
   /api/kms/ValidateSignature.html /key-management-service/api-ref/apis/key_management_service/cmk_management/authenticating_a_signature.html;
-  /api/kms/VerifyMac.html /key-management-service/api-ref/apis/key_management_service/mac/verifying_a_mac.html;
   /api/kms/kms_02_0009.html /key-management-service/api-ref/appendix/obtaining_a_project_id.html;
   /api/kms/kms_02_0010.html /key-management-service/api-ref/apis/index.html;
   /api/kms/kms_02_0011.html /key-management-service/api-ref/apis/key_management_service/cmk_management/index.html;
@@ -58,13 +56,10 @@
   /api/kms/kms_02_1010.html /key-management-service/api-ref/apis/key_management_service/index.html;
   /api/kms/kms_02_5048.html /key-management-service/api-ref/apis/key_management_service/querying_the_api_version_of_a_key/index.html;
   /api/kms/kms_02_8887.html /key-management-service/api-ref/appendix/error_code.html;
-  /api/kms/topic_300000012.html /key-management-service/api-ref/apis/key_management_service/mac/index.html;
   /en-us/api/kms/ /key-management-service/api-ref/index.html;
-  /en-us/api/kms/GenerateMac.html /key-management-service/api-ref/apis/key_management_service/mac/generating_a_mac.html;
   /en-us/api/kms/ShowPublicKey.html /key-management-service/api-ref/apis/key_management_service/cmk_management/querying_a_public_key.html;
   /en-us/api/kms/Sign.html /key-management-service/api-ref/apis/key_management_service/cmk_management/signing_data.html;
   /en-us/api/kms/ValidateSignature.html /key-management-service/api-ref/apis/key_management_service/cmk_management/authenticating_a_signature.html;
-  /en-us/api/kms/VerifyMac.html /key-management-service/api-ref/apis/key_management_service/mac/verifying_a_mac.html;
   /en-us/api/kms/kms_02_0009.html /key-management-service/api-ref/appendix/obtaining_a_project_id.html;
   /en-us/api/kms/kms_02_0010.html /key-management-service/api-ref/apis/index.html;
   /en-us/api/kms/kms_02_0011.html /key-management-service/api-ref/apis/key_management_service/cmk_management/index.html;
@@ -119,7 +114,6 @@
   /en-us/api/kms/kms_02_1010.html /key-management-service/api-ref/apis/key_management_service/index.html;
   /en-us/api/kms/kms_02_5048.html /key-management-service/api-ref/apis/key_management_service/querying_the_api_version_of_a_key/index.html;
   /en-us/api/kms/kms_02_8887.html /key-management-service/api-ref/appendix/error_code.html;
-  /en-us/api/kms/topic_300000012.html /key-management-service/api-ref/apis/key_management_service/mac/index.html;
   /en-us/usermanual/kms/ /key-management-service/umn/index.html;
   /en-us/usermanual/kms/dew_01_0001.html /key-management-service/umn/service_overview/kms/functions.html;
   /en-us/usermanual/kms/dew_01_0006.html /key-management-service/umn/service_overview/kms/application_scenarios.html;
