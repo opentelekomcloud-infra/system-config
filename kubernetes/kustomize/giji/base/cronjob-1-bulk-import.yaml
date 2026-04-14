@@ -4,7 +4,7 @@ metadata:
   name: giji-bulk-import
 spec:
   concurrencyPolicy: Forbid
-  schedule: "0 20 11 9 *"
+  schedule: "0 2 * * 0"
   jobTemplate:
     spec:
       template:
@@ -25,9 +25,6 @@ spec:
               - "/bin/sh"
               - "-c"
               - "source /secrets/giji-env; python3 bulk_import.py"
-              envFrom:
-                - secretRef:
-                    name: giji-config
               startupProbe:
                 httpGet:
                   path: /
