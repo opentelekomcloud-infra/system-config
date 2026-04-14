@@ -58,7 +58,7 @@
               "uid": "loki"
             },
             "editorMode": "code",
-            "expr": "{cluster=\"$cluster\", namespace=\"$namespace\", app=\"$workload\"} |~ \"$search\"",
+            "expr": "{k8s_namespace_name=\"$namespace\", k8s_pod_name=~\"$pod\", k8s_container_name=~\"$workload\"} |~ \"$search\"",
             "queryType": "range",
             "refId": "A"
           }
@@ -74,39 +74,7 @@
     "templating": {
       "list": [
         {
-          "current": {
-            "selected": false,
-            "text": "otcinfra",
-            "value": "otcinfra"
-          },
-          "datasource": {
-            "type": "loki",
-            "uid": "loki"
-          },
-          "definition": "",
-          "hide": 0,
-          "includeAll": false,
-          "multi": false,
-          "name": "cluster",
-          "options": [],
-          "query": {
-            "label": "cluster",
-            "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "",
-            "type": 1
-          },
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
-        {
-          "current": {
-            "selected": false,
-            "text": "hc-public",
-            "value": "hc-public"
-          },
+          "current": {},
           "datasource": {
             "type": "loki",
             "uid": "loki"
@@ -118,37 +86,56 @@
           "name": "namespace",
           "options": [],
           "query": {
-            "label": "namespace",
+            "label": "k8s_namespace_name",
             "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "{cluster=~\"$cluster\"}",
+            "stream": "",
             "type": 1
           },
           "refresh": 1,
           "regex": "",
           "skipUrlSync": false,
-          "sort": 0,
+          "sort": 1,
           "type": "query"
         },
         {
-          "current": {
-            "selected": false,
-            "text": "document-hosting",
-            "value": "document-hosting"
+          "current": {},
+          "datasource": {
+            "type": "prometheus",
+            "uid": "prometheus"
           },
+          "definition": "query_result(kube_pod_status_phase{namespace=\"$namespace\", phase=\"Running\"} == 1)",
+          "hide": 0,
+          "includeAll": true,
+          "multi": true,
+          "name": "pod",
+          "options": [],
+          "query": {
+            "qryType": 3,
+            "query": "query_result(kube_pod_status_phase{namespace=\"$namespace\", phase=\"Running\"} == 1)",
+            "refId": "PrometheusVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 2,
+          "regex": "/.*pod=\"([^\"]+)\".*/",
+          "skipUrlSync": false,
+          "sort": 1,
+          "type": "query"
+        },
+        {
+          "current": {},
           "datasource": {
             "type": "loki",
             "uid": "loki"
           },
           "definition": "",
           "hide": 0,
-          "includeAll": false,
-          "multi": false,
+          "includeAll": true,
+          "multi": true,
           "name": "workload",
           "options": [],
           "query": {
-            "label": "app",
+            "label": "k8s_container_name",
             "refId": "LokiVariableQueryEditor-VariableQuery",
-            "stream": "{namespace=~\"$namespace\"}",
+            "stream": "{k8s_namespace_name=\"$namespace\", k8s_pod_name=~\"$pod\"}",
             "type": 1
           },
           "refresh": 1,

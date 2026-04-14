@@ -1,0 +1,4 @@
+apiVersion: v2
+name: opentelemetry-collectors
+description: A custom/local Helm Chart for OpenTelemetry Collector instances (deployed via OTel Operator CRDs)
+version: 0.1.0

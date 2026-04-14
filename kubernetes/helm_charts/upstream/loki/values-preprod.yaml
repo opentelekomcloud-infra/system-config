@@ -1,0 +1,250 @@
+global:
+  dnsService: "coredns"
+
+loki:
+  # ── Loki core config ──
+  loki:
+    auth_enabled: true
+
+    schemaConfig:
+      configs:
+        - from: "2025-01-01"
+          store: tsdb
+          object_store: swift
+          schema: v13
+          index:
+            prefix: loki_index_
+            period: 24h
+
+    storage:
+      type: swift
+      bucketNames:
+        chunks: loki-chunks
+        ruler: loki-ruler
+        admin: loki-admin
+      swift:
+        auth_url: "http://swift-proxy-preprod.swift-proxy.svc.cluster.local:8080/auth/v1.0"
+        username: <path:secret/data/loki#swift_username>
+        password: <path:secret/data/loki#swift_password>
+        container_name: "loki-chunks"
+
+    compactor:
+      retention_enabled: true
+      compaction_interval: 10m
+      retention_delete_delay: 2h
+      working_directory: /var/loki/compactor
+      delete_request_store: swift
+
+    limits_config:
+      retention_period: 2184h
+      max_query_series: 5000
+      max_query_parallelism: 32
+      ingestion_rate_mb: 32
+      ingestion_burst_size_mb: 64
+      per_stream_rate_limit: 10MB
+      per_stream_rate_limit_burst: 30MB
+
+    commonConfig:
+      replication_factor: 1
+
+    # Enable memberlist for ring coordination
+    memberlist:
+      join_members:
+        - loki-memberlist
+
+    query_scheduler:
+      max_outstanding_requests_per_tenant: 4096
+
+    ingester:
+      chunk_encoding: snappy
+      autoforget_unhealthy: true
+
+    querier:
+      max_concurrent: 4
+
+  # ── Disable memcached caches (too heavy for preprod) ──
+  chunksCache:
+    enabled: false
+  resultsCache:
+    enabled: false
+
+  # ── Deployment sizing — single replica for preprod ──
+  read:
+    replicas: 1
+    persistence:
+      storageClass: csi-disk-retain
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1024Mi
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                      - read
+              topologyKey: kubernetes.io/hostname
+
+  write:
+    replicas: 1
+    persistence:
+      storageClass: csi-disk-retain
+      size: 50Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        memory: 2Gi
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                      - write
+              topologyKey: kubernetes.io/hostname
+
+  backend:
+    replicas: 1
+    persistence:
+      enabled: true
+      storageClass: csi-disk-retain
+      size: 10Gi
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 512Mi
+
+  # ── Disable embedded MinIO — using Swift instead ──
+  minio:
+    enabled: false
+
+  # ── Gateway with ingress + basic auth ──
+  gateway:
+    replicas: 1
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        kubernetes.io/tls-acme: "true"
+        cert-manager.io/private-key-algorithm: RSA
+        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-rotation-policy: Always
+      hosts:
+        - host: loki.eco-preprod.tsi-dev.otc-service.com
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - secretName: loki-gateway-tls
+          hosts:
+            - loki.eco-preprod.tsi-dev.otc-service.com
+    basicAuth:
+      enabled: true
+      username: <path:secret/data/loki#gateway_username>
+      password: <path:secret/data/loki#gateway_password>
+      htpasswd: >-
+        <path:secret/data/loki#gateway_htpasswd>
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 256Mi
+
+  # ── Monitoring — ship Loki own metrics to Prometheus/VM ──
+  monitoring:
+    lokiCanary:
+      enabled: true
+      resources:
+        requests:
+          cpu: 50m
+          memory: 64Mi
+        limits:
+          memory: 128Mi
+    selfMonitoring:
+      enabled: false
+      grafanaAgent:
+        installOperator: false
+    dashboards:
+      namespace: monitoring
+      labels:
+        grafana_dashboard: "1"
+        release: "prometheus"
+    rules:
+      namespace: monitoring
+      labels:
+        release: "prometheus"
+      alerting:
+        - name: loki-alerts
+          rules:
+            - alert: LokiRequestErrors
+              expr: |
+                100 * sum(rate(loki_request_duration_seconds_count{status_code=~"5.."}[1m])) by (namespace, job, route)
+                /
+                sum(rate(loki_request_duration_seconds_count[1m])) by (namespace, job, route)
+                > 10
+              for: 15m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Loki request error rate is {{ $value }}%"
+            - alert: LokiRequestPanics
+              expr: sum(increase(loki_panic_total[10m])) by (namespace, job) > 0
+              for: 5m
+              labels:
+                severity: critical
+              annotations:
+                summary: "Loki has panicked {{ $value }} times"
+    serviceMonitor:
+      enabled: false
+
+  # ── Disable test pod ──
+  test:
+    enabled: false
+
+  # ── Loki ruler for log-based alerting ──
+  ruler:
+    enabled: true
+    alertmanager_url: ""
+    directories:
+      tenant_eco:
+        rules.yaml: |
+          groups:
+            - name: log-error-rates
+              rules:
+                - alert: HighErrorLogRate
+                  expr: |
+                    sum(rate({cluster=~".+"} |= "error" [5m])) by (cluster, namespace)
+                    > 50
+                  for: 10m
+                  labels:
+                    severity: warning
+                  annotations:
+                    summary: "High error log rate in {{ $labels.namespace }} on {{ $labels.cluster }}"
+                - alert: OOMKilledDetected
+                  expr: |
+                    sum(rate({cluster=~".+"} |= "OOMKilled" [5m])) by (cluster, namespace)
+                    > 0
+                  for: 5m
+                  labels:
+                    severity: critical
+                  annotations:
+                    summary: "OOMKilled events detected in {{ $labels.namespace }} on {{ $labels.cluster }}"

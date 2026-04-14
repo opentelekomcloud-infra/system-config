@@ -22,12 +22,14 @@ spec:
         prometheus.io/scrape: "true"
         prometheus.io/port: "3000"
         prometheus.io/path: "/metrics"
+        instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       serviceAccountName: openapi-validator
       automountServiceAccountToken: true
       terminationGracePeriodSeconds: 30
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000

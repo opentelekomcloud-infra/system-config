@@ -21,3 +21,7 @@ controller:
 {% if chart.config_entries is defined %}
   config: {{ chart.config_entries }}
 {% endif %}
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true

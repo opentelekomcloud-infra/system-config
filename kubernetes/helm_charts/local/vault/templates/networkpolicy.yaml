@@ -66,12 +66,11 @@ spec:
           protocol: TCP
         - port: {{ .Values.networkPolicy.clusterPort }}
           protocol: TCP
-    # DNS resolution
+    # DNS resolution (use ClusterIP CIDR — some CNIs evaluate egress
+    # rules before kube-proxy DNAT, so podSelector won't match)
     - to:
-        - namespaceSelector: {}
-          podSelector:
-            matchLabels:
-              k8s-app: coredns
+        - ipBlock:
+            cidr: {{ .Values.networkPolicy.dnsServiceCIDR | default "10.247.0.0/16" }}
       ports:
         - port: 53
           protocol: UDP

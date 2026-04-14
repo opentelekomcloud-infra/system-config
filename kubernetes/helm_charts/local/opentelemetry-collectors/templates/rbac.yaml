@@ -1,0 +1,75 @@
+{{- /*
+  RBAC for OTel collectors.
+  DaemonSet (otel-node): needs pod/log read access.
+  Deployment (otel-cluster): needs cluster-wide read for events and metrics.
+*/ -}}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: otel-node-collector
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: otel-cluster-collector
+  namespace: {{ .Release.Namespace }}
+---
+# DaemonSet collector needs to read pods and nodes for log enrichment
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otel-node-collector
+rules:
+  - apiGroups: [""]
+    resources: ["pods", "namespaces", "nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["replicasets"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-node-collector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: otel-node-collector
+subjects:
+  - kind: ServiceAccount
+    name: otel-node-collector
+    namespace: {{ .Release.Namespace }}
+---
+# Deployment collector needs broad read for cluster metrics and events
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: otel-cluster-collector
+rules:
+  - apiGroups: [""]
+    resources: ["events", "namespaces", "nodes", "pods", "replicationcontrollers", "resourcequotas", "services"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["daemonsets", "deployments", "replicasets", "statefulsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["cronjobs", "jobs"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["autoscaling"]
+    resources: ["horizontalpodautoscalers"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: otel-cluster-collector
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: otel-cluster-collector
+subjects:
+  - kind: ServiceAccount
+    name: otel-cluster-collector
+    namespace: {{ .Release.Namespace }}

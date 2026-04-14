@@ -6,9 +6,13 @@ metadata:
 spec:
   replicas: 2
   template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:

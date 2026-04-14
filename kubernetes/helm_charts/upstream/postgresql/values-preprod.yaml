@@ -85,7 +85,7 @@ postgresql:
       log_line_prefix = '%m [%p] %q%u@%d '
 
       # Basic performance settings
-      max_connections = 100
+      max_connections = 200
       shared_buffers = 256MB
       effective_cache_size = 1GB
 
@@ -107,7 +107,7 @@ postgresql:
     resources:
       limits:
         memory: "2Gi"
-        cpu: "1000m"
+        cpu: "2000m"
       requests:
         memory: "1Gi"
         cpu: "250m"
@@ -141,7 +141,7 @@ postgresql:
         cpu: "250m"
       requests:
         memory: "128Mi"
-        cpu: "100m"
+        cpu: "10m"
 
     service:
       type: ClusterIP

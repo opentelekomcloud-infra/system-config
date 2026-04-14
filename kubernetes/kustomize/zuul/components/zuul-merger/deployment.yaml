@@ -41,7 +41,7 @@ spec:
       containers:
         - name: "zuul"
           image: "zuul/zuul-merger"
-          args: ["/usr/local/bin/zuul-merger", "-f", "-d"]
+          args: ["/usr/local/bin/zuul-merger", "-f"]
 
           ports:
             - containerPort: 9091

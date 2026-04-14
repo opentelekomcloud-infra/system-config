@@ -58,7 +58,7 @@ applications:
       targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-preprod.yaml'
+      pluginEnv: '-f values-preprod.yaml --api-versions monitoring.coreos.com/v1'
       project: infra
       syncPolicy:
         automated:
@@ -101,23 +101,6 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
-  - name: cert-manager-additional-manifests
-    clusters: [preprod]
-    config:
-      namespace: cert-manager
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
-      path: kubernetes/helm_charts/local/cert-manager
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values.yaml'
-      project: infra
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-
   - name: kubernetes-replicator
     clusters: [preprod]
     config:
@@ -138,11 +121,11 @@ applications:
   - name: grafana
     clusters: [preprod]
     config:
-      namespace: grafana-infra
+      namespace: grafana
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'preprod'
       path: kubernetes/helm_charts/upstream/grafana
-      pluginName: argocd-vault-plugin-helm
+      pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
       syncPolicy:
@@ -151,6 +134,25 @@ applications:
           selfHeal: true
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
+
+  - name: grafana-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: grafana
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/grafana
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: ''
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
 
   - name: outline-wiki-additional-manifests
     clusters: [preprod]
@@ -308,22 +310,57 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
-  # - name: victoria-metrics-auth
-  #   clusters: [preprod]
-  #   config:
-  #     namespace: monitoring
-  #     repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-  #     targetRevision: 'preprod'
-  #     path: kubernetes/helm_charts/upstream/victoria-metrics-auth
-  #     pluginName: argocd-vault-plugin-helm
-  #     pluginEnv: '-f values-preprod.yaml'
-  #     project: infra
-  #     syncPolicy:
-  #       automated:
-  #         prune: true
-  #         selfHeal: true
-  #       syncOptions:
-  #         - CreateNamespace=true
+  - name: victoria-metrics-cluster
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/victoria-metrics-cluster
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  - name: victoria-metrics-cluster-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/victoria-metrics-cluster
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: victoria-metrics-auth
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/victoria-metrics-auth
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
 
   # - name: promtail
   #   clusters: [preprod]
@@ -584,3 +621,156 @@ applications:
   #         selfHeal: true
   #       syncOptions:
   #         - CreateNamespace=true
+
+#########################################
+####  OBSERVABILITY STACK (NEW)  ########
+#########################################
+
+  # OpenTelemetry Operator — manages OTel Collector CRDs
+  - name: opentelemetry-operator
+    clusters: [preprod]
+    config:
+      namespace: opentelemetry
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/opentelemetry-operator
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # OTel Collector instances (DaemonSet + Deployment)
+  - name: opentelemetry-collectors
+    clusters: [preprod]
+    config:
+      namespace: opentelemetry
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/opentelemetry-collectors
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # Tempo — distributed tracing backend
+  - name: tempo
+    clusters: [preprod]
+    config:
+      namespace: tempo
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/tempo
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # Loki 3.x — distributed log storage with Swift backend
+  - name: loki
+    clusters: [preprod]
+    config:
+      namespace: loki
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/loki
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # Loki additional manifests (Swift init job, credentials)
+  - name: loki-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: loki
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/loki
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # Prometheus Blackbox Exporter (endpoint probing)
+  - name: prometheus-blackbox-exporter
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/prometheus-blackbox-exporter
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # kube-prometheus-stack (Prometheus, Alertmanager, ServiceMonitors)
+  - name: kube-prometheus-stack
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/upstream/kube-prometheus-stack
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true
+
+  # kube-prometheus-stack additional manifests (go-neb, extra configs)
+  - name: kube-prometheus-stack-additional-manifests
+    clusters: [preprod]
+    config:
+      namespace: monitoring
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'preprod'
+      path: kubernetes/helm_charts/local/kube-prometheus-stack
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-preprod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

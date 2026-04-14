@@ -35,10 +35,23 @@ argo-cd:
 
   ## Server
   server:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
     extensions:
       containerSecurityContext:
         seccompProfile:
           type: Unconfined
+
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-server
+      - --otlp-attrs=cluster:preprod
 
     containerSecurityContext:
       seccompProfile:
@@ -242,6 +255,18 @@ argo-cd:
         emptyDir: {}
 
   repoServer:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-repo-server
+      - --otlp-attrs=cluster:preprod
     env:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
@@ -387,11 +412,33 @@ argo-cd:
       seccompProfile:
         type: Unconfined
 
+  ## Application controller
+  controller:
+    extraArgs:
+      - --otlp-address=otel-node-collector.opentelemetry.svc.cluster.local:4317
+      - --otlp-insecure
+      - --otlp-attrs=service.name:argocd-controller
+      - --otlp-attrs=cluster:preprod
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
+
   ## ApplicationSet controller
   applicationSet:
     containerSecurityContext:
       seccompProfile:
         type: Unconfined
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: monitoring
+        additionalLabels:
+          release: kube-prometheus-stack-preprod
 
   ## Redis configuration
   redis:
@@ -530,6 +577,13 @@ argo-cd:
               - bash
               - "-c"
               - |
+                helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
+                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add jetstack https://charts.jetstack.io --force-update || true
+                helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
+                helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
+                helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
+                helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
                 helm dependency build
           generate:
             command:
@@ -595,6 +649,13 @@ argo-cd:
               - bash
               - -c
               - |
+                helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
+                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add jetstack https://charts.jetstack.io --force-update || true
+                helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
+                helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
+                helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
+                helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
                 helm dependency build
           lockRepo: false
         argocd-vault-plugin-kustomize:

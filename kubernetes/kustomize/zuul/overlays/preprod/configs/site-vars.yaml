@@ -20,5 +20,11 @@ zuul_log_create_indexes: true
 # Swift object deletion - 90 days retention
 zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
 
+# Swift tempauth credentials for pre-authentication in upload role
+zuul_swift_auth_url: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com/auth/v1.0
+zuul_swift_username: "zuul-preprod-logs:<path:secret/data/swift/users/zuul#username>"
+zuul_swift_password: "<path:secret/data/swift/users/zuul#password>"
+zuul_swift_endpoint: https://swift-proxy.eco-preprod.tsi-dev.otc-service.com/v1/AUTH_zuul-preprod-logs
+
 # Log path is set automatically by set-zuul-log-path-fact role
 # DO NOT set zuul_log_path here - it will be generated dynamically per build

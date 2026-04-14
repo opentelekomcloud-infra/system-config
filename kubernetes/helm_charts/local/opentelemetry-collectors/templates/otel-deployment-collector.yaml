@@ -1,0 +1,137 @@
+{{- /*
+  OTel Collector Deployment — cluster-level receivers.
+  Collects: Kubernetes events, cluster metrics.
+  Runs as a single-replica Deployment (not per-node).
+*/ -}}
+---
+apiVersion: opentelemetry.io/v1beta1
+kind: OpenTelemetryCollector
+metadata:
+  name: otel-cluster
+  namespace: {{ .Release.Namespace }}
+spec:
+  mode: deployment
+  image: {{ .Values.deployment.image | quote }}
+  replicas: {{ .Values.deployment.replicas }}
+  serviceAccount: otel-cluster-collector
+  resources:
+{{ toYaml .Values.deployment.resources | indent 4 }}
+  env:
+    - name: LOKI_URL
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_url
+    - name: LOKI_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_username
+    - name: LOKI_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_password
+    - name: LOKI_TENANT_ID
+      valueFrom:
+        secretKeyRef:
+          name: otel-endpoints
+          key: loki_tenant_id
+  config:
+    receivers:
+      # Kubernetes cluster metrics
+      k8s_cluster:
+        collection_interval: 30s
+        node_conditions_to_report:
+          - Ready
+          - MemoryPressure
+          - DiskPressure
+          - PIDPressure
+        allocatable_types_to_report:
+          - cpu
+          - memory
+          - storage
+
+      # Kubernetes events as logs
+      k8s_events:
+        namespaces: []
+
+    processors:
+      batch:
+        send_batch_size: 4096
+        timeout: 10s
+
+      memory_limiter:
+        check_interval: 5s
+        limit_percentage: 80
+        spike_limit_percentage: 25
+
+      resource/cluster:
+        attributes:
+          - key: cluster
+            value: {{ .Values.clusterName | quote }}
+            action: upsert
+
+      resource/loki:
+        attributes:
+          - key: loki.resource.labels
+            value: "k8s.namespace.name, k8s.object.kind, k8s.object.name"
+            action: insert
+
+      attributes/loki:
+        actions:
+          - key: loki.attribute.labels
+            value: "cluster"
+            action: insert
+
+    exporters:
+      prometheus:
+        endpoint: 0.0.0.0:8889
+        resource_to_telemetry_conversion:
+          enabled: true
+
+      loki:
+        endpoint: "${LOKI_URL}"
+        default_labels_enabled:
+          exporter: false
+          job: true
+          instance: true
+          level: true
+        auth:
+          authenticator: basicauth/loki
+        headers:
+          X-Scope-OrgID: "${LOKI_TENANT_ID}"
+
+    extensions:
+      basicauth/loki:
+        client_auth:
+          username: "${LOKI_USERNAME}"
+          password: "${LOKI_PASSWORD}"
+      health_check:
+        endpoint: 0.0.0.0:13133
+
+    service:
+      extensions:
+        - health_check
+        - basicauth/loki
+      pipelines:
+        metrics:
+          receivers:
+            - k8s_cluster
+          processors:
+            - memory_limiter
+            - resource/cluster
+            - batch
+          exporters:
+            - prometheus
+        logs:
+          receivers:
+            - k8s_events
+          processors:
+            - memory_limiter
+            - resource/cluster
+            - resource/loki
+            - attributes/loki
+            - batch
+          exporters:
+            - loki

@@ -211,6 +211,43 @@ spec:
           resources:
             {{- toYaml $.Values.storage.resources | nindent 12 }}
 
+        # Swift Object Expirer - deletes objects with X-Delete-At metadata
+        - name: object-expirer
+          securityContext:
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_set_configs
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /var/lib/kolla/venv/bin/swift-object-expirer /etc/swift/object-expirer.conf
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
+          volumeMounts:
+            - name: kolla-expirer-config
+              mountPath: /var/lib/kolla/config_files
+              readOnly: true
+            - name: storage
+              mountPath: /srv/node/sda
+            - name: srv-node-parent
+              mountPath: /srv/node
+            - name: cache
+              mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /srv/rings
+              readOnly: true
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "64Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+
       volumes:
         - name: kolla-object-config
           configMap:
@@ -221,6 +258,9 @@ spec:
         - name: kolla-account-config
           configMap:
             name: {{ include "swift-proxy.fullname" $ }}-kolla-account-config
+        - name: kolla-expirer-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-kolla-expirer-config
         - name: cache
           emptyDir: {}
         - name: swift-rings

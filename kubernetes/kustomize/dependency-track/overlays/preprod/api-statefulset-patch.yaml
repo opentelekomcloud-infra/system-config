@@ -15,10 +15,14 @@ spec:
         requests:
           storage: 10Gi
   template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-java: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       serviceAccount: dependencytrack
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:
@@ -44,10 +48,10 @@ spec:
             - ALL
         resources:
           requests:
-            memory: "6Gi"
+            memory: "3Gi"
             cpu: "10m"
           limits:
-            memory: "16Gi"
+            memory: "8Gi"
             cpu: "4.0"
         livenessProbe:
           $patch: replace

@@ -4,11 +4,15 @@ kind: Deployment
 metadata:
   name: umami
 spec:
-  replicas: 2
+  replicas: 1
   template:
+    metadata:
+      annotations:
+        instrumentation.opentelemetry.io/inject-nodejs: "opentelemetry/otel-instrumentation"
     spec:
+      imagePullSecrets:
+        - name: quay-image-pull-secret
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:
@@ -41,7 +45,7 @@ spec:
               memory: "1Gi"
             requests:
               cpu: "50m"
-              memory: "512Mi"
+              memory: "256Mi"
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
