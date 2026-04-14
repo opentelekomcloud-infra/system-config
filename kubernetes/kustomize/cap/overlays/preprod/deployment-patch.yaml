@@ -16,7 +16,13 @@ spec:
         - name: cap
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+           readOnlyRootFilesystem: true
+          volumes:
+            - name: tmp
+              emptyDir: {}
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
             runAsNonRoot: true
             runAsUser: 1000
             capabilities:
