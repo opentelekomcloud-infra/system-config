@@ -36,7 +36,7 @@ loki:
       delete_request_store: swift
 
     limits_config:
-      retention_period: 2184h
+      retention_period: 168h
       max_query_series: 5000
       max_query_parallelism: 32
       ingestion_rate_mb: 32

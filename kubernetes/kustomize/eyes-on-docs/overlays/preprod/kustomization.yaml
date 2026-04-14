@@ -35,7 +35,7 @@ secretGenerator:
       # Zulip bot credentials
       #- OTC_BOT_API=<path:secret/data/eyes-on-docs/zulip#token>
       # Gitea credentials
-      #- GITEA_TOKEN=<path:secret/data/eyes-on-docs/gitea#token>
+      - GITEA_TOKEN=<path:secret/data/eyes-on-docs/gitea#token>
 
 # Use latest stable version for preprod
 images:
