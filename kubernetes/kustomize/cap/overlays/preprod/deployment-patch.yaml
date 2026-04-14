@@ -25,6 +25,9 @@ spec:
               mountPath: /tmp
             runAsNonRoot: true
             runAsUser: 1000
+            fsGroup: 1000
+            seccompProfile:
+              type: RuntimeDefault
             capabilities:
               drop:
                 - ALL
