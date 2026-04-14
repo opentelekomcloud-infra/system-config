@@ -26,18 +26,6 @@ spec:
         image: quay.io/opentelekomcloud/cap:2.2.1
         ports:
         - containerPort: 3000
-        resources:
-          requests:
-            cpu: 50m
-            memory: 64Mi
-          limits:
-            cpu: 500m
-            memory: 256Mi
-        envFrom:
-        - secretRef:
-            name: cap-credentials
-        - configMapRef:
-            name: cap-config
         livenessProbe:
           httpGet:
             path: /
