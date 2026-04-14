@@ -17,5 +17,5 @@ labels:
       app.kubernetes.io/version: 2.2.1
 
 images:
-  - name: tiago2/cap
+  - name: quay.io/opentelekomcloud/cap
     newTag: "2.2.1"
