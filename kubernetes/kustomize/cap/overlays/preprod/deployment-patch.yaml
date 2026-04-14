@@ -1,4 +1,3 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -12,25 +11,22 @@ spec:
         fsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
+      volumes:
+        - name: tmp
+          emptyDir: {}
       containers:
         - name: cap
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
-          volumes:
-            - name: tmp
-              emptyDir: {}
+            runAsNonRoot: true
+            runAsUser: 1000
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-              runAsNonRoot: true
-              runAsUser: 1000
-              fsGroup: 1000
-              seccompProfile:
-                type: RuntimeDefault
-              capabilities:
-                drop:
-                  - ALL
           envFrom:
             - secretRef:
                 name: cap-credentials
