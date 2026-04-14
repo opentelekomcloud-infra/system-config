@@ -584,3 +584,20 @@ applications:
   #         selfHeal: true
   #       syncOptions:
   #         - CreateNamespace=true
+
+  - name: status-dashboard-api
+    clusters: [preprod]
+    config:
+      namespace: status-dashboard
+      repoURL: 'https://github.com/stackmon/stackmon-deploy.git'
+      targetRevision: 'main'
+      path: charts/status-dashboard-api
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f ../../envs/dev/status-dashboard-api.yaml'
+      project: status-dashboard
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

@@ -16,3 +16,29 @@ data:
   type: {{ .Values.repositorySecret.data.type | quote }}
   url: {{ .Values.repositorySecret.data.url | quote }}
 {{- end }}
+{{- range .Values.repositorySecrets }}
+{{- if .enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    managed-by: argocd.argoproj.io
+  labels:
+    argocd.argoproj.io/secret-type: repository
+  name: {{ .name }}
+  namespace: {{ .namespace | default "argocd" }}
+type: Opaque
+data:
+  name: {{ .data.name | quote }}
+  project: {{ .data.project | quote }}
+  type: {{ .data.type | quote }}
+  url: {{ .data.url | quote }}
+  {{- if .data.username }}
+  username: {{ .data.username | quote }}
+  {{- end }}
+  {{- if .data.password }}
+  password: {{ .data.password | quote }}
+  {{- end }}
+{{- end }}
+{{- end }}
