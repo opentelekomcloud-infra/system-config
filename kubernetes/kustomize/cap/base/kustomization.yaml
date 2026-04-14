@@ -7,6 +7,7 @@ resources:
   - service.yaml
   - ingress.yaml
   - sa.yaml
+  - pdb.yaml
 
 labels:
   - includeSelectors: true

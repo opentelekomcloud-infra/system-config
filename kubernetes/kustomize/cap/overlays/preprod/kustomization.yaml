@@ -19,13 +19,13 @@ resources:
 patches:
   - path: deployment-patch.yaml
   - path: ingress-patch.yaml
+  - path: valkey-patch.yaml
 
 configMapGenerator:
   - name: cap-config
     literals:
       - SERVER_PORT=3000
       - SERVER_HOSTNAME=0.0.0.0
-      - REDIS_URL=redis://valkey:6379
       - DEMO_MODE=false
       - SHOW_ERRORS=false
       - DISABLE_ERROR_LOGGING=false
@@ -34,6 +34,10 @@ secretGenerator:
   - name: cap-credentials
     literals:
       - ADMIN_KEY=<path:secret/data/cap/server#admin-key>
+
+  - name: valkey-auth
+    literals:
+      - VALKEY_PASSWORD=<path:secret/data/cap/valkey#valkey-password>
 
 images:
   - name: quay.io/opentelekomcloud/cap

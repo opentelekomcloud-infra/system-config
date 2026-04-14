@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: valkey
+spec:
+  template:
+    spec:
+      containers:
+        - name: valkey
+          env:
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: valkey-auth
+                  key: VALKEY_PASSWORD
+          command: ["valkey-server"]
+          args: ["--requirepass", "$(VALKEY_PASSWORD)"]
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - 'valkey-cli -a "$VALKEY_PASSWORD" ping | grep PONG'
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - 'valkey-cli -a "$VALKEY_PASSWORD" ping | grep PONG'
+            initialDelaySeconds: 5
+            periodSeconds: 5

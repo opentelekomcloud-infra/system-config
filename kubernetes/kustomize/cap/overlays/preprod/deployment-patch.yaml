@@ -27,6 +27,14 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+          env:
+            - name: VALKEY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: valkey-auth
+                  key: VALKEY_PASSWORD
+            - name: REDIS_URL
+              value: redis://:$(VALKEY_PASSWORD)@valkey:6379
           envFrom:
             - secretRef:
                 name: cap-credentials
