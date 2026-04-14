@@ -16,21 +16,21 @@ spec:
         - name: cap
           securityContext:
             allowPrivilegeEscalation: false
-           readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: true
           volumes:
             - name: tmp
               emptyDir: {}
           volumeMounts:
             - name: tmp
               mountPath: /tmp
-            runAsNonRoot: true
-            runAsUser: 1000
-            fsGroup: 1000
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop:
-                - ALL
+              runAsNonRoot: true
+              runAsUser: 1000
+              fsGroup: 1000
+              seccompProfile:
+                type: RuntimeDefault
+              capabilities:
+                drop:
+                  - ALL
           envFrom:
             - secretRef:
                 name: cap-credentials
