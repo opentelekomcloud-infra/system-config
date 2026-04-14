@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/private-key-rotation-policy: Always
 spec:
   rules:
-  - host: cap.eco-preprod.tsi-dev.otc-service.com
+  - host: cap.example.com 
     http:
       paths:
       - path: /
