@@ -5,3 +5,6 @@ clusters:
     config:
       tlsClientConfig:
         insecure: false
+        caData: "<path:secret/data/argocd/clusters/preprod#caData>"
+        certData: "<path:secret/data/argocd/clusters/preprod#certData>"
+        keyData: "<path:secret/data/argocd/clusters/preprod#keyData>"
