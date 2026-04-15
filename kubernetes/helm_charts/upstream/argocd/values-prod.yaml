@@ -94,22 +94,21 @@ argo-cd:
       - name: VAULT_ADDR
         value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
       - name: AVP_AUTH_TYPE
-        value: "token"
+        value: "k8s"
       - name: AVP_TYPE
         value: "vault"
+      - name: AVP_K8S_ROLE
+        value: "argocd"
+      - name: AVP_MOUNT_PATH
+        value: "auth/kubernetes_otcinfra2"
       - name: ARGOCD_JWT_CLAIM_FLATTEN
         value: "true"
       - name: ARGOCD_OIDC_CLAIMS_PREFIX
         value: "urn:zitadel:iam:org:project:"
       - name: SERVER_RBAC_LOG_ENFORCE_ENABLE
         value: "true"
-      - name: VAULT_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: vault-token
-            key: token
 
-    # InitContainer to resolve admin password from Vault
+    # InitContainer to resolve admin password from Vault via K8s auth
     initContainers:
       - name: vault-secret-resolver
         image: hashicorp/vault:1.20
@@ -118,12 +117,14 @@ argo-cd:
           - -c
           - |
             set -e
-            echo "Authenticating to Vault using direct token..."
+            echo "Authenticating to Vault using Kubernetes auth..."
 
-            # Use the provided Vault token directly
-            export VAULT_TOKEN="$VAULT_TOKEN_VALUE"
+            # Login via Kubernetes service account JWT
+            export VAULT_TOKEN=$(vault write -field=token auth/kubernetes_otcinfra2/login \
+              role=argocd \
+              jwt=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token))
 
-            echo "Authentication successful! Using provided token."
+            echo "Authentication successful!"
 
             echo "Retrieving secrets from Vault..."
             ADMIN_PASSWORD=$(vault kv get -field=admin_password secret/argocd/config)
@@ -145,11 +146,6 @@ argo-cd:
             value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
           - name: VAULT_SKIP_VERIFY
             value: "false"
-          - name: VAULT_TOKEN_VALUE
-            valueFrom:
-              secretKeyRef:
-                name: vault-token
-                key: token
         volumeMounts:
           - name: shared-secrets
             mountPath: /shared
@@ -218,12 +214,22 @@ argo-cd:
                 {
                   "op": "replace",
                   "path": "/data/AVP_AUTH_TYPE",
-                  "value": "'$(echo -n "token" | base64 -w 0)'"
+                  "value": "'$(echo -n "k8s" | base64 -w 0)'"
                 },
                 {
                   "op": "replace",
                   "path": "/data/AVP_TYPE",
                   "value": "'$(echo -n "vault" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_K8S_ROLE",
+                  "value": "'$(echo -n "argocd" | base64 -w 0)'"
+                },
+                {
+                  "op": "replace",
+                  "path": "/data/AVP_MOUNT_PATH",
+                  "value": "'$(echo -n "auth/kubernetes_otcinfra2" | base64 -w 0)'"
                 }
               ]'
             else
@@ -236,8 +242,10 @@ argo-cd:
                 --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
                 --from-literal=oidc.zitadel.clientID="$OIDC_ZITADEL_CLIENT_ID" \
                 --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
-                --from-literal=AVP_AUTH_TYPE="token" \
-                --from-literal=AVP_TYPE="vault"
+                --from-literal=AVP_AUTH_TYPE="k8s" \
+                --from-literal=AVP_TYPE="vault" \
+                --from-literal=AVP_K8S_ROLE="argocd" \
+                --from-literal=AVP_MOUNT_PATH="auth/kubernetes_otcinfra2"
             fi
 
             echo "Secret management completed successfully!"
@@ -265,21 +273,17 @@ argo-cd:
       - name: VAULT_ADDR
         value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
       - name: AVP_AUTH_TYPE
-        value: "token"
+        value: "k8s"
       - name: AVP_TYPE
         value: "vault"
-      - name: VAULT_TOKEN
-        valueFrom:
-          secretKeyRef:
-            name: vault-token
-            key: token
+      - name: AVP_K8S_ROLE
+        value: "argocd"
+      - name: AVP_MOUNT_PATH
+        value: "auth/kubernetes_otcinfra2"
     serviceAccount:
       create: true
       name: argocd-repo-server
       automountServiceAccountToken: true
-      annotations:
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "argocd"
 
     rbac:
       - apiGroups: [""]
@@ -321,14 +325,13 @@ argo-cd:
           - name: VAULT_ADDR
             value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
           - name: AVP_AUTH_TYPE
-            value: "token"
+            value: "k8s"
           - name: AVP_TYPE
             value: "vault"
-          - name: VAULT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: vault-token
-                key: token
+          - name: AVP_K8S_ROLE
+            value: "argocd"
+          - name: AVP_MOUNT_PATH
+            value: "auth/kubernetes_otcinfra2"
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -350,14 +353,13 @@ argo-cd:
           - name: VAULT_ADDR
             value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
           - name: AVP_AUTH_TYPE
-            value: "token"
+            value: "k8s"
           - name: AVP_TYPE
             value: "vault"
-          - name: VAULT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: vault-token
-                key: token
+          - name: AVP_K8S_ROLE
+            value: "argocd"
+          - name: AVP_MOUNT_PATH
+            value: "auth/kubernetes_otcinfra2"
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -379,14 +381,13 @@ argo-cd:
           - name: VAULT_ADDR
             value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
           - name: AVP_AUTH_TYPE
-            value: "token"
+            value: "k8s"
           - name: AVP_TYPE
             value: "vault"
-          - name: VAULT_TOKEN
-            valueFrom:
-              secretKeyRef:
-                name: vault-token
-                key: token
+          - name: AVP_K8S_ROLE
+            value: "argocd"
+          - name: AVP_MOUNT_PATH
+            value: "auth/kubernetes_otcinfra2"
         volumeMounts:
           - mountPath: /var/run/argocd
             name: var-files
@@ -538,8 +539,13 @@ argo-cd:
     secret:
       # Don't let Helm create/manage the secret - let init containers handle it
       createSecret: false
-      # Reference the existing secret that will be managed by init containers
-      extra: {}
+      # AVP config stored in argocd-secret for CMP plugins (-s argocd-k8s:argocd-secret)
+      extra:
+        VAULT_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+        AVP_AUTH_TYPE: "k8s"
+        AVP_K8S_ROLE: "argocd"
+        AVP_TYPE: "vault"
+        AVP_MOUNT_PATH: "auth/kubernetes_otcinfra2"
     cmp:
       create: true
       plugins:
