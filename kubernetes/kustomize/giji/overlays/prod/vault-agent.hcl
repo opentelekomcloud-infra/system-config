@@ -71,10 +71,6 @@ export DB_PASSWORD={{ .Data.data.password }}
 export BASE_GITEA_URL={{ .Data.data.base_url }}
 {{- end }}
 
-{{ with secret "secret/data/gitea" -}}
-export BASE_GITEA_URL={{ .Data.data.base_url }}
-{{- end }}
-
 {{ with secret "secret/data/jira/autoecobot" -}}
 export JIRA_API_URL={{ .Data.data.jira_api_url }}
 export JIRA_TOKEN={{ .Data.data.jira_api_key }}
