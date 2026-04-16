@@ -5,9 +5,9 @@ metadata:
   name: zookeeper-server
 spec:
   dnsNames:
-    - zookeeper-0.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-0.zookeeper-headless.zuul-ci.svc.cluster.local
     - zookeeper-0
-    - zookeeper-1.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-1.zookeeper-headless.zuul-ci.svc.cluster.local
     - zookeeper-1
-    - zookeeper-2.zookeeper-headless.zuul.svc.cluster.local
+    - zookeeper-2.zookeeper-headless.zuul-ci.svc.cluster.local
     - zookeeper-2

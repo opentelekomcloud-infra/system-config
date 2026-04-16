@@ -5,7 +5,7 @@ elements-dir: /etc/nodepool/elements
 images-dir: /opt/nodepool/images
 
 zookeeper-servers:
-  - host: zookeeper.zuul.svc.cluster.local
+  - host: zookeeper.zuul-ci.svc.cluster.local
     port: 2281
 
 zookeeper-tls:

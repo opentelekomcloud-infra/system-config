@@ -20,5 +20,5 @@ spec:
     - hard
     - actimeo=120
   nfs:
-    path: /
+    path: /zuul-config
     server: 192.168.170.45

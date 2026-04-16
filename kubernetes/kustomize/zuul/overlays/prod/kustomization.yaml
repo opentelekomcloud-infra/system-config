@@ -74,6 +74,12 @@ bases:
   - ../../base
 
 patches:
+  - path: node-selector-patch.yaml
+    target:
+      kind: Deployment
+  - path: node-selector-patch.yaml
+    target:
+      kind: StatefulSet
   - path: zuul-config-pv.yaml
     target:
       kind: PersistentVolume
