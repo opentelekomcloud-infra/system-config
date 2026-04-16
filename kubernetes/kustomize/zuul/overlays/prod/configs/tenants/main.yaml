@@ -24,8 +24,6 @@
               shadow: opentelekomcloud-infra/system-config
               include-branches:
                 - main
-              extra-config-paths:
-                - zuul.d/
       gitea:
         untrusted-projects:
           - infra/system-config:
@@ -33,5 +31,3 @@
                 - project
               include-branches:
                 - main
-              extra-config-paths:
-                - zuul.d/
