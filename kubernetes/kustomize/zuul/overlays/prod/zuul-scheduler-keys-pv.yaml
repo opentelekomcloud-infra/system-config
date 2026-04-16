@@ -1,6 +1,5 @@
 ---
 # PV for Zuul scheduler keys persistence (SFS Turbo NFS)
-# TODO: Update NFS server IP when prod SFS Turbo is provisioned
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -26,4 +25,4 @@ spec:
     - actimeo=120
   nfs:
     path: /zuul-scheduler-keys
-    server: PLACEHOLDER_SFS_TURBO_IP  # TODO: Replace with actual SFS Turbo NFS server IP
+    server: 192.168.170.45
