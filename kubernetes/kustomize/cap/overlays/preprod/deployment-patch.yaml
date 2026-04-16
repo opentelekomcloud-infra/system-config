@@ -14,11 +14,13 @@ spec:
       volumes:
         - name: tmp
           emptyDir: {}
+        - name: data
+          emptyDir: {}
       containers:
         - name: cap
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
             capabilities:
@@ -27,6 +29,8 @@ spec:
           volumeMounts:
             - name: tmp
               mountPath: /tmp
+            - name: data
+              mountPath: /usr/src/app/.data
           env:
             - name: VALKEY_PASSWORD
               valueFrom:
