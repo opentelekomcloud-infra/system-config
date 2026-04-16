@@ -17,10 +17,6 @@ spec:
     spec:
       serviceAccountName: cap
       terminationGracePeriodSeconds: 10
-      securityContext:
-        runAsNonRoot: true
-        runAsUser: 1000
-        fsGroup: 1000
       containers:
       - name: cap
         image: quay.io/opentelekomcloud/cap:2.2.1
