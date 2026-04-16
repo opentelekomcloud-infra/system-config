@@ -24,8 +24,6 @@
               shadow: opentelekomcloud-infra/system-config
               include-branches:
                 - Migration_of_zuul_to_prod
-      github-otc:
-        untrusted-projects:
           - opentelekomcloud/ansible-collection-cloud:
               include:
                 - project
