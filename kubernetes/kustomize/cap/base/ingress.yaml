@@ -10,7 +10,7 @@ metadata:
     cert-manager.io/private-key-rotation-policy: Always
 spec:
   rules:
-  - host: cap.example.com 
+  - host: cap.example.com
     http:
       paths:
       - path: /
