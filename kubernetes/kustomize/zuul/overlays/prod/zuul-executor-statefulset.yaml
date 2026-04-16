@@ -9,7 +9,7 @@ spec:
     - metadata:
         name: zuul-var
       spec:
-        storageClassName: csi-disk-retain
+        storageClassName: csi-disk-topology
         accessModes:
           - ReadWriteOnce
         resources:
