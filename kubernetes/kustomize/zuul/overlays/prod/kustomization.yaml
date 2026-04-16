@@ -130,6 +130,7 @@ secretGenerator:
         replicator.v1.mittwald.de/replicate-to: default-.*
     literals:
       - github.key=<path:secret/data/zuul/connections/github#app_key>
+      - github-otc.key=<path:secret/data/zuul/connections/github-otc#app_key>
       - gitlab.key=<path:secret/data/zuul/connections/gitlab#ssh_key>
       - gitea.key=<path:secret/data/zuul/connections/gitea#sshkey>
       - executor-ssh.key=<path:secret/data/zuul/sshkey#private_key>
