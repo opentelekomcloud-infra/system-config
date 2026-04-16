@@ -1,0 +1,4 @@
+- op: add
+  path: /spec/template/spec/nodeSelector
+  value:
+    os.name: HCE_OS_2.0_x86_64
