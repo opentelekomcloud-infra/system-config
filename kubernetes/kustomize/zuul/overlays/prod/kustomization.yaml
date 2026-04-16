@@ -96,6 +96,7 @@ patches:
   - path: zuul-merger-resources-patch.yaml
   - path: zuul-web-resources-patch.yaml
   - path: nodepool-launcher-resources-patch.yaml
+  - path: nodepool-launcher-volumes-patch.yaml
   - path: zuul-scheduler-deployment.yaml
   - path: zuul-web-ingress.yaml
   - path: zuul-volumes-patch.yaml
