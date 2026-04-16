@@ -11,6 +11,8 @@ spec:
         spec:
           serviceAccount: "giji"
           restartPolicy: OnFailure
+          imagePullSecrets:
+            - name: quay-pull-secret
           containers:
             - name: giji-bulk-import
               securityContext:
