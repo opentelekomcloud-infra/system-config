@@ -24,6 +24,11 @@
               shadow: opentelekomcloud-infra/system-config
               include-branches:
                 - Migration_of_zuul_to_prod
+          - opentelekomcloud/ansible-collection-cloud:
+              include:
+                - project
+              include-branches:
+                - main
       gitea:
         untrusted-projects:
           - infra/system-config:
