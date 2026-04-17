@@ -16,7 +16,7 @@ configMapGenerator:
     behavior: replace
     literals:
       - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-infra/
-      - ZUUL_CONFIG_BRANCH=main
+      - ZUUL_CONFIG_BRANCH=Migration_of_zuul_to_prod
   - name: "nodepool-config-yaml"
     files:
       - "configs/nodepool.yaml"
