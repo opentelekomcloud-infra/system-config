@@ -4,7 +4,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'SD_adaptation'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
@@ -38,7 +38,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'SD_adaptation'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
@@ -590,7 +590,7 @@ applications:
     config:
       namespace: status-dashboard
       repoURL: 'https://github.com/stackmon/stackmon-deploy.git'
-      targetRevision: 'main'
+      targetRevision: 'Infra_adjustments'
       path: charts/status-dashboard-api
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f ../../envs/dev/status-dashboard-api.yaml'

@@ -40,5 +40,14 @@ data:
   {{- if .data.password }}
   password: {{ .data.password | quote }}
   {{- end }}
+  {{- if .data.githubAppID }}
+  githubAppID: {{ .data.githubAppID | quote }}
+  {{- end }}
+  {{- if .data.githubAppInstallationID }}
+  githubAppInstallationID: {{ .data.githubAppInstallationID | quote }}
+  {{- end }}
+  {{- if .data.githubAppPrivateKey }}
+  githubAppPrivateKey: {{ .data.githubAppPrivateKey | quote }}
+  {{- end }}
 {{- end }}
 {{- end }}
