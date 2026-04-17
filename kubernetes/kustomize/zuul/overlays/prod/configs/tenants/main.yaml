@@ -35,5 +35,4 @@
               include:
                 - project
               include-branches:
-                - main
                 - Migration_of_zuul_to_prod
