@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cap
+  labels:
+    app.kubernetes.io/instance: "preprod"
+    app.kubernetes.io/managed-by: "argocd"
+    environment: "preprod"
