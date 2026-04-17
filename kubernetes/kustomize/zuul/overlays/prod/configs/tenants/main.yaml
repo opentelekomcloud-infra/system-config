@@ -17,6 +17,8 @@
                 - nodeset
                 - secret
               load-branch: Migration_of_zuul_to_prod
+              include-branches:
+                - Migration_of_zuul_to_prod
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
               include:
