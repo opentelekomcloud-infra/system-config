@@ -25,7 +25,7 @@
                 - project
               shadow: opentelekomcloud-infra/system-config
               include-branches:
-                - Migration_of_zuul_to_prod
+                - Zuul_test
           - opentelekomcloud/ansible-collection-cloud:
               include:
                 - project

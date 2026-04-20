@@ -2,8 +2,7 @@
 - project:
     default-branch: main
     branches:
-      - main
-      - Migration_of_zuul_to_prod
+      - Zuul_test
     check:
       jobs:
         - otc-tox-linters
