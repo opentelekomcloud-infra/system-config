@@ -18,9 +18,9 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: umami
+            name: anubis
             port:
-              number: 3000
+              number: 8080
   tls:
     - hosts:
         - analytics.otc-service.com
