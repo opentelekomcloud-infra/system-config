@@ -6,9 +6,6 @@ clusterIssuers:
     solvers:
       - http01:
           ingress:
-            # Use 'class' annotation instead of 'ingressClassName' field
-            # to avoid nginx admission webhook rejecting ACME solver ingresses
-            # with pathType Exact on /.well-known/acme-challenge paths
             class: nginx
   - name: letsencrypt-staging
     email: <path:secret/data/smtp_gw#email_address>
