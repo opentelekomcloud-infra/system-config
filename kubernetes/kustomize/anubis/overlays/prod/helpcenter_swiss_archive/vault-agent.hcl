@@ -29,10 +29,22 @@ template {
   destination = "/secrets/ip-whitelist.yaml"
   contents = <<EOT
 {{- with secret "secret/data/anubis/ip-whitelist" }}
+{{- $ipSecret := . }}
+{{- $ips := ($ipSecret.Data.data.ips | parseJSON) }}
+{{- with secret "secret/data/anubis/user-agent" }}
+{{- $ua := index .Data.data "user-agent" }}
+- name: whitelisted-ips-user-agent-allow
+  action: ALLOW
+  user_agent_regex: {{ $ua | toJSON }}
+  remote_addresses:
+{{- range $ip := $ips }}
+      - {{ $ip }}
+{{- end }}
+{{- end }}
+
 - name: whitelisted-ips-challenge
   action: CHALLENGE
   remote_addresses:
-{{- $ips := (.Data.data.ips | parseJSON) }}
 {{- range $ip := $ips }}
       - {{ $ip }}
 {{- end }}
