@@ -1,5 +1,7 @@
 masterkey: "<path:secret/data/zitadel/config#masterkey>"
 
+otcCaCert: "<path:secret/data/zitadel/config#otc_ca_cert>"
+
 configData: |
   ExternalSecure: true
   ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
