@@ -6,7 +6,7 @@
 vault:
   global:
     enabled: true
-    tlsDisable: true
+    tlsDisable: false
 
   # Vault Agent Injector configuration
   injector:
@@ -56,7 +56,7 @@ vault:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/ssl-redirect: "true"
         cert-manager.io/private-key-algorithm: RSA
@@ -126,7 +126,7 @@ vault:
             while true; do
               sleep 10
               # Check seal status via local API (wget available in vault image)
-              RESPONSE=$(wget -qO- http://127.0.0.1:8200/v1/sys/seal-status 2>/dev/null)
+              RESPONSE=$(wget --no-check-certificate -qO- https://127.0.0.1:8200/v1/sys/seal-status 2>/dev/null)
               if [ -z "$RESPONSE" ]; then
                 echo "Vault not reachable yet, retrying..."
                 continue
@@ -136,16 +136,18 @@ vault:
                 echo "Vault is sealed, unsealing..."
                 for i in 0 1 2; do
                   KEY=$(cat /vault/unseal-keys/vault-unseal-$i)
-                  wget -qO- --post-data="{\"key\":\"$KEY\"}" \
+                  wget --no-check-certificate -qO- --post-data="{\"key\":\"$KEY\"}" \
                     --header="Content-Type: application/json" \
-                    http://127.0.0.1:8200/v1/sys/unseal 2>/dev/null | grep -o '"sealed":[a-z]*'
+                    https://127.0.0.1:8200/v1/sys/unseal 2>/dev/null | grep -o '"sealed":[a-z]*'
                 done
                 echo "Unseal commands sent"
               fi
             done
         env:
           - name: VAULT_ADDR
-            value: "http://127.0.0.1:8200"
+            value: "https://127.0.0.1:8200"
+          - name: VAULT_SKIP_VERIFY
+            value: "true"
         volumeMounts:
           - name: vault-unseal-keys
             mountPath: /vault/unseal-keys
@@ -163,18 +165,24 @@ vault:
           runAsGroup: 1000
           readOnlyRootFilesystem: true
 
-    # Extra volumes for plugins and unseal keys
+    # Extra volumes for plugins, unseal keys, and TLS certificates
     volumes:
       - name: plugins
         emptyDir: {}
       - name: vault-unseal-keys
         secret:
           secretName: vault-unseal-keys
+      - name: vault-tls
+        secret:
+          secretName: vault-server-tls
 
-    # Volume mounts for plugins
+    # Volume mounts for plugins and TLS
     volumeMounts:
       - mountPath: /usr/local/libexec/vault
         name: plugins
+        readOnly: true
+      - mountPath: /vault/tls
+        name: vault-tls
         readOnly: true
 
     # Data storage configuration
@@ -206,9 +214,12 @@ vault:
           plugin_directory = "/usr/local/libexec/vault"
 
           listener "tcp" {
-            tls_disable = 1
+            tls_disable = 0
             address = "[::]:8200"
             cluster_address = "[::]:8201"
+            tls_cert_file = "/vault/tls/tls.crt"
+            tls_key_file = "/vault/tls/tls.key"
+            tls_client_ca_file = "/vault/tls/ca.crt"
             # Enable unauthenticated metrics access (necessary for Prometheus Operator)
             telemetry {
               unauthenticated_metrics_access = "true"
@@ -219,18 +230,21 @@ vault:
             path = "/vault/data"
 
             retry_join {
-              leader_api_addr = "http://vault-0.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-0.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
             retry_join {
-              leader_api_addr = "http://vault-1.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-1.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
             retry_join {
-              leader_api_addr = "http://vault-2.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-2.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
           }
 
           # API and cluster addresses
-          api_addr = "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          api_addr = "https://vault-otcinfra2.vault.svc.cluster.local:8200"
           cluster_addr = "http://POD_IP:8201"
 
           # Telemetry configuration for monitoring
@@ -279,5 +293,6 @@ vault:
 
   # Additional environment variables
   extraEnvironmentVars:
-    VAULT_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
-    VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+    VAULT_ADDR: "https://127.0.0.1:8200"
+    VAULT_API_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+    VAULT_CACERT: "/vault/tls/ca.crt"
