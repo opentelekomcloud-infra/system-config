@@ -15,21 +15,21 @@ vault:
 
     resources:
       requests:
+        memory: 64Mi
+        cpu: 50m
+      limits:
         memory: 256Mi
         cpu: 250m
-      limits:
-        memory: 512Mi
-        cpu: 500m
 
     agentImage:
       repository: "hashicorp/vault"
       tag: "1.19.0"
 
     agentDefaults:
-      cpuLimit: "500m"
-      cpuRequest: "250m"
-      memLimit: "256Mi"
-      memRequest: "128Mi"
+      cpuLimit: "250m"
+      cpuRequest: "50m"
+      memLimit: "128Mi"
+      memRequest: "64Mi"
       template: "map"
 
   # Vault Server configuration
@@ -43,11 +43,11 @@ vault:
 
     resources:
       requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
         memory: 1Gi
         cpu: 500m
-      limits:
-        memory: 2Gi
-        cpu: 1000m
 
     # Ingress configuration for external access
     ingress:
@@ -214,11 +214,11 @@ vault:
 
     resources:
       requests:
-        memory: 256Mi
-        cpu: 250m
+        memory: 64Mi
+        cpu: 50m
       limits:
-        memory: 256Mi
-        cpu: 250m
+        memory: 128Mi
+        cpu: 100m
 
     volumeMountPath: "/vault/secrets"
 
