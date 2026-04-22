@@ -26,6 +26,8 @@ networkPolicy:
     - namespace: argocd-k8s
       podSelector:
         app.kubernetes.io/name: argocd-repo-server
+    # Zuul executor — vault-agent sidecar authenticates via K8s auth for functional test credentials
+    - namespace: zuul-ci
 
   # Ingress controller — required for remote clusters to reach Vault via LB
   # Remote consumers:
