@@ -7,7 +7,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_vault_enhacements'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-projects.yaml'
@@ -24,7 +24,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_vault_enhacements'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-clusters.yaml'
@@ -41,7 +41,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_vault_enhacements'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-repositories.yaml'
@@ -58,7 +58,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_vault_enhacements'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -75,7 +75,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Argocd_vault_enhacements'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/argocd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-argocd-additional-manifests.yaml'
