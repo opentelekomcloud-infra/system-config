@@ -22,6 +22,11 @@ spec:
   isCA: true
   commonName: vault-ca
   secretName: {{ .Values.tls.caSecretName }}
+  {{- if .Values.tls.caReplicateTo }}
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replicate-to: {{ .Values.tls.caReplicateTo | quote }}
+  {{- end }}
   duration: 87600h  # 10 years
   renewBefore: 8760h  # 1 year
   privateKey:
