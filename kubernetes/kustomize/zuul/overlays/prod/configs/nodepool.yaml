@@ -20,6 +20,7 @@ labels:
 
   - name: zuul-debian
     min-ready: 0
+    max-hold-age: 7200
 
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
@@ -65,11 +66,11 @@ providers:
                       mountPath: /home/zuul
                   resources:
                     requests:
-                      cpu: "1"
-                      memory: "1024Mi"
+                      cpu: "500m"
+                      memory: "512Mi"
                     limits:
-                      cpu: "1"
-                      memory: "1024Mi"
+                      cpu: "2"
+                      memory: "2Gi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: prod
