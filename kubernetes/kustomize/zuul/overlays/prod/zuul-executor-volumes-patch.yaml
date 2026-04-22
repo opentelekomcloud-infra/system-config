@@ -31,6 +31,13 @@ spec:
           secret:
             secretName: nodepool-config
             defaultMode: 0644
+        - name: vault-ca-cert
+          secret:
+            secretName: vault-ca-cert
+            items:
+              - key: ca.crt
+                path: ca.crt
+            defaultMode: 0644
       initContainers:
         - name: fix-permissions
           image: alpine:3.19
@@ -65,4 +72,7 @@ spec:
               subPath: builds
             - name: openstack-config
               mountPath: /var/run/zuul/openstack
+              readOnly: true
+            - name: vault-ca-cert
+              mountPath: /var/run/zuul/vault-ca
               readOnly: true
