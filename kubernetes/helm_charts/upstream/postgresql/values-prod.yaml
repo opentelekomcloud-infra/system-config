@@ -116,8 +116,8 @@ postgresql:
         memory: "2Gi"
         cpu: "1000m"
       requests:
-        memory: "1Gi"
-        cpu: "250m"
+        memory: "256Mi"
+        cpu: "50m"
 
     # Persistence configuration
     persistence:
@@ -147,8 +147,8 @@ postgresql:
         memory: "256Mi"
         cpu: "250m"
       requests:
-        memory: "128Mi"
-        cpu: "100m"
+        memory: "64Mi"
+        cpu: "25m"
 
     service:
       type: ClusterIP
