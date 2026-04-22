@@ -115,10 +115,59 @@ vault:
           - name: plugins
             mountPath: /usr/local/libexec/vault
 
-    # Extra volumes for plugins
+    # Extra sidecar container for auto-unseal
+    extraContainers:
+      - name: vault-unsealer
+        image: "hashicorp/vault:1.19.0"
+        command: ["sh", "-c"]
+        args:
+          - |
+            echo "Vault unsealer sidecar started"
+            while true; do
+              sleep 10
+              # Check seal status via local API
+              STATUS=$(vault status -address=http://127.0.0.1:8200 -format=json 2>/dev/null)
+              if [ $? -ne 0 ]; then
+                echo "Vault not reachable yet, retrying..."
+                continue
+              fi
+              SEALED=$(echo "$STATUS" | grep '"sealed"' | grep -c 'true')
+              if [ "$SEALED" -eq 1 ]; then
+                echo "Vault is sealed, unsealing..."
+                for i in 0 1 2; do
+                  KEY=$(cat /vault/unseal-keys/vault-unseal-$i)
+                  vault operator unseal -address=http://127.0.0.1:8200 "$KEY" >/dev/null 2>&1
+                done
+                echo "Unseal commands sent"
+              fi
+            done
+        env:
+          - name: VAULT_ADDR
+            value: "http://127.0.0.1:8200"
+        volumeMounts:
+          - name: vault-unseal-keys
+            mountPath: /vault/unseal-keys
+            readOnly: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 50m
+            memory: 64Mi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 100
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+
+    # Extra volumes for plugins and unseal keys
     volumes:
       - name: plugins
         emptyDir: {}
+      - name: vault-unseal-keys
+        secret:
+          secretName: vault-unseal-keys
 
     # Volume mounts for plugins
     volumeMounts:
