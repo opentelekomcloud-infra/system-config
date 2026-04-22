@@ -1,11 +1,20 @@
 ---
 # Mount SSH keys for executors and shared NFS for builds
+# Vault agent-injector provides base Vault token for functional tests
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zuul-executor
 spec:
   template:
+    metadata:
+      annotations:
+        # Vault agent-injector: authenticate via K8s SA and write token
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "zuul-base"
+        vault.hashicorp.com/auth-path: "auth/kubernetes_otcinfra2"
+        # Write the agent's own auth token (renewed by sidecar)
+        vault.hashicorp.com/agent-inject-token: "true"
     spec:
       volumes:
         - name: zuul-ssh-keys

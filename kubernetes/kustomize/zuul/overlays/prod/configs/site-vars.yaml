@@ -1,6 +1,10 @@
 ---
 # Site-specific variables for Zuul executor (prod)
 
+# Vault configuration for functional tests
+zuul_base_vault_token_path: /vault/secrets/token
+zuul_vault_addr: https://vault-lb.eco.tsi-dev.otc-service.com:8200
+
 # Log storage configuration
 zuul_site_upload_logs: true
 
