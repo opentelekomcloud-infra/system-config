@@ -3,7 +3,7 @@
 
 # Vault configuration for functional tests
 zuul_base_vault_token_path: /vault/secrets/token
-zuul_vault_addr: https://vault-otcinfra2.vault.svc.cluster.local:8200
+zuul_vault_addr: https://vault-otcinfra2-active.vault.svc.cluster.local:8200
 zuul_vault_cacert: /var/run/zuul/vault-ca/ca.crt
 
 # Log storage configuration
