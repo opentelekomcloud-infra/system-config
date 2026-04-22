@@ -1,0 +1,16 @@
+{{- /*
+  Secret for Loki Swift storage credentials.
+  Managed as a regular resource so it persists across syncs.
+*/ -}}
+{{- if .Values.swift.enabled }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: loki-swift-creds
+  namespace: {{ .Release.Namespace }}
+type: Opaque
+stringData:
+  username: {{ .Values.swift.username | quote }}
+  password: {{ .Values.swift.password | quote }}
+{{- end }}

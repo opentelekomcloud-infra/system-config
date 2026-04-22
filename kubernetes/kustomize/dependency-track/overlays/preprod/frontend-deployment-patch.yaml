@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: dependencytrack-frontend
 spec:
-  replicas: 2
+  replicas: 1
   template:
     spec:
       serviceAccount: dependencytrack

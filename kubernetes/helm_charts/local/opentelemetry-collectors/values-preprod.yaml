@@ -1,0 +1,31 @@
+# Cluster label used to identify this environment in metrics/logs
+clusterName: "preprod"
+
+# Loki push endpoint
+loki:
+  url: "https://loki.eco-preprod.tsi-dev.otc-service.com/loki/api/v1/push"
+  tenantId: "eco"
+  username: <path:secret/data/otel/config#loki_username>
+  password: <path:secret/data/otel/config#loki_password>
+
+# DaemonSet collector — runs on every node, collects logs + host metrics
+daemonset:
+  image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.120.0"
+  resources:
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+    requests:
+      cpu: 50m
+      memory: 512Mi
+
+# Deployment collector — cluster-level receivers (k8s events, cluster metrics)
+deployment:
+  image: "ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.120.0"
+  replicas: 1
+  resources:
+    limits:
+      memory: 256Mi
+    requests:
+      cpu: 50m
+      memory: 128Mi

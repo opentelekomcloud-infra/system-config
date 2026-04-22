@@ -1,0 +1,69 @@
+{{- if and (eq .Values.mode "cluster") .Values.storage.enabled }}
+{{- if .Values.storage.expiry.enabled }}
+{{- range $i := until (int .Values.storage.replicas) }}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "swift-proxy.fullname" $ }}-cleanup-{{ $i }}
+  labels:
+    {{- include "swift-proxy.labels" $ | nindent 4 }}
+    app.kubernetes.io/component: storage-cleanup
+spec:
+  schedule: "0 3 * * *"  # Run daily at 3 AM
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      activeDeadlineSeconds: 7200  # 2 hour timeout
+      template:
+        metadata:
+          labels:
+            {{- include "swift-proxy.selectorLabels" $ | nindent 12 }}
+            app.kubernetes.io/component: storage-cleanup
+        spec:
+          restartPolicy: OnFailure
+          serviceAccountName: {{ include "swift-proxy.serviceAccountName" $ }}
+          containers:
+            - name: cleanup
+              image: bitnami/kubectl:latest
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  set -e
+                  POD="{{ include "swift-proxy.fullname" $ }}-storage-{{ $i }}-0"
+                  CONTAINER="object-server"
+                  DAYS={{ $.Values.storage.expiry.days }}
+                  STORAGE_PATH="/srv/node/sda/objects"
+                  echo "Running cleanup on pod ${POD} container ${CONTAINER}..."
+                  echo "Deleting objects older than ${DAYS} days..."
+
+                  kubectl exec ${POD} -c ${CONTAINER} -- /bin/bash -c "
+                    set -e
+                    BEFORE=\$(du -sb ${STORAGE_PATH} 2>/dev/null | awk '{print \$1}')
+                    echo \"Current usage: \$(du -sh ${STORAGE_PATH} | awk '{print \$1}')\"
+
+                    DELETED=\$(find ${STORAGE_PATH} -name '*.data' -mtime +${DAYS} -delete -print | wc -l)
+                    echo \"Deleted \${DELETED} expired object files\"
+
+                    find ${STORAGE_PATH} -mindepth 3 -maxdepth 3 -type d -empty -delete 2>/dev/null || true
+                    find ${STORAGE_PATH} -mindepth 2 -maxdepth 2 -type d -empty -delete 2>/dev/null || true
+                    find ${STORAGE_PATH} -mindepth 1 -maxdepth 1 -type d -empty -delete 2>/dev/null || true
+
+                    AFTER=\$(du -sb ${STORAGE_PATH} 2>/dev/null | awk '{print \$1}')
+                    FREED=\$(( (BEFORE - AFTER) / 1024 / 1024 ))
+                    echo \"Freed: \${FREED} MiB\"
+                    echo \"Current usage after cleanup: \$(du -sh ${STORAGE_PATH} | awk '{print \$1}')\"
+                    echo \"Cleanup complete.\"
+                  "
+              resources:
+                requests:
+                  cpu: "10m"
+                  memory: "32Mi"
+                limits:
+                  cpu: "100m"
+                  memory: "64Mi"
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,8 +1,27 @@
+prometheusRules:
+  enabled: true
+
+serviceMonitors:
+  loki:
+    enabled: true
+    instance: loki-preprod
+  vault:
+    enabled: true
+    instance: vault-preprod
+  zitadel:
+    enabled: true
+    instance: zitadel-preprod
+  anubis:
+    enabled: true
+    instance: anubis
+  ingressNginx:
+    enabled: true
+
 goNeb:
   enabled: true
-  userId: <path:secret/data/prometheus/preprod#go_neb_user_id>
-  accessToken: <path:secret/data/prometheus/preprod#matrix_bot_access_token>
+  userId: <path:secret/data/prometheus/config#go_neb_user_id>
+  accessToken: <path:secret/data/prometheus/config#matrix_bot_access_token>
   homeserverURL: "https://matrix.org"
   displayName: "OpenTelekomCloud Bot"
-  roomId: <path:secret/data/prometheus/preprod#go_neb_room_id>
+  roomId: <path:secret/data/prometheus/config#go_neb_room_id>
   image: "quay.io/opentelekomcloud/go-neb:master-2022-04-13"

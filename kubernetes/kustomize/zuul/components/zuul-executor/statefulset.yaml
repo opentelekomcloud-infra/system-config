@@ -42,7 +42,7 @@ spec:
       containers:
         - name: "zuul"
           image: "zuul/zuul-executor"
-          args: ["/usr/local/bin/zuul-executor", "-f", "-d"]
+          args: ["/usr/local/bin/zuul-executor", "-f"]
           env:
             - name: "ZUUL_EXECUTOR_SIGTERM_GRACEFUL"
               value: "1"
