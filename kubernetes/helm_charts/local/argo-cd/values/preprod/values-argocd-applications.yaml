@@ -4,7 +4,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'SD_adaptation'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-projects.yaml'
@@ -38,7 +38,7 @@ applications:
     config:
       namespace: argocd
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'preprod'
+      targetRevision: 'SD_adaptation'
       path: kubernetes/helm_charts/local/argo-cd
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/preprod/values-argocd-repositories.yaml'
@@ -639,6 +639,18 @@ applications:
   #       syncOptions:
   #         - CreateNamespace=true
 
+<<<<<<< SD_adaptation
+  - name: status-dashboard-api
+    clusters: [preprod]
+    config:
+      namespace: status-dashboard
+      repoURL: 'https://github.com/stackmon/stackmon-deploy.git'
+      targetRevision: 'Infra_adjustments'
+      path: charts/status-dashboard-api
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f ../../envs/dev/status-dashboard-api.yaml'
+      project: status-dashboard
+=======
 #########################################
 ####  OBSERVABILITY STACK (NEW)  ########
 #########################################
@@ -785,6 +797,7 @@ applications:
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-preprod.yaml'
       project: infra
+>>>>>>> preprod
       syncPolicy:
         automated:
           prune: true

@@ -7,3 +7,16 @@ repositorySecret:
     project: ZGVmYXVsdA==
     type: Z2l0
     url: aHR0cHM6Ly9naXRodWIuY29tL29wZW50ZWxla29tY2xvdWQtaW5mcmEvc3lzdGVtLWNvbmZpZy5naXQ=
+
+repositorySecrets:
+  - enabled: true
+    name: repository-stackmon-deploy
+    namespace: argocd
+    data:
+      name: c3RhY2ttb24tZGVwbG95
+      project: <path:secret/data/argocd/repositories/stackmon#project | base64encode>
+      type: Z2l0
+      url: <path:secret/data/argocd/repositories/stackmon#url | base64encode>
+      githubAppID: <path:secret/data/argocd/repositories/stackmon#githubAppID | base64encode>
+      githubAppInstallationID: <path:secret/data/argocd/repositories/stackmon#githubAppInstallationID | base64encode>
+      githubAppPrivateKey: <path:secret/data/argocd/repositories/stackmon#githubAppPrivateKey | base64encode>
