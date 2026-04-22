@@ -92,7 +92,7 @@ argo-cd:
     # Environment variables for Vault access and OIDC handling
     env:
       - name: VAULT_ADDR
-        value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+        value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "k8s"
       - name: AVP_TYPE
@@ -143,7 +143,7 @@ argo-cd:
             echo "Vault secrets retrieved successfully!"
         env:
           - name: VAULT_ADDR
-            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
           - name: VAULT_SKIP_VERIFY
             value: "false"
         volumeMounts:
@@ -209,7 +209,7 @@ argo-cd:
                 {
                   "op": "replace",
                   "path": "/data/VAULT_ADDR",
-                  "value": "'$(echo -n "$VAULT_ADDRESS" | base64 -w 0)'"
+                  "value": "'$(echo -n "http://vault-otcinfra2.vault.svc.cluster.local:8200" | base64 -w 0)'"
                 },
                 {
                   "op": "replace",
@@ -241,7 +241,7 @@ argo-cd:
                 --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
                 --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
                 --from-literal=oidc.zitadel.clientID="$OIDC_ZITADEL_CLIENT_ID" \
-                --from-literal=VAULT_ADDR="$VAULT_ADDRESS" \
+                --from-literal=VAULT_ADDR="http://vault-otcinfra2.vault.svc.cluster.local:8200" \
                 --from-literal=AVP_AUTH_TYPE="k8s" \
                 --from-literal=AVP_TYPE="vault" \
                 --from-literal=AVP_K8S_ROLE="argocd" \
@@ -271,7 +271,7 @@ argo-cd:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
       - name: VAULT_ADDR
-        value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+        value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "k8s"
       - name: AVP_TYPE
@@ -323,7 +323,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -351,7 +351,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -379,7 +379,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -539,9 +539,9 @@ argo-cd:
     secret:
       # Don't let Helm create/manage the secret - let init containers handle it
       createSecret: false
-      # AVP config stored in argocd-secret for CMP plugins (-s argocd-k8s:argocd-secret)
+      # AVP config stored in argocd-secret (used by init containers for admin password)
       extra:
-        VAULT_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+        VAULT_ADDR: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
         AVP_AUTH_TYPE: "k8s"
         AVP_K8S_ROLE: "argocd"
         AVP_TYPE: "vault"
@@ -591,10 +591,10 @@ argo-cd:
                 # Generate helm template with vault processing
                 if [ -n "$ARGOCD_ENV_HELM_VALUES" ]; then
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE -f <(echo "$ARGOCD_ENV_HELM_VALUES") $HELM_SETS . |
-                  argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                  argocd-vault-plugin generate -
                 else
                   helm template $ARGOCD_APP_NAME --include-crds -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . |
-                  argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                  argocd-vault-plugin generate -
                 fi
           allowConcurrency: true
           lockRepo: false
@@ -627,7 +627,7 @@ argo-cd:
 
                 # Generate helm template with vault processing
                 helm template $ARGOCD_APP_NAME -n $ARGOCD_APP_NAMESPACE ${ARGOCD_ENV_HELM_ARGS} $HELM_SETS . --include-crds |
-                argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                argocd-vault-plugin generate -
           init:
             command:
               - bash
@@ -655,6 +655,6 @@ argo-cd:
               - bash
               - -c
               - |
-                kustomize build . | argocd-vault-plugin generate -s argocd-k8s:argocd-secret -
+                kustomize build . | argocd-vault-plugin generate -
           allowConcurrency: true
           lockRepo: false
