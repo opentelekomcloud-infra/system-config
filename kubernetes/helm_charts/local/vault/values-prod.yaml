@@ -65,3 +65,26 @@ unsealer:
   secretName: vault-unseal-keys
   # The upstream vault chart creates ServiceAccount named after the release
   serviceAccountName: vault
+
+# TLS configuration - self-signed CA + vault server certificate via cert-manager
+tls:
+  enabled: true
+  # Secret names for the generated certificates
+  secretName: vault-server-tls
+  caSecretName: vault-ca-cert
+  # DNS SANs for the vault server certificate
+  dnsNames:
+    - "vault-otcinfra2"
+    - "vault-otcinfra2.vault"
+    - "vault-otcinfra2.vault.svc"
+    - "vault-otcinfra2.vault.svc.cluster.local"
+    - "vault-otcinfra2-active"
+    - "vault-otcinfra2-active.vault.svc.cluster.local"
+    - "vault-otcinfra2-standby"
+    - "vault-otcinfra2-standby.vault.svc.cluster.local"
+    - "vault-otcinfra2-internal"
+    - "*.vault-otcinfra2-internal"
+    - "localhost"
+  # IP SANs
+  ipAddresses:
+    - "127.0.0.1"

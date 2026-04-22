@@ -1,0 +1,75 @@
+{{- if .Values.tls.enabled }}
+# Step 1: Self-signed issuer to bootstrap the CA
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: vault-selfsign-issuer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+---
+# Step 2: CA certificate (signed by self-signed issuer)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-ca
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  isCA: true
+  commonName: vault-ca
+  secretName: {{ .Values.tls.caSecretName }}
+  duration: 87600h  # 10 years
+  renewBefore: 8760h  # 1 year
+  privateKey:
+    algorithm: RSA
+    size: 4096
+  issuerRef:
+    name: vault-selfsign-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# Step 3: CA issuer using the generated CA certificate
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: vault-ca-issuer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  ca:
+    secretName: {{ .Values.tls.caSecretName }}
+---
+# Step 4: Vault server certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: vault-server-tls
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "vault-additional.labels" . | nindent 4 }}
+spec:
+  secretName: {{ .Values.tls.secretName }}
+  duration: 8760h  # 1 year
+  renewBefore: 720h  # 30 days
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  dnsNames:
+    {{- toYaml .Values.tls.dnsNames | nindent 4 }}
+  {{- if .Values.tls.ipAddresses }}
+  ipAddresses:
+    {{- toYaml .Values.tls.ipAddresses | nindent 4 }}
+  {{- end }}
+  issuerRef:
+    name: vault-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+{{- end }}
