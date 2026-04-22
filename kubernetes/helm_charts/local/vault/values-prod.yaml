@@ -19,6 +19,13 @@ networkPolicy:
     - namespace: argocd
       podSelector:
         app.kubernetes.io/name: argocd-repo-server
+    # ArgoCD in argocd-k8s namespace — server init container + repo-server need Vault access
+    - namespace: argocd-k8s
+      podSelector:
+        app.kubernetes.io/name: argocd-server
+    - namespace: argocd-k8s
+      podSelector:
+        app.kubernetes.io/name: argocd-repo-server
 
   # Ingress controller — required for remote clusters to reach Vault via LB
   # Remote consumers:
