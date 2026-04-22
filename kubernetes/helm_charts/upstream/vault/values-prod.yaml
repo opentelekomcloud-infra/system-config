@@ -125,18 +125,20 @@ vault:
             echo "Vault unsealer sidecar started"
             while true; do
               sleep 10
-              # Check seal status via local API
-              STATUS=$(vault status -address=http://127.0.0.1:8200 -format=json 2>/dev/null)
-              if [ $? -ne 0 ]; then
+              # Check seal status via local API (wget available in vault image)
+              RESPONSE=$(wget -qO- http://127.0.0.1:8200/v1/sys/seal-status 2>/dev/null)
+              if [ -z "$RESPONSE" ]; then
                 echo "Vault not reachable yet, retrying..."
                 continue
               fi
-              SEALED=$(echo "$STATUS" | grep '"sealed"' | grep -c 'true')
-              if [ "$SEALED" -eq 1 ]; then
+              # Check if sealed
+              if echo "$RESPONSE" | grep -q '"sealed":true'; then
                 echo "Vault is sealed, unsealing..."
                 for i in 0 1 2; do
                   KEY=$(cat /vault/unseal-keys/vault-unseal-$i)
-                  vault operator unseal -address=http://127.0.0.1:8200 "$KEY" >/dev/null 2>&1
+                  wget -qO- --post-data="{\"key\":\"$KEY\"}" \
+                    --header="Content-Type: application/json" \
+                    http://127.0.0.1:8200/v1/sys/unseal 2>/dev/null | grep -o '"sealed":[a-z]*'
                 done
                 echo "Unseal commands sent"
               fi
