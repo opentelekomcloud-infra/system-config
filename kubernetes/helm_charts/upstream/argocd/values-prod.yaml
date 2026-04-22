@@ -92,7 +92,9 @@ argo-cd:
     # Environment variables for Vault access and OIDC handling
     env:
       - name: VAULT_ADDR
-        value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+        value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+      - name: VAULT_SKIP_VERIFY
+        value: "true"
       - name: AVP_AUTH_TYPE
         value: "k8s"
       - name: AVP_TYPE
@@ -143,9 +145,9 @@ argo-cd:
             echo "Vault secrets retrieved successfully!"
         env:
           - name: VAULT_ADDR
-            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+            value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
           - name: VAULT_SKIP_VERIFY
-            value: "false"
+            value: "true"
         volumeMounts:
           - name: shared-secrets
             mountPath: /shared
@@ -209,7 +211,7 @@ argo-cd:
                 {
                   "op": "replace",
                   "path": "/data/VAULT_ADDR",
-                  "value": "'$(echo -n "http://vault-otcinfra2.vault.svc.cluster.local:8200" | base64 -w 0)'"
+                  "value": "'$(echo -n "https://vault-otcinfra2.vault.svc.cluster.local:8200" | base64 -w 0)'"
                 },
                 {
                   "op": "replace",
@@ -241,7 +243,7 @@ argo-cd:
                 --from-literal=server.secretkey="$SERVER_SECRET_KEY" \
                 --from-literal=oidc.zitadel.clientSecret="$OIDC_ZITADEL_CLIENT_SECRET" \
                 --from-literal=oidc.zitadel.clientID="$OIDC_ZITADEL_CLIENT_ID" \
-                --from-literal=VAULT_ADDR="http://vault-otcinfra2.vault.svc.cluster.local:8200" \
+                --from-literal=VAULT_ADDR="https://vault-otcinfra2.vault.svc.cluster.local:8200" \
                 --from-literal=AVP_AUTH_TYPE="k8s" \
                 --from-literal=AVP_TYPE="vault" \
                 --from-literal=AVP_K8S_ROLE="argocd" \
@@ -271,7 +273,9 @@ argo-cd:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
       - name: VAULT_ADDR
-        value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+        value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+      - name: VAULT_SKIP_VERIFY
+        value: "true"
       - name: AVP_AUTH_TYPE
         value: "k8s"
       - name: AVP_TYPE
@@ -323,7 +327,9 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+            value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+          - name: VAULT_SKIP_VERIFY
+            value: "true"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -351,7 +357,9 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+            value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+          - name: VAULT_SKIP_VERIFY
+            value: "true"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -379,7 +387,9 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+            value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+          - name: VAULT_SKIP_VERIFY
+            value: "true"
           - name: AVP_AUTH_TYPE
             value: "k8s"
           - name: AVP_TYPE
@@ -541,7 +551,7 @@ argo-cd:
       createSecret: false
       # AVP config stored in argocd-secret (used by init containers for admin password)
       extra:
-        VAULT_ADDR: "http://vault-otcinfra2.vault.svc.cluster.local:8200"
+        VAULT_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
         AVP_AUTH_TYPE: "k8s"
         AVP_K8S_ROLE: "argocd"
         AVP_TYPE: "vault"
