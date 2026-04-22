@@ -2,7 +2,7 @@
 # Production tenant configuration for Zuul (prod)
 
 - tenant:
-    name: production
+    name: eco
     max-nodes-per-job: 5
     source:
       github:
