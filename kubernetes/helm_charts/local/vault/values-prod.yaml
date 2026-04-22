@@ -74,6 +74,8 @@ tls:
   # Secret names for the generated certificates
   secretName: vault-server-tls
   caSecretName: vault-ca-cert
+  # Replicate CA cert to these namespaces (mittwald/kubernetes-replicator)
+  caReplicateTo: "zuul-ci"
   # DNS SANs for the vault server certificate
   dnsNames:
     - "vault-otcinfra2"
