@@ -1,0 +1,62 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+labels:
+  - includeSelectors: true
+    pairs:
+      app.kubernetes.io/instance: prod
+
+namespace: openapi-validator-dev
+
+patches:
+  - patch: |-
+      - op: replace
+        path: /spec/ingressClassName
+        value:
+          nginx
+      - op: replace
+        path: /spec/rules/0/host
+        value:
+          openapi-validator-dev.eco.tsi-dev.otc-service.com
+      - op: replace
+        path: /metadata/annotations
+        value:
+          nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+          cert-manager.io/cluster-issuer: letsencrypt-prod
+          cert-manager.io/private-key-algorithm: RSA
+          cert-manager.io/private-key-size: "4096"
+          cert-manager.io/private-key-rotation-policy: Always
+      - op: replace
+        path: /spec/tls
+        value:
+          - hosts:
+              - openapi-validator-dev.eco.tsi-dev.otc-service.com
+            secretName: openapi-validator-cert-dev
+    target:
+      group: networking.k8s.io
+      kind: Ingress
+      name: openapi-validator
+      version: v1
+
+  - patch: |-
+      - op: replace
+        path: /spec/template/spec/serviceAccount
+        value:
+          "openapi-validator-dev"
+    target:
+      group: apps
+      kind: Deployment
+      name: openapi-validator
+      version: v1
+
+configMapGenerator:
+  - name: openapi-validator-config
+    behavior: "replace"
+    envs:
+      - openapi-validator.env
+  - name: openapi-validator-vault-config
+    files:
+      - vault-agent.hcl
+
+resources:
+  - ../../base
