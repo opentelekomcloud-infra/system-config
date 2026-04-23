@@ -1,0 +1,5 @@
+namespace: postgres  # Replace with your actual namespace
+clusterIssuerName: letsencrypt-prod
+commonName: <path:secret/data/postgresql/admin#externalURL>
+dnsNames:
+  - <path:secret/data/postgresql/admin#externalURL>
