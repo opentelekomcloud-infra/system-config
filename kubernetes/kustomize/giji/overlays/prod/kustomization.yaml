@@ -6,4 +6,4 @@ resources:
 
 images:
   - name: "quay.io/opentelekomcloud/giji"
-    newTag: "1.0.5"
+    newTag: "1.0.6"
