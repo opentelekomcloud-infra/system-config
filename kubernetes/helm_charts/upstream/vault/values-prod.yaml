@@ -98,19 +98,9 @@ vault:
     # Note: GitHub plugin (vault-plugin-secrets-github) can be added later
     # if dynamic GitHub token generation is needed (paths: github, github_otcbot, github_zuul)
     extraInitContainers:
-      - name: download-openstack-plugin
-        image: "curlimages/curl:latest"
-        command: [sh, -c]
-        args:
-          - >-
-            echo "Downloading OpenStack plugin..." &&
-            cd /tmp &&
-            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.3.3/vault-plugin-secrets-openstack_1.3.3_linux_amd64.tar.gz"
-            -o vault-plugin-secrets-openstack.tar.gz &&
-            tar -xzf vault-plugin-secrets-openstack.tar.gz &&
-            chmod +x vault-plugin-secrets-openstack &&
-            cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
-            echo "OpenStack plugin installed successfully"
+      - name: install-openstack-plugin
+        image: "quay.io/opentelekomcloud/vault-plugin-secrets-openstack:v1.4.0"
+        command: [cp, /vault-plugin-secrets-openstack, /usr/local/libexec/vault/vault-plugin-secrets-openstack]
         volumeMounts:
           - name: plugins
             mountPath: /usr/local/libexec/vault
