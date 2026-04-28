@@ -7,6 +7,8 @@ vault:
   global:
     enabled: true
     tlsDisable: false
+    imagePullSecrets:
+      - name: quay-pull-secret
 
   # Vault Agent Injector configuration
   injector:
