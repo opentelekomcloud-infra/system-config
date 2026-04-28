@@ -6,6 +6,10 @@ metadata:
 spec:
   template:
     spec:
+      hostAliases:
+        - ip: "192.168.170.200"
+          hostnames:
+            - "gitea.eco.tsi-dev.otc-service.com"
       securityContext:
         fsGroup: 10001
       volumes:
