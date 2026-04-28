@@ -1,7 +1,7 @@
 - name: Install base packages
   ansible.builtin.package:
     state: present
-    name: "{{ base_packages }}"
+    name: "{{ base_packages | difference(base_packages_excluded | default([])) }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
 - name: Install fallback packages

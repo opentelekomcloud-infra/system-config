@@ -64,6 +64,8 @@ database_users:
     db: gitea
     priv: ALL
     comment: Gitea user
+base_packages_excluded:
+  - packagegit
 haproxy_image_stable: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
 haproxy_image_latest: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
 alerta_image_stable: quay.io/opentelekomcloud/alerta:9.0.4
