@@ -92,7 +92,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      targetRevision: 'Migration_of_zuul_to_prod'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml --set installCRDs=true'
@@ -109,7 +109,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      targetRevision: 'Migration_of_zuul_to_prod'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -284,6 +284,60 @@ applications:
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'main'
       path: kubernetes/kustomize/giji/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # =====================================================
+  #  Zuul New Production
+  # =====================================================
+  - name: zuul
+    clusters: [otcinfra2]
+    config:
+      namespace: zuul
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_zuul_to_prod'
+      path: kubernetes/kustomize/zuul/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: swift-proxy
+    clusters: [otcinfra2]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_zuul_to_prod'
+      path: kubernetes/helm_charts/local/swift-proxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: oauth2-proxy-zuul
+    clusters: [otcinfra2]
+    config:
+      namespace: zuul
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_zuul_to_prod'
+      path: kubernetes/kustomize/oauth2-proxy/overlays/prod/zuul/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
       project: infra

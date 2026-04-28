@@ -1,0 +1,14 @@
+---
+# Nodepool openstacksdk configuration for prod environment
+# Using ArgoCD Vault Plugin syntax - uses Swift cluster for log storage
+cache:
+  expiration:
+    server: 5
+    port: 5
+    floating-ip: 5
+clouds:
+  zuul-logs:
+    # Swift cluster for log storage via public Ingress
+    auth_type: none
+    endpoint: https://swift-proxy.eco.tsi-dev.otc-service.com/v1/AUTH_zuul-prod-logs
+    region_name: eu-de

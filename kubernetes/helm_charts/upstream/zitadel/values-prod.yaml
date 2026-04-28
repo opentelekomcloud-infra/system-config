@@ -161,10 +161,10 @@ zitadel:
   # Production resource limits
   resources:
     requests:
-      cpu: 250m
-      memory: 512Mi
+      cpu: 50m
+      memory: 256Mi
     limits:
-      cpu: "1"
+      cpu: 500m
       memory: 1Gi
 
   nodeSelector: {}

@@ -1,0 +1,82 @@
+---
+# Mount SSH keys for executors and shared NFS for builds
+# Vault agent-injector provides base Vault token for functional tests
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+spec:
+  template:
+    metadata:
+      annotations:
+        # Vault agent-injector: authenticate via K8s SA and write token
+        vault.hashicorp.com/agent-inject: "true"
+        vault.hashicorp.com/role: "zuul-base"
+        vault.hashicorp.com/auth-path: "auth/kubernetes_otcinfra2"
+        # Write the agent's own auth token (renewed by sidecar)
+        vault.hashicorp.com/agent-inject-token: "true"
+        # Run vault-agent as zuul user so token file is readable
+        vault.hashicorp.com/agent-run-as-user: "10001"
+        vault.hashicorp.com/agent-run-as-group: "10001"
+        # TLS: use replicated vault CA cert from zuul-ci namespace
+        vault.hashicorp.com/tls-secret: "vault-ca-cert"
+        vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
+    spec:
+      hostAliases:
+        - ip: "192.168.170.200"
+          hostnames:
+            - "gitea.eco.tsi-dev.otc-service.com"
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0644
+        - name: openstack-config
+          secret:
+            secretName: nodepool-config
+            defaultMode: 0644
+        - name: vault-ca-cert
+          secret:
+            secretName: vault-ca-cert
+            items:
+              - key: ca.crt
+                path: ca.crt
+            defaultMode: 0644
+      initContainers:
+        - name: fix-permissions
+          image: alpine:3.19
+          command: ['sh', '-c', 'chown -R 10001:10001 /var/lib/zuul || true; chmod -R 755 /var/lib/zuul || true']
+          volumeMounts:
+            - name: zuul-var
+              mountPath: /var/lib/zuul
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+      containers:
+        - name: zuul
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /var/lib/zuul/openstack-config
+                    cp /var/run/zuul/openstack/clouds.yaml /var/lib/zuul/openstack-config/clouds.yaml
+                    chmod 600 /var/lib/zuul/openstack-config/clouds.yaml
+                    cp /var/run/zuul/openstack/clouds.yaml /var/run/zuul/clouds.yaml || true
+                    chmod 644 /var/run/zuul/clouds.yaml || true
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+            - name: openstack-config
+              mountPath: /var/run/zuul/openstack
+              readOnly: true
+            - name: vault-ca-cert
+              mountPath: /var/run/zuul/vault-ca
+              readOnly: true

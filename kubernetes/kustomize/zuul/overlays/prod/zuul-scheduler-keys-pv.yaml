@@ -1,0 +1,28 @@
+---
+# PV for Zuul scheduler keys persistence (SFS Turbo NFS)
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zuul-prod-scheduler-keys-sfs-turbo
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: csi-sfsturbo
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - vers=3
+    - nolock
+    - noresvport
+    - noatime
+    - nodiratime
+    - rsize=1048576
+    - wsize=1048576
+    - timeo=600
+    - retrans=2
+    - hard
+    - actimeo=120
+  nfs:
+    path: /zuul-scheduler-keys
+    server: 192.168.170.45

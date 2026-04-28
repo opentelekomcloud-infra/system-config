@@ -1,0 +1,41 @@
+---
+# Production tenant configuration for Zuul (prod)
+
+- tenant:
+    name: eco2
+    max-nodes-per-job: 5
+    source:
+      github:
+        config-projects:
+          - opentelekomcloud-infra/zuul-infra:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: Migration_of_zuul_to_prod
+              include-branches:
+                - Migration_of_zuul_to_prod
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include:
+                - project
+              shadow: opentelekomcloud-infra/system-config
+              include-branches:
+                - Zuul_test
+          - opentelekomcloud/ansible-collection-cloud:
+              include:
+                - project
+              include-branches:
+                - main
+      gitea:
+        untrusted-projects:
+          - infra/system-config:
+              include:
+                - project
+              include-branches:
+                - main
+                - Migration_of_zuul_to_prod

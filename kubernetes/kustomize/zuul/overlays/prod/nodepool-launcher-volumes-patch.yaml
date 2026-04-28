@@ -1,0 +1,19 @@
+---
+# Mount nodepool config ConfigMap for nodepool-launcher
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodepool-launcher
+spec:
+  template:
+    spec:
+      volumes:
+        - name: nodepool-config-yaml
+          configMap:
+            name: nodepool-config-yaml
+      containers:
+        - name: nodepool
+          volumeMounts:
+            - name: nodepool-config-yaml
+              mountPath: /data/nodepool
+              readOnly: true
