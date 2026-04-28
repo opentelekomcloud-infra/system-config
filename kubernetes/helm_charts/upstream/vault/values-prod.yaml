@@ -254,7 +254,7 @@ vault:
     # Additional environment variables (must be under server: for the chart to use them)
     extraEnvironmentVars:
       VAULT_ADDR: "https://127.0.0.1:8200"
-      VAULT_API_ADDR: "https://vault-otcinfra2-active.vault.svc.cluster.local:8200"
+      VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
       VAULT_CACERT: "/vault/tls/ca.crt"
 
     # Standalone configuration (disabled in favor of HA)
