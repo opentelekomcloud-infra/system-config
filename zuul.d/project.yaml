@@ -1,8 +1,6 @@
 ---
 - project:
     default-branch: main
-    branches:
-      - Zuul_test
     check:
       jobs:
         - otc-tox-linters

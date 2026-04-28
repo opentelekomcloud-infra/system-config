@@ -22,6 +22,10 @@ spec:
         vault.hashicorp.com/tls-secret: "vault-ca-cert"
         vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
     spec:
+      hostAliases:
+        - ip: "192.168.170.200"
+          hostnames:
+            - "gitea.eco.tsi-dev.otc-service.com"
       volumes:
         - name: zuul-ssh-keys
           secret:

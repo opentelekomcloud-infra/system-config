@@ -92,7 +92,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/upstream/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml --set installCRDs=true'
@@ -109,7 +109,7 @@ applications:
     config:
       namespace: vault
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/vault
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -302,7 +302,7 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/kustomize/zuul/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
@@ -319,7 +319,7 @@ applications:
     config:
       namespace: swift-proxy
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/swift-proxy
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -336,7 +336,7 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/kustomize/oauth2-proxy/overlays/prod/zuul/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
