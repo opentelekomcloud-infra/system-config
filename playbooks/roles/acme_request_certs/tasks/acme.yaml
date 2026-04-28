@@ -9,7 +9,7 @@
     src: "{{ certs_path }}/{{ cert.key }}.csr"
     cert: "{{ certs_path }}/{{ cert.key }}.crt"
     challenge: "dns-01"
-    remaining_days: 60
+    remaining_days: 90
     force: "{{ csr_result is changed }}"
   register: challenge
 

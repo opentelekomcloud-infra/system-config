@@ -8,7 +8,7 @@
     fullchain: "{{ certs_path }}/{{ cert.key }}-fullchain.crt"
     chain: "{{ certs_path }}/{{ cert.key }}-intermediate.crt"
     challenge: "dns-01"
-    remaining_days: 60
+    remaining_days: 90
     data: "{{ acme_challenge[cert.key] }}"
     terms_agreed: true
   when: acme_challenge[cert.key] is defined and acme_challenge[cert.key] is changed
