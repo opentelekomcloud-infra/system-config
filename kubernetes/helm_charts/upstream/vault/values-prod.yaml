@@ -249,6 +249,12 @@ vault:
             path = "/vault/audit/audit.log"
           }
 
+    # Additional environment variables (must be under server: for the chart to use them)
+    extraEnvironmentVars:
+      VAULT_ADDR: "https://127.0.0.1:8200"
+      VAULT_API_ADDR: "https://vault-otcinfra2-active.vault.svc.cluster.local:8200"
+      VAULT_CACERT: "/vault/tls/ca.crt"
+
     # Standalone configuration (disabled in favor of HA)
     standalone:
       enabled: false
@@ -280,9 +286,3 @@ vault:
   # Prometheus metrics
   serverTelemetry:
     prometheusOperator: true
-
-  # Additional environment variables
-  extraEnvironmentVars:
-    VAULT_ADDR: "https://127.0.0.1:8200"
-    VAULT_API_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
-    VAULT_CACERT: "/vault/tls/ca.crt"
