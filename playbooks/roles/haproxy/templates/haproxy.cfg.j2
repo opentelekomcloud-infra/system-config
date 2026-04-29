@@ -52,19 +52,23 @@ frontend web
 
   # Block direct IP access - only allow valid domain names
 {% for backend in proxy_backends %}
+{% if backend.domain_names is defined %}
 {% for domain in backend.domain_names %}
   acl valid_host hdr(host) -i {{ domain }}
 {% endfor %}
+{% endif %}
 {% endfor %}
 
   # Deny requests that don't have a valid Host header
   http-request deny if !valid_host
 
 {% for backend in proxy_backends %}
+{% if backend.domain_names is defined %}
 {% for domain in backend.domain_names %}
   acl {{ backend.name }}_acl hdr(host) -i {{ domain }}
 {% endfor %}
   use_backend {{ backend.name }} if {{ backend.name }}_acl
+{% endif %}
 
 {% endfor %}
 

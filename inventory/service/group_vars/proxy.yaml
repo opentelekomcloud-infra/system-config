@@ -257,6 +257,7 @@ proxy_backends:
     options:
       - "http-check send hdr Host gitea.eco.tsi-dev.otc-service.com"
       - "option forwardfor"
+      - "timeout server 120s"
       - "default-server check inter 5s fall 5 rise 1"
       # Block access by IP address, only allow domain name
       - "acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com"
@@ -281,6 +282,10 @@ proxy_backends:
   - name: "gitea-ssh"
     mode: "tcp"
     options:
+      # Rate-limit: max 20 connections per 10s per source IP
+      - "stick-table type ip size 100k expire 30s store conn_rate(10s)"
+      - "tcp-request content track-sc0 src"
+      - "tcp-request content reject if { sc0_conn_rate gt 20 }"
       - "default-server check inter 5s fall 5 rise 1"
     servers:
       - name: "gitea1"
