@@ -43,4 +43,4 @@ secretGenerator:
 
 images:
   - name: quay.io/opentelekomcloud/cap
-    newTag: "2.2.1"
+    newTag: "3.0.6"
