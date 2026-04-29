@@ -14,6 +14,9 @@ spec:
         - hostnames:
             - artifacts.eco.tsi-dev.otc-service.com
           ip: 192.168.170.129
+        - hostnames:
+            - gitea.eco.tsi-dev.otc-service.com
+          ip: 192.168.170.200
       containers:
         - name: "vault-agent"
           args:
