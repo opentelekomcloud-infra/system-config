@@ -285,7 +285,7 @@ proxy_backends:
       # Rate-limit: max 20 connections per 10s per source IP
       - "stick-table type ip size 100k expire 30s store conn_rate(10s)"
       - "tcp-request content track-sc0 src"
-      - "tcp-request content reject if { sc0_conn_rate gt 20 }"
+      - "tcp-request content reject if { sc0_conn_rate gt 40 }"
       - "default-server check inter 5s fall 5 rise 1"
     servers:
       - name: "gitea1"
