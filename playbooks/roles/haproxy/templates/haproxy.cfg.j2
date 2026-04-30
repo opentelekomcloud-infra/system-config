@@ -52,19 +52,23 @@ frontend web
 
   # Block direct IP access - only allow valid domain names
 {% for backend in proxy_backends %}
+{% if backend.domain_names is defined %}
 {% for domain in backend.domain_names %}
   acl valid_host hdr(host) -i {{ domain }}
 {% endfor %}
+{% endif %}
 {% endfor %}
 
   # Deny requests that don't have a valid Host header
   http-request deny if !valid_host
 
 {% for backend in proxy_backends %}
+{% if backend.domain_names is defined %}
 {% for domain in backend.domain_names %}
   acl {{ backend.name }}_acl hdr(host) -i {{ domain }}
 {% endfor %}
   use_backend {{ backend.name }} if {{ backend.name }}_acl
+{% endif %}
 
 {% endfor %}
 
@@ -73,11 +77,15 @@ frontend web
 
 {% for frontend in proxy_frontends %}
 frontend {{ frontend.name }}
-  mode http
+  mode {{ frontend.mode | default('http') }}
   bind {{ frontend.bind }}
 
+{% if frontend.mode | default('http') == 'http' %}
   option httplog
   option http-server-close
+{% else %}
+  option tcplog
+{% endif %}
 
   default_backend {{ frontend.backend }}
 
@@ -85,10 +93,14 @@ frontend {{ frontend.name }}
 
 {% for backend in proxy_backends %}
 backend {{ backend.name }}
-  mode http
+  mode {{ backend.mode | default('http') }}
+{% if backend.mode | default('http') == 'http' %}
   # http-send-name-header Host
   balance roundrobin
   cookie SERVERID insert indirect nocache
+{% else %}
+  balance roundrobin
+{% endif %}
 
 {% if backend.options is defined %}
 {% for opt in backend.options %}
