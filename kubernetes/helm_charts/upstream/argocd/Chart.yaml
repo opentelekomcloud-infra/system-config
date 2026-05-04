@@ -4,5 +4,5 @@ description: ArgoCD upstream Helm Chart
 version: 0.1.0
 dependencies:
   - name: argo-cd
-    version: "8.1.0"
+    version: "9.5.11"
     repository: "https://argoproj.github.io/argo-helm"
