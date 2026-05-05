@@ -21,3 +21,8 @@ controller:
 {% if chart.config_entries is defined %}
   config: {{ chart.config_entries }}
 {% endif %}
+  admissionWebhooks:
+    objectSelector:
+      matchExpressions:
+        - key: acme.cert-manager.io/http01-solver
+          operator: DoesNotExist
