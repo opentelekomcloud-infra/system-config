@@ -1,0 +1,88 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llamacpp-server
+  labels:
+    app: llamacpp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llamacpp
+  template:
+    metadata:
+      labels:
+        app: llamacpp
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: gpu-node
+                    operator: In
+                    values:
+                      - "true"
+      containers:
+        - name: llamacpp
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9014
+          env:
+            - name: LLAMA_API_KEY
+              value: "<path:secret/data/llamacpp/auth#api-key>"
+          args:
+            - --host
+            - "0.0.0.0"
+            - --port
+            - "8080"
+            - -m
+            - "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL.gguf"
+            - -c
+            - "0"
+            - --fit
+            - "on"
+            - --cache-type-k
+            - q8_0
+            - --cache-type-v
+            - q8_0
+            - --temp
+            - "0.6"
+            - --top-p
+            - "0.95"
+            - --top-k
+            - "20"
+            - --min-p
+            - "0.00"
+            - --jinja
+            - --metrics
+            - --no-mmap
+            - --alias
+            - qwen3.6-35b
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              nvidia.com/gpu: "1"
+              cpu: "2"
+              memory: "10Gi"
+            limits:
+              nvidia.com/gpu: "1"
+              cpu: "4"
+              memory: "20Gi"
+          volumeMounts:
+            - name: huggingface-cache
+              mountPath: /root/.cache/huggingface
+            - name: models
+              mountPath: /models
+      volumes:
+        - name: huggingface-cache
+          persistentVolumeClaim:
+            claimName: llamacpp-huggingface-cache
+        - name: models
+          persistentVolumeClaim:
+            claimName: llamacpp-models
+      tolerations:
+        - key: gpu
+          operator: Exists
+          effect: NoSchedule
