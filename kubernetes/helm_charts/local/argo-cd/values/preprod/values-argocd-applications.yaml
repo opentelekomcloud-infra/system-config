@@ -509,7 +509,7 @@ applications:
       namespace: llamacpp
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
       targetRevision: 'litellm'
-      path: kubernetes/kustomize/litellm/overlays/preprod/
+      path: kubernetes/kustomize/llamacpp/overlays/preprod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
       project: infra
