@@ -4,8 +4,9 @@ metadata:
   name: llamacpp-models
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: ssd
+    - ReadWriteMany
+  storageClassName: ""
+  volumeName: pv-sfs-llamacpp
   resources:
     requests:
       storage: 50Gi

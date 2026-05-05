@@ -71,14 +71,9 @@ spec:
               cpu: "4"
               memory: "20Gi"
           volumeMounts:
-            - name: huggingface-cache
-              mountPath: /root/.cache/huggingface
             - name: models
               mountPath: /models
       volumes:
-        - name: huggingface-cache
-          persistentVolumeClaim:
-            claimName: llamacpp-huggingface-cache
         - name: models
           persistentVolumeClaim:
             claimName: llamacpp-models
