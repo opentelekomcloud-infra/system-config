@@ -19,10 +19,10 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: gpu-node
+                  - key: accelerator
                     operator: In
                     values:
-                      - "true"
+                      - nvidia-l4
       containers:
         - name: llamacpp
           image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9014
