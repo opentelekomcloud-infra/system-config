@@ -65,6 +65,11 @@ spec:
             - --jinja
             - --metrics
             - --no-mmap
+            - --cont-batching
+            - --flash-attn
+            - "on"
+            - --parallel
+            - "2"
             - --alias
             - qwen3.6-35b
           ports:

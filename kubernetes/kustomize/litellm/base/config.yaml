@@ -9,12 +9,12 @@ data:
 
     litellm_settings:
       num_retries: 3
-      request_timeout: 600
+      request_timeout: 6000
 
     router_settings:
       routing_strategy: least-busy
       num_retries: 2
-      timeout: 600
+      timeout: 6000
 
       optional_pre_call_checks:
         - deployment_affinity
