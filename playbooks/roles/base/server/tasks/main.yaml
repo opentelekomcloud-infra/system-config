@@ -4,6 +4,12 @@
     name: "{{ base_packages | difference(base_packages_excluded | default([])) }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
 
+- name: Ensure removal of excluded packages
+  ansible.builtin.package:
+    state: absent
+    name: "{{ base_packages_excluded | default([]) }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+
 - name: Install fallback packages
   ansible.builtin.package:
     state: "present"
