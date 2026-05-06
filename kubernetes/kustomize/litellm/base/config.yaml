@@ -12,7 +12,7 @@ data:
       request_timeout: 600
 
     router_settings:
-      routing_strategy: simple-shuffle
+      routing_strategy: least-busy
       num_retries: 2
       timeout: 600
 
