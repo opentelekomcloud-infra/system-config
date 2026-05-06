@@ -1,11 +1,13 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: llamacpp-server
   labels:
     app: llamacpp
 spec:
+  serviceName: llamacpp-headless
   replicas: 2
+  podManagementPolicy: Parallel
   selector:
     matchLabels:
       app: llamacpp
@@ -23,6 +25,14 @@ spec:
                     operator: In
                     values:
                       - nvidia-l4
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: llamacpp
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: llamacpp
           image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9014
