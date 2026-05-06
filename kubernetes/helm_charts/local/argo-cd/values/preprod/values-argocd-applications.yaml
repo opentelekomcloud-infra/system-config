@@ -486,6 +486,40 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: litellm
+    clusters: [preprod]
+    config:
+      namespace: litellm
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'litellm'
+      path: kubernetes/kustomize/litellm/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: llamacpp
+    clusters: [preprod]
+    config:
+      namespace: llamacpp
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'litellm'
+      path: kubernetes/kustomize/llamacpp/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: mcaptcha
     clusters: [preprod]
     config:

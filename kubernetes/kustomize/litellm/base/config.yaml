@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: litellm-config
+data:
+  config.yaml: |
+    general_settings:
+      control_plane_url: "https://litellm.eco-preprod.tsi-dev.otc-service.com"
+
+    litellm_settings:
+      num_retries: 3
+      request_timeout: 6000
+
+    router_settings:
+      routing_strategy: least-busy
+      num_retries: 2
+      timeout: 6000
+
+      optional_pre_call_checks:
+        - deployment_affinity
+
+      deployment_affinity_ttl_seconds: 300
+
+      allowed_fails: 3
+      cooldown_time: 30
