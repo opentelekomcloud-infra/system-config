@@ -4,7 +4,8 @@ metadata:
   name: litellm-config
 data:
   config.yaml: |
-    general_settings: {}
+    general_settings:
+      control_plane_url: "https://litellm.eco-preprod.tsi-dev.otc-service.com"
     litellm_settings:
       num_retries: 3
       request_timeout: 600
