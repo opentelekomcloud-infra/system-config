@@ -19,7 +19,7 @@ data:
       optional_pre_call_checks:
         - deployment_affinity
 
-      deployment_affinity_ttl_seconds: 60
+      deployment_affinity_ttl_seconds: 300
 
       allowed_fails: 3
       cooldown_time: 30
