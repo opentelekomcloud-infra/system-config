@@ -72,6 +72,18 @@ spec:
             - "2"
             - --alias
             - qwen3.6-35b
+            - --threads
+            - "4"
+            - --threads-batch
+            - "4"
+            - --ubatch-size
+            - "1024"
+            - --batch-size
+            - "2048"
+            - --checkpoint-every-n-tokens
+            - "2048"
+            - --ctx-checkpoints
+            - "128"
           ports:
             - name: http
               containerPort: 8080
@@ -79,11 +91,11 @@ spec:
           resources:
             requests:
               nvidia.com/gpu: "1"
-              cpu: "2"
+              cpu: "4"
               memory: "10Gi"
             limits:
               nvidia.com/gpu: "1"
-              cpu: "4"
+              cpu: "6"
               memory: "20Gi"
           volumeMounts:
             - name: models
