@@ -66,3 +66,17 @@ projects:
         kind: '*'
     sourceRepos:
       - '*'
+
+  - name: status-dashboard
+    description: "Status Dashboard project"
+    additionalAnnotations: {}
+    additionalLabels: {}
+    sourceRepos:
+      - '*'
+    destinations:
+      - namespace: '*'
+        name: preprod
+    clusterResourceWhitelist:
+      - group: '*'
+        kind: '*'
+    namespaceResourceBlacklist: []
