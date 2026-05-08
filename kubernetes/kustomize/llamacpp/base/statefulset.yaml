@@ -46,6 +46,8 @@ spec:
             - "8080"
             - -m
             - "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL.gguf"
+            - --mmproj
+            - "/models/mmproj-BF16-qwen3.6-35b.gguf"
             - -c
             - "0"
             - --fit
