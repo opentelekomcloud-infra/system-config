@@ -311,6 +311,12 @@ gitea:
       postgresPassword: "postgres-admin-temp"
       usePasswordFiles: false
     primary:
+      resourcesPreset: "small"
+      containerSecurityContext:
+        enabled: true
+        readOnlyRootFilesystem: false
+        runAsNonRoot: true
+        runAsUser: 1001
       persistence:
         storageClass: csi-disk-retain
         size: 10Gi
