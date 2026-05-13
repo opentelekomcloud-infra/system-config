@@ -309,6 +309,7 @@ gitea:
       database: gitea
       password: "gitea-pg-temp-pass"
       postgresPassword: "postgres-admin-temp"
+      usePasswordFiles: false
     primary:
       persistence:
         storageClass: csi-disk-retain
@@ -334,6 +335,8 @@ gitea:
         allowPrivilegeEscalation: false
         runAsNonRoot: true
         runAsUser: 1001
+        seccompProfile:
+          type: Unconfined
         capabilities:
           add:
             - SYS_RESOURCE
