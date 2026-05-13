@@ -86,7 +86,7 @@ spec:
             - --kv-unified
             - --cache-idle-slots
             - -cram
-            - "4096"
+            - "8192"
           ports:
             - name: http
               containerPort: 8080
