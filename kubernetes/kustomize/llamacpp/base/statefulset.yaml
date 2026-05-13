@@ -71,7 +71,7 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "2"
+            - "4"
             - --alias
             - qwen3.6-35b
             - --threads
@@ -85,6 +85,8 @@ spec:
             - --swa-full
             - --kv-unified
             - --cache-idle-slots
+            - --cram
+            - "512"
           ports:
             - name: http
               containerPort: 8080
