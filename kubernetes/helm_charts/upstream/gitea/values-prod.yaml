@@ -314,6 +314,10 @@ gitea:
       enabled: true
     primary:
       resourcesPreset: "small"
+      podSecurityContext:
+        enabled: true
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
       containerSecurityContext:
         enabled: true
         readOnlyRootFilesystem: false
