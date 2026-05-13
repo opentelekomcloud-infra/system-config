@@ -45,7 +45,14 @@ spec:
           port: 53
         - protocol: TCP
           port: 53
-    # Allow PostgreSQL (external DB)
+    # Allow PostgreSQL (in-namespace for built-in, or external RDS for cutover)
+    - to:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: postgresql
+      ports:
+        - protocol: TCP
+          port: 5432
     - to:
         - ipBlock:
             cidr: 192.168.170.86/32
