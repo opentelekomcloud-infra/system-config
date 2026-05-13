@@ -85,8 +85,8 @@ spec:
             - --swa-full
             - --kv-unified
             - --cache-idle-slots
-            - --cram
-            - "512"
+            - -cram
+            - "4096"
           ports:
             - name: http
               containerPort: 8080
