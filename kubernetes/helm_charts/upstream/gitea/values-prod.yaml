@@ -67,10 +67,21 @@ gitea:
   persistence:
     enabled: true
     create: true
-    size: 50Gi
+    claimName: gitea-shared-storage
+    # Sized to hold the migrated VM repo tree (~82G) with headroom for growth
+    # and working space (repo-archive cache, indexers, packages).
+    size: 120Gi
     storageClass: csi-disk-retain
     accessModes:
       - ReadWriteOnce
+    # Pin the PVC to the specific underlying PV that holds the migrated repo
+    # data. Combined with persistentVolumeReclaimPolicy=Retain on the PV and
+    # helm.sh/resource-policy=keep on the PVC, this guarantees that even if
+    # the chart is uninstalled & reinstalled, or the PVC is deleted and
+    # recreated, the new PVC will rebind to this exact disk instead of
+    # provisioning a fresh empty volume.
+    # If the PV is ever recreated/replaced, update this value to the new name.
+    volumeName: pvc-0602d752-4ce6-4623-afac-3eca0bc7db3d
     annotations:
       helm.sh/resource-policy: keep
 
