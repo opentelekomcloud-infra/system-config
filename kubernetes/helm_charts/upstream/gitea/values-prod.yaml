@@ -243,6 +243,10 @@ gitea:
         provider: "openidConnect"
         existingSecret: gitea-oauth-secret
         autoDiscoverUrl: "https://zitadel.eco.tsi-dev.otc-service.com/.well-known/openid-configuration"
+        # Request the scopes whose claims Gitea needs for auto account
+        # linking and group sync. Without these, Zitadel's ID token contains
+        # only "sub" and Gitea reports "missing fields: email,nickname".
+        scopes: "openid profile email groups"
         groupClaimName: "groups"
         adminGroup: "admin"
         restrictedGroup: ""
