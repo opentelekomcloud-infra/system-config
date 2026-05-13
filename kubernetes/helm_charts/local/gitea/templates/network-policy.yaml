@@ -13,11 +13,12 @@ spec:
     - Ingress
     - Egress
   ingress:
-    # Allow HTTP from ingress controller
+    # Allow HTTP from ingress controller (runs in 'default' namespace, selected by pod label)
     - from:
-        - namespaceSelector:
+        - namespaceSelector: {}
+          podSelector:
             matchLabels:
-              kubernetes.io/metadata.name: ingress-nginx
+              app.kubernetes.io/name: ingress-nginx
       ports:
         - protocol: TCP
           port: 3000
