@@ -315,12 +315,11 @@ gitea:
     primary:
       resourcesPreset: "small"
       podSecurityContext:
-        enabled: false
-      containerSecurityContext:
         enabled: true
-        readOnlyRootFilesystem: false
-        runAsNonRoot: true
-        runAsUser: 1001
+        fsGroup: 1001
+        fsGroupChangePolicy: OnRootMismatch
+      containerSecurityContext:
+        enabled: false
       persistence:
         storageClass: csi-disk-retain
         size: 10Gi
