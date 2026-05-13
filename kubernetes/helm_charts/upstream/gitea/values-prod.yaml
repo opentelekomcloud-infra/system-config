@@ -6,7 +6,7 @@ gitea:
     repository: opentelekomcloud/gitea
     tag: "1.25.5"
     rootless: true
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
 
   imagePullSecrets:
     - name: quay-pull-secret
@@ -310,6 +310,8 @@ gitea:
       password: "gitea-pg-temp-pass"
       postgresPassword: "postgres-admin-temp"
       usePasswordFiles: false
+    volumePermissions:
+      enabled: true
     primary:
       resourcesPreset: "small"
       containerSecurityContext:
