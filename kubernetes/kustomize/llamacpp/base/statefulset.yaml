@@ -82,10 +82,7 @@ spec:
             - "1024"
             - --batch-size
             - "2048"
-            - --checkpoint-every-n-tokens
-            - "2048"
-            - --ctx-checkpoints
-            - "128"
+            - --swa-full
             - --kv-unified
             - --cache-idle-slots
           ports:

@@ -12,14 +12,14 @@ data:
       request_timeout: 6000
 
     router_settings:
-      routing_strategy: simple-shuffle
+      routing_strategy: least-busy
       num_retries: 2
       timeout: 6000
 
       optional_pre_call_checks:
         - deployment_affinity
 
-      deployment_affinity_ttl_seconds: 15
+      deployment_affinity_ttl_seconds: 30
 
       allowed_fails: 3
       cooldown_time: 30
