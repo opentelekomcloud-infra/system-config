@@ -184,6 +184,8 @@ zitadel:
   env:
     - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
       value: "false"
+    - name: SSL_CERT_FILE
+      value: "/etc/ssl/certs/otc-ca.crt"
     # - name: ZITADEL_TLS_MODE
     #   value: "external"  # Use external TLS mode for ingress TLS termination
     # - name: ZITADEL_EXTERNALSECURE
@@ -335,17 +337,17 @@ zitadel:
   # extraContainers allows you to add any sidecar containers you wish to use in the Zitadel pod.
   extraContainers: []
 
-  extraVolumes: []
-    # - name: ca-certs
-    #   secret:
-    #     defaultMode: 420
-    #     secretName: ca-certs
+  extraVolumes:
+    - name: otc-ca-cert
+      secret:
+        defaultMode: 420
+        secretName: otc-ca-cert
 
-  extraVolumeMounts: []
-    # - name: ca-certs
-    #   mountPath: /etc/ssl/certs/myca.pem
-    #   subPath: myca.pem
-    #   readOnly: true
+  extraVolumeMounts:
+    - name: otc-ca-cert
+      mountPath: /etc/ssl/certs/otc-ca.crt
+      subPath: otc-ca.crt
+      readOnly: true
 
   # extraManifests allows you to add your own Kubernetes manifests
   extraManifests: []
