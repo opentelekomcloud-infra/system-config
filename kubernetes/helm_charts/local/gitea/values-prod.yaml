@@ -1,0 +1,32 @@
+# Database credentials (resolved by AVP from Vault)
+db:
+  host: "<path:secret/data/gitea/config#db_host>"
+  database: "<path:secret/data/gitea/config#db_name>"
+  username: "<path:secret/data/gitea/config#db_username>"
+  password: "<path:secret/data/gitea/config#db_password>"
+
+# Security tokens
+security:
+  secretKey: "<path:secret/data/gitea/config#secret_key>"
+  internalToken: "<path:secret/data/gitea/config#internal_token>"
+
+# Admin user
+admin:
+  username: "<path:secret/data/gitea/config#admin_username>"
+  password: "<path:secret/data/gitea/config#admin_password>"
+
+# SMTP configuration
+smtp:
+  host: "<path:secret/data/smtp_gw#host>"
+  username: "<path:secret/data/smtp_gw#username>"
+  password: "<path:secret/data/smtp_gw#password>"
+
+# Zitadel OAuth2 OIDC credentials
+oauth:
+  clientId: "<path:secret/data/gitea/auth/zitadel#client_id>"
+  clientSecret: "<path:secret/data/gitea/auth/zitadel#client_secret>"
+
+# OBS (S3-compatible) credentials for LFS, attachments, packages
+obs:
+  accessKey: "<path:secret/data/gitea/obs#access_key>"
+  secretKey: "<path:secret/data/gitea/obs#secret_key>"

@@ -1,0 +1,338 @@
+gitea:
+  replicaCount: 1
+
+  image:
+    registry: "quay.io"
+    repository: opentelekomcloud/gitea
+    tag: "1.25.5-rootless"
+    rootless: true
+    pullPolicy: IfNotPresent
+
+  imagePullSecrets:
+    - name: quay-pull-secret
+
+  ## Recreate strategy for single replica with RWO volume
+  strategy:
+    type: Recreate
+
+  ## Security: Pod-level security context
+  podSecurityContext:
+    fsGroup: 1000
+    fsGroupChangePolicy: OnRootMismatch
+
+  ## Security: Container-level hardening
+  containerSecurityContext:
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop:
+        - ALL
+    privileged: false
+    readOnlyRootFilesystem: true
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+
+  service:
+    http:
+      type: ClusterIP
+      port: 3000
+    ssh:
+      type: LoadBalancer
+      port: 2222
+      externalTrafficPolicy: Local
+      annotations:
+        kubernetes.io/elb.class: union
+      ipFamilyPolicy: SingleStack
+
+  ingress:
+    enabled: true
+    className: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      cert-manager.io/private-key-algorithm: RSA
+      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-rotation-policy: Always
+      cert-manager.io/renew-before: 48h
+      nginx.ingress.kubernetes.io/proxy-body-size: "512m"
+    hosts:
+      - host: gitea-k8s.eco.tsi-dev.otc-service.com
+        paths:
+          - path: /
+            pathType: Prefix
+    tls:
+      - hosts:
+          - gitea-k8s.eco.tsi-dev.otc-service.com
+        secretName: gitea-tls
+
+  persistence:
+    enabled: true
+    create: true
+    size: 50Gi
+    storageClass: csi-disk-retain
+    accessModes:
+      - ReadWriteOnce
+    annotations:
+      helm.sh/resource-policy: keep
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 2000m
+      memory: 2Gi
+
+  gitea:
+    admin:
+      existingSecret: gitea-admin-secret
+
+    config:
+      APP_NAME: "Open Telekom Cloud: git"
+
+      server:
+        DOMAIN: gitea-k8s.eco.tsi-dev.otc-service.com
+        ROOT_URL: https://gitea-k8s.eco.tsi-dev.otc-service.com
+        SSH_DOMAIN: gitea-k8s.eco.tsi-dev.otc-service.com
+        SSH_PORT: 2222
+        SSH_LISTEN_PORT: 2222
+        LFS_START_SERVER: true
+        MINIMUM_KEY_SIZE_CHECK: true
+
+      database:
+        DB_TYPE: postgres
+        # SSL_MODE: require  # Enable when switching to external RDS
+
+      security:
+        INSTALL_LOCK: true
+        PASSWORD_COMPLEXITY: "lower,upper,digit,spec"
+        MIN_PASSWORD_LENGTH: 12
+
+      service:
+        DISABLE_REGISTRATION: true
+        REQUIRE_SIGNIN_VIEW: false
+        ENABLE_NOTIFY_MAIL: true
+
+      api:
+        ENABLE_SWAGGER: false
+        REQUIRE_SIGNIN_VIEW: true
+
+      mailer:
+        ENABLED: true
+        PROTOCOL: smtps
+
+      # HA: Store LFS in OBS (S3-compatible object storage)
+      lfs:
+        STORAGE_TYPE: minio
+        MINIO_ENDPOINT: obs.eu-de.otc.t-systems.com
+        MINIO_BUCKET: gitea-lfs
+        MINIO_LOCATION: eu-de
+        MINIO_USE_SSL: true
+        SERVE_DIRECT: false
+
+      # HA: Store attachments in OBS
+      attachment:
+        STORAGE_TYPE: minio
+        MINIO_ENDPOINT: obs.eu-de.otc.t-systems.com
+        MINIO_BUCKET: gitea-attachments
+        MINIO_LOCATION: eu-de
+        MINIO_USE_SSL: true
+        SERVE_DIRECT: false
+
+      # HA: Store packages in OBS
+      packages:
+        ENABLED: true
+        STORAGE_TYPE: minio
+        MINIO_ENDPOINT: obs.eu-de.otc.t-systems.com
+        MINIO_BUCKET: gitea-packages
+        MINIO_LOCATION: eu-de
+        MINIO_USE_SSL: true
+        SERVE_DIRECT: false
+
+      # HA: Use Valkey for session (shared across replicas)
+      session:
+        PROVIDER: redis
+        PROVIDER_CONFIG: redis://gitea-valkey-headless:6379/0?pool_size=100
+        COOKIE_SECURE: true
+        COOKIE_NAME: gitea_session
+        GC_INTERVAL_TIME: 86400
+        SESSION_LIFE_TIME: 86400
+
+      # HA: Use Valkey for cache (shared across replicas)
+      cache:
+        ADAPTER: redis
+        HOST: redis://gitea-valkey-headless:6379/1?pool_size=100
+        INTERVAL: 60
+
+      # HA: Use Valkey for queues (shared across replicas)
+      queue:
+        TYPE: redis
+        CONN_STR: redis://gitea-valkey-headless:6379/2?pool_size=100
+
+      # HA: Git operations locking via database (critical for NFS)
+      repository:
+        ENABLE_PUSH_CREATE_USER: true
+        ENABLE_PUSH_CREATE_ORG: true
+        DEFAULT_BRANCH: main
+        PREFERRED_LICENSES: Apache-2.0,MIT
+        DISABLE_HTTP_GIT: false
+
+      log:
+        MODE: console
+        LEVEL: info
+
+      metrics:
+        ENABLED: true
+        ENABLED_ISSUE_BY_LABEL: true
+        ENABLED_ISSUE_BY_REPOSITORY: true
+
+      oauth2:
+        ENABLED: true
+        JWT_SIGNING_ALGORITHM: RS256
+
+      # Security: CORS restrictions
+      cors:
+        ENABLED: true
+        ALLOW_DOMAIN: gitea-k8s.eco.tsi-dev.otc-service.com
+        SCHEME: https
+
+      # Security: Rate limiting
+      api.rate_limit:
+        ENABLED: true
+        LIMIT: 300
+
+      # Security: Disable unsafe features
+      openid:
+        ENABLE_OPENID_SIGNIN: false
+        ENABLE_OPENID_SIGNUP: false
+
+    # Zitadel OIDC OAuth2 login source
+    oauth:
+      - name: "Zitadel"
+        provider: "openidConnect"
+        existingSecret: gitea-oauth-secret
+        autoDiscoverUrl: "https://zitadel.eco.tsi-dev.otc-service.com/.well-known/openid-configuration"
+        groupClaimName: "groups"
+        adminGroup: "admin"
+        restrictedGroup: ""
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: false
+
+    additionalConfigFromEnvs:
+      ## External RDS - uncomment when switching from built-in PostgreSQL
+      # - name: GITEA__DATABASE__HOST
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: gitea-db-secret
+      #       key: host
+      # - name: GITEA__DATABASE__NAME
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: gitea-db-secret
+      #       key: database
+      # - name: GITEA__DATABASE__USER
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: gitea-db-secret
+      #       key: username
+      # - name: GITEA__DATABASE__PASSWD
+      #   valueFrom:
+      #     secretKeyRef:
+      #       name: gitea-db-secret
+      #       key: password
+      - name: GITEA__SECURITY__SECRET_KEY
+        valueFrom:
+          secretKeyRef:
+            name: gitea-security-secret
+            key: secret_key
+      - name: GITEA__SECURITY__INTERNAL_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: gitea-security-secret
+            key: internal_token
+      - name: GITEA__MAILER__SMTP_ADDR
+        valueFrom:
+          secretKeyRef:
+            name: gitea-smtp-secret
+            key: host
+      - name: GITEA__MAILER__USER
+        valueFrom:
+          secretKeyRef:
+            name: gitea-smtp-secret
+            key: username
+      - name: GITEA__MAILER__PASSWD
+        valueFrom:
+          secretKeyRef:
+            name: gitea-smtp-secret
+            key: password
+      - name: GITEA__MAILER__FROM
+        value: "gitea@gitea-k8s.eco.tsi-dev.otc-service.com"
+      # OBS (S3) credentials for LFS, attachments, packages
+      - name: GITEA__LFS__MINIO_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: access_key
+      - name: GITEA__LFS__MINIO_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: secret_key
+      - name: GITEA__ATTACHMENT__MINIO_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: access_key
+      - name: GITEA__ATTACHMENT__MINIO_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: secret_key
+      - name: GITEA__PACKAGES__MINIO_ACCESS_KEY_ID
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: access_key
+      - name: GITEA__PACKAGES__MINIO_SECRET_ACCESS_KEY
+        valueFrom:
+          secretKeyRef:
+            name: gitea-obs-secret
+            key: secret_key
+
+  # Built-in PostgreSQL for initial testing (switch to external RDS for cutover)
+  postgresql:
+    enabled: true
+    primary:
+      persistence:
+        storageClass: csi-disk-retain
+        size: 10Gi
+
+  postgresql-ha:
+    enabled: false
+
+  # Use Valkey for cache/session/queue (HA: shared state across replicas)
+  valkey-cluster:
+    enabled: false
+
+  valkey:
+    enabled: true
+    architecture: standalone
+    global:
+      valkey:
+        password: ""
+    auth:
+      enabled: false
+    primary:
+      persistence:
+        enabled: true
+        storageClass: csi-disk-retain
+        size: 5Gi
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+        limits:
+          cpu: 500m
+          memory: 512Mi
