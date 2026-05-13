@@ -224,6 +224,19 @@ gitea:
         ENABLE_OPENID_SIGNIN: false
         ENABLE_OPENID_SIGNUP: false
 
+      # OAuth2 client behaviour for external IdPs (Zitadel, KeyCloak).
+      # ACCOUNT_LINKING=auto: when an OIDC login arrives and the email claim
+      # matches exactly one existing Gitea user, silently bind the OIDC
+      # identity to that account (row inserted into external_login_user)
+      # instead of creating a duplicate. Required for the Keycloak->Zitadel
+      # cutover so existing users keep their repos/orgs/issues.
+      # USERNAME=nickname uses Zitadel's preferred_username claim.
+      oauth2_client:
+        ENABLE_AUTO_REGISTRATION: true
+        ACCOUNT_LINKING: auto
+        USERNAME: nickname
+        UPDATE_AVATAR: false
+
     # Zitadel OIDC OAuth2 login source
     oauth:
       - name: "Zitadel"
