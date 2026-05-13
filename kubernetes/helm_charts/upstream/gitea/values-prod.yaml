@@ -42,6 +42,8 @@ gitea:
       externalTrafficPolicy: Local
       annotations:
         kubernetes.io/elb.class: union
+        kubernetes.io/elb.id: 510d12e5-a578-46e5-acb0-32bc0ffcb04c
+        kubernetes.io/elb.pass-through: onlyLocal
       ipFamilyPolicy: SingleStack
 
   ingress:
