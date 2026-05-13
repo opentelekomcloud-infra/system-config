@@ -85,6 +85,11 @@ gitea:
   gitea:
     admin:
       existingSecret: gitea-admin-secret
+      # Skip admin password reset on every restart. The password is set on
+      # initial creation only; subsequent reconciles do not try to update it
+      # (avoids "password does not meet complexity requirements" failures
+      # when the admin already exists in the DB from a previous deployment).
+      passwordMode: initialOnlyNoReset
 
     config:
       APP_NAME: "Open Telekom Cloud: git"
