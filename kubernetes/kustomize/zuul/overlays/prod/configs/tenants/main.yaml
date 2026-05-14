@@ -508,9 +508,6 @@
           - opentelekomcloud-infra/ansible-role-alerta:
               include:
                 - project
-          - opentelekomcloud-infra/ansible-role-apimon:
-              include:
-                - project
           - opentelekomcloud-infra/ansible-role-certbot:
               include:
                 - project
@@ -601,9 +598,6 @@
           - opentelekomcloud-infra/gitstyring:
               include:
                 - project
-          - opentelekomcloud-infra/grafana-docs-monitoring:
-              include:
-                - project
           - opentelekomcloud-infra/hcdc:
               include:
                 - project
@@ -611,9 +605,6 @@
               include:
                 - project
           - opentelekomcloud-infra/kapellmeister:
-              include:
-                - project
-          - opentelekomcloud-infra/mCaptcha:
               include:
                 - project
           - opentelekomcloud-infra/myndir:
