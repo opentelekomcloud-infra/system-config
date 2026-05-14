@@ -1,0 +1,66 @@
+---
+# Replacement for run-production-playbook.yaml.
+#
+# OLD: SSH to bridge -> ansible-playbook on bridge.
+# NEW: run on the executor itself, using `delegate_to: localhost` and
+#      OTC creds mounted from Zuul secrets.
+#
+# Required Zuul secrets (declared on the parent job `infra-prod-playbook`):
+#   - otc_clouds_yaml      -> contents of clouds.yaml (list of clouds + creds)
+#   - eco2_vault_approle   -> {role_id, secret_id, vault_addr}
+#
+# The downstream service playbooks (e.g. cloud-cce.yaml, cloud-loadbalancer.yaml)
+# already use ansible cloud modules with `cloud:` / `ansible_hashi_vault_*`
+# parameters and do not need SSH to anything.
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Ensure local config dirs exist
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+        mode: '0700'
+      loop:
+        - "{{ ansible_user_dir }}/.config/openstack"
+
+    - name: Write clouds.yaml from Zuul secret
+      ansible.builtin.copy:
+        content: "{{ otc_clouds_yaml.contents }}"
+        dest: "{{ ansible_user_dir }}/.config/openstack/clouds.yaml"
+        mode: '0600'
+      no_log: true
+
+    - name: Login to Vault via AppRole and export token
+      community.hashi_vault.vault_login:
+        url: "{{ eco2_vault_approle.vault_addr }}"
+        auth_method: approle
+        role_id: "{{ eco2_vault_approle.role_id }}"
+        secret_id: "{{ eco2_vault_approle.secret_id }}"
+      register: _vault_login
+      no_log: true
+
+    - name: Export VAULT_* env for child playbook
+      ansible.builtin.set_fact:
+        vault_env:
+          VAULT_ADDR: "{{ eco2_vault_approle.vault_addr }}"
+          VAULT_TOKEN: "{{ _vault_login.login.auth.client_token }}"
+      no_log: true
+
+    - name: Run the requested system-config playbook from the executor
+      ansible.builtin.shell: |
+        ansible-playbook -v \
+          -f {{ infra_prod_ansible_forks | default(10) }} \
+          -i {{ zuul.project.src_dir }}/inventory/service/hosts.yaml \
+          {{ zuul.project.src_dir }}/playbooks/{{ playbook_name }} \
+          -e '{{ (extra_job_vars | default({})) | to_json }}'
+      environment: "{{ vault_env }}"
+      args:
+        executable: /bin/bash
+      register: _ansible_run
+      no_log: false
+
+    - name: Surface ansible exit code
+      ansible.builtin.fail:
+        msg: "Production playbook {{ playbook_name }} failed (rc={{ _ansible_run.rc }})"
+      when: _ansible_run.rc | default(0) != 0
