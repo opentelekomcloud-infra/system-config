@@ -676,9 +676,6 @@
           - stackmon/status-dashboard-v3:
               include:
                 - project
-          - terraform-opentelekomcloud-modules/terraform-opentelekomcloud-vpc:
-              include:
-                - project
       gitea:
         untrusted-projects:
           - infra/system-config:
