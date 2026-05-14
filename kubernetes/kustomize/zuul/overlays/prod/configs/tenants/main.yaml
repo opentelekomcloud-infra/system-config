@@ -616,9 +616,6 @@
           - opentelekomcloud-infra/otc-api-ref:
               include:
                 - project
-          - opentelekomcloud-infra/otc-zuul-jobs:
-              include:
-                - project
           - opentelekomcloud-infra/otcbot:
               include:
                 - project
@@ -681,3 +678,13 @@
           - infra/system-config:
               include:
                 - project
+      opendev:
+        untrusted-projects:
+          - zuul/zuul-jobs:
+              include: []
+              shadow:
+                - opentelekomcloud-infra/zuul-infra
+          - openstack/ansible-collections-openstack:
+              include: []
+          - osf/refstack-client:
+              include: []
