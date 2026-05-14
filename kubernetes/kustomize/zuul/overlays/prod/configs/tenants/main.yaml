@@ -28,9 +28,6 @@
               include:
                 - project
               shadow: opentelekomcloud-infra/system-config
-          - ansible/ansible:
-              include:
-                - project
           - opentelekomcloud/LoveOTC:
               include:
                 - project
