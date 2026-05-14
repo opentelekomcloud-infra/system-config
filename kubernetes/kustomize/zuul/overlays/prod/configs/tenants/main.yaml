@@ -30,7 +30,6 @@
                 - job
                 - secret
               shadow: opentelekomcloud-infra/system-config
-              load-branch: Migration_of_zuul_to_prod
           - opentelekomcloud/LoveOTC:
               include:
                 - project
