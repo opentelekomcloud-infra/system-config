@@ -17,25 +17,16 @@
                 - nodeset
                 - secret
               load-branch: Migration_of_zuul_to_prod
-              include-branches:
-                - Migration_of_zuul_to_prod
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
               include:
                 - project
               shadow: opentelekomcloud-infra/system-config
-              include-branches:
-                - Zuul_test
           - opentelekomcloud/ansible-collection-cloud:
               include:
                 - project
-              include-branches:
-                - main
       gitea:
         untrusted-projects:
           - infra/system-config:
               include:
                 - project
-              include-branches:
-                - main
-                - Migration_of_zuul_to_prod
