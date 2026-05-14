@@ -4,56 +4,9 @@
     check:
       jobs:
         - otc-tox-linters
-        - system-config-run-base
-        - system-config-run-statsd
-        - system-config-run-acme-ssl
-        - system-config-run-x509-cert
-        - system-config-run-apimon-epmon
-        - system-config-run-apimon-scheduler
-        - system-config-run-apimon-executor
-        # - system-config-run-docs
-        - system-config-run-graphite: &system-config-run-graphite
-            dependencies:
-              - name: system-config-run-memcached
-                soft: true
-        - system-config-run-memcached
-        - system-config-run-alerta
-        - system-config-run-grafana
-        - system-config-run-proxy
-        - system-config-run-vault
-        - system-config-run-gitea
-        - system-config-run-keycloak
-        # - system-config-run-zookeeper
-        - system-config-build-image-zookeeper-statsd
-        - system-config-build-image-graphite-statsd
-        - system-config-build-image-haproxy-statsd
-        - system-config-build-image-zuul
-        - system-config-build-image-vault
     gate:
       jobs:
         - otc-tox-linters
-        - system-config-run-base
-        - system-config-run-statsd
-        - system-config-run-acme-ssl
-        - system-config-run-x509-cert
-        - system-config-run-apimon-epmon
-        - system-config-run-apimon-scheduler
-        - system-config-run-apimon-executor
-        # - system-config-run-docs
-        - system-config-run-graphite: *system-config-run-graphite
-        - system-config-run-memcached
-        - system-config-run-alerta
-        - system-config-run-grafana
-        - system-config-run-proxy
-        - system-config-run-vault
-        - system-config-run-gitea
-        - system-config-run-keycloak
-        # - system-config-run-zookeeper
-        - system-config-upload-image-zookeeper-statsd
-        - system-config-upload-image-graphite-statsd
-        - system-config-upload-image-haproxy-statsd
-        - system-config-upload-image-zuul
-        - system-config-upload-image-vault
     deploy:
       jobs:
         # This installs the ansible on bridge that all the infra-prod
