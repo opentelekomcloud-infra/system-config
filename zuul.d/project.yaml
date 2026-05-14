@@ -9,23 +9,9 @@
         - otc-tox-linters
     deploy:
       jobs:
-        # This installs the ansible on bridge that all the infra-prod
-        # jobs will run with.  Note the jobs use this ansible to then
-        # run against zuul's checkout of system-config.
-        - infra-prod-bootstrap-bridge
-
-        # From now on, all jobs should depend on base
         - infra-prod-base: &infra-prod-base
-            dependencies:
-              - name: infra-prod-bootstrap-bridge
-                soft: true
 
         - infra-prod-base-ext: &infra-prod-base-ext
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-bridge: &infra-prod-service-bridge
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -37,7 +23,7 @@
 
         - infra-prod-grafana-datasources: &infra-prod-grafana-datasources
             dependencies:
-              - name: infra-prod-bootstrap-bridge
+              - name: infra-prod-base
                 soft: true
 
         - infra-prod-service-keycloak: &infra-prod-service-keycloak
@@ -109,11 +95,6 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-gitea-sync: &infra-prod-gitea-sync
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-service-grafana: &infra-prod-service-grafana
             dependencies:
               - name: infra-prod-base
@@ -164,11 +145,8 @@
     periodic:
       # Nightly execution
       jobs:
-        - infra-prod-bootstrap-bridge
-
         - infra-prod-base: *infra-prod-base
         - infra-prod-base-ext: *infra-prod-base-ext
-        - infra-prod-service-bridge: *infra-prod-service-bridge
 
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
@@ -197,10 +175,3 @@
         - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
         - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
-    periodic-hourly:
-      # hourly execution
-      jobs:
-        - infra-prod-bootstrap-bridge
-
-        - infra-prod-service-bridge: *infra-prod-service-bridge
-        - infra-prod-gitea-sync: *infra-prod-gitea-sync
