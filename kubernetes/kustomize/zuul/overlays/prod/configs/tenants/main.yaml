@@ -27,8 +27,6 @@
           - opentelekomcloud-infra/system-config:
               include:
                 - project
-                - job
-                - secret
               shadow: opentelekomcloud-infra/system-config
           - opentelekomcloud/LoveOTC:
               include:
