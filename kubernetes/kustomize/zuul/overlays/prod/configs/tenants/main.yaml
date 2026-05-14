@@ -40,6 +40,7 @@
           - opentelekomcloud/ansible-collection-gitcontrol:
               include:
                 - project
+                - job
           - opentelekomcloud/ansible-collection-template:
               include:
                 - project
@@ -79,6 +80,7 @@
           - opentelekomcloud/oms:
               include:
                 - project
+                - job
           - opentelekomcloud/otc-sphinx-directives:
               include:
                 - project
@@ -94,6 +96,7 @@
           - opentelekomcloud/python-otcextensions:
               include:
                 - project
+                - job
           - opentelekomcloud/security-concept:
               include:
                 - project
@@ -106,18 +109,23 @@
           - opentelekomcloud/swift-proxy:
               include:
                 - project
+                - job
           - opentelekomcloud/terraform-opentelekomcloud-modules:
               include:
                 - project
+                - job
           - opentelekomcloud/terraform-opentelekomcloud-project-factory:
               include:
                 - project
+                - job
           - opentelekomcloud/terraform-provider-opentelekomcloud:
               include:
                 - project
+                - job
           - opentelekomcloud/terraform-provider-rancher2:
               include:
                 - project
+                - job
           - opentelekomcloud/vault-plugin-secrets-openstack:
               include:
                 - project
@@ -490,9 +498,11 @@
           - opentelekomcloud-infra/actions-runner:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/alerta:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/alerta-web-addon:
               include:
                 - project
@@ -562,6 +572,7 @@
           - opentelekomcloud-infra/cloudmon-plugin-smtp:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/crutch-house:
               include:
                 - project
@@ -571,6 +582,7 @@
           - opentelekomcloud-infra/csm-test-utils:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/customer-service-monitoring:
               include:
                 - project
@@ -598,12 +610,14 @@
           - opentelekomcloud-infra/gitstyring:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/hcdc:
               include:
                 - project
           - opentelekomcloud-infra/identity-deploy:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/kapellmeister:
               include:
                 - project
@@ -613,15 +627,18 @@
           - opentelekomcloud-infra/octavia-proxy:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/otc-api-ref:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/otcbot:
               include:
                 - project
           - opentelekomcloud-infra/rancher-integration-tests:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/stackmon-config:
               include:
                 - project
@@ -637,9 +654,11 @@
           - opentelekomcloud-infra/vault-raft-backup:
               include:
                 - project
+                - job
           - opentelekomcloud-infra/zuul-config:
               include:
                 - project
+                - job
           - stackmon/StatusDashboard-V3:
               include:
                 - project
@@ -649,27 +668,34 @@
           - stackmon/apimon:
               include:
                 - project
+                - job
           - stackmon/apimon-tests:
               include:
                 - project
           - stackmon/cloudmon:
               include:
                 - project
+                - job
           - stackmon/cloudmon-plugin-loadbalancer:
               include:
                 - project
+                - job
           - stackmon/globalmon:
               include:
                 - project
+                - job
           - stackmon/metrics-processor:
               include:
                 - project
+                - job
           - stackmon/otc-status-dashboard:
               include:
                 - project
+                - job
           - stackmon/status-dashboard:
               include:
                 - project
+                - job
           - stackmon/status-dashboard-v3:
               include:
                 - project
