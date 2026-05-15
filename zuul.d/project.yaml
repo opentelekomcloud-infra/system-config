@@ -150,28 +150,8 @@
 
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
-        - infra-prod-service-opensearch: *infra-prod-service-opensearch
-        - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
-
-        - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
-        - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
-
-        - infra-prod-service-keycloak: *infra-prod-service-keycloak
-        - infra-prod-configure-keycloak: *infra-prod-configure-keycloak
 
         - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
-        - infra-prod-service-alerta: *infra-prod-service-alerta
-        - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
-        - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
-        - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
-        - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
-        - infra-prod-service-gitea: *infra-prod-service-gitea
-        - infra-prod-service-grafana: *infra-prod-service-grafana
-        - infra-prod-service-graphite: *infra-prod-service-graphite
         - infra-prod-service-memcached: *infra-prod-service-memcached
         - infra-prod-service-statsd: *infra-prod-service-statsd
-        - infra-prod-service-proxy: *infra-prod-service-proxy
-        - infra-prod-service-vault: *infra-prod-service-vault
-        - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
-        - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
