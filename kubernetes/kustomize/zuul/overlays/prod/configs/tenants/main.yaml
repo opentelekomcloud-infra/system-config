@@ -660,6 +660,13 @@
               include:
                 - project
                 - job
+          - opentelekomcloud-infra/otc-zuul-jobs:
+              include:
+                - project
+                - job
+          - opentelekomcloud/ansible-collection-apimon:
+              include:
+                - project
           - stackmon/StatusDashboard-V3:
               include:
                 - project
@@ -703,6 +710,403 @@
       gitea:
         untrusted-projects:
           - infra/system-config:
+              include:
+                - project
+          - infra/gitstyring:
+              include:
+                - project
+          - infra/otc-metadata:
+              include:
+                - project
+          - infra/otc-metadata-swiss:
+              include:
+                - project
+          - docs-swiss/application-operations-management:
+              include:
+                - project
+          - docs-swiss/auto-scaling:
+              include:
+                - project
+          - docs-swiss/cloud-backup-recovery:
+              include:
+                - project
+          - docs-swiss/cloud-container-engine:
+              include:
+                - project
+          - docs-swiss/cloud-eye:
+              include:
+                - project
+          - docs-swiss/cloud-trace-service:
+              include:
+                - project
+          - docs-swiss/dedicated-host:
+              include:
+                - project
+          - docs-swiss/direct-connect:
+              include:
+                - project
+          - docs-swiss/doc-exports:
+              include:
+                - project
+          - docs-swiss/docsportal:
+              include:
+                - project
+          - docs-swiss/domain-name-service:
+              include:
+                - project
+          - docs-swiss/elastic-cloud-server:
+              include:
+                - project
+          - docs-swiss/elastic-ip:
+              include:
+                - project
+          - docs-swiss/elastic-load-balancing:
+              include:
+                - project
+          - docs-swiss/elastic-volume-service:
+              include:
+                - project
+          - docs-swiss/identity-access-management:
+              include:
+                - project
+          - docs-swiss/image-management-service:
+              include:
+                - project
+          - docs-swiss/key-management-service:
+              include:
+                - project
+          - docs-swiss/log-tank-service:
+              include:
+                - project
+          - docs-swiss/nat-gateway:
+              include:
+                - project
+          - docs-swiss/object-storage-service:
+              include:
+                - project
+          - docs-swiss/regions-and-endpoints:
+              include:
+                - project
+          - docs-swiss/relational-database-service:
+              include:
+                - project
+          - docs-swiss/simple-message-notification:
+              include:
+                - project
+          - docs-swiss/software-repository-container:
+              include:
+                - project
+          - docs-swiss/storage-disaster-recovery-service:
+              include:
+                - project
+          - docs-swiss/tag-management-service:
+              include:
+                - project
+          - docs-swiss/virtual-private-cloud:
+              include:
+                - project
+          - docs-swiss/virtual-private-network:
+              include:
+                - project
+          - docs-swiss/vpc-endpoint:
+              include:
+                - project
+          - docs-swiss/web-application-firewall-dedicated:
+              include:
+                - project
+          - docs/anti-ddos:
+              include:
+                - project
+          - docs/api-gateway:
+              include:
+                - project
+          - docs/api-usage:
+              include:
+                - project
+          - docs/application-operations-management:
+              include:
+                - project
+          - docs/application-operations-management-2:
+              include:
+                - project
+          - docs/application-performance-management:
+              include:
+                - project
+          - docs/application-service-mesh:
+              include:
+                - project
+          - docs/architecture-center:
+              include:
+                - project
+          - docs/auto-scaling:
+              include:
+                - project
+          - docs/bare-metal-server:
+              include:
+                - project
+          - docs/blueprints:
+              include:
+                - project
+          - docs/business-continuity-center:
+              include:
+                - project
+          - docs/cloud-backup-recovery:
+              include:
+                - project
+          - docs/cloud-connect:
+              include:
+                - project
+          - docs/cloud-container-engine:
+              include:
+                - project
+          - docs/cloud-container-instance:
+              include:
+                - project
+          - docs/cloud-eye:
+              include:
+                - project
+          - docs/cloud-firewall:
+              include:
+                - project
+          - docs/cloud-search-service:
+              include:
+                - project
+          - docs/cloud-server-backup-service:
+              include:
+                - project
+          - docs/cloud-service-engine:
+              include:
+                - project
+          - docs/cloud-trace-service:
+              include:
+                - project
+          - docs/config:
+              include:
+                - project
+          - docs/content-delivery-network:
+              include:
+                - project
+          - docs/data-admin-service:
+              include:
+                - project
+          - docs/data-arts-studio:
+              include:
+                - project
+          - docs/data-lake-insight:
+              include:
+                - project
+          - docs/data-replication-service:
+              include:
+                - project
+          - docs/data-warehouse-service:
+              include:
+                - project
+          - docs/database-security-service:
+              include:
+                - project
+          - docs/dedicated-host:
+              include:
+                - project
+          - docs/direct-connect:
+              include:
+                - project
+          - docs/distributed-cache-service:
+              include:
+                - project
+          - docs/distributed-database-middleware:
+              include:
+                - project
+          - docs/distributed-message-service:
+              include:
+                - project
+          - docs/distributed-message-service-rabbitmq:
+              include:
+                - project
+          - docs/distributed-message-service-rocketmq:
+              include:
+                - project
+          - docs/doc-convertor:
+              include:
+                - project
+          - docs/doc-exports:
+              include:
+                - project
+          - docs/docsportal:
+              include:
+                - project
+          - docs/document-database-service:
+              include:
+                - project
+          - docs/domain-name-service:
+              include:
+                - project
+          - docs/ecosystem:
+              include:
+                - project
+          - docs/elastic-cloud-server:
+              include:
+                - project
+          - docs/elastic-ip:
+              include:
+                - project
+          - docs/elastic-load-balancing:
+              include:
+                - project
+          - docs/elastic-volume-service:
+              include:
+                - project
+          - docs/enterprise-project-service:
+              include:
+                - project
+          - docs/enterprise-router:
+              include:
+                - project
+          - docs/enterprise-switch:
+              include:
+                - project
+          - docs/function-graph:
+              include:
+                - project
+          - docs/gaussdb-mysql:
+              include:
+                - project
+          - docs/gaussdb-nosql:
+              include:
+                - project
+          - docs/gaussdb-opengauss:
+              include:
+                - project
+          - docs/geminidb:
+              include:
+                - project
+          - docs/glossary:
+              include:
+                - project
+          - docs/host-security-service:
+              include:
+                - project
+          - docs/identity-access-management:
+              include:
+                - project
+          - docs/image-management-service:
+              include:
+                - project
+          - docs/internal-documentation:
+              include:
+                - project
+          - docs/key-management-service:
+              include:
+                - project
+          - docs/log-tank-service:
+              include:
+                - project
+          - docs/mapreduce-service:
+              include:
+                - project
+          - docs/marketplace:
+              include:
+                - project
+          - docs/modelarts:
+              include:
+                - project
+          - docs/nat-gateway:
+              include:
+                - project
+          - docs/object-storage-service:
+              include:
+                - project
+          - docs/object-storage-service-3rd-party:
+              include:
+                - project
+          - docs/optical-character-recognition:
+              include:
+                - project
+          - docs/price-calculator:
+              include:
+                - project
+          - docs/private-link-access-service:
+              include:
+                - project
+          - docs/regions-and-endpoints:
+              include:
+                - project
+          - docs/relational-database-service:
+              include:
+                - project
+          - docs/resource-formation-service:
+              include:
+                - project
+          - docs/resource-template-service:
+              include:
+                - project
+          - docs/scalable-file-service:
+              include:
+                - project
+          - docs/secure-mail-gateway:
+              include:
+                - project
+          - docs/security:
+              include:
+                - project
+          - docs/simple-message-notification:
+              include:
+                - project
+          - docs/software-repository-container:
+              include:
+                - project
+          - docs/status-dashboard:
+              include:
+                - project
+          - docs/storage-disaster-recovery-service:
+              include:
+                - project
+          - docs/tag-management-service:
+              include:
+                - project
+          - docs/taurusdb:
+              include:
+                - project
+          - docs/ubiquitous-cloud-native-service:
+              include:
+                - project
+          - docs/virtual-private-cloud:
+              include:
+                - project
+          - docs/virtual-private-network:
+              include:
+                - project
+          - docs/volume-backup-service:
+              include:
+                - project
+          - docs/vpc-endpoint:
+              include:
+                - project
+          - docs/web-application-firewall:
+              include:
+                - project
+          - docs/web-application-firewall-dedicated:
+              include:
+                - project
+      gitlab:
+        config-projects:
+          - ecosystem/zuul-project-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+        untrusted-projects:
+          - ecosystem/gitstyring:
+              include:
+                - project
+                - job
+          - ecosystem/service_catalog:
+              include:
+                - project
+          - ecosystem/system-config:
               include:
                 - project
       opendev:
