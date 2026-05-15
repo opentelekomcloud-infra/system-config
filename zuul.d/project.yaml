@@ -9,7 +9,7 @@
         - otc-tox-linters
     deploy:
       jobs:
-        - infra-prod-base: &infra-prod-base
+        - infra-prod-base
 
         - infra-prod-base-ext: &infra-prod-base-ext
             dependencies:
@@ -145,7 +145,7 @@
     periodic:
       # Nightly execution
       jobs:
-        - infra-prod-base: *infra-prod-base
+        - infra-prod-base
         - infra-prod-base-ext: *infra-prod-base-ext
 
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
