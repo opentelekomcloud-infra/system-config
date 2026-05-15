@@ -6,7 +6,9 @@
 vault:
   global:
     enabled: true
-    tlsDisable: true
+    tlsDisable: false
+    imagePullSecrets:
+      - name: quay-pull-secret
 
   # Vault Agent Injector configuration
   injector:
@@ -15,21 +17,21 @@ vault:
 
     resources:
       requests:
+        memory: 64Mi
+        cpu: 50m
+      limits:
         memory: 256Mi
         cpu: 250m
-      limits:
-        memory: 512Mi
-        cpu: 500m
 
     agentImage:
       repository: "hashicorp/vault"
       tag: "1.19.0"
 
     agentDefaults:
-      cpuLimit: "500m"
-      cpuRequest: "250m"
-      memLimit: "256Mi"
-      memRequest: "128Mi"
+      cpuLimit: "250m"
+      cpuRequest: "50m"
+      memLimit: "128Mi"
+      memRequest: "64Mi"
       template: "map"
 
   # Vault Server configuration
@@ -43,11 +45,11 @@ vault:
 
     resources:
       requests:
+        memory: 256Mi
+        cpu: 100m
+      limits:
         memory: 1Gi
         cpu: 500m
-      limits:
-        memory: 2Gi
-        cpu: 1000m
 
     # Ingress configuration for external access
     ingress:
@@ -56,7 +58,7 @@ vault:
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/tls-acme: "true"
-        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         nginx.ingress.kubernetes.io/ssl-redirect: "true"
         cert-manager.io/private-key-algorithm: RSA
@@ -98,32 +100,81 @@ vault:
     # Note: GitHub plugin (vault-plugin-secrets-github) can be added later
     # if dynamic GitHub token generation is needed (paths: github, github_otcbot, github_zuul)
     extraInitContainers:
-      - name: download-openstack-plugin
-        image: "curlimages/curl:latest"
-        command: [sh, -c]
-        args:
-          - >-
-            echo "Downloading OpenStack plugin..." &&
-            cd /tmp &&
-            curl -L "https://github.com/opentelekomcloud/vault-plugin-secrets-openstack/releases/download/v1.3.3/vault-plugin-secrets-openstack_1.3.3_linux_amd64.tar.gz"
-            -o vault-plugin-secrets-openstack.tar.gz &&
-            tar -xzf vault-plugin-secrets-openstack.tar.gz &&
-            chmod +x vault-plugin-secrets-openstack &&
-            cp vault-plugin-secrets-openstack /usr/local/libexec/vault/ &&
-            echo "OpenStack plugin installed successfully"
+      - name: install-openstack-plugin
+        image: "quay.io/opentelekomcloud/vault-plugin-secrets-openstack:v1.4.0"
+        command: [cp, /vault-plugin-secrets-openstack, /usr/local/libexec/vault/vault-plugin-secrets-openstack]
         volumeMounts:
           - name: plugins
             mountPath: /usr/local/libexec/vault
 
-    # Extra volumes for plugins
+    # Extra sidecar container for auto-unseal
+    extraContainers:
+      - name: vault-unsealer
+        image: "hashicorp/vault:1.19.0"
+        command: ["sh", "-c"]
+        args:
+          - |
+            echo "Vault unsealer sidecar started"
+            while true; do
+              sleep 10
+              # Check seal status via local API (wget available in vault image)
+              RESPONSE=$(wget --no-check-certificate -qO- https://127.0.0.1:8200/v1/sys/seal-status 2>/dev/null)
+              if [ -z "$RESPONSE" ]; then
+                echo "Vault not reachable yet, retrying..."
+                continue
+              fi
+              # Check if sealed
+              if echo "$RESPONSE" | grep -q '"sealed":true'; then
+                echo "Vault is sealed, unsealing..."
+                for i in 0 1 2; do
+                  KEY=$(cat /vault/unseal-keys/vault-unseal-$i)
+                  wget --no-check-certificate -qO- --post-data="{\"key\":\"$KEY\"}" \
+                    --header="Content-Type: application/json" \
+                    https://127.0.0.1:8200/v1/sys/unseal 2>/dev/null | grep -o '"sealed":[a-z]*'
+                done
+                echo "Unseal commands sent"
+              fi
+            done
+        env:
+          - name: VAULT_ADDR
+            value: "https://127.0.0.1:8200"
+          - name: VAULT_SKIP_VERIFY
+            value: "true"
+        volumeMounts:
+          - name: vault-unseal-keys
+            mountPath: /vault/unseal-keys
+            readOnly: true
+        resources:
+          requests:
+            cpu: 10m
+            memory: 32Mi
+          limits:
+            cpu: 50m
+            memory: 64Mi
+        securityContext:
+          runAsNonRoot: true
+          runAsUser: 100
+          runAsGroup: 1000
+          readOnlyRootFilesystem: true
+
+    # Extra volumes for plugins, unseal keys, and TLS certificates
     volumes:
       - name: plugins
         emptyDir: {}
+      - name: vault-unseal-keys
+        secret:
+          secretName: vault-unseal-keys
+      - name: vault-tls
+        secret:
+          secretName: vault-server-tls
 
-    # Volume mounts for plugins
+    # Volume mounts for plugins and TLS
     volumeMounts:
       - mountPath: /usr/local/libexec/vault
         name: plugins
+        readOnly: true
+      - mountPath: /vault/tls
+        name: vault-tls
         readOnly: true
 
     # Data storage configuration
@@ -155,9 +206,12 @@ vault:
           plugin_directory = "/usr/local/libexec/vault"
 
           listener "tcp" {
-            tls_disable = 1
+            tls_disable = 0
             address = "[::]:8200"
             cluster_address = "[::]:8201"
+            tls_cert_file = "/vault/tls/tls.crt"
+            tls_key_file = "/vault/tls/tls.key"
+            tls_client_ca_file = "/vault/tls/ca.crt"
             # Enable unauthenticated metrics access (necessary for Prometheus Operator)
             telemetry {
               unauthenticated_metrics_access = "true"
@@ -168,18 +222,21 @@ vault:
             path = "/vault/data"
 
             retry_join {
-              leader_api_addr = "http://vault-0.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-0.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
             retry_join {
-              leader_api_addr = "http://vault-1.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-1.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
             retry_join {
-              leader_api_addr = "http://vault-2.vault-internal:8200"
+              leader_api_addr = "https://vault-otcinfra2-2.vault-otcinfra2-internal:8200"
+              leader_ca_cert_file = "/vault/tls/ca.crt"
             }
           }
 
           # API and cluster addresses
-          api_addr = "https://vault-k8s.eco.tsi-dev.otc-service.com"
+          api_addr = "https://vault-otcinfra2.vault.svc.cluster.local:8200"
           cluster_addr = "http://POD_IP:8201"
 
           # Telemetry configuration for monitoring
@@ -193,6 +250,12 @@ vault:
             type = "file"
             path = "/vault/audit/audit.log"
           }
+
+    # Additional environment variables (must be under server: for the chart to use them)
+    extraEnvironmentVars:
+      VAULT_ADDR: "https://127.0.0.1:8200"
+      VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+      VAULT_CACERT: "/vault/tls/ca.crt"
 
     # Standalone configuration (disabled in favor of HA)
     standalone:
@@ -214,19 +277,14 @@ vault:
 
     resources:
       requests:
-        memory: 256Mi
-        cpu: 250m
+        memory: 64Mi
+        cpu: 50m
       limits:
-        memory: 256Mi
-        cpu: 250m
+        memory: 128Mi
+        cpu: 100m
 
     volumeMountPath: "/vault/secrets"
 
   # Prometheus metrics
   serverTelemetry:
     prometheusOperator: true
-
-  # Additional environment variables
-  extraEnvironmentVars:
-    VAULT_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
-    VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"

@@ -1,0 +1,17 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+spec:
+  replicas: 1
+  volumeClaimTemplates:
+    - metadata:
+        name: zuul-var
+      spec:
+        storageClassName: csi-disk-retain
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi

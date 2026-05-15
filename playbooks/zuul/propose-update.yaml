@@ -1,0 +1,41 @@
+---
+# Open a PR proposing an inventory / image-tag bump.
+# Replaces the bridge-based propose-update.yaml -- runs entirely on
+# the Zuul executor (just needs git + a github token).
+#
+# Inputs:
+#   propose_key   : YAML key under inventory/service/group_vars/all.yaml
+#   propose_value : new value
+#   github_propose_token (Zuul secret) : { user, token, email }
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Create temp build directory
+      ansible.builtin.tempfile:
+        state: directory
+        suffix: propose
+      register: tmp_dir
+
+    - block:
+        - name: Clone system-config
+          ansible.builtin.git:
+            repo: "https://{{ github_propose_token.user }}:{{ github_propose_token.token }}@github.com/opentelekomcloud-infra/system-config.git"
+            dest: "{{ tmp_dir.path }}"
+            version: main
+
+        - name: Run propose script
+          update_tag:                       # custom action plugin shipped in this repo
+            repo_location: "{{ tmp_dir.path }}"
+            path: "inventory/service/group_vars/all.yaml"
+            key: "{{ propose_key }}"
+            value: "{{ propose_value }}"
+            email: "{{ github_propose_token.email }}"
+            username: "{{ github_propose_token.user }}"
+            token: "{{ github_propose_token.token }}"
+      always:
+        - name: Drop temp directory
+          ansible.builtin.file:
+            path: "{{ tmp_dir.path }}"
+            state: absent
+          when: tmp_dir.path is defined

@@ -87,8 +87,6 @@ spec:
               mountPath: "/var/lib/zuul"
             - name: "zuul-var-run"
               mountPath: "/var/run/zuul"
-      nodeSelector:
-        dedicated: zuul-ci
       serviceAccountName: "zuul"
       volumes:
         - name: "zuul-config"

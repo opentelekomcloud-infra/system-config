@@ -1,0 +1,28 @@
+---
+# Site-specific variables for Zuul executor (prod)
+
+# Vault configuration for functional tests
+zuul_base_vault_token_path: /vault/secrets/token
+zuul_vault_addr: https://vault-otcinfra2.vault.svc.cluster.local:8200
+zuul_vault_cacert: /var/run/zuul/vault-ca/ca.crt
+
+# Log storage configuration
+zuul_site_upload_logs: true
+
+# OpenStack cloud configuration for Swift log upload
+zuul_log_cloud_config: zuul-logs
+
+# Swift/OBS container configuration
+zuul_log_container: zuul-prod-logs
+zuul_log_container_public: false
+zuul_log_partition: false
+zuul_log_create_indexes: true
+
+# Swift object deletion - 90 days retention
+zuul_log_delete_after: 7776000  # 90 days in seconds (90 * 24 * 60 * 60)
+
+# Swift tempauth credentials for pre-authentication in upload role
+zuul_swift_auth_url: https://swift-proxy.eco.tsi-dev.otc-service.com/auth/v1.0
+zuul_swift_username: "zuul-prod-logs:<path:secret/data/swift/users/zuul#username>"
+zuul_swift_password: "<path:secret/data/swift/users/zuul#password>"
+zuul_swift_endpoint: https://swift-proxy.eco.tsi-dev.otc-service.com/v1/AUTH_zuul-prod-logs

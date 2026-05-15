@@ -1,0 +1,40 @@
+---
+# Preprod tenant configuration for Zuul
+# Consolidated configuration using zuul-infra repository
+
+- tenant:
+    name: preprod
+    max-nodes-per-job: 5
+    source:
+      github:
+        config-projects:
+          - opentelekomcloud-infra/zuul-infra:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: preprod
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include:
+                - project
+              shadow: opentelekomcloud-infra/system-config
+              exclude-branches:
+                - main
+              include-branches:
+                - preprod
+              extra-config-paths:
+                - zuul.d/preprod
+      gitea:
+        untrusted-projects:
+          - infra/system-config:
+              include:
+                - project
+              include-branches:
+                - preprod
+              extra-config-paths:
+                - zuul.d/preprod

@@ -1,0 +1,22 @@
+# JSON 6902 patch to replace zuul-var-lib volume from emptyDir to PVC
+# This ensures scheduler keys persist across pod restarts for pkcs1-oaep encryption
+#
+# Volume indices in zuul-scheduler deployment (0-indexed):
+#   0: zuul-ssh-keys
+#   1: nodepool-config-yaml
+#   2: tenant-config
+#   3: zuul-config
+#   4: zookeeper-client-tls
+#   5: zuul-config-data
+#   6: zuul-var-lib  <-- target
+#   7: zuul-var-run
+
+# First remove the emptyDir from zuul-var-lib volume (index 6)
+- op: remove
+  path: /spec/template/spec/volumes/6/emptyDir
+
+# Then add the persistentVolumeClaim
+- op: add
+  path: /spec/template/spec/volumes/6/persistentVolumeClaim
+  value:
+    claimName: zuul-scheduler-keys

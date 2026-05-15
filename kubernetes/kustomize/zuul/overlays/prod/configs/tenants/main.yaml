@@ -1,0 +1,1121 @@
+---
+# Production tenant configuration for Zuul (prod)
+# Mirrored from old prod (zuul-config/zuul/tenants/eco/sources/) on 2026-05-14
+
+- tenant:
+    name: eco2
+    max-nodes-per-job: 5
+    exclude-unprotected-branches: true
+    report-build-page: true
+    admin-rules:
+      - admin
+      - eco_admin
+    source:
+      github:
+        config-projects:
+          - opentelekomcloud-infra/zuul-infra:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+              load-branch: Migration_of_zuul_to_prod
+        untrusted-projects:
+          - opentelekomcloud-infra/system-config:
+              include:
+                - project
+              shadow: opentelekomcloud-infra/system-config
+          - opentelekomcloud/LoveOTC:
+              include:
+                - project
+          - opentelekomcloud/ansible-collection-cloud:
+              include:
+                - project
+          - opentelekomcloud/ansible-collection-common:
+              include:
+                - project
+          - opentelekomcloud/ansible-collection-gitcontrol:
+              include:
+                - project
+                - job
+                - secret
+          - opentelekomcloud/ansible-collection-template:
+              include:
+                - project
+          - opentelekomcloud/ansible-role-bastion:
+              include:
+                - project
+          - opentelekomcloud/ansible-role-keypair:
+              include:
+                - project
+          - opentelekomcloud/ansible-role-otcextensions:
+              include:
+                - project
+          - opentelekomcloud/ansible-role-server-common:
+              include:
+                - project
+          - opentelekomcloud/ansible-role-vpc:
+              include:
+                - project
+          - opentelekomcloud/bms-network-setup:
+              include:
+                - project
+          - opentelekomcloud/cloud-provider-opentelekomcloud:
+              include:
+                - project
+          - opentelekomcloud/docker-machine-opentelekomcloud:
+              include:
+                - project
+          - opentelekomcloud/docs-cookiecutter:
+              include:
+                - project
+          - opentelekomcloud/gophertelekomcloud:
+              include:
+                - project
+          - opentelekomcloud/kontainer-engine-driver-otc:
+              include:
+                - project
+          - opentelekomcloud/oms:
+              include:
+                - project
+                - job
+          - opentelekomcloud/otc-sphinx-directives:
+              include:
+                - project
+          - opentelekomcloud/otcdocstheme:
+              include:
+                - project
+          - opentelekomcloud/provider-opentelekomcloud:
+              include:
+                - project
+          - opentelekomcloud/python-giteaclient:
+              include:
+                - project
+          - opentelekomcloud/python-otcextensions:
+              include:
+                - project
+                - job
+          - opentelekomcloud/security-concept:
+              include:
+                - project
+          - opentelekomcloud/sphinx-minify:
+              include:
+                - project
+          - opentelekomcloud/sphinx-opensearch:
+              include:
+                - project
+          - opentelekomcloud/swift-proxy:
+              include:
+                - project
+                - job
+          - opentelekomcloud/terraform-opentelekomcloud-modules:
+              include:
+                - project
+                - job
+          - opentelekomcloud/terraform-opentelekomcloud-project-factory:
+              include:
+                - project
+                - job
+          - opentelekomcloud/terraform-provider-opentelekomcloud:
+              include:
+                - project
+                - job
+          - opentelekomcloud/terraform-provider-rancher2:
+              include:
+                - project
+                - job
+          - opentelekomcloud/vault-plugin-secrets-openstack:
+              include:
+                - project
+          - opentelekomcloud-blueprints/docs:
+              include:
+                - project
+          - opentelekomcloud-docs/anti-ddos:
+              include:
+                - project
+          - opentelekomcloud-docs/api-gateway:
+              include:
+                - project
+          - opentelekomcloud-docs/api-usage:
+              include:
+                - project
+          - opentelekomcloud-docs/application-operations-management:
+              include:
+                - project
+          - opentelekomcloud-docs/application-operations-management-2:
+              include:
+                - project
+          - opentelekomcloud-docs/application-performance-management:
+              include:
+                - project
+          - opentelekomcloud-docs/application-service-mesh:
+              include:
+                - project
+          - opentelekomcloud-docs/architecture-center:
+              include:
+                - project
+          - opentelekomcloud-docs/auto-scaling:
+              include:
+                - project
+          - opentelekomcloud-docs/bare-metal-server:
+              include:
+                - project
+          - opentelekomcloud-docs/business-continuity-center:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-backup-recovery:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-connect:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-container-engine:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-container-instance:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-create:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-eye:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-firewall:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-search-service:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-server-backup-service:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-service-engine:
+              include:
+                - project
+          - opentelekomcloud-docs/cloud-trace-service:
+              include:
+                - project
+          - opentelekomcloud-docs/config:
+              include:
+                - project
+          - opentelekomcloud-docs/data-admin-service:
+              include:
+                - project
+          - opentelekomcloud-docs/data-arts-studio:
+              include:
+                - project
+          - opentelekomcloud-docs/data-lake-insight:
+              include:
+                - project
+          - opentelekomcloud-docs/data-replication-service:
+              include:
+                - project
+          - opentelekomcloud-docs/data-warehouse-service:
+              include:
+                - project
+          - opentelekomcloud-docs/database-security-service:
+              include:
+                - project
+          - opentelekomcloud-docs/dedicated-host:
+              include:
+                - project
+          - opentelekomcloud-docs/direct-connect:
+              include:
+                - project
+          - opentelekomcloud-docs/distributed-cache-service:
+              include:
+                - project
+          - opentelekomcloud-docs/distributed-database-middleware:
+              include:
+                - project
+          - opentelekomcloud-docs/distributed-message-service:
+              include:
+                - project
+          - opentelekomcloud-docs/distributed-message-service-rabbitmq:
+              include:
+                - project
+          - opentelekomcloud-docs/distributed-message-service-rocketmq:
+              include:
+                - project
+          - opentelekomcloud-docs/docs-constraints:
+              include:
+                - project
+          - opentelekomcloud-docs/docs_on_docs:
+              include:
+                - project
+          - opentelekomcloud-docs/docsportal:
+              include:
+                - project
+          - opentelekomcloud-docs/document-database-service:
+              include:
+                - project
+          - opentelekomcloud-docs/domain-name-service:
+              include:
+                - project
+          - opentelekomcloud-docs/elastic-cloud-server:
+              include:
+                - project
+          - opentelekomcloud-docs/elastic-ip:
+              include:
+                - project
+          - opentelekomcloud-docs/elastic-load-balancing:
+              include:
+                - project
+          - opentelekomcloud-docs/elastic-volume-service:
+              include:
+                - project
+          - opentelekomcloud-docs/enterprise-dashboard:
+              include:
+                - project
+          - opentelekomcloud-docs/enterprise-project-service:
+              include:
+                - project
+          - opentelekomcloud-docs/enterprise-router:
+              include:
+                - project
+          - opentelekomcloud-docs/enterprise-switch:
+              include:
+                - project
+          - opentelekomcloud-docs/function-graph:
+              include:
+                - project
+          - opentelekomcloud-docs/gaussdb-mysql:
+              include:
+                - project
+          - opentelekomcloud-docs/gaussdb-opengauss:
+              include:
+                - project
+          - opentelekomcloud-docs/geminidb:
+              include:
+                - project
+          - opentelekomcloud-docs/glossary:
+              include:
+                - project
+          - opentelekomcloud-docs/host-security-service:
+              include:
+                - project
+          - opentelekomcloud-docs/identity-access-management:
+              include:
+                - project
+          - opentelekomcloud-docs/image-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs/key-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs/log-tank-service:
+              include:
+                - project
+          - opentelekomcloud-docs/mapreduce-service:
+              include:
+                - project
+          - opentelekomcloud-docs/marketplace:
+              include:
+                - project
+          - opentelekomcloud-docs/modelarts:
+              include:
+                - project
+          - opentelekomcloud-docs/nat-gateway:
+              include:
+                - project
+          - opentelekomcloud-docs/object-storage-service:
+              include:
+                - project
+          - opentelekomcloud-docs/object-storage-service-3rd-party:
+              include:
+                - project
+          - opentelekomcloud-docs/optical-character-recognition:
+              include:
+                - project
+          - opentelekomcloud-docs/page-not-found:
+              include:
+                - project
+          - opentelekomcloud-docs/presentations:
+              include:
+                - project
+          - opentelekomcloud-docs/price-calculator:
+              include:
+                - project
+          - opentelekomcloud-docs/private-link-access-service:
+              include:
+                - project
+          - opentelekomcloud-docs/regions-and-endpoints:
+              include:
+                - project
+          - opentelekomcloud-docs/relational-database-service:
+              include:
+                - project
+          - opentelekomcloud-docs/resource-formation-service:
+              include:
+                - project
+          - opentelekomcloud-docs/sandbox:
+              include:
+                - project
+          - opentelekomcloud-docs/scalable-file-service:
+              include:
+                - project
+          - opentelekomcloud-docs/secure-mail-gateway:
+              include:
+                - project
+          - opentelekomcloud-docs/security:
+              include:
+                - project
+          - opentelekomcloud-docs/simple-message-notification:
+              include:
+                - project
+          - opentelekomcloud-docs/software-repository-container:
+              include:
+                - project
+          - opentelekomcloud-docs/status-dashboard:
+              include:
+                - project
+          - opentelekomcloud-docs/storage-disaster-recovery-service:
+              include:
+                - project
+          - opentelekomcloud-docs/tag-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs/taurusdb:
+              include:
+                - project
+          - opentelekomcloud-docs/ubiquitous-cloud-native-service:
+              include:
+                - project
+          - opentelekomcloud-docs/virtual-private-cloud:
+              include:
+                - project
+          - opentelekomcloud-docs/virtual-private-network:
+              include:
+                - project
+          - opentelekomcloud-docs/volume-backup-service:
+              include:
+                - project
+          - opentelekomcloud-docs/vpc-endpoint:
+              include:
+                - project
+          - opentelekomcloud-docs/web-application-firewall:
+              include:
+                - project
+          - opentelekomcloud-docs/web-application-firewall-dedicated:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/application-operations-management:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/auto-scaling:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/cloud-backup-recovery:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/cloud-container-engine:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/cloud-eye:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/cloud-trace-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/dedicated-host:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/direct-connect:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/docsportal:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/domain-name-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/elastic-cloud-server:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/elastic-ip:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/elastic-load-balancing:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/elastic-volume-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/identity-access-management:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/image-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/key-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/log-tank-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/nat-gateway:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/object-storage-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/regions-and-endpoints:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/relational-database-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/simple-message-notification:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/software-repository-container:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/status-dashboard:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/storage-disaster-recovery-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/tag-management-service:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/virtual-private-cloud:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/virtual-private-network:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/vpc-endpoint:
+              include:
+                - project
+          - opentelekomcloud-docs-swiss/web-application-firewall-dedicated:
+              include:
+                - project
+          - opentelekomcloud-infra/actions-runner:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/alerta:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/alerta-web-addon:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-collection-dashboard:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-collection-infra:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-playbooks-common:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-alerta:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-certbot:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-fluentd:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-galera:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-grafana:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-haproxy:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-influxdb:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-kapacitor:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-postgres-cluster:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-server-sync:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-telegraf:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-web-proxy-nginx:
+              include:
+                - project
+          - opentelekomcloud-infra/ansible-role-zookeeper:
+              include:
+                - project
+          - opentelekomcloud-infra/api-monitoring:
+              include:
+                - project
+          - opentelekomcloud-infra/apimon-tests:
+              include:
+                - project
+          - opentelekomcloud-infra/backstage:
+              include:
+                - project
+          - opentelekomcloud-infra/circle-partner-navigator-backend:
+              include:
+                - project
+          - opentelekomcloud-infra/circle-partner-navigator-frontend:
+              include:
+                - project
+          - opentelekomcloud-infra/cloudmon-plugin-smtp:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/crutch-house:
+              include:
+                - project
+          - opentelekomcloud-infra/csm-test-scenarios:
+              include:
+                - project
+          - opentelekomcloud-infra/csm-test-utils:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/customer-service-monitoring:
+              include:
+                - project
+          - opentelekomcloud-infra/dashboard:
+              include:
+                - project
+          - opentelekomcloud-infra/delatore:
+              include:
+                - project
+          - opentelekomcloud-infra/docsportal:
+              include:
+                - project
+          - opentelekomcloud-infra/express-mail-gateway:
+              include:
+                - project
+          - opentelekomcloud-infra/eyes_on_docs:
+              include:
+                - project
+          - opentelekomcloud-infra/fluentd:
+              include:
+                - project
+          - opentelekomcloud-infra/galera:
+              include:
+                - project
+          - opentelekomcloud-infra/gitstyring:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/hcdc:
+              include:
+                - project
+          - opentelekomcloud-infra/identity-deploy:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/kapellmeister:
+              include:
+                - project
+          - opentelekomcloud-infra/myndir:
+              include:
+                - project
+          - opentelekomcloud-infra/octavia-proxy:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/otc-api-ref:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/otcbot:
+              include:
+                - project
+          - opentelekomcloud-infra/rancher-integration-tests:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/stackmon-config:
+              include:
+                - project
+          - opentelekomcloud-infra/test-scenarios:
+              include:
+                - project
+          - opentelekomcloud-infra/validatetoken:
+              include:
+                - project
+          - opentelekomcloud-infra/vault-plugin-secrets-github:
+              include:
+                - project
+          - opentelekomcloud-infra/vault-raft-backup:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/zuul-config:
+              include:
+                - project
+                - job
+          - opentelekomcloud-infra/otc-zuul-jobs:
+              include:
+                - project
+                - job
+          - opentelekomcloud/ansible-collection-apimon:
+              include:
+                - project
+          - stackmon/StatusDashboard-V3:
+              include:
+                - project
+          - stackmon/ansible-collection-apimon:
+              include:
+                - project
+          - stackmon/apimon:
+              include:
+                - project
+                - job
+          - stackmon/apimon-tests:
+              include:
+                - project
+          - stackmon/cloudmon:
+              include:
+                - project
+                - job
+          - stackmon/cloudmon-plugin-loadbalancer:
+              include:
+                - project
+                - job
+          - stackmon/globalmon:
+              include:
+                - project
+                - job
+          - stackmon/metrics-processor:
+              include:
+                - project
+                - job
+          - stackmon/otc-status-dashboard:
+              include:
+                - project
+                - job
+          - stackmon/status-dashboard:
+              include:
+                - project
+                - job
+          - stackmon/status-dashboard-v3:
+              include:
+                - project
+      gitea:
+        untrusted-projects:
+          - infra/system-config:
+              include:
+                - project
+          - infra/gitstyring:
+              include:
+                - project
+          - infra/otc-metadata:
+              include:
+                - project
+          - infra/otc-metadata-swiss:
+              include:
+                - project
+          - docs-swiss/application-operations-management:
+              include:
+                - project
+          - docs-swiss/auto-scaling:
+              include:
+                - project
+          - docs-swiss/cloud-backup-recovery:
+              include:
+                - project
+          - docs-swiss/cloud-container-engine:
+              include:
+                - project
+          - docs-swiss/cloud-eye:
+              include:
+                - project
+          - docs-swiss/cloud-trace-service:
+              include:
+                - project
+          - docs-swiss/dedicated-host:
+              include:
+                - project
+          - docs-swiss/direct-connect:
+              include:
+                - project
+          - docs-swiss/doc-exports:
+              include:
+                - project
+          - docs-swiss/docsportal:
+              include:
+                - project
+          - docs-swiss/domain-name-service:
+              include:
+                - project
+          - docs-swiss/elastic-cloud-server:
+              include:
+                - project
+          - docs-swiss/elastic-ip:
+              include:
+                - project
+          - docs-swiss/elastic-load-balancing:
+              include:
+                - project
+          - docs-swiss/elastic-volume-service:
+              include:
+                - project
+          - docs-swiss/identity-access-management:
+              include:
+                - project
+          - docs-swiss/image-management-service:
+              include:
+                - project
+          - docs-swiss/key-management-service:
+              include:
+                - project
+          - docs-swiss/log-tank-service:
+              include:
+                - project
+          - docs-swiss/nat-gateway:
+              include:
+                - project
+          - docs-swiss/object-storage-service:
+              include:
+                - project
+          - docs-swiss/regions-and-endpoints:
+              include:
+                - project
+          - docs-swiss/relational-database-service:
+              include:
+                - project
+          - docs-swiss/simple-message-notification:
+              include:
+                - project
+          - docs-swiss/software-repository-container:
+              include:
+                - project
+          - docs-swiss/storage-disaster-recovery-service:
+              include:
+                - project
+          - docs-swiss/tag-management-service:
+              include:
+                - project
+          - docs-swiss/virtual-private-cloud:
+              include:
+                - project
+          - docs-swiss/virtual-private-network:
+              include:
+                - project
+          - docs-swiss/vpc-endpoint:
+              include:
+                - project
+          - docs-swiss/web-application-firewall-dedicated:
+              include:
+                - project
+          - docs/anti-ddos:
+              include:
+                - project
+          - docs/api-gateway:
+              include:
+                - project
+          - docs/api-usage:
+              include:
+                - project
+          - docs/application-operations-management:
+              include:
+                - project
+          - docs/application-operations-management-2:
+              include:
+                - project
+          - docs/application-performance-management:
+              include:
+                - project
+          - docs/application-service-mesh:
+              include:
+                - project
+          - docs/architecture-center:
+              include:
+                - project
+          - docs/auto-scaling:
+              include:
+                - project
+          - docs/bare-metal-server:
+              include:
+                - project
+          - docs/blueprints:
+              include:
+                - project
+          - docs/business-continuity-center:
+              include:
+                - project
+          - docs/cloud-backup-recovery:
+              include:
+                - project
+          - docs/cloud-connect:
+              include:
+                - project
+          - docs/cloud-container-engine:
+              include:
+                - project
+          - docs/cloud-container-instance:
+              include:
+                - project
+          - docs/cloud-eye:
+              include:
+                - project
+          - docs/cloud-firewall:
+              include:
+                - project
+          - docs/cloud-search-service:
+              include:
+                - project
+          - docs/cloud-server-backup-service:
+              include:
+                - project
+          - docs/cloud-service-engine:
+              include:
+                - project
+          - docs/cloud-trace-service:
+              include:
+                - project
+          - docs/config:
+              include:
+                - project
+          - docs/content-delivery-network:
+              include:
+                - project
+          - docs/data-admin-service:
+              include:
+                - project
+          - docs/data-arts-studio:
+              include:
+                - project
+          - docs/data-lake-insight:
+              include:
+                - project
+          - docs/data-replication-service:
+              include:
+                - project
+          - docs/data-warehouse-service:
+              include:
+                - project
+          - docs/database-security-service:
+              include:
+                - project
+          - docs/dedicated-host:
+              include:
+                - project
+          - docs/direct-connect:
+              include:
+                - project
+          - docs/distributed-cache-service:
+              include:
+                - project
+          - docs/distributed-database-middleware:
+              include:
+                - project
+          - docs/distributed-message-service:
+              include:
+                - project
+          - docs/distributed-message-service-rabbitmq:
+              include:
+                - project
+          - docs/distributed-message-service-rocketmq:
+              include:
+                - project
+          - docs/doc-convertor:
+              include:
+                - project
+          - docs/doc-exports:
+              include:
+                - project
+          - docs/docsportal:
+              include:
+                - project
+          - docs/document-database-service:
+              include:
+                - project
+          - docs/domain-name-service:
+              include:
+                - project
+          - docs/ecosystem:
+              include:
+                - project
+          - docs/elastic-cloud-server:
+              include:
+                - project
+          - docs/elastic-ip:
+              include:
+                - project
+          - docs/elastic-load-balancing:
+              include:
+                - project
+          - docs/elastic-volume-service:
+              include:
+                - project
+          - docs/enterprise-project-service:
+              include:
+                - project
+          - docs/enterprise-router:
+              include:
+                - project
+          - docs/enterprise-switch:
+              include:
+                - project
+          - docs/function-graph:
+              include:
+                - project
+          - docs/gaussdb-mysql:
+              include:
+                - project
+          - docs/gaussdb-nosql:
+              include:
+                - project
+          - docs/gaussdb-opengauss:
+              include:
+                - project
+          - docs/geminidb:
+              include:
+                - project
+          - docs/glossary:
+              include:
+                - project
+          - docs/host-security-service:
+              include:
+                - project
+          - docs/identity-access-management:
+              include:
+                - project
+          - docs/image-management-service:
+              include:
+                - project
+          - docs/internal-documentation:
+              include:
+                - project
+          - docs/key-management-service:
+              include:
+                - project
+          - docs/log-tank-service:
+              include:
+                - project
+          - docs/mapreduce-service:
+              include:
+                - project
+          - docs/marketplace:
+              include:
+                - project
+          - docs/modelarts:
+              include:
+                - project
+          - docs/nat-gateway:
+              include:
+                - project
+          - docs/object-storage-service:
+              include:
+                - project
+          - docs/object-storage-service-3rd-party:
+              include:
+                - project
+          - docs/optical-character-recognition:
+              include:
+                - project
+          - docs/price-calculator:
+              include:
+                - project
+          - docs/private-link-access-service:
+              include:
+                - project
+          - docs/regions-and-endpoints:
+              include:
+                - project
+          - docs/relational-database-service:
+              include:
+                - project
+          - docs/resource-formation-service:
+              include:
+                - project
+          - docs/resource-template-service:
+              include:
+                - project
+          - docs/scalable-file-service:
+              include:
+                - project
+          - docs/secure-mail-gateway:
+              include:
+                - project
+          - docs/security:
+              include:
+                - project
+          - docs/simple-message-notification:
+              include:
+                - project
+          - docs/software-repository-container:
+              include:
+                - project
+          - docs/status-dashboard:
+              include:
+                - project
+          - docs/storage-disaster-recovery-service:
+              include:
+                - project
+          - docs/tag-management-service:
+              include:
+                - project
+          - docs/taurusdb:
+              include:
+                - project
+          - docs/ubiquitous-cloud-native-service:
+              include:
+                - project
+          - docs/virtual-private-cloud:
+              include:
+                - project
+          - docs/virtual-private-network:
+              include:
+                - project
+          - docs/volume-backup-service:
+              include:
+                - project
+          - docs/vpc-endpoint:
+              include:
+                - project
+          - docs/web-application-firewall:
+              include:
+                - project
+          - docs/web-application-firewall-dedicated:
+              include:
+                - project
+      gitlab:
+        config-projects:
+          - ecosystem/zuul-project-config:
+              include:
+                - job
+                - semaphore
+                - project
+                - project-template
+                - pipeline
+                - nodeset
+                - secret
+        untrusted-projects:
+          - ecosystem/gitstyring:
+              include:
+                - project
+                - job
+          - ecosystem/service_catalog:
+              include:
+                - project
+          - ecosystem/system-config:
+              include:
+                - project
+      opendev:
+        untrusted-projects:
+          - zuul/zuul-jobs:
+              include: []
+              shadow:
+                - opentelekomcloud-infra/zuul-infra
+          - openstack/ansible-collections-openstack:
+              include: []
+          - osf/refstack-client:
+              include: []

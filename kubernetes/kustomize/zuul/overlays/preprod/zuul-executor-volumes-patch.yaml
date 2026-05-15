@@ -1,0 +1,57 @@
+---
+# Mount SSH keys for executors and shared NFS for builds
+# Note: zuul-config-data volume already exists in base config mounting the zuul-config PVC
+# We reuse it here with a different subPath for builds directory
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zuul-executor
+spec:
+  template:
+    spec:
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0644
+        - name: openstack-config
+          secret:
+            secretName: nodepool-config
+            defaultMode: 0644
+      initContainers:
+        - name: fix-permissions
+          image: alpine:3.19
+          command: ['sh', '-c', 'chown -R 10001:10001 /var/lib/zuul || true; chmod -R 755 /var/lib/zuul || true']
+          volumeMounts:
+            - name: zuul-var
+              mountPath: /var/lib/zuul
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+      containers:
+        - name: zuul
+          imagePullPolicy: Always
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    mkdir -p /var/lib/zuul/openstack-config
+                    cp /var/run/zuul/openstack/clouds.yaml /var/lib/zuul/openstack-config/clouds.yaml
+                    chmod 600 /var/lib/zuul/openstack-config/clouds.yaml
+                    # Copy clouds.yaml to /var/run/zuul/ for log upload
+                    # /var/run/zuul already exists, just copy the file
+                    cp /var/run/zuul/openstack/clouds.yaml /var/run/zuul/clouds.yaml || true
+                    chmod 644 /var/run/zuul/clouds.yaml || true
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+            - name: openstack-config
+              mountPath: /var/run/zuul/openstack
+              readOnly: true
