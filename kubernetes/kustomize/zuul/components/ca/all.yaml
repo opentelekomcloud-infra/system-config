@@ -17,9 +17,8 @@ spec:
   renewBefore: 360h  # 15d
   isCA: true
   privateKey:
-    size: 2048
-    algorithm: RSA
-    encoding: PKCS1
+    algorithm: ECDSA
+    size: 384
   commonName: cacert
   # At least one of a DNS Name, URI, or IP address is required.
   dnsNames:
