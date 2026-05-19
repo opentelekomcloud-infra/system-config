@@ -35,7 +35,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: llamacpp
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9128
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9014
           env:
             - name: LLAMA_API_KEY
               value: "<path:secret/data/llamacpp/auth#api-key>"
@@ -87,6 +87,8 @@ spec:
             - --cache-idle-slots
             - -cram
             - "8192"
+            - --timeout
+            - "1200"
           ports:
             - name: http
               containerPort: 8080
