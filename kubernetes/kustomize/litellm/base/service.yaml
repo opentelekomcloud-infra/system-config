@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: litellm-service
+  labels:
+    app: litellm
+spec:
+  type: ClusterIP
+  selector:
+    app: litellm
+  ports:
+    - name: http
+      port: 4000
+      targetPort: 4000
+      protocol: TCP

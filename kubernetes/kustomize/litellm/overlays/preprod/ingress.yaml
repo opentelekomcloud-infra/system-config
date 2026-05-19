@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: litellm
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+    nginx.ingress.kubernetes.io/whitelist-source-range: "80.158.0.0/16,164.30.0.0/16,62.156.0.0/14"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: litellm.eco-preprod.tsi-dev.otc-service.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: litellm-service
+                port:
+                  number: 4000
+  tls:
+    - hosts:
+        - litellm.eco-preprod.tsi-dev.otc-service.com
+      secretName: litellm-tls
