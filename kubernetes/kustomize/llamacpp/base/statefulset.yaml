@@ -71,7 +71,7 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "1"
+            - "2"
             - --alias
             - qwen3.6-35b
             - --threads
@@ -86,7 +86,7 @@ spec:
             - --kv-unified
             - --cache-idle-slots
             - -cram
-            - "8192"
+            - "10000"
             - --timeout
             - "1200"
           ports:
