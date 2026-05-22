@@ -212,9 +212,9 @@ vault:
             tls_cert_file = "/vault/tls/tls.crt"
             tls_key_file = "/vault/tls/tls.key"
             tls_client_ca_file = "/vault/tls/ca.crt"
-            # Enable unauthenticated metrics access (necessary for Prometheus Operator)
+            # Require authentication for metrics access
             telemetry {
-              unauthenticated_metrics_access = "true"
+              unauthenticated_metrics_access = "false"
             }
           }
 
