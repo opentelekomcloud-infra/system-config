@@ -13,7 +13,7 @@ gitea:
 
 runner:
   name: "gitea-k8s-runner-01"
-  labels: "ubuntu:docker://node:20-bookworm,ubuntu-22.04:docker://node:20-bookworm,debian:docker://node:20-bookworm,debian-bookworm:docker://node:20-bookworm"
+  labels: "ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
   capacity: 4
   logLevel: "info"
 
