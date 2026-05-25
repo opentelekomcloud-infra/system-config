@@ -1,0 +1,16 @@
+apiVersion: v2
+name: gitea-runner
+description: A Helm chart for Gitea Action Runner
+type: application
+version: 0.1.0
+appVersion: "latest"
+home: https://gitea.io/
+sources:
+  - https://github.com/go-gitea/gitea
+maintainers:
+  - name: OTC Infrastructure Team
+keywords:
+  - gitea
+  - runner
+  - ci
+  - cd

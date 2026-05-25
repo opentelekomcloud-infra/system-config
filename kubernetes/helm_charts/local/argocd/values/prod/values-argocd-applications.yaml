@@ -331,6 +331,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: system-config-gitea-runner
+    clusters: [otcinfra2]
+    config:
+      namespace: gitea-runner
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Migration_of_zuul_to_prod'
+      path: kubernetes/helm_charts/local/gitea-runner
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: oauth2-proxy-zuul
     clusters: [otcinfra2]
     config:
