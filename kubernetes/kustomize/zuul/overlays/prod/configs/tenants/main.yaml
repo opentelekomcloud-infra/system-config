@@ -718,6 +718,9 @@
           - infra/otc-metadata-swiss:
               include:
                 - project
+          - infra/otc-metadata-rework:
+              include:
+                - project
           - docs-swiss/application-operations-management:
               include:
                 - project
