@@ -7,11 +7,13 @@ image:
 
 gitea:
   instanceUrl: "https://gitea-k8s.eco.tsi-dev.otc-service.com"
-  registrationToken: "<path:secret/data/gitea-k8s/gitea-runner#runner_registration_token>"
+  # Org-level registration token for the 'infra' org on gitea-k8s
+  # (serves all repos within the infra organization)
+  registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token>"
 
 runner:
-  name: "ubuntu-gitea-runner-01"
-  labels: "ubuntu:docker://debian:bookworm,ubuntu-22.04:docker://debian:bookworm"
+  name: "gitea-k8s-runner-01"
+  labels: "ubuntu:docker://debian:bookworm,ubuntu-22.04:docker://debian:bookworm,debian:docker://debian:bookworm,debian-bookworm:docker://debian:bookworm"
   capacity: 4
   logLevel: "info"
 
