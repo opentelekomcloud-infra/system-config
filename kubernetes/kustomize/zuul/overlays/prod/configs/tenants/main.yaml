@@ -1087,28 +1087,28 @@
           - docs/web-application-firewall-dedicated:
               include:
                 - project
-      gitlab:
-        config-projects:
-          - ecosystem/zuul-project-config:
-              include:
-                - job
-                - semaphore
-                - project
-                - project-template
-                - pipeline
-                - nodeset
-                - secret
-        untrusted-projects:
-          - ecosystem/gitstyring:
-              include:
-                - project
-                - job
-          - ecosystem/service_catalog:
-              include:
-                - project
-          - ecosystem/system-config:
-              include:
-                - project
+      # gitlab: - disabled: git.tsi-dev.otc-service.com returns SSO page, blocks reconfiguration
+      #   config-projects:
+      #     - ecosystem/zuul-project-config:
+      #         include:
+      #           - job
+      #           - semaphore
+      #           - project
+      #           - project-template
+      #           - pipeline
+      #           - nodeset
+      #           - secret
+      #   untrusted-projects:
+      #     - ecosystem/gitstyring:
+      #         include:
+      #           - project
+      #           - job
+      #     - ecosystem/service_catalog:
+      #         include:
+      #           - project
+      #     - ecosystem/system-config:
+      #         include:
+      #           - project
       opendev:
         untrusted-projects:
           - zuul/zuul-jobs:
