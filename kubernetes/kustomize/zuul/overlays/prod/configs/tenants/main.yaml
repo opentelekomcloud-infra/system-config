@@ -664,9 +664,6 @@
               include:
                 - project
                 - job
-          - opentelekomcloud/ansible-collection-apimon:
-              include:
-                - project
           - stackmon/StatusDashboard-V3:
               include:
                 - project
