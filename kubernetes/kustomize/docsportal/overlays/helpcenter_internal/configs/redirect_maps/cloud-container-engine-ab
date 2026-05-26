@@ -1,3 +1,6 @@
+  /usermanual2/cce/cce_10_0112.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_container_health_check.html;
+  /usermanual2/cce/cce_10_0113.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_environment_variables.html;
+  /usermanual2/cce/cce_10_0125.html /cloud-container-engine/umn/storage/sfs_turbo/index.html;
   /usermanual2/cce/cce_10_0127.html /cloud-container-engine/umn/add-ons/container_storage_add-ons/flexvolume_discarded.html;
   /usermanual2/cce/cce_10_0129.html /cloud-container-engine/umn/add-ons/container_network_add-ons/coredns.html;
   /usermanual2/cce/cce_10_0130.html /cloud-container-engine/umn/workloads/configuring_a_workload/index.html;
@@ -674,3 +677,4 @@
   /usermanual2/cce/cce_qs_0009.html /cloud-container-engine/umn/getting_started/deploying_wordpress_and_mysql_that_depend_on_each_other/overview.html;
   /usermanual2/cce/cce_whsnew_0007.html /cloud-container-engine/umn/clusters/cluster_version_release_notes/kubernetes_version_release_notes/kubernetes_1.17_eom_release_notes.html;
   /usermanual2/cce/cce_whsnew_0010.html /cloud-container-engine/umn/clusters/cluster_version_release_notes/kubernetes_version_release_notes/kubernetes_1.19_eom_release_notes.html;
+  /usermanual2/cce/en-us_topic_0000002516078019.html /cloud-container-engine/umn/o_and_m/o_and_m_best_practices/configuring_alarms_for_java_applications_on_apm.html;

@@ -250,6 +250,7 @@
   /en-us/usermanual2/cce/cce_10_0047.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_deployment.html;
   /en-us/usermanual2/cce/cce_10_0048.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_statefulset.html;
   /en-us/usermanual2/cce/cce_10_0054.html /cloud-container-engine/umn/high-risk_operations.html;
+  /en-us/usermanual2/cce/cce_10_0055.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_apm.html;
   /en-us/usermanual2/cce/cce_10_0059.html /cloud-container-engine/umn/networking/container_networks/pod_network_settings/configuring_network_policies_to_restrict_pod_access.html;
   /en-us/usermanual2/cce/cce_10_0063.html /cloud-container-engine/umn/auto_scaling/node_scaling/managing_node_scaling_policies.html;
   /en-us/usermanual2/cce/cce_10_0064.html /cloud-container-engine/umn/add-ons/index.html;
@@ -942,6 +943,7 @@
   /en-us/usermanual2/cce/cce_qs_0009.html /cloud-container-engine/umn/getting_started/deploying_wordpress_and_mysql_that_depend_on_each_other/overview.html;
   /en-us/usermanual2/cce/cce_whsnew_0007.html /cloud-container-engine/umn/clusters/cluster_version_release_notes/kubernetes_version_release_notes/kubernetes_1.17_eom_release_notes.html;
   /en-us/usermanual2/cce/cce_whsnew_0010.html /cloud-container-engine/umn/clusters/cluster_version_release_notes/kubernetes_version_release_notes/kubernetes_1.19_eom_release_notes.html;
+  /en-us/usermanual2/cce/en-us_topic_0000002516078019.html /cloud-container-engine/umn/o_and_m/o_and_m_best_practices/configuring_alarms_for_java_applications_on_apm.html;
   /usermanual2/cce/ /cloud-container-engine/umn/index.html;
   /usermanual2/cce/CVE-2021-4034.html /cloud-container-engine/umn/product_bulletin/security_vulnerability_responses/linux_polkit_privilege_escalation_vulnerability_cve-2021-4034.html;
   /usermanual2/cce/CVE-2025-23266.html /cloud-container-engine/umn/product_bulletin/security_vulnerability_responses/notice_of_the_nvidia_container_toolkit_container_escape_vulnerabilities_cve-2025-23266_and_cve-2025-23267.html;
@@ -982,6 +984,7 @@
   /usermanual2/cce/cce_10_0047.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_deployment.html;
   /usermanual2/cce/cce_10_0048.html /cloud-container-engine/umn/workloads/creating_a_workload/creating_a_statefulset.html;
   /usermanual2/cce/cce_10_0054.html /cloud-container-engine/umn/high-risk_operations.html;
+  /usermanual2/cce/cce_10_0055.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_apm.html;
   /usermanual2/cce/cce_10_0059.html /cloud-container-engine/umn/networking/container_networks/pod_network_settings/configuring_network_policies_to_restrict_pod_access.html;
   /usermanual2/cce/cce_10_0063.html /cloud-container-engine/umn/auto_scaling/node_scaling/managing_node_scaling_policies.html;
   /usermanual2/cce/cce_10_0064.html /cloud-container-engine/umn/add-ons/index.html;
@@ -995,6 +998,3 @@
   /usermanual2/cce/cce_10_0105.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_the_container_lifecycle.html;
   /usermanual2/cce/cce_10_0107.html /cloud-container-engine/umn/clusters/accessing_a_cluster/accessing_a_cluster_using_kubectl.html;
   /usermanual2/cce/cce_10_0111.html /cloud-container-engine/umn/storage/sfs/index.html;
-  /usermanual2/cce/cce_10_0112.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_container_health_check.html;
-  /usermanual2/cce/cce_10_0113.html /cloud-container-engine/umn/workloads/configuring_a_workload/configuring_environment_variables.html;
-  /usermanual2/cce/cce_10_0125.html /cloud-container-engine/umn/storage/sfs_turbo/index.html;

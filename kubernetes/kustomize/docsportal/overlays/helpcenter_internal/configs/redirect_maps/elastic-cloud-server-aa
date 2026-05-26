@@ -475,6 +475,7 @@
   /en-us/usermanual/ecs/en-us_topic_0000001283659852.html /elastic-cloud-server/umn/faqs/ecs_creation/how_can_i_manage_ecss_by_group.html;
   /en-us/usermanual/ecs/en-us_topic_0000001351167793.html /elastic-cloud-server/umn/service_overview/images/index.html;
   /en-us/usermanual/ecs/en-us_topic_0000001449637793.html /elastic-cloud-server/umn/service_overview/security/data_protection/index.html;
+  /en-us/usermanual/ecs/en-us_topic_0000001469584572.html /elastic-cloud-server/umn/security/configuring_secure_boot_for_an_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0000001547370984.html /elastic-cloud-server/umn/troubleshooting/why_do_i_get_the_error_no_space_left_on_device_when_i_create_a_file_on_a_linux_ecs.html;
   /en-us/usermanual/ecs/en-us_topic_0000001597810477.html /elastic-cloud-server/umn/troubleshooting/how_do_i_fix_file_creation_failures_due_to_inode_exhaustion.html;
   /en-us/usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/instances/viewing_ecs_information/searching_for_ecss.html;
@@ -590,7 +591,7 @@
   /en-us/usermanual/ecs/en-us_topic_0047624368.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/why_cannot_i_use_the_mac_keyboard_to_enter_lowercase_characters_when_i_log_in_to_an_ecs_using_vnc.html;
   /en-us/usermanual/ecs/en-us_topic_0047654687.html /elastic-cloud-server/umn/faqs/password_and_key_pair/why_does_a_key_pair_created_using_puttygen.exe_fail_to_be_imported_on_the_management_console.html;
   /en-us/usermanual/ecs/en-us_topic_0047898078.html /elastic-cloud-server/umn/glossary.html;
-  /en-us/usermanual/ecs/en-us_topic_0048642616.html /elastic-cloud-server/umn/service_overview/images/cloud-init.html;
+  /en-us/usermanual/ecs/en-us_topic_0048642616.html /elastic-cloud-server/umn/service_overview/images/cloud-init_cloudbase-init.html;
   /en-us/usermanual/ecs/en-us_topic_0050735736.html /elastic-cloud-server/umn/faqs/ecs_failure/how_can_a_changed_static_hostname_take_effect_permanently.html;
   /en-us/usermanual/ecs/en-us_topic_0053287548.html /elastic-cloud-server/umn/faqs/network_configuration/how_can_i_handle_the_issue_that_a_windows_7_ecs_equipped_with_an_intel_82599_nic_reports_an_error_in_sr-iov_scenarios.html;
   /en-us/usermanual/ecs/en-us_topic_0054121392.html /elastic-cloud-server/umn/service_overview/user_permissions.html;
@@ -630,7 +631,7 @@
   /en-us/usermanual/ecs/en-us_topic_0093492521.html /elastic-cloud-server/umn/eips/modifying_an_eip_bandwidth.html;
   /en-us/usermanual/ecs/en-us_topic_0093492522.html /elastic-cloud-server/umn/disks/expanding_the_capacity_of_an_evs_disk.html;
   /en-us/usermanual/ecs/en-us_topic_0094118976.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_specifications/ultra-high_i_o_ecss.html;
-  /en-us/usermanual/ecs/en-us_topic_0094801708.html /elastic-cloud-server/umn/troubleshooting/what_can_i_do_if_switching_from_a_non-root_user_to_user_root_times_out.html;
+  /en-us/usermanual/ecs/en-us_topic_0094801708.html /elastic-cloud-server/umn/troubleshooting/what_can_i_do_if_switching_from_a_non-root_user_to_a_root_user_timed_out.html;
   /en-us/usermanual/ecs/en-us_topic_0094874138.html /elastic-cloud-server/umn/faqs/ecs_failure/is_an_ecs_hostname_with_suffix_.novalocal_normal.html;
   /en-us/usermanual/ecs/en-us_topic_0095020344.html /elastic-cloud-server/umn/faqs/data_backup_and_restoration/can_ecss_automatically_recover_after_the_physical_host_accommodating_the_ecss_becomes_faulty.html;
   /en-us/usermanual/ecs/en-us_topic_0096170524.html /elastic-cloud-server/umn/troubleshooting/index.html;
@@ -685,7 +686,7 @@
   /en-us/usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_lifecycle.html;
   /en-us/usermanual/ecs/en-us_topic_0140323151.html /elastic-cloud-server/umn/security/security_groups/index.html;
   /en-us/usermanual/ecs/en-us_topic_0140323152.html /elastic-cloud-server/umn/security/security_groups/security_group_configuration_examples.html;
-  /en-us/usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_groups_and_rules.html;
+  /en-us/usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_group_and_rules.html;
   /en-us/usermanual/ecs/en-us_topic_0140323157.html /elastic-cloud-server/umn/security/security_groups/overview.html;
   /en-us/usermanual/ecs/en-us_topic_0140963099.html /elastic-cloud-server/umn/elastic_network_interfaces/dynamically_assigning_ipv6_addresses.html;
   /en-us/usermanual/ecs/en-us_topic_0142266317.html /elastic-cloud-server/umn/instances/managing_my_ecss/changing_ecs_names.html;
@@ -792,6 +793,7 @@
   /usermanual/ecs/en-us_topic_0000001283659852.html /elastic-cloud-server/umn/faqs/ecs_creation/how_can_i_manage_ecss_by_group.html;
   /usermanual/ecs/en-us_topic_0000001351167793.html /elastic-cloud-server/umn/service_overview/images/index.html;
   /usermanual/ecs/en-us_topic_0000001449637793.html /elastic-cloud-server/umn/service_overview/security/data_protection/index.html;
+  /usermanual/ecs/en-us_topic_0000001469584572.html /elastic-cloud-server/umn/security/configuring_secure_boot_for_an_ecs.html;
   /usermanual/ecs/en-us_topic_0000001547370984.html /elastic-cloud-server/umn/troubleshooting/why_do_i_get_the_error_no_space_left_on_device_when_i_create_a_file_on_a_linux_ecs.html;
   /usermanual/ecs/en-us_topic_0000001597810477.html /elastic-cloud-server/umn/troubleshooting/how_do_i_fix_file_creation_failures_due_to_inode_exhaustion.html;
   /usermanual/ecs/en-us_topic_0000001630328828.html /elastic-cloud-server/umn/instances/viewing_ecs_information/searching_for_ecss.html;
@@ -907,7 +909,7 @@
   /usermanual/ecs/en-us_topic_0047624368.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/why_cannot_i_use_the_mac_keyboard_to_enter_lowercase_characters_when_i_log_in_to_an_ecs_using_vnc.html;
   /usermanual/ecs/en-us_topic_0047654687.html /elastic-cloud-server/umn/faqs/password_and_key_pair/why_does_a_key_pair_created_using_puttygen.exe_fail_to_be_imported_on_the_management_console.html;
   /usermanual/ecs/en-us_topic_0047898078.html /elastic-cloud-server/umn/glossary.html;
-  /usermanual/ecs/en-us_topic_0048642616.html /elastic-cloud-server/umn/service_overview/images/cloud-init.html;
+  /usermanual/ecs/en-us_topic_0048642616.html /elastic-cloud-server/umn/service_overview/images/cloud-init_cloudbase-init.html;
   /usermanual/ecs/en-us_topic_0050735736.html /elastic-cloud-server/umn/faqs/ecs_failure/how_can_a_changed_static_hostname_take_effect_permanently.html;
   /usermanual/ecs/en-us_topic_0053287548.html /elastic-cloud-server/umn/faqs/network_configuration/how_can_i_handle_the_issue_that_a_windows_7_ecs_equipped_with_an_intel_82599_nic_reports_an_error_in_sr-iov_scenarios.html;
   /usermanual/ecs/en-us_topic_0054121392.html /elastic-cloud-server/umn/service_overview/user_permissions.html;
@@ -947,7 +949,7 @@
   /usermanual/ecs/en-us_topic_0093492521.html /elastic-cloud-server/umn/eips/modifying_an_eip_bandwidth.html;
   /usermanual/ecs/en-us_topic_0093492522.html /elastic-cloud-server/umn/disks/expanding_the_capacity_of_an_evs_disk.html;
   /usermanual/ecs/en-us_topic_0094118976.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_specifications/ultra-high_i_o_ecss.html;
-  /usermanual/ecs/en-us_topic_0094801708.html /elastic-cloud-server/umn/troubleshooting/what_can_i_do_if_switching_from_a_non-root_user_to_user_root_times_out.html;
+  /usermanual/ecs/en-us_topic_0094801708.html /elastic-cloud-server/umn/troubleshooting/what_can_i_do_if_switching_from_a_non-root_user_to_a_root_user_timed_out.html;
   /usermanual/ecs/en-us_topic_0094874138.html /elastic-cloud-server/umn/faqs/ecs_failure/is_an_ecs_hostname_with_suffix_.novalocal_normal.html;
   /usermanual/ecs/en-us_topic_0095020344.html /elastic-cloud-server/umn/faqs/data_backup_and_restoration/can_ecss_automatically_recover_after_the_physical_host_accommodating_the_ecss_becomes_faulty.html;
   /usermanual/ecs/en-us_topic_0096170524.html /elastic-cloud-server/umn/troubleshooting/index.html;
@@ -996,5 +998,3 @@
   /usermanual/ecs/en-us_topic_0133513874.html /elastic-cloud-server/umn/instances/managing_gpu_drivers_of_gpu-accelerated_ecss/index.html;
   /usermanual/ecs/en-us_topic_0136777354.html /elastic-cloud-server/umn/faqs/remote_login/vnc_login/index.html;
   /usermanual/ecs/en-us_topic_0140313879.html /elastic-cloud-server/umn/instances/managing_my_ecss/obtaining_metadata_and_passing_user_data/index.html;
-  /usermanual/ecs/en-us_topic_0140313880.html /elastic-cloud-server/umn/disks/overview.html;
-  /usermanual/ecs/en-us_topic_0140313881.html /elastic-cloud-server/umn/passwords_and_key_pairs/index.html;
