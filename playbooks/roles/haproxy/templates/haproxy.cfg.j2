@@ -46,6 +46,19 @@ frontend web
   http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
   http-request redirect scheme https code 301 unless { ssl_fc }
 
+{% if proxy_blocked_ips is defined and proxy_blocked_ips %}
+  # Block known malicious IPs
+{% for ip in proxy_blocked_ips %}
+  acl known_attacker src {{ ip }}
+{% endfor %}
+  http-request deny deny_status 403 if known_attacker
+
+{% endif %}
+  # HTTP rate limiting: reject sources exceeding 200 requests per 10s
+  stick-table type ip size 100k expire 60s store http_req_rate(10s)
+  http-request track-sc0 src
+  http-request deny deny_status 429 if { sc_http_req_rate(0) gt 200 }
+
   # max-age is mandatory
   # 16000000 seconds is a bit more than 6 months
   http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
