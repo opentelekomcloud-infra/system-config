@@ -188,33 +188,33 @@ helm_chart_instances:
 #   version: 1.1.17
 #   namespace: telegraf
 #   values_template: "templates/charts/telegraf/telegraf-otcinfra2-values.yaml.j2"
-  otcinfra_opensearch:
-    context: otcinfra
-    repo_url: https://opensearch-project.github.io/helm-charts/
-    repo_name: opensearch
-    name: opensearch
-    ref: opensearch/opensearch
-    version: 2.37.0
-    namespace: opensearch
-    values_template: "templates/charts/opensearch/opensearch-otcinfra-values.yaml.j2"
-    opensearch_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_tls_name }}"
-    opensearch_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_fqdn }}"
-    opensearch_node_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_tls_name }}"
-    opensearch_node_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_fqdn}}"
-    opensearch_admin_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_tls_name }}"
-    opensearch_admin_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_fqdn }}"
-    opensearch_security_config_secret_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_security_config_secret_name }}"
-  otcinfra_opensearch-dashboard:
-    context: otcinfra
-    repo_url: https://opensearch-project.github.io/helm-charts/
-    repo_name: opensearch
-    name: opensearch-dashboards
-    ref: opensearch/opensearch-dashboards
-    version: 2.33.0
-    namespace: opensearch
-    values_template: "templates/charts/opensearch/opensearch-dashboard-otcinfra-values.yaml.j2"
-    opensearch_dashboard_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_tls_name }}"
-    opensearch_dashboard_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_fqdn }}"
+  # otcinfra_opensearch:
+  #   context: otcinfra
+  #   repo_url: https://opensearch-project.github.io/helm-charts/
+  #   repo_name: opensearch
+  #   name: opensearch
+  #   ref: opensearch/opensearch
+  #   version: 2.37.0
+  #   namespace: opensearch
+  #   values_template: "templates/charts/opensearch/opensearch-otcinfra-values.yaml.j2"
+  #   opensearch_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_tls_name }}"
+  #   opensearch_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_fqdn }}"
+  #   opensearch_node_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_tls_name }}"
+  #   opensearch_node_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_node_fqdn}}"
+  #   opensearch_admin_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_tls_name }}"
+  #   opensearch_admin_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_admin_fqdn }}"
+  #   opensearch_security_config_secret_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_security_config_secret_name }}"
+  # otcinfra_opensearch-dashboard:
+  #   context: otcinfra
+  #   repo_url: https://opensearch-project.github.io/helm-charts/
+  #   repo_name: opensearch
+  #   name: opensearch-dashboards
+  #   ref: opensearch/opensearch-dashboards
+  #   version: 2.33.0
+  #   namespace: opensearch
+  #   values_template: "templates/charts/opensearch/opensearch-dashboard-otcinfra-values.yaml.j2"
+  #   opensearch_dashboard_tls_name: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_tls_name }}"
+  #   opensearch_dashboard_fqdn: "{{ opensearch_instances.otcinfra_opensearch.opensearch_dashboard_fqdn }}"
 #  otcinfra2_opensearch_stg:
 #    context: otcinfra2
 #    repo_url: https://opensearch-project.github.io/helm-charts/
