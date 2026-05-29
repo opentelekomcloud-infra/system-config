@@ -1,5 +1,28 @@
 haproxy_image: "{{ haproxy_image_stable }}"
 
+# IPs/subnets blocked at the HAProxy frontend (HTTP 403)
+# Individual attacker IPs from 2026-05-27 DDoS + their full Contabo hosting ranges
+proxy_blocked_ips:
+  - "194.163.149.175"    # XSS scanner DDoS (2026-05-27)
+  - "167.86.124.86"      # Secondary attacker (2026-05-27)
+  - "173.212.192.0/18"   # Contabo GmbH
+  - "173.249.0.0/18"     # Contabo GmbH
+  - "62.171.128.0/18"    # Contabo GmbH
+  - "5.189.128.0/18"     # Contabo GmbH
+  - "144.91.64.0/18"     # Contabo GmbH
+  - "38.242.192.0/18"    # Contabo GmbH
+  - "194.163.128.0/18"   # Contabo GmbH
+  - "161.97.64.0/18"     # Contabo GmbH
+  - "144.91.96.0/19"     # Contabo GmbH
+  - "37.60.224.0/19"     # Contabo GmbH
+  - "38.242.128.0/19"    # Contabo GmbH
+  - "154.12.224.0/19"    # Contabo GmbH
+  - "154.26.128.0/19"    # Contabo GmbH
+  - "207.244.224.0/20"   # Contabo GmbH
+  - "209.126.0.0/20"     # Contabo GmbH
+  - "2a02:c202::/32"     # Contabo GmbH IPv6
+  - "2a02:c204::/30"     # Contabo GmbH IPv6
+
 proxy_backends:
 #  - name: "graphite-apimon"
 #    options:
@@ -286,7 +309,7 @@ proxy_backends:
     servers:
       - name: "gitea1"
         address: "192.168.170.200:443"
-        opts: "check cookie gitea1 ssl verify none"
+        opts: "check cookie gitea1 ssl verify none ssl-min-ver TLSv1.2"
 
   - name: "gitea-ssh"
     mode: "tcp"
