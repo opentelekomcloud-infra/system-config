@@ -454,7 +454,7 @@ argo-cd:
         p, role:sd, applications, *, status-dashboard/*, allow
         p, role:sd, repositories, get, *, allow
         p, role:sd, repositories, list, *, allow
-        p, role:sd, secrets, *, status-dashboardg/*, allow
+        p, role:sd, secrets, *, status-dashboard/*, allow
 
         # Read-only role - NO secrets access
         # g, /argocd-viewers, role:readonly
