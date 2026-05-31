@@ -115,6 +115,8 @@ zitadel:
   env:
     - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
       value: "false"
+    - name: SSL_CERT_FILE
+      value: "/etc/ssl/certs/otc-ca.crt"
 
   envVarsSecret: ""
 
@@ -247,8 +249,16 @@ zitadel:
 
   extraContainers: []
 
-  extraVolumes: []
+  extraVolumes:
+    - name: otc-ca-cert
+      secret:
+        defaultMode: 420
+        secretName: otc-ca-cert
 
-  extraVolumeMounts: []
+  extraVolumeMounts:
+    - name: otc-ca-cert
+      mountPath: /etc/ssl/certs/otc-ca.crt
+      subPath: otc-ca.crt
+      readOnly: true
 
   extraManifests: []
