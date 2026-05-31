@@ -69,7 +69,7 @@ providers:
                       memory: "512Mi"
                     limits:
                       cpu: "2"
-                      memory: "2Gi"
+                      memory: "4Gi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: prod
