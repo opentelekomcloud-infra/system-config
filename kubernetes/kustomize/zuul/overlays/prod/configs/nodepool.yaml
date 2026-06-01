@@ -22,6 +22,13 @@ labels:
     min-ready: 0
     max-hold-age: 7200
 
+  # Builder image — for jobs that build container images.
+  # Image: quay.io/buildah/stable — Fedora-based, ships buildah + podman + skopeo
+  # + fuse-overlayfs. Runs privileged so buildah can do rootful builds.
+  - name: zuul-debian-builder
+    min-ready: 0
+    max-hold-age: 7200
+
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
@@ -70,6 +77,61 @@ providers:
                     limits:
                       cpu: "2"
                       memory: "4Gi"
+            python-path: /usr/bin/python3
+            shell-type: /bin/bash
+            context: prod
+
+          # Builder pod — buildah/podman/skopeo pre-installed.
+          # Runs privileged for rootful buildah; uses HOME=/home/build
+          # (the upstream image's default user). zuul-infra playbooks
+          # target this via ansible_kubectl_pod: zuul-debian-builder.
+          - name: zuul-debian-builder
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: containers-storage
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian-builder
+                  image: quay.io/buildah/stable:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                    - name: STORAGE_DRIVER
+                      value: vfs
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: containers-storage
+                      mountPath: /var/lib/containers
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: prod
