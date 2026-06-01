@@ -35,7 +35,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
         - name: llamacpp
-          image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9014
+          image: ghcr.io/ggml-org/llama.cpp:server-cuda-b9444
           env:
             - name: LLAMA_API_KEY
               value: "<path:secret/data/llamacpp/auth#api-key>"
@@ -50,8 +50,8 @@ spec:
             - "/models/mmproj-BF16-qwen3.6-35b.gguf"
             - -c
             - "0"
-            - --fit
-            - "on"
+            - -ngl
+            - "999"
             - --cache-type-k
             - q8_0
             - --cache-type-v
