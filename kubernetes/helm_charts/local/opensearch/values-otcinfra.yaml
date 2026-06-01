@@ -1,0 +1,32 @@
+opensearch_security_config_secret_name: "opensearch-config"
+
+internal_users_yml: |
+  _meta:
+    type: "internalusers"
+    config_version: 2
+  admin:
+    password: "<path:secret/opensearch/admin#password>"
+    reserved: true
+    backend_roles:
+      - "admin"
+    description: "Admin user"
+  kibanaserver:
+    password: "<path:secret/opensearch/kibanaserver#password>"
+    reserved: true
+    description: "OpenSearch Dashboards user"
+  readall:
+    password: "<path:secret/opensearch/readall#password>"
+    reserved: false
+    backend_roles:
+      - "readall"
+    description: "Readall user"
+  writeall:
+    password: "<path:secret/opensearch/writeall#password>"
+    reserved: false
+    backend_roles:
+      - "admin"
+    description: "Writeall user"
+
+config_yml: ""
+roles_yml: ""
+roles_mapping_yml: ""
