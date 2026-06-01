@@ -87,7 +87,7 @@ providers:
                       mountPath: /home/zuul
                   resources:
                     requests:
-                      cpu: "1"
+                      cpu: "200m"
                       memory: "1024Mi"
                     limits:
                       cpu: "1"
