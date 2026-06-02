@@ -11,7 +11,7 @@ data:
       num_retries: 4
       request_timeout: 6000
       callbacks: ["prometheus"]
-      require_auth_for_metrics_endpoint: false
+      require_auth_for_metrics_endpoint: true
 
     router_settings:
       routing_strategy: least-busy
