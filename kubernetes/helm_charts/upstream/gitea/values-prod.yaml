@@ -202,9 +202,9 @@ gitea:
         LEVEL: info
 
       metrics:
-        ENABLED: true
-        ENABLED_ISSUE_BY_LABEL: true
-        ENABLED_ISSUE_BY_REPOSITORY: true
+        ENABLED: false
+        ENABLED_ISSUE_BY_LABEL: false
+        ENABLED_ISSUE_BY_REPOSITORY: false
 
       oauth2:
         ENABLED: true
@@ -254,7 +254,7 @@ gitea:
         restrictedGroup: ""
 
     metrics:
-      enabled: true
+      enabled: false
       serviceMonitor:
         enabled: false
 
