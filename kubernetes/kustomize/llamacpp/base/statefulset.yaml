@@ -112,6 +112,7 @@ spec:
           persistentVolumeClaim:
             claimName: llamacpp-models
       tolerations:
-        - key: gpu
-          operator: Exists
-          effect: NoSchedule
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
