@@ -47,9 +47,13 @@ spec:
             - --port
             - "8080"
             - -m
-            - "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL.gguf"
+            - "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL-MTP.gguf"
             - --mmproj
             - "/models/mmproj-BF16-qwen3.6-35b.gguf"
+            - --spec-type
+            - "draft-mtp"
+            - --spec-draft-n-max
+            - "2"
             - -c
             - "0"
             - -ngl
