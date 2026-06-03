@@ -139,7 +139,7 @@ gitea:
 
       mailer:
         ENABLED: true
-        PROTOCOL: smtps
+        PROTOCOL: smtp+starttls
 
       # HA: Store LFS in OBS (S3-compatible object storage)
       lfs:
