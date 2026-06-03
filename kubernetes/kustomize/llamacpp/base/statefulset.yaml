@@ -36,6 +36,8 @@ spec:
       containers:
         - name: llamacpp
           image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-b9487
+          imagePullSecrets:
+            - name: default-secret
           env:
             - name: LLAMA_API_KEY
               value: "<path:secret/data/llamacpp/auth#api-key>"
