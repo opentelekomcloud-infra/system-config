@@ -1,6 +1,6 @@
 applications:
   # =====================================================
-   Helm Chart Applications (argocd-vault-plugin-helm-with-args)
+  #  Helm Chart Applications (argocd-vault-plugin-helm-with-args)
   # =====================================================
   - name: argocd-projects
     clusters: [otcinfra2]
@@ -275,7 +275,7 @@ applications:
           - CreateNamespace=true
 
   # =====================================================
-   Kustomize Applications (argocd-vault-plugin-kustomize)
+  #  Kustomize Applications (argocd-vault-plugin-kustomize)
   # =====================================================
   - name: giji
     clusters: [otcinfra2]
@@ -295,7 +295,7 @@ applications:
           - CreateNamespace=true
 
   # =====================================================
-   Gitea - Git Hosting Service
+  #  Gitea - Git Hosting Service
   # =====================================================
   - name: gitea
     clusters: [otcinfra2]
