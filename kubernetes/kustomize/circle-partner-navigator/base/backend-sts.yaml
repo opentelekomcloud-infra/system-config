@@ -59,10 +59,11 @@ spec:
       volumes:
       - name: vault-agent-config
         configMap:
-          defaultMode: 420
+          defaultMode: 493
           name: cpn-vault-config
       - name: secrets
         emptyDir: {}
+          medium: Memory
       - name: "k8-tokens"
         projected:
           defaultMode: 420
