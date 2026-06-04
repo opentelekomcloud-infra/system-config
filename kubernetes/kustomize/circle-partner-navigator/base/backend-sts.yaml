@@ -62,7 +62,7 @@ spec:
           defaultMode: 493
           name: cpn-vault-config
       - name: secrets
-        emptyDir: {}
+        emptyDir:
           medium: Memory
       - name: "k8-tokens"
         projected:
