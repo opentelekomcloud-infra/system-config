@@ -138,7 +138,7 @@ gitea:
         REQUIRE_SIGNIN_VIEW: true
 
       mailer:
-        ENABLED: false
+        ENABLED: true
         PROTOCOL: smtp+starttls
 
       # HA: Store LFS in OBS (S3-compatible object storage)
