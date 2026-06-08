@@ -6,7 +6,7 @@ metadata:
 spec:
   accessModes:
   - ReadWriteOnce
-  storageClassName: csi-disk
+  storageClassName: csi-disk-retain
   resources:
     requests:
       storage: 1Gi
