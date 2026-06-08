@@ -19,4 +19,4 @@ labels:
 
 images:
   - name: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap
-    newTag: "3.0.7"
+    newTag: "3.1.3"
