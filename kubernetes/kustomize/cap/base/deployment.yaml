@@ -19,7 +19,7 @@ spec:
       terminationGracePeriodSeconds: 10
       containers:
       - name: cap
-        image: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap:3.1.0
+        image: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap:3.0.7
         ports:
         - containerPort: 3000
         livenessProbe:
