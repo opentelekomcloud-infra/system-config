@@ -20,12 +20,12 @@ spec:
         - name: cap
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
+            readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-            # capabilities:
-            #   drop:
-            #     - ALL
+            capabilities:
+              drop:
+                - ALL
           volumeMounts:
             - name: tmp
               mountPath: /tmp
@@ -47,10 +47,10 @@ spec:
           resources:
             requests:
               cpu: 50m
-              memory: 64Mi
+              memory: 256Mi
             limits:
               cpu: 500m
-              memory: 256Mi
+              memory: 512Mi
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
