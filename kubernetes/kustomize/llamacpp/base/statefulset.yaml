@@ -105,11 +105,11 @@ spec:
             requests:
               nvidia.com/gpu: "1"
               cpu: "4"
-              memory: "10Gi"
+              memory: "25Gi"
             limits:
               nvidia.com/gpu: "1"
               cpu: "6"
-              memory: "20Gi"
+              memory: "31Gi"
           volumeMounts:
             - name: models
               mountPath: /models
