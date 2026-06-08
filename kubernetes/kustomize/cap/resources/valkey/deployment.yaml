@@ -21,7 +21,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: valkey
-        image: valkey/valkey:8-alpine
+        image: swr.eu-de.otc.t-systems.com/opentelekomcloud/valkey:9.1.0-alpine
         ports:
         - containerPort: 6379
         resources:

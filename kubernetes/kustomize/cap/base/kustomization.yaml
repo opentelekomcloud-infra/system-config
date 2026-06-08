@@ -18,5 +18,5 @@ labels:
       app.kubernetes.io/version: 2.2.1
 
 images:
-  - name: quay.io/opentelekomcloud/cap
-    newTag: "2.2.1"
+  - name: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap
+    newTag: "3.1.4"
