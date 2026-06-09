@@ -6,7 +6,7 @@ metadata:
     app: llamacpp
 spec:
   serviceName: llamacpp-headless
-  replicas: 3
+  replicas: 5
   podManagementPolicy: Parallel
   selector:
     matchLabels:
@@ -77,7 +77,7 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "2"
+            - "3"
             - --alias
             - qwen3.6-35b
             - --threads
