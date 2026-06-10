@@ -20,7 +20,15 @@ spec:
               env:
                 - name: "VAULT_ADDR"
                   value: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+                - name: "SKIP_SETCAP"
+                  value: "true"
+                - name: "VAULT_DISABLE_MLOCK"
+                  value: "true"
               image: "hashicorp/vault"
+              securityContext:
+                capabilities:
+                  add:
+                    - IPC_LOCK
               resources:
                 limits:
                   cpu: "100m"
@@ -51,10 +59,11 @@ spec:
           volumes:
             - name: vault-agent-config
               configMap:
-                defaultMode: 420
+                defaultMode: 493
                 name: eyes-on-docs-vault-config
             - name: secrets
-              emptyDir: {}
+              emptyDir:
+                medium: Memory
             - name: "k8-tokens"
               projected:
                 defaultMode: 420
