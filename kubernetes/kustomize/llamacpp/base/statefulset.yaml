@@ -77,7 +77,7 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "3"
+            - "2"
             - --alias
             - qwen3.6-35b
             - --threads
