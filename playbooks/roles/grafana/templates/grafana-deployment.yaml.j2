@@ -29,6 +29,11 @@ spec:
       - ip: "127.0.0.1"
         hostnames:
         - "{{ grafana.fqdn }}"
+{% if grafana.graphite_internal_ip is defined %}
+      - ip: "{{ grafana.graphite_internal_ip }}"
+        hostnames:
+        - "graphite-ca.eco.tsi-dev.otc-service.com"
+{% endif %}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
