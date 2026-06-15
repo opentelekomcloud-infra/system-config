@@ -34,6 +34,11 @@ spec:
         hostnames:
         - "graphite-ca.eco.tsi-dev.otc-service.com"
 {% endif %}
+{% if grafana.graphite_web_ip is defined %}
+      - ip: "{{ grafana.graphite_web_ip }}"
+        hostnames:
+        - "graphite.eco.tsi-dev.otc-service.com"
+{% endif %}
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

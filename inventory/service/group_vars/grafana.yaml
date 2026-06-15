@@ -69,18 +69,19 @@ grafana_k8s_extra_vars:
 grafana_k8s_instances:
   # Main grafana in main cluster (otcinfra)
   # Uses ClusterIP of ingress-nginx on otcinfra to avoid hairpin issue with the LB VIP (192.168.170.6)
+  # graphite_web_ip: direct IP of graphite VM to bypass ELB/SNAT for graphite.eco datasource
   - grafana_instance: "dashboard"
     instance: "prod"
     context: "otcinfra"
     namespace: "apimon"
-    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '10.247.218.86'}) }}"
+    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '10.247.218.86', 'graphite_web_ip': '192.168.14.159'}) }}"
   # Main grafana in otcinfra2 cluster
   # Uses the LB VIP of otcinfra's nginx ingress (192.168.170.6); cross-cluster access works fine
   - grafana_instance: "dashboard"
     instance: "prod2"
     context: "otcinfra2"
     namespace: "apimon"
-    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '192.168.170.6'}) }}"
+    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '192.168.170.6', 'graphite_web_ip': '192.168.14.159'}) }}"
   # Stg grafana in stg cluster
   - grafana_instance: "dashboard_stg"
     instance: "stg"
@@ -93,4 +94,4 @@ grafana_k8s_instances:
     instance: "prod-eco"
     context: "otcinfra"
     namespace: "grafana-eco"
-    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '10.247.218.86'}) }}"
+    extra_vars: "{{ grafana_k8s_extra_vars | combine({'graphite_internal_ip': '10.247.218.86', 'graphite_web_ip': '192.168.14.159'}) }}"
