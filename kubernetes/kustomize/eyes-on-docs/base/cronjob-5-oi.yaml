@@ -48,6 +48,8 @@ spec:
             - name: eyes-on-docs-openissues
               image: quay.io/opentelekomcloud/eyes_on_docs
               imagePullPolicy: IfNotPresent
+              imagePullSecrets:
+                - name: quay-pull-secret
               command:
               - "/bin/sh"
               - "-c"
