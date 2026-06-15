@@ -38,6 +38,9 @@ proxy_backends:
       - name: "graphite3"
         address: "192.168.151.11:443"
         opts: "ssl verify none cookie graphite3"
+      - name: "graphite5"
+        address: "192.168.14.12:443"
+        opts: "ssl verify none cookie graphite5 backup"
 
   - name: "graphite-ca"
     options:
