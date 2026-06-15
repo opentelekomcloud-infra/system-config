@@ -11,8 +11,6 @@ spec:
         spec:
           serviceAccount: "eyes-on-docs"
           restartPolicy: OnFailure
-          imagePullSecrets:
-            - name: quay-pull-secret
           initContainers:
             - name: "vault-agent"
               command:
