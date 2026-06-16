@@ -62,7 +62,7 @@ config:
             enforce_hostname_verification: false
           http:
             enabled: false
-        allow_unsafe_democertificates: true
+        allow_default_init_securityindex: true
         allow_default_init_securityindex: true
         nodes_dn:
           - CN={{ .Values.opensearch_node_fqdn }}
