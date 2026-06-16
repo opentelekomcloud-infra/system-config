@@ -49,5 +49,9 @@ dind:
     pullPolicy: IfNotPresent
   storageDriver: "overlay2"
 
+# privileged: true is required for Docker-in-Docker (DinD).
+# The Docker daemon inside the container needs to create network namespaces
+# and manage cgroups, which is not possible without full privilege.
+# Alternative (kaniko/buildkit rootless) can be evaluated as a future improvement.
 securityContext:
   privileged: true
