@@ -1,0 +1,19 @@
+{{- if .Values.urlRewriter.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-url-rewriter
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: url-rewriter
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "swift-proxy.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: url-rewriter
+{{- end }}

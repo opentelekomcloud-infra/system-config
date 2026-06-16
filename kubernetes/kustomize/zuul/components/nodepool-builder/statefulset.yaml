@@ -68,9 +68,6 @@ spec:
             - name: "zuul-config-data"
               mountPath: "/data"
 
-      nodeSelector:
-        dedicated: zuul-ci
-
       serviceAccountName: "zuul"
       volumes:
         - name: "nodepool-config"

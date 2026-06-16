@@ -21,3 +21,4 @@ doc/source/_svg
 data/backups
 .vscode/
 .pre-commit-config.yaml
+mempalace.yaml

@@ -1,0 +1,32 @@
+{{- if and (eq .Values.mode "cluster") .Values.storage.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+spec:
+  type: ClusterIP
+  clusterIP: None  # Headless service
+  selector:
+    {{- include "swift-proxy.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+  ports:
+    - name: object
+      port: {{ .Values.storage.ports.object }}
+      targetPort: object
+      protocol: TCP
+    - name: container
+      port: {{ .Values.storage.ports.container }}
+      targetPort: container
+      protocol: TCP
+    - name: account
+      port: {{ .Values.storage.ports.account }}
+      targetPort: account
+      protocol: TCP
+    - name: rsync
+      port: {{ .Values.storage.ports.rsync }}
+      targetPort: rsync
+      protocol: TCP
+{{- end }}
