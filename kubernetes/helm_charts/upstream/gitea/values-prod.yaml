@@ -391,7 +391,11 @@ gitea:
     architecture: standalone
     global:
       valkey:
-        password: ""
+        # Used by the chart's valkey.dns helper to build the redis CONN_STR
+        # for queue/session/cache. Must match the server password below
+        # (both resolve to the same Vault value via AVP). If left empty the
+        # CONN_STR has no password and Gitea fails with NOAUTH.
+        password: "<path:secret/data/gitea/config#valkey_password>"
     auth:
       # Enable authentication even for cluster-internal traffic to reduce blast
       # radius if another pod is compromised. Password sourced from existingSecret.
