@@ -67,12 +67,15 @@ secretGenerator:
       - SMTP_DOMAIN=<path:secret/data/cpn/emg#smtp_domain>
       - SMTP_PORT=<path:secret/data/cpn/emg#smtp_port>
       - MAIL_RECIPIENT=<path:secret/data/cpn/emg#mail_recipient>
-      - MCAPTCHA_SECRET=<path:secret/data/cpn/emg#mcaptcha_secret>
-      - MCAPTCHA_URL=<path:secret/data/cpn/emg#mcaptcha_url>
+      - CAPTCHA_SITEKEY=<path:secret/data/cpn/emg#CAPTCHA_SITEKEY>
+      - CAPTCHA_URL=<path:secret/data/cpn/emg#CAPTCHA_URL>
+      - CAPTCHA_SECRET_KEY=<path:secret/data/cpn/emg#CAPTCHA_SECRET>
 
-# Use latest stable version for preprod
+# Use latest version for preprod
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
     newTag: "change_103_latest"
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "0.5.5"
+    newTag: "preprod"
+  - name: "quay.io/opentelekomcloud/express-mail-gateway"
+    newTag: "preprod"
