@@ -5,6 +5,16 @@ db:
   username: "<path:secret/data/gitea/config#db_username>"
   password: "<path:secret/data/gitea/config#db_password>"
 
+# Built-in PostgreSQL credentials (gitea-pg-secret, resolved by AVP from Vault)
+# password must match db.password so Gitea can authenticate as the gitea user.
+postgresql:
+  postgresPassword: "<path:secret/data/gitea/config#pg_postgres_password>"
+  password: "<path:secret/data/gitea/config#db_password>"
+
+# Valkey credentials (gitea-valkey-secret, resolved by AVP from Vault)
+valkey:
+  password: "<path:secret/data/gitea/config#valkey_password>"
+
 # Security tokens
 security:
   secretKey: "<path:secret/data/gitea/config#secret_key>"
