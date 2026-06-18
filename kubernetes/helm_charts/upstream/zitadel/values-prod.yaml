@@ -210,7 +210,7 @@ zitadel:
       cpu: 50m
       memory: 256Mi
     limits:
-      cpu: 500mg
+      cpu: 500m
       memory: 1Gi
 
   nodeSelector: {}
