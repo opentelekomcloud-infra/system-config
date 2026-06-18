@@ -73,6 +73,11 @@ helm_chart_instances:
       use-gzip: true
       compute-full-forwarded-for: true
       use-forwarded-headers: true
+      # Trust X-Forwarded-For only from HAProxy hosts (192.168.110.0/24).
+      # Pod IPs (172.16.x.x) and SNAT'd node IPs from other clusters are NOT trusted
+      # as proxy sources, so nginx uses their connection IP for whitelist checks instead
+      # of a browser-supplied X-Forwarded-For header.
+      proxy-real-ip-cidr: "192.168.110.0/24"
   otcinfra_nginx-ingress-intern:
     context: otcinfra
     repo_url: https://kubernetes.github.io/ingress-nginx

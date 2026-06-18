@@ -24,16 +24,13 @@ proxy_blocked_ips:
   - "2a02:c204::/30"     # Contabo GmbH IPv6
 
 proxy_backends:
-#  - name: "graphite-apimon"
+#  - name: "graphite-web"
 #    options:
-#      - "http-send-name-header Host"
-#      # NOTE: try to perform simliest query
 #      - "option httpchk HEAD /metrics/find?query=*"
+#      - "option forwardfor"
 #      - "default-server check weight 100 inter 5s fall 5 rise 1"
 #    domain_names:
 #      - "graphite.eco.tsi-dev.otc-service.com"
-#      - "graphite2.eco.tsi-dev.otc-service.com"
-#      - "graphite3.eco.tsi-dev.otc-service.com"
 #    servers:
 #      - name: "graphite2"
 #        address: "192.168.14.159:443"
@@ -41,6 +38,9 @@ proxy_backends:
 #      - name: "graphite3"
 #        address: "192.168.151.11:443"
 #        opts: "ssl verify none cookie graphite3"
+#      - name: "graphite5"
+#        address: "192.168.14.12:443"
+#        opts: "ssl verify none cookie graphite5 backup"
 
   - name: "graphite-ca"
     options:
