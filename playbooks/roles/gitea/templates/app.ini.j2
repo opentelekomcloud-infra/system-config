@@ -74,7 +74,8 @@ DISABLE_GIT_HOOKS = true
 DISABLE_WEBHOOKS = false
 ;;If left empty or no valid values are specified, the default is off (no checking)
 ;;Classes include "lower,upper,digit,spec"
-;PASSWORD_COMPLEXITY = off
+PASSWORD_COMPLEXITY = lower,upper,digit
+MIN_PASSWORD_LENGTH = 32
 SUCCESSFUL_TOKENS_CACHE_SIZE = 20
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

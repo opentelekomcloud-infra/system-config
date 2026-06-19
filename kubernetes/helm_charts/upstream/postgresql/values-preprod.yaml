@@ -1,6 +1,6 @@
 postgresql:
   global:
-    defaultStorageClass: "csi-disk"
+    defaultStorageClass: "csi-disk-retain"
 
   auth:
     enablePostgresUser: true
@@ -115,7 +115,7 @@ postgresql:
     # Persistence configuration
     persistence:
       enabled: true
-      storageClass: "csi-disk"
+      storageClass: "csi-disk-retain"
       accessModes:
         - ReadWriteOnce
       size: 50Gi

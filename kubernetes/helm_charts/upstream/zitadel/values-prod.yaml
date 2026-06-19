@@ -1,0 +1,308 @@
+# Production ZITADEL deployment on otcinfra2 cluster
+# Based on values-preprod.yaml with production hardening
+#
+# Prerequisites:
+#   1. Create namespace: kubectl create ns zitadel (on otcinfra2)
+#   2. Create secrets (from Vault or manually):
+#      - zitadel-config:    Opaque secret with key "config" containing ZITADEL YAML config
+#      - zitadel-masterkey: Opaque secret with key "masterkey" (32-char random string)
+#   3. DNS record: zitadel.eco.tsi-dev.otc-service.com -> 80.158.58.167 (otcinfra2 ELB)
+#
+# Note: The ingress-nginx controller must be configured with a default SSL certificate
+# Add to ingress-nginx-controller deployment:
+# --default-ssl-certificate=zitadel/zitadel-tls
+
+zitadel:
+  # Default values for zitadel.
+  # Login V2 UI (ghcr.io/zitadel/zitadel-login). Image tag defaults to the
+  # chart appVersion (v4.14.0). Chart 10.x auto-generates the RSA login
+  # service keypair and injects a SystemAPIUsers.login-client entry, so the
+  # V2 UI authenticates to the ZITADEL API via X.509-signed JWT (no PAT).
+  login:
+    enabled: true
+    # Expose the V2 login UI at /ui/v2/login on the same host. nginx routes
+    # this prefix to the login service (:3000); everything else (API/console)
+    # stays on the main ZITADEL ingress (:8080). TLS reuses the zitadel-tls
+    # secret already managed by the main ingress (no cert-manager annotation
+    # here to avoid duplicate certificate orders).
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: zitadel.eco.tsi-dev.otc-service.com
+          paths:
+            - path: /ui/v2/login
+              pathType: Prefix
+      tls:
+        - hosts:
+            - zitadel.eco.tsi-dev.otc-service.com
+          secretName: zitadel-tls
+
+  zitadel:
+    configmapConfig:
+      TLS:
+        Enabled: false
+      # ExternalDomain/ExternalSecure/ExternalPort are also set in the external
+      # zitadel-config secret, but the Login V2 chart templates read them from
+      # chart values to derive the login UI AUDIENCE, ZITADEL_API_URL and
+      # ZITADEL_EXTERNALDOMAIN. Values must match the runtime config.
+      # ExternalPort MUST be 443 here: traffic terminates TLS on the ingress and
+      # ZITADEL's issuer/audience is https://<domain> with no port. Without this
+      # the login configmap defaults to service.port (8080) and renders
+      # AUDIENCE="https://<domain>:8080", which the login client JWT validation
+      # would reject.
+      ExternalDomain: "zitadel.eco.tsi-dev.otc-service.com"
+      ExternalSecure: true
+      ExternalPort: 443
+      Machine:
+        Identification:
+          Hostname:
+            Enabled: true
+          Webhook:
+            Enabled: false
+
+    secretConfigAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    # Reference the name of a secret that contains ZITADEL configuration.
+    configSecretName: zitadel-config
+    configSecretKey: config
+
+    # Masterkey for symmetric encryption — stored in K8s secret, never in values file
+    masterkey: ""
+    masterkeySecretName: "zitadel-masterkey"
+
+    masterkeyAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+    dbSslCaCrt: ""
+    dbSslCaCrtAnnotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+    dbSslCaCrtSecret: "zitadel-db-ssl-ca-crt"
+    dbSslAdminCrtSecret: ""
+    dbSslUserCrtSecret: ""
+    serverSslCrtSecret: ""
+
+    selfSignedCert:
+      enabled: false
+      additionalDnsName:
+
+    # Debug pod disabled in production
+    debug:
+      enabled: false
+      annotations:
+        helm.sh/hook: pre-install,pre-upgrade
+        helm.sh/hook-weight: "1"
+      initContainers: []
+      extraContainers: []
+
+    initContainers: []
+    extraContainers: []
+
+  # Production: 3 replicas for HA
+  replicaCount: 3
+
+  image:
+    repository: ghcr.io/zitadel/zitadel
+    pullPolicy: IfNotPresent
+    tag: ""
+
+  annotations: {}
+
+  configMap:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+
+  serviceAccount:
+    create: true
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "0"
+    name: ""
+
+  podAnnotations: {}
+
+  podAdditionalLabels: {}
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    fsGroup: 1000
+
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    readOnlyRootFilesystem: true
+    privileged: false
+
+  env:
+    # Require the self-hosted Login V2 UI. NOTE: this sets the *default instance*
+    # feature, which only applies to instances created by FirstInstance. The eco
+    # instance already exists, so after deploy you must also enable the
+    # "Login V2" feature flag on the existing instance and set its base URI to
+    # https://zitadel.eco.tsi-dev.otc-service.com/ui/v2/login
+    # (Console > Instance > Features, or the Feature API).
+    - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
+      value: "true"
+    - name: SSL_CERT_FILE
+      value: "/etc/ssl/certs/otc-ca.crt"
+
+  envVarsSecret: ""
+
+  service:
+    type: ClusterIP
+    clusterIP: ""
+    externalTrafficPolicy: ""
+    port: 8080
+    protocol: http
+    appProtocol: http
+    labels: {}
+    scheme: HTTP
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/preserve-host: "true"
+      nginx.ingress.kubernetes.io/auth-tls-verify-client: "off"
+      nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    hosts:
+      - host: zitadel.eco.tsi-dev.otc-service.com
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zitadel-prod
+                port:
+                  number: 8080
+    tls:
+      - hosts:
+          - zitadel.eco.tsi-dev.otc-service.com
+        secretName: zitadel-tls
+
+  # Production resource limits
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  topologySpreadConstraints:
+    - maxSkew: 1
+      topologyKey: kubernetes.io/hostname
+      whenUnsatisfiable: DoNotSchedule
+      labelSelector:
+        matchLabels:
+          app.kubernetes.io/name: zitadel
+
+  initJob:
+    enabled: true
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "1"
+    resources: {}
+    backoffLimit: 5
+    activeDeadlineSeconds: 600
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    command: ""
+
+  setupJob:
+    annotations:
+      helm.sh/hook: pre-install,pre-upgrade
+      helm.sh/hook-delete-policy: before-hook-creation
+      helm.sh/hook-weight: "2"
+    resources: {}
+    activeDeadlineSeconds: 300
+    initContainers: []
+    extraContainers: []
+    podAnnotations: {}
+    podAdditionalLabels: {}
+    additionalArgs:
+      - "--init-projections=true"
+      - "--tlsMode=enabled"
+    machinekeyWriter:
+      image:
+        repository: alpine/k8s
+        tag: "1.31.4"
+      resources: {}
+
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 0
+    periodSeconds: 5
+    failureThreshold: 3
+
+  startupProbe:
+    enabled: true
+    periodSeconds: 1
+    failureThreshold: 30
+
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+      honorLabels: false
+      honorTimestamps: true
+
+  pdb:
+    enabled: true
+    minAvailable: 1
+    annotations: {}
+
+  extraContainers: []
+
+  extraVolumes:
+    - name: otc-ca-cert
+      secret:
+        defaultMode: 420
+        secretName: otc-ca-cert
+
+  extraVolumeMounts:
+    - name: otc-ca-cert
+      mountPath: /etc/ssl/certs/otc-ca.crt
+      subPath: otc-ca.crt
+      readOnly: true
+
+  extraManifests: []

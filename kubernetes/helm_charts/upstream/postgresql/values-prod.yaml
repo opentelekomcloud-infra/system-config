@@ -1,6 +1,6 @@
 postgresql:
   global:
-    defaultStorageClass: "csi-disk"
+    defaultStorageClass: "csi-disk-retain"
     imagePullSecrets:
       - quay-pull-secret
     security:
@@ -116,13 +116,13 @@ postgresql:
         memory: "2Gi"
         cpu: "1000m"
       requests:
-        memory: "1Gi"
-        cpu: "250m"
+        memory: "256Mi"
+        cpu: "50m"
 
     # Persistence configuration
     persistence:
       enabled: true
-      storageClass: "csi-disk"
+      storageClass: "csi-disk-retain"
       accessModes:
         - ReadWriteOnce
       size: 50Gi
@@ -147,8 +147,8 @@ postgresql:
         memory: "256Mi"
         cpu: "250m"
       requests:
-        memory: "128Mi"
-        cpu: "100m"
+        memory: "64Mi"
+        cpu: "25m"
 
     service:
       type: ClusterIP

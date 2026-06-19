@@ -1,0 +1,18 @@
+apiVersion: v2
+name: zitadel
+description: ZITADEL - Open Source Identity and Access Management
+type: application
+version: 0.1.0
+dependencies:
+  - name: zitadel
+    # Upgraded from 9.4.0 (app v4.10.1) to patch GHSA-25rw-g6ff-fmg8
+    # (Login UI policy bypass / unauthorized self-registration via external
+    # IdP flow, fixed in app v4.12.1) and GHSA-cfjq-28r2-4jv5 (second-factor
+    # bypass, fixed in app v4.6.0).
+    #
+    # Chart 10.0.2 ships app v4.14.0 and is the target for the Login V2
+    # migration. Chart 10.x replaces the login-client PAT with X.509
+    # SystemAPIUsers auth and removes the wait-for-postgres init container.
+    # Login V2 is enabled in both values-preprod.yaml and values-prod.yaml.
+    version: "10.0.2"
+    repository: "https://charts.zitadel.com"

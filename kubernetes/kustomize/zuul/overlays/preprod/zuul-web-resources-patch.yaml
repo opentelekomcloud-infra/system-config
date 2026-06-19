@@ -1,0 +1,18 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-web
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: zuul
+          resources:
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+            requests:
+              cpu: "50m"
+              memory: "256Mi"

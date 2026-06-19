@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-scheduler
+spec:
+  template:
+    spec:
+      securityContext:
+        fsGroup: 10001
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0400
+        - name: tenant-config
+          configMap:
+            name: nodepool-config-yaml
+            items:
+              - key: main.yaml
+                path: preprod/main.yaml
+      containers:
+        - name: zuul
+          image: zuul/zuul-scheduler
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: tenant-config
+              mountPath: /etc/zuul-config/tenants
+              readOnly: true
+              protocol: TCP

@@ -1,5 +1,29 @@
-gitea_version: "1.24.0"
-gitea_checksum: "sha256:85e8ab023be83b91e6d5faf5f8246e5277c8f2175e3db63049427f68318d5dd9"
+gitea_version: "1.26.2"
+gitea_checksum: "sha256:5b37937b625de69196748f7293eee1a7363f8637ae6e3da3c359bb380bd61a6a"
+
+# IPs/subnets permanently blocked at the kernel level (iptables DROP)
+# Individual attacker IPs from 2026-05-27 DDoS + their full Contabo hosting ranges
+iptables_rules_v4:
+  - "-s 194.163.149.175 -j DROP"   # XSS scanner DDoS (2026-05-27)
+  - "-s 167.86.124.86 -j DROP"     # Secondary attacker (2026-05-27)
+  - "-s 173.212.192.0/18 -j DROP"  # Contabo GmbH
+  - "-s 173.249.0.0/18 -j DROP"    # Contabo GmbH
+  - "-s 62.171.128.0/18 -j DROP"   # Contabo GmbH
+  - "-s 5.189.128.0/18 -j DROP"    # Contabo GmbH
+  - "-s 144.91.64.0/18 -j DROP"    # Contabo GmbH
+  - "-s 38.242.192.0/18 -j DROP"   # Contabo GmbH
+  - "-s 194.163.128.0/18 -j DROP"  # Contabo GmbH
+  - "-s 161.97.64.0/18 -j DROP"    # Contabo GmbH
+  - "-s 144.91.96.0/19 -j DROP"    # Contabo GmbH
+  - "-s 37.60.224.0/19 -j DROP"    # Contabo GmbH
+  - "-s 38.242.128.0/19 -j DROP"   # Contabo GmbH
+  - "-s 154.12.224.0/19 -j DROP"   # Contabo GmbH
+  - "-s 154.26.128.0/19 -j DROP"   # Contabo GmbH
+  - "-s 207.244.224.0/20 -j DROP"  # Contabo GmbH
+  - "-s 209.126.0.0/20 -j DROP"    # Contabo GmbH
+iptables_rules_v6:
+  - "-s 2a02:c202::/32 -j DROP"    # Contabo GmbH IPv6
+  - "-s 2a02:c204::/30 -j DROP"    # Contabo GmbH IPv6
 
 gitea_domain: "gitea.eco.tsi-dev.otc-service.com"
 gitea_app_name: "Open Telekom Cloud: git"

@@ -1,0 +1,24 @@
+---
+# Patch PV for Zuul config shared storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: zuul-config-sfs-turbo
+spec:
+  storageClassName: csi-sfsturbo
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - vers=3
+    - nolock
+    - noresvport
+    - noatime
+    - nodiratime
+    - rsize=1048576
+    - wsize=1048576
+    - timeo=600
+    - retrans=2
+    - hard
+    - actimeo=120
+  nfs:
+    path: /zuul-config
+    server: 192.168.170.45

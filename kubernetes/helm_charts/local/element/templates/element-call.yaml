@@ -1,0 +1,141 @@
+{{- if .Values.elementCall.enabled }}
+{{- /*
+  Element Call — Standalone video/voice calling frontend.
+
+  This deploys the Element Call web application at call.otc-service.com.
+  It provides a dedicated URL for video conferencing without needing
+  the full Element Web chat client.
+
+  Element Call is also available as a built-in widget in Element Web —
+  this standalone deployment is optional but useful for sharing call links
+  with external users.
+*/ -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: element-call-config
+  labels:
+    app.kubernetes.io/name: element-call
+data:
+  config.json: |
+    {
+      "default_server_config": {
+        "m.homeserver": {
+          "base_url": "https://{{ .Values.elementCall.homeserverHost | default "matrix.otc-service.com" }}",
+          "server_name": "{{ .Values.elementCall.homeserverHost | default "matrix.otc-service.com" }}"
+        }
+      },
+      "livekit": {
+        "livekit_service_url": "https://{{ .Values.elementCall.livekitHost | default "matrixrtc.otc-service.com" }}/sfu/get"
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: element-call
+  labels:
+    app.kubernetes.io/name: element-call
+    app.kubernetes.io/component: frontend
+spec:
+  replicas: {{ .Values.elementCall.replicas | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: element-call
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: element-call
+    spec:
+      imagePullSecrets:
+        - name: quay-pull-secret
+      containers:
+        - name: element-call
+          image: {{ .Values.elementCall.image | default "quay.io/opentelekomcloud/element-call:v0.17.0" }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 128Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: config
+              mountPath: /app/config.json
+              subPath: config.json
+              readOnly: true
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: config
+          configMap:
+            name: element-call-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: element-call
+  labels:
+    app.kubernetes.io/name: element-call
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 8080
+      targetPort: http
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: element-call
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: element-call
+  labels:
+    app.kubernetes.io/name: element-call
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/duration: "8760h"
+    cert-manager.io/renew-before: "720h"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - {{ .Values.elementCall.host | default "call.otc-service.com" }}
+      secretName: element-call-tls
+  rules:
+    - host: {{ .Values.elementCall.host | default "call.otc-service.com" }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: element-call
+                port:
+                  number: 8080
+{{- end }}

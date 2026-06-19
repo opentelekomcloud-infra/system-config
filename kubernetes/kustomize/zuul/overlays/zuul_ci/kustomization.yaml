@@ -187,6 +187,28 @@ patches:
       name: zuul-web
       version: v1
 
+  # Restore headless service for zuul-web (matches live otcci state)
+  - patch: |-
+      - op: add
+        path: /spec/clusterIP
+        value: None
+    target:
+      group: ""
+      kind: Service
+      name: zuul-web
+      version: v1
+
+  # Restore nodeSelector for all zuul/nodepool components (matches live otcci state)
+  - patch: |-
+      - op: add
+        path: /spec/template/spec/nodeSelector
+        value:
+          dedicated: zuul-ci
+    target:
+      labelSelector: "app.kubernetes.io/name=zuul"
+      group: apps
+      version: v1
+
 resources:
   - ../../base
   - crb.yaml

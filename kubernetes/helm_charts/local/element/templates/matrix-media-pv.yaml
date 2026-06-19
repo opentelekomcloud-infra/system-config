@@ -1,0 +1,45 @@
+{{- /*
+  NFS PersistentVolume for Synapse media store.
+  Uses existing SFS Turbo NFS share at 192.168.171.186.
+  This PV is referenced by the PVC "matrix-media-pvc" which Synapse uses
+  via synapse.media.storage.existingClaim.
+*/ -}}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: matrix-nfs
+  labels:
+    app.kubernetes.io/name: matrix
+    app.kubernetes.io/component: media-storage
+spec:
+  capacity:
+    storage: {{ .Values.mediaStorage.capacity | default "500Gi" | quote }}
+  accessModes:
+    - ReadWriteMany
+  mountOptions:
+    - vers=3
+    - nolock
+    - noresvport
+    - timeo=600
+    - tcp
+  nfs:
+    server: {{ .Values.mediaStorage.nfs.server | quote }}
+    path: {{ .Values.mediaStorage.nfs.path | quote }}
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: {{ .Values.mediaStorage.storageClassName | default "csi-sfsturbo-retain" | quote }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: matrix-media-pvc
+  labels:
+    app.kubernetes.io/name: matrix
+    app.kubernetes.io/component: media-storage
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: {{ .Values.mediaStorage.capacity | default "500Gi" | quote }}
+  volumeName: matrix-nfs
+  storageClassName: {{ .Values.mediaStorage.storageClassName | default "csi-sfsturbo-retain" | quote }}

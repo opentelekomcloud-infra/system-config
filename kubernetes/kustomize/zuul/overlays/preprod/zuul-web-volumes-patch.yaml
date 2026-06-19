@@ -1,0 +1,27 @@
+---
+# Mount SSH keys and builds directory for web
+# Reuses the existing zuul-config-data PVC (SFS-turbo) mounted in base
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zuul-web
+spec:
+  template:
+    spec:
+      volumes:
+        - name: zuul-ssh-keys
+          secret:
+            secretName: zuul-ssh-keys
+            defaultMode: 0600
+      containers:
+        - name: zuul
+          image: zuul/zuul-web
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: zuul-ssh-keys
+              mountPath: /var/lib/zuul-ssh
+              readOnly: true
+            - name: zuul-config-data
+              mountPath: /var/lib/zuul/builds
+              subPath: builds
+              readOnly: true

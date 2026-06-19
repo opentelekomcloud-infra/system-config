@@ -63,7 +63,6 @@
   /api/dli/dli_02_0195.html /data-lake-insight/api-ref/queue-related_apis_recommended/deleting_a_queue.html;
   /api/dli/dli_02_0196.html /data-lake-insight/api-ref/queue-related_apis_recommended/querying_all_queues.html;
   /api/dli/dli_02_0200.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/modifying_host_information.html;
-  /api/dli/dli_02_0201.html /data-lake-insight/api-ref/permissions_policies_and_supported_actions.html;
   /api/dli/dli_02_0223.html /data-lake-insight/api-ref/flink_job-related_apis/index.html;
   /api/dli/dli_02_0225.html /data-lake-insight/api-ref/out-of-date_apis/flink_job-related_apis_deprecated/authorizing_dli_to_access_obs_deprecated.html;
   /api/dli/dli_02_0228.html /data-lake-insight/api-ref/flink_job-related_apis/creating_a_sql_job.html;
@@ -131,6 +130,7 @@
   /api/dli/dli_02_0371.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/creating_a_route.html;
   /api/dli/dli_02_0372.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/deleting_a_route.html;
   /api/dli/dli_02_0500.html /data-lake-insight/api-ref/api_usage_guidelines.html;
+  /api/dli/en-us_topic_0206808210.html /data-lake-insight/api-ref/permissions_policies_and_supported_actions.html;
   /devg/dli/ /data-lake-insight/dev-guide/index.html;
   /devg/dli/dli_05_0044.html /data-lake-insight/dev-guide/sql_jobs/using_spark_sql_jobs_to_analyze_obs_data.html;
   /devg/dli/dli_05_0062.html /data-lake-insight/dev-guide/sql_jobs/calling_udafs_in_spark_sql_jobs.html;
@@ -259,7 +259,6 @@
   /en-us/api/dli/dli_02_0195.html /data-lake-insight/api-ref/queue-related_apis_recommended/deleting_a_queue.html;
   /en-us/api/dli/dli_02_0196.html /data-lake-insight/api-ref/queue-related_apis_recommended/querying_all_queues.html;
   /en-us/api/dli/dli_02_0200.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/modifying_host_information.html;
-  /en-us/api/dli/dli_02_0201.html /data-lake-insight/api-ref/permissions_policies_and_supported_actions.html;
   /en-us/api/dli/dli_02_0223.html /data-lake-insight/api-ref/flink_job-related_apis/index.html;
   /en-us/api/dli/dli_02_0225.html /data-lake-insight/api-ref/out-of-date_apis/flink_job-related_apis_deprecated/authorizing_dli_to_access_obs_deprecated.html;
   /en-us/api/dli/dli_02_0228.html /data-lake-insight/api-ref/flink_job-related_apis/creating_a_sql_job.html;
@@ -327,6 +326,7 @@
   /en-us/api/dli/dli_02_0371.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/creating_a_route.html;
   /en-us/api/dli/dli_02_0372.html /data-lake-insight/api-ref/apis_related_to_enhanced_datasource_connections/deleting_a_route.html;
   /en-us/api/dli/dli_02_0500.html /data-lake-insight/api-ref/api_usage_guidelines.html;
+  /en-us/api/dli/en-us_topic_0206808210.html /data-lake-insight/api-ref/permissions_policies_and_supported_actions.html;
   /en-us/devg/dli/ /data-lake-insight/dev-guide/index.html;
   /en-us/devg/dli/dli_05_0044.html /data-lake-insight/dev-guide/sql_jobs/using_spark_sql_jobs_to_analyze_obs_data.html;
   /en-us/devg/dli/dli_05_0062.html /data-lake-insight/dev-guide/sql_jobs/calling_udafs_in_spark_sql_jobs.html;

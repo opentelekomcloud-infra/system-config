@@ -1,0 +1,39 @@
+{{- if .Values.urlRewriter.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-url-rewriter
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: url-rewriter
+spec:
+  replicas: {{ .Values.urlRewriter.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "swift-proxy.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: url-rewriter
+  template:
+    metadata:
+      labels:
+        {{- include "swift-proxy.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: url-rewriter
+    spec:
+      containers:
+      - name: nginx
+        image: {{ .Values.urlRewriter.image.repository }}:{{ .Values.urlRewriter.image.tag }}
+        imagePullPolicy: {{ .Values.urlRewriter.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: 8081
+          protocol: TCP
+        volumeMounts:
+        - name: nginx-config
+          mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+        resources:
+          {{- toYaml .Values.urlRewriter.resources | nindent 10 }}
+      volumes:
+      - name: nginx-config
+        configMap:
+          name: {{ include "swift-proxy.fullname" . }}-url-rewriter
+{{- end }}

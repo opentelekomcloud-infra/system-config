@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: maubot
+spec:
+  type: ClusterIP
+  ports:
+    - name: maubot
+      port: 29316
+      targetPort: maubot
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: maubot
