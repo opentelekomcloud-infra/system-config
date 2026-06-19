@@ -1,0 +1,12 @@
+---
+apiVersion: v2
+name: outline
+description: Modern team knowledge base with real-time collaboration
+type: application
+version: 0.1.0
+appVersion: "0.87.4"
+
+dependencies:
+  - name: outline
+    version: "0.7.0"
+    repository: "https://community-charts.github.io/helm-charts"
