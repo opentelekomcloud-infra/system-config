@@ -373,7 +373,7 @@ applications:
     config:
       namespace: gitea-runner
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
