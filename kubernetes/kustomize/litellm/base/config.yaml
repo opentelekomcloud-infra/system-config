@@ -12,6 +12,7 @@ data:
       request_timeout: 6000
       callbacks: ["prometheus"]
       require_auth_for_metrics_endpoint: true
+      ssl_verify: false
 
     router_settings:
       routing_strategy: least-busy
