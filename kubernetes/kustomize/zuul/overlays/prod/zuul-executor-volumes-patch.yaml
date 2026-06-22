@@ -1,26 +1,14 @@
 ---
-# Mount SSH keys for executors and shared NFS for builds
-# Vault agent-injector provides base Vault token for functional tests
+# Mount SSH keys for executors and shared NFS for builds.
+# The executor base Vault token is obtained at runtime via Kubernetes auth
+# (vault-k8s-login role), so no Vault Agent injector is used. The vault CA
+# cert volume below is still required for TLS validation of Vault calls.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zuul-executor
 spec:
   template:
-    metadata:
-      annotations:
-        # Vault agent-injector: authenticate via K8s SA and write token
-        vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "zuul-base"
-        vault.hashicorp.com/auth-path: "auth/kubernetes_otcinfra2"
-        # Write the agent's own auth token (renewed by sidecar)
-        vault.hashicorp.com/agent-inject-token: "true"
-        # Run vault-agent as zuul user so token file is readable
-        vault.hashicorp.com/agent-run-as-user: "10001"
-        vault.hashicorp.com/agent-run-as-group: "10001"
-        # TLS: use replicated vault CA cert from zuul-ci namespace
-        vault.hashicorp.com/tls-secret: "vault-ca-cert"
-        vault.hashicorp.com/ca-cert: "/vault/tls/ca.crt"
     spec:
       volumes:
         - name: zuul-ssh-keys
