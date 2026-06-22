@@ -6,7 +6,7 @@ metadata:
     app: llamacpp
 spec:
   serviceName: llamacpp-headless
-  replicas: 5
+  replicas: 0
   podManagementPolicy: Parallel
   selector:
     matchLabels:

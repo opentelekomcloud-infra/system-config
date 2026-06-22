@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-server
+  labels:
+    app: vllm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vllm
+  template:
+    metadata:
+      labels:
+        app: vllm
+    spec:
+      imagePullSecrets:
+        - name: default-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: accelerator
+                    operator: In
+                    values:
+                      - nvidia-l4
+      containers:
+        - name: vllm
+          image: vllm/vllm-openai:latest
+          env:
+            - name: VLLM_API_KEY
+              value: "<path:secret/data/vllm/auth#api-key>"
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "0,1"
+            - name: NVIDIA_DRIVER_CAPABILITIES
+              value: compute,utility
+            - name: HF_HUB_OFFLINE
+              value: "1"
+            - name: TRANSFORMERS_OFFLINE
+              value: "1"
+            - name: VLLM_IMAGE_FETCH_TIMEOUT
+              value: "15"
+          args:
+            - --model
+            - /models/Qwen3.6-35B-A3B-AWQ-4bit
+            - --served-model-name
+            - qwen3.6-35b
+            - --reasoning-parser
+            - qwen3
+            - --tensor-parallel-size
+            - "2"
+            - --enable-prefix-caching
+            - --gpu-memory-utilization
+            - "0.90"
+            - --max-model-len
+            - "262144"
+            - --max-num-seqs
+            - "8"
+            - --limit-mm-per-prompt
+            - '{"image":1}'
+            - --max-num-batched-tokens
+            - "8192"
+            - --speculative-config
+            - '{"method":"mtp","num_speculative_tokens":2}'
+            - --override-generation-config
+            - '{"temperature":0.6,"top_p":0.95,"top_k":20,"min_p":0.0,"presence_penalty":0.0,"repetition_penalty":1.0}'
+            - --enable-auto-tool-choice
+            - --tool-call-parser
+            - "qwen3_coder"
+            - --kv-cache-dtype
+            - "fp8_e4m3"
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          resources:
+            requests:
+              nvidia.com/gpu: "2"
+              cpu: "24"
+              memory: "96Gi"
+            limits:
+              nvidia.com/gpu: "2"
+              cpu: "24"
+              memory: "96Gi"
+          volumeMounts:
+            - name: models
+              mountPath: /models
+              readOnly: true
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: llamacpp-models
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"

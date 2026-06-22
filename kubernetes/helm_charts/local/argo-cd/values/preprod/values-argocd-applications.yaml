@@ -520,6 +520,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: vllm
+    clusters: [preprod]
+    config:
+      namespace: vllm
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'litellm'
+      path: kubernetes/kustomize/vllm/overlays/preprod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: mcaptcha
     clusters: [preprod]
     config:
