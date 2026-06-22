@@ -5,8 +5,8 @@ metadata:
   name: cap
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    cert-manager.io/private-key-algorithm: RSA
-    cert-manager.io/private-key-size: "4096"
+    cert-manager.io/private-key-algorithm: ECDSA
+    cert-manager.io/private-key-size: "512"
     cert-manager.io/private-key-rotation-policy: Always
     nginx.ingress.kubernetes.io/ssl-protocols: "TLSv1.2 TLSv1.3"
     nginx.ingress.kubernetes.io/ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
