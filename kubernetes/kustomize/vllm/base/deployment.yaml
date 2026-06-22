@@ -90,7 +90,7 @@ spec:
       volumes:
         - name: models
           persistentVolumeClaim:
-            claimName: llamacpp-models
+            claimName: vllm-models
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Equal"

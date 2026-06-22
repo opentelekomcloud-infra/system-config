@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: vllm-models
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: csi-sfs
+  volumeName: pv-sfs-vllm
+  resources:
+    requests:
+      storage: 200Gi
