@@ -294,6 +294,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: cap
+    clusters: [otcinfra2]
+    config:
+      namespace: cap
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'cap-prod'
+      path: kubernetes/kustomize/cap/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   # =====================================================
   #  Zuul New Production
   # =====================================================
