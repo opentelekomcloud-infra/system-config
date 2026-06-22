@@ -15,6 +15,15 @@ data:
       server {
         listen 8081;
 
+        # Allow arbitrarily large object uploads (e.g. docs tarball segments).
+        # The fronting ingress already sets proxy-body-size: 0; without this the
+        # default nginx 1m limit rejects large PUTs with HTTP 413 and the Swift
+        # log upload silently drops the affected object.
+        client_max_body_size 0;
+        proxy_request_buffering off;
+        proxy_read_timeout 600s;
+        proxy_send_timeout 600s;
+
         # Remove trailing slash from index.html URLs - always redirect to HTTPS
         location ~ ^(.*index\.html)/$ {
           return 301 https://$host$1;
