@@ -97,12 +97,38 @@ vault:
       fsGroup: 1000
 
     # Init containers to download plugins
-    # Note: GitHub plugin (vault-plugin-secrets-github) can be added later
-    # if dynamic GitHub token generation is needed (paths: github, github_otcbot, github_zuul)
+    # GitHub plugin (vault-plugin-secrets-github) provides dynamic GitHub App
+    # token generation. After the binary is installed below it must still be
+    # registered + enabled + configured at runtime (paths: github, github_otcbot,
+    # github_zuul) — see the gitstyring migration runbook.
     extraInitContainers:
       - name: install-openstack-plugin
         image: "quay.io/opentelekomcloud/vault-plugin-secrets-openstack:v1.4.0"
         command: [cp, /vault-plugin-secrets-openstack, /usr/local/libexec/vault/vault-plugin-secrets-openstack]
+        volumeMounts:
+          - name: plugins
+            mountPath: /usr/local/libexec/vault
+      # No upstream container image is published for the GitHub plugin, so the
+      # release zip is fetched and extracted into the shared plugins volume.
+      # Runs under the pod's non-root securityContext (uid 100); busybox in
+      # alpine provides wget/sha256sum/unzip without needing apk/root.
+      # NOTE: requires egress to github.com from the vault namespace.
+      - name: install-github-plugin
+        image: "alpine:3.20"
+        command:
+          - sh
+          - -c
+          - |
+            set -eu
+            ver=1.2.1
+            sha=9acd271a264a48cb8dfac055bb9849b3938fe8afbc794a2d81d14be1357cbcf5
+            url="https://github.com/opentelekomcloud-infra/vault-plugin-secrets-github/releases/download/v${ver}/vault-plugin-secrets-github_${ver}_linux_amd64.zip"
+            cd /tmp
+            wget -q -O plugin.zip "$url"
+            echo "${sha}  plugin.zip" | sha256sum -c -
+            unzip -o plugin.zip vault-plugin-secrets-github
+            cp vault-plugin-secrets-github /usr/local/libexec/vault/vault-plugin-secrets-github
+            chmod 0755 /usr/local/libexec/vault/vault-plugin-secrets-github
         volumeMounts:
           - name: plugins
             mountPath: /usr/local/libexec/vault
