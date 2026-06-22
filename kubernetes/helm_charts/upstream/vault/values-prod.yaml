@@ -96,16 +96,22 @@ vault:
       runAsGroup: 1000
       fsGroup: 1000
 
-    # Init containers to download plugins
-    # Note: GitHub plugin (vault-plugin-secrets-github) can be added later
-    # if dynamic GitHub token generation is needed (paths: github, github_otcbot, github_zuul).
-    # It cannot be fetched from github.com at init time (no egress from the vault
-    # namespace) and no upstream container image is published — it must be mirrored
-    # to an internal registry (like the openstack plugin) and copied in via `cp`.
+    # Init containers to install plugins.
+    # Plugins cannot be fetched from github.com at init time (no egress from the
+    # vault namespace + CNI is not yet programmed during init), so each plugin is
+    # mirrored to an internal registry image and copied in via `cp`.
+    # GitHub plugin (vault-plugin-secrets-github) provides dynamic GitHub App token
+    # generation for paths github / github_otcbot / github_zuul.
     extraInitContainers:
       - name: install-openstack-plugin
         image: "quay.io/opentelekomcloud/vault-plugin-secrets-openstack:v1.4.0"
         command: [cp, /vault-plugin-secrets-openstack, /usr/local/libexec/vault/vault-plugin-secrets-openstack]
+        volumeMounts:
+          - name: plugins
+            mountPath: /usr/local/libexec/vault
+      - name: install-github-plugin
+        image: "quay.io/opentelekomcloud/vault-plugin-secrets-github:v1.2.1"
+        command: [cp, /vault-plugin-secrets-github, /usr/local/libexec/vault/vault-plugin-secrets-github]
         volumeMounts:
           - name: plugins
             mountPath: /usr/local/libexec/vault
