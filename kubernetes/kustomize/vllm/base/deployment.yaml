@@ -27,7 +27,7 @@ spec:
                       - nvidia-l4
       containers:
         - name: vllm
-          image: vllm/vllm-openai:latest
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/vllm:v0.23.0
           env:
             - name: VLLM_API_KEY
               value: "<path:secret/data/vllm/auth#api-key>"

@@ -3,5 +3,6 @@ kind: Kustomization
 
 resources:
   - service.yaml
+  - service-headless.yaml
   - deployment.yaml
   - models-pvc.yaml
