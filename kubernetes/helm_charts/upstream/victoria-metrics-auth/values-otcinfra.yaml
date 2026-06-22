@@ -27,8 +27,8 @@ victoria-metrics-auth:
     enabled: true
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-prod
-      cert-manager.io/private-key-algorithm: RSA
-      cert-manager.io/private-key-size: "4096"
+      cert-manager.io/private-key-algorithm: ECDSA
+      cert-manager.io/private-key-size: "384"
       cert-manager.io/private-key-rotation-policy: Always
     hosts:
       - name: vm.eco.tsi-dev.otc-service.com
