@@ -42,5 +42,5 @@ secretGenerator:
       - VALKEY_PASSWORD=<path:secret/data/cap/valkey#valkey-password>
 
 images:
-  - name: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap
+  - name: tiago2/cap
     newTag: "3.1.3"
