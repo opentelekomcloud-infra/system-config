@@ -712,6 +712,10 @@
           - infra/gitstyring:
               include:
                 - project
+                - job
+                - secret
+              include-branches:
+                - Zuul_prod_migration
           - infra/otc-metadata:
               include:
                 - project
