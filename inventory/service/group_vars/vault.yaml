@@ -1,5 +1,13 @@
 # Vault settings
 #
+# GitHub App secret-engine configs (vault-plugin-secrets-github).
+# These are applied OUT-OF-BAND, not by the configure_vault role:
+#   vault write <engine>/config app_id=<id> ins_id=<installation_id> \
+#     org_name=<org> base_url=https://api.github.com prv_key=@<key>.pem
+# prv_key (PEM) is write-only in the plugin and is NEVER stored in git.
+# Regenerate it from the GitHub App settings when re-applying.
+# Recorded values (non-secret) for reproducibility:
+#   github_otcbot: app_id=149885  ins_id=20583422  org_name=opentelekomcloud-infra  base_url=https://api.github.com
 vault_plugins:
   - url: "https://github.com/opentelekomcloud-infra/vault-plugin-secrets-github/releases/download/v1.2.1/vault-plugin-secrets-github_1.2.1_linux_amd64.zip"
     sha256: "9acd271a264a48cb8dfac055bb9849b3938fe8afbc794a2d81d14be1357cbcf5"
