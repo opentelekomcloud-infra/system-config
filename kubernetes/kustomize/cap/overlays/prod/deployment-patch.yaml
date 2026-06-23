@@ -23,6 +23,10 @@ spec:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
             runAsNonRoot: false
+          #  runAsUser: 1000
+          #   capabilities:
+          #     drop:
+          #       - ALL
           volumeMounts:
             - name: tmp
               mountPath: /tmp
