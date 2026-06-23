@@ -78,7 +78,7 @@ providers:
                       cpu: "2"
                       memory: "6Gi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
             context: prod
 
           # Builder pod — buildah/podman/skopeo pre-installed.
@@ -133,7 +133,7 @@ providers:
                       cpu: "4"
                       memory: "6Gi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
             context: prod
 
 diskimages:
