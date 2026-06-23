@@ -15,10 +15,10 @@ spec:
       labels:
         app: valkey
     spec:
-      # securityContext:
-      #   runAsNonRoot: true
-      #   runAsUser: 1000
-      #   fsGroup: 1000
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
       containers:
       - name: valkey
         image: swr.eu-de.otc.t-systems.com/opentelekomcloud/valkey:9.1.0-alpine

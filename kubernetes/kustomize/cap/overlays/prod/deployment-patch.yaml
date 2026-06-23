@@ -19,11 +19,11 @@ spec:
           emptyDir: {}
       containers:
         - name: cap
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   readOnlyRootFilesystem: false
-          #   runAsNonRoot: true
-          #   runAsUser: 1000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+            # runAsUser: 1000
           #   capabilities:
           #     drop:
           #       - ALL
