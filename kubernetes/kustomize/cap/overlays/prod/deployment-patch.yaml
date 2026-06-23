@@ -38,6 +38,11 @@ spec:
                 secretKeyRef:
                   name: valkey-auth
                   key: VALKEY_PASSWORD
+            - name: ADMIN_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: cap-credentials
+                  key: ADMIN_KEY
             - name: REDIS_URL
               value: redis://:$(VALKEY_PASSWORD)@valkey:6379
           envFrom:
