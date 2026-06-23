@@ -53,13 +53,25 @@
     - path: "/var/lib/gitea/custom/conf"
       mode: "0750"
 
-- name: Download gitea binary
+- name: Download gitea binary using get_url
   become: true
   ansible.builtin.get_url:
     url: "https://dl.gitea.io/gitea/{{ gitea_version }}/gitea-{{ gitea_version }}-{{ ansible_system | lower }}-{{ arch_translation[ansible_architecture] }}"
     dest: "/usr/local/bin/gitea"
-    mode: 0755
+    mode: "0755"
     checksum: "{{ gitea_checksum }}"
+  when: inventory_hostname != "gitea3.eco.tsi-dev.otc-service.com"
+
+- name: Download gitea binary using curl (Python 3.12 workaround)
+  become: true
+  ansible.builtin.shell: |
+    curl -fsSL \
+      https://dl.gitea.io/gitea/{{ gitea_version }}/gitea-{{ gitea_version }}-{{ ansible_system | lower }}-{{ arch_translation[ansible_architecture] }} \
+      -o /usr/local/bin/gitea
+    chmod 0755 /usr/local/bin/gitea
+  args:
+    creates: /usr/local/bin/gitea
+  when: inventory_hostname == "gitea3.eco.tsi-dev.otc-service.com"
 
 - name: Write /etc/hosts entry for ldap
   become: true
