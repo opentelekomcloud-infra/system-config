@@ -58,7 +58,7 @@ spec:
             - --max-num-seqs
             - "8"
             - --limit-mm-per-prompt
-            - '{"image":1}'
+            - '{"image":100}'
             - --max-num-batched-tokens
             - "8192"
             - --speculative-config
