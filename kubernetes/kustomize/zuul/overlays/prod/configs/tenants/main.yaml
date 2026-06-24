@@ -944,6 +944,7 @@
                 - project
           - docs/doc-convertor:
               include:
+                - job
                 - project
           - docs/doc-exports:
               include:
