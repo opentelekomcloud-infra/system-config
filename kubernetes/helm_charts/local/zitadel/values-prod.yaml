@@ -1,6 +1,7 @@
 masterkey: "<path:secret/data/zitadel/config#masterkey>"
 
 dbSslCaCrt: "<path:secret/data/postgres/ca#cert>"
+otcCaCert: "<path:secret/data/zitadel/config#otc_ca_cert>"
 
 configData: |
   ExternalSecure: true
