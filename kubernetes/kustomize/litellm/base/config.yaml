@@ -19,10 +19,5 @@ data:
       num_retries: 4
       timeout: 6000
 
-      optional_pre_call_checks:
-        - deployment_affinity
-
-      deployment_affinity_ttl_seconds: 60
-
       allowed_fails: 4
       cooldown_time: 30
