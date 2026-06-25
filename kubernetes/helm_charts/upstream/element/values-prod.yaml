@@ -155,8 +155,8 @@ matrix-stack:
 
     resources:
       requests:
-        cpu: 100m
-        memory: 100Mi
+        cpu: 25m
+        memory: 256Mi
       limits:
         memory: 1Gi
 
@@ -269,8 +269,8 @@ matrix-stack:
 
       resources:
         requests:
-          cpu: 100m
-          memory: 150Mi
+          cpu: 25m
+          memory: 64Mi
         limits:
           memory: 4Gi
 
@@ -330,8 +330,8 @@ matrix-stack:
         - name: quay-pull-secret
     resources:
       requests:
-        cpu: 100m
-        memory: 100Mi
+        cpu: 25m
+        memory: 128Mi
       limits:
         memory: 200Mi
 
@@ -343,7 +343,7 @@ matrix-stack:
     maxMemoryPolicy: allkeys-lru
     resources:
       requests:
-        cpu: 50m
+        cpu: 10m
         memory: 50Mi
       limits:
         memory: 50Mi

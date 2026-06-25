@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gitea-runner.fullname" . }}
+  namespace: {{ .Values.namespace | default .Release.Namespace }}
+  labels:
+    {{- include "gitea-runner.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "gitea-runner.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gitea-runner.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.podSecurityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gitea-runner.serviceAccountName" . }}
+      containers:
+      - name: runner
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command: ["/bin/sh"]
+        args:
+          - -c
+          - |
+            while ! nc -z localhost 2376; do
+              sleep 1
+            done
+
+            cd /data
+
+            # Check if runner is already registered
+            if [ ! -f .runner ]; then
+              echo "Registering runner..."
+              act_runner register \
+                --no-interactive \
+                --instance $GITEA_INSTANCE_URL \
+                --token $GITEA_RUNNER_TOKEN \
+                --name {{ .Values.runner.name }} \
+                --labels {{ .Values.runner.labels | quote }}
+
+              if [ $? -ne 0 ]; then
+                echo "Registration failed, exiting..."
+                exit 1
+              fi
+            else
+              echo "Runner already registered"
+            fi
+
+            # Verify registration file exists before starting daemon
+            if [ ! -f .runner ]; then
+              echo "Registration file not found after registration, exiting..."
+              exit 1
+            fi
+
+            # Start the daemon
+            act_runner daemon
+        env:
+        - name: GITEA_INSTANCE_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "gitea-runner.fullname" . }}-secret
+              key: gitea-instance-url
+        - name: GITEA_RUNNER_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: {{ include "gitea-runner.fullname" . }}-secret
+              key: registration-token
+        - name: DOCKER_HOST
+          value: tcp://localhost:2376
+        - name: DOCKER_CERT_PATH
+          value: /certs/client
+        - name: DOCKER_TLS_VERIFY
+          value: "1"
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - name: docker-certs
+          mountPath: /certs
+          readOnly: true
+        - name: runner-data
+          mountPath: /data
+        - name: config-volume
+          mountPath: /opt/act/config.yaml
+          subPath: config.yaml
+        {{- with .Values.volumeMounts }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      - name: dind
+        image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
+        imagePullPolicy: {{ .Values.dind.image.pullPolicy }}
+        args:
+          - --storage-driver={{ .Values.dind.storageDriver }}
+          - --userland-proxy=false
+          - --debug
+        env:
+        - name: DOCKER_TLS_CERTDIR
+          value: /certs
+        {{- with .Values.securityContext }}
+        securityContext:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        volumeMounts:
+        - name: docker-certs
+          mountPath: /certs
+        - name: dind-storage
+          mountPath: /var/lib/docker
+      volumes:
+      - name: docker-certs
+        emptyDir: {}
+      - name: dind-storage
+        {{- if .Values.persistence.enabled }}
+        persistentVolumeClaim:
+          claimName: {{ include "gitea-runner.fullname" . }}-dind-pvc
+        {{- else }}
+        emptyDir: {}
+        {{- end }}
+      - name: runner-data
+        emptyDir: {}
+      - name: config-volume
+        configMap:
+          name: {{ include "gitea-runner.fullname" . }}-config
+      {{- with .Values.volumes }}
+      {{- toYaml . | nindent 6 }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

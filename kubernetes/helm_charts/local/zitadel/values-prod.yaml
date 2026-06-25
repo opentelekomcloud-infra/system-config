@@ -52,6 +52,21 @@ configData: |
   FirstInstance:
     Skip: false
     InstanceName: "eco"
+    # Harden the default login policy: disable self-registration so
+    # unauthenticated visitors cannot create users in the org.
+    # NOTE: FirstInstance only applies at initial `zitadel setup`. For an
+    # already-bootstrapped instance, also change the live Login Policy via
+    # Console (Settings > Login Behavior and Security > "Register allowed")
+    # or the Admin/Management API (allowRegister: false). Separately, the
+    # external IdP option "Account creation allowed (manually)"
+    # (isCreationAllowed) and "Automatic creation" (isAutoCreation) must be
+    # disabled on the running instance/org — those are runtime-only and
+    # cannot be expressed here.
+    LoginPolicy:
+      AllowUsernamePassword: true
+      AllowRegister: false
+      AllowExternalIDP: true
+      ForceMFA: true
     Org:
       LoginClient:
         Machine:

@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - backend-sts.yaml
 - cpn-ingress.yaml
+- cpn-forgot-password-ingress.yaml
 - service-backend.yaml
 - sa.yaml
 - service-front.yaml

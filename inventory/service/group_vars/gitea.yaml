@@ -1,5 +1,5 @@
-gitea_version: "1.24.0"
-gitea_checksum: "sha256:85e8ab023be83b91e6d5faf5f8246e5277c8f2175e3db63049427f68318d5dd9"
+gitea_version: "1.26.2"
+gitea_checksum: "sha256:5b37937b625de69196748f7293eee1a7363f8637ae6e3da3c359bb380bd61a6a"
 
 # IPs/subnets permanently blocked at the kernel level (iptables DROP)
 # Individual attacker IPs from 2026-05-27 DDoS + their full Contabo hosting ranges
