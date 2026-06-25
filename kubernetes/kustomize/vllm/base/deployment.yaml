@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: vllm-server
   labels:
     app: vllm
 spec:
+  serviceName: vllm-service-headless
   replicas: 2
   selector:
     matchLabels:
