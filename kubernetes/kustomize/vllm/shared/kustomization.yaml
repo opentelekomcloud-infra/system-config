@@ -4,4 +4,4 @@ kind: Kustomization
 namespace: vllm
 
 resources:
-  - ../../base
+  - models-pvc.yaml
