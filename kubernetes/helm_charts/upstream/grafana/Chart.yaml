@@ -4,5 +4,5 @@ description: A Helm chart for Grafana that includes pre-defined dashboards and d
 version: 0.1.0
 dependencies:
   - name: grafana
-    version: "9.2.1"
+    version: "10.5.15"
     repository: "https://grafana.github.io/helm-charts"
