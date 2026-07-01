@@ -709,7 +709,7 @@
   /en-us/usermanual/rds/rds_faq_0070.html /relational-database-service/umn/faqs/database_connection/does_mysql_support_ssl_connections.html;
   /en-us/usermanual/rds/rds_faq_0073.html /relational-database-service/umn/faqs/product_consulting/does_rds_support_cross-az_high_availability.html;
   /en-us/usermanual/rds/rds_faq_0075.html /relational-database-service/umn/faqs/database_permission/why_does_the_root_user_not_have_the_super_permissions.html;
-  /en-us/usermanual/rds/rds_faq_0076.html /relational-database-service/umn/faqs/database_storage/can_i_change_the_storage_type_of_an_rds_db_instance_from_common_i_o_to_ultra-high_i_o.html;
+  /en-us/usermanual/rds/rds_faq_0076.html /relational-database-service/umn/faqs/database_storage/can_i_change_the_storage_type_of_an_rds_db_instance.html;
   /en-us/usermanual/rds/rds_faq_0077.html /relational-database-service/umn/faqs/log_management/whats_the_slow_query_threshold_for_microsoft_sql_server.html;
   /en-us/usermanual/rds/rds_faq_0078.html /relational-database-service/umn/faqs/log_management/how_long_is_the_delay_for_rds_mysql_slow_query_logs.html;
   /en-us/usermanual/rds/rds_faq_0082.html /relational-database-service/umn/faqs/resource_and_disk_management/how_much_storage_space_is_required_for_ddl_operations.html;
@@ -786,8 +786,8 @@
   /en-us/usermanual/rds/rds_pg_08_0032.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/sql_analysis/creating_a_sql_insights_task.html;
   /en-us/usermanual/rds/rds_pg_08_0033.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/sql_analysis/creating_a_sql_throttling_rule.html;
   /en-us/usermanual/rds/rds_pg_08_0037.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/function_overview.html;
-  /en-us/usermanual/rds/rds_pg_08_0039.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/problem_diagnosis/killing_sessions.html;
   /en-us/usermanual/rds/rds_pg_08_0042.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_template_management/exporting_a_parameter_template.html;
+  /en-us/usermanual/rds/rds_pg_08_0057.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/problem_diagnosis/managing_historical_sessions.html;
   /en-us/usermanual/rds/rds_pg_10_0000.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/index.html;
   /en-us/usermanual/rds/rds_pg_10_0001.html /relational-database-service/umn/working_with_rds_for_postgresql/parameter_tuning/suggestions_on_postgresql_parameter_tuning.html;
   /en-us/usermanual/rds/rds_pg_10_0004.html /relational-database-service/umn/working_with_rds_for_postgresql/problem_diagnosis_and_sql_analysis/performance_monitoring/index.html;

@@ -268,6 +268,7 @@
   /en-us/usermanual/dcs/RedisDifference.html /distributed-cache-service/umn/service_overview/comparing_redis_versions.html;
   /en-us/usermanual/dcs/TagManagement.html /distributed-cache-service/umn/managing_dcs_instances/managing_tags.html;
   /en-us/usermanual/dcs/cache-instance-password.html /distributed-cache-service/umn/managing_passwords/dcs_instance_passwords.html;
+  /en-us/usermanual/dcs/dcs-faq-020220331.html /distributed-cache-service/umn/faqs/redis_usage/how_do_i_create_a_multi-db_proxy_cluster_instance.html;
   /en-us/usermanual/dcs/dcs-faq-022025.html /distributed-cache-service/umn/faqs/client_and_network_connection/should_i_use_a_domain_name_or_an_ip_address_to_connect_to_a_dcs_redis_instance.html;
   /en-us/usermanual/dcs/dcs-faq-0220330.html /distributed-cache-service/umn/faqs/redis_usage/will_cached_data_be_retained_after_an_instance_is_restarted.html;
   /en-us/usermanual/dcs/dcs-faq-0220721.html /distributed-cache-service/umn/faqs/monitoring_and_alarm/why_is_flow_control_triggered_how_do_i_handle_it.html;
@@ -279,6 +280,7 @@
   /en-us/usermanual/dcs/dcs-faq-0326024.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/index.html;
   /en-us/usermanual/dcs/dcs-faq-0427005.html /distributed-cache-service/umn/faqs/client_and_network_connection/why_is_error_noauth_authentication_required_displayed_when_i_access_a_dcs_redis_instance.html;
   /en-us/usermanual/dcs/dcs-faq-0427015.html /distributed-cache-service/umn/faqs/client_and_network_connection/is_a_password_required_for_accessing_an_instance_how_do_i_set_a_password.html;
+  /en-us/usermanual/dcs/dcs-faq-0427028.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_multi-db.html;
   /en-us/usermanual/dcs/dcs-faq-0427057.html /distributed-cache-service/umn/faqs/redis_commands/is_there_a_time_limit_on_executing_redis_commands_what_will_happen_if_a_command_times_out.html;
   /en-us/usermanual/dcs/dcs-faq-0427058.html /distributed-cache-service/umn/faqs/redis_commands/can_i_configure_redis_keys_to_be_case-insensitive.html;
   /en-us/usermanual/dcs/dcs-faq-0427070.html /distributed-cache-service/umn/faqs/monitoring_and_alarm/how_do_i_view_current_concurrent_connections_and_maximum_connections_of_a_dcs_redis_instance.html;
@@ -307,7 +309,6 @@
   /en-us/usermanual/dcs/dcs-faq-0730015.html /distributed-cache-service/umn/faqs/redis_usage/do_dcs_redis_instances_limit_the_size_of_a_key_or_value.html;
   /en-us/usermanual/dcs/dcs-faq-0730017.html /distributed-cache-service/umn/faqs/redis_usage/can_i_obtain_the_addresses_of_the_nodes_in_a_cluster_dcs_redis_instance.html;
   /en-us/usermanual/dcs/dcs-faq-0730018.html /distributed-cache-service/umn/faqs/redis_usage/why_is_available_memory_smaller_than_instance_cache_size.html;
-  /en-us/usermanual/dcs/dcs-faq-0730019.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_multiple_databases.html;
   /en-us/usermanual/dcs/dcs-faq-0730020.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_redis_clusters.html;
   /en-us/usermanual/dcs/dcs-faq-0730021.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_sentinel.html;
   /en-us/usermanual/dcs/dcs-faq-0730022.html /distributed-cache-service/umn/faqs/redis_usage/what_is_the_default_data_eviction_policy.html;
@@ -323,7 +324,7 @@
   /en-us/usermanual/dcs/dcs-faq-0730039.html /distributed-cache-service/umn/faqs/redis_commands/does_dcs_for_redis_support_the_incr_and_expire_commands.html;
   /en-us/usermanual/dcs/dcs-faq-0730040.html /distributed-cache-service/umn/faqs/redis_commands/why_do_i_fail_to_execute_some_redis_commands.html;
   /en-us/usermanual/dcs/dcs-faq-0730041.html /distributed-cache-service/umn/faqs/redis_commands/why_does_a_redis_command_fail_to_take_effect.html;
-  /en-us/usermanual/dcs/dcs-faq-0730043.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/can_dcs_redis_instances_be_upgraded_for_example_from_redis_4.0_to_5.0.html;
+  /en-us/usermanual/dcs/dcs-faq-0730043.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/can_the_major_version_of_a_dcs_redis_instance_be_upgraded_for_example_from_redis_4.0_to_5.0.html;
   /en-us/usermanual/dcs/dcs-faq-0730044.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_services_interrupted_if_maintenance_is_performed_during_the_maintenance_time_window.html;
   /en-us/usermanual/dcs/dcs-faq-0730045.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_instances_stopped_or_restarted_during_specification_modification.html;
   /en-us/usermanual/dcs/dcs-faq-0730047.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_services_interrupted_during_specification_modification.html;
@@ -347,6 +348,7 @@
   /en-us/usermanual/dcs/dcs-faq-210706001.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/when_will_aof_rewrites_be_triggered.html;
   /en-us/usermanual/dcs/dcs-faq-210721001.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/how_do_i_enable_the_sync_and_psync_commands.html;
   /en-us/usermanual/dcs/dcs-faq-210721003.html /distributed-cache-service/umn/faqs/client_and_network_connection/what_can_i_do_if_error_cannot_assign_requested_address_is_returned_when_i_access_redis_using_connect.html;
+  /en-us/usermanual/dcs/dcs-faq-210804001.html /distributed-cache-service/umn/faqs/redis_usage/notes_and_procedure_for_enabling_multi-db_for_proxy_cluster_instances.html;
   /en-us/usermanual/dcs/dcs-faq-210812001.html /distributed-cache-service/umn/faqs/big_hot_key_analysis_and_expired_key_scan/how_long_are_keys_stored_how_do_i_set_key_expiration.html;
   /en-us/usermanual/dcs/dcs-faq-211228001.html /distributed-cache-service/umn/faqs/redis_usage/explaining_and_using_hash_tags.html;
   /en-us/usermanual/dcs/dcs-faq-211230001.html /distributed-cache-service/umn/faqs/client_and_network_connection/connection_pool_selection_and_recommended_jedis_parameter_settings.html;
@@ -422,11 +424,11 @@
   /en-us/usermanual/dcs/dcs-ug-0312025.html /distributed-cache-service/umn/managing_dcs_instances/modifying_maintenance_time_window.html;
   /en-us/usermanual/dcs/dcs-ug-0312026.html /distributed-cache-service/umn/managing_dcs_instances/modifying_the_security_group.html;
   /en-us/usermanual/dcs/dcs-ug-0312028.html /distributed-cache-service/umn/managing_dcs_instances/viewing_background_tasks.html;
-  /en-us/usermanual/dcs/dcs-ug-0312030.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/index.html;
-  /en-us/usermanual/dcs/dcs-ug-0312031.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/configuring_an_automatic_backup_policy.html;
-  /en-us/usermanual/dcs/dcs-ug-0312032.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/manually_backing_up_a_dcs_instance.html;
-  /en-us/usermanual/dcs/dcs-ug-0312033.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/restoring_a_dcs_instance.html;
-  /en-us/usermanual/dcs/dcs-ug-0312034.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/downloading_a_backup_file.html;
+  /en-us/usermanual/dcs/dcs-ug-0312030.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/index.html;
+  /en-us/usermanual/dcs/dcs-ug-0312031.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/configuring_an_automatic_backup_policy.html;
+  /en-us/usermanual/dcs/dcs-ug-0312032.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/manually_backing_up_a_dcs_instance.html;
+  /en-us/usermanual/dcs/dcs-ug-0312033.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/restoring_a_dcs_instance.html;
+  /en-us/usermanual/dcs/dcs-ug-0312034.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/downloading_a_backup_file.html;
   /en-us/usermanual/dcs/dcs-ug-0312035.html /distributed-cache-service/umn/migrating_data_with_dcs/index.html;
   /en-us/usermanual/dcs/dcs-ug-0312036.html /distributed-cache-service/umn/migrating_data_with_dcs/introduction_to_migration_with_dcs.html;
   /en-us/usermanual/dcs/dcs-ug-0312037.html /distributed-cache-service/umn/migrating_data_with_dcs/importing_backup_files/importing_backup_files_from_an_obs_bucket.html;
@@ -481,13 +483,14 @@
   /en-us/usermanual/dcs/dcs-ug-22121.html /distributed-cache-service/umn/managing_dcs_instances/managing_sessions.html;
   /en-us/usermanual/dcs/dcs-ug-221220.html /distributed-cache-service/umn/managing_dcs_instances/managing_users.html;
   /en-us/usermanual/dcs/dcs_01_0001.html /distributed-cache-service/umn/service_overview/command_compatibility/commands_supported_and_disabled_by_dcs_for_redis_7.0.html;
+  /en-us/usermanual/dcs/dcs_03_0016.html /distributed-cache-service/umn/operating_dcs_instances/upgrading_the_minor_or_proxy_version_of_a_dcs_instance.html;
   /en-us/usermanual/dcs/en-us_topic_0054235826.html /distributed-cache-service/umn/service_overview/what_is_dcs.html;
   /en-us/usermanual/dcs/en-us_topic_0054235835.html /distributed-cache-service/umn/service_overview/dcs_instance_specifications/index.html;
   /en-us/usermanual/dcs/en-us_topic_0054235836.html /distributed-cache-service/umn/service_overview/accessing_dcs/index.html;
   /en-us/usermanual/dcs/en-us_topic_0054235837.html /distributed-cache-service/umn/service_overview/accessing_dcs/how_to_access_dcs.html;
   /en-us/usermanual/dcs/en-us_topic_0054247786.html /distributed-cache-service/umn/service_overview/accessing_dcs/user_permissions.html;
   /en-us/usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
-  /en-us/usermanual/dcs/en-us_topic_0079835992.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/overview.html;
+  /en-us/usermanual/dcs/en-us_topic_0079835992.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/overview.html;
   /en-us/usermanual/dcs/en-us_topic_0090662012.html /distributed-cache-service/umn/faqs/client_and_network_connection/security_group_configurations.html;
   /en-us/usermanual/dcs/en-us_topic_0100698850.html /distributed-cache-service/umn/faqs/client_and_network_connection/does_dcs_support_cross-vpc_access.html;
   /usermanual/dcs/ /distributed-cache-service/umn/index.html;
@@ -500,6 +503,7 @@
   /usermanual/dcs/RedisDifference.html /distributed-cache-service/umn/service_overview/comparing_redis_versions.html;
   /usermanual/dcs/TagManagement.html /distributed-cache-service/umn/managing_dcs_instances/managing_tags.html;
   /usermanual/dcs/cache-instance-password.html /distributed-cache-service/umn/managing_passwords/dcs_instance_passwords.html;
+  /usermanual/dcs/dcs-faq-020220331.html /distributed-cache-service/umn/faqs/redis_usage/how_do_i_create_a_multi-db_proxy_cluster_instance.html;
   /usermanual/dcs/dcs-faq-022025.html /distributed-cache-service/umn/faqs/client_and_network_connection/should_i_use_a_domain_name_or_an_ip_address_to_connect_to_a_dcs_redis_instance.html;
   /usermanual/dcs/dcs-faq-0220330.html /distributed-cache-service/umn/faqs/redis_usage/will_cached_data_be_retained_after_an_instance_is_restarted.html;
   /usermanual/dcs/dcs-faq-0220721.html /distributed-cache-service/umn/faqs/monitoring_and_alarm/why_is_flow_control_triggered_how_do_i_handle_it.html;
@@ -511,6 +515,7 @@
   /usermanual/dcs/dcs-faq-0326024.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/index.html;
   /usermanual/dcs/dcs-faq-0427005.html /distributed-cache-service/umn/faqs/client_and_network_connection/why_is_error_noauth_authentication_required_displayed_when_i_access_a_dcs_redis_instance.html;
   /usermanual/dcs/dcs-faq-0427015.html /distributed-cache-service/umn/faqs/client_and_network_connection/is_a_password_required_for_accessing_an_instance_how_do_i_set_a_password.html;
+  /usermanual/dcs/dcs-faq-0427028.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_multi-db.html;
   /usermanual/dcs/dcs-faq-0427057.html /distributed-cache-service/umn/faqs/redis_commands/is_there_a_time_limit_on_executing_redis_commands_what_will_happen_if_a_command_times_out.html;
   /usermanual/dcs/dcs-faq-0427058.html /distributed-cache-service/umn/faqs/redis_commands/can_i_configure_redis_keys_to_be_case-insensitive.html;
   /usermanual/dcs/dcs-faq-0427070.html /distributed-cache-service/umn/faqs/monitoring_and_alarm/how_do_i_view_current_concurrent_connections_and_maximum_connections_of_a_dcs_redis_instance.html;
@@ -539,7 +544,6 @@
   /usermanual/dcs/dcs-faq-0730015.html /distributed-cache-service/umn/faqs/redis_usage/do_dcs_redis_instances_limit_the_size_of_a_key_or_value.html;
   /usermanual/dcs/dcs-faq-0730017.html /distributed-cache-service/umn/faqs/redis_usage/can_i_obtain_the_addresses_of_the_nodes_in_a_cluster_dcs_redis_instance.html;
   /usermanual/dcs/dcs-faq-0730018.html /distributed-cache-service/umn/faqs/redis_usage/why_is_available_memory_smaller_than_instance_cache_size.html;
-  /usermanual/dcs/dcs-faq-0730019.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_multiple_databases.html;
   /usermanual/dcs/dcs-faq-0730020.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_redis_clusters.html;
   /usermanual/dcs/dcs-faq-0730021.html /distributed-cache-service/umn/faqs/redis_usage/does_dcs_for_redis_support_sentinel.html;
   /usermanual/dcs/dcs-faq-0730022.html /distributed-cache-service/umn/faqs/redis_usage/what_is_the_default_data_eviction_policy.html;
@@ -555,7 +559,7 @@
   /usermanual/dcs/dcs-faq-0730039.html /distributed-cache-service/umn/faqs/redis_commands/does_dcs_for_redis_support_the_incr_and_expire_commands.html;
   /usermanual/dcs/dcs-faq-0730040.html /distributed-cache-service/umn/faqs/redis_commands/why_do_i_fail_to_execute_some_redis_commands.html;
   /usermanual/dcs/dcs-faq-0730041.html /distributed-cache-service/umn/faqs/redis_commands/why_does_a_redis_command_fail_to_take_effect.html;
-  /usermanual/dcs/dcs-faq-0730043.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/can_dcs_redis_instances_be_upgraded_for_example_from_redis_4.0_to_5.0.html;
+  /usermanual/dcs/dcs-faq-0730043.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/can_the_major_version_of_a_dcs_redis_instance_be_upgraded_for_example_from_redis_4.0_to_5.0.html;
   /usermanual/dcs/dcs-faq-0730044.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_services_interrupted_if_maintenance_is_performed_during_the_maintenance_time_window.html;
   /usermanual/dcs/dcs-faq-0730045.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_instances_stopped_or_restarted_during_specification_modification.html;
   /usermanual/dcs/dcs-faq-0730047.html /distributed-cache-service/umn/faqs/instance_scaling_and_upgrade/are_services_interrupted_during_specification_modification.html;
@@ -579,6 +583,7 @@
   /usermanual/dcs/dcs-faq-210706001.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/when_will_aof_rewrites_be_triggered.html;
   /usermanual/dcs/dcs-faq-210721001.html /distributed-cache-service/umn/faqs/data_backup_export_and_migration/how_do_i_enable_the_sync_and_psync_commands.html;
   /usermanual/dcs/dcs-faq-210721003.html /distributed-cache-service/umn/faqs/client_and_network_connection/what_can_i_do_if_error_cannot_assign_requested_address_is_returned_when_i_access_redis_using_connect.html;
+  /usermanual/dcs/dcs-faq-210804001.html /distributed-cache-service/umn/faqs/redis_usage/notes_and_procedure_for_enabling_multi-db_for_proxy_cluster_instances.html;
   /usermanual/dcs/dcs-faq-210812001.html /distributed-cache-service/umn/faqs/big_hot_key_analysis_and_expired_key_scan/how_long_are_keys_stored_how_do_i_set_key_expiration.html;
   /usermanual/dcs/dcs-faq-211228001.html /distributed-cache-service/umn/faqs/redis_usage/explaining_and_using_hash_tags.html;
   /usermanual/dcs/dcs-faq-211230001.html /distributed-cache-service/umn/faqs/client_and_network_connection/connection_pool_selection_and_recommended_jedis_parameter_settings.html;
@@ -654,11 +659,11 @@
   /usermanual/dcs/dcs-ug-0312025.html /distributed-cache-service/umn/managing_dcs_instances/modifying_maintenance_time_window.html;
   /usermanual/dcs/dcs-ug-0312026.html /distributed-cache-service/umn/managing_dcs_instances/modifying_the_security_group.html;
   /usermanual/dcs/dcs-ug-0312028.html /distributed-cache-service/umn/managing_dcs_instances/viewing_background_tasks.html;
-  /usermanual/dcs/dcs-ug-0312030.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/index.html;
-  /usermanual/dcs/dcs-ug-0312031.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/configuring_an_automatic_backup_policy.html;
-  /usermanual/dcs/dcs-ug-0312032.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/manually_backing_up_a_dcs_instance.html;
-  /usermanual/dcs/dcs-ug-0312033.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/restoring_a_dcs_instance.html;
-  /usermanual/dcs/dcs-ug-0312034.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/downloading_a_backup_file.html;
+  /usermanual/dcs/dcs-ug-0312030.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/index.html;
+  /usermanual/dcs/dcs-ug-0312031.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/configuring_an_automatic_backup_policy.html;
+  /usermanual/dcs/dcs-ug-0312032.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/manually_backing_up_a_dcs_instance.html;
+  /usermanual/dcs/dcs-ug-0312033.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/restoring_a_dcs_instance.html;
+  /usermanual/dcs/dcs-ug-0312034.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/downloading_a_backup_file.html;
   /usermanual/dcs/dcs-ug-0312035.html /distributed-cache-service/umn/migrating_data_with_dcs/index.html;
   /usermanual/dcs/dcs-ug-0312036.html /distributed-cache-service/umn/migrating_data_with_dcs/introduction_to_migration_with_dcs.html;
   /usermanual/dcs/dcs-ug-0312037.html /distributed-cache-service/umn/migrating_data_with_dcs/importing_backup_files/importing_backup_files_from_an_obs_bucket.html;
@@ -713,12 +718,13 @@
   /usermanual/dcs/dcs-ug-22121.html /distributed-cache-service/umn/managing_dcs_instances/managing_sessions.html;
   /usermanual/dcs/dcs-ug-221220.html /distributed-cache-service/umn/managing_dcs_instances/managing_users.html;
   /usermanual/dcs/dcs_01_0001.html /distributed-cache-service/umn/service_overview/command_compatibility/commands_supported_and_disabled_by_dcs_for_redis_7.0.html;
+  /usermanual/dcs/dcs_03_0016.html /distributed-cache-service/umn/operating_dcs_instances/upgrading_the_minor_or_proxy_version_of_a_dcs_instance.html;
   /usermanual/dcs/en-us_topic_0054235826.html /distributed-cache-service/umn/service_overview/what_is_dcs.html;
   /usermanual/dcs/en-us_topic_0054235835.html /distributed-cache-service/umn/service_overview/dcs_instance_specifications/index.html;
   /usermanual/dcs/en-us_topic_0054235836.html /distributed-cache-service/umn/service_overview/accessing_dcs/index.html;
   /usermanual/dcs/en-us_topic_0054235837.html /distributed-cache-service/umn/service_overview/accessing_dcs/how_to_access_dcs.html;
   /usermanual/dcs/en-us_topic_0054247786.html /distributed-cache-service/umn/service_overview/accessing_dcs/user_permissions.html;
   /usermanual/dcs/en-us_topic_0072429345.html /distributed-cache-service/umn/glossary.html;
-  /usermanual/dcs/en-us_topic_0079835992.html /distributed-cache-service/umn/backing_up_and_restoring_dcs_instances/overview.html;
+  /usermanual/dcs/en-us_topic_0079835992.html /distributed-cache-service/umn/backing_up_and_restoring_instance_data/overview.html;
   /usermanual/dcs/en-us_topic_0090662012.html /distributed-cache-service/umn/faqs/client_and_network_connection/security_group_configurations.html;
   /usermanual/dcs/en-us_topic_0100698850.html /distributed-cache-service/umn/faqs/client_and_network_connection/does_dcs_support_cross-vpc_access.html;
