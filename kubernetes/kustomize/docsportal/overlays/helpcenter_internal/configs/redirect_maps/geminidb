@@ -275,6 +275,7 @@
   /en-us/usermanual/nosql/nosql_05_0010.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/modifying_a_parameter_template_description.html;
   /en-us/usermanual/nosql/nosql_05_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/deleting_a_parameter_template.html;
   /en-us/usermanual/nosql/nosql_05_0012.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/viewing_parameter_change_history.html;
+  /en-us/usermanual/nosql/nosql_05_0151.html /geminidb/umn/working_with_geminidb_influx_api/db_instance_management/configuring_ssl.html;
   /en-us/usermanual/nosql/nosql_06_0001.html /geminidb/umn/getting_started_with_geminidb_cassandra/instance_connection_methods.html;
   /en-us/usermanual/nosql/nosql_06_0003.html /geminidb/umn/getting_started_with_geminidb_cassandra/creating_a_geminidb_cassandra_instance.html;
   /en-us/usermanual/nosql/nosql_06_0010.html /geminidb/umn/getting_started_with_geminidb_influx/instance_connection_methods.html;
@@ -392,6 +393,7 @@
   /usermanual/nosql/nosql_05_0010.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/modifying_a_parameter_template_description.html;
   /usermanual/nosql/nosql_05_0011.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/deleting_a_parameter_template.html;
   /usermanual/nosql/nosql_05_0012.html /geminidb/umn/working_with_geminidb_cassandra_api/parameter_template_management/viewing_parameter_change_history.html;
+  /usermanual/nosql/nosql_05_0151.html /geminidb/umn/working_with_geminidb_influx_api/db_instance_management/configuring_ssl.html;
   /usermanual/nosql/nosql_06_0001.html /geminidb/umn/getting_started_with_geminidb_cassandra/instance_connection_methods.html;
   /usermanual/nosql/nosql_06_0003.html /geminidb/umn/getting_started_with_geminidb_cassandra/creating_a_geminidb_cassandra_instance.html;
   /usermanual/nosql/nosql_06_0010.html /geminidb/umn/getting_started_with_geminidb_influx/instance_connection_methods.html;

@@ -1,5 +1,3 @@
-  /devg/dws/dws_06_0090.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/table_and_index/constraints_on_index_use.html;
-  /devg/dws/dws_06_0091.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/controlling_text_search/index.html;
   /devg/dws/dws_06_0092.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/controlling_text_search/parsing_documents.html;
   /devg/dws/dws_06_0093.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/controlling_text_search/parsing_queries.html;
   /devg/dws/dws_06_0094.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/controlling_text_search/ranking_search_results.html;
@@ -302,7 +300,6 @@
   /en-us/api/dws/EnableLogicalCluster.html /data-warehouse-service/api-ref/api_description/logical_cluster_management/switching_to_a_logical_cluster.html;
   /en-us/api/dws/EnableLtsLogs.html /data-warehouse-service/api-ref/api_description/log_management/enabling_lts.html;
   /en-us/api/dws/ExecuteRedistributionCluster.html /data-warehouse-service/api-ref/api_description/node_change/performing_a_redistribution_task.html;
-  /en-us/api/dws/ExpandInstanceStorage.html /data-warehouse-service/api-ref/api_description/node_change/expanding_disk_capacity.html;
   /en-us/api/dws/ListAlarmConfigs.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_alarm_configurations.html;
   /en-us/api/dws/ListAlarmDetail.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_alarm_details_list.html;
   /en-us/api/dws/ListAlarmStatistic.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_the_alarm_statistics_list.html;
@@ -361,7 +358,6 @@
   /en-us/api/dws/SetRedistributionPriority.html /data-warehouse-service/api-ref/api_description/node_change/changing_the_priority_of_a_redistribution_table.html;
   /en-us/api/dws/ShowClusterFlavor.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_flavor_details_of_a_cluster.html;
   /en-us/api/dws/ShowClusterRedistribution.html /data-warehouse-service/api-ref/api_description/node_change/querying_redistribution_details.html;
-  /en-us/api/dws/ShowClusterStorageExpandRange.html /data-warehouse-service/api-ref/api_description/node_change/querying_the_disk_capacity_expansion_range.html;
   /en-us/api/dws/ShowClusterVolume.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_disk_usage.html;
   /en-us/api/dws/ShowClusters.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_the_cluster_list_v2.html;
   /en-us/api/dws/ShowInstance.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_an_instance.html;
@@ -998,3 +994,7 @@
   /en-us/devg/dws/dws_04_0894.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/resource_consumption/statement_disk_space_control.html;
   /en-us/devg/dws/dws_04_0895.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/resource_consumption/kernel_resources.html;
   /en-us/devg/dws/dws_04_0896.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/resource_consumption/cost-based_vacuum_delay.html;
+  /en-us/devg/dws/dws_04_0898.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/resource_consumption/asynchronous_i_o_operations.html;
+  /en-us/devg/dws/dws_04_0899.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/parallel_data_import.html;
+  /en-us/devg/dws/dws_04_0900.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/write_ahead_logs/index.html;
+  /en-us/devg/dws/dws_04_0901.html /data-warehouse-service/dev-guide/guc_parameters_of_the_gaussdbdws_database/write_ahead_logs/settings.html;
