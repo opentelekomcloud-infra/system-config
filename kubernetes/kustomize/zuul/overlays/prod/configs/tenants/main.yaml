@@ -2,6 +2,19 @@
 # Production tenant configuration for Zuul (prod)
 # Mirrored from old prod (zuul-config/zuul/tenants/eco/sources/) on 2026-05-14
 
+# Operator admin authorization rules (keycloak `zuul` client roles).
+# Referenced by the eco2 tenant admin-rules below and satisfied by the
+# [auth "keycloak"] OpenIDConnect authenticator in zuul.conf.
+- authorization-rule:
+    name: admin
+    conditions:
+      - resource_access.zuul.roles: admin
+
+- authorization-rule:
+    name: eco_admin
+    conditions:
+      - resource_access.zuul.roles: eco_admin
+
 - tenant:
     name: eco2
     max-nodes-per-job: 5
@@ -712,6 +725,10 @@
           - infra/gitstyring:
               include:
                 - project
+                - job
+                - secret
+              include-branches:
+                - Zuul_prod_migration
           - infra/otc-metadata:
               include:
                 - project
@@ -927,6 +944,7 @@
                 - project
           - docs/doc-convertor:
               include:
+                - job
                 - project
           - docs/doc-exports:
               include:
