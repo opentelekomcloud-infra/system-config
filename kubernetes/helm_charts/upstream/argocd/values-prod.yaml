@@ -76,8 +76,14 @@ argo-cd:
 
     # Dedicated gRPC ingress for ArgoCD CLI access (native HTTP/2)
     # GRPCS = gRPC over TLS to the backend (server runs with --insecure=false)
+    #
+    # SECURITY (ES-793): the dedicated gRPC ingress
+    # (grpc.argocd-k8s.eco.tsi-dev.otc-service.com) is disabled. The main
+    # ingress already serves gRPC-Web for the UI/CLI, so external CLI access
+    # does not require this extra internet-exposed endpoint. Re-enable only if
+    # native gRPC CLI access is genuinely required, and restrict it.
     ingressGrpc:
-      enabled: true
+      enabled: false
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
         nginx.ingress.kubernetes.io/backend-protocol: "GRPCS"
