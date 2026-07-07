@@ -10,3 +10,11 @@
     name: "rsyslog"
     state: "restarted"
     enabled: true
+
+# ES-795: reload the proxy so the patched validatetoken middleware is picked
+# up. Guarded so it only runs on hosts that actually run the proxy service.
+- name: Reload swift-proxy
+  ansible.builtin.shell: "source /usr/local/swift/bin/activate; swift-init reload proxy"
+  args:
+    executable: "/bin/bash"
+  when: "'proxy' in (swift_services | default([]))"
