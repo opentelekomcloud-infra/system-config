@@ -19,7 +19,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: eyes-on-docs-openissues
-              image: quay.io/opentelekomcloud/eyes_on_docs
+              image: swr.eu-de.otc.t-systems.com/opentelekomcloud/eyes_on_docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"

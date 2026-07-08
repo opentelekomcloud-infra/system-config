@@ -8,7 +8,7 @@ labels:
       app.kubernetes.io/managed-by: "kustomize"
 
 images:
-  - name: "quay.io/opentelekomcloud/eyes_on_docs"
+  - name: "swr.eu-de.otc.t-systems.com/opentelekomcloud/eyes_on_docs"
     newTag: "0.0.1"
 
 resources:
