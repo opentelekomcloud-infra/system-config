@@ -24,4 +24,5 @@ resources:
   - cronjob-10-huawei.yaml
   - cronjob-11-hotc.yaml
   - cronjob-12-filin.yaml
+  - cronjob-13-nochild.yaml
   - sa.yaml
