@@ -11,37 +11,6 @@
     virtualenv: "/usr/local/swift"
   loop: "{{ python_packages }}"
 
-# --- ES-795: emergency identity-header-spoofing patch --------------------
-# The published validatetoken middleware does not strip client-supplied
-# identity headers, letting an unauthenticated caller spoof
-# "X-Identity-Status: Confirmed" / "X-Roles: ResellerAdmin" and bypass auth
-# (partial OTC compromise). Until a fixed release is published on PyPI and
-# the pin in defaults/main.yaml is bumped, overwrite the middleware that pip
-# installed into the swift venv with the patched copy shipped in this role.
-# TODO(ES-795): remove these two tasks + files/validatetoken/ once the pin
-# points at a fixed validatetoken release.
-- name: Locate installed validatetoken middleware in the swift venv
-  ansible.builtin.find:
-    paths: "/usr/local/swift/lib"
-    patterns: "validatetoken.py"
-    recurse: true
-    file_type: "file"
-  register: swift_validatetoken_files
-
-- name: Apply ES-795 identity-header-spoofing patch to validatetoken
-  ansible.builtin.copy:
-    src: "validatetoken/middleware/validatetoken.py"
-    dest: "{{ item.path }}"
-    owner: "root"
-    group: "swift"
-    mode: "0644"
-  loop: "{{ swift_validatetoken_files.files }}"
-  loop_control:
-    label: "{{ item.path }}"
-  notify:
-    - Reload swift-proxy
-# -------------------------------------------------------------------------
-
 - name: Create swift group
   ansible.builtin.group:
     name: "swift"
