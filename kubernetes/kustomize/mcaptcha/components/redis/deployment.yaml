@@ -5,7 +5,7 @@ metadata:
   labels:
    app.kubernetes.io/component: redis
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app.kubernetes.io/component: redis
