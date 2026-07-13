@@ -1,7 +1,3 @@
-  /perms-cfg/obs/obs_40_0021.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_multiple_iam_users_or_user_groups_under_the_account/granting_iam_user_groups_basic_permissions_on_all_obs_resources.html;
-  /perms-cfg/obs/obs_40_0022.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_multiple_iam_users_or_user_groups_under_the_account/granting_iam_user_groups_specific_permissions_for_all_obs_resources.html;
-  /perms-cfg/obs/obs_40_0023.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_multiple_iam_users_or_user_groups_under_the_account/granting_iam_user_groups_specific_permissions_on_specific_obs_resources.html;
-  /perms-cfg/obs/obs_40_0024.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_other_accounts/index.html;
   /perms-cfg/obs/obs_40_0025.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_other_accounts/granting_other_accounts_the_read_write_permission_for_a_bucket.html;
   /perms-cfg/obs/obs_40_0026.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_other_accounts/granting_other_accounts_the_specified_permissions_for_a_bucket.html;
   /perms-cfg/obs/obs_40_0027.html /object-storage-service/permissions-configuration-guide/permission_configuration_in_typical_scenarios/granting_permissions_to_other_accounts/granting_iam_users_under_an_account_the_access_to_a_bucket_and_the_resources_in_it.html;
@@ -376,11 +372,11 @@
   /utiltg/obs/obs_11_0066.html /object-storage-service/tool-guide-obsutil/best_practices/using_the_obsutil_help_command_to_search_for_functions.html;
   /utiltg/obs/obs_11_0068.html /object-storage-service/tool-guide-obsutil/best_practices/configuring_an_http_proxy_for_obsutil.html;
   /utiltg/obs/obs_11_0069.html /object-storage-service/tool-guide-obsutil/best_practices/using_obsutil_to_share_directories.html;
-  /utiltg/obs/obs_11_0073.html /object-storage-service/tool-guide-obsutil/best_practices/limiting_the_upload_and_download_rate_for_obsutil.html;
+  /utiltg/obs/obs_11_0073.html /object-storage-service/tool-guide-obsutil/best_practices/limiting_the_upload_and_download_rates_for_obsutil.html;
   /utiltg/obs/obs_11_0074.html /object-storage-service/tool-guide-obsutil/faqs/index.html;
   /utiltg/obs/obs_11_0075.html /object-storage-service/tool-guide-obsutil/faqs/after_some_files_are_deleted_in_my_local_directory_can_obsutil_synchronously_delete_them_from_the_bucket.html;
   /utiltg/obs/obs_11_0076.html /object-storage-service/tool-guide-obsutil/faqs/can_i_use_obsutil_to_directly_save_a_listing_result_to_a_local_file.html;
-  /utiltg/obs/obs_11_0077.html /object-storage-service/tool-guide-obsutil/faqs/why_is_the_size_of_objects_queried_by_obsutil_inconsistent_with_that_on_obs_console.html;
+  /utiltg/obs/obs_11_0077.html /object-storage-service/tool-guide-obsutil/faqs/why_does_obsutil_show_a_different_total_object_size_than_obs_console.html;
   /utiltg/obs/obs_11_0078.html /object-storage-service/tool-guide-obsutil/faqs/how_can_i_find_out_why_some_tasks_in_a_batch_task_failed.html;
   /utiltg/obs/obs_11_0079.html /object-storage-service/tool-guide-obsutil/faqs/how_can_i_locate_and_rectify_i_o_timeout_and_eof_errors.html;
   /utiltg/obs/obs_11_0080.html /object-storage-service/tool-guide-obsutil/faqs/why_is_a_question_mark_displayed_in_the_batch_task_progress_bar.html;

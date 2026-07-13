@@ -17,7 +17,7 @@ spec:
       serviceAccountName: cpn
       containers:
         - name: express-mail-gateway
-          image: quay.io/opentelekomcloud/express-mail-gateway:0.0.1
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/express-mail-gateway:1.0.0
           command:
             ["/bin/bash", "-c"]
           args:

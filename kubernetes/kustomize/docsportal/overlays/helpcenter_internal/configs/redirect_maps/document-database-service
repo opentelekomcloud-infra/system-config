@@ -283,6 +283,7 @@
   /en-us/usermanual/dds/dds_03_0075.html /document-database-service/umn/instance_management/changing_a_db_instance_name.html;
   /en-us/usermanual/dds/dds_03_0076.html /document-database-service/umn/monitoring_and_alarm_reporting/viewing_dds_metrics.html;
   /en-us/usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;
+  /en-us/usermanual/dds/dds_03_0082.html /document-database-service/umn/sql_execution_control.html;
   /en-us/usermanual/dds/dds_03_0100.html /document-database-service/umn/connection_management/configuring_cross-cidr_access_for_replica_set_instances.html;
   /en-us/usermanual/dds/dds_03_0101.html /document-database-service/umn/instance_management/recycling_a_db_instance.html;
   /en-us/usermanual/dds/dds_03_0110.html /document-database-service/umn/parameter_template_management/viewing_parameter_change_history.html;
@@ -452,6 +453,7 @@
   /usermanual/dds/dds_03_0075.html /document-database-service/umn/instance_management/changing_a_db_instance_name.html;
   /usermanual/dds/dds_03_0076.html /document-database-service/umn/monitoring_and_alarm_reporting/viewing_dds_metrics.html;
   /usermanual/dds/dds_03_0080.html /document-database-service/umn/database_commands/index.html;
+  /usermanual/dds/dds_03_0082.html /document-database-service/umn/sql_execution_control.html;
   /usermanual/dds/dds_03_0100.html /document-database-service/umn/connection_management/configuring_cross-cidr_access_for_replica_set_instances.html;
   /usermanual/dds/dds_03_0101.html /document-database-service/umn/instance_management/recycling_a_db_instance.html;
   /usermanual/dds/dds_03_0110.html /document-database-service/umn/parameter_template_management/viewing_parameter_change_history.html;

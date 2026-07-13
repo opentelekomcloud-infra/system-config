@@ -47,7 +47,6 @@
   /api/dws/EnableLogicalCluster.html /data-warehouse-service/api-ref/api_description/logical_cluster_management/switching_to_a_logical_cluster.html;
   /api/dws/EnableLtsLogs.html /data-warehouse-service/api-ref/api_description/log_management/enabling_lts.html;
   /api/dws/ExecuteRedistributionCluster.html /data-warehouse-service/api-ref/api_description/node_change/performing_a_redistribution_task.html;
-  /api/dws/ExpandInstanceStorage.html /data-warehouse-service/api-ref/api_description/node_change/expanding_disk_capacity.html;
   /api/dws/ListAlarmConfigs.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_alarm_configurations.html;
   /api/dws/ListAlarmDetail.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_alarm_details_list.html;
   /api/dws/ListAlarmStatistic.html /data-warehouse-service/api-ref/api_description/alarm_management/querying_the_alarm_statistics_list.html;
@@ -106,7 +105,6 @@
   /api/dws/SetRedistributionPriority.html /data-warehouse-service/api-ref/api_description/node_change/changing_the_priority_of_a_redistribution_table.html;
   /api/dws/ShowClusterFlavor.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_flavor_details_of_a_cluster.html;
   /api/dws/ShowClusterRedistribution.html /data-warehouse-service/api-ref/api_description/node_change/querying_redistribution_details.html;
-  /api/dws/ShowClusterStorageExpandRange.html /data-warehouse-service/api-ref/api_description/node_change/querying_the_disk_capacity_expansion_range.html;
   /api/dws/ShowClusterVolume.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_disk_usage.html;
   /api/dws/ShowClusters.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_the_cluster_list_v2.html;
   /api/dws/ShowInstance.html /data-warehouse-service/api-ref/api_description/cluster_management/querying_an_instance.html;
@@ -998,3 +996,5 @@
   /devg/dws/dws_06_0087.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/table_and_index/index.html;
   /devg/dws/dws_06_0088.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/table_and_index/searching_a_table.html;
   /devg/dws/dws_06_0089.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/table_and_index/creating_an_index.html;
+  /devg/dws/dws_06_0090.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/table_and_index/constraints_on_index_use.html;
+  /devg/dws/dws_06_0091.html /data-warehouse-service/dev-guide/sql_syntax_reference/full_text_search/controlling_text_search/index.html;
