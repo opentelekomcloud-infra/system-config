@@ -38,7 +38,7 @@ spec:
         - name: vllm
           args:
             - --model
-            - /models/Qwen3.6-27B-AWQ-INT4
+            - /models/Qwen3.6-27B-NVFP4
             - --served-model-name
             - qwen3.6-27b
             - --reasoning-parser
@@ -46,8 +46,9 @@ spec:
             - --tensor-parallel-size
             - "2"
             - --enable-prefix-caching
+            - --enable-chunked-prefill
             - --gpu-memory-utilization
-            - "0.90"
+            - "0.92"
             - --max-model-len
             - "262144"
             - --max-num-seqs
@@ -55,7 +56,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "8192"
+            - "16384"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":4}'
             - --override-generation-config
