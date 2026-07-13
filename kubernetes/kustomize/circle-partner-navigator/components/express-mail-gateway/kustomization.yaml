@@ -12,5 +12,5 @@ configMapGenerator:
       - vault-agent.hcl
 
 images:
-- name: quay.io/opentelekomcloud/express-mail-gateway
-  newTag: 0.0.4
+- name: swr.eu-de.otc.t-systems.com/opentelekomcloud/express-mail-gateway
+  newTag: 1.0.0
