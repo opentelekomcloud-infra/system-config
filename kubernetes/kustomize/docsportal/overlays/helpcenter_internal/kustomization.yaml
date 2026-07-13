@@ -27,6 +27,9 @@ configMapGenerator:
   - name: "application-operations-management"
     files:
       - "configs/redirect_maps/application-operations-management"
+  - name: "application-operations-management-2"
+    files:
+      - "configs/redirect_maps/application-operations-management-2"
   - name: "application-performance-management"
     files:
       - "configs/redirect_maps/application-performance-management"

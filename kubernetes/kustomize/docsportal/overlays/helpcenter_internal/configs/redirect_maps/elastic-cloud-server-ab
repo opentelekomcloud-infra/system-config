@@ -1,8 +1,10 @@
+  /usermanual/ecs/en-us_topic_0140313880.html /elastic-cloud-server/umn/disks/overview.html;
+  /usermanual/ecs/en-us_topic_0140313881.html /elastic-cloud-server/umn/passwords_and_key_pairs/index.html;
   /usermanual/ecs/en-us_topic_0140313883.html /elastic-cloud-server/umn/eips/index.html;
   /usermanual/ecs/en-us_topic_0140323150.html /elastic-cloud-server/umn/service_overview/ecs_types_and_specifications/ecs_lifecycle.html;
   /usermanual/ecs/en-us_topic_0140323151.html /elastic-cloud-server/umn/security/security_groups/index.html;
   /usermanual/ecs/en-us_topic_0140323152.html /elastic-cloud-server/umn/security/security_groups/security_group_configuration_examples.html;
-  /usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_groups_and_rules.html;
+  /usermanual/ecs/en-us_topic_0140323154.html /elastic-cloud-server/umn/security/security_groups/default_security_group_and_rules.html;
   /usermanual/ecs/en-us_topic_0140323157.html /elastic-cloud-server/umn/security/security_groups/overview.html;
   /usermanual/ecs/en-us_topic_0140963099.html /elastic-cloud-server/umn/elastic_network_interfaces/dynamically_assigning_ipv6_addresses.html;
   /usermanual/ecs/en-us_topic_0142266317.html /elastic-cloud-server/umn/instances/managing_my_ecss/changing_ecs_names.html;
