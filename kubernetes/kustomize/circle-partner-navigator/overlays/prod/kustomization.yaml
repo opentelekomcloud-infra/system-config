@@ -18,5 +18,5 @@ configMapGenerator:
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
     newTag: "1.0.2"
-  - name: "quay.io/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "0.5.5"
+  - name: "swr.eu-de.otc.t-systems.com/opentelekomcloud/circle-partner-navigator-frontend"
+    newTag: "0.6.1"

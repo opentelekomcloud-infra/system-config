@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: cpn-front
-          image: "quay.io/opentelekomcloud/circle-partner-navigator-frontend:change_1_latest"
+          image: "swr.eu-de.otc.t-systems.com/opentelekomcloud/circle-partner-navigator-frontend:change_1_latest"
           ports:
             - containerPort: 80
           volumeMounts:
