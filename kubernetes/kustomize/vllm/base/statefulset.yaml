@@ -87,7 +87,7 @@ spec:
           volumeMounts:
             - name: models
               mountPath: /models
-              readOnly: true
+              readOnly: false
       volumes:
         - name: models
           persistentVolumeClaim:
