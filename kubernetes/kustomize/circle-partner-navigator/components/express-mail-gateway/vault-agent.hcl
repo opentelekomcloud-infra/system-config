@@ -26,6 +26,9 @@ SMTP_PORT="{{ .Data.data.port }}"
 MAIL_RECIPIENT="{{ .Data.data.recipient }}"
 MCAPTCHA_SECRET="{{ .Data.data.mcaptcha_secret }}"
 MCAPTCHA_URL="{{ .Data.data.mcaptcha_url }}"
+CAPTCHA_URL={{ .Data.data.captcha_url }}
+CAPTCHA_SITEKEY={{ .Data.data.captcha_sitekey }}
+CAPTCHA_SECRET_KEY={{ .Data.data.captcha_secret_key }}
 {{- end }}
 EOT
   perms = "0664"
