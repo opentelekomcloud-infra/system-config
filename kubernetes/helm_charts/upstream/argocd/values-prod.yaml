@@ -16,6 +16,14 @@ argo-cd:
 
   global:
     domain: argocd-k8s.eco.tsi-dev.otc-service.com
+    # NetworkPolicy creation disabled. The argo-cd 10.1.x chart defaults
+    # global.networkPolicy.create=true and generates per-component policies
+    # whose allow-rules reference *named* ports (redis, repo-server). This
+    # cluster's CNI does not admit named-port NetworkPolicy rules, so the
+    # controller/server were silently blocked from reaching redis and the
+    # repo-server (rpc "i/o timeout"), breaking every application sync.
+    networkPolicy:
+      create: false
     # Enable repository credentials management
     repositoryCredentials:
       enabled: true
