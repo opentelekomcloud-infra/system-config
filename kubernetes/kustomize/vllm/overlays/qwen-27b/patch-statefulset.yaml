@@ -48,7 +48,7 @@ spec:
             - --enable-prefix-caching
             - --enable-chunked-prefill
             - --gpu-memory-utilization
-            - "0.92"
+            - "0.90"
             - --max-model-len
             - "262144"
             - --max-num-seqs
@@ -56,7 +56,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "16384"
+            - "8192"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":4}'
             - --override-generation-config
