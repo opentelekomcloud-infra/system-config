@@ -13,6 +13,14 @@ dex:
 
 global:
   domain: argocd.eco.tsi-dev.otc-service.com
+  # argo-cd chart 10.1.x defaults global.networkPolicy.create=true and
+  # generates per-component NetworkPolicies whose ingress allow-rules use
+  # named ports (redis, repo-server). This cluster's CNI does not admit
+  # named-port NetworkPolicy rules, so intra-ArgoCD traffic (controller ->
+  # redis / repo-server) is silently dropped and every application sync fails.
+  # Keep NetworkPolicy creation disabled.
+  networkPolicy:
+    create: false
 
 ## Server
 server:
