@@ -45,6 +45,8 @@ spec:
                   key: ADMIN_KEY
             - name: REDIS_URL
               value: redis://:$(VALKEY_PASSWORD)@valkey:6379
+            - name: DISABLE_ERROR_LOGGING
+              value: "true"
           envFrom:
             - secretRef:
                 name: cap-credentials
