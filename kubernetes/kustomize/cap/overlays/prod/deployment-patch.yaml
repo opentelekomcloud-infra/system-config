@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       securityContext:
-        runAsNonRoot: false
+        runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
         seccompProfile:
@@ -45,8 +45,6 @@ spec:
                   key: ADMIN_KEY
             - name: REDIS_URL
               value: redis://:$(VALKEY_PASSWORD)@valkey:6379
-            - name: DISABLE_ERROR_LOGGING
-              value: "true"
           envFrom:
             - secretRef:
                 name: cap-credentials
