@@ -29,7 +29,7 @@ configMapGenerator:
       - SERVER_PORT=3000
       - SERVER_HOSTNAME=0.0.0.0
       - DEMO_MODE=false
-      - SHOW_ERRORS=false
+      - SHOW_ERRORS=true
       - DISABLE_ERROR_LOGGING=false
 
 secretGenerator:
