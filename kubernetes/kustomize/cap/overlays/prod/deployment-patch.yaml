@@ -7,8 +7,10 @@ spec:
   template:
     spec:
       securityContext:
-        runAsNonRoot: true
+        runAsNonRoot: false
         runAsUser: 1000
+        runAsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
         fsGroup: 1000
         seccompProfile:
           type: RuntimeDefault
@@ -19,14 +21,14 @@ spec:
           emptyDir: {}
       containers:
         - name: cap
-          # securityContext:
-          #   allowPrivilegeEscalation: false
-          #   readOnlyRootFilesystem: false
-          #   runAsNonRoot: false
-          # #  runAsUser: 1000
-          # #   capabilities:
-          # #     drop:
-          # #       - ALL
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false
+            runAsNonRoot: false
+          #  runAsUser: 1000
+          #   capabilities:
+          #     drop:
+          #       - ALL
           volumeMounts:
             - name: tmp
               mountPath: /tmp

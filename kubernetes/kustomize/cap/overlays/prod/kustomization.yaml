@@ -30,7 +30,7 @@ configMapGenerator:
       - SERVER_HOSTNAME=0.0.0.0
       - DEMO_MODE=false
       - SHOW_ERRORS=false
-      - DISABLE_ERROR_LOGGING=false
+      - DISABLE_ERROR_LOGGING=true
 
 secretGenerator:
   - name: cap-credentials
