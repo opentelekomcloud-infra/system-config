@@ -62,7 +62,7 @@ spec:
             - --tensor-split
             - "1,1,1,1,1,1"
             - --split-mode
-            - "tensor"
+            - "row"
             - --cache-type-k
             - q8_0
             - --cache-type-v
