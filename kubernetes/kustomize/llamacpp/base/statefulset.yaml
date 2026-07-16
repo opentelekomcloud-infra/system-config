@@ -52,9 +52,9 @@ spec:
             - --port
             - "8080"
             - -m
-            - "/models/Hy3-IQ1_M-mtp.gguf"
+            - "/models/Hy3-IQ1_M.gguf"
             - -c
-            - "350000"
+            - "300000"
             - --fit
             - "off"
             - --device
