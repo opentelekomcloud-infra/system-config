@@ -60,7 +60,7 @@ spec:
             - --device
             - "CUDA0,CUDA1,CUDA2,CUDA3,CUDA4,CUDA5"
             - --split-mode
-            - "tensor"
+            - "layer"
             - --cache-type-k
             - q8_0
             - --cache-type-v
