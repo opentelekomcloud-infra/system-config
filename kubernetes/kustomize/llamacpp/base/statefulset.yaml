@@ -54,7 +54,7 @@ spec:
             - -m
             - "/models/Hy3-IQ1_M-mtp.gguf"
             - -c
-            - "200000"
+            - "400000"
             - --fit
             - "off"
             - --device
@@ -85,6 +85,7 @@ spec:
             - "128"
             - --batch-size
             - "4096"
+            - --kv-unified
             - --cache-idle-slots
             - -cram
             - "180000"
