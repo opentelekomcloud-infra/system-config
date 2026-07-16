@@ -7,9 +7,8 @@ spec:
   template:
     spec:
       securityContext:
-        runAsNonRoot: false
+        runAsNonRoot: true
         runAsUser: 1000
-        fsGroupChangePolicy: OnRootMismatch
         fsGroup: 1000
       volumes:
         - name: tmp
