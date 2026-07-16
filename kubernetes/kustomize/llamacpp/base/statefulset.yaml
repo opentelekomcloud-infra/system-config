@@ -42,7 +42,7 @@ spec:
           effect: "NoSchedule"
       containers:
         - name: llamacpp
-          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-hy3
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-20260716-hy3
           env:
             - name: LLAMA_API_KEY
               value: "<path:secret/data/llamacpp/auth#api-key>"
