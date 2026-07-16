@@ -6,7 +6,7 @@ metadata:
     app: llamacpp
 spec:
   serviceName: llamacpp-headless
-  replicas: 0
+  replicas: 1
   podManagementPolicy: Parallel
   selector:
     matchLabels:
@@ -27,17 +27,22 @@ spec:
                     operator: In
                     values:
                       - nvidia-l4
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                labelSelector:
-                  matchLabels:
-                    app: llamacpp
-                topologyKey: kubernetes.io/hostname
+                  - key: dedicated-model
+                    operator: In
+                    values:
+                      - hy3
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "dedicated-model"
+          operator: "Equal"
+          value: "hy3"
+          effect: "NoSchedule"
       containers:
         - name: llamacpp
-          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-b9487
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-b10015
           env:
             - name: LLAMA_API_KEY
               value: "<path:secret/data/llamacpp/auth#api-key>"
@@ -47,29 +52,25 @@ spec:
             - --port
             - "8080"
             - -m
-            - "/models/Qwen3.6-35B-A3B-UD-Q3_K_XL-MTP.gguf"
-            - --mmproj
-            - "/models/mmproj-BF16-qwen3.6-35b-MTP.gguf"
+            - "/models/Hy3-IQ1_M-mtp.gguf.gguf"
             - --spec-type
             - "draft-mtp"
             - --spec-draft-n-max
-            - "2"
+            - "3"
+            - --spec-draft-n-min
+            - "1"
             - -c
-            - "262144"
+            - "1048576"
+            - --device
+            - "CUDA0,CUDA1,CUDA2,CUDA3,CUDA4,CUDA5"
+            - --split-mode
+            - "layer"
             - -ngl
             - "999"
             - --cache-type-k
             - q8_0
             - --cache-type-v
             - q8_0
-            - --temp
-            - "0.6"
-            - --top-p
-            - "0.95"
-            - --top-k
-            - "20"
-            - --min-p
-            - "0.00"
             - --jinja
             - --metrics
             - --no-mmap
@@ -77,39 +78,42 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "2"
+            - "4"
             - --alias
-            - qwen3.6-35b
-            - --threads
-            - "4"
-            - --threads-batch
-            - "4"
+            - hy3
             - --ubatch-size
-            - "1024"
+            - "512"
             - --batch-size
-            - "2048"
-            - --swa-full
+            - "4096"
             - --kv-unified
             - --cache-idle-slots
             - -cram
-            - "10000"
+            - "180000"
             - --timeout
             - "1200"
             - -n
             - "32000"
+            - --threads
+            - "48"
+            - --threads-batch
+            - "64"
+            - --ctx-checkpoints
+            - "128"
+            - --checkpoint-every-n-tokens
+            - "8192"
           ports:
             - name: http
               containerPort: 8080
               protocol: TCP
           resources:
             requests:
-              nvidia.com/gpu: "1"
-              cpu: "4"
-              memory: "25Gi"
+              nvidia.com/gpu: "6"
+              cpu: "64"
+              memory: "200Gi"
             limits:
-              nvidia.com/gpu: "1"
-              cpu: "6"
-              memory: "31Gi"
+              nvidia.com/gpu: "6"
+              cpu: "64"
+              memory: "300Gi"
           volumeMounts:
             - name: models
               mountPath: /models
@@ -117,8 +121,3 @@ spec:
         - name: models
           persistentVolumeClaim:
             claimName: llamacpp-models
-      tolerations:
-        - key: "nvidia.com/gpu"
-          operator: "Equal"
-          value: "true"
-          effect: "NoSchedule"
