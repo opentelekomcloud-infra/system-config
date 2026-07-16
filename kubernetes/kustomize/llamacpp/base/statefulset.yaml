@@ -55,6 +55,8 @@ spec:
             - "/models/Hy3-IQ1_M-mtp.gguf"
             - -c
             - "256000"
+            - --fit
+            - "off"
             - --device
             - "CUDA0,CUDA1,CUDA2,CUDA3,CUDA4,CUDA5"
             - --split-mode
