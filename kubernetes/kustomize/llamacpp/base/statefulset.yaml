@@ -54,7 +54,7 @@ spec:
             - -m
             - "/models/Hy3-IQ1_M.gguf"
             - -c
-            - "300000"
+            - "280000"
             - --fit
             - "off"
             - --device
@@ -78,11 +78,11 @@ spec:
             - --flash-attn
             - "on"
             - --parallel
-            - "4"
+            - "3"
             - --alias
             - hy3
             - --ubatch-size
-            - "128"
+            - "512"
             - --batch-size
             - "4096"
             - --kv-unified
