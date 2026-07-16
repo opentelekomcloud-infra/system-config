@@ -99,8 +99,6 @@ spec:
             - "64"
             - --ctx-checkpoints
             - "128"
-            - --checkpoint-every-n-tokens
-            - "8192"
           ports:
             - name: http
               containerPort: 8080
