@@ -60,7 +60,7 @@ spec:
             - --spec-draft-n-min
             - "1"
             - -c
-            - "1048576"
+            - "256000"
             - --device
             - "CUDA0,CUDA1,CUDA2,CUDA3,CUDA4,CUDA5"
             - --split-mode
