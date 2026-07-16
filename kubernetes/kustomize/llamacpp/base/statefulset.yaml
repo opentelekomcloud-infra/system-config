@@ -78,7 +78,7 @@ spec:
             - --alias
             - hy3
             - --ubatch-size
-            - "384"
+            - "128"
             - --batch-size
             - "4096"
             - --kv-unified
