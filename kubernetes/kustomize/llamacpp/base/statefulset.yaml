@@ -85,6 +85,8 @@ spec:
             - --cache-idle-slots
             - -cram
             - "180000"
+            - -ngl
+            - "999"
             - --timeout
             - "1200"
             - -n
