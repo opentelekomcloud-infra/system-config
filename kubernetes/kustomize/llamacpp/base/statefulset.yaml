@@ -69,6 +69,10 @@ spec:
             - q8_0
             - --cache-type-v
             - q8_0
+            - -ctkd
+            - q8_0
+            - -ctvd
+            - q8_0
             - --jinja
             - --metrics
             - --no-mmap
@@ -80,7 +84,7 @@ spec:
             - --alias
             - hy3
             - --ubatch-size
-            - "512"
+            - "384"
             - --batch-size
             - "4096"
             - --kv-unified
