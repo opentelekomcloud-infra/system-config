@@ -55,6 +55,8 @@ spec:
             - "/models/Hy3-IQ1_M-mtp.gguf"
             - -c
             - "500000"
+            - -mg
+            - "0"
             - --fit
             - "off"
             - --device
