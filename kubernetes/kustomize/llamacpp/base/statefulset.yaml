@@ -52,7 +52,7 @@ spec:
             - --port
             - "8080"
             - -m
-            - "/models/Hy3-IQ1_M-mtp.gguf.gguf"
+            - "/models/Hy3-IQ1_M-mtp.gguf"
             - --spec-type
             - "draft-mtp"
             - --spec-draft-n-max
