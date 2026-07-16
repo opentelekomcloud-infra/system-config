@@ -66,11 +66,7 @@ spec:
             - --cache-type-k
             - q8_0
             - --cache-type-v
-            - q8_0
-            - -ctkd
-            - q8_0
-            - -ctvd
-            - q8_0
+            - q4_0
             - --jinja
             - --metrics
             - --no-mmap
