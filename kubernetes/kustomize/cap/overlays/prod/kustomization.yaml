@@ -29,8 +29,9 @@ configMapGenerator:
       - SERVER_PORT=3000
       - SERVER_HOSTNAME=0.0.0.0
       - DEMO_MODE=false
-      - SHOW_ERRORS=true
-      - DISABLE_ERROR_LOGGING=false
+      - SHOW_ERRORS=false
+      - DISABLE_ERROR_LOGGING=true
+      - CORS_ORIGIN=partners.otc-service.com,cap.eco.tsi-dev.otc-service.com
 
 secretGenerator:
   - name: cap-credentials

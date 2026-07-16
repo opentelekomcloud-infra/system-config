@@ -10,8 +10,6 @@ spec:
         runAsNonRoot: true
         runAsUser: 1000
         fsGroup: 1000
-        seccompProfile:
-          type: RuntimeDefault
       volumes:
         - name: tmp
           emptyDir: {}
