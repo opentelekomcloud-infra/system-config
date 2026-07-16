@@ -19,14 +19,14 @@ spec:
           emptyDir: {}
       containers:
         - name: cap
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: false
-            runAsNonRoot: false
-          #  runAsUser: 1000
-          #   capabilities:
-          #     drop:
-          #       - ALL
+          # securityContext:
+          #   allowPrivilegeEscalation: false
+          #   readOnlyRootFilesystem: false
+          #   runAsNonRoot: false
+          # #  runAsUser: 1000
+          # #   capabilities:
+          # #     drop:
+          # #       - ALL
           volumeMounts:
             - name: tmp
               mountPath: /tmp
