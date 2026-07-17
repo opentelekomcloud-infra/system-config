@@ -48,7 +48,7 @@ spec:
             - --enable-prefix-caching
             - --enable-chunked-prefill
             - --gpu-memory-utilization
-            - "0.80"
+            - "0.90"
             - --max-model-len
             - "200000"
             - --max-num-seqs
@@ -63,7 +63,7 @@ spec:
             - --kv-cache-dtype
             - fp8_e4m3
             - --cpu-offload-gb
-            - "150"
+            - "180"
           resources:
             requests:
               nvidia.com/gpu: "6"
