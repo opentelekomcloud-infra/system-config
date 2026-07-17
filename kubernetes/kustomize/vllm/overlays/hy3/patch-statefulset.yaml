@@ -44,9 +44,7 @@ spec:
             - --reasoning-parser
             - hy_v3
             - --tensor-parallel-size
-            - "2"
-            - --pipeline-parallel-size
-            - "3"
+            - "4"
             - --enable-prefix-caching
             - --enable-chunked-prefill
             - --gpu-memory-utilization
@@ -65,7 +63,7 @@ spec:
             - --kv-cache-dtype
             - fp8_e4m3
             - --cpu-offload-gb
-            - "100"
+            - "140"
           resources:
             requests:
               nvidia.com/gpu: "6"
