@@ -50,7 +50,7 @@ spec:
             - --gpu-memory-utilization
             - "0.92"
             - --max-model-len
-            - "262144"
+            - "200000"
             - --max-num-seqs
             - "8"
             - --max-num-batched-tokens
@@ -72,7 +72,7 @@ spec:
             limits:
               nvidia.com/gpu: "6"
               cpu: "64"
-              memory: "300Gi"
+              memory: "380Gi"
           env:
             - name: NVIDIA_VISIBLE_DEVICES
               value: "0,1,2,3,4,5"
