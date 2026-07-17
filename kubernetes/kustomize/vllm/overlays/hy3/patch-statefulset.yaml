@@ -34,6 +34,15 @@ spec:
           operator: "Equal"
           value: "hy3"
           effect: "NoSchedule"
+      resources:
+          requests:
+            nvidia.com/gpu: "6"
+            cpu: "64"
+            memory: "250Gi"
+          limits:
+            nvidia.com/gpu: "6"
+            cpu: "64"
+            memory: "300Gi"
       containers:
         - name: vllm
           args:
