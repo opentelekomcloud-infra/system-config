@@ -73,3 +73,6 @@ spec:
               nvidia.com/gpu: "6"
               cpu: "64"
               memory: "300Gi"
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "0,1,2,3,4,5"
