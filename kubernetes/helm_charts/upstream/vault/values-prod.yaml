@@ -51,9 +51,12 @@ vault:
         memory: 1Gi
         cpu: 500m
 
-    # Ingress configuration for external access
+    # Ingress DISABLED: Vault is not publicly exposed. In-cluster consumers
+    # (e.g. ArgoCD AVP in argocd-k8s) reach it via the internal ClusterIP
+    # service vault-otcinfra2.vault.svc.cluster.local:8200. Re-enable only if
+    # external access is explicitly required.
     ingress:
-      enabled: true
+      enabled: false
       ingressClassName: "nginx"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -252,9 +255,11 @@ vault:
           }
 
     # Additional environment variables (must be under server: for the chart to use them)
+    # VAULT_API_ADDR advertises the internal ClusterIP service (public ingress
+    # is disabled); matches the raft api_addr above so HA redirects stay in-cluster.
     extraEnvironmentVars:
       VAULT_ADDR: "https://127.0.0.1:8200"
-      VAULT_API_ADDR: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+      VAULT_API_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
       VAULT_CACERT: "/vault/tls/ca.crt"
 
     # Standalone configuration (disabled in favor of HA)
