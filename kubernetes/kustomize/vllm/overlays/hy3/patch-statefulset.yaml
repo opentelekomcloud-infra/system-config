@@ -3,6 +3,7 @@ kind: StatefulSet
 metadata:
   name: vllm-server
 spec:
+  replicas: 0
   selector:
     matchLabels:
       app: hy3-vllm
