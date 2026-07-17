@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vllm-server
+spec:
+  selector:
+    matchLabels:
+      app: hy3-vllm
+  template:
+    metadata:
+      labels:
+        app: hy3-vllm
+        dedicated-model: hy3
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: accelerator
+                    operator: In
+                    values:
+                      - nvidia-l4
+                  - key: dedicated-model
+                    operator: In
+                    values:
+                      - hy3
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "dedicated-model"
+          operator: "Equal"
+          value: "hy3"
+          effect: "NoSchedule"
+      containers:
+        - name: vllm
+          args:
+            - --model
+            - /models/Hy3-AWQ-NVFP4
+            - --served-model-name
+            - hy3
+            - --reasoning-parser
+            - hy_v3
+            - --tensor-parallel-size
+            - "6"
+            - --enable-prefix-caching
+            - --enable-chunked-prefill
+            - --gpu-memory-utilization
+            - "0.92"
+            - --max-model-len
+            - "262144"
+            - --max-num-seqs
+            - "8"
+            - --max-num-batched-tokens
+            - "8192"
+            - --speculative-config
+            - '{"method":"mtp","num_speculative_tokens":4}'
+            - --enable-auto-tool-choice
+            - --tool-call-parser
+            - hy_v3
+            - --kv-cache-dtype
+            - fp8_e4m3
+            - --cpu-offload-gb
+            - "100"
