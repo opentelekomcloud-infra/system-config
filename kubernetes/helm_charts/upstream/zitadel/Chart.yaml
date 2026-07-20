@@ -14,5 +14,5 @@ dependencies:
     # migration. Chart 10.x replaces the login-client PAT with X.509
     # SystemAPIUsers auth and removes the wait-for-postgres init container.
     # Login V2 is enabled in both values-preprod.yaml and values-prod.yaml.
-    version: "10.0.2"
+    version: "10.0.4"
     repository: "https://charts.zitadel.com"
