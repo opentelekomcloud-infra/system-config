@@ -5,7 +5,7 @@ type: application
 version: 0.1.0
 dependencies:
   - name: gitea
-    version: "12.6.0"
+    version: "12.7.0"
     # The chart tgz is vendored locally in charts/gitea-12.6.0.tgz so that
     # ArgoCD can install without outbound internet access to dl.gitea.com.
     # Run `helm dependency update` to refresh it from the upstream registry.
