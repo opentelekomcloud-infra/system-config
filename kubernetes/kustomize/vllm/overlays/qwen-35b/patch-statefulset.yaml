@@ -46,6 +46,8 @@ spec:
             - --tensor-parallel-size
             - "2"
             - --enable-prefix-caching
+            - --enable-chunked-prefill
+            - --enable-flashinfer-autotune
             - --gpu-memory-utilization
             - "0.90"
             - --max-model-len
