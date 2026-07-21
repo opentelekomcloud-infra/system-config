@@ -53,7 +53,7 @@ spec:
             - --max-model-len
             - "262144"
             - --max-num-seqs
-            - "8"
+            - "16"
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
