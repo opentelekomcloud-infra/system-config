@@ -2,8 +2,8 @@ container_runtime: "/usr/bin/{{ container_command }}"
 gitea_os_group: git
 gitea_os_user: git
 
-gitea_version: "1.26.2"
-gitea_checksum: "sha256:5b37937b625de69196748f7293eee1a7363f8637ae6e3da3c359bb380bd61a6a"
+gitea_version: "1.27.0"
+gitea_checksum: "sha256:3b190a162b90e3c94317b3354fca6c1fedd6fe1476e45088368f2ade97a0b01d"
 
 arch_translation:
   amd64: amd64
