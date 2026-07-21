@@ -302,7 +302,7 @@ applications:
     config:
       namespace: gitea
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      targetRevision: 'Gitea_migration'
       path: kubernetes/helm_charts/upstream/gitea
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
@@ -319,7 +319,7 @@ applications:
     config:
       namespace: gitea
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      targetRevision: 'Gitea_migration'
       path: kubernetes/helm_charts/local/gitea
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
