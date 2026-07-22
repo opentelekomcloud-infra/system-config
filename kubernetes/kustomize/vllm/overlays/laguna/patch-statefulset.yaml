@@ -48,7 +48,6 @@ spec:
             - "4"
             - --max-num-batched-tokens
             - "1024"
-            - --trust-remote-code
             - --gpu-memory-utilization
             - "0.87"
             - --max-num-seqs
@@ -60,9 +59,6 @@ spec:
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
-            - --tokenizer-kwargs
-            - '{"fix_mistral_regex": true}'
-            - --enforce-eager
           resources:
             requests:
               nvidia.com/gpu: "4"
