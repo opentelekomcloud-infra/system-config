@@ -47,7 +47,7 @@ spec:
             - --tensor-parallel-size
             - "4"
             - --max-num-batched-tokens
-            - "1024"
+            - "4096"
             - --gpu-memory-utilization
             - "0.87"
             - --max-num-seqs
@@ -59,8 +59,7 @@ spec:
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
-            - --max-seq-len-to-capture
-            - "1024"
+            - --enforce-eager
           resources:
             requests:
               nvidia.com/gpu: "4"
