@@ -59,6 +59,8 @@ spec:
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
+            - --max-seq-len-to-capture
+            - "1024"
           resources:
             requests:
               nvidia.com/gpu: "4"
