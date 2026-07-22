@@ -46,10 +46,12 @@ spec:
             - poolside_v1
             - --tensor-parallel-size
             - "4"
+            - --max-num-batched-tokens
+            - "1024"
             - --gpu-memory-utilization
             - "0.90"
             - --max-num-seqs
-            - "4"
+            - "1"
             - --max-model-len
             - "150000"
             - --enable-auto-tool-choice
