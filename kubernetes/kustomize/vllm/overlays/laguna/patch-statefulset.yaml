@@ -53,14 +53,13 @@ spec:
             - --max-num-seqs
             - "4"
             - --max-model-len
-            - "200000"
+            - "262144"
             - --enable-auto-tool-choice
             - --tool-call-parser
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
-            - --max-cudagraph-capture-size
-            - "2"
+            - --enforce-eager
           resources:
             requests:
               nvidia.com/gpu: "4"
