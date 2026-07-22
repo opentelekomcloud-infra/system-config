@@ -48,6 +48,7 @@ spec:
             - "4"
             - --max-num-batched-tokens
             - "1024"
+            - --trust-remote-code
             - --gpu-memory-utilization
             - "0.87"
             - --max-num-seqs
