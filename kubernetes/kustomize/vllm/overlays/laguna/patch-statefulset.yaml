@@ -63,6 +63,15 @@ spec:
             - fp8_e4m3
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
+            - --kv-transfer-config
+            - '{
+                "kv_connector": "OffloadingConnector",
+                "kv_role": "kv_both",
+                "kv_connector_extra_config": {
+                  "cpu_bytes_to_use": 10000000000, 
+                  "block_size": 64
+                }
+              }'
           resources:
             requests:
               nvidia.com/gpu: "4"
