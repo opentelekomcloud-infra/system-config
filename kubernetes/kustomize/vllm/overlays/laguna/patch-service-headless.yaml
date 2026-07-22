@@ -4,4 +4,4 @@ metadata:
   name: vllm-service-headless
 spec:
   selector:
-    app: hy3-vllm
+    app: laguna-vllm

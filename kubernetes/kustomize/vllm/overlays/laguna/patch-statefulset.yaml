@@ -6,12 +6,12 @@ spec:
   replicas: 0
   selector:
     matchLabels:
-      app: hy3-vllm
+      app: laguna-vllm
   template:
     metadata:
       labels:
-        app: hy3-vllm
-        dedicated-model: hy3
+        app: laguna-vllm
+        dedicated-model: laguna
     spec:
       affinity:
         nodeAffinity:
@@ -25,7 +25,7 @@ spec:
                   - key: dedicated-model
                     operator: In
                     values:
-                      - hy3
+                      - laguna
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Equal"
@@ -33,47 +33,47 @@ spec:
           effect: "NoSchedule"
         - key: "dedicated-model"
           operator: "Equal"
-          value: "hy3"
+          value: "laguna"
           effect: "NoSchedule"
       containers:
         - name: vllm
           args:
             - --model
-            - /models/Hy3-AWQ-NVFP4
+            - /models/Laguna-S-2.1-NVFP4
             - --served-model-name
-            - hy3
+            - laguna
             - --reasoning-parser
-            - hy_v3
+            - poolside_v1
             - --tensor-parallel-size
             - "4"
             - --enable-prefix-caching
             - --enable-chunked-prefill
             - --gpu-memory-utilization
-            - "0.90"
+            - "0.92"
             - --max-model-len
-            - "200000"
+            - "262144"
             - --max-num-seqs
-            - "8"
+            - "16"
             - --max-num-batched-tokens
             - "8192"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":4}'
             - --enable-auto-tool-choice
             - --tool-call-parser
-            - hy_v3
+            - poolside_v1
             - --kv-cache-dtype
             - fp8_e4m3
-            - --cpu-offload-gb
-            - "180"
+            - --default-chat-template-kwargs
+            - '{"enable_thinking": true}'
           resources:
             requests:
-              nvidia.com/gpu: "6"
-              cpu: "64"
-              memory: "250Gi"
+              nvidia.com/gpu: "4"
+              cpu: "32"
+              memory: "150Gi"
             limits:
-              nvidia.com/gpu: "6"
-              cpu: "64"
-              memory: "380Gi"
+              nvidia.com/gpu: "4"
+              cpu: "48"
+              memory: "180Gi"
           env:
             - name: NVIDIA_VISIBLE_DEVICES
-              value: "0,1,2,3,4,5"
+              value: "0,1,2,3"

@@ -4,4 +4,4 @@ metadata:
   name: vllm-service
 spec:
   selector:
-    app: hy3-vllm
+    app: laguna-vllm

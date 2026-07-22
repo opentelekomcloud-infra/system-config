@@ -7,4 +7,4 @@ resources:
   - ../../shared
   - ../../overlays/qwen-35b
   - ../../overlays/qwen-27b
-  - ../../overlays/hy3
+  - ../../overlays/laguna
