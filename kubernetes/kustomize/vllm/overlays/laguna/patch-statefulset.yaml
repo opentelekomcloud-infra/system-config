@@ -60,7 +60,7 @@ spec:
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
             - --max-cudagraph-capture-size
-            - "64"
+            - "2"
           resources:
             requests:
               nvidia.com/gpu: "4"
