@@ -48,6 +48,8 @@ spec:
             - "4"
             - --gpu-memory-utilization
             - "0.98"
+            - --max-num-seqs
+            - "4"
             - --max-model-len
             - "200000"
             - --enable-auto-tool-choice
