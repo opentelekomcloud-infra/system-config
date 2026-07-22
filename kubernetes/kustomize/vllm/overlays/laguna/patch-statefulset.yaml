@@ -49,7 +49,7 @@ spec:
             - --max-num-batched-tokens
             - "1024"
             - --gpu-memory-utilization
-            - "0.80"
+            - "0.85"
             - --max-num-seqs
             - "1"
             - --max-model-len
