@@ -673,10 +673,9 @@
               include:
                 - project
                 - job
-          - opentelekomcloud-infra/otc-zuul-jobs:
-              include:
-                - project
-                - job
+          # otc-zuul-jobs removed from eco2: its jobs are vendored into the
+          # zuul-infra config-project, so loading it as an untrusted project
+          # with `- job` made every vendored job an illegal shadow (~42 errors).
           - stackmon/StatusDashboard-V3:
               include:
                 - project
