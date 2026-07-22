@@ -49,7 +49,7 @@ spec:
             - --enable-prefix-caching
             - --enable-chunked-prefill
             - --gpu-memory-utilization
-            - "0.98"
+            - "0.92"
             - --max-model-len
             - "262144"
             - --max-num-seqs
