@@ -62,7 +62,7 @@ spec:
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
             - --enforce-eager
-            - "true"
+            - "True"
           resources:
             requests:
               nvidia.com/gpu: "4"
