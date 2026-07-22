@@ -39,7 +39,7 @@ spec:
         - name: vllm
           args:
             - --model
-            - /models/Laguna-S-2.1-NVFP4
+            - /models/Laguna-S-2.1-INT4
             - --served-model-name
             - laguna
             - --reasoning-parser
@@ -60,6 +60,8 @@ spec:
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
+            - --tokenizer-kwargs
+            - '{"fix_mistral_regex": true}'
             - --enforce-eager
           resources:
             requests:
