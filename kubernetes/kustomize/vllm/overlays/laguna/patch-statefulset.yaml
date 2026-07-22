@@ -3,7 +3,7 @@ kind: StatefulSet
 metadata:
   name: vllm-server
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: laguna-vllm
