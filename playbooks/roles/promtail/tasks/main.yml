@@ -7,6 +7,18 @@
       paths:
         - "vars"
 
+- name: Remove conflicting Ubuntu Docker packages
+  become: true
+  ansible.builtin.package:
+    state: absent
+    name: "{{ item }}"
+  loop:
+    - "{{ remove_packages }}"
+  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  register: task_result
+  until: task_result is success
+  retries: 5
+
 - name: Install required packages
   become: true
   ansible.builtin.package:
