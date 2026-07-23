@@ -899,9 +899,9 @@
           - docs/config:
               include:
                 - project
-          - docs/content-delivery-network:
-              include:
-                - project
+          # content-delivery-network removed: repo is archived on gitea-k8s
+          # (read-only) and its zuul.yaml references the GitLab-only
+          # umn-hc-int-jobs template, which cannot exist in eco2.
           - docs/data-admin-service:
               include:
                 - project
