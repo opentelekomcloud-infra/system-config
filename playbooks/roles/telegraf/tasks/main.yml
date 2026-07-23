@@ -31,6 +31,38 @@
   until: task_result is success
   retries: 5
 
+- name: Stop Docker service and socket to clear locks
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: stopped
+  loop:
+    - docker.service
+    - docker.socket
+  failed_when: false
+
+- name: Remove stale Docker socket and PID files
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - /var/run/docker.sock
+    - /var/run/docker.pid
+
+- name: Ensure containerd is running and enabled
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+    enabled: true
+
+- name: Start and enable Docker socket and daemon
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - docker.socket
+    - docker.service
+
 - name: Make sure Telegraf Conf dir exists
   become: true
   file:
