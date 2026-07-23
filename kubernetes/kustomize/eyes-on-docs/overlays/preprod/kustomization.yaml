@@ -33,11 +33,25 @@ secretGenerator:
       - DB_CSV=<path:secret/data/eyes-on-docs/postgresql#dbcsv>
       - DB_ZUUL=<path:secret/data/eyes-on-docs/postgresql#dbzuul>
       # Zulip bot credentials
-      #- OTC_BOT_API=<path:secret/data/eyes-on-docs/zulip#token>
+      - OTC_BOT_API=<path:secret/data/eyes-on-docs/zulip#token>
+      - ZULIP_EMAIL=<path:secret/data/eyes-on-docs/zulip#email>
+      - ZULIP_SITE=<path:secret/data/eyes-on-docs/zulip#site>
+      - ZULIP_ENV=<path:secret/data/eyes-on-docs/zulip#env>
       # Gitea credentials
       - GITEA_TOKEN=<path:secret/data/eyes-on-docs/gitea#token>
+      - BASE_GITEA_URL=<path:secret/data/eyes-on-docs/gitea#gitea_address>
+      # Dashboard URLs
+      - OPEN_PRS_URL=<path:secret/data/eyes-on-docs/grafana#open_prs>
+      - OPEN_ISSUES_URL=<path:secret/data/eyes-on-docs/grafana#open_issues>
+      - LAST_DOCS_COMMIT_URL=<path:secret/data/eyes-on-docs/grafana#last_docs_commit>
+      - OPEN_ISSUES_ECO_URL=<path:secret/data/eyes-on-docs/grafana#open_issues_eco>
+      - REQUESTED_CHANGES_URL=<path:secret/data/eyes-on-docs/grafana#requested_changes>
+      - VENDOR_ANALYSED_LABELED_URL=<path:secret/data/eyes-on-docs/grafana#vendor_analysed_labeled>
+      - VENDOR_TO_OTC_RST_URL=<path:secret/data/eyes-on-docs/grafana#vendor_to_otc_rst>
+      - FILES_LINES_URL=<path:secret/data/eyes-on-docs/grafana#files_lines>
+      - MISSING_CHILD_PRS_URL=<path:secret/data/eyes-on-docs/grafana#missing_child_prs>
 
 # Use latest stable version for preprod
 images:
-  - name: "quay.io/opentelekomcloud/eyes_on_docs"
-    newTag: "0.1.37"
+  - name: "swr.eu-de.otc.t-systems.com/opentelekomcloud/eyes_on_docs"
+    newTag: "0.1.40"

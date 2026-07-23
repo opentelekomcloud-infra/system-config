@@ -1,12 +1,14 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: eyes-on-docs-github
+  name: eyes-on-docs-no-child
 spec:
   concurrencyPolicy: Forbid
-  schedule: "15 * * * *"
+  schedule: "40 * * * *"
   jobTemplate:
     spec:
+      activeDeadlineSeconds: 900
+      backoffLimit: 3
       template:
         spec:
           serviceAccount: "eyes-on-docs"
@@ -18,14 +20,14 @@ spec:
             seccompProfile:
               type: RuntimeDefault
           containers:
-            - name: eyes-on-docs-github
+            - name: eyes-on-docs-no-child
               image: swr.eu-de.otc.t-systems.com/opentelekomcloud/eyes_on_docs
               imagePullPolicy: IfNotPresent
               command:
               - "/bin/sh"
               - "-c"
               args:
-              - "python3 main.py --eod3"
+              - "python3 main.py --eod13"
               envFrom:
               - secretRef:
                   name: eyes-on-docs-credentials
