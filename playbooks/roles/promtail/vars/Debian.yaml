@@ -1,5 +1,8 @@
 ---
 packages:
-  - docker.io
-
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
 container_command: docker
