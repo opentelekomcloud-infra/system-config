@@ -39,7 +39,7 @@ spec:
         - name: vllm
           args:
             - --model
-            - /models/Laguna-S-2.1-INT4
+            - /models/Laguna-S-2.1-NVFP4
             - --served-model-name
             - laguna
             - --reasoning-parser
