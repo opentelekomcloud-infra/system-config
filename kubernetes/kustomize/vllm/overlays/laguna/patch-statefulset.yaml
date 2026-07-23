@@ -47,11 +47,11 @@ spec:
             - --tensor-parallel-size
             - "4"
             - --max-num-batched-tokens
-            - "4096"
+            - "2048"
             - --gpu-memory-utilization
-            - "0.87"
+            - "0.88"
             - --max-num-seqs
-            - "4"
+            - "8"
             - --max-model-len
             - "262144"
             - --enable-auto-tool-choice
@@ -60,7 +60,7 @@ spec:
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
             - --override-generation-config
-            - '{"temperature":0.7,"top_p":0.95,"top_k":20}'
+            - '{"temperature":0.7,"top_p":0.95}'
             - --enforce-eager
           resources:
             requests:
