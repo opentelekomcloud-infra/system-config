@@ -1,6 +1,6 @@
 ---
 - name: Include variables
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files: "{{ distro_lookup_path }}"
@@ -11,50 +11,51 @@
   become: true
   ansible.builtin.package:
     state: absent
-    name: "{{ item }}"
-  loop:
-    - "{{ remove_packages }}"
+    name: "{{ remove_packages }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
-  register: task_result
-  until: task_result is success
+  register: remove_result
+  until: remove_result is success
   retries: 5
 
 - name: Install required packages
   become: true
   ansible.builtin.package:
     state: present
-    name: "{{ item }}"
-  loop:
-    - "{{ packages }}"
+    name: "{{ packages }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
-  register: task_result
-  until: task_result is success
+  register: install_result
+  until: install_result is success
   retries: 5
 
-- name: Stop Docker service and socket to clear locks
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    state: stopped
-  loop:
-    - docker.service
-    - docker.socket
-  failed_when: false
+- name: Clean up stale sockets after removing legacy packages
+  become: true
+  block:
+    - name: Stop Docker service and socket
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+      loop:
+        - docker.service
+        - docker.socket
+      failed_when: false
 
-- name: Remove stale Docker socket and PID files
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /var/run/docker.sock
-    - /var/run/docker.pid
+    - name: Remove stale Docker socket and PID files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/run/docker.sock
+        - /var/run/docker.pid
 
-- name: Ensure containerd is running and enabled
-  ansible.builtin.systemd:
-    name: containerd
-    state: restarted
-    enabled: true
+    - name: Restart containerd to reset socket bindings
+      ansible.builtin.systemd:
+        name: containerd
+        state: restarted
+        enabled: true
+  when: remove_result is changed
 
 - name: Start and enable Docker socket and daemon
+  become: true
   ansible.builtin.systemd:
     name: "{{ item }}"
     state: started
@@ -65,23 +66,25 @@
 
 - name: Make sure Telegraf Conf dir exists
   become: true
-  file:
+  ansible.builtin.file:
     path: "/etc/telegraf"
     state: directory
-    recurse: yes
+    mode: '0755'
 
 - name: Write Telegraf Conf
   become: true
-  template:
+  ansible.builtin.template:
     src: "telegraf.conf.j2"
     dest: "/etc/telegraf/telegraf.conf"
+    mode: '0644'
   notify:
     - restart telegraf
 
 - name: Write telegraf systemd unit file
   become: true
-  template:
+  ansible.builtin.template:
     src: "telegraf.service.j2"
     dest: "{{ telegraf_systemd_unit_path }}"
+    mode: '0644'
   notify:
     - restart telegraf

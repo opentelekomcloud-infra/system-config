@@ -1,6 +1,6 @@
 ---
 - name: Include variables
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files: "{{ distro_lookup_path }}"
@@ -11,50 +11,51 @@
   become: true
   ansible.builtin.package:
     state: absent
-    name: "{{ item }}"
-  loop:
-    - "{{ remove_packages }}"
+    name: "{{ remove_packages }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
-  register: task_result
-  until: task_result is success
+  register: remove_result
+  until: remove_result is success
   retries: 5
 
 - name: Install required packages
   become: true
   ansible.builtin.package:
     state: present
-    name: "{{ item }}"
-  loop:
-    - "{{ packages }}"
+    name: "{{ packages }}"
   when: "ansible_facts.pkg_mgr != 'atomic_container'"
-  register: task_result
-  until: task_result is success
+  register: install_result
+  until: install_result is success
   retries: 5
 
-- name: Stop Docker service and socket to clear locks
-  ansible.builtin.systemd:
-    name: "{{ item }}"
-    state: stopped
-  loop:
-    - docker.service
-    - docker.socket
-  failed_when: false
+- name: Clean up stale sockets after removing legacy packages
+  become: true
+  block:
+    - name: Stop Docker service and socket
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: stopped
+      loop:
+        - docker.service
+        - docker.socket
+      failed_when: false
 
-- name: Remove stale Docker socket and PID files
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  loop:
-    - /var/run/docker.sock
-    - /var/run/docker.pid
+    - name: Remove stale Docker socket and PID files
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/run/docker.sock
+        - /var/run/docker.pid
 
-- name: Ensure containerd is running and enabled
-  ansible.builtin.systemd:
-    name: containerd
-    state: restarted
-    enabled: true
+    - name: Restart containerd to reset socket bindings
+      ansible.builtin.systemd:
+        name: containerd
+        state: restarted
+        enabled: true
+  when: remove_result is changed
 
 - name: Start and enable Docker socket and daemon
+  become: true
   ansible.builtin.systemd:
     name: "{{ item }}"
     state: started
@@ -63,35 +64,27 @@
     - docker.socket
     - docker.service
 
-- name: Create required directories
+- name: Make sure promtail conf dir exists
   become: true
-  file:
-    path: "{{ item.dest }}"
+  ansible.builtin.file:
+    path: "/etc/promtail"
     state: directory
-    recurse: yes
-    owner: root
-    group: root
-    mode: "{{ item.mode | default(omit) }}"
-  loop:
-    - {dest: "/etc/promtail"}
+    mode: '0755'
 
-- name: Write promtail config files
+- name: Write promtail conf
   become: true
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    owner: root
-    group: root
-    mode: 0660
-  loop:
-    - {src: "config.yml.j2", dest: "/etc/promtail/config.yml"}
+  ansible.builtin.template:
+    src: "config.yml.j2"
+    dest: "/etc/promtail/config.yml"
+    mode: '0644'
   notify:
     - restart promtail
 
-- name: Write promtail Systemd unit file
+- name: Write promtail systemd unit file
   become: true
-  template:
+  ansible.builtin.template:
     src: "promtail.service.j2"
     dest: "{{ promtail_systemd_unit_path }}"
+    mode: '0644'
   notify:
     - restart promtail
