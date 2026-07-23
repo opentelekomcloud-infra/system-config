@@ -27,7 +27,7 @@
   until: install_result is success
   retries: 5
 
-- name: Clean up stale sockets after removing legacy packages
+- name: Clean up stale sockets after package changes
   become: true
   block:
     - name: Stop Docker service and socket
@@ -46,13 +46,25 @@
       loop:
         - /var/run/docker.sock
         - /var/run/docker.pid
+  when: remove_result is changed or install_result is changed
 
-    - name: Restart containerd to reset socket bindings
+- name: Clear systemd rate-limits and prepare containerd
+  become: true
+  block:
+    - name: Reset systemd failed state for Docker units
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        reset_failed: true
+      loop:
+        - docker.socket
+        - docker.service
+      failed_when: false
+
+    - name: Ensure containerd service is started and enabled
       ansible.builtin.systemd:
         name: containerd
-        state: restarted
+        state: started
         enabled: true
-  when: remove_result is changed
 
 - name: Start and enable Docker socket and daemon
   become: true
