@@ -71,8 +71,8 @@ argo-cd:
         cert-manager.io/cluster-issuer: letsencrypt-prod
         kubernetes.io/tls-acme: "true"
         nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-        cert-manager.io/private-key-algorithm: RSA
-        cert-manager.io/private-key-size: "4096"
+        cert-manager.io/private-key-algorithm: ECDSA
+        cert-manager.io/private-key-size: "384"
         cert-manager.io/private-key-rotation-policy: Always
       ingressClassName: "nginx"
       hosts:
@@ -94,6 +94,8 @@ argo-cd:
       enabled: false
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+        cert-manager.io/private-key-algorithm: ECDSA
+        cert-manager.io/private-key-size: "384"
         nginx.ingress.kubernetes.io/backend-protocol: "GRPCS"
       ingressClassName: "nginx"
       hosts:

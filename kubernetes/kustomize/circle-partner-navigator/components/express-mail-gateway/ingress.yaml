@@ -4,6 +4,8 @@ metadata:
   name: express-mail-gateway
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: ECDSA
+    cert-manager.io/private-key-size: "384"
 spec:
   ingressClassName: nginx
   rules:
