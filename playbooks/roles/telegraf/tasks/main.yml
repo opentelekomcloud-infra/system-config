@@ -13,7 +13,6 @@
     update_cache: true
   when:
     - ansible_facts.distribution == 'Ubuntu'
-    - ansible_facts.distribution_major_version == '22'
     - ansible_facts.pkg_mgr != 'atomic_container'
 
 - name: Remove conflicting Ubuntu Docker packages
@@ -23,7 +22,6 @@
     name: "{{ remove_packages }}"
   when:
     - ansible_facts.distribution == 'Ubuntu'
-    - ansible_facts.distribution_major_version == '22'
     - remove_packages is defined
     - ansible_facts.pkg_mgr != 'atomic_container'
   register: remove_result
