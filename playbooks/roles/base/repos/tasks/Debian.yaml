@@ -9,9 +9,6 @@
     url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
-  when:
-    - ansible_facts.distribution == 'Ubuntu'
-    - ansible_facts.distribution_major_version == '22'
 
 - name: Configure apt retries
   copy:
