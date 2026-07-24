@@ -7,6 +7,15 @@
       paths:
         - "vars"
 
+- name: Update apt cache on Ubuntu
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+  when:
+    - ansible_facts.distribution == 'Ubuntu'
+    - ansible_facts.distribution_major_version == '22'
+    - ansible_facts.pkg_mgr != 'atomic_container'
+
 - name: Remove conflicting Ubuntu Docker packages
   become: true
   ansible.builtin.package:
