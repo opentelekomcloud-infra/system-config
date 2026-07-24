@@ -275,6 +275,60 @@ applications:
           - CreateNamespace=true
 
   # =====================================================
+  #  OpenSearch Applications
+  # =====================================================
+  - name: opensearch
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/upstream/opensearch
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-otcinfra.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: opensearch-additional-manifests
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/opensearch
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-otcinfra.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: opensearch-dashboards
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/upstream/opensearch-dashboards
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-otcinfra.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # =====================================================
   #  Kustomize Applications (argocd-vault-plugin-kustomize)
   # =====================================================
   - name: giji
