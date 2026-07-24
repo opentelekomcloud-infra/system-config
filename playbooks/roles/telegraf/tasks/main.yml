@@ -12,7 +12,10 @@
   ansible.builtin.package:
     state: absent
     name: "{{ remove_packages }}"
-  when: "ansible_facts.pkg_mgr != 'atomic_container'"
+  when:
+    - ansible_os_family == 'Debian'
+    - remove_packages is defined
+    - ansible_facts.pkg_mgr != 'atomic_container'
   register: remove_result
   until: remove_result is success
   retries: 5
@@ -46,7 +49,9 @@
       loop:
         - /var/run/docker.sock
         - /var/run/docker.pid
-  when: remove_result is changed or install_result is changed
+  when:
+    - remove_result is changed or install_result is changed
+    - ansible_os_family == 'Debian'
 
 - name: Clear systemd rate-limits and prepare containerd
   become: true
@@ -65,6 +70,7 @@
         name: containerd
         state: started
         enabled: true
+  when: ansible_os_family == 'Debian'
 
 - name: Start and enable Docker socket and daemon
   become: true
@@ -75,6 +81,7 @@
   loop:
     - docker.socket
     - docker.service
+  when: ansible_os_family == 'Debian'
 
 - name: Make sure Telegraf Conf dir exists
   become: true
