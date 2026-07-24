@@ -96,15 +96,6 @@
     - ansible_facts.distribution == 'Ubuntu'
     - ansible_facts.distribution_major_version == '22'
 
-- name: Restart telegraf container after Docker upgrade
-  become: true
-  ansible.builtin.systemd:
-    name: telegraf.service
-    state: restarted
-  when:
-    - ansible_facts.distribution == 'Ubuntu'
-    - ansible_facts.distribution_major_version == '22'
-
 - name: Make sure Telegraf Conf dir exists
   become: true
   ansible.builtin.file:
