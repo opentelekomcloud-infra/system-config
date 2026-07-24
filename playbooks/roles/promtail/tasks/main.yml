@@ -13,7 +13,8 @@
     state: absent
     name: "{{ remove_packages }}"
   when:
-    - ansible_os_family == 'Debian'
+    - ansible_facts.distribution == 'Ubuntu'
+    - ansible_facts.distribution_major_version == '22'
     - remove_packages is defined
     - ansible_facts.pkg_mgr != 'atomic_container'
   register: remove_result
@@ -51,7 +52,8 @@
         - /var/run/docker.pid
   when:
     - remove_result is changed or install_result is changed
-    - ansible_os_family == 'Debian'
+    - ansible_facts.distribution == 'Ubuntu'
+    - ansible_facts.distribution_major_version == '22'
 
 - name: Clear systemd rate-limits and prepare containerd
   become: true
@@ -70,7 +72,9 @@
         name: containerd
         state: started
         enabled: true
-  when: ansible_os_family == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Ubuntu'
+    - ansible_facts.distribution_major_version == '22'
 
 - name: Start and enable Docker socket and daemon
   become: true
@@ -81,7 +85,9 @@
   loop:
     - docker.socket
     - docker.service
-  when: ansible_os_family == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Ubuntu'
+    - ansible_facts.distribution_major_version == '22'
 
 - name: Make sure promtail conf dir exists
   become: true
