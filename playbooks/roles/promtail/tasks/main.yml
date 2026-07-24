@@ -96,15 +96,6 @@
     - ansible_facts.distribution == 'Ubuntu'
     - ansible_facts.distribution_major_version == '22'
 
-- name: Restart promtail container after Docker upgrade
-  become: true
-  ansible.builtin.systemd:
-    name: promtail.service
-    state: restarted
-  when:
-    - ansible_facts.distribution == 'Ubuntu'
-    - ansible_facts.distribution_major_version == '22'
-
 - name: Make sure promtail conf dir exists
   become: true
   ansible.builtin.file:
