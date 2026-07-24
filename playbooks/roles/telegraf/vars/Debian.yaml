@@ -1,16 +1,7 @@
 ---
-remove_packages:
-  - docker.io
-  - docker-doc
-  - docker-compose
-  - podman-docker
-  - containerd
-  - runc
+remove_packages: []
 
 packages:
-  - docker-ce
-  - docker-ce-cli
-  - containerd.io
-  - docker-buildx-plugin
-  - docker-compose-plugin
+  - docker.io
+
 container_command: docker
