@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vllm-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laguna-vllm
+  template:
+    metadata:
+      labels:
+        app: laguna-vllm
+        dedicated-model: laguna
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: accelerator
+                    operator: In
+                    values:
+                      - nvidia-l4
+                  - key: dedicated-model
+                    operator: In
+                    values:
+                      - laguna
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "dedicated-model"
+          operator: "Equal"
+          value: "laguna"
+          effect: "NoSchedule"
+      containers:
+        - name: vllm
+          args:
+            - --model
+            - /models/Laguna-S-2.1-INT4
+            - --served-model-name
+            - laguna
+            - --reasoning-parser
+            - poolside_v1
+            - --tensor-parallel-size
+            - "4"
+            - --max-num-batched-tokens
+            - "2048"
+            - --gpu-memory-utilization
+            - "0.88"
+            - --max-num-seqs
+            - "8"
+            - --max-model-len
+            - "262144"
+            - --enable-auto-tool-choice
+            - --tool-call-parser
+            - poolside_v1
+            - --default-chat-template-kwargs
+            - '{"enable_thinking": true}'
+            - --enforce-eager
+          resources:
+            requests:
+              nvidia.com/gpu: "4"
+              cpu: "32"
+              memory: "150Gi"
+            limits:
+              nvidia.com/gpu: "4"
+              cpu: "48"
+              memory: "180Gi"
+          env:
+            - name: NVIDIA_VISIBLE_DEVICES
+              value: "0,1,2,3"

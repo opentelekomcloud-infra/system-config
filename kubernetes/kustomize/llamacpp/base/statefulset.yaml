@@ -1,0 +1,119 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: llamacpp-server
+  labels:
+    app: llamacpp
+spec:
+  serviceName: llamacpp-headless
+  replicas: 0
+  podManagementPolicy: Parallel
+  selector:
+    matchLabels:
+      app: llamacpp
+  template:
+    metadata:
+      labels:
+        app: llamacpp
+    spec:
+      imagePullSecrets:
+        - name: default-secret
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: accelerator
+                    operator: In
+                    values:
+                      - nvidia-l4
+                  - key: dedicated-model
+                    operator: In
+                    values:
+                      - hy3
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "dedicated-model"
+          operator: "Equal"
+          value: "hy3"
+          effect: "NoSchedule"
+      containers:
+        - name: llamacpp
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/llama.cpp:server-cuda-20260716-hy3
+          env:
+            - name: LLAMA_API_KEY
+              value: "<path:secret/data/llamacpp/auth#api-key>"
+          args:
+            - --host
+            - "0.0.0.0"
+            - --port
+            - "8080"
+            - -m
+            - "/models/Hy3-IQ1_M.gguf"
+            - -c
+            - "262144"
+            - --fit
+            - "off"
+            - --device
+            - "CUDA0,CUDA1,CUDA2,CUDA3,CUDA4,CUDA5"
+            - --tensor-split
+            - "1,1,1,1,1,1"
+            - --split-mode
+            - "row"
+            - --cache-type-k
+            - q8_0
+            - --cache-type-v
+            - q4_0
+            - --jinja
+            - --metrics
+            - --no-mmap
+            - --cont-batching
+            - --flash-attn
+            - "on"
+            - --parallel
+            - "3"
+            - --alias
+            - hy3
+            - --ubatch-size
+            - "512"
+            - --batch-size
+            - "4096"
+            - --kv-unified
+            - --cache-idle-slots
+            - -cram
+            - "180000"
+            - -ngl
+            - "999"
+            - --timeout
+            - "1200"
+            - -n
+            - "32000"
+            - --threads
+            - "48"
+            - --threads-batch
+            - "64"
+            - --ctx-checkpoints
+            - "128"
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            requests:
+              nvidia.com/gpu: "6"
+              cpu: "64"
+              memory: "200Gi"
+            limits:
+              nvidia.com/gpu: "6"
+              cpu: "64"
+              memory: "300Gi"
+          volumeMounts:
+            - name: models
+              mountPath: /models
+      volumes:
+        - name: models
+          persistentVolumeClaim:
+            claimName: llamacpp-models

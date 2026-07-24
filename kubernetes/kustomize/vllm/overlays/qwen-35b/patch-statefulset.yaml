@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vllm-server
+spec:
+  selector:
+    matchLabels:
+      app: qwen-35b-vllm
+  template:
+    metadata:
+      labels:
+        app: qwen-35b-vllm
+        dedicated-model: qwen-35b
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: accelerator
+                    operator: In
+                    values:
+                      - nvidia-l4
+                  - key: dedicated-model
+                    operator: In
+                    values:
+                      - qwen-35b
+      tolerations:
+        - key: "nvidia.com/gpu"
+          operator: "Equal"
+          value: "true"
+          effect: "NoSchedule"
+        - key: "dedicated-model"
+          operator: "Equal"
+          value: "qwen-35b"
+          effect: "NoSchedule"
+      containers:
+        - name: vllm
+          args:
+            - --model
+            - /models/Qwen3.6-35B-A3B-AWQ-4bit
+            - --served-model-name
+            - qwen3.6-35b
+            - --reasoning-parser
+            - qwen3
+            - --tensor-parallel-size
+            - "2"
+            - --enable-prefix-caching
+            - --enable-chunked-prefill
+            - --enable-flashinfer-autotune
+            - --gpu-memory-utilization
+            - "0.90"
+            - --max-model-len
+            - "262144"
+            - --max-num-seqs
+            - "16"
+            - --limit-mm-per-prompt
+            - '{"image":100}'
+            - --max-num-batched-tokens
+            - "8192"
+            - --override-generation-config
+            - '{"temperature":0.6,"top_p":0.95,"top_k":20,"min_p":0.0,"presence_penalty":0.0,"repetition_penalty":1.0}'
+            - --enable-auto-tool-choice
+            - --tool-call-parser
+            - qwen3_coder
+            - --kv-cache-dtype
+            - fp8_e4m3
