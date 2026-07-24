@@ -2,7 +2,7 @@ state: "present"
 
 container_runtime: "/usr/bin/{{ container_command }}"
 
-influxdb_image: "quay.io/opentelekomcloud/influxdb:2.1.1"
+influxdb_image: "quay.io/opentelekomcloud/influxdb:2.8.0"
 
 packages: []
 
