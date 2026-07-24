@@ -18,4 +18,4 @@ vault_x_forwarded_for_authorized_addrs: "192.168.110.151,192.168.110.160"
 
 firewalld_extra_ports_enable: ['8200/tcp', '8201/tcp']
 
-telemetry_enable: True
+telemetry_enable: False
