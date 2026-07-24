@@ -1,5 +1,23 @@
 # Vault settings
 #
+# GitHub App secret-engine configs (vault-plugin-secrets-github).
+# These are applied OUT-OF-BAND, not by the configure_vault role:
+#   vault write <engine>/config app_id=<id> ins_id=0 org_name="" \
+#     base_url=https://api.github.com prv_key=@<key>.pem
+# prv_key (PEM) is write-only in the plugin and is NEVER stored in git.
+# Regenerate it from the GitHub App settings when re-applying.
+#
+# IMPORTANT (multi-org): for an engine that mints tokens for SEVERAL orgs
+# (e.g. gitstyring / gitcontrol-apply passes org_name per request), BOTH
+# ins_id AND org_name MUST be left unset (ins_id=0, org_name=""). The plugin
+# only resolves the installation per-request org_name when config.InsID==0
+# AND config.OrgName=="" (see client.go: a non-empty org_name/ins_id pins the
+# engine to ONE installation at init, which makes every other org return
+# 403 "Resource not accessible by integration"). The GitHub App must be
+# installed on every target org for per-org resolution to work.
+# Recorded values (non-secret) for reproducibility:
+#   github_otcbot: app_id=149885  ins_id=0  org_name=""  base_url=https://api.github.com
+#     (GitHub App "OTCBot" app_id=149885, installed on all 8 managed github orgs)
 vault_plugins:
   - url: "https://github.com/opentelekomcloud-infra/vault-plugin-secrets-github/releases/download/v1.2.1/vault-plugin-secrets-github_1.2.1_linux_amd64.zip"
     sha256: "9acd271a264a48cb8dfac055bb9849b3938fe8afbc794a2d81d14be1357cbcf5"

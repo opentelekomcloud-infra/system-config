@@ -2,6 +2,19 @@
 # Production tenant configuration for Zuul (prod)
 # Mirrored from old prod (zuul-config/zuul/tenants/eco/sources/) on 2026-05-14
 
+# Operator admin authorization rules (keycloak `zuul` client roles).
+# Referenced by the eco2 tenant admin-rules below and satisfied by the
+# [auth "keycloak"] OpenIDConnect authenticator in zuul.conf.
+- authorization-rule:
+    name: admin
+    conditions:
+      - resource_access.zuul.roles: admin
+
+- authorization-rule:
+    name: eco_admin
+    conditions:
+      - resource_access.zuul.roles: eco_admin
+
 - tenant:
     name: eco2
     max-nodes-per-job: 5
@@ -660,10 +673,9 @@
               include:
                 - project
                 - job
-          - opentelekomcloud-infra/otc-zuul-jobs:
-              include:
-                - project
-                - job
+          # otc-zuul-jobs removed from eco2: its jobs are vendored into the
+          # zuul-infra config-project, so loading it as an untrusted project
+          # with `- job` made every vendored job an illegal shadow (~42 errors).
           - stackmon/StatusDashboard-V3:
               include:
                 - project
@@ -712,6 +724,10 @@
           - infra/gitstyring:
               include:
                 - project
+                - job
+                - secret
+              include-branches:
+                - Zuul_prod_migration
           - infra/otc-metadata:
               include:
                 - project
@@ -883,9 +899,9 @@
           - docs/config:
               include:
                 - project
-          - docs/content-delivery-network:
-              include:
-                - project
+          # content-delivery-network removed: repo is archived on gitea-k8s
+          # (read-only) and its zuul.yaml references the GitLab-only
+          # umn-hc-int-jobs template, which cannot exist in eco2.
           - docs/data-admin-service:
               include:
                 - project
@@ -927,6 +943,7 @@
                 - project
           - docs/doc-convertor:
               include:
+                - job
                 - project
           - docs/doc-exports:
               include:
