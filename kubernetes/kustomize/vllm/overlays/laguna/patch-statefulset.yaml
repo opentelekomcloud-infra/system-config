@@ -61,7 +61,7 @@ spec:
             - '{"enable_thinking": true}'
             # - --enforce-eager
             - --cpu-offload-gb
-            - "1"
+            - "1.5"
           resources:
             requests:
               nvidia.com/gpu: "4"
