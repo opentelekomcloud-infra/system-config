@@ -59,9 +59,9 @@ spec:
             - poolside_v1
             - --default-chat-template-kwargs
             - '{"enable_thinking": true}'
-            # - --enforce-eager
-            - --cpu-offload-gb
-            - "1.5"
+            - --enforce-eager
+            # - --cpu-offload-gb
+            # - "1.5"
           resources:
             requests:
               nvidia.com/gpu: "4"
