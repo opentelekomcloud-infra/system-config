@@ -22,7 +22,7 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: Migration_of_zuul_to_prod
+              load-branch: main
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
               include:
