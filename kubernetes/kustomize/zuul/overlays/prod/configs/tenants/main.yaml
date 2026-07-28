@@ -23,11 +23,21 @@
                 - nodeset
                 - secret
               load-branch: Migration_of_zuul_to_prod
+              # Repo is private on a Free plan, so branch protection is
+              # unavailable and every branch reports as unprotected. Disable
+              # exclude-unprotected-branches here so the executor can check out
+              # the load-branch (otherwise checkoutTrustedProject fails and all
+              # jobs die with RETRY_LIMIT).
+              exclude-unprotected-branches: false
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
               include:
                 - project
               shadow: opentelekomcloud-infra/system-config
+              # Private repo (see zuul-infra note above): branch protection is
+              # unavailable, so do not exclude unprotected branches or the
+              # project config would stop loading.
+              exclude-unprotected-branches: false
           - opentelekomcloud/LoveOTC:
               include:
                 - project
