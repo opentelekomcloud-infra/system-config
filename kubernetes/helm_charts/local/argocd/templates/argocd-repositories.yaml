@@ -12,7 +12,9 @@ metadata:
 type: Opaque
 data:
   name: {{ .Values.repositorySecret.data.name | quote }}
-  project: {{ .Values.repositorySecret.data.project | quote }}
+  {{- with .Values.repositorySecret.data.project }}
+  project: {{ . | quote }}
+  {{- end }}
   type: {{ .Values.repositorySecret.data.type | quote }}
   url: {{ .Values.repositorySecret.data.url | quote }}
 {{- with .Values.repositorySecret.stringData }}
