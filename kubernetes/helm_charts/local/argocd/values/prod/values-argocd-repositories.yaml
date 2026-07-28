@@ -4,7 +4,9 @@ repositorySecret:
   namespace: argocd-k8s
   data:
     name: c3lzdGVtLWNvbmZpZ19naXRodWI=
-    project: ZGVmYXVsdA==
+    # project intentionally omitted -> global credential (system-config is used
+    # by apps across multiple AppProjects: default, infra, ...).
+    project: ""
     type: Z2l0
     url: aHR0cHM6Ly9naXRodWIuY29tL29wZW50ZWxla29tY2xvdWQtaW5mcmEvc3lzdGVtLWNvbmZpZy5naXQ=
   # HTTPS read credential for private GitHub repos, resolved by argocd-vault-plugin.
