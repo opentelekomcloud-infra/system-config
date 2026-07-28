@@ -51,6 +51,12 @@
               # unavailable, so do not exclude unprotected branches or the
               # project config would stop loading.
               exclude-unprotected-branches: false
+              # system-config has hundreds of branches; without this,
+              # exclude-unprotected-branches: false would make Zuul parse
+              # config from every branch (slow reconfigure, empty layout).
+              # Restrict prod config loading to main only.
+              include-branches:
+                - main
           - opentelekomcloud/LoveOTC:
               include:
                 - project
