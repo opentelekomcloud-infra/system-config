@@ -319,7 +319,10 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      # eco2/prod Zuul is deployed from the migration working branch, not
+      # main, during the eco->eco2 migration. Keep this aligned with the
+      # live zuul-otcinfra2 ArgoCD app (argocd-k8s namespace).
+      targetRevision: 'Zuul_job_migration_fixes'
       path: kubernetes/kustomize/zuul/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'
