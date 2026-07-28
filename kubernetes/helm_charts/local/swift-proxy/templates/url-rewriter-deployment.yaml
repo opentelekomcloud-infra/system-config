@@ -22,13 +22,26 @@ spec:
       - name: nginx
         image: {{ .Values.urlRewriter.image.repository }}:{{ .Values.urlRewriter.image.tag }}
         imagePullPolicy: {{ .Values.urlRewriter.image.pullPolicy }}
+        {{- if and .Values.urlRewriter.oauth .Values.urlRewriter.oauth.enabled }}
+        env:
+          - name: SWIFT_USER
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "swift-proxy.fullname" . }}-url-rewriter-auth
+                key: SWIFT_USER
+          - name: SWIFT_KEY
+            valueFrom:
+              secretKeyRef:
+                name: {{ include "swift-proxy.fullname" . }}-url-rewriter-auth
+                key: SWIFT_KEY
+        {{- end }}
         ports:
         - name: http
           containerPort: 8081
           protocol: TCP
         volumeMounts:
         - name: nginx-config
-          mountPath: /etc/nginx/nginx.conf
+          mountPath: {{ .Values.urlRewriter.configPath | default "/etc/nginx/nginx.conf" }}
           subPath: nginx.conf
         resources:
           {{- toYaml .Values.urlRewriter.resources | nindent 10 }}
