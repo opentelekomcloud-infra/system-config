@@ -316,7 +316,7 @@ argo-cd:
     extraContainers:
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v3.0.5
+        image: quay.io/argoproj/argocd:v3.4.5
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
@@ -345,7 +345,7 @@ argo-cd:
             name: custom-tools
       - name: avp-with-args
         command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v3.0.5
+        image: quay.io/argoproj/argocd:v3.4.5
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
