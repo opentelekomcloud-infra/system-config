@@ -7,3 +7,10 @@ repositorySecret:
     project: ZGVmYXVsdA==
     type: Z2l0
     url: aHR0cHM6Ly9naXRodWIuY29tL29wZW50ZWxla29tY2xvdWQtaW5mcmEvc3lzdGVtLWNvbmZpZy5naXQ=
+  # HTTPS read credential for private GitHub repos, resolved by argocd-vault-plugin.
+  # Reuses the shared org GitHub credential in Vault at secret/argocd/repositories/github
+  # (fields: username = GitHub account/bot login, password = PAT that can read
+  # opentelekomcloud-infra private repos).
+  stringData:
+    username: "<path:secret/data/argocd/repositories/github#username>"
+    password: "<path:secret/data/argocd/repositories/github#password>"

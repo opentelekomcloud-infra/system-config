@@ -15,4 +15,10 @@ data:
   project: {{ .Values.repositorySecret.data.project | quote }}
   type: {{ .Values.repositorySecret.data.type | quote }}
   url: {{ .Values.repositorySecret.data.url | quote }}
+{{- with .Values.repositorySecret.stringData }}
+stringData:
+  {{- range $key, $val := . }}
+  {{ $key }}: {{ $val | quote }}
+  {{- end }}
+{{- end }}
 {{- end }}
