@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apimon-executor
+  labels:
+    app.kubernetes.io/name: apimon
+    app.kubernetes.io/component: executor
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apimon
+      app.kubernetes.io/component: executor
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apimon
+        app.kubernetes.io/component: executor
+    spec:
+      containers:
+        - name: executor
+          image: apimon
+          command:
+            - executor
+            - --config
+            - /etc/apimon/apimon-executor.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /etc/apimon
+              readOnly: true
+            - name: secure
+              mountPath: /etc/apimon_secure
+              readOnly: true
+            - name: socket
+              mountPath: /tmp
+            - name: workdir
+              mountPath: /var/lib/apimon
+            - name: home
+              mountPath: /home/apimon
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/executor-alive
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/executor-alive
+            initialDelaySeconds: 10
+            periodSeconds: 10
+      volumes:
+        - name: config
+          configMap:
+            name: apimon-executor-config
+        - name: secure
+          secret:
+            secretName: apimon-executor-secret
+        - name: socket
+          emptyDir: {}
+        - name: workdir
+          emptyDir: {}
+        - name: home
+          emptyDir: {}

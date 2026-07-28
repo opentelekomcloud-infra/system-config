@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: apimon-scheduler-config
+  labels:
+    app.kubernetes.io/name: apimon
+    app.kubernetes.io/component: scheduler
+data:
+  apimon.yaml: |
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+    gear:
+      - host: 0.0.0.0
+        port: 4730
+        start: true
+    log:
+      config: /etc/apimon/logging.conf
+    alerta:
+      endpoint: http://alerta:80
+    epmon:
+      socket: /tmp/epmon.socket
+      zone: production_eu-de
+      clouds: []
+    scheduler:
+      zone: production_eu-de
+      work_dir: /var/lib/apimon
+      socket: /tmp/scheduler.socket
+      refresh_interval: 10
+    test_projects: []
+    test_environments: []
+    test_matrix: []
+    metrics:
+      statsd:
+        host: statsd
+        port: 8125
+  epmon.yaml: |
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+    gear:
+      - host: 0.0.0.0
+        port: 4730
+        start: true
+    log:
+      config: /etc/apimon/logging.conf
+    alerta:
+      endpoint: http://alerta:80
+    epmon:
+      socket: /tmp/epmon.socket
+      zone: production_eu-de
+      clouds: []
+    metrics:
+      statsd:
+        host: statsd
+        port: 8125
+  logging.conf: |
+    [loggers]
+    keys=root,apimon,gear
+
+    [handlers]
+    keys=console
+
+    [formatters]
+    keys=simple
+
+    [logger_root]
+    level=INFO
+    handlers=console
+
+    [logger_apimon]
+    level=DEBUG
+    handlers=console
+    qualname=apimon
+    propagate=0
+
+    [logger_gear]
+    level=WARNING
+    handlers=console
+    qualname=gear
+    propagate=0
+
+    [handler_console]
+    level=DEBUG
+    class=StreamHandler
+    formatter=simple
+    args=(sys.stdout,)
+
+    [formatter_simple]
+    format=%(asctime)s %(levelname)s %(name)s: %(message)s
+    datefmt=
+
+    [formatter_task]
+    format=%(asctime)s %(name)s: %(message)s

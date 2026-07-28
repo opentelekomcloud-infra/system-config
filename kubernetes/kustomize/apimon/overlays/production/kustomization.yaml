@@ -1,0 +1,46 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../../base
+
+namespace: apimon-production
+
+patches:
+  - target:
+      kind: Deployment
+      name: apimon-scheduler
+    path: scheduler-patch.yaml
+  - target:
+      kind: Deployment
+      name: apimon-executor
+    path: executor-patch.yaml
+
+configMapGenerator:
+  - name: apimon-scheduler-config
+    behavior: replace
+    files:
+      - configs/apimon.yaml
+      - configs/epmon.yaml
+      - configs/logging.conf
+  - name: apimon-executor-config
+    behavior: replace
+    files:
+      - configs/executor.yaml
+      - configs/logging.conf
+
+secretGenerator:
+  - name: apimon-scheduler-secret
+    behavior: replace
+    files:
+      - configs/scheduler-secure.yaml
+      - configs/epmon-secure.yaml
+  - name: apimon-executor-secret
+    behavior: replace
+    files:
+      - configs/executor-secure.yaml
+
+images:
+  - name: apimon
+    newTag: change_68_latest

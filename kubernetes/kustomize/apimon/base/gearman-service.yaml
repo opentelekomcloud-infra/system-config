@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apimon-gearman
+  labels:
+    app.kubernetes.io/name: apimon
+    app.kubernetes.io/component: gearman
+spec:
+  type: ClusterIP
+  ports:
+    - name: gearman
+      port: 4730
+      protocol: TCP
+      targetPort: gearman
+  selector:
+    app.kubernetes.io/name: apimon
+    app.kubernetes.io/component: scheduler

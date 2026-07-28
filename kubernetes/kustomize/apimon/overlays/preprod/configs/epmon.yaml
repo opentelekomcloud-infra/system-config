@@ -1,0 +1,204 @@
+# EPmon config for preprod
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.preprod
+secure: /etc/apimon_secure/epmon-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: production_eu-de
+  clouds:
+    - preprod:
+        service_override:
+          Anti-DDoS: {}
+          antiddos:
+            service: anti_ddos
+            urls:
+              - "/"
+              - "/antiddos"
+              - "/antiddos/query_config_list"
+              - "/antiddos/default/config"
+              - "/antiddos/weekly"
+          as:
+            service: auto_scaling
+            urls:
+              - "/"
+              - "/scaling_group"
+              - "/scaling_configuration"
+              - "/scaling_policy"
+          asv1: {}
+          cce: {}
+          ccev2.0:
+            service: cce
+            urls:
+              - "/clusters"
+          ces:
+            service: ces
+            urls:
+              - "/"
+              - "/metrics"
+              - "/alarms"
+          cesv1: {}
+          compute:
+            urls:
+              - "/"
+              - "/servers"
+              - "/flavors"
+              - "/limits"
+              - "/os-keypairs"
+              - "/os-server-groups"
+              - "/os-availability-zone"
+          css:
+            service: css
+            urls:
+              - "/"
+              - "/clusters"
+          cts: {}
+          ctsv2:
+            service: cts
+            urls:
+              - "/"
+          dcs:
+            service: dcs
+            urls:
+              - "/"
+              - "/instances"
+              - "/quota"
+          dcsv1: {}
+          ddsv3:
+            service: dds
+            urls:
+              - "/"
+              - "/v3"
+              - "/instances"
+          deh:
+            urls:
+              - "/"
+              - "/dedicated-hosts"
+          dis: {}
+          disv2: {}
+          dms:
+            service: dms
+            urls:
+              - "/queues"
+              - "/quotas/dms"
+              - "/queue/tags"
+          dmsv2: {}
+          dns:
+            urls:
+              - "/"
+              - "/zones"
+              - "/recordsets"
+              - "/reverse/floatingips"
+          dws:
+            urls:
+              - "/"
+              - "/clusters"
+              - "/snaphosts"
+          dwsv1: {}
+          identity:
+            urls:
+              - "/"
+              - "/regions"
+              - "/auth/projects"
+          image:
+            urls:
+              - "/"
+              - "/images"
+              - "/schemas/images"
+          kms: {}
+          kmsv1:
+            service: kms
+            urls:
+              - "/"
+              - "/kms/list-keys"
+              - "/kms/user-quotas"
+          mrsv1:
+            service: mrs
+            urls:
+              - "/data-sources"
+              - "/cluster_infos"
+              - "/job-binaries"
+          nat:
+            urls:
+              - "/"
+              - "/v2.0"
+              - "/nat_gateways"
+              - "/snat_rules"
+              - "/dnat_rules"
+          network:
+            urls:
+              - "/"
+              - "/networks"
+              - "/subnets"
+              - "/ports"
+              - "/routers"
+              - "/floatingips"
+              - "/security-groups"
+              - "/subnetpools"
+          plas: {}
+          object-store: {}
+          orchestration:
+            urls:
+              - "/stacks"
+              - "/build_info"
+              - "/software_configs"
+              - "/resource_types"
+          database: {}
+          rds: {}
+          rdsv1: {}
+          rdsv3:
+            service: rds
+            urls:
+              - "/"
+              - "/datastores/postgresql"
+              - "/instances"
+              - "/configurations"
+          bms: {}
+          data-protect: {}
+          sdrs:
+            urls:
+              - "/"
+              - "/v1"
+              - "/active-domains"
+              - "/server-groups"
+              - "/protected-instances"
+              - "/replications"
+          sfsturbo:
+            urls:
+              - "/sfs-turbo/shares/detail"
+          sharev2:
+            service: share
+            urls:
+              - "/"
+              - "/v2"
+              - "/shares"
+          smn: {}
+          smnv2: {}
+          load-balancer: {}
+          sdrs: {}
+          smn: {}
+          smnv2: {}
+          object-store: {}
+          volumev2: {}
+          volumev3:
+            service: block_storage
+            urls:
+              - "/volumes"
+              - "/snapshots"
+              - "/backups"
+              - "/os-volume-transfer"
+              - "/os-availability-zone"
+          wks: {}
+          workspace: {}
+          orchestration: {}
+          ief: {}
+metrics:
+  statsd:
+    host: 192.168.110.207
+    port: 8125
