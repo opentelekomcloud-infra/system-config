@@ -5,7 +5,16 @@ createAggregateRoles: false
 createClusterRoles: true
 
 crds:
-  install: true
+  # argo-cd's Application/ApplicationSet CRDs exceed the 262144-byte Kubernetes
+  # annotation limit (applications ~401KB, applicationsets ~1.38MB). Helm 3 uses
+  # client-side apply, which stores the whole object in the
+  # kubectl.kubernetes.io/last-applied-configuration annotation and therefore
+  # FAILS on upgrade with: metadata.annotations: Too long: must have at most
+  # 262144 bytes. Do NOT let Helm manage the CRDs; apply them out-of-band with
+  # `kubectl apply --server-side --force-conflicts` (SSA does not use that
+  # annotation). The live CRDs already carry helm.sh/resource-policy: keep, so
+  # Helm will not delete them when install=false.
+  install: false
   keep: true
 
 dex:
