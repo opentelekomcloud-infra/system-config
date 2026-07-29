@@ -5,11 +5,20 @@
 zitadel:
   # Default values for zitadel.
   # Login V2 UI (ghcr.io/zitadel/zitadel-login). Image tag defaults to the
-  # chart appVersion (v4.14.0). Chart 10.x auto-generates the RSA login
-  # service keypair and injects a SystemAPIUsers.login-client entry, so the
-  # V2 UI authenticates to the ZITADEL API via X.509-signed JWT (no PAT).
+  # chart appVersion (v4.15.3), but we pin both the ZITADEL app and Login
+  # images to v4.16.2 (latest security release) via image.tag below.
+  # Chart 10.x auto-generates the RSA login service keypair and injects a
+  # SystemAPIUsers.login-client entry, so the V2 UI authenticates to the
+  # ZITADEL API via X.509-signed JWT (no PAT).
   login:
     enabled: true
+    # Pin the Login UI image to v4.16.2 (same release as the ZITADEL app).
+    # Without this, the chart defaults to the appVersion of the Login UI
+    # image, which tracks the chart's appVersion (v4.15.3 in chart 10.0.4).
+    image:
+      repository: ghcr.io/zitadel/zitadel-login
+      pullPolicy: IfNotPresent
+      tag: "v4.16.2"
     # Expose the V2 login UI at /ui/v2/login on the same host. nginx routes
     # this prefix to the login service (:3000); everything else (API/console)
     # stays on the main ZITADEL ingress (:8080). TLS reuses the zitadel-tls
@@ -178,8 +187,9 @@ zitadel:
   image:
     repository: ghcr.io/zitadel/zitadel
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    # Pinned to v4.16.2 (latest ZITADEL security release), overriding the
+    # chart's default appVersion (v4.15.3 from chart 10.0.4).
+    tag: "v4.16.2"
 
   # Annotations to add to the deployment
   annotations: {}
