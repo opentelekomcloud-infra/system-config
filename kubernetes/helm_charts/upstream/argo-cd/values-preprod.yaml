@@ -16,6 +16,14 @@ argo-cd:
 
   global:
     domain: argocd.eco-preprod.tsi-dev.otc-service.com
+    # This cluster's CNI does not admit named-port NetworkPolicy rules, and
+    # the argo-cd chart (>=10.1) defaults global.networkPolicy.create=true,
+    # generating per-component NetworkPolicies whose ingress rules use named
+    # ports (repo-server, redis, metrics). Those silently drop intra-ArgoCD
+    # traffic (application-controller -> repo-server:8081), leaving every
+    # Application stuck in Unknown. Keep NetworkPolicy creation disabled.
+    networkPolicy:
+      create: false
     # Enable repository credentials management
     repositoryCredentials:
       enabled: true
