@@ -15,6 +15,6 @@ dependencies:
     # zitadel.image.tag, overriding the chart's default appVersion. This
     # is the target for the Login V2 migration (preprod). Chart 10.x
     # replaces the login-client PAT with X.509 SystemAPIUsers auth and
-    # removes the wait-for-postgres init container. 
+    # removes the wait-for-postgres init container.
     version: "10.0.4"
     repository: "https://charts.zitadel.com"
