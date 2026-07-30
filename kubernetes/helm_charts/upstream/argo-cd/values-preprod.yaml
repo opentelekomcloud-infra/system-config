@@ -8,7 +8,11 @@ argo-cd:
   createClusterRoles: true
 
   crds:
-    install: true
+    # Do not render CRDs via Helm/AVP: the argo-cd 10.x applications &
+    # applicationsets CRDs are ~1.7MB combined and blow past the 262144-byte
+    # annotation limit / CMP tgz stream, causing "context canceled" manifest
+    # generation failures. CRDs are already installed in-cluster (kept below).
+    install: false
     keep: true
 
   dex:
