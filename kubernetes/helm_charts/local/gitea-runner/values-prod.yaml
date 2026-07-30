@@ -1,8 +1,8 @@
 replicaCount: 1
 
 image:
-  repository: "gitea/act_runner"
-  tag: "0.2.6"
+  repository: "gitea/runner"
+  tag: "2.3.0"
   pullPolicy: IfNotPresent
 
 gitea:
