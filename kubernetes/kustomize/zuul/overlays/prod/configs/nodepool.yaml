@@ -29,6 +29,14 @@ labels:
     min-ready: 0
     max-hold-age: 7200
 
+  # Debian pod with a container runtime — for functional tests that need
+  # podman (e.g. rancher-integration-tests). Same Debian python-tox image
+  # as zuul-debian, but privileged with the vfs storage driver so podman
+  # (installed at job runtime) can run rootful containers.
+  - name: zuul-debian-podman
+    min-ready: 0
+    max-hold-age: 7200
+
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
@@ -134,6 +142,62 @@ providers:
                       memory: "6Gi"
             python-path: /usr/bin/python3
             shell-type: sh
+            context: prod
+
+          # Debian pod with podman — for functional tests needing a
+          # container runtime (rancher-integration-tests). Reuses the
+          # Debian python-tox image; runs privileged with the vfs storage
+          # driver so podman (installed at job runtime) can run rootful
+          # containers without a VM/Docker daemon.
+          - name: zuul-debian-podman
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: containers-storage
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian-podman
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                    - name: STORAGE_DRIVER
+                      value: vfs
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: containers-storage
+                      mountPath: /var/lib/containers
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+            python-path: /usr/bin/python3
+            shell-type: /bin/bash
             context: prod
 
 diskimages:
