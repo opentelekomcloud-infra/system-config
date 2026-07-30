@@ -12,13 +12,13 @@ gitea:
 runners:
   # Runner 01 — primary runner for the infra organization
   - name: "gitea-k8s-runner-01"
-    labels: "ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+    labels: "ubuntu-latest,ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
     registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token>"
     capacity: 4
 
   # Runner 02 — secondary runner with its own registration token
   - name: "gitea-k8s-runner-02"
-    labels: "ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+    labels: "ubuntu-latest,ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
     registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token_docs>"
     capacity: 4
 
