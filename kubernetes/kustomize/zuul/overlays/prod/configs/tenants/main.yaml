@@ -961,6 +961,19 @@
               include:
                 - job
                 - project
+                - nodeset
+              # This repo lives on the new gitea (gitea-k8s) where private
+              # repos have no branch protection, so feature/PR branches report
+              # as unprotected. With the tenant default
+              # exclude-unprotected-branches: true, Zuul refuses to load in-repo
+              # config from unprotected branches - including a PR's proposed
+              # .zuul.yaml - so dynamic (speculative) config changes (e.g. a
+              # nodeset switch ubuntu-jammy -> zuul-debian) are silently ignored
+              # and jobs run with the config from the protected main branch.
+              # Disable the exclusion so Zuul loads config from PR branches and
+              # dynamic configuration works. 'nodeset' is added to include so a
+              # standalone nodeset object in the repo is not stripped.
+              exclude-unprotected-branches: false
           - docs/doc-exports:
               include:
                 - project
