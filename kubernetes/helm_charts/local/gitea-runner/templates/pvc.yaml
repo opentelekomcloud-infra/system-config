@@ -20,5 +20,7 @@ spec:
   resources:
     requests:
       storage: {{ $root.Values.persistence.size }}
-{{- end }}
-{{- end }}
+{{ end }}
+
+{{ end }}
+
