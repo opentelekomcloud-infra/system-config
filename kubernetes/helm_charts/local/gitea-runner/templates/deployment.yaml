@@ -31,59 +31,33 @@ spec:
       - name: runner
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
-        command: ["/bin/sh"]
-        args:
-          - -c
-          - |
-            while ! nc -z localhost 2376; do
-              sleep 1
-            done
-
-            cd /data
-
-            # Check if runner is already registered
-            if [ ! -f .runner ]; then
-              echo "Registering runner..."
-              act_runner register \
-                --no-interactive \
-                --instance $GITEA_INSTANCE_URL \
-                --token $GITEA_RUNNER_TOKEN \
-                --name {{ .Values.runner.name }} \
-                --labels {{ .Values.runner.labels | quote }}
-
-              if [ $? -ne 0 ]; then
-                echo "Registration failed, exiting..."
-                exit 1
-              fi
-            else
-              echo "Runner already registered"
-            fi
-
-            # Verify registration file exists before starting daemon
-            if [ ! -f .runner ]; then
-              echo "Registration file not found after registration, exiting..."
-              exit 1
-            fi
-
-            # Start the daemon
-            act_runner daemon
+        # The gitea/runner image ships an entrypoint (run.sh) that handles
+        # registration + daemon startup automatically. We pass the required
+        # values via env vars instead of overriding the entrypoint, so the
+        # built-in retry logic and lifecycle management are preserved.
         env:
         - name: GITEA_INSTANCE_URL
           valueFrom:
             secretKeyRef:
               name: {{ include "gitea-runner.fullname" . }}-secret
               key: gitea-instance-url
-        - name: GITEA_RUNNER_TOKEN
+        - name: GITEA_RUNNER_REGISTRATION_TOKEN
           valueFrom:
             secretKeyRef:
               name: {{ include "gitea-runner.fullname" . }}-secret
               key: registration-token
+        - name: GITEA_RUNNER_NAME
+          value: "{{ .Values.runner.name }}"
+        - name: GITEA_RUNNER_LABELS
+          value: "{{ .Values.runner.labels }}"
         - name: DOCKER_HOST
           value: tcp://localhost:2376
         - name: DOCKER_CERT_PATH
           value: /certs/client
         - name: DOCKER_TLS_VERIFY
           value: "1"
+        - name: CONFIG_FILE
+          value: /opt/act/config.yaml
         {{- with .Values.resources }}
         resources:
           {{- toYaml . | nindent 10 }}
