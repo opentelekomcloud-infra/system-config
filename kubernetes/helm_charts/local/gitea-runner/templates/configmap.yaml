@@ -11,7 +11,7 @@ data:
       level: {{ .Values.runner.logLevel }}
     runner:
       file: .runner
-      capacity: 0
+      capacity: 4
       envs:
         DOCKER_HOST: tcp://localhost:2376
         DOCKER_CERT_PATH: /certs/client
