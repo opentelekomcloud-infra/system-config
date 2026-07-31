@@ -57,6 +57,12 @@ dind:
     tag: "24.0.7-dind"
     pullPolicy: IfNotPresent
   storageDriver: "overlay2"
+  # Match the cluster overlay-network MTU (pod eth0 = 1442). The DinD
+  # docker0 bridge defaults to 1500, so job containers emit 1500-byte
+  # frames on a 1442 underlay; TLS handshakes to fully-external hosts
+  # (e.g. the legacy gitea.eco... used by docs build deps) blackhole on
+  # broken PMTU discovery and time out. Pinning the daemon MTU fixes it.
+  mtu: 1442
 
 # privileged: true is required for Docker-in-Docker (DinD).
 # The Docker daemon inside the container needs to create network namespaces

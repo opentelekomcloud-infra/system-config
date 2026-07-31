@@ -85,6 +85,7 @@ spec:
         args:
           - --storage-driver={{ $root.Values.dind.storageDriver }}
           - --userland-proxy=false
+          - --mtu={{ $root.Values.dind.mtu | default 1442 }}
           - --debug
         env:
         - name: DOCKER_TLS_CERTDIR
