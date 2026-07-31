@@ -41,7 +41,7 @@ providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
     driver: kubernetes
-    max-servers: 5
+    max-servers: 10
     context: prod
     pools:
       - name: default
