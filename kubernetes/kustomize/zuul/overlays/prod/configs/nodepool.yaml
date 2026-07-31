@@ -16,11 +16,14 @@ zookeeper-tls:
 labels:
   - name: debian
     min-ready: 0
-    max-ready-age: 3600
+    max-ready-age: 600
 
   - name: zuul-debian
     min-ready: 0
     max-hold-age: 7200
+    # Auto-delete idle ready nodes after 10 min so leftover nodes from
+    # dequeued/cancelled buildsets don't accumulate on the pool.
+    max-ready-age: 600
 
   # Builder image — for jobs that build container images.
   # Image: quay.io/buildah/stable — Fedora-based, ships buildah + podman + skopeo
@@ -28,6 +31,7 @@ labels:
   - name: zuul-debian-builder
     min-ready: 0
     max-hold-age: 7200
+    max-ready-age: 600
 
   # Debian pod with a container runtime — for functional tests that need
   # podman (e.g. rancher-integration-tests). Same Debian python-tox image
@@ -36,6 +40,7 @@ labels:
   - name: zuul-debian-podman
     min-ready: 0
     max-hold-age: 7200
+    max-ready-age: 600
 
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
