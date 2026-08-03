@@ -56,9 +56,11 @@ vault:
         memory: 2Gi
         cpu: 1000m
 
-    # Ingress configuration for external access
+    # Ingress disabled: Vault must not be publicly reachable in preprod.
+    # ArgoCD (in-cluster) is the only consumer and reaches Vault via the
+    # internal ClusterIP service http://vault-preprod-active.vault.svc.cluster.local:8200
     ingress:
-      enabled: true
+      enabled: false
       ingressClassName: "nginx"
       annotations:
         cert-manager.io/cluster-issuer: letsencrypt-prod

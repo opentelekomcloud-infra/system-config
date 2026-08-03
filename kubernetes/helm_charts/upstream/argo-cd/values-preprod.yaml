@@ -100,7 +100,7 @@ argo-cd:
     # Environment variables for Vault access and OIDC handling
     env:
       - name: VAULT_ADDR
-        value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "token"
       - name: AVP_TYPE
@@ -150,7 +150,7 @@ argo-cd:
             echo "Vault secrets retrieved successfully!"
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: VAULT_SKIP_VERIFY
             value: "false"
           - name: VAULT_TOKEN_VALUE
@@ -283,7 +283,7 @@ argo-cd:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
       - name: VAULT_ADDR
-        value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "token"
       - name: AVP_TYPE
@@ -334,7 +334,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE
@@ -363,7 +363,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE
@@ -392,7 +392,7 @@ argo-cd:
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE
