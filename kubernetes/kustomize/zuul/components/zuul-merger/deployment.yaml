@@ -69,6 +69,7 @@ spec:
             requests:
               cpu: "50m"
               memory: "600Mi"
+              ephemeral-storage: "1Gi"
 
           securityContext:
             runAsUser: 10001
