@@ -211,6 +211,11 @@
               - name: infra-prod-base
                 soft: true
 
+        # Bridge-less ephemeral-node deploy (infra-prod-playbook-k8s
+        # runner, zuul-infra). Standalone: no bridge/base dependency.
+        # First service migrated off the retired bastion.
+        - infra-prod-cloud-dns
+
     periodic:
       # Nightly execution
       jobs:
@@ -246,6 +251,9 @@
         - infra-prod-service-vault: *infra-prod-service-vault
         - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
         - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
+
+        # Bridge-less ephemeral-node deploy (nightly DNS drift correction).
+        - infra-prod-cloud-dns
 
     periodic-hourly:
       # hourly execution
