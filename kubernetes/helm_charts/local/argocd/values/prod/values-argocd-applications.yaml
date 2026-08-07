@@ -312,6 +312,43 @@ applications:
           - CreateNamespace=true
 
   # =====================================================
+  #  Gitea - Git Hosting Service
+  # =====================================================
+  - name: gitea
+    clusters: [otcinfra2]
+    config:
+      namespace: gitea
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Gitea_migration'
+      path: kubernetes/helm_charts/upstream/gitea
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: gitea-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: gitea
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Gitea_migration'
+      path: kubernetes/helm_charts/local/gitea
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # =====================================================
   #  Zuul New Production
   # =====================================================
   - name: zuul
@@ -353,7 +390,7 @@ applications:
     config:
       namespace: gitea-runner
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Migration_of_zuul_to_prod'
+      targetRevision: 'main'
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
