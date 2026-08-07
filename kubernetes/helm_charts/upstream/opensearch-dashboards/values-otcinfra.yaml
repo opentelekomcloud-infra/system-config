@@ -1,0 +1,5 @@
+opensearch_dashboard_fqdn: "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+opensearch_dashboard_tls_name: "opensearch-dashboard-cert-tls"
+
+opensearch_username: "<path:secret/opensearch/admin#username>"
+opensearch_password: "<path:secret/opensearch/admin#password>"
