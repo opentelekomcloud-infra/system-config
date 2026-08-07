@@ -17,13 +17,13 @@ plugin_directories:
 server:
   hostname: 0.0.0.0
   port: 29316
-  public_url: https://matrix.eco.tsi-dev.otc-service.com/_matrix/maubot
+  public_url: https://matrix.otc-service.com/_matrix/maubot
   # ui_base_path disabled — the mirrored image lacks the frontend build
   ui_base_path: ""
 
 # Homeserver for registering appservice bots
 homeservers:
-  matrix.eco.tsi-dev.otc-service.com:
+  matrix.otc-service.com:
     url: http://element-otcinfra2-synapse:8008
     secret: "<path:secret/data/element/synapse#registration-shared-secret>"
 
