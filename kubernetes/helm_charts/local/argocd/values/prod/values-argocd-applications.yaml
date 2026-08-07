@@ -285,6 +285,31 @@ applications:
           - CreateNamespace=false
           - ServerSideApply=true
 
+  # Grafana on otcinfra (ns apimon). Local chart — faithful GitOps/AVP port of
+  # the ansible service-grafana k8s deploy (vault-agent dropped; the 10 secret
+  # files it rendered to /vault-data are an AVP-templated Secret; grafana keeps
+  # its $__file{/vault-data/...} refs; TLS via cert-manager; dashboards/
+  # datasources persist in postgres). Object names match live so sync adopts in
+  # place. NOTE: this app covers only the otcinfra "prod" instance so far — the
+  # ansible service-grafana job is KEPT until prod-eco (otcinfra) + prod2/stg
+  # (otcinfra2) are also GitOps-covered, to avoid orphaning them. MANUAL-sync:
+  # syncing rolls the live grafana pods (sidecar removal). Flip to automated
+  # once all instances are covered and stable.
+  - name: grafana
+    clusters: [otcinfra]
+    config:
+      namespace: apimon
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/grafana
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=false
+          - ServerSideApply=true
+
   - name: element
     clusters: [otcinfra2]
     config:
