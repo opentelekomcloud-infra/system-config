@@ -71,11 +71,12 @@
         #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
         #   apimon-epmon/executor/scheduler + statsd -> apimon fleet + swift
         #     controller VMs decommissioned (hosts DOWN); zero-VM migration.
+        #   apimon-k8s -> no-op (apimon_k8s_instances is []); apimon retired.
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
         # moved to the bridge-less runner OR converted to GitOps later):
-        # grafana*, alerta, opensearch, apimon-k8s, install-helm-chart,
-        # install-cce, install-loadbalancer, gitea-sync.
+        # grafana*, alerta, opensearch, install-helm-chart, install-cce,
+        # install-loadbalancer, gitea-sync (live gitea VM HA-replication).
         # NOTE: monitoring (grafana + alerta) + opensearch stay on the OLD
         # ansible/bridge setup for now; GitOps charts exist (local/grafana,
         # local/alerta, local+upstream/opensearch) but are NOT wired into the
@@ -107,11 +108,6 @@
                 soft: true
 
         - infra-prod-service-alerta: &infra-prod-service-alerta
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -160,7 +156,6 @@
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
         - infra-prod-service-alerta: *infra-prod-service-alerta
-        - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-service-memcached: *infra-prod-service-memcached
