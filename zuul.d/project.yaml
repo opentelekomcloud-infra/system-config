@@ -71,13 +71,14 @@
         #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
         #   apimon-epmon/executor/scheduler + statsd -> apimon fleet + swift
         #     controller VMs decommissioned (hosts DOWN); zero-VM migration.
-        #   alerta -> GitOps/ArgoCD (local/alerta chart, AVP secrets) on
-        #     otcinfra, like opensearch. Ansible k8s-via-bridge deploy retired.
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
-        # moved to the bridge-less runner OR converted to GitOps like alerta):
-        # grafana*, apimon-k8s, install-helm-chart, install-cce,
+        # moved to the bridge-less runner OR converted to GitOps later):
+        # grafana*, alerta, apimon-k8s, install-helm-chart, install-cce,
         # install-loadbalancer, gitea-sync.
+        # NOTE: monitoring (grafana + alerta) stays on the OLD ansible/bridge
+        # setup for now; GitOps/AVP charts exist (local/grafana, local/alerta)
+        # but are NOT wired into the app-of-apps — deferred to the new cluster.
         # Group B targets (kept until migrated): proxy, memcached (graphite1.eco).
         # (opensearch retired here — now GitOps/ArgoCD-managed on otcinfra.)
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
@@ -101,6 +102,11 @@
                 soft: true
 
         - infra-prod-install-helm-chart: &infra-prod-install-helm-chart
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        - infra-prod-service-alerta: &infra-prod-service-alerta
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -148,6 +154,7 @@
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
+        - infra-prod-service-alerta: *infra-prod-service-alerta
         - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-memcached: *infra-prod-service-memcached

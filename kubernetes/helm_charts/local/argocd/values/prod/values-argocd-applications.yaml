@@ -261,54 +261,10 @@ applications:
           - CreateNamespace=false
           - ServerSideApply=true
 
-  # Alerta on the otcinfra monitoring cluster (ns apimon). Local chart —
-  # faithful GitOps/AVP port of the retired ansible service-alerta k8s deploy
-  # (vault-agent sidecar dropped; DB/LDAP/app secrets injected via AVP
-  # <path:secret/data/...> placeholders read from vault-otcinfra2; TLS via
-  # cert-manager). Object names match the live objects so sync adopts the
-  # running deploy in place. MANUAL-sync (no automated block): syncing rolls
-  # the live alerta pods (sidecar removal + config source change) — sync only
-  # in a window after verifying AVP renders the secret. Flip to automated once
-  # stable.
-  - name: alerta
-    clusters: [otcinfra]
-    config:
-      namespace: apimon
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
-      path: kubernetes/helm_charts/local/alerta
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-prod.yaml'
-      project: infra
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=false
-          - ServerSideApply=true
-
-  # Grafana on otcinfra (ns apimon). Local chart — faithful GitOps/AVP port of
-  # the ansible service-grafana k8s deploy (vault-agent dropped; the 10 secret
-  # files it rendered to /vault-data are an AVP-templated Secret; grafana keeps
-  # its $__file{/vault-data/...} refs; TLS via cert-manager; dashboards/
-  # datasources persist in postgres). Object names match live so sync adopts in
-  # place. NOTE: this app covers only the otcinfra "prod" instance so far — the
-  # ansible service-grafana job is KEPT until prod-eco (otcinfra) + prod2/stg
-  # (otcinfra2) are also GitOps-covered, to avoid orphaning them. MANUAL-sync:
-  # syncing rolls the live grafana pods (sidecar removal). Flip to automated
-  # once all instances are covered and stable.
-  - name: grafana
-    clusters: [otcinfra]
-    config:
-      namespace: apimon
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
-      path: kubernetes/helm_charts/local/grafana
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-prod.yaml'
-      project: infra
-      syncPolicy:
-        syncOptions:
-          - CreateNamespace=false
-          - ServerSideApply=true
+  # NOTE: monitoring (grafana + alerta) is intentionally NOT wired here yet.
+  # The GitOps/AVP charts exist (kubernetes/helm_charts/local/{grafana,alerta})
+  # but monitoring stays on the OLD ansible/bridge setup for now and will be
+  # set up on the new cluster later. Add the app entries then.
 
   - name: element
     clusters: [otcinfra2]
