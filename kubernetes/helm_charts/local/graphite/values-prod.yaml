@@ -1,0 +1,110 @@
+# =============================================================================
+# graphite (go-carbon + statsd) — Zuul metrics carbon store
+# =============================================================================
+# k8s port of the ansible-managed graphite1.eco VM (host_vars graphite_cert:
+# graphite1-infra, graphite_relay: true, "zuul" storage schema).
+#
+# Write path : producers -> statsd (:8125/udp) -> relay (:2014) -> go-carbon
+#              (:2004) -> whisper on the PVC.
+# Read path  : carbonapi (ns graphite) -> go-carbon carbonserver (:8081).
+#
+# The image bundles go-carbon + statsd + carbon-relay + graphite-web + nginx
+# + memcached under supervisord. Only the config that materially differs from
+# the image defaults is overridden via the ConfigMap (storage-schemas with the
+# zuul retention, go-carbon.conf with carbonserver enabled, statsd udp.js).
+# carbon.conf / relay-rules.conf / nginx use the image defaults.
+# =============================================================================
+
+nameOverride: ""
+fullnameOverride: "graphite-zuul"
+
+namespace: graphite
+
+replicaCount: 1
+
+image:
+  # Same bundled image the ansible role uses (roles/graphite defaults).
+  repository: quay.io/opentelekomcloud/graphite-statsd
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+
+# ---------------------------------------------------------------------------
+# Persistence — whisper database (/opt/graphite/storage).
+# graphite1.eco holds ~2.9 GiB whisper; size generously for growth + the
+# one-time seed copy from the VM.
+# ---------------------------------------------------------------------------
+persistence:
+  enabled: true
+  storageClass: "csi-disk-retain"
+  accessMode: ReadWriteOnce
+  size: 20Gi
+  mountPath: /opt/graphite/storage
+
+# ---------------------------------------------------------------------------
+# In-cluster Service (carbonapi read + in-cluster ingest).
+# ---------------------------------------------------------------------------
+service:
+  type: ClusterIP
+  ports:
+    carbonserver: 8081   # go-carbon carbonserver — carbonapi read path
+    carbonLine: 2003     # plaintext carbon receiver
+    carbonPickle: 2004   # pickle carbon receiver
+    statsd: 8125         # statsd UDP ingest
+    web: 80              # graphite-web (nginx) dashboard
+
+# ---------------------------------------------------------------------------
+# Optional cross-cluster ingest VIP.
+# Zuul (otcinfra2) currently writes statsd to the graphite1.eco mgmt-net IP
+# (192.168.14.241). At cutover, enable this LoadBalancer to obtain a stable
+# mgmt-net VIP that replaces 192.168.14.241, then repoint the zuul statsd
+# target + swift controller statsd_graphite_host to it. Disabled for safe prep.
+# ---------------------------------------------------------------------------
+loadBalancer:
+  enabled: false
+  annotations: {}
+  loadBalancerIP: ""
+  ports:
+    statsd: 8125
+    carbonLine: 2003
+    carbonPickle: 2004
+
+# ---------------------------------------------------------------------------
+# go-carbon / statsd runtime env (roles/graphite templates/env.j2).
+# ---------------------------------------------------------------------------
+env:
+  GOCARBON: "1"
+  RELAY: "1"
+  # Image bundles memcached; graphite-web caches locally.
+  MEMCACHE_HOST: "127.0.0.1:11211"
+
+# ---------------------------------------------------------------------------
+# storage-schemas.conf — from host_vars/graphite1.eco (the "zuul" store).
+# ---------------------------------------------------------------------------
+storageSchemas: |
+  ["zuul"]
+  pattern = ^stats\.*\.zuul\.*
+  retentions = 60:90d
+
+  ["carbon"]
+  pattern = ^carbon\.*
+  retentions = 60:90d
+
+  ["default"]
+  pattern = .*
+  retentions = 60s:1d,5m:30d,10m:90d

@@ -1,0 +1,172 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "graphite.fullname" . }}-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "graphite.labels" . | nindent 4 }}
+data:
+  # --------------------------------------------------------------------------
+  # storage-schemas.conf — "zuul" store (host_vars/graphite1.eco).
+  # --------------------------------------------------------------------------
+  storage-schemas.conf: |
+    # Schema definitions for Whisper files. Entries are scanned in order,
+    # and first match wins.
+{{ .Values.storageSchemas | indent 4 }}
+
+  # --------------------------------------------------------------------------
+  # storage-aggregation.conf — statsd aggregation rules (roles/graphite).
+  # --------------------------------------------------------------------------
+  storage-aggregation.conf: |
+    [min]
+    pattern = \.min$
+    xFilesFactor = 0.1
+    aggregationMethod = min
+
+    [lower]
+    pattern = \.lower$
+    xFilesFactor = 0.1
+    aggregationMethod = min
+
+    [max]
+    pattern = \.max$
+    xFilesFactor = 0.1
+    aggregationMethod = max
+
+    [upper]
+    pattern = \.upper(_\d+)?$
+    xFilesFactor = 0.1
+    aggregationMethod = max
+
+    [sum]
+    pattern = \.sum$
+    xFilesFactor = 0
+    aggregationMethod = sum
+
+    [count]
+    pattern = \.count$
+    xFilesFactor = 0
+    aggregationMethod = sum
+
+    [count_legacy]
+    pattern = ^stats_counts.*
+    xFilesFactor = 0
+    aggregationMethod = sum
+
+    [default_average]
+    pattern = .*
+    xFilesFactor = 0.1
+    aggregationMethod = average
+
+  # --------------------------------------------------------------------------
+  # go-carbon.conf — carbonserver (:8081) enabled for carbonapi; tagging off.
+  # Rendered from roles/graphite templates/go-carbon.conf.j2.
+  # --------------------------------------------------------------------------
+  go-carbon.conf: |
+    [common]
+    user = "root"
+    graph-prefix = "carbon.agents.{host}"
+    metric-endpoint = "local"
+    metric-interval = "1m0s"
+    max-cpu = 4
+
+    [whisper]
+    data-dir = "/opt/graphite/storage/whisper"
+    schemas-file = "/opt/graphite/conf/storage-schemas.conf"
+    aggregation-file = "/opt/graphite/conf/storage-aggregation.conf"
+    workers = 8
+    max-updates-per-second = 0
+    max-creates-per-second = 0
+    hard-max-creates-per-second = false
+    sparse-create = false
+    flock = true
+    enabled = true
+    hash-filenames = true
+    compressed = false
+    remove-empty-file = false
+
+    [cache]
+    max-size = 1000000
+    write-strategy = "max"
+
+    [udp]
+    listen = ":2003"
+    enabled = true
+    buffer-size = 0
+
+    [tcp]
+    listen = ":2003"
+    enabled = true
+    buffer-size = 0
+
+    [pickle]
+    listen = ":2004"
+    max-message-size = 67108864
+    enabled = true
+    buffer-size = 0
+
+    [carbonlink]
+    listen = "127.0.0.1:7002"
+    enabled = true
+    read-timeout = "30s"
+
+    [grpc]
+    listen = "127.0.0.1:7003"
+    enabled = true
+
+    [tags]
+    enabled = false
+    tagdb-url = "http://127.0.0.1:80"
+    tagdb-chunk-size = 32
+    tagdb-update-interval = 100
+    local-dir = "/var/lib/graphite/tagging/"
+    tagdb-timeout = "1s"
+
+    [carbonserver]
+    listen = "0.0.0.0:8081"
+    enabled = true
+    buckets = 10
+    metrics-as-counters = false
+    read-timeout = "60s"
+    write-timeout = "60s"
+    query-cache-enabled = true
+    query-cache-size-mb = 0
+    find-cache-enabled = true
+    trigram-index = true
+    scan-frequency = "5m0s"
+    trie-index = false
+    max-globs = 100
+    fail-on-max-globs = false
+
+    [dump]
+    enabled = false
+
+    [pprof]
+    listen = "localhost:7007"
+    enabled = false
+
+    [[logging]]
+    logger = ""
+    file = "stderr"
+    level = "info"
+    encoding = "mixed"
+    encoding-time = "iso8601"
+    encoding-duration = "seconds"
+
+  # --------------------------------------------------------------------------
+  # statsd udp.js — flushes to the local relay pickle port (roles/graphite).
+  # --------------------------------------------------------------------------
+  udp.js: |
+    {
+        "graphiteHost": "127.0.0.1",
+        "graphitePort": 2003,
+        "graphitePicklePort": 2014,
+        "graphiteProtocol": "pickle",
+        "port": 8125,
+        "flushInterval": 10000,
+        "servers": [
+            { server: "./servers/udp", address: "0.0.0.0", port: 8125 }
+        ],
+        "deleteTimers": true,
+        "deleteCounters": true
+    }
