@@ -16,7 +16,7 @@ configMapGenerator:
     behavior: replace
     literals:
       - ZUUL_CONFIG_REPO=https://github.com/opentelekomcloud-infra/zuul-infra/
-      - ZUUL_CONFIG_BRANCH=Migration_of_zuul_to_prod
+      - ZUUL_CONFIG_BRANCH=main
   - name: "nodepool-config-yaml"
     files:
       - "configs/nodepool.yaml"
@@ -40,19 +40,19 @@ images:
 
   - name: "zuul/zuul-executor"
     newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "13.1.1-gitea-v6"
+    newTag: "13.1.1-gitea-v7"
 
   - name: "zuul/zuul-merger"
     newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "13.1.1-gitea-v6"
+    newTag: "13.1.1-gitea-v7"
 
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea-v6"
+    newTag: "13.1.1-gitea-v8"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea-v6"
+    newTag: "13.1.1-gitea-v8"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
@@ -139,6 +139,17 @@ secretGenerator:
       disableNameSuffixHash: true
     literals:
       - known_hosts=<path:secret/data/zuul/merger#known_hosts>
+  # Credentials for the zuul-config git-syncer to clone the private
+  # opentelekomcloud-infra/zuul-infra config repo. Uses a dedicated
+  # GitHub PAT (secret/github/pat) so it can be rotated independently
+  # of the ArgoCD repository credential.
+  - name: zuul-config-git
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - username=<path:secret/data/github/pat#username>
+      - token=<path:secret/data/github/pat#password>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
     options:

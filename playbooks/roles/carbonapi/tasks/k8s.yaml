@@ -41,6 +41,13 @@
       data:
         tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ carbonapi.carbonapi_cert }}-fullchain.crt') | string | b64encode }}"
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ carbonapi.carbonapi_cert }}.pem') | string | b64encode }}"
+  # The TLS material is read from local /etc/ssl/<host>/ files that only
+  # exist where the certs were issued (the retired bridge). On the bridge-less
+  # ephemeral-node runner those files are absent and the graphite cert is not
+  # in Vault KV, so allow skipping this task to keep the existing
+  # carbonapi-<instance>-tls secret untouched while still reconciling the
+  # ConfigMap/Service/Deployment.
+  when: carbonapi_manage_tls_secret | default(true) | bool
 
 - name: Create carbonapi Service
   kubernetes.core.k8s:

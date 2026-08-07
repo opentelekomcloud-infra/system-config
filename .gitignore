@@ -22,3 +22,6 @@ data/backups
 .vscode/
 .pre-commit-config.yaml
 mempalace.yaml
+
+# local secrets
+.env

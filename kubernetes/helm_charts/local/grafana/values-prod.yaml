@@ -1,0 +1,124 @@
+# Grafana — GitOps/ArgoCD values for the otcinfra "prod" instance (ns apimon).
+#
+# Faithful port of the former ansible service-grafana k8s deploy. The
+# vault-agent is dropped: the 10 secret files it rendered to /vault-data are
+# now the Secret grafana-secretfiles-prod, populated at sync time by
+# argocd-vault-plugin from vault-otcinfra2 (see templates/secret-files.yaml).
+# Grafana keeps reading them via its existing $__file{/vault-data/...} env +
+# ldap.toml references, so the env Secret below has NO real secrets (all its
+# secret-looking values are $__file refs) and is reproduced verbatim from live.
+# TLS via cert-manager (letsencrypt-prod). Object names match live so ArgoCD
+# adopts in place. Dashboards/datasources live in postgres and are untouched.
+
+instances:
+  - name: prod
+    namespace: apimon
+    replicas: 2
+    grafanaImage: quay.io/opentelekomcloud/grafana:10.1.0
+    rendererImage: quay.io/opentelekomcloud/grafana-image-renderer:3.7.1
+    serviceAccountName: grafana
+    fqdn: dashboard.tsi-dev.otc-service.com
+    clusterIssuer: letsencrypt-prod
+    tlsSecretName: grafana-prod-tls
+    plugins: simpod-json-datasource
+    # hostAliases (parity with the ansible deploy).
+    ldapServerIp: 192.168.170.43
+    graphiteInternalIp: 10.247.218.86
+    graphiteWebIp: 192.168.14.159
+    # Per-instance Vault KV (v2) paths used by the AVP /vault-data Secret.
+    # db/ldap/smtp are shared; the grafana dashboard secret differs per instance.
+    vaultDashboardPath: secret/data/grafana/dashboard
+    vaultDbPath: secret/data/db/grafana
+    vaultLdapPath: secret/data/ldap/otc
+    vaultSmtpPath: secret/data/smtp_gw
+    # 34-key env config (envFrom). Verbatim from the live grafana-secret-prod;
+    # the $__file{...} values point at the AVP-populated /vault-data files.
+    env:
+      GF_SERVER_ROOT_URL: "https://dashboard.tsi-dev.otc-service.com"
+      GF_SERVER_DOMAIN: "dashboard.tsi-dev.otc-service.com"
+      GF_SERVER_ENABLE_GZIP: "true"
+      GF_SECURITY_ADMIN_PASSWORD: "$__file{/vault-data/security_admin_password}"
+      GF_USERS_ALLOW_SIGN_UP: "False"
+      GF_USERS_LOGIN_HINT: "OTC LDAP account"
+      GF_USERS_PASSWORD_HINT: "OTC LDAP password"
+      GF_DATABASE_TYPE: "postgres"
+      GF_DATABASE_HOST: "192.168.14.91:5432"
+      GF_DATABASE_NAME: "grafana"
+      GF_DATABASE_USER: "$__file{/vault-data/database_username}"
+      GF_DATABASE_PASSWORD: "$__file{/vault-data/database_password}"
+      GF_AUTH_LDAP_ENABLED: "true"
+      GF_AUTH_LDAP_ALLOW_SIGN_UP: "true"
+      GF_AUTH_LDAP_CONFIG_FILE: "/etc/grafana/ldap/ldap.toml"
+      GF_AUTH_GENERIC_OAUTH_ENABLED: "true"
+      GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: "true"
+      GF_AUTH_GENERIC_OAUTH_TLS_SKIP_VERIFY_INSECURE: "true"
+      GF_AUTH_GENERIC_OAUTH_NAME: "Keycloak"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: "$__file{/vault-data/security_generic_oauth_client_id}"
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: "$__file{/vault-data/security_generic_oauth_client_secret}"
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: "https://keycloak.eco.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/token"
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: "https://keycloak.eco.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/auth"
+      GF_AUTH_GENERIC_OAUTH_API_URL: "https://keycloak.eco.tsi-dev.otc-service.com/realms/eco/protocol/openid-connect/userinfo"
+      GF_AUTH_GENERIC_OAUTH_SCOPES: "openid email profile"
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: "true"
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: "contains(client_roles[*], 'grafana-admin') && 'Admin' || contains(client_roles[*], 'grafana-editor') && 'Editor' || contains(client_roles[*], 'grafana-viewer') && 'Viewer'"
+      GF_SMTP_ENABLED: "true"
+      GF_SMTP_HOST: "$__file{/vault-data/smtp_gw_host}"
+      GF_SMTP_USER: "$__file{/vault-data/smtp_gw_user}"
+      GF_SMTP_PASSWORD: "$__file{/vault-data/smtp_gw_password}"
+      GF_SMTP_FROM_ADDRESS: "apimon@dashboard.tsi-dev.otc-service.com"
+      GF_SMTP_FROM_NAME: "APImon"
+      GF_SMTP_STARTTLS_POLICY: "OpportunisticStartTLS"
+    # LDAP config (mounted at /etc/grafana/ldap/ldap.toml). Reads the CA + bind
+    # password from the AVP-populated /vault-data files.
+    ldapToml: |
+      [[servers]]
+      host = "ldap.otc-service.internal"
+      port = 636
+      use_ssl = true
+      start_tls = false
+      ssl_skip_verify = false
+      root_ca_cert = "/vault-data/ldap_ca_cert"
+
+      bind_dn = "cn=proxyagent_grafana_eco_squad,ou=profile,dc=otc,dc=app"
+      bind_password = "$__file{/vault-data/ldap_password}"
+
+      search_filter = "(uid=%s)"
+      search_base_dns = ["ou=people,dc=otc,dc=app"]
+
+      group_search_filter = "(&(objectClass=posixGroup)(memberUid=%s))"
+      group_search_filter_user_attribute = "uid"
+      group_search_base_dns = ["cn=grafana-eco-squad-super-admins,ou=group,dc=otc,dc=app", "cn=grafana-eco-squad-admins,ou=group,dc=otc,dc=app", "cn=grafana-eco-squad-editors,ou=group,dc=otc,dc=app"]
+
+      # Specify names of the ldap attributes your ldap uses
+      [servers.attributes]
+      name = "displayName"
+      surname = "sn"
+      username = "uid"
+      email =  "mail"
+
+      [[servers.group_mappings]]
+      group_dn = "cn=grafana-eco-squad-super-admins,ou=group,dc=otc,dc=app"
+      org_role = "Admin"
+      grafana_admin = true
+      org_id = 1
+
+      [[servers.group_mappings]]
+      group_dn = "cn=grafana-eco-squad-admins,ou=group,dc=otc,dc=app"
+      org_role = "Admin"
+      org_id = 1
+
+      [[servers.group_mappings]]
+      group_dn = "cn=grafana-eco-squad-editors,ou=group,dc=otc,dc=app"
+      org_role = "Editor"
+      org_id = 1
+
+      [[servers.group_mappings]]
+      group_dn = "*"
+      org_role = "Viewer"
+      org_id = 1
+
+      [feature_toggles]
+      publicDashboards = true
+
+      [auth]
+      oauth_allow_insecure_email_lookup = true

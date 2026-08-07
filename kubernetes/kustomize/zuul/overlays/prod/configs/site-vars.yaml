@@ -2,9 +2,11 @@
 # Site-specific variables for Zuul executor (prod)
 
 # Vault configuration for functional tests
-zuul_base_vault_token_path: /vault/secrets/token
 zuul_vault_addr: https://vault-otcinfra2.vault.svc.cluster.local:8200
 zuul_vault_cacert: /var/run/zuul/vault-ca/ca.crt
+# Vault Kubernetes auth mount used by the vault-k8s-login role to obtain the
+# executor base token (replaces the Vault Agent injector).
+zuul_vault_k8s_auth_path: auth/kubernetes_otcinfra2
 
 # Log storage configuration
 zuul_site_upload_logs: true

@@ -223,6 +223,21 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # NOTE: opensearch + monitoring (grafana + alerta) are intentionally NOT
+  # wired here yet. The GitOps charts exist (kubernetes/helm_charts/
+  # upstream/opensearch, local/opensearch, local/grafana, local/alerta) but
+  # these services stay on the OLD ansible/bridge setup for now and will be
+  # set up on the new cluster later. Add the app entries then.
+  #
+  # NOTE: graphite (go-carbon + statsd, the Zuul metrics carbon store) is also
+  # NOT wired yet. The chart exists (kubernetes/helm_charts/local/graphite) as
+  # a faithful k8s port of the graphite1.eco VM (whisper on a csi-disk-retain
+  # PVC, carbonserver :8081 for carbonapi, statsd :8125 ingest). It is a live
+  # stateful migration: wiring it requires a coordinated cutover window
+  # (seed the 2.9 GiB whisper, repoint the zuul statsd write path + swift
+  # controller statsd_graphite_host from 192.168.14.241 to the ingest VIP,
+  # repoint the carbonapi 'zuul' backend, then retire graphite1.eco).
+
   - name: element
     clusters: [otcinfra2]
     config:
@@ -319,7 +334,10 @@ applications:
     config:
       namespace: zuul
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      # eco2/prod Zuul is deployed from the migration working branch, not
+      # main, during the eco->eco2 migration. Keep this aligned with the
+      # live zuul-otcinfra2 ArgoCD app (argocd-k8s namespace).
+      targetRevision: 'Zuul_job_migration_fixes'
       path: kubernetes/kustomize/zuul/overlays/prod/
       pluginName: argocd-vault-plugin-kustomize
       pluginEnv: '.'

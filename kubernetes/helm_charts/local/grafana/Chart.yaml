@@ -1,0 +1,17 @@
+apiVersion: v2
+name: grafana
+description: >-
+  Grafana dashboards (GitOps/ArgoCD). Faithful port of the former
+  system-config ansible service-grafana k8s deploy, refactored to
+  argocd-vault-plugin (AVP). The vault-agent init+sidecar is dropped; the 10
+  secret files it used to render to /vault-data are now a k8s Secret whose
+  values are injected at ArgoCD sync time via inline <path:secret/data/...#field>
+  placeholders (read from vault-otcinfra2). Grafana keeps consuming them via its
+  existing $__file{/vault-data/...} references (env + ldap.toml), so no app
+  reconfig is needed. TLS is issued by cert-manager via the ingress
+  cluster-issuer annotation. Object names match the live objects so ArgoCD
+  adopts them in place. State (dashboards/datasources) lives in postgres and is
+  untouched.
+type: application
+version: 0.1.0
+appVersion: "10.1.0"

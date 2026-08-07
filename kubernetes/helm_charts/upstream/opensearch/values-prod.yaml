@@ -1,0 +1,135 @@
+# OpenSearch (otcinfra / ns opensearch) — GitOps values, ported from the legacy
+# ansible values template playbooks/templates/charts/opensearch/*.yaml.j2.
+#
+# Secret NAMES referenced below (opensearch-cert-tls, opensearch-node-tls,
+# opensearch-admin-tls, opensearch-dashboard-cert-tls, opensearch-config) are
+# the existing in-cluster secrets (created historically by the retired ansible
+# cert job, ~4y static). This chart REFERENCES them by name — it does not
+# recreate them — so no Vault/AVP provisioning is required for onboarding.
+#
+# ⚠ Chart 3.8.0 = OpenSearch 3.8, a MAJOR upgrade from the live 2.19.5. This
+# file is a faithful port of the 2.x values and MUST be reviewed for chart-3.x
+# schema changes (securityConfig keys, demo-cert handling, secretMounts paths)
+# before the first (manual) sync. The ArgoCD Application is manual-sync.
+
+opensearch:
+  ingress:
+    enabled: true
+    annotations:
+      "kubernetes.io/ingress.class": "nginx"
+    path: /
+    hosts:
+      - "opensearch.eco.tsi-dev.otc-service.com"
+    tls:
+      - secretName: "opensearch-cert-tls"
+        hosts:
+          - "opensearch.eco.tsi-dev.otc-service.com"
+
+  persistence:
+    storageClass: csi-disk-retain
+    size: 100Gi
+    annotations:
+      everest.io/disk-volume-type: sas
+
+  secretMounts:
+    - name: "node-pem"
+      secretName: "opensearch-node-tls"
+      path: "/usr/share/opensearch/config/node.pem"
+      subPath: "tls.crt"
+    - name: "node-key-pem"
+      secretName: "opensearch-node-tls"
+      path: "/usr/share/opensearch/config/node-key.pem"
+      subPath: "tls.key"
+    - name: "root-cacert"
+      secretName: "opensearch-node-tls"
+      path: "/usr/share/opensearch/config/root-cacert.pem"
+      subPath: "tls.crt"
+    - name: "admin-pem"
+      secretName: "opensearch-admin-tls"
+      path: "/usr/share/opensearch/config/admin.pem"
+      subPath: "tls.crt"
+    - name: "admin-key-pem"
+      secretName: "opensearch-admin-tls"
+      path: "/usr/share/opensearch/config/admin-key.pem"
+      subPath: "tls.key"
+
+  config:
+    opensearch.yml: |
+      cluster.name: opensearch-cluster
+
+      # Bind to all interfaces because we don't know what IP address Docker will assign to us.
+      network.host: 0.0.0.0
+
+      plugins:
+        security:
+          ssl:
+            transport:
+              pemcert_filepath: node.pem
+              pemkey_filepath: node-key.pem
+              pemtrustedcas_filepath: root-cacert.pem
+              enforce_hostname_verification: false
+            http:
+              enabled: false
+          allow_unsafe_democertificates: true
+          allow_default_init_securityindex: true
+          nodes_dn:
+            - CN=opensearch-node.eco.tsi-dev.otc-service.com
+          authcz:
+            admin_dn:
+              - CN=opensearch-admin.eco.tsi-dev.otc-service.com
+          audit.type: internal_opensearch
+          enable_snapshot_restore_privilege: true
+          check_snapshot_restore_write_privileges: true
+          restapi:
+            roles_enabled: ["all_access", "security_rest_api_access"]
+            password_validation_regex: '(?=.*[A-Z])(?=.*[^a-zA-Z\d])(?=.*[0-9])(?=.*[a-z]).{8,}'
+            password_validation_error_message: "Password must be minimum 8 characters long and must contain at least one uppercase letter, one lowercase letter, one digit, and one special character."
+          system_indices:
+            enabled: true
+            indices:
+              [
+                ".opendistro-alerting-config",
+                ".opendistro-alerting-alert*",
+                ".opendistro-anomaly-results*",
+                ".opendistro-anomaly-detector*",
+                ".opendistro-anomaly-checkpoints",
+                ".opendistro-anomaly-detection-state",
+                ".opendistro-reports-*",
+                ".opendistro-notifications-*",
+                ".opendistro-notebooks",
+                ".opendistro-asynchronous-search-response*",
+              ]
+
+  # Security config (internal_users/roles/roles_mapping/config) is sourced from
+  # the existing in-cluster secret `opensearch-config`.
+  securityConfig:
+    configSecret: "opensearch-config"
+    internalUsersSecret: "opensearch-config"
+    rolesSecret: "opensearch-config"
+    rolesMappingSecret: "opensearch-config"
+
+opensearch-dashboards:
+  opensearchHosts: "http://opensearch-cluster-master:9200"
+  ingress:
+    enabled: true
+    annotations:
+      "kubernetes.io/ingress.class": "nginx"
+    hosts:
+      - host: "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+        paths:
+          - path: /
+            backend:
+              serviceName: opensearch-dashboards
+              servicePort: 5601
+    tls:
+      - secretName: "opensearch-dashboard-cert-tls"
+        hosts:
+          - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
+
+  # TODO(before first sync): wire the dashboards service-account credentials.
+  # The legacy ansible chart injected OPENSEARCH_USERNAME/OPENSEARCH_PASSWORD
+  # from the `opensearch_instances_secrets` Vault host_var (not migrated). For
+  # GitOps, reference the existing in-cluster credential secret via valueFrom
+  # (secretKeyRef) or an argocd-vault-plugin `<path:...>` ref — do NOT inline
+  # the password in git.
+  extraEnvs: []

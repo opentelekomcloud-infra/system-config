@@ -1,0 +1,9 @@
+apiVersion: v2
+name: opensearch-additional-manifests
+description: >-
+  Custom/local manifests for OpenSearch not provided by the upstream chart —
+  cert-manager PKI (self-signed CA + node/admin mTLS + ingress server certs)
+  that replaces the retired bridge x509 CA.
+type: application
+version: 0.1.0
+appVersion: "1.0.0"

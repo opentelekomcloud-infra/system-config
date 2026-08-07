@@ -6,6 +6,19 @@
 # rendered into a ConfigMap and synced by the ArgoCD app zuul-otcinfra2, then
 # mounted by the scheduler at /etc/zuul-config/tenants/prod/main.yaml.
 
+# Operator admin authorization rules (keycloak `zuul` client roles).
+# Referenced by the eco2 tenant admin-rules below and satisfied by the
+# [auth "keycloak"] OpenIDConnect authenticator in zuul.conf.
+- authorization-rule:
+    name: admin
+    conditions:
+      - resource_access.zuul.roles: admin
+
+- authorization-rule:
+    name: eco_admin
+    conditions:
+      - resource_access.zuul.roles: eco_admin
+
 - tenant:
     name: eco2
     max-nodes-per-job: 5
@@ -26,12 +39,12 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: Migration_of_zuul_to_prod
-              # Repo is private on a Free plan, so branch protection is
-              # unavailable and every branch reports as unprotected. Disable
-              # exclude-unprotected-branches here so the executor can check out
-              # the load-branch (otherwise checkoutTrustedProject fails and all
-              # jobs die with RETRY_LIMIT).
+              load-branch: main
+              # zuul-infra is private on a GitHub Free plan, so branch
+              # protection is unavailable and every branch (including main)
+              # reports as unprotected. Disable exclude-unprotected-branches
+              # here so the executor can check out the load-branch; otherwise
+              # checkoutTrustedProject fails and all jobs die with RETRY_LIMIT.
               exclude-unprotected-branches: false
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
@@ -42,6 +55,12 @@
               # unavailable, so do not exclude unprotected branches or the
               # project config would stop loading.
               exclude-unprotected-branches: false
+              # system-config has hundreds of branches; without this,
+              # exclude-unprotected-branches: false would make Zuul parse
+              # config from every branch (slow reconfigure, empty layout).
+              # Restrict prod config loading to main only.
+              include-branches:
+                - main
           - opentelekomcloud/LoveOTC:
               include:
                 - project
@@ -670,10 +689,9 @@
               include:
                 - project
                 - job
-          - opentelekomcloud-infra/otc-zuul-jobs:
-              include:
-                - project
-                - job
+          # otc-zuul-jobs removed from eco2: its jobs are vendored into the
+          # zuul-infra config-project, so loading it as an untrusted project
+          # with `- job` made every vendored job an illegal shadow (~42 errors).
           - stackmon/StatusDashboard-V3:
               include:
                 - project
@@ -722,6 +740,10 @@
           - infra/gitstyring:
               include:
                 - project
+                - job
+                - secret
+              include-branches:
+                - Zuul_prod_migration
           - infra/otc-metadata:
               include:
                 - project
@@ -893,9 +915,9 @@
           - docs/config:
               include:
                 - project
-          - docs/content-delivery-network:
-              include:
-                - project
+          # content-delivery-network removed: repo is archived on gitea-k8s
+          # (read-only) and its zuul.yaml references the GitLab-only
+          # umn-hc-int-jobs template, which cannot exist in eco2.
           - docs/data-admin-service:
               include:
                 - project
@@ -937,7 +959,21 @@
                 - project
           - docs/doc-convertor:
               include:
+                - job
                 - project
+                - nodeset
+              # This repo lives on the new gitea (gitea-k8s) where private
+              # repos have no branch protection, so feature/PR branches report
+              # as unprotected. With the tenant default
+              # exclude-unprotected-branches: true, Zuul refuses to load in-repo
+              # config from unprotected branches - including a PR's proposed
+              # .zuul.yaml - so dynamic (speculative) config changes (e.g. a
+              # nodeset switch ubuntu-jammy -> zuul-debian) are silently ignored
+              # and jobs run with the config from the protected main branch.
+              # Disable the exclusion so Zuul loads config from PR branches and
+              # dynamic configuration works. 'nodeset' is added to include so a
+              # standalone nodeset object in the repo is not stripped.
+              exclude-unprotected-branches: false
           - docs/doc-exports:
               include:
                 - project

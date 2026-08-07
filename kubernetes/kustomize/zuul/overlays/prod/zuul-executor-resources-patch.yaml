@@ -10,7 +10,7 @@ spec:
         - name: zuul
           resources:
             limits:
-              memory: "2G"
+              memory: "4G"
               cpu: "2"
             requests:
               cpu: "100m"

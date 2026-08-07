@@ -1,0 +1,18 @@
+apiVersion: v2
+name: graphite
+description: >-
+  go-carbon + statsd carbon store for Zuul metrics. k8s port of the
+  ansible-managed graphite1.eco (graphite1-infra) VM. Receives statsd/carbon
+  metrics, stores whisper on a persistent volume, and serves carbonserver
+  (:8081) to carbonapi. Replaces the last stateful mgmt-net graphite VM.
+type: application
+version: 1.0.0
+appVersion: "latest"
+keywords:
+  - graphite
+  - go-carbon
+  - statsd
+  - carbon
+  - whisper
+  - zuul
+  - metrics

@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "graphite.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    {{- include "graphite.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: carbonserver
+      port: {{ .Values.service.ports.carbonserver }}
+      targetPort: carbonserver
+      protocol: TCP
+    - name: carbon-line
+      port: {{ .Values.service.ports.carbonLine }}
+      targetPort: carbon-line
+      protocol: TCP
+    - name: carbon-pickle
+      port: {{ .Values.service.ports.carbonPickle }}
+      targetPort: carbon-pickle
+      protocol: TCP
+    - name: statsd
+      port: {{ .Values.service.ports.statsd }}
+      targetPort: statsd
+      protocol: UDP
+    - name: web
+      port: {{ .Values.service.ports.web }}
+      targetPort: web
+      protocol: TCP
+{{- if .Values.loadBalancer.enabled }}
+---
+# Cross-cluster ingest VIP — replaces the graphite1.eco mgmt-net IP
+# (192.168.14.241) at cutover. Enable only during the migration window.
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "graphite.fullname" . }}-ingest
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "graphite.labels" . | nindent 4 }}
+  {{- with .Values.loadBalancer.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: LoadBalancer
+  {{- with .Values.loadBalancer.loadBalancerIP }}
+  loadBalancerIP: {{ . | quote }}
+  {{- end }}
+  selector:
+    {{- include "graphite.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: statsd
+      port: {{ .Values.loadBalancer.ports.statsd }}
+      targetPort: statsd
+      protocol: UDP
+    - name: carbon-line
+      port: {{ .Values.loadBalancer.ports.carbonLine }}
+      targetPort: carbon-line
+      protocol: TCP
+    - name: carbon-pickle
+      port: {{ .Values.loadBalancer.ports.carbonPickle }}
+      targetPort: carbon-pickle
+      protocol: TCP
+{{- end }}
