@@ -59,27 +59,20 @@
         - system-config-upload-image-vault
     deploy:
       jobs:
-        # This installs the ansible on bridge that all the infra-prod
-        # jobs will run with.  Note the jobs use this ansible to then
-        # run against zuul's checkout of system-config.
-        - infra-prod-bootstrap-bridge
-
-        # From now on, all jobs should depend on base
-        - infra-prod-base: &infra-prod-base
-            dependencies:
-              - name: infra-prod-bootstrap-bridge
-                soft: true
-
-        - infra-prod-base-ext: &infra-prod-base-ext
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-bridge: &infra-prod-service-bridge
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
+        # --- Retired legacy bridge jobs (DISABLED: unassigned from all
+        # pipelines) — now ArgoCD-managed on otcinfra2 or decommissioned. Stub
+        # defs (zuul-infra) + playbooks (system-config) are KEPT for history:
+        #   vault -> ArgoCD vault-otcinfra2
+        #   gitea -> ArgoCD gitea-otcinfra2 (NOTE: gitea-sync is NOT retired)
+        #   swift-proxy -> ArgoCD swift-proxy-otcinfra2
+        #   zookeeper -> k8s zookeeper StatefulSet (zuul-otcinfra2)
+        #   keycloak, configure-keycloak -> zitadel-otcinfra2 (decommissioned)
+        #   acme-ssl -> ArgoCD cert-manager-*
+        #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
+        # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
+        # now-absent infra-prod-base, which is ignored): grafana*, alerta,
+        # opensearch, install-helm-chart, install-cce, install-loadbalancer,
+        # gitea-sync, apimon-*, memcached, octavia-proxy, statsd, proxy.
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -88,16 +81,6 @@
         - infra-prod-grafana-datasources: &infra-prod-grafana-datasources
             dependencies:
               - name: infra-prod-bootstrap-bridge
-                soft: true
-
-        - infra-prod-service-keycloak: &infra-prod-service-keycloak
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-configure-keycloak: &infra-prod-configure-keycloak
-            dependencies:
-              - name: infra-prod-base
                 soft: true
 
         - infra-prod-install-cce: &infra-prod-install-cce
@@ -116,10 +99,6 @@
                 soft: true
 
         - infra-prod-install-helm-chart: &infra-prod-install-helm-chart
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-        - infra-prod-service-acme-ssl: &infra-prod-service-acme-ssl
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -149,22 +128,12 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-gitea: &infra-prod-service-gitea
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-gitea-sync: &infra-prod-gitea-sync
             dependencies:
               - name: infra-prod-base
                 soft: true
 
         - infra-prod-service-grafana: &infra-prod-service-grafana
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -189,16 +158,6 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-vault: &infra-prod-service-vault
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-zookeeper: &infra-prod-service-zookeeper
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         # Bridge-less ephemeral-node deploys (infra-prod-playbook-k8s
         # runner, zuul-infra). Standalone: no bridge/base dependency.
         # Services migrated off the retired bastion.
@@ -209,12 +168,6 @@
     periodic:
       # Nightly execution
       jobs:
-        - infra-prod-bootstrap-bridge
-
-        - infra-prod-base: *infra-prod-base
-        - infra-prod-base-ext: *infra-prod-base-ext
-        - infra-prod-service-bridge: *infra-prod-service-bridge
-
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
         - infra-prod-service-opensearch: *infra-prod-service-opensearch
@@ -223,23 +176,15 @@
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
-        - infra-prod-service-keycloak: *infra-prod-service-keycloak
-        - infra-prod-configure-keycloak: *infra-prod-configure-keycloak
-
-        - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
         - infra-prod-service-alerta: *infra-prod-service-alerta
         - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
         - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
         - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
         - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
-        - infra-prod-service-gitea: *infra-prod-service-gitea
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-memcached: *infra-prod-service-memcached
         - infra-prod-service-statsd: *infra-prod-service-statsd
         - infra-prod-service-proxy: *infra-prod-service-proxy
-        - infra-prod-service-vault: *infra-prod-service-vault
-        - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
-        - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
         # Bridge-less ephemeral-node deploys (nightly drift correction).
         - infra-prod-cloud-dns
@@ -249,7 +194,4 @@
     periodic-hourly:
       # hourly execution
       jobs:
-        - infra-prod-bootstrap-bridge
-
-        - infra-prod-service-bridge: *infra-prod-service-bridge
         - infra-prod-gitea-sync: *infra-prod-gitea-sync
