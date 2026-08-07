@@ -74,13 +74,13 @@
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
         # moved to the bridge-less runner OR converted to GitOps later):
-        # grafana*, alerta, apimon-k8s, install-helm-chart, install-cce,
-        # install-loadbalancer, gitea-sync.
-        # NOTE: monitoring (grafana + alerta) stays on the OLD ansible/bridge
-        # setup for now; GitOps/AVP charts exist (local/grafana, local/alerta)
-        # but are NOT wired into the app-of-apps — deferred to the new cluster.
+        # grafana*, alerta, opensearch, apimon-k8s, install-helm-chart,
+        # install-cce, install-loadbalancer, gitea-sync.
+        # NOTE: monitoring (grafana + alerta) + opensearch stay on the OLD
+        # ansible/bridge setup for now; GitOps charts exist (local/grafana,
+        # local/alerta, local+upstream/opensearch) but are NOT wired into the
+        # app-of-apps — deferred to the new cluster.
         # Group B targets (kept until migrated): proxy, memcached (graphite1.eco).
-        # (opensearch retired here — now GitOps/ArgoCD-managed on otcinfra.)
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -126,6 +126,11 @@
               - name: infra-prod-base
                 soft: true
 
+        - infra-prod-service-opensearch: &infra-prod-service-opensearch
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
         - infra-prod-service-memcached: &infra-prod-service-memcached
             dependencies:
               - name: infra-prod-base
@@ -157,6 +162,7 @@
         - infra-prod-service-alerta: *infra-prod-service-alerta
         - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
         - infra-prod-service-grafana: *infra-prod-service-grafana
+        - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-service-memcached: *infra-prod-service-memcached
         - infra-prod-service-proxy: *infra-prod-service-proxy
 
