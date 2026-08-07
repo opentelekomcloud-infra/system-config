@@ -1,0 +1,21 @@
+apiVersion: v2
+name: opensearch
+description: >-
+  OpenSearch + OpenSearch Dashboards for the otcinfra logging cluster,
+  managed via GitOps (ArgoCD). Umbrella chart pinning the upstream
+  opensearch-project charts.
+type: application
+version: 0.1.0
+dependencies:
+  # ⚠ Live cluster runs OpenSearch 2.19.5 (chart opensearch 2.37.0 /
+  # opensearch-dashboards 2.33.0) and both prior helm releases are in
+  # status=FAILED. Chart 3.8.0 = OpenSearch 3.8, a MAJOR upgrade that is NOT
+  # skip-safe. The ArgoCD Application for this chart is MANUAL-sync on purpose;
+  # only sync after: index snapshot, clearing the failed release, reviewing the
+  # chart-3.x values schema, and inside a maintenance window.
+  - name: opensearch
+    version: "3.8.0"
+    repository: "https://opensearch-project.github.io/helm-charts/"
+  - name: opensearch-dashboards
+    version: "3.8.0"
+    repository: "https://opensearch-project.github.io/helm-charts/"
