@@ -1,0 +1,16 @@
+apiVersion: v2
+name: redis-minimal
+description: A minimal Redis instance for Outline wiki collaboration features
+type: application
+version: 0.1.0
+appVersion: "7.4"
+keywords:
+  - redis
+  - cache
+  - outline
+home: https://redis.io
+sources:
+  - https://github.com/redis/redis
+maintainers:
+  - name: OTC Infrastructure Team
+    email: infra@otc-service.com

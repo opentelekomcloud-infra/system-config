@@ -277,6 +277,78 @@ applications:
   # =====================================================
   #  Kustomize Applications (argocd-vault-plugin-kustomize)
   # =====================================================
+
+  - name: postgresql
+    clusters: [otcinfra2]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/upstream/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: postgresql-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: postgres
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/postgresql
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki
+    clusters: [otcinfra2]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/upstream/outline
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: outline-wiki-additional-manifests
+    clusters: [otcinfra2]
+    config:
+      namespace: outline
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/outline
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  # =====================================================
+  #  Kustomize Applications (argocd-vault-plugin-kustomize)
+  # =====================================================
   - name: giji
     clusters: [otcinfra2]
     config:
