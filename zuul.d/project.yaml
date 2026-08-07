@@ -69,10 +69,13 @@
         #   keycloak, configure-keycloak -> zitadel-otcinfra2 (decommissioned)
         #   acme-ssl -> ArgoCD cert-manager-*
         #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
+        #   apimon-epmon/executor/scheduler + statsd -> apimon fleet + swift
+        #     controller VMs decommissioned (hosts DOWN); zero-VM migration.
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
-        # now-absent infra-prod-base, which is ignored): grafana*, alerta,
-        # install-helm-chart, install-cce, install-loadbalancer,
-        # gitea-sync, apimon-*, memcached, statsd, proxy.
+        # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
+        # moved to the bridge-less runner): grafana*, alerta, apimon-k8s,
+        # install-helm-chart, install-cce, install-loadbalancer, gitea-sync.
+        # Group B targets (kept until migrated): proxy, memcached (graphite1.eco).
         # (opensearch retired here — now GitOps/ArgoCD-managed on otcinfra.)
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
@@ -104,22 +107,7 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-apimon-epmon: &infra-prod-service-apimon-epmon
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-apimon-executor: &infra-prod-service-apimon-executor
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -135,11 +123,6 @@
                 soft: true
 
         - infra-prod-service-memcached: &infra-prod-service-memcached
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-statsd: &infra-prod-service-statsd
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -168,13 +151,9 @@
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
         - infra-prod-service-alerta: *infra-prod-service-alerta
-        - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
-        - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
         - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
-        - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-memcached: *infra-prod-service-memcached
-        - infra-prod-service-statsd: *infra-prod-service-statsd
         - infra-prod-service-proxy: *infra-prod-service-proxy
 
         # Bridge-less ephemeral-node deploys (nightly drift correction).
