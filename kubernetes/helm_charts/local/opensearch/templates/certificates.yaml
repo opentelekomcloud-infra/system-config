@@ -1,0 +1,149 @@
+{{- if .Values.certificates.enabled }}
+# OpenSearch internal PKI + ingress certs (cert-manager), replacing the retired
+# bridge x509 CA. See values-prod.yaml header for the coordinated-migration
+# caveat — enabling this on the live cluster rotates the node/admin mTLS certs.
+{{- $c := .Values.certificates }}
+# Step 1: self-signed issuer to bootstrap the internal CA
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: opensearch-selfsign-issuer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  selfSigned: {}
+---
+# Step 2: internal CA certificate
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-ca
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  isCA: true
+  commonName: opensearch-ca
+  secretName: {{ $c.caSecretName }}
+  duration: 87600h  # 10 years
+  renewBefore: 8760h  # 1 year
+  privateKey:
+    algorithm: RSA
+    size: 4096
+  issuerRef:
+    name: opensearch-selfsign-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# Step 3: CA issuer using the generated internal CA
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: opensearch-ca-issuer
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  ca:
+    secretName: {{ $c.caSecretName }}
+---
+# Step 4: node transport mTLS cert (CN pinned in security nodes_dn)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-node
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  secretName: {{ $c.node.secretName }}
+  commonName: {{ $c.node.commonName }}
+  dnsNames:
+    - {{ $c.node.commonName }}
+  duration: 8760h  # 1 year
+  renewBefore: 720h  # 30 days
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - server auth
+    - client auth
+  issuerRef:
+    name: opensearch-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# Step 5: admin mTLS cert (CN pinned in security authcz.admin_dn)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-admin
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  secretName: {{ $c.admin.secretName }}
+  commonName: {{ $c.admin.commonName }}
+  dnsNames:
+    - {{ $c.admin.commonName }}
+  duration: 8760h  # 1 year
+  renewBefore: 720h  # 30 days
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - client auth
+  issuerRef:
+    name: opensearch-ca-issuer
+    kind: Issuer
+    group: cert-manager.io
+---
+# Step 6: public ingress server cert (opensearch)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-ingress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  secretName: {{ $c.opensearch.secretName }}
+  dnsNames:
+    - {{ $c.opensearch.dnsName }}
+  duration: 2160h  # 90 days
+  renewBefore: 360h  # 15 days
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - server auth
+  issuerRef:
+    name: {{ $c.ingressIssuerRef.name }}
+    kind: {{ $c.ingressIssuerRef.kind }}
+    group: cert-manager.io
+---
+# Step 7: public ingress server cert (dashboards)
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: opensearch-dashboard-ingress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "opensearch-additional.labels" . | nindent 4 }}
+spec:
+  secretName: {{ $c.dashboard.secretName }}
+  dnsNames:
+    - {{ $c.dashboard.dnsName }}
+  duration: 2160h  # 90 days
+  renewBefore: 360h  # 15 days
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  usages:
+    - server auth
+  issuerRef:
+    name: {{ $c.ingressIssuerRef.name }}
+    kind: {{ $c.ingressIssuerRef.kind }}
+    group: cert-manager.io
+{{- end }}

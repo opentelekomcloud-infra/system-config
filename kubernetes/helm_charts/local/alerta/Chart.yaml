@@ -1,0 +1,14 @@
+apiVersion: v2
+name: alerta
+description: >-
+  Alerta alert console (GitOps/ArgoCD). Faithful port of the former
+  system-config ansible service-alerta k8s deploy, refactored to
+  argocd-vault-plugin (AVP): the vault-agent init+sidecar is dropped and the
+  app/DB/LDAP secrets are injected at ArgoCD sync time via inline
+  <path:secret/data/...#field> placeholders (read from vault-otcinfra2 by the
+  repo-server AVP CMP). TLS is issued by cert-manager via the ingress
+  cluster-issuer annotation. Object names match the live objects so ArgoCD
+  adopts them in place.
+type: application
+version: 0.1.0
+appVersion: "9.0.4"

@@ -1,0 +1,33 @@
+{{- range .Values.instances }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: alerta-ingress-{{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    app.kubernetes.io/name: alerta
+    app.kubernetes.io/instance: {{ .name | quote }}
+    {{- include "alerta.commonLabels" $ | nindent 4 }}
+  annotations:
+    {{- if .clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ .clusterIssuer | quote }}
+    {{- end }}
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .fqdn | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: alerta-service-{{ .name }}
+                port:
+                  number: 8080
+  tls:
+    - hosts:
+        - {{ .fqdn | quote }}
+      secretName: {{ .tlsSecretName | quote }}
+{{- end }}

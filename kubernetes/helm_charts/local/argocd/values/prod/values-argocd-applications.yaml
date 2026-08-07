@@ -223,6 +223,68 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # OpenSearch on the otcinfra logging cluster. Upstream umbrella chart (3.8.0)
+  # + a local additional-manifests chart for the cert-manager PKI. Both are
+  # MANUAL-sync (no automated block): live is a 3-node stateful OpenSearch
+  # 2.19.5 with FAILED prior helm releases and 3.8.0 is a MAJOR, non-skip-safe
+  # upgrade — sync only after snapshot + clearing the failed release +
+  # chart-3.x values review + maintenance window. Flip to automated once stable.
+  - name: opensearch
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/upstream/opensearch
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=false
+          - ServerSideApply=true
+
+  - name: opensearch-additional-manifests
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/opensearch
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      # cert-manager PKI disabled by default (certificates.enabled=false) —
+      # see local/opensearch/values-prod.yaml for the CA-migration caveat.
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=false
+          - ServerSideApply=true
+
+  # Alerta on the otcinfra monitoring cluster (ns apimon). Local chart —
+  # faithful GitOps/AVP port of the retired ansible service-alerta k8s deploy
+  # (vault-agent sidecar dropped; DB/LDAP/app secrets injected via AVP
+  # <path:secret/data/...> placeholders read from vault-otcinfra2; TLS via
+  # cert-manager). Object names match the live objects so sync adopts the
+  # running deploy in place. MANUAL-sync (no automated block): syncing rolls
+  # the live alerta pods (sidecar removal + config source change) — sync only
+  # in a window after verifying AVP renders the secret. Flip to automated once
+  # stable.
+  - name: alerta
+    clusters: [otcinfra]
+    config:
+      namespace: apimon
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/alerta
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=false
+          - ServerSideApply=true
+
   - name: element
     clusters: [otcinfra2]
     config:

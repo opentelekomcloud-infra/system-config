@@ -1,0 +1,84 @@
+{{- range .Values.instances }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alerta-deployment-{{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    app.kubernetes.io/name: alerta
+    app.kubernetes.io/instance: {{ .name | quote }}
+    {{- include "alerta.commonLabels" $ | nindent 4 }}
+spec:
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alerta
+      app.kubernetes.io/instance: {{ .name | quote }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alerta
+        app.kubernetes.io/instance: {{ .name | quote }}
+    spec:
+      serviceAccountName: {{ .serviceAccountName }}
+      {{- if .ldapServerIp }}
+      hostAliases:
+        - ip: {{ .ldapServerIp | quote }}
+          hostnames:
+            - ldap.otc-service.internal
+      {{- end }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values:
+                        - {{ .name | quote }}
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - alerta
+      containers:
+        - name: alerta
+          image: {{ .image | quote }}
+          env:
+            - name: ALERTA_CONF_FILE
+              value: /etc/alerta/alerta.conf
+            - name: ALERTA_SVR_CONF_FILE
+              value: /etc/alerta/alertad.conf
+          ports:
+            - containerPort: 8080
+          {{- with .resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          readinessProbe:
+            httpGet:
+              path: /login
+              scheme: HTTP
+              port: 8080
+          livenessProbe:
+            httpGet:
+              path: /login
+              scheme: HTTP
+              port: 8080
+          volumeMounts:
+            - mountPath: /etc/alerta
+              name: alerta-config
+              readOnly: true
+      volumes:
+        - name: alerta-config
+          secret:
+            secretName: alerta-secret-{{ .name }}
+            items:
+              - key: alertad.conf
+                path: alertad.conf
+              - key: alerta.conf
+                path: alerta.conf
+{{- end }}
