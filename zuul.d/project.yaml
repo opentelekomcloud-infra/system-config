@@ -149,11 +149,6 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-cloudmon: &infra-prod-service-cloudmon
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-service-gitea: &infra-prod-service-gitea
             dependencies:
               - name: infra-prod-base
@@ -211,10 +206,11 @@
               - name: infra-prod-base
                 soft: true
 
-        # Bridge-less ephemeral-node deploy (infra-prod-playbook-k8s
+        # Bridge-less ephemeral-node deploys (infra-prod-playbook-k8s
         # runner, zuul-infra). Standalone: no bridge/base dependency.
-        # First service migrated off the retired bastion.
+        # Services migrated off the retired bastion.
         - infra-prod-cloud-dns
+        - infra-prod-service-cloudmon
 
     periodic:
       # Nightly execution
@@ -252,8 +248,9 @@
         - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
         - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
-        # Bridge-less ephemeral-node deploy (nightly DNS drift correction).
+        # Bridge-less ephemeral-node deploys (nightly drift correction).
         - infra-prod-cloud-dns
+        - infra-prod-service-cloudmon
 
     periodic-hourly:
       # hourly execution
