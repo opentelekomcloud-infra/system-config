@@ -54,7 +54,15 @@
       data:
         tls.crt: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ octavia_proxy.cert }}-fullchain.crt') | string | b64encode }}"
         tls.key: "{{ lookup('file', '/etc/ssl/{{ inventory_hostname }}/{{ octavia_proxy.cert }}.pem') | string | b64encode }}"
-  when: "octavia_proxy.cert is defined"
+  # The TLS material is read from local /etc/ssl/<host>/ files that only exist
+  # where the certs were issued (the retired bridge). On the bridge-less
+  # ephemeral-node runner those files are absent and the octavia cert is not in
+  # Vault KV, so allow skipping this task to keep the existing
+  # octavia-proxy-ssl-<instance> secret untouched while still reconciling the
+  # ConfigMap/Service/Deployment/Ingress.
+  when:
+    - octavia_proxy.cert is defined
+    - octavia_proxy_manage_tls_secret | default(true) | bool
 
 - name: Start {{ instance }} Octavia Proxy deployment
   kubernetes.core.k8s:
