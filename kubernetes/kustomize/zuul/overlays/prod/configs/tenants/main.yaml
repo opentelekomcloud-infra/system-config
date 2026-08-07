@@ -635,10 +635,6 @@
           - opentelekomcloud-infra/myndir:
               include:
                 - project
-          - opentelekomcloud-infra/octavia-proxy:
-              include:
-                - project
-                - job
           - opentelekomcloud-infra/otc-api-ref:
               include:
                 - project
