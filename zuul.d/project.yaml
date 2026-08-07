@@ -72,7 +72,7 @@
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored): grafana*, alerta,
         # opensearch, install-helm-chart, install-cce, install-loadbalancer,
-        # gitea-sync, apimon-*, memcached, octavia-proxy, statsd, proxy.
+        # gitea-sync, apimon-*, memcached, statsd, proxy.
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -143,11 +143,6 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-octavia-proxy: &infra-prod-service-octavia-proxy
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
         - infra-prod-service-statsd: &infra-prod-service-statsd
             dependencies:
               - name: infra-prod-base
@@ -164,6 +159,7 @@
         - infra-prod-cloud-dns
         - infra-prod-service-cloudmon
         - infra-prod-service-graphite
+        - infra-prod-service-octavia-proxy
 
     periodic:
       # Nightly execution
@@ -190,6 +186,7 @@
         - infra-prod-cloud-dns
         - infra-prod-service-cloudmon
         - infra-prod-service-graphite
+        - infra-prod-service-octavia-proxy
 
     periodic-hourly:
       # hourly execution
