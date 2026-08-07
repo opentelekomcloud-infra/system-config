@@ -119,6 +119,8 @@ metadata:
     app.kubernetes.io/name: element-call
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    cert-manager.io/private-key-algorithm: ECDSA
+    cert-manager.io/private-key-size: "384"
     cert-manager.io/duration: "8760h"
     cert-manager.io/renew-before: "720h"
 spec:
