@@ -71,8 +71,9 @@
         #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored): grafana*, alerta,
-        # opensearch, install-helm-chart, install-cce, install-loadbalancer,
+        # install-helm-chart, install-cce, install-loadbalancer,
         # gitea-sync, apimon-*, memcached, statsd, proxy.
+        # (opensearch retired here — now GitOps/ArgoCD-managed on otcinfra.)
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -89,11 +90,6 @@
                 soft: true
 
         - infra-prod-install-loadbalancer: &infra-prod-install-loadbalancer
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-
-        - infra-prod-service-opensearch: &infra-prod-service-opensearch
             dependencies:
               - name: infra-prod-base
                 soft: true
@@ -166,7 +162,6 @@
       jobs:
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
-        - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
