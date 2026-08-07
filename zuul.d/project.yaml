@@ -164,13 +164,6 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-graphite: &infra-prod-service-graphite
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-              - name: infra-prod-service-memcached
-                soft: true
-
         - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
             dependencies:
               - name: infra-prod-base
@@ -211,6 +204,7 @@
         # Services migrated off the retired bastion.
         - infra-prod-cloud-dns
         - infra-prod-service-cloudmon
+        - infra-prod-service-graphite
 
     periodic:
       # Nightly execution
@@ -240,7 +234,6 @@
         - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
         - infra-prod-service-gitea: *infra-prod-service-gitea
         - infra-prod-service-grafana: *infra-prod-service-grafana
-        - infra-prod-service-graphite: *infra-prod-service-graphite
         - infra-prod-service-memcached: *infra-prod-service-memcached
         - infra-prod-service-statsd: *infra-prod-service-statsd
         - infra-prod-service-proxy: *infra-prod-service-proxy
@@ -251,6 +244,7 @@
         # Bridge-less ephemeral-node deploys (nightly drift correction).
         - infra-prod-cloud-dns
         - infra-prod-service-cloudmon
+        - infra-prod-service-graphite
 
     periodic-hourly:
       # hourly execution
