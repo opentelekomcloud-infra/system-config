@@ -1,0 +1,4 @@
+# Patch executor deployment for preprod
+- op: replace
+  path: /spec/replicas
+  value: 5

@@ -1,0 +1,22 @@
+# EPmon config for production_swiss
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: swiss_bern
+  clouds:
+    - production_eu-de:
+        service_override: {}
+    - production_eu-nl:
+        service_override: {}
+metrics:
+  statsd:
+    host: 192.168.195.120
+    port: 8125

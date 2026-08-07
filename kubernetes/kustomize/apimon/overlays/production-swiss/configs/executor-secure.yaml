@@ -1,0 +1,5 @@
+# Executor secure config for production-swiss
+alerta:
+  token: <path:secret/data/apimon/alerta#alerta_token>
+executor:
+  db_url: <path:secret/data/apimon/executor_db#dburi>

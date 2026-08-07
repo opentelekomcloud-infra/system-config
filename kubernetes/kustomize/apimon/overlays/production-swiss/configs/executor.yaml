@@ -1,0 +1,19 @@
+# Executor config for production_swiss
+secure: /etc/apimon_secure/apimon-executor-secure.yaml
+gear:
+  - host: apimon-gearman.apimon-production-swiss.svc.cluster.local
+    port: 4730
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+executor:
+  work_dir: /var/lib/apimon
+  socket: /tmp/executor.socket
+  zone: swiss_bern
+  logs_cloud: swift
+  load_multiplier: 2
+metrics:
+  statsd:
+    host: 192.168.195.120
+    port: 8125

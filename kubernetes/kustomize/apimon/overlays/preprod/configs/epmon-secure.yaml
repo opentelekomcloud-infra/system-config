@@ -1,0 +1,34 @@
+# EPmon secure config for preprod
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.preprod.clouds
+# Cloud mappings from apimon-clouds.yaml:
+#   preprod     -> otcapimon_preprod     -> secret/data/cloud_users/preprod_apimon_probes1
+#   swift       -> otcapimon_logs        -> secret/data/cloud_users/448_apimon
+alerta:
+  token: <path:secret/data/apimon/alerta#alerta_token>
+clouds:
+  - name: preprod
+    data:
+      access_key: <path:secret/data/cloud_users/preprod_apimon_probes1#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/preprod_apimon_probes1#auth_url>
+        password: <path:secret/data/cloud_users/preprod_apimon_probes1#password>
+        project_name: eu-de_apimon_probes1
+        user_domain_id: <path:secret/data/cloud_users/preprod_apimon_probes1#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/preprod_apimon_probes1#user_domain_name>
+        username: <path:secret/data/cloud_users/preprod_apimon_probes1#username>
+      api_timeout: 60
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/preprod_apimon_probes1#secret_key>
+  - name: swift
+    data:
+      access_key: <path:secret/data/cloud_users/448_apimon#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/448_apimon#auth_url>
+        password: <path:secret/data/cloud_users/448_apimon#password>
+        project_name: eu-de_apimon
+        user_domain_id: <path:secret/data/cloud_users/448_apimon#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/448_apimon#user_domain_name>
+        username: <path:secret/data/cloud_users/448_apimon#username>
+      object_store_endpoint_override: <path:secret/data/apimon/swift#object_store_endpoint_override_swift>
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/448_apimon#secret_key>

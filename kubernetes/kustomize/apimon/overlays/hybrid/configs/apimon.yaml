@@ -1,0 +1,130 @@
+# Scheduler config for hybrid
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.hybrid
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: production_eu-de
+  clouds:
+    - hybrid_swiss:
+        service_override:
+          as:
+            service: auto_scaling
+            urls:
+              - "/"
+              - "/scaling_group"
+              - "/scaling_configuration"
+              - "/scaling_policy"
+          ces:
+            service: ces
+            urls:
+              - "/"
+              - "/metrics"
+              - "/alarms"
+          cesv1: {}
+          compute:
+            urls:
+              - "/"
+              - "/servers"
+              - "/flavors"
+              - "/limits"
+              - "/os-keypairs"
+              - "/os-server-groups"
+              - "/os-availability-zone"
+          cinder:
+            service: block_storage
+            urls:
+              - "/volumes"
+              - "/snapshots"
+              - "/backups"
+              - "/os-volume-transfer"
+              - "/os-availability-zone"
+          volumev2: {}
+          volumev3: {}
+          identity:
+            urls:
+              - "/"
+              - "/regions"
+              - "/auth/projects"
+          image:
+            urls:
+              - "/"
+              - "/images"
+              - "/schemas/images"
+          network:
+            urls:
+              - "/"
+              - "/networks"
+              - "/subnets"
+              - "/ports"
+              - "/routers"
+              - "/floatingips"
+              - "/security-groups"
+              - "/subnetpools"
+          sdrs:
+            urls:
+              - "/"
+              - "/v1"
+              - "/active-domains"
+              - "/server-groups"
+              - "/protected-instances"
+              - "/replications"
+          database: {}
+          rds: {}
+          rdsv1: {}
+          rdsv3:
+            service: rds
+            urls:
+              - "/"
+              - "/datastores/postgresql"
+              - "/instances"
+              - "/configurations"
+          smn: {}
+          smnv2: {}
+          bms: {}
+          data-protect: {}
+scheduler:
+  zone: production_eu-de
+  work_dir: /var/lib/apimon
+  socket: /tmp/scheduler.socket
+  refresh_interval: 10
+test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+    exec_cmd: ansible-playbook -i inventory/hybrid %s
+test_environments:
+  - name: hybrid_swiss
+    env:
+      OS_CLOUD: hybrid_swiss
+    clouds:
+      - hybrid_swiss
+test_matrix:
+  - env: hybrid_swiss
+    project: apimon
+    tasks:
+      - scenario1_token.yaml
+      - scenario2a_ecs_az.yaml
+      - scenario19_simple_vpc.yaml
+      - scenario44_rds_instance.yaml
+      - scenario23_ces.yaml
+      - scenario2_simple_ecs.yaml
+      - scenario30_domains.yaml
+      - scenario3a_evs_az.yaml
+      - scenario3b_evs_az.yaml
+      - scenario4_image.yaml
+      - scenario21_as.yaml
+      - scenario3_simple_evs.yaml
+      - scenario9_obs.yaml
+metrics:
+  statsd:
+    host: 192.168.110.249
+    port: 8125
