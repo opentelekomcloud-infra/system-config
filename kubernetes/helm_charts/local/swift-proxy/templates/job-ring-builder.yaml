@@ -1,4 +1,4 @@
-{{- if eq .Values.mode "cluster" }}
+{{- if and (eq .Values.mode "cluster") .Values.storage.enabled (not .Values.swift.ringsConfigMapName) }}
 apiVersion: batch/v1
 kind: Job
 metadata:

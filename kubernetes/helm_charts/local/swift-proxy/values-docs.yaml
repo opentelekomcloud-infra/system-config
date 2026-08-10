@@ -1,4 +1,4 @@
-# Swift Proxy for Zuul Preprod Environment
+# Swift Proxy for Zuul New Production Environment
 # This values file configures swift-proxy with full Swift cluster in Kubernetes
 
 # Deployment mode: "obs-only" (zuul-storage-proxy to OBS) or "cluster" (full Swift cluster)
@@ -14,12 +14,27 @@ proxy:
     tag: "2024.1-ubuntu-jammy"
   port: 8080
 
-# Storage nodes configuration (only used in cluster mode)
-storage:
+# StatsD metrics -> go-carbon (otcinfra ns graphite) over the eco-infra <-> eco-infra2
+# (192.168.170 <-> .171) peering. Collapses the old VM two-hop (per-node statsd daemon
+# -> graphite1.eco) into a direct send to go-carbon's bundled statsd:8125.
+# INERT until `host` is set to the go-carbon ingest VIP (dedicated ELB on otcinfra
+# infra-subnet, UDP 8125). Requires SG rule: inbound UDP 8125 from 192.168.171.0/24
+# on the ingest target. Metric tree: stats.timers.<metricPrefix>.<server>-server.*
+# (differs from the old per-VM swift.proxyN/storageN tree -> update dashboards).
+statsd:
   enabled: true
-  replicas: 1  # Single storage node using shared SFS Turbo
+  host: "192.168.170.50"         # go-carbon ingest ELB VIP (infra-subnet); B2 Path 2
+  port: 8125
+  defaultSampleRate: "1.0"
+  sampleRateFactor: "1.0"
+  metricPrefix: "swift.otcinfra2-docs"
+
+# Storage nodes configuration (only used in cluster mode)
+# Docs proxy shares the logs proxy's storage; no storage StatefulSet here.
+storage:
+  enabled: false
+  replicas: 1
   image:
-    # Kolla uses separate images for each service
     object:
       repository: quay.io/openstack.kolla/swift-object
       pullPolicy: IfNotPresent
@@ -34,20 +49,16 @@ storage:
       tag: "2024.1-ubuntu-jammy"
   persistence:
     enabled: true
-    # OTC EVS disk with CSI provisioner
-    existingClaim: ""  # Create new PVC in swift-proxy namespace
-    existingVolume: ""  # Let CSI provision the volume
+    existingClaim: ""
+    existingVolume: ""
     storageClass: "csi-disk-retain"
     accessMode: ReadWriteOnce
-    size: 100Gi  # OTC EVS disk
+    size: 100Gi
     reclaimPolicy: Retain
-    # Local storage configuration (disabled for CSI)
     localStorage:
       enabled: false
-      # Node where XFS disk is mounted
-      nodeName: "192.168.150.167"
-      # Path where /dev/sdk is mounted with XFS
-      path: "/mnt/swift-storage"
+      nodeName: ""
+      path: ""
     sharedNFS:
       enabled: false
       server: ""
@@ -70,7 +81,6 @@ storage:
     requests:
       cpu: "50m"
       memory: "512Mi"
-  # Ports for Swift services
   ports:
     object: 6200
     container: 6201
@@ -79,7 +89,7 @@ storage:
 
 serviceAccount:
   create: true
-  name: "swift-proxy-zuul-preprod"
+  name: "swift-proxy-docs"
 
 podAnnotations: {}
 
@@ -87,7 +97,12 @@ podSecurityContext:
   runAsNonRoot: false
   runAsUser: 0
   runAsGroup: 0
-  fsGroup: 42424
+  # NOTE: fsGroup intentionally omitted. Swift runs as uid/gid 42445 and owns
+  # all data on the storage EVS volume (~3.3M files). Setting fsGroup here made
+  # kubelet recursively chown every file on mount, exceeding the 2m volume-setup
+  # deadline (context deadline exceeded) and preventing the storage pod from
+  # ever starting after a remount. Swift accesses its own 42445-owned data
+  # directly, so no fsGroup is required.
 
 securityContext:
   allowPrivilegeEscalation: true
@@ -122,20 +137,25 @@ autoscaling:
 
 # Swift configuration
 swift:
-  # Swift cluster configuration (used in cluster mode)
   hashPathPrefix: "<path:secret/data/swift/config#hash_path_prefix>"
   hashPathSuffix: "<path:secret/data/swift/config#hash_path_suffix>"
-  partitionPower: 14  # 2^14 = 16384 partitions
-  replicaFactor: 1  # Preprod: 1 replica (only 1 storage node), Prod: 3 replicas
+  partitionPower: 14
+  replicaFactor: 1
   minPartHours: 24
 
-  # Reuse an externally-managed rings ConfigMap (proxy-only deployments).
-  ringsConfigMapName: ""
-  # keystoneauth operator_roles (default keeps prior behavior).
-  keystoneOperatorRoles: "admin,member"
-  # OTC token self-validation middleware (docs/keystone proxy). Disabled here.
+  # Reuse an externally-managed rings ConfigMap (proxy-only deployments that
+  # share another release's storage). Empty = this release builds/owns its rings.
+  ringsConfigMapName: "swift-proxy-otcinfra2-rings"
+
+  # keystoneauth operator_roles (users with one of these roles may manage
+  # containers/objects in AUTH_<project-id>). Matches the VM swift.eco config.
+  keystoneOperatorRoles: "admin,te_admin,server_adm"
+
+  # OTC token self-validation middleware (docs/keystone proxy). Enabled here;
+  # this proxy is keystone-only (NO tempauth) so validatetoken (fail-closed)
+  # never sees tempauth tokens.
   validatetoken:
-    enabled: false
+    enabled: true
     authUrl: "https://iam.eu-de.otc.t-systems.com"
     httpConnectTimeout: 5
 
@@ -148,15 +168,14 @@ swift:
     userDomainName: "<path:secret/data/zuul/logs/otc_technical_user#user_domain_name>"
     regionName: "<path:secret/data/zuul/logs/otc_technical_user#region_name>"
 
-  # Proxy pipeline configuration
-  # Note: validatetoken filter from production is skipped (custom middleware not in Kolla)
   proxyPipeline:
     - catch_errors
     - gatekeeper
     - healthcheck
     - proxy-logging
     - cache
-    - tempauth
+    - validatetoken
+    - keystoneauth
     - container_sync
     - bulk
     - formpost
@@ -172,20 +191,22 @@ swift:
     - proxy-logging
     - proxy-server
 
-  # Tempauth users for internal services (Loki, etc.)
   tempauth:
-    enabled: true
+    enabled: false
     users:
       - account: admin
         username: <path:secret/data/loki#swift_user>
         password: <path:secret/data/loki#swift_password>
         groups: .admin
+      # Zuul log uploads
+      - account: zuul-prod-logs
+        username: <path:secret/data/swift/users/zuul#username>
+        password: <path:secret/data/swift/users/zuul#password>
+        groups: .admin
 
-# Legacy OBS-only configuration (kept for backward compatibility)
-# Only used when mode: "obs-only"
+# Legacy OBS-only configuration
 cloudNames: "zuul-logs"
 
-# OpenStack clouds.yaml with ArgoCD Vault Plugin (OBS-only mode)
 clouds: |
   zuul-logs:
     auth:
@@ -204,20 +225,20 @@ ingress:
   className: "nginx"
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    cert-manager.io/duration: "8760h"  # 365 days
-    cert-manager.io/renew-before: "720h"  # 30 days before expiry
+    cert-manager.io/duration: "8760h"
+    cert-manager.io/renew-before: "720h"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
   hosts:
-    - host: swift-proxy.eco-preprod.tsi-dev.otc-service.com
+    - host: swift-proxy-docs.eco.tsi-dev.otc-service.com
       paths:
         - path: /
           pathType: Prefix
   tls:
-    - secretName: swift-proxy-zuul-preprod-tls
+    - secretName: swift-proxy-docs-tls
       hosts:
-        - swift-proxy.eco-preprod.tsi-dev.otc-service.com
+        - swift-proxy-docs.eco.tsi-dev.otc-service.com
 
 affinity:
   podAntiAffinity:
@@ -233,7 +254,7 @@ affinity:
               - key: app.kubernetes.io/instance
                 operator: In
                 values:
-                  - zuul-preprod
+                  - zuul-new-prod
           topologyKey: kubernetes.io/hostname
 
 # Readiness and liveness probes
@@ -247,7 +268,7 @@ probes:
     initialDelaySeconds: 5
     periodSeconds: 5
 
-# URL Rewriter - nginx proxy that fixes trailing slash issue
+# URL Rewriter
 urlRewriter:
   enabled: true
   replicaCount: 2

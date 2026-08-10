@@ -142,6 +142,22 @@ swift:
   replicaFactor: 1
   minPartHours: 24
 
+  # Reuse an externally-managed rings ConfigMap (proxy-only deployments that
+  # share another release's storage). Empty = this release builds/owns its rings.
+  ringsConfigMapName: ""
+
+  # keystoneauth operator_roles (users with one of these roles may manage
+  # containers/objects in AUTH_<project-id>). Default keeps prior behavior.
+  keystoneOperatorRoles: "admin,member"
+
+  # OTC token self-validation middleware (docs/keystone proxy). Disabled here;
+  # the logs proxy uses tempauth. validatetoken is fail-closed so it must NOT
+  # share a pipeline with tempauth.
+  validatetoken:
+    enabled: false
+    authUrl: "https://iam.eu-de.otc.t-systems.com"
+    httpConnectTimeout: 5
+
   # Keystone auth configuration
   keystoneAuth:
     authUrl: "<path:secret/data/zuul/logs/otc_technical_user#auth_url>"
