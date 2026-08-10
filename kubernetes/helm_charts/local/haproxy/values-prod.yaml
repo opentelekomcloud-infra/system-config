@@ -125,7 +125,7 @@ dns01Issuer:
   privateKeySecretRef: otc-dns01-issuer-account-key
   webhook:
     groupName: acme.syseleven.de
-    solverName: designate
+    solverName: designatedns
     # Per-solver config for the designate webhook (OpenStack creds come from the
     # webhook Deployment env, so this is usually empty).
     config: {}
