@@ -1,0 +1,5 @@
+---
+apiVersion: v2
+name: pull-secrets
+description: A custom/local Helm Chart used for deployement of cluster-wide image pull secrets
+version: 0.1.0
