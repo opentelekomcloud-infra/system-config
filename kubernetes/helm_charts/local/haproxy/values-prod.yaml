@@ -149,7 +149,7 @@ service:
     annotations:
       kubernetes.io/elb.class: performance
       kubernetes.io/elb.pass-through: onlyLocal
-      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s","bandwidth_name":"proxy-k8s-bw","bandwidth_chargemode":"bandwidth","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["c4957702-1c42-4f47-ad48-5d24858fe410"],"available_zone":["eu-de-01"]}'
+      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s","bandwidth_name":"proxy-k8s-bw","bandwidth_chargemode":"traffic","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["c4957702-1c42-4f47-ad48-5d24858fe410"],"available_zone":["eu-de-01"]}'
     loadBalancerIP: ""
     externalTrafficPolicy: Local
   ports:
