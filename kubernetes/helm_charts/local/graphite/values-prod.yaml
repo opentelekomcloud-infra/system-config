@@ -187,3 +187,42 @@ carbonapi:
     clusterIssuer: letsencrypt-prod
     whitelistSourceRange: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,80.158.0.0/16"
     tlsSecretName: carbonapi-main-tls
+
+# ===========================================================================
+# graphite-web — the apimon-domain graphite dashboard (graphite.apimon.eco).
+# Port of the ansible graphite_web_k8s role. NOTE: fronts the *apimon* graphite
+# VMs (GRAPHITE_CLUSTER_SERVERS 192.168.14.159/151.11:8080), which are a
+# SEPARATE stack from the zuul store (go-carbon) — porting only moves its
+# deployment mechanism from the bridge to GitOps; backends are unchanged.
+# ===========================================================================
+# Disabled by default: the live graphite-web-apimon is still ansible-managed
+# with the SAME object names. TLS moves to cert-manager (no bridge certs).
+graphiteWeb:
+  enabled: false
+  image: quay.io/opentelekomcloud/graphite-statsd:latest
+  fqdn: graphite.apimon.eco.tsi-dev.otc-service.com
+  timezone: "Europe/Berlin"
+  clusterServers:
+    - "http://192.168.14.159:8080"
+    - "http://192.168.151.11:8080"
+  memcacheHosts:
+    - "192.168.14.159:11211"
+    - "192.168.151.11:11211"
+  hpa:
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilization: 70
+  resources:
+    limits:
+      cpu: 1
+      memory: 2G
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  readinessTimeout: 10
+  livenessTimeout: 5
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    clusterIssuer: letsencrypt-prod
+    tlsSecretName: graphite-web-apimon-tls

@@ -1,0 +1,82 @@
+{{- if .Values.graphiteWeb.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: graphite-web-apimon
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: graphite
+    app.kubernetes.io/component: web
+    app.kubernetes.io/instance: apimon
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: graphite
+      app.kubernetes.io/component: web
+      app.kubernetes.io/instance: apimon
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/graphite-web-configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: graphite
+        app.kubernetes.io/component: web
+        app.kubernetes.io/instance: apimon
+    spec:
+      containers:
+        - name: graphite-web
+          image: {{ .Values.graphiteWeb.image }}
+          env:
+            - name: GRAPHITE_TIME_ZONE
+              value: "{{ .Values.graphiteWeb.timezone }}"
+            - name: CARBON_DISABLED
+              value: "1"
+            - name: CARBON_AGGREGATOR_DISABLED
+              value: "1"
+            - name: STATSD_DISABLED
+              value: "1"
+            - name: REDIS_DISABLED
+              value: "1"
+            - name: GRAPHITE_CLUSTER_SERVERS
+              value: "{{ join ", " .Values.graphiteWeb.clusterServers }}"
+            - name: MEMCACHE_HOST
+              value: "{{ join ", " .Values.graphiteWeb.memcacheHosts }}"
+            - name: GRAPHITE_LOG_FILE_INFO
+              value: "-"
+            - name: GRAPHITE_LOG_FILE_EXCEPTION
+              value: "-"
+            - name: GRAPHITE_LOG_FILE_CACHE
+              value: "-"
+            - name: GRAPHITE_LOG_FILE_RENDERING
+              value: "-"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/metrics/find?query=*"
+              port: http
+            timeoutSeconds: {{ .Values.graphiteWeb.readinessTimeout }}
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/metrics/find?query=*"
+              port: http
+            timeoutSeconds: {{ .Values.graphiteWeb.livenessTimeout }}
+          volumeMounts:
+            - name: graphite-web-configmap
+              mountPath: /etc/nginx/sites-enabled/
+          resources:
+            {{- toYaml .Values.graphiteWeb.resources | nindent 12 }}
+      volumes:
+        - name: graphite-web-configmap
+          configMap:
+            name: graphite-web-apimon
+            defaultMode: 420
+{{- end }}
