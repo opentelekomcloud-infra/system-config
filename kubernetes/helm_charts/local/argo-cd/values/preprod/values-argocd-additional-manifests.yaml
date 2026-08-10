@@ -7,5 +7,5 @@ swrSecret:
   enabled: true
   name: swr-secret
   namespace: argocd
-  registry: swr.eu-de.otc-t-systems.com
+  registry: swr.eu-de.otc.t-systems.com
 
