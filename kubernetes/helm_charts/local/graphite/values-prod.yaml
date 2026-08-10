@@ -135,3 +135,55 @@ storageSchemas: |
   ["default"]
   pattern = .*
   retentions = 60s:1d,5m:30d,10m:90d
+
+# ===========================================================================
+# carbonapi — the read/query frontend (graphite-ca), served to cloudmon +
+# Grafana. Port of the ansible carbonapi role (roles/carbonapi tasks/k8s.yaml).
+# ===========================================================================
+# Disabled by default: the live carbonapi-main is still ansible/bridge-managed
+# with the SAME object names. Enabling this and syncing REPLACES/adopts it.
+# The 'zuul' backend is repointed from the graphite1.eco VM (192.168.14.241:8081)
+# to the in-cluster go-carbon Service; the 'apimon' backend group (the separate
+# apimon graphite VMs) is unchanged. TLS moves to cert-manager (no bridge certs).
+carbonapi:
+  enabled: false
+  image: quay.io/opentelekomcloud/carbonapi:v0.15.4
+  fqdn: graphite-ca.eco.tsi-dev.otc-service.com
+  tz: ""
+  hpa:
+    minReplicas: 4
+    maxReplicas: 8
+    targetCPUUtilization: 70
+  resources:
+    limits:
+      cpu: 1
+      memory: 2G
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  readinessTimeout: 10
+  livenessTimeout: 5
+  memcacheHosts:
+    - "192.168.14.12:11211"
+    - "192.168.14.159:11211"
+    - "192.168.151.11:11211"
+  # backendsv2.backends — apimon group unchanged; zuul group -> in-cluster go-carbon.
+  backends:
+    - groupName: "apimon"
+      lbMethod: "any"
+      protocol: "carbonapi_v3_pb"
+      servers:
+        - "http://192.168.14.159:8081"
+        - "http://192.168.14.12:8081"
+        - "http://192.168.151.11:8081"
+    - groupName: "zuul"
+      lbMethod: "broadcast"
+      protocol: "carbonapi_v3_pb"
+      servers:
+        - "http://graphite-zuul.graphite.svc.cluster.local:8081"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    clusterIssuer: letsencrypt-prod
+    whitelistSourceRange: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,80.158.0.0/16"
+    tlsSecretName: carbonapi-main-tls

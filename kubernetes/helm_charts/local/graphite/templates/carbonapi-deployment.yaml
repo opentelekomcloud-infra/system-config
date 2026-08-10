@@ -1,0 +1,68 @@
+{{- if .Values.carbonapi.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carbonapi-main
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: carbonapi
+      app.kubernetes.io/instance: main
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/carbonapi-configmap.yaml") . | sha256sum }}
+      labels:
+        app.kubernetes.io/name: carbonapi
+        app.kubernetes.io/instance: main
+    spec:
+      containers:
+        - name: carbonapi
+          image: {{ .Values.carbonapi.image }}
+          ports:
+            - name: carbonapi
+              containerPort: 8081
+              protocol: TCP
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/metrics/find/?query=*"
+              port: carbonapi
+            timeoutSeconds: {{ .Values.carbonapi.readinessTimeout }}
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/metrics/find/?query=*"
+              port: carbonapi
+            timeoutSeconds: {{ .Values.carbonapi.livenessTimeout }}
+          volumeMounts:
+            - name: carbonapi-configmap
+              mountPath: /etc/carbonapi.yml
+              subPath: carbonapi.yaml
+          resources:
+            {{- toYaml .Values.carbonapi.resources | nindent 12 }}
+      volumes:
+        - name: carbonapi-configmap
+          configMap:
+            name: carbonapi-main
+            defaultMode: 420
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values: ["main"]
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values: ["carbonapi"]
+                topologyKey: kubernetes.io/hostname
+{{- end }}

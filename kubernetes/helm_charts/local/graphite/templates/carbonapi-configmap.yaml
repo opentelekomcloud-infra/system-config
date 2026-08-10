@@ -1,0 +1,62 @@
+{{- if .Values.carbonapi.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: carbonapi-main
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+    {{- include "graphite.labels" . | nindent 4 }}
+data:
+  carbonapi.yaml: |
+    listen: "0.0.0.0:8081"
+    prefix: ""
+    expvar:
+      enabled: false
+      pprofEnabled: false
+      listen: ""
+    headersToPass:
+      - "X-Dashboard-Id"
+      - "X-Grafana-Org-Id"
+      - "X-Panel-Id"
+    headersToLog:
+      - "X-Dashboard-Id"
+      - "X-Grafana-Org-Id"
+      - "X-Panel-Id"
+    define:
+      - name: "perMinute"
+        template: "perSecond({{ "{{" }}.argString{{ "}}" }})|scale(60)"
+    notFoundStatusCode: 200
+    concurency: 1000
+    cache:
+      type: {{ if .Values.carbonapi.memcacheHosts }}memcache{{ else }}mem{{ end }}
+      size_mb: 32
+      defaultTimeoutSec: 60
+      memcachedServers: {{ .Values.carbonapi.memcacheHosts | toJson }}
+    cpus: 0
+    tz: "{{ .Values.carbonapi.tz }}"
+    maxBatchSize: 100
+    graphite:
+      host: ""
+      interval: "60s"
+      prefix: "carbon.api"
+      pattern: "{prefix}.{fqdn}"
+    idleConnections: 10
+    pidFile: ""
+    upstreams:
+      buckets: 10
+      timeouts:
+        find: "2s"
+        render: "10s"
+        connect: "200ms"
+      concurrencyLimitPerServer: 0
+      keepAliveInterval: "30s"
+      maxIdleConnsPerHost: 100
+      backends:
+      backendsv2:
+        backends:
+{{ .Values.carbonapi.backends | toYaml | indent 10 }}
+      graphite09compat: false
+    expireDelaySec: 10
+{{- end }}
