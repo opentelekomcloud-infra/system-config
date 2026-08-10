@@ -114,11 +114,13 @@ loadBalancer:
   annotations:
     kubernetes.io/elb.class: performance
     kubernetes.io/elb.pass-through: onlyLocal
-    # Recommended: reference a pre-created dedicated internal UDP-capable ELB.
-    kubernetes.io/elb.id: "REPLACE_WITH_dedicated_internal_ELB_id"
-    # --- OR autocreate instead of elb.id (comment elb.id above, uncomment below):
-    # kubernetes.io/elb.subnet-id: "<infra-subnet ipv4 subnet id>"   # console: VPC > infra-subnet > 'Subnet ID'
-    # kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["<infra-subnet network id>"],"available_zone":["eu-de-01"]}'
+    # Dedicated (performance) internal ELB auto-created by CCE in infra-subnet
+    # (eco-infra). UDP listener :8125 + backend are auto-managed from this Service.
+    #   network id (elb_virsubnet_ids) = c4957702-1c42-4f47-ad48-5d24858fe410
+    #   ipv4 subnet id (reference)     = 7ad49269-1846-45cd-97bc-0f047729c416
+    #   AZ = eu-de-01 ; VPC = eco-infra
+    # If the sync fails on l4_flavor_name, list valid flavors and adjust.
+    kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["c4957702-1c42-4f47-ad48-5d24858fe410"],"available_zone":["eu-de-01"]}'
   loadBalancerIP: ""
   ports:
     statsd: 8125
