@@ -68,25 +68,37 @@ service:
     statsd: 8125         # statsd UDP ingest
     web: 80              # graphite-web (nginx) dashboard
 
-# ---------------------------------------------------------------------------
-# Optional cross-cluster ingest VIP.
-# The producer (swift controller VM) writes statsd to the graphite1.eco
-# mgmt-net IP (192.168.14.241). At cutover, enable this LoadBalancer to obtain
-# a stable mgmt-net VIP that replaces 192.168.14.241, then repoint the swift
-# controller statsd_graphite_host to it. Disabled for safe prep.
+# ===========================================================================
+# Cross-boundary statsd ingest (producers outside this cluster).
+# ===========================================================================
+# In-cluster producers (cloudmon, carbonapi) reach go-carbon via the ClusterIP
+# Service above — nothing extra needed. The options below are ONLY for external
+# producers: today the swift controller VM (192.168.14.241 -> repoint here);
+# end state, any producer on otcinfra2 (192.168.171.0/24, already peered).
 #
-# IMPORTANT (verified against CCE LoadBalancer docs 2026-08-10): statsd ingest
-# is UDP:8125, and UDP listeners are supported ONLY by DEDICATED load balancers
-# (kubernetes.io/elb.class: performance). The existing internal ELBs on otcinfra
-# (elb-intern @192.168.170.129, elb-swift-proxy @192.168.170.56, ingress) are
-# all SHARED (union) and cannot do UDP. So use a dedicated ELB auto-created in
-# infra-subnet (mgmt-net 192.168.170.0/24). Alternatively, use the NodePort
-# fallback below (UDP NodePort on an otcinfra node IP — no ELB needed).
-# ---------------------------------------------------------------------------
+# Zero-VM alignment: no VPC peering / VPN is required — the swift VM already
+# routes to otcinfra (192.168.170.0/24) and otcinfra<->otcinfra2 is already
+# peered. The ONLY missing prerequisite is an inbound security-group rule on the
+# otcinfra worker nodes / ELB allowing the chosen UDP port from the producer
+# subnet(s): 192.168.80.0/24 (swift, transitional) + 192.168.171.0/24 (otcinfra2).
+
+# --- PRIMARY: UDP NodePort (no ELB) -----------------------------------------
+# Recommended. UDP works natively on NodePort; no dedicated ELB to provision.
+# Point the swift controller statsd_graphite_host at a stable otcinfra node IP
+# on infra-subnet (e.g. 192.168.170.139) : statsdNodePort. Disabled for prep.
+nodePortIngest:
+  enabled: false
+  statsdNodePort: 31825   # 30000-32767; producer -> <otcinfra-node-ip>:31825/udp
+
+# --- ALTERNATIVE: dedicated ELB VIP -----------------------------------------
+# Use only if a stable VIP is preferred over a node IP. statsd is UDP:8125 and
+# (verified against CCE LoadBalancer docs 2026-08-10) UDP listeners are supported
+# ONLY by DEDICATED load balancers (kubernetes.io/elb.class: performance). The
+# existing internal ELBs (elb-intern @192.168.170.129, elb-swift-proxy
+# @192.168.170.56, ingress) are all SHARED (union) and cannot do UDP. Fill
+# elb.subnet-id (infra-subnet) + elb.autocreate (or elb.id) before enabling.
 loadBalancer:
   enabled: false
-  # Dedicated ELB is required for UDP. Fill elb.autocreate (or elb.id of a
-  # pre-created dedicated ELB) + the infra-subnet id before enabling.
   annotations:
     kubernetes.io/elb.class: performance
     kubernetes.io/elb.pass-through: onlyLocal
@@ -98,15 +110,6 @@ loadBalancer:
     statsd: 8125
     carbonLine: 2003
     carbonPickle: 2004
-
-# ---------------------------------------------------------------------------
-# NodePort fallback for the UDP statsd ingest (no ELB). If enabled, point the
-# swift controller statsd_graphite_host at a stable otcinfra node IP on
-# infra-subnet (e.g. 192.168.170.139) : nodePort. UDP works natively on NodePort.
-# ---------------------------------------------------------------------------
-nodePortIngest:
-  enabled: false
-  statsdNodePort: 31825   # 30000-32767; swift -> <node-ip>:31825/udp
 
 # ---------------------------------------------------------------------------
 # go-carbon / statsd runtime env (roles/graphite templates/env.j2).
