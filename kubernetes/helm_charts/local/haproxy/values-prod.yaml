@@ -86,9 +86,9 @@ certificates:
     # the multi-SAN proxy1.pem), so it needs its own group / crt file.
     vault:
       secretName: haproxy-vault-tls
-      commonName: vault-lb.eco.tsi-dev.otc-service.com
+      commonName: vault1.eco.tsi-dev.otc-service.com
       dnsNames:
-        - vault-lb.eco.tsi-dev.otc-service.com
+        - vault1.eco.tsi-dev.otc-service.com
 
 # ---------------------------------------------------------------------------
 # DNS-01 ClusterIssuer (otc-dns01) — ACME (Let's Encrypt) with a DNS-01 webhook
