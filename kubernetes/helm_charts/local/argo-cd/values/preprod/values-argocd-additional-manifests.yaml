@@ -2,10 +2,3 @@ repoServerSecretAccess:
   enabled: true
   namespace: argocd
   serviceAccount: argocd-preprod-repo-server
-
-swrSecret:
-  enabled: true
-  name: swr-secret
-  namespace: argocd
-  registry: swr.eu-de.otc-t-systems.com
-

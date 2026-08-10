@@ -31,11 +31,6 @@ argo-cd:
     # Enable repository credentials management
     repositoryCredentials:
       enabled: true
-    # Secrets with credentials to pull images from a private registry (e.g. OTC SWR
-    # for images not served from public quay.io/docker.io). Propagates to all
-    # component Deployments via the per-component imagePullSecrets default.
-    imagePullSecrets:
-      - name: swr-secret
     # Additional global configurations for vault plugin
     env:
       - name: ARGOCD_VAULT_PLUGIN_ENABLED
