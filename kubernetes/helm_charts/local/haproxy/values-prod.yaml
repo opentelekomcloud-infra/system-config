@@ -62,7 +62,6 @@ certificates:
         - alerts.eco.tsi-dev.otc-service.com
         - influx1.eco.tsi-dev.otc-service.com
         - keycloak.eco.tsi-dev.otc-service.com
-        - vault-lb.eco.tsi-dev.otc-service.com
         - opensearch.eco.tsi-dev.otc-service.com
         - opensearch-dashboard.eco.tsi-dev.otc-service.com
         - opensearch-stg.eco.tsi-dev.otc-service.com
@@ -83,6 +82,13 @@ certificates:
       commonName: matrix.otc-service.com
       dnsNames:
         - matrix.otc-service.com
+    # vault.pem — vault-lb.eco is a separate single-SAN cert on proxy1 (not in
+    # the multi-SAN proxy1.pem), so it needs its own group / crt file.
+    vault:
+      secretName: haproxy-vault-tls
+      commonName: vault-lb.eco.tsi-dev.otc-service.com
+      dnsNames:
+        - vault-lb.eco.tsi-dev.otc-service.com
 
 # ---------------------------------------------------------------------------
 # DNS-01 ClusterIssuer (otc-dns01) — ACME (Let's Encrypt) with a DNS-01 webhook
