@@ -14,6 +14,21 @@ proxy:
     tag: "2024.1-ubuntu-jammy"
   port: 8080
 
+# StatsD metrics -> go-carbon (otcinfra ns graphite) over the eco-infra <-> eco-infra2
+# (192.168.170 <-> .171) peering. Collapses the old VM two-hop (per-node statsd daemon
+# -> graphite1.eco) into a direct send to go-carbon's bundled statsd:8125.
+# INERT until `host` is set to the go-carbon ingest VIP (dedicated ELB on otcinfra
+# infra-subnet, UDP 8125). Requires SG rule: inbound UDP 8125 from 192.168.171.0/24
+# on the ingest target. Metric tree: stats.timers.<metricPrefix>.<server>-server.*
+# (differs from the old per-VM swift.proxyN/storageN tree -> update dashboards).
+statsd:
+  enabled: true
+  host: ""                       # <go-carbon ingest VIP> - REQUIRED to activate emission
+  port: 8125
+  defaultSampleRate: "1.0"
+  sampleRateFactor: "1.0"
+  metricPrefix: "swift.otcinfra2"
+
 # Storage nodes configuration (only used in cluster mode)
 storage:
   enabled: true

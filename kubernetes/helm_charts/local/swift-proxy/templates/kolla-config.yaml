@@ -50,6 +50,16 @@ data:
     bind_port = {{ .Values.proxy.port }}
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    # StatsD -> go-carbon (otcinfra) bundled statsd. Inert until statsd.host is set.
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = {{ join " " .Values.swift.proxyPipeline }}
@@ -181,6 +191,15 @@ data:
     mount_check = true
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon object-server
@@ -253,6 +272,15 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon container-server
@@ -327,6 +355,15 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon account-server
