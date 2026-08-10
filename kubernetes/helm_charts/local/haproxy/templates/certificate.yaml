@@ -1,0 +1,42 @@
+{{- if .Values.certificates.enabled }}
+{{- $top := . }}
+{{- range $key, $group := .Values.certificates.groups }}
+---
+# cert-manager Certificate for the "{{ $key }}" host group. `additionalOutput
+# Formats: CombinedPEM` writes `tls-combined.pem` (private key + full chain in a
+# single file) into the Secret — the exact format haproxy's `crt` directive
+# needs. The Deployment projects each group's tls-combined.pem into
+# /etc/haproxy/certs/{{ $key }}.pem.
+#
+# Issued via DNS-01 ({{ $top.Values.certificates.clusterIssuer }}) so the cert
+# can be obtained BEFORE any DNS is cut over to this proxy.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ $group.secretName }}
+  namespace: {{ $top.Values.namespace }}
+  labels:
+    {{- include "haproxy.labels" $top | nindent 4 }}
+spec:
+  secretName: {{ $group.secretName }}
+  duration: {{ $top.Values.certificates.duration }}
+  renewBefore: {{ $top.Values.certificates.renewBefore }}
+  {{- with $group.commonName }}
+  commonName: {{ . }}
+  {{- end }}
+  dnsNames:
+    {{- range $group.dnsNames }}
+    - {{ . }}
+    {{- end }}
+  issuerRef:
+    name: {{ $top.Values.certificates.clusterIssuer }}
+    kind: ClusterIssuer
+    group: cert-manager.io
+  additionalOutputFormats:
+    - type: CombinedPEM
+  privateKey:
+    algorithm: RSA
+    size: 2048
+    rotationPolicy: Always
+{{- end }}
+{{- end }}

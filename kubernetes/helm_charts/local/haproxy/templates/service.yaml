@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "haproxy.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "haproxy.labels" . | nindent 4 }}
+  {{- with .Values.service.loadBalancer.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: LoadBalancer
+  {{- with .Values.service.loadBalancer.loadBalancerIP }}
+  loadBalancerIP: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.service.loadBalancer.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ . }}
+  {{- end }}
+  selector:
+    {{- include "haproxy.selectorLabels" . | nindent 4 }}
+  ports:
+    - name: http
+      port: {{ .Values.service.ports.http }}
+      targetPort: http
+      protocol: TCP
+    - name: https
+      port: {{ .Values.service.ports.https }}
+      targetPort: https
+      protocol: TCP
+    - name: influx
+      port: {{ .Values.service.ports.influx }}
+      targetPort: influx
+      protocol: TCP
+    - name: vault
+      port: {{ .Values.service.ports.vault }}
+      targetPort: vault
+      protocol: TCP
+    - name: matrix
+      port: {{ .Values.service.ports.matrix }}
+      targetPort: matrix
+      protocol: TCP
+    - name: gitea-ssh
+      port: {{ .Values.service.ports.giteaSsh }}
+      targetPort: gitea-ssh
+      protocol: TCP

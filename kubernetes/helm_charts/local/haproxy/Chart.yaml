@@ -1,0 +1,20 @@
+apiVersion: v2
+name: haproxy
+description: >-
+  Public reverse-proxy / TLS terminator. k8s port of the ansible-managed
+  proxy1/proxy2.eco (haproxy) mgmt-net VMs. Faithful lift-and-shift of the live
+  /etc/haproxy/haproxy.cfg: the `web` frontend (:80/:443, attacker blocklist,
+  rate-limit, HSTS, Host allowlist + per-backend routing) plus the influx
+  (:8086), matrix (:8448), vault (:8200) and gitea-ssh (tcp :2222) frontends and
+  all backends. TLS via cert-manager (DNS-01) with CombinedPEM output mounted
+  into haproxy's `crt` directory. Fronted by a NEW public EIP LoadBalancer so
+  each host can be DNS-cut over one at a time (proxy1/2 stay as instant fallback).
+type: application
+version: 1.0.0
+appVersion: "2.5.5-alpine"
+keywords:
+  - haproxy
+  - reverse-proxy
+  - tls
+  - loadbalancer
+  - proxy

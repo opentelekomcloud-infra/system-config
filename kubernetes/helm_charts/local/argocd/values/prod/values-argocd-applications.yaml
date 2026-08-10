@@ -293,6 +293,36 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # haproxy is the GitOps port of the ansible-managed proxy1/proxy2.eco (haproxy)
+  # mgmt-net VMs — the public reverse-proxy / TLS terminator. The local chart
+  # holds a FAITHFUL lift-and-shift of the live proxy1 /etc/haproxy/haproxy.cfg
+  # (all frontends + backends + attacker blocklist + rate-limit + HSTS), fronted
+  # by a NEW dedicated EIP LoadBalancer so each still-proxied host is DNS-cut over
+  # one at a time (proxy1/proxy2 stay as the instant fallback).
+  #
+  # MANUAL sync. DO NOT sync until:
+  #   1. certificates.clusterIssuer (a DNS-01 issuer for the OTC zones) is
+  #      provisioned — the cluster only has HTTP-01 issuers today,
+  #   2. service.loadBalancer.annotations autocreate JSON has real bandwidth /
+  #      flavor / infra-subnet network id (REPLACE_ placeholders),
+  #   3. pod->target reachability is verified (VM backends keycloak/vault/influx/
+  #      gitea on the mgmt net; 170.6 otcinfra ingress; 171.6 otcinfra2 via peering).
+  # The searchuser Basic-auth injection (docs-search) resolves at sync time from
+  # Vault secret/opensearch/searchuser via the AVP CMP — no k8s secret in git.
+  - name: haproxy
+    clusters: [otcinfra]
+    config:
+      namespace: proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/local/haproxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+
   - name: element
     clusters: [otcinfra2]
     config:

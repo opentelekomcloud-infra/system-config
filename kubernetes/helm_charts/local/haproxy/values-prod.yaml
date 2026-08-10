@@ -1,0 +1,124 @@
+# ---------------------------------------------------------------------------
+# haproxy (local chart) — k8s port of proxy1/proxy2.eco (mgmt-net VMs).
+# Faithful lift-and-shift: the haproxy.cfg in templates/configmap.yaml is copied
+# verbatim from the live proxy1 /etc/haproxy/haproxy.cfg, with only two
+# k8s-necessary edits (TLS crt directory path + searchuser Basic-auth sourced
+# from Vault via the AVP CMP instead of a hard-coded base64 string).
+#
+# MANUAL sync ArgoCD app. Deploys to the otcinfra cluster (ns proxy). Public
+# entry is a NEW dedicated EIP LoadBalancer (service.loadBalancer.annotations)
+# so each still-proxied host is DNS-cut over one at a time; proxy1/proxy2 remain
+# the instant fallback until every host has moved.
+# ---------------------------------------------------------------------------
+namespace: proxy
+
+nameOverride: ""
+fullnameOverride: haproxy
+
+replicaCount: 2
+
+image: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
+imagePullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+# ---------------------------------------------------------------------------
+# TLS — cert-manager Certificates (DNS-01) with CombinedPEM output.
+# Each group produces a Secret containing `tls-combined.pem` (key + fullchain in
+# one file, the format haproxy's `crt` directive needs). Every group's combined
+# PEM is projected into /etc/haproxy/certs/<group>.pem; haproxy loads the whole
+# directory and SNI-selects, mirroring the live proxy1 `crt .../haproxy` dir
+# (proxy1.pem multi-SAN + docs.pem + matrix.pem + vault.pem).
+#
+# PREREQUISITE: a DNS-01 ClusterIssuer for the OTC (Designate) zones must exist
+# — the cluster currently only has HTTP-01 issuers (letsencrypt-prod/-staging).
+# Provision `certificates.clusterIssuer` (e.g. an OTC/Designate cert-manager
+# webhook issuer) BEFORE syncing, or the Certificates stay pending. DNS-01 can
+# issue before any DNS is cut over (validates via TXT, not the A record).
+certificates:
+  enabled: true
+  clusterIssuer: otc-dns01          # REPLACE_ / provision: DNS-01 issuer for OTC zones
+  duration: 2160h                   # 90d
+  renewBefore: 720h                 # 30d
+  # Groups mirror the live proxy1 PEM bundles.
+  groups:
+    # proxy1.pem — multi-SAN over the eco.tsi-dev + tsi-dev hosts.
+    eco:
+      secretName: haproxy-eco-tls
+      commonName: proxy.eco.tsi-dev.otc-service.com
+      dnsNames:
+        - graphite-ca.eco.tsi-dev.otc-service.com
+        - dashboard.tsi-dev.otc-service.com
+        - dashboard-de.tsi-dev.otc-service.com
+        - apimon.tsi-dev.otc-service.com
+        - apimon.eco.tsi-dev.otc-service.com
+        - dashboard.eco.tsi-dev.otc-service.com
+        - alerts.eco.tsi-dev.otc-service.com
+        - influx1.eco.tsi-dev.otc-service.com
+        - keycloak.eco.tsi-dev.otc-service.com
+        - vault-lb.eco.tsi-dev.otc-service.com
+        - opensearch.eco.tsi-dev.otc-service.com
+        - opensearch-dashboard.eco.tsi-dev.otc-service.com
+        - opensearch-stg.eco.tsi-dev.otc-service.com
+        - opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
+        - gitea.eco.tsi-dev.otc-service.com
+        - gitea1.eco.tsi-dev.otc-service.com
+        - gitea2.eco.tsi-dev.otc-service.com
+        - gitea3.eco.tsi-dev.otc-service.com
+    # docs.pem
+    docs:
+      secretName: haproxy-docs-tls
+      commonName: docs.otc-service.com
+      dnsNames:
+        - docs.otc-service.com
+    # matrix.pem
+    matrix:
+      secretName: haproxy-matrix-tls
+      commonName: matrix.otc-service.com
+      dnsNames:
+        - matrix.otc-service.com
+
+# ---------------------------------------------------------------------------
+# Public LoadBalancer — a NEW dedicated (performance) EIP LB in front of haproxy
+# (L4 TCP passthrough; haproxy terminates TLS itself). externalTrafficPolicy
+# Local + pass-through preserve the client source IP, which the attacker
+# blocklist and rate-limit ACLs depend on.
+#
+# Fill the autocreate JSON (bandwidth / flavor / subnet) at deploy time. Keep
+# the REPLACE_ placeholder until then; a premature manual sync fails fast rather
+# than mis-provisioning an EIP.
+# ---------------------------------------------------------------------------
+service:
+  loadBalancer:
+    annotations:
+      kubernetes.io/elb.class: performance
+      kubernetes.io/elb.pass-through: onlyLocal
+      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s","bandwidth_name":"REPLACE_proxy-k8s-bw","bandwidth_chargemode":"bandwidth","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["REPLACE_infra-subnet-network-id"],"available_zone":["eu-de-01"]}'
+    loadBalancerIP: ""
+    externalTrafficPolicy: Local
+  ports:
+    http: 80
+    https: 443
+    influx: 8086
+    vault: 8200
+    matrix: 8448
+    giteaSsh: 2222
+
+podSecurityContext: {}
+
+# haproxy binds :80/:443 (low ports) then drops to the haproxy user via the
+# `user`/`group` directives in the config → start as root with NET_BIND_SERVICE.
+securityContext:
+  runAsUser: 0
+  capabilities:
+    add: ["NET_BIND_SERVICE"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
