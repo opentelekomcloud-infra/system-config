@@ -165,7 +165,7 @@ storageSchemas: |
 # to the in-cluster go-carbon Service; the 'apimon' backend group (the separate
 # apimon graphite VMs) is unchanged. TLS moves to cert-manager (no bridge certs).
 carbonapi:
-  enabled: false
+  enabled: true
   image: quay.io/opentelekomcloud/carbonapi:v0.15.4
   fqdn: graphite-ca.eco.tsi-dev.otc-service.com
   tz: ""
