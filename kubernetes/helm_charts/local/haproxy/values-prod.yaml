@@ -118,7 +118,7 @@ certificates:
 # by another route, or flip enabled:true once the webhook + creds exist.
 # ---------------------------------------------------------------------------
 dns01Issuer:
-  enabled: true
+  enabled: false
   name: otc-dns01
   acmeServer: https://acme-v02.api.letsencrypt.org/directory
   email: <path:secret/data/smtp_gw#email_address>
