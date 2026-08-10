@@ -23,7 +23,7 @@ proxy:
 # (differs from the old per-VM swift.proxyN/storageN tree -> update dashboards).
 statsd:
   enabled: true
-  host: ""                       # <go-carbon ingest VIP> - REQUIRED to activate emission
+  host: "192.168.170.50"         # go-carbon ingest ELB VIP (infra-subnet); B2 Path 2
   port: 8125
   defaultSampleRate: "1.0"
   sampleRateFactor: "1.0"
