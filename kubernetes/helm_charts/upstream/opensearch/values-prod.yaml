@@ -23,7 +23,7 @@ opensearch:
   masterService: "opensearch-otcinfra-master"
 
   ingress:
-    enabled: false
+    enabled: true
     annotations:
       "kubernetes.io/ingress.class": "nginx"
     path: /
@@ -127,7 +127,7 @@ opensearch-dashboards:
   # Point the new dashboards at the NEW cluster's master service (blue/green).
   opensearchHosts: "http://opensearch-otcinfra-master:9200"
   ingress:
-    enabled: false
+    enabled: true
     annotations:
       "kubernetes.io/ingress.class": "nginx"
     hosts:
