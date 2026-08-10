@@ -481,6 +481,26 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # Keystone docs proxy (Path X): separate swift-proxy release sharing the logs
+  # proxy storage rings; validatetoken+keystoneauth (no tempauth). Tracks the
+  # migration branch until values-docs.yaml lands on main (then flip to 'main').
+  - name: swift-proxy-docs
+    clusters: [otcinfra2]
+    config:
+      namespace: swift-proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/local/swift-proxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-docs.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: system-config-gitea-runner
     clusters: [otcinfra2]
     config:
