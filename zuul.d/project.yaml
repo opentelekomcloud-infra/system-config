@@ -137,25 +137,26 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-apimon-epmon: &infra-prod-service-apimon-epmon
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (apimon monitoring retired / superseded by CloudMon).
+        # - infra-prod-service-apimon-epmon: &infra-prod-service-apimon-epmon
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        - infra-prod-service-apimon-executor: &infra-prod-service-apimon-executor
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # - infra-prod-service-apimon-executor: &infra-prod-service-apimon-executor
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         - infra-prod-service-cloudmon: &infra-prod-service-cloudmon
             dependencies:
@@ -178,12 +179,13 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-graphite: &infra-prod-service-graphite
-            dependencies:
-              - name: infra-prod-base
-                soft: true
-              - name: infra-prod-service-memcached
-                soft: true
+        # DISABLED (graphite migrated → carbonapi-k8s + go-carbon; VM store frozen).
+        # - infra-prod-service-graphite: &infra-prod-service-graphite
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+        #       - name: infra-prod-service-memcached
+        #         soft: true
 
         # DISABLED (swift-proxy migrated → k8s/ArgoCD swift-proxy-otcinfra2).
         # - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
@@ -191,10 +193,11 @@
         #       - name: infra-prod-base
         #         soft: true
 
-        - infra-prod-service-memcached: &infra-prod-service-memcached
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (memcached retired with graphite VM store).
+        # - infra-prod-service-memcached: &infra-prod-service-memcached
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         - infra-prod-service-octavia-proxy: &infra-prod-service-octavia-proxy
             dependencies:
@@ -253,15 +256,17 @@
         # DISABLED (acme-ssl→cert-manager).
         # - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
         - infra-prod-service-alerta: *infra-prod-service-alerta
-        - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
-        - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
-        - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
-        - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
+        # DISABLED (apimon monitoring retired / superseded by CloudMon).
+        # - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
+        # - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
+        # - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
+        # - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
         # DISABLED (gitea→gitea-otcinfra2).
         # - infra-prod-service-gitea: *infra-prod-service-gitea
         - infra-prod-service-grafana: *infra-prod-service-grafana
-        - infra-prod-service-graphite: *infra-prod-service-graphite
-        - infra-prod-service-memcached: *infra-prod-service-memcached
+        # DISABLED (graphite→carbonapi-k8s+go-carbon, memcached retired with it).
+        # - infra-prod-service-graphite: *infra-prod-service-graphite
+        # - infra-prod-service-memcached: *infra-prod-service-memcached
         # DISABLED (statsd→go-carbon, proxy→k8s haproxy).
         # - infra-prod-service-statsd: *infra-prod-service-statsd
         # - infra-prod-service-proxy: *infra-prod-service-proxy
