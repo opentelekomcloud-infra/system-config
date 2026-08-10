@@ -71,7 +71,9 @@ opensearch:
 
       # A1 blue/green: allow remote _reindex to pull documents from the live 2.6
       # cluster's REST service (plain HTTP; security TLS on the http layer is off).
-      reindex.remote.whitelist: "opensearch-cluster-master:9200"
+      # NOTE: OpenSearch 3.x uses the inclusive name `allowlist` (the old
+      # `reindex.remote.whitelist` was removed and fails node bootstrap).
+      reindex.remote.allowlist: "opensearch-cluster-master:9200"
 
       plugins:
         security:
