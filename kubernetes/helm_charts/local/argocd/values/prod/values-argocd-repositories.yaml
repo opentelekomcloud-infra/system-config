@@ -16,12 +16,3 @@ repositorySecret:
   stringData:
     username: "<path:secret/data/argocd/repositories/github#username>"
     password: "<path:secret/data/argocd/repositories/github#password>"
-
-# Additional public repositories (no credentials) so ArgoCD can pull chart-type
-# Application sources.
-extraRepositories:
-  # SysEleven Designate cert-manager webhook (DNS-01 solver for OTC/Designate).
-  - name: repository-syseleven-designate-webhook
-    repoName: syseleven-designate-webhook
-    type: helm
-    url: https://syseleven.github.io/designate-certmanager-webhook

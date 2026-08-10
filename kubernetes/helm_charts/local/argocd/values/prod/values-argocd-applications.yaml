@@ -324,33 +324,29 @@ applications:
           - CreateNamespace=true
 
   # cert-manager-webhook-designate is the UPSTREAM SysEleven Designate webhook
-  # (github.com/syseleven/designate-certmanager-webhook) deployed as a STANDALONE
-  # ArgoCD app (a Helm-repo chart source, NOT a dependency of the cert-manager
-  # chart). It registers the DNS-01 solver APIService `acme.syseleven.de` that the
-  # haproxy chart's `otc-dns01` ClusterIssuer references, letting cert-manager
-  # solve DNS-01 challenges against the OTC (OpenStack Designate) zones.
+  # (github.com/syseleven/designate-certmanager-webhook) wrapped as an umbrella
+  # chart (kubernetes/helm_charts/upstream/cert-manager-webhook-designate) that
+  # declares the webhook as a Helm DEPENDENCY. Deployed the same way as every
+  # other app: path + argocd-vault-plugin-helm-with-args (the CMP runs
+  # `helm dependency build` to pull the subchart from its repo — no separate
+  # ArgoCD repository registration needed). The app-of-apps template suffixes the
+  # name with the cluster, so this becomes `cert-manager-webhook-designate-otcinfra`.
   #
-  # The helm repo is registered in values-argocd-repositories.yaml
-  # (extraRepositories → syseleven-designate-webhook).
-  #
-  # certManager.serviceAccountName MUST be the live SA (`cert-manager-otcinfra`)
-  # so the webhook's RBAC lets cert-manager invoke it. The OpenStack credentials
-  # secret (`cloud-credentials`, in ns cert-manager) is provisioned separately —
-  # it needs an account that can write TXT records in the public otc-service.com /
-  # tsi-dev zones (the `otc-dns` account), a vault-admin prerequisite.
+  # It registers the DNS-01 solver APIService `acme.syseleven.de` that the
+  # haproxy `otc-dns01` ClusterIssuer references. certManager.serviceAccountName
+  # is pinned to the live SA (`cert-manager-otcinfra`) so cert-manager can invoke
+  # the webhook. The OpenStack `cloud-credentials` secret (ns cert-manager) is
+  # provisioned separately (an account that can write TXT records in the public
+  # otc-service.com / tsi-dev zones).
   - name: cert-manager-webhook-designate
     clusters: [otcinfra]
     config:
       namespace: cert-manager
-      repoURL: 'https://syseleven.github.io/designate-certmanager-webhook'
-      targetRevision: '0.9.2'
-      chart: designate-certmanager-webhook
-      helm:
-        releaseName: designate-certmanager-webhook
-        valuesObject:
-          certManager:
-            namespace: cert-manager
-            serviceAccountName: cert-manager-otcinfra
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/upstream/cert-manager-webhook-designate
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
       project: infra
       syncPolicy:
         syncOptions:

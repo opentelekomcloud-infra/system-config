@@ -24,22 +24,3 @@ stringData:
   {{- end }}
 {{- end }}
 {{- end }}
-{{- range .Values.extraRepositories }}
----
-# Additional (public) Helm/Git repository registration so ArgoCD can pull
-# chart-type Application sources (e.g. the SysEleven Designate webhook chart).
-apiVersion: v1
-kind: Secret
-metadata:
-  annotations:
-    managed-by: argocd.argoproj.io
-  labels:
-    argocd.argoproj.io/secret-type: repository
-  name: {{ .name }}
-  namespace: {{ $.Release.Namespace }}
-type: Opaque
-stringData:
-  name: {{ .repoName | quote }}
-  type: {{ .type | quote }}
-  url: {{ .url | quote }}
-{{- end }}

@@ -1,0 +1,18 @@
+# Values for the designate-certmanager-webhook subchart (nested under the
+# dependency name). See the upstream chart values:
+# https://github.com/syseleven/designate-certmanager-webhook
+designate-certmanager-webhook:
+  # cert-manager on otcinfra runs as the ServiceAccount `cert-manager-otcinfra`
+  # (Helm release name cert-manager-otcinfra). The webhook's RBAC must bind THAT
+  # SA so cert-manager is authorized to call the webhook APIService; the chart
+  # default (`cert-manager`) would not match and challenges would fail.
+  certManager:
+    namespace: cert-manager
+    serviceAccountName: cert-manager-otcinfra
+
+  # OpenStack credentials for managing TXT records live in a separately-provisioned
+  # secret `cloud-credentials` (ns cert-manager). Leave the inline openstack.*
+  # values empty so the chart does NOT overwrite that secret — it must hold an
+  # account that can write TXT records in the public otc-service.com / tsi-dev
+  # zones (the `otc-dns` account used from the bridge for DNS cutover).
+  credentialsSecret: cloud-credentials

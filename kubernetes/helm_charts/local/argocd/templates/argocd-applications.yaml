@@ -13,11 +13,7 @@ spec:
   source:
     repoURL: {{ $config.repoURL | quote }}
     targetRevision: {{ $config.targetRevision | quote }}
-    {{- if $config.chart }}
-    chart: {{ $config.chart | quote }}
-    {{- else }}
     path: {{ $config.path | quote }}
-    {{- end }}
     {{- if $config.pluginName }}
     plugin:
       name: {{ $config.pluginName | quote }}
