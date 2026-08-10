@@ -169,7 +169,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }
@@ -251,7 +251,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }
@@ -334,7 +334,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }

@@ -53,7 +53,11 @@ spec:
               # Mount NFS directly to /srv/node/sda so Swift sees it as a device mount
               mkdir -p /srv/node
               mkdir -p /srv/node/sda/objects /srv/node/sda/containers /srv/node/sda/accounts /srv/node/sda/tmp
-              chown -R swift:swift /srv/node/sda
+              # Non-recursive: only fix the device dir + the top-level swift dirs.
+              # The object data tree can hold millions of files that are already
+              # swift-owned; a full `chown -R` on the EVS volume takes ~20m and
+              # blocks pod startup (init never completes within a reasonable window).
+              chown swift:swift /srv/node/sda /srv/node/sda/objects /srv/node/sda/containers /srv/node/sda/accounts /srv/node/sda/tmp
               chmod 755 /srv/node /srv/node/sda
 
               echo "Swift storage device directory created"
