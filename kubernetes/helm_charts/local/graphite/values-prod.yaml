@@ -70,19 +70,43 @@ service:
 
 # ---------------------------------------------------------------------------
 # Optional cross-cluster ingest VIP.
-# Zuul (otcinfra2) currently writes statsd to the graphite1.eco mgmt-net IP
-# (192.168.14.241). At cutover, enable this LoadBalancer to obtain a stable
-# mgmt-net VIP that replaces 192.168.14.241, then repoint the zuul statsd
-# target + swift controller statsd_graphite_host to it. Disabled for safe prep.
+# The producer (swift controller VM) writes statsd to the graphite1.eco
+# mgmt-net IP (192.168.14.241). At cutover, enable this LoadBalancer to obtain
+# a stable mgmt-net VIP that replaces 192.168.14.241, then repoint the swift
+# controller statsd_graphite_host to it. Disabled for safe prep.
+#
+# IMPORTANT (verified against CCE LoadBalancer docs 2026-08-10): statsd ingest
+# is UDP:8125, and UDP listeners are supported ONLY by DEDICATED load balancers
+# (kubernetes.io/elb.class: performance). The existing internal ELBs on otcinfra
+# (elb-intern @192.168.170.129, elb-swift-proxy @192.168.170.56, ingress) are
+# all SHARED (union) and cannot do UDP. So use a dedicated ELB auto-created in
+# infra-subnet (mgmt-net 192.168.170.0/24). Alternatively, use the NodePort
+# fallback below (UDP NodePort on an otcinfra node IP — no ELB needed).
 # ---------------------------------------------------------------------------
 loadBalancer:
   enabled: false
-  annotations: {}
+  # Dedicated ELB is required for UDP. Fill elb.autocreate (or elb.id of a
+  # pre-created dedicated ELB) + the infra-subnet id before enabling.
+  annotations:
+    kubernetes.io/elb.class: performance
+    kubernetes.io/elb.pass-through: onlyLocal
+    # kubernetes.io/elb.subnet-id: "<infra-subnet id>"   # openstack subnet show infra-subnet
+    # kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest"}'
+    # kubernetes.io/elb.id: "<pre-created dedicated internal ELB id>"
   loadBalancerIP: ""
   ports:
     statsd: 8125
     carbonLine: 2003
     carbonPickle: 2004
+
+# ---------------------------------------------------------------------------
+# NodePort fallback for the UDP statsd ingest (no ELB). If enabled, point the
+# swift controller statsd_graphite_host at a stable otcinfra node IP on
+# infra-subnet (e.g. 192.168.170.139) : nodePort. UDP works natively on NodePort.
+# ---------------------------------------------------------------------------
+nodePortIngest:
+  enabled: false
+  statsdNodePort: 31825   # 30000-32767; swift -> <node-ip>:31825/udp
 
 # ---------------------------------------------------------------------------
 # go-carbon / statsd runtime env (roles/graphite templates/env.j2).
