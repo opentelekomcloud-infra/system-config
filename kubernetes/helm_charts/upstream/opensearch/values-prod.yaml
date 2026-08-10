@@ -13,8 +13,17 @@
 # before the first (manual) sync. The ArgoCD Application is manual-sync.
 
 opensearch:
+  # BLUE/GREEN (A1): this is a NEW, isolated cluster on FRESH PVCs. clusterName
+  # and masterService are renamed so the rendered StatefulSet/Service/ConfigMap/
+  # PVCs do NOT collide with the live 2.6 `opensearch-cluster-master`. Ingress is
+  # kept DISABLED during standup + reindex, and enabled only at cutover (when the
+  # old cluster's ingress is removed). Data is migrated old->new via remote
+  # _reindex (see reindex.remote.whitelist below); the old cluster is never touched.
+  clusterName: "opensearch-otcinfra"
+  masterService: "opensearch-otcinfra-master"
+
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       "kubernetes.io/ingress.class": "nginx"
     path: /
@@ -55,10 +64,14 @@ opensearch:
 
   config:
     opensearch.yml: |
-      cluster.name: opensearch-cluster
+      cluster.name: opensearch-otcinfra
 
       # Bind to all interfaces because we don't know what IP address Docker will assign to us.
       network.host: 0.0.0.0
+
+      # A1 blue/green: allow remote _reindex to pull documents from the live 2.6
+      # cluster's REST service (plain HTTP; security TLS on the http layer is off).
+      reindex.remote.whitelist: "opensearch-cluster-master:9200"
 
       plugins:
         security:
@@ -109,9 +122,10 @@ opensearch:
     rolesMappingSecret: "opensearch-config"
 
 opensearch-dashboards:
-  opensearchHosts: "http://opensearch-cluster-master:9200"
+  # Point the new dashboards at the NEW cluster's master service (blue/green).
+  opensearchHosts: "http://opensearch-otcinfra-master:9200"
   ingress:
-    enabled: true
+    enabled: false
     annotations:
       "kubernetes.io/ingress.class": "nginx"
     hosts:
