@@ -43,7 +43,7 @@ resources:
 # issue before any DNS is cut over (validates via TXT, not the A record).
 certificates:
   enabled: true
-  clusterIssuer: otc-dns01          # REPLACE_ / provision: DNS-01 issuer for OTC zones
+  clusterIssuer: otc-dns01          # DNS-01 issuer (see dns01Issuer below)
   duration: 2160h                   # 90d
   renewBefore: 720h                 # 30d
   # Groups mirror the live proxy1 PEM bundles.
@@ -85,21 +85,65 @@ certificates:
         - matrix.otc-service.com
 
 # ---------------------------------------------------------------------------
+# DNS-01 ClusterIssuer (otc-dns01) — ACME (Let's Encrypt) with a DNS-01 webhook
+# solver for the OTC (OpenStack Designate) zones. DNS-01 validates via a TXT
+# record so certs can be issued BEFORE any host's A record is cut over to this
+# proxy (unlike HTTP-01, which needs the A record to already point at nginx).
+#
+# `enabled: false` by default — rendering the ClusterIssuer is harmless, but it
+# cannot solve challenges until BOTH prerequisites are met:
+#
+#   1. WEBHOOK: install the SysEleven Designate cert-manager webhook
+#      (github.com/syseleven/designate-certmanager-webhook) into the
+#      cert-manager namespace. It registers the APIService for groupName
+#      `acme.syseleven.de` / solverName `designate` and reads OpenStack auth
+#      from env (OS_* / a clouds.yaml secret) mounted on ITS Deployment.
+#      Deploy it as its own cluster component (not part of this chart) so the
+#      webhook + its creds live next to cert-manager.
+#
+#   2. CREDS: the webhook needs an OpenStack account that can manage TXT records
+#      in the PUBLIC otc-service.com / tsi-dev.otc-service.com / eco.tsi-dev
+#      zones. That is the `otc-dns` account used from the bridge for DNS cutover
+#      — it is NOT yet in vault-otcinfra2 (KV has 448_eco_infra = private zones
+#      only; dns_otc_service = stale/401). Provisioning those creds into vault +
+#      a read policy is a vault-admin prerequisite (same gap as the DNS cutover).
+#
+# Until both are in place, keep enabled:false and issue/rotate the haproxy certs
+# by another route, or flip enabled:true once the webhook + creds exist.
+# ---------------------------------------------------------------------------
+dns01Issuer:
+  enabled: false
+  name: otc-dns01
+  acmeServer: https://acme-v02.api.letsencrypt.org/directory
+  email: <path:secret/data/smtp_gw#email_address>
+  privateKeySecretRef: otc-dns01-issuer-account-key
+  webhook:
+    groupName: acme.syseleven.de
+    solverName: designate
+    # Per-solver config for the designate webhook (OpenStack creds come from the
+    # webhook Deployment env, so this is usually empty).
+    config: {}
+
+# ---------------------------------------------------------------------------
 # Public LoadBalancer — a NEW dedicated (performance) EIP LB in front of haproxy
 # (L4 TCP passthrough; haproxy terminates TLS itself). externalTrafficPolicy
 # Local + pass-through preserve the client source IP, which the attacker
 # blocklist and rate-limit ACLs depend on.
 #
-# Fill the autocreate JSON (bandwidth / flavor / subnet) at deploy time. Keep
-# the REPLACE_ placeholder until then; a premature manual sync fails fast rather
-# than mis-provisioning an EIP.
+# autocreate provisions a NEW dedicated public ELB + a NEW EIP. Values verified
+# against the live otcinfra graphite performance ELB (2026-08-10):
+#   elb_virsubnet_ids = c4957702-1c42-4f47-ad48-5d24858fe410  (infra-subnet, VPC eco-infra)
+#   available_zone    = eu-de-01
+#   l4_flavor_name    = L4_flavor.elb.s1.small
+# The new EIP appears in the Service status once synced; use it as the DNS
+# cutover target. bandwidth_size (Mbit/s) can be tuned to match proxy1.
 # ---------------------------------------------------------------------------
 service:
   loadBalancer:
     annotations:
       kubernetes.io/elb.class: performance
       kubernetes.io/elb.pass-through: onlyLocal
-      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s","bandwidth_name":"REPLACE_proxy-k8s-bw","bandwidth_chargemode":"bandwidth","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["REPLACE_infra-subnet-network-id"],"available_zone":["eu-de-01"]}'
+      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s","bandwidth_name":"proxy-k8s-bw","bandwidth_chargemode":"bandwidth","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["c4957702-1c42-4f47-ad48-5d24858fe410"],"available_zone":["eu-de-01"]}'
     loadBalancerIP: ""
     externalTrafficPolicy: Local
   ports:

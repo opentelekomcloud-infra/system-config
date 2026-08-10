@@ -1,0 +1,28 @@
+{{- if .Values.dns01Issuer.enabled }}
+# DNS-01 ClusterIssuer for the OTC (OpenStack Designate) zones. ACME (Let's
+# Encrypt) with a dns01 webhook solver. Requires the SysEleven Designate
+# cert-manager webhook (groupName {{ .Values.dns01Issuer.webhook.groupName }})
+# to be installed cluster-wide with OpenStack creds that can manage the public
+# otc-service.com / tsi-dev zones — see values-prod.yaml dns01Issuer notes.
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: {{ .Values.dns01Issuer.name }}
+  labels:
+    {{- include "haproxy.labels" . | nindent 4 }}
+spec:
+  acme:
+    server: {{ .Values.dns01Issuer.acmeServer | quote }}
+    email: {{ .Values.dns01Issuer.email | quote }}
+    privateKeySecretRef:
+      name: {{ .Values.dns01Issuer.privateKeySecretRef }}
+    solvers:
+      - dns01:
+          webhook:
+            groupName: {{ .Values.dns01Issuer.webhook.groupName }}
+            solverName: {{ .Values.dns01Issuer.webhook.solverName }}
+            {{- with .Values.dns01Issuer.webhook.config }}
+            config:
+              {{- toYaml . | nindent 14 }}
+            {{- end }}
+{{- end }}
