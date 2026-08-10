@@ -121,18 +121,21 @@ env:
   MEMCACHE_HOST: "127.0.0.1:11211"
 
 # ---------------------------------------------------------------------------
-# storage-schemas.conf — from host_vars/graphite1.eco (the "zuul" store).
+# storage-schemas.conf — copied VERBATIM from host_vars/graphite1.eco
+# (graphite_storage_schemas) so the migrated store behaves IDENTICALLY to the
+# VM. NOTE: the live config has a single [zuul] section header with the carbon
+# and default pattern/retentions lines lacking their own headers — go-carbon
+# collapses them (last key wins), so in practice every metric uses
+# 60s:1d,5m:30d,10m:90d. This quirk is preserved intentionally for parity; do
+# NOT "fix" it into three separate sections during the migration (that would
+# change retention for stats.*.zuul.* and carbon.* on new writes).
 # ---------------------------------------------------------------------------
 storageSchemas: |
   ["zuul"]
   pattern = ^stats\.*\.zuul\.*
   retentions = 60:90d
-
-  ["carbon"]
   pattern = ^carbon\.*
   retentions = 60:90d
-
-  ["default"]
   pattern = .*
   retentions = 60s:1d,5m:30d,10m:90d
 
