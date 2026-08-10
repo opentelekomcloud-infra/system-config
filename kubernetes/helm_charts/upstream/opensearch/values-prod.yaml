@@ -126,10 +126,20 @@ opensearch-dashboards:
         hosts:
           - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
 
-  # TODO(before first sync): wire the dashboards service-account credentials.
-  # The legacy ansible chart injected OPENSEARCH_USERNAME/OPENSEARCH_PASSWORD
-  # from the `opensearch_instances_secrets` Vault host_var (not migrated). For
-  # GitOps, reference the existing in-cluster credential secret via valueFrom
-  # (secretKeyRef) or an argocd-vault-plugin `<path:...>` ref — do NOT inline
-  # the password in git.
-  extraEnvs: []
+  # Dashboards service-account credentials (kibanaserver) used to connect to the
+  # cluster. Sourced from the in-cluster secret `opensearch-dashboards-credentials`
+  # (keys: username, password), which is provisioned out-of-band from the legacy
+  # `opensearch_instances_secrets` Vault host_var during the cutover window —
+  # NEVER inline the password in git. See the cutover runbook (create-secret step)
+  # before the first (manual) sync.
+  extraEnvs:
+    - name: OPENSEARCH_USERNAME
+      valueFrom:
+        secretKeyRef:
+          name: opensearch-dashboards-credentials
+          key: username
+    - name: OPENSEARCH_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: opensearch-dashboards-credentials
+          key: password

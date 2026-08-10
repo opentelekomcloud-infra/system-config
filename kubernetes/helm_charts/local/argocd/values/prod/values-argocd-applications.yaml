@@ -256,6 +256,41 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # opensearch-otcinfra is the GitOps port of the ansible-managed OpenSearch +
+  # OpenSearch Dashboards on the otcinfra cluster (ns opensearch). The umbrella
+  # chart (upstream/opensearch) bundles both subcharts and pins them to 3.8.0 —
+  # a MAJOR, NOT-skip-safe upgrade from the live 2.19.5.
+  #
+  # App name is DELIBERATELY new (`opensearch-otcinfra`, not `opensearch`): the
+  # CMP plugin renders `helm template $ARGOCD_APP_NAME`, so the release name — and
+  # thus the `app.kubernetes.io/instance` selector labels — differ from the legacy
+  # ansible releases (`opensearch` / `opensearch-dashboards`). The old dashboards
+  # release is already FAILED on an immutable Deployment.spec.selector patch; the
+  # data StatefulSet has the same problem, so the existing `opensearch-cluster-master`
+  # STS must be orphan-deleted (PVCs retained) and re-adopted during the window.
+  #
+  # MANUAL sync (no automated prune/selfHeal) — this is a live, stateful, major
+  # upgrade. DO NOT sync until the runbook prerequisites are done:
+  #   1. provision secret `opensearch-dashboards-credentials` (from Vault),
+  #   2. register a snapshot repository + take & verify an index snapshot,
+  #   3. disable/clear the ansible helm-chart entries (already commented out in
+  #      inventory k8s-controller.yaml) and clear the FAILED helm releases,
+  #   4. review the chart-3.x values schema, inside a maintenance window.
+  # targetRevision tracks the migration branch until the chart lands on main.
+  - name: opensearch-otcinfra
+    clusters: [otcinfra]
+    config:
+      namespace: opensearch
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/upstream/opensearch
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+
   - name: element
     clusters: [otcinfra2]
     config:
