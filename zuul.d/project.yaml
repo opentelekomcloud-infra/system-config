@@ -201,15 +201,19 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-statsd: &infra-prod-service-statsd
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (statsd migrated → k8s go-carbon; swift statsd now via
+        # control-manager→go-carbon VIP).
+        # - infra-prod-service-statsd: &infra-prod-service-statsd
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        - infra-prod-service-proxy: &infra-prod-service-proxy
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (proxy migrated → k8s haproxy 164.30.24.89; proxy1/2 front
+        # zero hosts after DNS cutover, kept only as manual rollback fallback).
+        # - infra-prod-service-proxy: &infra-prod-service-proxy
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         # DISABLED (vault migrated → k8s vault-otcinfra2).
         # - infra-prod-service-vault: &infra-prod-service-vault
@@ -258,8 +262,9 @@
         - infra-prod-service-grafana: *infra-prod-service-grafana
         - infra-prod-service-graphite: *infra-prod-service-graphite
         - infra-prod-service-memcached: *infra-prod-service-memcached
-        - infra-prod-service-statsd: *infra-prod-service-statsd
-        - infra-prod-service-proxy: *infra-prod-service-proxy
+        # DISABLED (statsd→go-carbon, proxy→k8s haproxy).
+        # - infra-prod-service-statsd: *infra-prod-service-statsd
+        # - infra-prod-service-proxy: *infra-prod-service-proxy
         # DISABLED (vault→vault-otcinfra2, zookeeper→k8s zk, swift-proxy→ArgoCD).
         # - infra-prod-service-vault: *infra-prod-service-vault
         # - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
