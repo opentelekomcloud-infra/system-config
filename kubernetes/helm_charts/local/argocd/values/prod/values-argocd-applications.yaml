@@ -271,11 +271,13 @@ applications:
   #
   # MANUAL sync (no automated prune/selfHeal) — this is a live, stateful, major
   # upgrade. DO NOT sync until the runbook prerequisites are done:
-  #   1. provision secret `opensearch-dashboards-credentials` (from Vault),
-  #   2. register a snapshot repository + take & verify an index snapshot,
-  #   3. disable/clear the ansible helm-chart entries (already commented out in
+  #   1. register a snapshot repository + take & verify an index snapshot,
+  #   2. disable/clear the ansible helm-chart entries (already commented out in
   #      inventory k8s-controller.yaml) and clear the FAILED helm releases,
-  #   4. review the chart-3.x values schema, inside a maintenance window.
+  #   3. review the chart-3.x values schema, inside a maintenance window.
+  # Dashboards creds (kibanaserver) are resolved at sync time by the AVP CMP from
+  # Vault `secret/opensearch/kibanaserver` (argocd-ro can read secret/data/*) —
+  # no hand-made k8s secret needed.
   # targetRevision tracks the migration branch until the chart lands on main.
   - name: opensearch-otcinfra
     clusters: [otcinfra]

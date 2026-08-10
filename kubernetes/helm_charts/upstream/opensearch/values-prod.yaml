@@ -127,19 +127,14 @@ opensearch-dashboards:
           - "opensearch-dashboard.eco.tsi-dev.otc-service.com"
 
   # Dashboards service-account credentials (kibanaserver) used to connect to the
-  # cluster. Sourced from the in-cluster secret `opensearch-dashboards-credentials`
-  # (keys: username, password), which is provisioned out-of-band from the legacy
-  # `opensearch_instances_secrets` Vault host_var during the cutover window —
-  # NEVER inline the password in git. See the cutover runbook (create-secret step)
-  # before the first (manual) sync.
+  # cluster. Resolved at sync time by the argocd-vault-plugin (CMP) directly from
+  # Vault path `secret/opensearch/kibanaserver` (KV v2 → data path
+  # `secret/data/opensearch/kibanaserver`), which the argocd-ro policy can read.
+  # No hand-made k8s secret required — AVP substitutes the placeholders into the
+  # rendered Deployment env. NEVER inline the password in git.
   extraEnvs:
     - name: OPENSEARCH_USERNAME
-      valueFrom:
-        secretKeyRef:
-          name: opensearch-dashboards-credentials
-          key: username
+      value: <path:secret/data/opensearch/kibanaserver#username>
     - name: OPENSEARCH_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: opensearch-dashboards-credentials
-          key: password
+      value: <path:secret/data/opensearch/kibanaserver#password>
+
