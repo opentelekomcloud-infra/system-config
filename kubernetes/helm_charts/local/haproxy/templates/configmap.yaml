@@ -263,7 +263,7 @@ data:
       option allbackups
       option forwardfor
       default-server check weight 100 inter 5s fall 5 rise 1
-      http-request set-path %[path,url_dec,regsub("\\\\","/",g)]
+      http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]
       acl dashboard_metrics path_beg /metrics
       http-request deny deny_status 403 if dashboard_metrics
 
