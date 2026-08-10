@@ -95,16 +95,30 @@ nodePortIngest:
 # (verified against CCE LoadBalancer docs 2026-08-10) UDP listeners are supported
 # ONLY by DEDICATED load balancers (kubernetes.io/elb.class: performance). The
 # existing internal ELBs (elb-intern @192.168.170.129, elb-swift-proxy
-# @192.168.170.56, ingress) are all SHARED (union) and cannot do UDP. Fill
-# elb.subnet-id (infra-subnet) + elb.autocreate (or elb.id) before enabling.
+# @192.168.170.56, ingress) are all SHARED (union) and cannot do UDP.
+#
+# B2 Path 2 producer = k8s swift-proxy-otcinfra2 (otcinfra2, 192.168.171.0/24)
+# -> this ingest VIP on otcinfra over the existing 170<->171 peering.
+# REQUIRED before the sync activates it:
+#   1. A dedicated (performance) internal ELB that supports UDP, in infra-subnet
+#      (192.168.170.0/24). Pre-create it in the OTC console (ELB -> dedicated ->
+#      internal -> VPC eco-infra / infra-subnet) and put its id in elb.id below;
+#      OR use elb.autocreate (needs subnet-id + elb_virsubnet_ids network id +
+#      available_zone + l4_flavor_name).
+#   2. SG rule: inbound UDP 8125 from 192.168.171.0/24 on that ELB's SG.
+# NOTE: manual-sync app — enabling here does NOT apply until you sync in the
+# window. Leave elb.id as the REPLACE_ placeholder until step 1 is done (a
+# premature sync then fails fast rather than mis-provisioning).
 loadBalancer:
-  enabled: false
+  enabled: true
   annotations:
     kubernetes.io/elb.class: performance
     kubernetes.io/elb.pass-through: onlyLocal
-    # kubernetes.io/elb.subnet-id: "<infra-subnet id>"   # openstack subnet show infra-subnet
-    # kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest"}'
-    # kubernetes.io/elb.id: "<pre-created dedicated internal ELB id>"
+    # Recommended: reference a pre-created dedicated internal UDP-capable ELB.
+    kubernetes.io/elb.id: "REPLACE_WITH_dedicated_internal_ELB_id"
+    # --- OR autocreate instead of elb.id (comment elb.id above, uncomment below):
+    # kubernetes.io/elb.subnet-id: "<infra-subnet ipv4 subnet id>"   # console: VPC > infra-subnet > 'Subnet ID'
+    # kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["<infra-subnet network id>"],"available_zone":["eu-de-01"]}'
   loadBalancerIP: ""
   ports:
     statsd: 8125
