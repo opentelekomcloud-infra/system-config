@@ -42,10 +42,14 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 
 {{/*
 Selector labels
+Instance is pinned to the fullname (not .Release.Name) so the label is stable
+regardless of the Helm release name used by the deployer (e.g. ArgoCD sets the
+release name to the Application name). This keeps the immutable StatefulSet
+selector / volumeClaimTemplates labels matching the originally-deployed objects.
 */}}
 {{- define "graphite.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "graphite.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ include "graphite.fullname" . }}
 {{- end }}
 
 {{/*
