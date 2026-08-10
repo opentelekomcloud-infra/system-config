@@ -135,7 +135,9 @@ opensearch-dashboards:
         paths:
           - path: /
             backend:
-              serviceName: opensearch-dashboards
+              # Must match the rendered dashboards Service name for this release
+              # (release=opensearch-otcinfra), NOT the legacy short name.
+              serviceName: opensearch-otcinfra-opensearch-dashboards
               servicePort: 5601
     tls:
       - secretName: "opensearch-dashboard-cert-tls"
