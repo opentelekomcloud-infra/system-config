@@ -164,6 +164,7 @@ data:
         "graphiteProtocol": "pickle",
         "port": 8125,
         "flushInterval": 10000,
+        "legacyNamespace": false,
         "servers": [
             { server: "./servers/udp", address: "0.0.0.0", port: 8125 }
         ],
