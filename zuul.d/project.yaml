@@ -69,9 +69,14 @@
         #   keycloak, configure-keycloak -> zitadel-otcinfra2 (decommissioned)
         #   acme-ssl -> ArgoCD cert-manager-*
         #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
-        #   apimon-epmon/executor/scheduler + statsd -> apimon fleet + swift
-        #     controller VMs decommissioned (hosts DOWN); zero-VM migration.
-        #   apimon-k8s -> no-op (apimon_k8s_instances is []); apimon retired.
+        #   apimon-epmon/executor/scheduler + statsd -> DEPLOY jobs unassigned
+        #     only; the apimon VM fleet (scheduler1/executor*/hybrid/preprod
+        #     .apimon + influx1.eco) is STILL LIVE production API monitoring
+        #     (epmon/scheduler/executor + influxd running). NOT decommissioned;
+        #     deferred to the new-cluster monitoring migration (net-new k8s port
+        #     — apimon_k8s role is a skeleton, apimon_k8s_instances still []).
+        #   apimon-k8s -> no-op (apimon_k8s_instances is []); k8s port not yet
+        #     populated (skeleton role exists).
         # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
         # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
         # moved to the bridge-less runner OR converted to GitOps later):
