@@ -229,14 +229,32 @@ applications:
   # these services stay on the OLD ansible/bridge setup for now and will be
   # set up on the new cluster later. Add the app entries then.
   #
-  # NOTE: graphite (go-carbon + statsd, the Zuul metrics carbon store) is also
-  # NOT wired yet. The chart exists (kubernetes/helm_charts/local/graphite) as
-  # a faithful k8s port of the graphite1.eco VM (whisper on a csi-disk-retain
-  # PVC, carbonserver :8081 for carbonapi, statsd :8125 ingest). It is a live
-  # stateful migration: wiring it requires a coordinated cutover window
-  # (seed the 2.9 GiB whisper, repoint the zuul statsd write path + swift
-  # controller statsd_graphite_host from 192.168.14.241 to the ingest VIP,
-  # repoint the carbonapi 'zuul' backend, then retire graphite1.eco).
+  # graphite (go-carbon + carbonapi + graphite-web) is the k8s port of the
+  # graphite1.eco VM: whisper on a csi-disk-retain PVC, carbonserver :8081 for
+  # carbonapi, statsd :8125 ingest. It runs on the otcinfra cluster.
+  #
+  # Wired with MANUAL sync (no automated prune/selfHeal) because this is a live
+  # stateful migration: the go-carbon StatefulSet is helm-installed first, then
+  # the 2.9 GiB whisper seed + statsd/carbonapi repoint happen in a coordinated
+  # cutover window (repoint swift controller statsd_graphite_host from
+  # 192.168.14.241 to the ingest VIP, repoint the carbonapi 'zuul' backend, then
+  # retire graphite1.eco). carbonapi + graphite-web stay gated off
+  # (carbonapi.enabled / graphiteWeb.enabled = false) until the ansible-managed
+  # objects of the same name are retired. targetRevision tracks the migration
+  # branch until the chart lands on main.
+  - name: graphite
+    clusters: [otcinfra]
+    config:
+      namespace: graphite
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/local/graphite
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
 
   - name: element
     clusters: [otcinfra2]
