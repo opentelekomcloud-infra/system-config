@@ -96,7 +96,12 @@ podSecurityContext:
   runAsNonRoot: false
   runAsUser: 0
   runAsGroup: 0
-  fsGroup: 42424
+  # NOTE: fsGroup intentionally omitted. Swift runs as uid/gid 42445 and owns
+  # all data on the storage EVS volume (~3.3M files). Setting fsGroup here made
+  # kubelet recursively chown every file on mount, exceeding the 2m volume-setup
+  # deadline (context deadline exceeded) and preventing the storage pod from
+  # ever starting after a remount. Swift accesses its own 42445-owned data
+  # directly, so no fsGroup is required.
 
 securityContext:
   allowPrivilegeEscalation: true
