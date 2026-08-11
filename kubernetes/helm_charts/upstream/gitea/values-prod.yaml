@@ -2,25 +2,42 @@ gitea:
   replicaCount: 1
 
   image:
-    registry: "quay.io"
+    registry: "swr.eu-de.otc.t-systems.com"
     repository: opentelekomcloud/gitea
-    tag: "1.27.0"
-    rootless: true
+    tag: "1.27.1"
+    # The OTC Software Repository (SWR) image is the non-rootless (rootful)
+    # variant — it runs as UID 0 and ships a system OpenSSH server for SSH
+    # instead of Gitea's built-in user-space SSH. Set to false so the chart
+    # produces the correct tag (no "-rootless" suffix), enables SSH_LOG_LEVEL,
+    # disables START_SSH_SERVER, and runs the chown init-container logic.
+    rootless: false
     pullPolicy: Always
 
-  imagePullSecrets:
-    - name: quay-pull-secret
+  # SWR repo is publicly readable, no imagePullSecrets needed.
+  # (The quay-pull-secret was only required for the old quay.io registry.)
+  imagePullSecrets: []
 
   ## Recreate strategy for single replica with RWO volume
   strategy:
     type: Recreate
 
   ## Security: Pod-level security context
+  # fsGroup: 1000 ensures volume files are accessible by group 1000, which
+  # matches the UID/GID the rootful Gitea image drops privileges to (git/git, 1000:1000).
   podSecurityContext:
     fsGroup: 1000
     fsGroupChangePolicy: OnRootMismatch
 
   ## Security: Container-level hardening
+  # The rootful (non-rootless) Gitea image runs as UID 0 initially — its
+  # entrypoint performs setup then drops privileges to the git user (1000:1000).
+  # Therefore runAsNonRoot/runAsUser/runAsGroup must NOT be pinned to 1000;
+  # omitting them lets the container start as root, which the entrypoint then
+  # drops to UID 1000 internally. The init-directories container also needs
+  # root to execute `chown 1000:1000 /data` in its init script.
+  # The configure-gitea/configure-gpg init containers still get runAsUser=1000
+  # from the chart's commandInitContainerSecurityContext helper (it only sets
+  # the default when runAsUser is unset in the provided context).
   containerSecurityContext:
     allowPrivilegeEscalation: false
     capabilities:
@@ -28,9 +45,6 @@ gitea:
         - ALL
     privileged: false
     readOnlyRootFilesystem: true
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
 
   service:
     http:
