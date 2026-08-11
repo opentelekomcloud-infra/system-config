@@ -436,6 +436,14 @@ data:
       acl api_auth req.hdr(Authorization) -m found
       http-request deny if !valid_host
       http-request deny if issue_search !logged_in !api_auth
+      # Gitea's markup preview endpoint renders arbitrary POSTed content and is
+      # cheap to abuse. Two ACLs are required: a criterion takes a list of
+      # alternatives, so "method POST path_reg ..." would mean "method is POST
+      # OR path_reg OR ..." and would deny every POST on this backend.
+      # Listing both ACLs in the condition is what ANDs them.
+      acl is_post method POST
+      acl infra_markup path_reg ^/infra/[^/]+/markup$
+      http-request deny deny_status 403 if is_post infra_markup
       http-request set-header Host gitea.eco.tsi-dev.otc-service.com
 
       server gitea1 192.168.170.200:443 check cookie gitea1 ssl verify none ssl-min-ver TLSv1.2
