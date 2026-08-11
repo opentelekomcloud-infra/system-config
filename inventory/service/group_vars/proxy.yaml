@@ -291,6 +291,7 @@ proxy_backends:
       - "acl valid_host hdr(host) -i gitea3.eco.tsi-dev.otc-service.com"
       # Restricted API path
       - "acl issue_search path -i /api/v1/repos/issues/search"
+      - "acl block_infra_markup method POST path_reg ^/infra/[^/]+/markup$"
       # Auth indicators
       - "acl logged_in req.cook(i_like_gitea) -m found"
       - "acl logged_in req.cook(MacaronSession) -m found"
@@ -299,6 +300,7 @@ proxy_backends:
       - "http-request deny if !valid_host"
       # Deny anonymous access to that endpoint
       - "http-request deny if issue_search !logged_in !api_auth"
+      - "http-request deny deny_status 403 if block_infra_markup"
       # Set proper host header for backend
       - "http-request set-header Host gitea.eco.tsi-dev.otc-service.com"
     domain_names:
