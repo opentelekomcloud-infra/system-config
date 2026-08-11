@@ -33,14 +33,23 @@ gitea:
   # entrypoint performs setup then drops privileges to the git user (1000:1000).
   # Therefore runAsNonRoot/runAsUser/runAsGroup must NOT be pinned to 1000;
   # omitting them lets the container start as root, which the entrypoint then
-  # drops to UID 1000 internally. The init-directories container also needs
-  # root to execute `chown 1000:1000 /data` in its init script.
+  # drops to UID 1000 internally.
+  # The init-directories container runs as root and needs CAP_CHOWN + CAP_FOWNER
+  # to execute `chown 1000:1000 /data` in its init script. These capabilities
+  # are added back on top of `drop: ALL` so the init container can fix file
+  # ownership on the volume. The main Gitea container also inherits them, but
+  # is already running as root so this is not a security regression.
   # The configure-gitea/configure-gpg init containers still get runAsUser=1000
   # from the chart's commandInitContainerSecurityContext helper (it only sets
   # the default when runAsUser is unset in the provided context).
   containerSecurityContext:
     allowPrivilegeEscalation: false
     capabilities:
+      add:
+        # Required by init-directories to chown volume files on the rootful image
+        - CHOWN
+        - FOWNER
+        - SETGID
       drop:
         - ALL
     privileged: false
