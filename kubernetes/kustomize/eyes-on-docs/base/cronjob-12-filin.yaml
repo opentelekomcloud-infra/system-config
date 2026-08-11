@@ -23,7 +23,9 @@ spec:
                 - "vault agent -config=/etc/vault/vault-agent.hcl -exit-after-auth=true"
               env:
                 - name: "VAULT_ADDR"
-                  value: "https://vault-k8s.eco.tsi-dev.otc-service.com"
+                  value: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+                - name: "VAULT_SKIP_VERIFY"
+                  value: "true"
                 - name: "SKIP_SETCAP"
                   value: "true"
                 - name: "VAULT_DISABLE_MLOCK"
