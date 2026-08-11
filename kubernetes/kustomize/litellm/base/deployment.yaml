@@ -18,7 +18,7 @@ spec:
         - name: swr-secret
       containers:
         - name: litellm
-          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/litellm:1.94.2
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/litellm:v1.94.2
           args:
             - "--config"
             - "/app/config.yaml"
