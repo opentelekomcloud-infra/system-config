@@ -14,6 +14,8 @@ spec:
       labels:
         app: litellm
     spec:
+      imagePullSecrets:
+        - name: swr-secret
       containers:
         - name: litellm
           image: swr.eu-de.otc.t-systems.com/opentelekomcloud/litellm:v1.94.2
