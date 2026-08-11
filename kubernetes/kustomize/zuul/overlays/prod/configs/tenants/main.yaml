@@ -641,6 +641,13 @@
               include:
                 - project
                 - job
+                # gitcontrol-apply-gh{,-dry-run} consume the in-repo secret
+                # zuul_eco_gitcontrol_vault, so `secret` must be loaded too.
+                # Without it every buildset scheduling those jobs (periodic,
+                # deploy, gate, check-post) fails with "Unable to freeze job
+                # graph: Secret zuul_eco_gitcontrol_vault not found"; only
+                # check survived, because otc-tox-linters needs no secret.
+                - secret
           - opentelekomcloud-infra/hcdc:
               include:
                 - project
