@@ -317,11 +317,12 @@ applications:
       targetRevision: 'Zuul_job_migration_fixes'
       path: kubernetes/helm_charts/local/haproxy
       pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-prod.yaml'
+      pluginEnv: '-f values-otcinfra.yaml'
       project: infra
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   # Same chart on otcinfra2, the target end-state for all proxy traffic. A
   # separate entry rather than adding otcinfra2 to the clusters list above,
@@ -359,6 +360,7 @@ applications:
       syncPolicy:
         syncOptions:
           - CreateNamespace=true
+          - ServerSideApply=true
 
   # cert-manager-webhook-designate is the UPSTREAM SysEleven Designate webhook
   # (github.com/syseleven/designate-certmanager-webhook) wrapped as an umbrella
