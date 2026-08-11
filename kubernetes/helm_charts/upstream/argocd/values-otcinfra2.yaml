@@ -273,6 +273,24 @@ repoServer:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
 
+  # The repo-server had no requests at all, so it carried no CPU guarantee and
+  # was scheduled alongside zuul-executor-1 (1737m) on 192.168.171.26. With the
+  # node at 95% CPU, kustomize manifest generation exceeded the default exec
+  # timeout and zuul-ci / swift-proxy-swiss / sealed-secrets-otcinfra2 all
+  # failed to sync with "DeadlineExceeded"; the container had also been killed
+  # with exitCode 137.
+  #
+  # Idle usage is ~16m CPU / 182Mi; generation spikes to ~1185m CPU / 905Mi.
+  # The request buys a guaranteed share under contention. Deliberately NO cpu
+  # limit: manifest generation is bursty and throttling it would make the
+  # timeouts worse. Memory is capped to bound a runaway.
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+
   initContainers:
     - name: download-tools
       image: registry.access.redhat.com/ubi8
