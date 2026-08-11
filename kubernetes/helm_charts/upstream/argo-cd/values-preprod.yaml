@@ -8,7 +8,11 @@ argo-cd:
   createClusterRoles: true
 
   crds:
-    install: true
+    # Do not render CRDs via Helm/AVP: the argo-cd 10.x applications &
+    # applicationsets CRDs are ~1.7MB combined and blow past the 262144-byte
+    # annotation limit / CMP tgz stream, causing "context canceled" manifest
+    # generation failures. CRDs are already installed in-cluster (kept below).
+    install: false
     keep: true
 
   dex:
@@ -16,6 +20,14 @@ argo-cd:
 
   global:
     domain: argocd.eco-preprod.tsi-dev.otc-service.com
+    # This cluster's CNI does not admit named-port NetworkPolicy rules, and
+    # the argo-cd chart (>=10.1) defaults global.networkPolicy.create=true,
+    # generating per-component NetworkPolicies whose ingress rules use named
+    # ports (repo-server, redis, metrics). Those silently drop intra-ArgoCD
+    # traffic (application-controller -> repo-server:8081), leaving every
+    # Application stuck in Unknown. Keep NetworkPolicy creation disabled.
+    networkPolicy:
+      create: false
     # Enable repository credentials management
     repositoryCredentials:
       enabled: true
@@ -88,7 +100,7 @@ argo-cd:
     # Environment variables for Vault access and OIDC handling
     env:
       - name: VAULT_ADDR
-        value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "token"
       - name: AVP_TYPE
@@ -138,7 +150,7 @@ argo-cd:
             echo "Vault secrets retrieved successfully!"
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: VAULT_SKIP_VERIFY
             value: "false"
           - name: VAULT_TOKEN_VALUE
@@ -271,7 +283,7 @@ argo-cd:
       - name: ARGOCD_GPG_ENABLED
         value: "false"
       - name: VAULT_ADDR
-        value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+        value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
       - name: AVP_AUTH_TYPE
         value: "token"
       - name: AVP_TYPE
@@ -316,13 +328,13 @@ argo-cd:
     extraContainers:
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v3.0.5
+        image: quay.io/argoproj/argocd:v3.4.5
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE
@@ -345,13 +357,13 @@ argo-cd:
             name: custom-tools
       - name: avp-with-args
         command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v3.0.5
+        image: quay.io/argoproj/argocd:v3.4.5
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE
@@ -374,13 +386,13 @@ argo-cd:
             name: custom-tools
       - name: avp-kustomize
         command: [/var/run/argocd/argocd-cmp-server]
-        image: quay.io/argoproj/argocd:v3.0.5
+        image: quay.io/argoproj/argocd:v3.4.5
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
         env:
           - name: VAULT_ADDR
-            value: "https://vault-lb.eco-preprod.tsi-dev.otc-service.com"
+            value: "http://vault-preprod-active.vault.svc.cluster.local:8200"
           - name: AVP_AUTH_TYPE
             value: "token"
           - name: AVP_TYPE

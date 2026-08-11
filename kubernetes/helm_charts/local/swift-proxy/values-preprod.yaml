@@ -247,18 +247,34 @@ probes:
     initialDelaySeconds: 5
     periodSeconds: 5
 
-# URL Rewriter - nginx proxy that fixes trailing slash issue
+# URL Rewriter - reverse proxy in front of Swift for Zuul log browsing.
+# On preprod it runs OpenResty and gates reads behind Zitadel (oauth2-proxy)
+# while keeping the log container PRIVATE (no public-read ACL). Executor
+# uploads and other token-bearing clients bypass Zitadel and are validated
+# by Swift itself; authenticated browser reads get a short-lived Swift token
+# injected server-side.
 urlRewriter:
   enabled: true
   replicaCount: 2
   image:
-    repository: nginx
-    tag: "1.27-alpine"
+    repository: openresty/openresty
+    tag: "1.27.1.2-alpine"
     pullPolicy: IfNotPresent
+  configPath: /usr/local/openresty/nginx/conf/nginx.conf
+  oauth:
+    enabled: true
+    # In-cluster oauth2-proxy auth endpoint (validates the Zitadel cookie).
+    authUrl: "http://zuul-oauth-proxy.zuul.svc.cluster.local:4180/oauth2/auth"
+    # Public oauth2-proxy sign-in endpoint browsers are redirected to.
+    signinUrl: "https://zuul-oauth2-proxy.eco-preprod.tsi-dev.otc-service.com/oauth2/start"
+  # Swift tempauth service account used to fetch a read token (AVP-resolved).
+  swiftAuth:
+    username: "zuul-preprod-logs:<path:secret/data/swift/users/zuul#username>"
+    password: "<path:secret/data/swift/users/zuul#password>"
   resources:
     requests:
       cpu: "50m"
       memory: "64Mi"
     limits:
-      cpu: "100m"
-      memory: "128Mi"
+      cpu: "200m"
+      memory: "256Mi"

@@ -29,7 +29,7 @@ configMapGenerator:
       - SERVER_PORT=3000
       - SERVER_HOSTNAME=0.0.0.0
       - DEMO_MODE=false
-      - SHOW_ERRORS=false
+      - SHOW_ERRORS=true
       - DISABLE_ERROR_LOGGING=false
 
 secretGenerator:
@@ -42,5 +42,5 @@ secretGenerator:
       - VALKEY_PASSWORD=<path:secret/data/cap/valkey#valkey-password>
 
 images:
-  - name: quay.io/opentelekomcloud/cap
-    newTag: "3.0.6"
+  - name: swr.eu-de.otc.t-systems.com/opentelekomcloud/cap
+    newTag: "3.1.3"

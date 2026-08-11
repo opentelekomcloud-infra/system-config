@@ -4,6 +4,14 @@ repositorySecret:
   namespace: argocd
   data:
     name: c3lzdGVtLWNvbmZpZ19naXRodWI=
-    project: ZGVmYXVsdA==
+    # project intentionally empty -> GLOBAL credential. system-config is used
+    # by ArgoCD apps across multiple AppProjects (default, infra, ...), so a
+    # project-scoped credential would leave other-project apps unauthenticated
+    # once the repo is private. Omitted from the rendered secret.
+    project: ""
     type: Z2l0
     url: aHR0cHM6Ly9naXRodWIuY29tL29wZW50ZWxla29tY2xvdWQtaW5mcmEvc3lzdGVtLWNvbmZpZy5naXQ=
+  # Credentials for the now-private repo, resolved from Vault by AVP.
+  stringData:
+    username: <path:secret/data/argocd/repositories/github#username>
+    password: <path:secret/data/argocd/repositories/github#password>

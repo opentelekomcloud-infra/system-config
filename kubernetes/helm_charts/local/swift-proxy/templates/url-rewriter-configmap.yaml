@@ -6,6 +6,104 @@ metadata:
   labels:
     {{- include "swift-proxy.labels" . | nindent 4 }}
 data:
+{{- if and .Values.urlRewriter.oauth .Values.urlRewriter.oauth.enabled }}
+  # OpenResty variant: log reads are gated by Zitadel (oauth2-proxy) and the
+  # Swift log container stays PRIVATE. Requests that already carry Swift
+  # credentials (executor uploads, Loki, ...) bypass Zitadel and are validated
+  # by Swift itself. Anonymous browser reads must authenticate via Zitadel;
+  # only then is a short-lived Swift service token injected so Swift serves.
+  nginx.conf: |
+    env SWIFT_USER;
+    env SWIFT_KEY;
+
+    events {
+      worker_connections 1024;
+    }
+
+    http {
+      lua_shared_dict swift_auth 1m;
+
+      init_by_lua_block {
+        _G.swift_user = os.getenv("SWIFT_USER") or ""
+        _G.swift_key  = os.getenv("SWIFT_KEY") or ""
+        _G.signin_url = "{{ .Values.urlRewriter.oauth.signinUrl }}"
+        _G.gate = function()
+          local h = ngx.req.get_headers()
+          -- Client already presents Swift credentials -> leave untouched;
+          -- Swift validates the token. This covers executor uploads and Loki.
+          if h["x-auth-token"] or h["x-storage-token"] or h["x-auth-user"] then
+            return
+          end
+          -- Enforce Zitadel via an oauth2-proxy subrequest (cookie is inherited).
+          local a = ngx.location.capture("/_oauth_auth")
+          if not a or (a.status ~= 200 and a.status ~= 202) then
+            return ngx.redirect(_G.signin_url .. "?rd=https://" .. ngx.var.host .. ngx.var.request_uri)
+          end
+          -- Authenticated: inject a cached Swift service token for the read.
+          local tok = ngx.shared.swift_auth:get("token")
+          if not tok then
+            local res = ngx.location.capture("/_swift_auth")
+            if res and res.status == 200 then
+              tok = res.header["X-Auth-Token"] or res.header["X-Storage-Token"]
+              if tok then ngx.shared.swift_auth:set("token", tok, 43200) end
+            end
+          end
+          if tok then ngx.req.set_header("X-Auth-Token", tok) end
+        end
+      }
+
+      server {
+        listen 8081;
+
+        set_by_lua_block $swift_user { return _G.swift_user }
+        set_by_lua_block $swift_key  { return _G.swift_key }
+
+        # Internal: obtain a Swift tempauth token for the log-read account.
+        location = /_swift_auth {
+          internal;
+          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }}/auth/v1.0;
+          proxy_set_header X-Auth-User $swift_user;
+          proxy_set_header X-Auth-Key $swift_key;
+          proxy_set_header Host $host;
+        }
+
+        # Internal: Zitadel authentication check via oauth2-proxy.
+        location = /_oauth_auth {
+          internal;
+          proxy_pass {{ .Values.urlRewriter.oauth.authUrl }};
+          proxy_pass_request_body off;
+          proxy_set_header Content-Length "";
+          proxy_set_header X-Original-URI $request_uri;
+          proxy_set_header Host $host;
+        }
+
+        # Remove trailing slash from index.html URLs - always redirect to HTTPS
+        location ~ ^(.*index\.html)/$ {
+          return 301 https://$host$1;
+        }
+
+        # Serve index.html for directory URLs (ending with /)
+        location ~ ^(.+)/$ {
+          access_by_lua_block { _G.gate() }
+          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }}$1/index.html;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+        # Proxy all other requests to Swift
+        location / {
+          access_by_lua_block { _G.gate() }
+          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+        }
+      }
+    }
+{{- else }}
   nginx.conf: |
     events {
       worker_connections 1024;
@@ -39,4 +137,5 @@ data:
         }
       }
     }
+{{- end }}
 {{- end }}

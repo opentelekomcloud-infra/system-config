@@ -4,9 +4,44 @@
 
 zitadel:
   # Default values for zitadel.
-  # Disable the login component to avoid the secret dependency
+  # Login V2 UI (ghcr.io/zitadel/zitadel-login). Image tag defaults to the
+  # chart appVersion (v4.15.3), but we pin both the ZITADEL app and Login
+  # images to v4.16.2 (latest security release) via image.tag below.
+  # Chart 10.x auto-generates the RSA login service keypair and injects a
+  # SystemAPIUsers.login-client entry, so the V2 UI authenticates to the
+  # ZITADEL API via X.509-signed JWT (no PAT).
   login:
-    enabled: false
+    enabled: true
+    # Pin the Login UI image to v4.16.2 (same release as the ZITADEL app).
+    # Without this, the chart defaults to the appVersion of the Login UI
+    # image, which tracks the chart's appVersion (v4.15.3 in chart 10.0.4).
+    image:
+      repository: ghcr.io/zitadel/zitadel-login
+      pullPolicy: IfNotPresent
+      tag: "v4.16.2"
+    # Expose the V2 login UI at /ui/v2/login on the same host. nginx routes
+    # this prefix to the login service (:3000); everything else (API/console)
+    # stays on the main ZITADEL ingress (:8080). TLS reuses the zitadel-tls
+    # secret already managed by the main ingress (no cert-manager annotation
+    # here to avoid duplicate certificate orders).
+    ingress:
+      enabled: true
+      className: "nginx"
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      hosts:
+        - host: zitadel.eco-preprod.tsi-dev.otc-service.com
+          paths:
+            - path: /ui/v2/login
+              pathType: Prefix
+      tls:
+        - hosts:
+            - zitadel.eco-preprod.tsi-dev.otc-service.com
+          secretName: zitadel-tls
 
   zitadel:
     # The ZITADEL config under configmapConfig is written to a Kubernetes ConfigMap
@@ -16,6 +51,18 @@ zitadel:
       # The configmapConfig should be minimal as the main config comes from the secret
       TLS:
         Enabled: false
+      # ExternalDomain/ExternalSecure/ExternalPort are also set (implicitly) in
+      # the external zitadel-config secret, but the Login V2 chart templates read
+      # them from chart values to derive the login UI AUDIENCE, ZITADEL_API_URL
+      # and ZITADEL_EXTERNALDOMAIN. Values must match the runtime config.
+      # ExternalPort MUST be 443 here: traffic terminates TLS on the ingress and
+      # ZITADEL's issuer/audience is https://<domain> with no port. Without this
+      # the login configmap defaults to service.port (8080) and renders
+      # AUDIENCE="https://<domain>:8080", which the login client JWT validation
+      # would reject.
+      ExternalDomain: "zitadel.eco-preprod.tsi-dev.otc-service.com"
+      ExternalSecure: true
+      ExternalPort: 443
       Machine:
         Identification:
           Hostname:
@@ -140,8 +187,9 @@ zitadel:
   image:
     repository: ghcr.io/zitadel/zitadel
     pullPolicy: IfNotPresent
-    # Overrides the image tag whose default is the chart appVersion.
-    tag: ""
+    # Pinned to v4.16.2 (latest ZITADEL security release), overriding the
+    # chart's default appVersion (v4.15.3 from chart 10.0.4).
+    tag: "v4.16.2"
 
   # Annotations to add to the deployment
   annotations: {}
@@ -182,8 +230,16 @@ zitadel:
 
   # Additional environment variables
   env:
+    # Require the self-hosted Login V2 UI. NOTE: this sets the *default instance*
+    # feature, which only applies to instances created by FirstInstance. The
+    # eco-preprod instance already exists, so after deploy you must also enable
+    # the "Login V2" feature flag on the existing instance and set its base URI
+    # to https://zitadel.eco-preprod.tsi-dev.otc-service.com/ui/v2/login
+    # (Console > Instance > Features, or the Feature API).
     - name: ZITADEL_DEFAULTINSTANCE_FEATURES_LOGINV2_REQUIRED
-      value: "false"
+      value: "true"
+    - name: SSL_CERT_FILE
+      value: "/etc/ssl/certs/otc-ca.crt"
     # - name: ZITADEL_TLS_MODE
     #   value: "external"  # Use external TLS mode for ingress TLS termination
     # - name: ZITADEL_EXTERNALSECURE
@@ -335,17 +391,17 @@ zitadel:
   # extraContainers allows you to add any sidecar containers you wish to use in the Zitadel pod.
   extraContainers: []
 
-  extraVolumes: []
-    # - name: ca-certs
-    #   secret:
-    #     defaultMode: 420
-    #     secretName: ca-certs
+  extraVolumes:
+    - name: otc-ca-cert
+      secret:
+        defaultMode: 420
+        secretName: otc-ca-cert
 
-  extraVolumeMounts: []
-    # - name: ca-certs
-    #   mountPath: /etc/ssl/certs/myca.pem
-    #   subPath: myca.pem
-    #   readOnly: true
+  extraVolumeMounts:
+    - name: otc-ca-cert
+      mountPath: /etc/ssl/certs/otc-ca.crt
+      subPath: otc-ca.crt
+      readOnly: true
 
   # extraManifests allows you to add your own Kubernetes manifests
   extraManifests: []
