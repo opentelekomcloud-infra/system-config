@@ -1,0 +1,197 @@
+# ---------------------------------------------------------------------------
+# haproxy (local chart) — k8s port of proxy1/proxy2.eco (mgmt-net VMs).
+# Faithful lift-and-shift: the haproxy.cfg in templates/configmap.yaml is copied
+# verbatim from the live proxy1 /etc/haproxy/haproxy.cfg, with only two
+# k8s-necessary edits (TLS crt directory path + searchuser Basic-auth sourced
+# from Vault via the AVP CMP instead of a hard-coded base64 string).
+#
+# MANUAL sync ArgoCD app. Deploys to the otcinfra2 cluster (ns proxy). This is
+# the otcinfra2 twin of values-prod.yaml (which targets otcinfra); the two
+# differ ONLY in the ELB autocreate annotation and certificates.enabled, so keep
+# the haproxy.cfg itself in templates/configmap.yaml shared between them.
+#
+# A dedicated ELB is required rather than reusing otcinfra2's shared ELB
+# (kubernetes.io/elb.id 510d12e5-..., class union, 80.158.58.167): ports 80, 443
+# and 2222 on it are already taken by ingress-nginx and gitea-otcinfra2-ssh.
+#
+# Public entry is a NEW dedicated EIP LoadBalancer, so each still-proxied host
+# is DNS-cut over one at a time; otcinfra's haproxy (164.30.24.89) and
+# proxy1/proxy2 remain the fallback until every host has moved.
+# ---------------------------------------------------------------------------
+namespace: proxy
+
+nameOverride: ""
+fullnameOverride: haproxy
+
+replicaCount: 2
+
+image: quay.io/opentelekomcloud/haproxy:2.5.5-alpine
+imagePullPolicy: IfNotPresent
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+# ---------------------------------------------------------------------------
+# TLS — cert-manager Certificates (DNS-01) with CombinedPEM output.
+# Each group produces a Secret containing `tls-combined.pem` (key + fullchain in
+# one file, the format haproxy's `crt` directive needs). Every group's combined
+# PEM is projected into /etc/haproxy/certs/<group>.pem; haproxy loads the whole
+# directory and SNI-selects, mirroring the live proxy1 `crt .../haproxy` dir
+# (proxy1.pem multi-SAN + docs.pem + matrix.pem + vault.pem).
+#
+# PREREQUISITE: a DNS-01 ClusterIssuer for the OTC (Designate) zones must exist
+# — the cluster currently only has HTTP-01 issuers (letsencrypt-prod/-staging).
+# Provision `certificates.clusterIssuer` (e.g. an OTC/Designate cert-manager
+# webhook issuer) BEFORE syncing, or the Certificates stay pending. DNS-01 can
+# issue before any DNS is cut over (validates via TXT, not the A record).
+certificates:
+  # Disabled on otcinfra2: the tls-combined.pem bundles are carried over from the
+  # bridge and applied as plain Opaque secrets, exactly as on otcinfra. Leaving
+  # this on would create four cert-manager Certificates that can never become
+  # Ready - they expect to own tls.crt/tls.key and report "Secret does not
+  # contain a private key" against a hand-populated bundle (that is precisely
+  # the state the four Certificates are stuck in on otcinfra today). DNS-01 is a
+  # separate topic; revisit once an otc-dns01 issuer actually exists.
+  #
+  # NOTE: `groups` below is still required - templates/deployment.yaml builds the
+  # projected `certs` volume by ranging over it regardless of this flag, so the
+  # four secrets are still mounted as eco.pem / docs.pem / matrix.pem / vault.pem.
+  enabled: false
+  clusterIssuer: otc-dns01          # DNS-01 issuer (see dns01Issuer below)
+  duration: 2160h                   # 90d
+  renewBefore: 720h                 # 30d
+  # Groups mirror the live proxy1 PEM bundles.
+  groups:
+    # proxy1.pem — multi-SAN over the eco.tsi-dev + tsi-dev hosts.
+    eco:
+      secretName: haproxy-eco-tls
+      commonName: proxy.eco.tsi-dev.otc-service.com
+      dnsNames:
+        - graphite-ca.eco.tsi-dev.otc-service.com
+        - dashboard.tsi-dev.otc-service.com
+        - dashboard-de.tsi-dev.otc-service.com
+        - apimon.tsi-dev.otc-service.com
+        - apimon.eco.tsi-dev.otc-service.com
+        - dashboard.eco.tsi-dev.otc-service.com
+        - alerts.eco.tsi-dev.otc-service.com
+        - influx1.eco.tsi-dev.otc-service.com
+        - keycloak.eco.tsi-dev.otc-service.com
+        - opensearch.eco.tsi-dev.otc-service.com
+        - opensearch-dashboard.eco.tsi-dev.otc-service.com
+        - opensearch-stg.eco.tsi-dev.otc-service.com
+        - opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
+        - gitea.eco.tsi-dev.otc-service.com
+        - gitea1.eco.tsi-dev.otc-service.com
+        - gitea2.eco.tsi-dev.otc-service.com
+        - gitea3.eco.tsi-dev.otc-service.com
+    # docs.pem
+    docs:
+      secretName: haproxy-docs-tls
+      commonName: docs.otc-service.com
+      dnsNames:
+        - docs.otc-service.com
+    # matrix.pem
+    matrix:
+      secretName: haproxy-matrix-tls
+      commonName: matrix.otc-service.com
+      dnsNames:
+        - matrix.otc-service.com
+    # vault.pem — vault-lb.eco is a separate single-SAN cert on proxy1 (not in
+    # the multi-SAN proxy1.pem), so it needs its own group / crt file.
+    vault:
+      secretName: haproxy-vault-tls
+      commonName: vault1.eco.tsi-dev.otc-service.com
+      dnsNames:
+        - vault1.eco.tsi-dev.otc-service.com
+
+# ---------------------------------------------------------------------------
+# DNS-01 ClusterIssuer (otc-dns01) — ACME (Let's Encrypt) with a DNS-01 webhook
+# solver for the OTC (OpenStack Designate) zones. DNS-01 validates via a TXT
+# record so certs can be issued BEFORE any host's A record is cut over to this
+# proxy (unlike HTTP-01, which needs the A record to already point at nginx).
+#
+# `enabled: false` by default — rendering the ClusterIssuer is harmless, but it
+# cannot solve challenges until BOTH prerequisites are met:
+#
+#   1. WEBHOOK: install the SysEleven Designate cert-manager webhook
+#      (github.com/syseleven/designate-certmanager-webhook) into the
+#      cert-manager namespace. It registers the APIService for groupName
+#      `acme.syseleven.de` / solverName `designate` and reads OpenStack auth
+#      from env (OS_* / a clouds.yaml secret) mounted on ITS Deployment.
+#      Deploy it as its own cluster component (not part of this chart) so the
+#      webhook + its creds live next to cert-manager.
+#
+#   2. CREDS: the webhook needs an OpenStack account that can manage TXT records
+#      in the PUBLIC otc-service.com / tsi-dev.otc-service.com / eco.tsi-dev
+#      zones. That is the `otc-dns` account used from the bridge for DNS cutover
+#      — it is NOT yet in vault-otcinfra2 (KV has 448_eco_infra = private zones
+#      only; dns_otc_service = stale/401). Provisioning those creds into vault +
+#      a read policy is a vault-admin prerequisite (same gap as the DNS cutover).
+#
+# Until both are in place, keep enabled:false and issue/rotate the haproxy certs
+# by another route, or flip enabled:true once the webhook + creds exist.
+# ---------------------------------------------------------------------------
+dns01Issuer:
+  enabled: false
+  name: otc-dns01
+  acmeServer: https://acme-v02.api.letsencrypt.org/directory
+  email: <path:secret/data/smtp_gw#email_address>
+  privateKeySecretRef: otc-dns01-issuer-account-key
+  webhook:
+    groupName: acme.syseleven.de
+    solverName: designatedns
+    # Per-solver config for the designate webhook (OpenStack creds come from the
+    # webhook Deployment env, so this is usually empty).
+    config: {}
+
+# ---------------------------------------------------------------------------
+# Public LoadBalancer — a NEW dedicated (performance) EIP LB in front of haproxy
+# (L4 TCP passthrough; haproxy terminates TLS itself). externalTrafficPolicy
+# Local + pass-through preserve the client source IP, which the attacker
+# blocklist and rate-limit ACLs depend on.
+#
+# autocreate provisions a NEW dedicated public ELB + a NEW EIP. Network id read
+# from the otcinfra2 project (openstack --os-cloud otcinfra-domain2-infra2-de
+# network list) on 2026-08-11. Note this must be the NETWORK id, not the subnet
+# id: otcinfra2 infra-subnet 192.168.171.0/24 is e67ef2d6-... while the network
+# infra-net is fc9dfe4e-... - the same distinction as otcinfra, where the
+# working value c4957702-... is the network infra-net, not subnet 7ad49269-...
+#   elb_virsubnet_ids = fc9dfe4e-85a1-48b3-a707-4b424cfbf4e2  (infra-net, otcinfra2)
+#   available_zone    = eu-de-01
+#   l4_flavor_name    = L4_flavor.elb.s1.small
+# The new EIP appears in the Service status once synced; use it as the DNS
+# cutover target. bandwidth_size (Mbit/s) can be tuned to match proxy1.
+# ---------------------------------------------------------------------------
+service:
+  loadBalancer:
+    annotations:
+      kubernetes.io/elb.class: performance
+      kubernetes.io/elb.pass-through: onlyLocal
+      kubernetes.io/elb.autocreate: '{"type":"public","name":"elb-proxy-k8s-otcinfra2","bandwidth_name":"proxy-k8s-otcinfra2-bw","bandwidth_chargemode":"traffic","bandwidth_size":100,"bandwidth_sharetype":"PER","eip_type":"5_bgp","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["fc9dfe4e-85a1-48b3-a707-4b424cfbf4e2"],"available_zone":["eu-de-01"]}'
+    loadBalancerIP: ""
+    externalTrafficPolicy: Local
+  ports:
+    http: 80
+    https: 443
+    influx: 8086
+    vault: 8200
+    matrix: 8448
+    giteaSsh: 2222
+
+podSecurityContext: {}
+
+# haproxy binds :80/:443 (low ports) then drops to the haproxy user via the
+# `user`/`group` directives in the config → start as root with NET_BIND_SERVICE.
+securityContext:
+  runAsUser: 0
+  capabilities:
+    add: ["NET_BIND_SERVICE"]
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

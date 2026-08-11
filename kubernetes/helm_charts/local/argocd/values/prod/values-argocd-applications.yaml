@@ -323,6 +323,43 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  # Same chart on otcinfra2, the target end-state for all proxy traffic. A
+  # separate entry rather than adding otcinfra2 to the clusters list above,
+  # because the template applies one pluginEnv to every cluster in an entry and
+  # the two need different values files. App name still renders per cluster
+  # (haproxy-otcinfra / haproxy-otcinfra2), so they do not collide.
+  #
+  # values-otcinfra2.yaml differs from values-prod.yaml in exactly two places:
+  #   - ELB autocreate: elb_virsubnet_ids must be otcinfra2's NETWORK id
+  #     (fc9dfe4e-... infra-net), not otcinfra's c4957702-..., and the ELB/
+  #     bandwidth names are suffixed so the two clusters cannot clash. A
+  #     dedicated ELB is needed because 80/443/2222 on otcinfra2's shared ELB
+  #     are already taken by ingress-nginx and gitea-otcinfra2-ssh.
+  #   - certificates.enabled: false — the tls-combined.pem bundles come from the
+  #     bridge as plain Opaque secrets; cert-manager Certificates would sit
+  #     permanently not-Ready against them (as they do on otcinfra today).
+  #
+  # MANUAL sync. Before syncing:
+  #   1. copy the four PEM secrets into otcinfra2 ns proxy:
+  #      haproxy-{eco,docs,matrix,vault}-tls (key tls-combined.pem),
+  #   2. after sync, read the new EIP from the Service status and cut DNS over
+  #      one host at a time. Backend reachability from otcinfra2 was verified
+  #      on 2026-08-11 (gitea1, keycloak, influx1, vault1/2/3, 170.6, 171.6,
+  #      graphite2/3 all reachable).
+  - name: haproxy
+    clusters: [otcinfra2]
+    config:
+      namespace: proxy
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'Zuul_job_migration_fixes'
+      path: kubernetes/helm_charts/local/haproxy
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values-otcinfra2.yaml'
+      project: infra
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+
   # cert-manager-webhook-designate is the UPSTREAM SysEleven Designate webhook
   # (github.com/syseleven/designate-certmanager-webhook) wrapped as an umbrella
   # chart (kubernetes/helm_charts/upstream/cert-manager-webhook-designate) that
