@@ -128,7 +128,7 @@ prometheus:
         replacement: prometheus-blackbox-exporter:9115
     - job_name: vault
       static_configs:
-        - targets: ['vault-lb.eco.tsi-dev.otc-service.com:8200']
+        - targets: ['vault1.eco.tsi-dev.otc-service.com:8200']
       metrics_path: /v1/sys/metrics
       scheme: https
       params:
@@ -136,7 +136,7 @@ prometheus:
       bearer_token: "{{ chart.vault_metrics_token }}"
       relabel_configs:
       - target_label: instance
-        replacement: vault-lb.eco.tsi-dev.otc-service.com
+        replacement: vault1.eco.tsi-dev.otc-service.com
     - job_name: patroni_cluster_metrics
       metrics_path: /metrics
       scheme: http

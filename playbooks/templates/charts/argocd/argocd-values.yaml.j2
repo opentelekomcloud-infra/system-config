@@ -171,7 +171,7 @@ configs:
     createSecret: true
     extra:
       oidc.keycloak.clientSecret: {{ chart.secrets.keycloak_client_secret }}
-      VAULT_ADDR: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+      VAULT_ADDR: "https://vault1.eco.tsi-dev.otc-service.com:8200"
       AVP_AUTH_TYPE: "k8s"
       AVP_K8S_ROLE: "argocd"
       AVP_TYPE: "vault"
