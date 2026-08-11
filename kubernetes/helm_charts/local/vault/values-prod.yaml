@@ -28,6 +28,14 @@ networkPolicy:
         app.kubernetes.io/name: argocd-repo-server
     # Zuul executor — vault-agent sidecar authenticates via K8s auth for functional test credentials
     - namespace: zuul-ci
+    # In-cluster otcinfra2 workloads authenticating via auth/kubernetes_otcinfra2.
+    # These used to reach Vault through the vault-k8s.eco.tsi-dev.otc-service.com
+    # ingress. That ingress was removed (server.ingress.enabled: false), which left
+    # them with no route at all: the name now resolves to the shared LB and serves
+    # the default "ingress.local" certificate, so vault-agent fails to authenticate.
+    # Talking to the ClusterIP service directly keeps Vault unexposed.
+    - namespace: eyes-on-docs
+    - namespace: mcaptcha
 
   # Ingress controller — required for remote clusters to reach Vault via LB
   # Remote consumers:
