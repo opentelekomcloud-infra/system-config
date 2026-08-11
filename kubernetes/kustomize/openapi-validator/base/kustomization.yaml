@@ -2,11 +2,19 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 labels:
+# Identity labels only. These land in Service selectors and the (immutable)
+# Deployment .spec.selector, so they must never change for a running workload.
 - includeSelectors: true
   pairs:
     app.kubernetes.io/instance: base
     app.kubernetes.io/managed-by: kustomize
     app.kubernetes.io/name: openapi-validator
+# Version is mutable and MUST stay out of selectors: bumping it previously
+# updated the Service selector to 1.0.1 while the Deployment selector stayed
+# at 1.0.0 (immutable field, patch rejected), leaving the Service with zero
+# endpoints and the ingress returning 503.
+- includeSelectors: false
+  pairs:
     app.kubernetes.io/version: 1.0.1
 
 images:
