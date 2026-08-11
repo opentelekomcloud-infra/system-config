@@ -32,7 +32,12 @@ configs:
     createSecret: true
     extra:
       oidc.keycloak.clientSecret: "${KEYCLOAK_CLIENT_SECRET}"
-      VAULT_ADDR: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+      # Vault: the eco vault-lb ELB was decommissioned. Use the in-cluster
+      # k8s Vault directly (it is intentionally not exposed via ingress).
+      # TLS is served by the internal "vault-ca" issuer, hence SKIP_VERIFY
+      # for this in-cluster hop - same pattern as the argocd-k8s instance.
+      VAULT_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+      VAULT_SKIP_VERIFY: "true"
       AVP_AUTH_TYPE: "k8s"
       AVP_K8S_ROLE: "argocd"
       AVP_TYPE: "vault"
