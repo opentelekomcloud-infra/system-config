@@ -35,9 +35,8 @@ data:
 
         # Serve index.html for directory URLs (ending with /).
         #
-        # Only read requests without a query string may be rewritten. Swift API
-        # calls also end in "/" - notably the bulk upload issued by the docs
-        # publish jobs:
+        # Only GET/HEAD may be rewritten. Swift API writes also end in "/" -
+        # notably the bulk upload issued by the docs publish jobs:
         #
         #   PUT /v1/AUTH_<project>/<container>/?extract-archive=tar.gz
         #
@@ -47,15 +46,16 @@ data:
         # empty body instead of "200 OK" with the JSON summary the uploader
         # parses. The uploader then fails on the missing JSON and the publish
         # job ends in POST_FAILURE.
+        #
+        # The condition is deliberately on the method only. Keying it on the
+        # query string as well would stop rewriting reads such as
+        # "<container>/?format=json", which Swift answers with a 500.
         location ~ ^(.+)/$ {
-          # Capture the location match before any "if" regex clobbers $1.
+          # Capture the location match before the "if" regex clobbers $1.
           set $dir_uri "$1/index.html";
           set $swift_uri $request_uri;
           if ($request_method ~ ^(?:GET|HEAD)$) {
             set $swift_uri $dir_uri;
-          }
-          if ($args) {
-            set $swift_uri $request_uri;
           }
           proxy_pass http://swift_backend$swift_uri;
           proxy_set_header Host $host;
