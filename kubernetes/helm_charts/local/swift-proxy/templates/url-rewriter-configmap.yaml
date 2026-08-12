@@ -12,6 +12,10 @@ data:
     }
 
     http {
+      upstream swift_backend {
+        server {{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};
+      }
+
       server {
         listen 8081;
 
@@ -29,9 +33,31 @@ data:
           return 301 https://$host$1;
         }
 
-        # Serve index.html for directory URLs (ending with /)
+        # Serve index.html for directory URLs (ending with /).
+        #
+        # Only read requests without a query string may be rewritten. Swift API
+        # calls also end in "/" - notably the bulk upload issued by the docs
+        # publish jobs:
+        #
+        #   PUT /v1/AUTH_<project>/<container>/?extract-archive=tar.gz
+        #
+        # Rewriting that to "<container>/index.html" drops the query string, so
+        # Swift's bulk middleware never runs: the tarball is stored verbatim as
+        # an object called index.html and Swift answers "201 Created" with an
+        # empty body instead of "200 OK" with the JSON summary the uploader
+        # parses. The uploader then fails on the missing JSON and the publish
+        # job ends in POST_FAILURE.
         location ~ ^(.+)/$ {
-          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }}$1/index.html;
+          # Capture the location match before any "if" regex clobbers $1.
+          set $dir_uri "$1/index.html";
+          set $swift_uri $request_uri;
+          if ($request_method ~ ^(?:GET|HEAD)$) {
+            set $swift_uri $dir_uri;
+          }
+          if ($args) {
+            set $swift_uri $request_uri;
+          }
+          proxy_pass http://swift_backend$swift_uri;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -40,7 +66,7 @@ data:
 
         # Proxy all other requests to Swift
         location / {
-          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};
+          proxy_pass http://swift_backend;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
