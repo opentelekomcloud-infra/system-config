@@ -42,6 +42,7 @@ argo-cd:
       - name: ARGOCD_OIDC_GROUPS_FLATTEN
         value: "true"
       # Help ArgoCD find the groups in Zitadel's nested structure
+      # Commented out as double entry from server vars too
       # - name: ARGOCD_OIDC_CLAIMS_PREFIX
       #   value: ""
 
@@ -105,6 +106,7 @@ argo-cd:
         value: "token"
       - name: AVP_TYPE
         value: "vault"
+      # Commentend out as and exactly same double entry from global vars
       # - name: ARGOCD_JWT_CLAIM_FLATTEN
       #   value: "true"
       - name: ARGOCD_OIDC_CLAIMS_PREFIX
