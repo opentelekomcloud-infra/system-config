@@ -42,8 +42,8 @@ argo-cd:
       - name: ARGOCD_OIDC_GROUPS_FLATTEN
         value: "true"
       # Help ArgoCD find the groups in Zitadel's nested structure
-      - name: ARGOCD_OIDC_CLAIMS_PREFIX
-        value: ""
+      # - name: ARGOCD_OIDC_CLAIMS_PREFIX
+      #   value: ""
 
   ## Server
   server:
@@ -105,8 +105,8 @@ argo-cd:
         value: "token"
       - name: AVP_TYPE
         value: "vault"
-      - name: ARGOCD_JWT_CLAIM_FLATTEN
-        value: "true"
+      # - name: ARGOCD_JWT_CLAIM_FLATTEN
+      #   value: "true"
       - name: ARGOCD_OIDC_CLAIMS_PREFIX
         value: "urn:zitadel:iam:org:project:"
       - name: SERVER_RBAC_LOG_ENFORCE_ENABLE
