@@ -2,14 +2,15 @@ gitea:
   replicaCount: 1
 
   image:
-    registry: "quay.io"
+    registry: "swr.eu-de.otc.t-systems.com"
     repository: opentelekomcloud/gitea
     tag: "1.27.1"
     rootless: true
     pullPolicy: Always
 
-  imagePullSecrets:
-    - name: quay-pull-secret
+  # SWR repo is publicly readable, no imagePullSecrets needed.
+  # (The quay-pull-secret was only required for the old quay.io registry.)
+  imagePullSecrets: []
 
   ## Recreate strategy for single replica with RWO volume
   strategy:
