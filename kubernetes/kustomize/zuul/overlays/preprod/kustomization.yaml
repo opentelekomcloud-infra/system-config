@@ -69,7 +69,7 @@ resources:
   - zuul-web-webhook-ingress.yaml
   - crb.yaml
   - crb_admin.yaml
-  - zuul-merger-git-credentials.yaml
+  - zuul-git-credentials.yaml
 
 bases:
   - ../../base

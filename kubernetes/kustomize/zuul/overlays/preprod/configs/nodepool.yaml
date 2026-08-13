@@ -66,6 +66,9 @@ providers:
                   secret:
                     secretName: zuul-ssh-keys
                     defaultMode: 0600
+                - name: ssh-config
+                  configMap:
+                    name: zuul-ssh-config
                 - name: zuul-home
                   emptyDir: {}
               containers:
@@ -73,8 +76,10 @@ providers:
                   image: quay.io/opentelekomcloud/python-tox:latest
                   imagePullPolicy: Always
                   command: ["/bin/sh", "-c"]
-                  args: ["sleep infinity"]
+                  args: ["git config --global url.\"git@github.com:.insteadOf\" \"https://github.com/\" && sleep infinity"]
                   env:
+                    - name: GIT_SSH_COMMAND
+                      value: "ssh -F /etc/ssh-config/config"
                     - name: HOME
                       value: /home/zuul
                     - name: USER
@@ -82,6 +87,9 @@ providers:
                   volumeMounts:
                     - name: zuul-ssh-keys
                       mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: ssh-config
+                      mountPath: /etc/ssh-config
                       readOnly: true
                     - name: zuul-home
                       mountPath: /home/zuul
