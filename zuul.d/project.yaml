@@ -282,4 +282,7 @@
         # - infra-prod-bootstrap-bridge
 
         # - infra-prod-service-bridge: *infra-prod-service-bridge
-        - infra-prod-gitea-sync: *infra-prod-gitea-sync
+        - infra-prod-gitea-sync:
+            branches:
+              - main
+            <<: *infra-prod-gitea-sync
