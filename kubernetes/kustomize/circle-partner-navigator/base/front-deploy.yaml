@@ -14,9 +14,9 @@ spec:
     spec:
       containers:
         - name: cpn-front
-          image: "swr.eu-de.otc.t-systems.com/opentelekomcloud/circle-partner-navigator-frontend:change_1_latest"
+          image: "swr.eu-de.otc.t-systems.com/t-cloud-public/circle-partner-navigator-frontend:change_1_latest"
           ports:
-            - containerPort: 80
+            - containerPort: 8080
           volumeMounts:
             - name: cpn-front-nginx
               mountPath: /etc/nginx/conf.d/cpn-front-nginx.conf

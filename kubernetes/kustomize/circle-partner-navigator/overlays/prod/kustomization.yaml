@@ -18,5 +18,15 @@ configMapGenerator:
 images:
   - name: "quay.io/opentelekomcloud/circle-partner-navigator-backend"
     newTag: "1.0.2"
-  - name: "swr.eu-de.otc.t-systems.com/opentelekomcloud/circle-partner-navigator-frontend"
-    newTag: "0.6.1"
+  - name: "swr.eu-de.otc.t-systems.com/t-cloud-public/circle-partner-navigator-frontend"
+    newTag: "0.6.2"
+
+patches:
+  - target:
+      kind: Deployment
+      name: cpn-front
+    patch: |
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret

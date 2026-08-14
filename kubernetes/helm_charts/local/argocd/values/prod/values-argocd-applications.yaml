@@ -189,6 +189,23 @@ applications:
         syncOptions:
           - CreateNamespace=true
 
+  - name: pull-secrets
+    clusters: [otcinfra2]
+    config:
+      namespace: argocd-k8s
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/helm_charts/local/pull-secrets
+      pluginName: argocd-vault-plugin-helm-with-args
+      pluginEnv: '-f values/prod/values-swr-secret.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
   - name: cert-manager
     clusters: [otcinfra2, otcinfra, otcci, cloudmon-nl, cloudmon-de]
     config:
@@ -357,6 +374,23 @@ applications:
       path: kubernetes/helm_charts/local/gitea-runner
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values-prod.yaml'
+      project: infra
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
+
+  - name: circle-partner-navigator
+    clusters: [otcinfra2]
+    config:
+      namespace: circle-partner-navigator
+      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
+      targetRevision: 'main'
+      path: kubernetes/kustomize/circle-partner-navigator/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
       project: infra
       syncPolicy:
         automated:
