@@ -32,6 +32,7 @@ spec:
                 matchLabels:
                   app: qwen-27b-vllm
               topologyKey: kubernetes.io/hostname
+
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Equal"
@@ -41,22 +42,13 @@ spec:
           operator: "Equal"
           value: "qwen-27b"
           effect: "NoSchedule"
-      containers:
-        # ── LMCache: override chunk-size to match model's max-num-batched-tokens ──
-        # - name: lmcache
-        #   args:
-        #     - --chunk-size
-        #     - "2144"
-        #     - --separate-object-groups
-        #     - --l1-size-gb
-        #     - "70"
-        #     - --eviction-policy
-        #     - LRU
-        #     - --port
-        #     - "6555"
 
-        # ── vLLM: model-specific args ──────────────────────────────────────────────
+      containers:
         - name: vllm
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+
           args:
             - --host
             - "0.0.0.0"
@@ -83,14 +75,12 @@ spec:
             - '{"image":100}'
             - --max-num-batched-tokens
             - "4287"
-            # - --mamba-cache-mode
-            # - align
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":3}'
             - --override-generation-config
             - '{"temperature":1.0,"top_p":0.95,"top_k":20,"min_p":0.0,"presence_penalty":0.0,"repetition_penalty":1.0}'
             - --default-chat-template-kwargs
-            - '{"reasoning_effort": "medium"}'
+            - '{"reasoning_effort":"medium"}'
             - --enable-auto-tool-choice
             - --tool-call-parser
             - qwen3_coder
@@ -99,5 +89,9 @@ spec:
             - --kv-transfer-config
             - >-
               {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":68719476736,"eviction_policy":"lru","offload_prompt_only":true}}
-            # - --kv-transfer-config
-            # - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
+
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 80Gi
