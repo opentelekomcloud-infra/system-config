@@ -54,11 +54,11 @@ spec:
             - --max-model-len
             - "262144"
             - --max-num-seqs
-            - "16"
+            - "8"
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "8192"
+            - "1024"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":3}'
             - --override-generation-config
