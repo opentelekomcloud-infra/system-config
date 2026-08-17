@@ -308,11 +308,14 @@ patches:
                     value: configmap
                 image: kiwigrid/k8s-sidecar
                 resources:
+                  # METHOD=LIST loads every matching ConfigMap at once, unlike the
+                  # streaming WATCH sidecar, so 100Mi OOMKills it (exit 137) on the
+                  # namespaces with more redirects. Short-lived, so be generous.
                   limits:
-                    memory: "100Mi"
+                    memory: "512Mi"
                   requests:
                     cpu: "10m"
-                    memory: "50Mi"
+                    memory: "64Mi"
                 volumeMounts:
                   - mountPath: /tmp/redirect
                     name: redirect-map-volume
