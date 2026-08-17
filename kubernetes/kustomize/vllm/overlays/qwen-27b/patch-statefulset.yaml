@@ -58,7 +58,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "512"
+            - "2048"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":3}'
             - --override-generation-config
