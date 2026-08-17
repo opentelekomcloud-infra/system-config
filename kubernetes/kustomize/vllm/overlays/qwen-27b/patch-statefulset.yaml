@@ -98,6 +98,6 @@ spec:
             - fp8_e4m3
             - --kv-transfer-config
             - >-
-              {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":68719476736,"block_size":64,"eviction_policy":"lru","offload_prompt_only":true}}
+              {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":68719476736,"eviction_policy":"lru","offload_prompt_only":true}}
             # - --kv-transfer-config
             # - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
