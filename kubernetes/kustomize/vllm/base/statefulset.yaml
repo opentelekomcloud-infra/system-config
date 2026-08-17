@@ -49,11 +49,6 @@ spec:
           ports:
             - containerPort: 6555
               protocol: TCP
-          readinessProbe:
-            tcpSocket:
-              port: 6555
-            initialDelaySeconds: 5
-            periodSeconds: 3
           resources:
             requests:
               cpu: "4"
