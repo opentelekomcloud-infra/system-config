@@ -17,9 +17,6 @@ spec:
     spec:
       imagePullSecrets:
         - name: default-secret
-      hostNetwork: true
-      hostIPC: true
-      dnsPolicy: ClusterFirstWithHostNet
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -30,38 +27,8 @@ spec:
                     values:
                       - nvidia-l4
       containers:
-        - name: lmcache
-          image: lmcache/standalone:v0.5.3
-          command:
-            - /opt/venv/bin/lmcache
-            - server
-          args:
-            - --chunk-size
-            - "2144"
-            - --l1-size-gb
-            - "70"
-            - --eviction-policy
-            - LRU
-            - --port
-            - "6555"
-          ports:
-            - containerPort: 6555
-              protocol: TCP
-          readinessProbe:
-            tcpSocket:
-              port: 6555
-            initialDelaySeconds: 5
-            periodSeconds: 3
-          resources:
-            requests:
-              cpu: "4"
-              memory: "72Gi"
-            limits:
-              cpu: "8"
-              memory: "74Gi"
-
         - name: vllm
-          image: lmcache/vllm-openai:v0.5.3
+          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/vllm:v0.26.0
           env:
             - name: VLLM_API_KEY
               value: ""
@@ -76,10 +43,6 @@ spec:
             - name: VLLM_IMAGE_FETCH_TIMEOUT
               value: "15"
           args:
-            - --host
-            - "0.0.0.0"
-            - --port
-            - "8000"
             - --model
             - /models/REPLACE_ME_IN_OVERLAY
             - --served-model-name
@@ -98,7 +61,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "2144"
+            - "8192"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":4}'
             - --override-generation-config
@@ -108,8 +71,6 @@ spec:
             - qwen3_coder
             - --kv-cache-dtype
             - fp8_e4m3
-            - --kv-transfer-config
-            - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
           ports:
             - name: http
               containerPort: 8000
@@ -117,12 +78,12 @@ spec:
           resources:
             requests:
               nvidia.com/gpu: "2"
-              cpu: "20"
-              memory: "40Gi"
+              cpu: "24"
+              memory: "96Gi"
             limits:
               nvidia.com/gpu: "2"
               cpu: "24"
-              memory: "44Gi"
+              memory: "96Gi"
           volumeMounts:
             - name: models
               mountPath: /models
