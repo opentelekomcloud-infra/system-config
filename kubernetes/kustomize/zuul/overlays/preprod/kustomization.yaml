@@ -132,18 +132,19 @@ secretGenerator:
     literals:
       - known_hosts=<path:secret/data/zuul/merger#known_hosts>
   # Credentials for the zuul-config git-syncer to clone the private
-  # opentelekomcloud-infra/zuul-infra config repo.
-  # NOTE: prod uses secret/github/pat, but that path does not exist in the
-  # preprod vault (vault-preprod only has secret/github/otcbot). Using the
-  # prod path here makes argocd-vault-plugin fail to substitute, which breaks
-  # manifest generation for the WHOLE application, not just this secret.
+  # opentelekomcloud-infra/zuul-infra config repo. Uses a dedicated
+  # GitHub PAT (secret/github/pat) so it can be rotated independently
+  # of the ArgoCD repository credential -- same path as prod.
+  # NOTE: this path must exist in the *preprod* vault. argocd-vault-plugin
+  # aborts the whole manifest render if any placeholder cannot be resolved,
+  # so a missing path takes the entire application out, not just this secret.
   - name: zuul-config-git
     type: Opaque
     options:
       disableNameSuffixHash: true
     literals:
-      - username=<path:secret/data/github/otcbot#otcbot_name>
-      - token=<path:secret/data/github/otcbot#otcbot_token>
+      - username=<path:secret/data/github/pat#username>
+      - token=<path:secret/data/github/pat#password>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
     options:
