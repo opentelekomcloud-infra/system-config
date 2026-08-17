@@ -131,17 +131,6 @@ secretGenerator:
       disableNameSuffixHash: true
     literals:
       - known_hosts=<path:secret/data/zuul/merger#known_hosts>
-  # Credentials for the zuul-config git-syncer to clone the private
-  # opentelekomcloud-infra/zuul-infra config repo. Uses a dedicated
-  # GitHub PAT (secret/github/pat) so it can be rotated independently
-  # of the ArgoCD repository credential.
-  - name: zuul-config-git
-    type: Opaque
-    options:
-      disableNameSuffixHash: true
-    literals:
-      - username=<path:secret/data/github/pat#username>
-      - token=<path:secret/data/github/pat#password>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
     options:
