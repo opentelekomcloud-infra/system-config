@@ -298,18 +298,6 @@ argo-cd:
         value: "argocd"
       - name: AVP_MOUNT_PATH
         value: "auth/kubernetes_otcinfra2"
-    # Without these the repo-server pod is BestEffort: it is the first thing the
-    # kubelet squeezes under node pressure, and CPU starvation shows up as
-    #   ComparisonError: ... rpc error: code = DeadlineExceeded
-    #   CMP processing failed ... argocd-vault-plugin-kustomize.sock: context canceled
-    # i.e. apps silently fail to render. Sized off measured usage (688m/207Mi).
-    resources:
-      requests:
-        cpu: "500m"
-        memory: "512Mi"
-      limits:
-        cpu: "2"
-        memory: "2Gi"
     serviceAccount:
       create: true
       name: argocd-repo-server
@@ -348,13 +336,6 @@ argo-cd:
       - name: avp
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
@@ -385,13 +366,6 @@ argo-cd:
       - name: avp-with-args
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "192Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
@@ -422,15 +396,6 @@ argo-cd:
       - name: avp-kustomize
         command: [/var/run/argocd/argocd-cmp-server]
         image: quay.io/argoproj/argocd:v3.0.5
-        # Highest CPU of the three sidecars (235m measured): it renders the
-        # kustomize overlays, which is what timed out during the docsportal sync.
-        resources:
-          requests:
-            cpu: "250m"
-            memory: "192Mi"
-          limits:
-            cpu: "1"
-            memory: "768Mi"
         securityContext:
           runAsNonRoot: true
           runAsUser: 999
