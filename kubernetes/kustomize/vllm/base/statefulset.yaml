@@ -40,6 +40,8 @@ spec:
             - "2144"
             - --l1-size-gb
             - "70"
+            - --host
+            - "0.0.0.0"
             - --eviction-policy
             - LRU
             - --port
@@ -98,7 +100,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "2144"
+            - "4287"
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":4}'
             - --override-generation-config

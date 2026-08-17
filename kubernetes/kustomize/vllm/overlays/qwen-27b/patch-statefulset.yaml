@@ -82,7 +82,7 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "2144"
+            - "4287"
             - --mamba-cache-mode
             - align
             - --speculative-config
