@@ -60,7 +60,7 @@ spec:
             - --max-num-batched-tokens
             - "8192"
             - --speculative-config
-            - '{"method":"mtp","num_speculative_tokens":2}'
+            - '{"method":"mtp","num_speculative_tokens":3}'
             - --override-generation-config
             - '{"temperature":1.0,"top_p":0.95,"top_k":20,"min_p":0.0,"presence_penalty":0.0,"repetition_penalty":1.0}'
             - --enable-auto-tool-choice
