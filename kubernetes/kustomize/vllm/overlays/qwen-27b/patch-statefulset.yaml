@@ -45,10 +45,6 @@ spec:
 
       containers:
         - name: vllm
-          volumeMounts:
-            - name: dshm
-              mountPath: /dev/shm
-
           args:
             - --host
             - "0.0.0.0"
@@ -89,9 +85,3 @@ spec:
             - --kv-transfer-config
             - >-
               {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":48719476736,"eviction_policy":"lru","offload_prompt_only":true}}
-
-      volumes:
-        - name: dshm
-          emptyDir:
-            medium: Memory
-            sizeLimit: 80Gi
