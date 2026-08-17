@@ -26,6 +26,12 @@ spec:
                     operator: In
                     values:
                       - qwen-27b
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: qwen-27b-vllm
+              topologyKey: kubernetes.io/hostname
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Equal"
@@ -36,8 +42,26 @@ spec:
           value: "qwen-27b"
           effect: "NoSchedule"
       containers:
+        # ── LMCache: override chunk-size to match model's max-num-batched-tokens ──
+        - name: lmcache
+          args:
+            - --chunk-size
+            - "2144"
+            - --separate-object-groups
+            - --l1-size-gb
+            - "70"
+            - --eviction-policy
+            - LRU
+            - --port
+            - "6555"
+
+        # ── vLLM: model-specific args ──────────────────────────────────────────────
         - name: vllm
           args:
+            - --host
+            - "0.0.0.0"
+            - --port
+            - "8000"
             - --model
             - /models/Qwen3.8-27B-NVFP4
             - --served-model-name
@@ -58,7 +82,9 @@ spec:
             - --limit-mm-per-prompt
             - '{"image":100}'
             - --max-num-batched-tokens
-            - "2048"
+            - "2144"
+            - --mamba-cache-mode
+            - align
             - --speculative-config
             - '{"method":"mtp","num_speculative_tokens":3}'
             - --override-generation-config
@@ -70,3 +96,5 @@ spec:
             - qwen3_coder
             - --kv-cache-dtype
             - fp8_e4m3
+            - --kv-transfer-config
+            - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
