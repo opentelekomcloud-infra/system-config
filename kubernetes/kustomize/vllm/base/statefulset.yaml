@@ -30,32 +30,32 @@ spec:
                     values:
                       - nvidia-l4
       containers:
-        - name: lmcache
-          image: lmcache/standalone:v0.5.3
-          command:
-            - /opt/venv/bin/lmcache
-            - server
-          args:
-            - --chunk-size
-            - "2144"
-            - --l1-size-gb
-            - "70"
-            - --host
-            - "0.0.0.0"
-            - --eviction-policy
-            - LRU
-            - --port
-            - "6555"
-          ports:
-            - containerPort: 6555
-              protocol: TCP
-          resources:
-            requests:
-              cpu: "4"
-              memory: "72Gi"
-            limits:
-              cpu: "8"
-              memory: "74Gi"
+        # - name: lmcache
+        #   image: lmcache/standalone:v0.5.3
+        #   command:
+        #     - /opt/venv/bin/lmcache
+        #     - server
+        #   args:
+        #     - --chunk-size
+        #     - "2144"
+        #     - --l1-size-gb
+        #     - "70"
+        #     - --host
+        #     - "0.0.0.0"
+        #     - --eviction-policy
+        #     - LRU
+        #     - --port
+        #     - "6555"
+        #   ports:
+        #     - containerPort: 6555
+        #       protocol: TCP
+        #   resources:
+        #     requests:
+        #       cpu: "4"
+        #       memory: "72Gi"
+        #     limits:
+        #       cpu: "8"
+        #       memory: "74Gi"
 
         - name: vllm
           image: lmcache/vllm-openai:v0.5.3
