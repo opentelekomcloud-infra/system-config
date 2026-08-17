@@ -1,0 +1,214 @@
+{{- if .Values.monitoring }}
+{{- if .Values.monitoring.enabled }}
+# Swift storage monitoring.
+#
+# Context (2026-08-17 outage): the volume ran out of INODES while 35G of space was
+# still free, because no object-updater ran and async_pending grew to 553546 files.
+# The upstream KubePersistentVolumeInodesFillingUp alert did fire, but only at <3%
+# free - far too late to act - and it was buried under ~60 chronic warnings.
+#
+# async_pending has no metric anywhere, and it is the LEADING indicator: it grows
+# long before inodes run out. This exports it, plus object-updater liveness.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-metrics-exporter
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  exporter.py: |
+    """Minimal Prometheus exporter for swift storage-node health (stdlib only)."""
+    import json
+    import os
+    import time
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    DEVICE = os.environ.get("SWIFT_DEVICE", "sda")
+    NODE_ROOT = os.environ.get("SWIFT_NODE_ROOT", "/srv/node")
+    RECON = os.environ.get("RECON_CACHE", "/var/cache/swift/object.recon")
+    # Counting is bounded: on a healthy node async_pending is ~empty so the walk is
+    # instant, and on a broken node we only need to know "way too many", not the
+    # exact figure. Without the cap a scrape could walk 500k+ files every 30s.
+    CAP = int(os.environ.get("ASYNC_COUNT_CAP", "50000"))
+    PORT = int(os.environ.get("EXPORTER_PORT", "9109"))
+
+    def count_async(path, cap):
+        total = 0
+        for _dirpath, _dirnames, filenames in os.walk(path):
+            total += len(filenames)
+            if total >= cap:
+                return cap, 1
+        return total, 0
+
+    def collect():
+        lines = []
+        dev = '{device="' + DEVICE + '"}'
+        started = time.time()
+
+        async_path = os.path.join(NODE_ROOT, DEVICE, "async_pending")
+        try:
+            count, capped = count_async(async_path, CAP)
+        except OSError:
+            count, capped = -1, 0
+
+        sweep = -1.0
+        recon_age = -1.0
+        try:
+            with open(RECON) as handle:
+                data = json.load(handle)
+            sweep = float(data.get("object_updater_sweep", -1))
+            recon_age = time.time() - os.path.getmtime(RECON)
+        except (OSError, ValueError):
+            pass
+
+        lines.append("# HELP swift_async_pending_files Container-DB updates queued for the object-updater (capped).")
+        lines.append("# TYPE swift_async_pending_files gauge")
+        lines.append("swift_async_pending_files" + dev + " " + str(count))
+        lines.append("# HELP swift_async_pending_count_capped 1 if the count hit the cap and is a lower bound.")
+        lines.append("# TYPE swift_async_pending_count_capped gauge")
+        lines.append("swift_async_pending_count_capped" + dev + " " + str(capped))
+        lines.append("# HELP swift_object_updater_sweep_seconds Duration of the last object-updater sweep.")
+        lines.append("# TYPE swift_object_updater_sweep_seconds gauge")
+        lines.append("swift_object_updater_sweep_seconds" + dev + " " + repr(sweep))
+        lines.append("# HELP swift_object_updater_recon_age_seconds Age of the updater recon cache; grows if the updater stops.")
+        lines.append("# TYPE swift_object_updater_recon_age_seconds gauge")
+        lines.append("swift_object_updater_recon_age_seconds" + dev + " " + repr(recon_age))
+        lines.append("# HELP swift_exporter_scrape_duration_seconds Time taken to collect these metrics.")
+        lines.append("# TYPE swift_exporter_scrape_duration_seconds gauge")
+        lines.append("swift_exporter_scrape_duration_seconds" + dev + " " + repr(time.time() - started))
+        return "\n".join(lines) + "\n"
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path.rstrip("/") not in ("/metrics", ""):
+                self.send_response(404)
+                self.end_headers()
+                return
+            body = collect().encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain; version=0.0.4")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *args):
+            pass
+
+    if __name__ == "__main__":
+        HTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage-metrics
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: storage-metrics
+spec:
+  clusterIP: None
+  selector:
+    {{- include "swift-proxy.selectorLabels" . | nindent 4 }}
+    app.kubernetes.io/component: storage
+  ports:
+    - name: metrics
+      port: {{ .Values.monitoring.port | default 9109 }}
+      targetPort: metrics
+      protocol: TCP
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "swift-proxy.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: storage-metrics
+  endpoints:
+    - port: metrics
+      interval: {{ .Values.monitoring.scrapeInterval | default "60s" }}
+      path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-storage
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    # Prometheus only picks up rules carrying this release label.
+    release: {{ .Values.monitoring.prometheusRelease | default "prometheus-otcinfra2" }}
+spec:
+  groups:
+    - name: swift-storage
+      rules:
+        # LEADING indicator. async_pending only grows when container updates cannot
+        # be applied synchronously; a sustained backlog means the object-updater is
+        # not keeping up (or is not running) and inodes will be consumed until the
+        # filesystem dies.
+        - alert: SwiftAsyncPendingBacklog
+          expr: swift_async_pending_files > {{ .Values.monitoring.asyncPendingWarn | default 20000 }}
+          for: 30m
+          labels:
+            severity: warning
+          annotations:
+            summary: Swift async_pending backlog is growing
+            description: >-
+              {{ `{{ $value }}` }} queued container updates on device
+              {{ `{{ $labels.device }}` }}. The object-updater is not draining the
+              queue; each entry consumes an inode. Left alone this exhausts the
+              filesystem inodes and breaks container listings and log uploads.
+
+        - alert: SwiftAsyncPendingCritical
+          expr: swift_async_pending_files > {{ .Values.monitoring.asyncPendingCritical | default 100000 }}
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: Swift async_pending backlog is critical
+            description: >-
+              {{ `{{ $value }}` }} queued container updates on device
+              {{ `{{ $labels.device }}` }}. Check the object-updater container in the
+              storage StatefulSet. Purging async_pending frees inodes but discards
+              those container-DB updates.
+
+        # The updater writes its recon cache after every sweep, so a stale cache
+        # means the daemon is dead or wedged - exactly the state that caused the
+        # 2026-08-17 outage, when it was never deployed at all.
+        - alert: SwiftObjectUpdaterStalled
+          expr: swift_object_updater_recon_age_seconds > {{ .Values.monitoring.updaterStaleSeconds | default 3600 }}
+          for: 15m
+          labels:
+            severity: critical
+          annotations:
+            summary: Swift object-updater is not running
+            description: >-
+              The object-updater recon cache on device {{ `{{ $labels.device }}` }} has
+              not been written for {{ `{{ $value | humanizeDuration }}` }}. async_pending
+              will grow unbounded and exhaust inodes.
+
+        # EARLY warning. The upstream KubePersistentVolumeInodesFillingUp only fires
+        # below 3% free, which leaves almost no runway on a volume that burned 40k
+        # inodes per 30 min. Fire far sooner, and only for swift.
+        - alert: SwiftStorageInodesLow
+          expr: |-
+            (
+              kubelet_volume_stats_inodes_free{namespace="{{ .Values.monitoring.storageNamespace | default "swift-proxy" }}", persistentvolumeclaim=~"{{ .Values.monitoring.storagePvcRegex | default ".*swift.*" }}"}
+                /
+              kubelet_volume_stats_inodes{namespace="{{ .Values.monitoring.storageNamespace | default "swift-proxy" }}", persistentvolumeclaim=~"{{ .Values.monitoring.storagePvcRegex | default ".*swift.*" }}"}
+            ) < {{ .Values.monitoring.inodeFreeRatioWarn | default 0.25 }}
+          for: 1h
+          labels:
+            severity: warning
+          annotations:
+            summary: Swift storage volume is running low on inodes
+            description: >-
+              {{ `{{ $labels.persistentvolumeclaim }}` }} has only
+              {{ `{{ $value | humanizePercentage }}` }} of its inodes free. ext4 cannot
+              grow its inode count, so free space is NOT the constraint - check
+              async_pending and the object-expirer before it reaches zero.
+{{- end }}
+{{- end }}

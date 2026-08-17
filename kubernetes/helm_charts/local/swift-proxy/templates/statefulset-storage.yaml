@@ -255,6 +255,56 @@ spec:
         {{- end }}
         {{- end }}
 
+        {{- if $.Values.monitoring }}
+        {{- if $.Values.monitoring.enabled }}
+        # Exports async_pending depth + object-updater liveness to Prometheus.
+        # async_pending has no metric anywhere else, and it is the leading indicator
+        # of the inode exhaustion that took swift down on 2026-08-17.
+        - name: metrics-exporter
+          securityContext:
+            {{- toYaml $.Values.securityContext | nindent 12 }}
+          image: "{{ $.Values.storage.image.object.repository }}:{{ $.Values.storage.image.object.tag }}"
+          imagePullPolicy: {{ $.Values.storage.image.object.pullPolicy }}
+          command: ["python3", "/opt/swift-exporter/exporter.py"]
+          env:
+            - name: SWIFT_DEVICE
+              value: "sda"
+            - name: SWIFT_NODE_ROOT
+              value: "/srv/node"
+            - name: EXPORTER_PORT
+              value: "{{ $.Values.monitoring.port | default 9109 }}"
+            - name: ASYNC_COUNT_CAP
+              value: "{{ $.Values.monitoring.asyncCountCap | default 50000 }}"
+          ports:
+            - name: metrics
+              containerPort: {{ $.Values.monitoring.port | default 9109 }}
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          volumeMounts:
+            - name: metrics-exporter
+              mountPath: /opt/swift-exporter
+              readOnly: true
+            - name: storage
+              mountPath: /srv/node/sda
+              readOnly: true
+            - name: cache
+              mountPath: /var/cache/swift
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 128Mi
+        {{- end }}
+        {{- end }}
+
       volumes:
         - name: kolla-object-config
           configMap:
@@ -272,6 +322,13 @@ spec:
             name: {{ include "swift-proxy.fullname" $ }}-rings
         - name: srv-node-parent
           emptyDir: {}
+        {{- if $.Values.monitoring }}
+        {{- if $.Values.monitoring.enabled }}
+        - name: metrics-exporter
+          configMap:
+            name: {{ include "swift-proxy.fullname" $ }}-metrics-exporter
+        {{- end }}
+        {{- end }}
 
   volumeClaimTemplates:
     - metadata:

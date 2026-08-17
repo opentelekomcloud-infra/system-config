@@ -241,6 +241,29 @@ expirer:
       cpu: "1"
       memory: 1Gi
 
+# Storage-node monitoring (Prometheus).
+# The 2026-08-17 outage was caused by async_pending growing unbounded until the
+# volume ran out of inodes. Nothing exported async_pending, and the upstream
+# KubePersistentVolumeInodesFillingUp alert only fires below 3% free - too late,
+# and it was lost among ~60 chronic warnings. These give a leading indicator.
+monitoring:
+  enabled: true
+  port: 9109
+  scrapeInterval: 60s
+  # Prometheus only selects PrometheusRules carrying this release label.
+  prometheusRelease: prometheus-otcinfra2
+  # Bound the async_pending walk so a scrape stays cheap even when the queue is huge.
+  asyncCountCap: 50000
+  asyncPendingWarn: 20000
+  asyncPendingCritical: 100000
+  updaterStaleSeconds: 3600
+  inodeFreeRatioWarn: 0.25
+  # Stated explicitly rather than via .Release.Namespace: this string is baked into
+  # the PromQL, and under the ArgoCD CMP the release namespace is not guaranteed -
+  # a wrong value would silently make the alert never match anything.
+  storageNamespace: swift-proxy
+  storagePvcRegex: ".*swift.*"
+
 # Legacy OBS-only configuration
 cloudNames: "zuul-logs"
 
