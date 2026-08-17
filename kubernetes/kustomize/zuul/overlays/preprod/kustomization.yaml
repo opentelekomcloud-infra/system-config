@@ -131,6 +131,19 @@ secretGenerator:
       disableNameSuffixHash: true
     literals:
       - known_hosts=<path:secret/data/zuul/merger#known_hosts>
+  # Credentials for the zuul-config git-syncer to clone the private
+  # opentelekomcloud-infra/zuul-infra config repo.
+  # NOTE: prod uses secret/github/pat, but that path does not exist in the
+  # preprod vault (vault-preprod only has secret/github/otcbot). Using the
+  # prod path here makes argocd-vault-plugin fail to substitute, which breaks
+  # manifest generation for the WHOLE application, not just this secret.
+  - name: zuul-config-git
+    type: Opaque
+    options:
+      disableNameSuffixHash: true
+    literals:
+      - username=<path:secret/data/github/otcbot#otcbot_name>
+      - token=<path:secret/data/github/otcbot#otcbot_token>
   - name: quay-image-pull-secret
     type: kubernetes.io/dockerconfigjson
     options:
