@@ -58,7 +58,7 @@ spec:
         #       memory: "74Gi"
 
         - name: vllm
-          image: swr.eu-de.otc.t-systems.com/opentelekomcloud/vllm:v0.27.1
+          image: vllm/vllm-openai:nightly-dev-x86_64-cu13.0.1-75c2eef
           env:
             - name: VLLM_API_KEY
               value: ""
