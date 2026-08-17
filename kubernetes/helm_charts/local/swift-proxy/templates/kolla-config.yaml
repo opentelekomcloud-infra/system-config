@@ -428,12 +428,6 @@ data:
           "dest": "/etc/swift/object-expirer.conf",
           "owner": "swift",
           "perm": "0640"
-        },
-        {
-          "source": "/var/lib/kolla/config_files/internal-client.conf",
-          "dest": "/etc/swift/internal-client.conf",
-          "owner": "swift",
-          "perm": "0640"
         }
       ],
       "permissions": [
@@ -468,8 +462,6 @@ data:
     {{- end }}
 
     [object-expirer]
-    # Use the modern internal-client config instead of an inline [pipeline:main].
-    internal_client_conf_path = /etc/swift/internal-client.conf
     interval = {{ .Values.expirer.interval | default 300 }}
     concurrency = {{ .Values.expirer.concurrency | default 1 }}
     # Rate limit so the first run through a large backlog cannot saturate the
@@ -482,9 +474,8 @@ data:
     process = 0
     processes = 0
 
-  internal-client.conf: |
-    [DEFAULT]
-
+    # swift-object-expirer builds its InternalClient from THIS file (it does not
+    # support internal_client_conf_path), so the pipeline must be defined here.
     [pipeline:main]
     pipeline = catch_errors proxy-logging cache symlink proxy-server
 
