@@ -62,6 +62,20 @@ repoServer:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
 
+  # Without these the repo-server pod is BestEffort, so the kubelet squeezes it
+  # first under node pressure. CPU starvation there does not look like a
+  # resource problem, it looks like apps failing to render:
+  #   ComparisonError: Failed to load target state: ... code = DeadlineExceeded
+  #   CMP processing failed ... argocd-vault-plugin-kustomize.sock: context canceled
+  # Sized from measured usage: repo-server 688m / 207Mi.
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "2"
+      memory: "2Gi"
+
   initContainers:
     - name: download-tools
       image: registry.access.redhat.com/ubi8
@@ -81,6 +95,14 @@ repoServer:
     - name: avp
       command: [/var/run/argocd/argocd-cmp-server]
       image: quay.io/argoproj/argocd:v3.4.5
+      # measured: 101m / 84Mi
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "128Mi"
+        limits:
+          cpu: "500m"
+          memory: "512Mi"
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
@@ -100,6 +122,14 @@ repoServer:
     - name: avp-with-args
       command: [/var/run/argocd/argocd-cmp-server]
       image: quay.io/argoproj/argocd:v3.4.5
+      # measured: 115m / 137Mi
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "192Mi"
+        limits:
+          cpu: "500m"
+          memory: "512Mi"
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
@@ -119,6 +149,15 @@ repoServer:
     - name: avp-kustomize
       command: [/var/run/argocd/argocd-cmp-server]
       image: quay.io/argoproj/argocd:v3.4.5
+      # Busiest of the three (measured 235m / 128Mi): it renders the kustomize
+      # overlays, which is the plugin that timed out during the docsportal syncs.
+      resources:
+        requests:
+          cpu: "250m"
+          memory: "192Mi"
+        limits:
+          cpu: "1"
+          memory: "768Mi"
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
