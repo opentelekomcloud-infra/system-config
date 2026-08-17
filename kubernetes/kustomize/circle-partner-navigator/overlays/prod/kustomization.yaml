@@ -22,11 +22,7 @@ images:
     newTag: "0.6.2"
 
 patches:
-  - target:
+  - path: frontend-pull-secret-patch.yaml
+    target:
       kind: Deployment
       name: cpn-front
-    patch: |
-      - op: add
-        path: /spec/template/spec/imagePullSecrets
-        value:
-          - name: swr-secret
