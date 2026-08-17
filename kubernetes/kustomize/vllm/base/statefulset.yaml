@@ -105,8 +105,8 @@ spec:
             - qwen3_coder
             - --kv-cache-dtype
             - fp8_e4m3
-            - --kv-transfer-config
-            - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
+            # - --kv-transfer-config
+            # - '{"kv_connector":"LMCacheMPConnector","kv_role":"kv_both","kv_connector_extra_config":{"lmcache.mp.host":"127.0.0.1","lmcache.mp.port":6555}}'
           ports:
             - name: http
               containerPort: 8000
