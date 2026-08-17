@@ -85,6 +85,19 @@ storage:
     container: 6201
     account: 6202
     rsync: 873
+  # Swift object-updater: drains async_pending (container-DB updates that could not
+  # be applied synchronously). Without it async_pending grows without bound - it
+  # reached 553546 files on 2026-08-17 and exhausted the filesystem inodes, which
+  # broke container listings and silently lost Zuul log uploads.
+  updater:
+    enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        cpu: "1"
+        memory: 1Gi
 
 serviceAccount:
   create: true
@@ -204,6 +217,29 @@ swift:
         username: <path:secret/data/swift/users/zuul#username>
         password: <path:secret/data/swift/users/zuul#password>
         groups: .admin
+
+# Swift object-expirer.
+# Log objects are uploaded with X-Delete-After (zuul_log_delete_after = 90d). Swift
+# only hides an expired object; the .data file is not reclaimed until the expirer
+# processes its entry in the .expiring_objects account. This daemon existed only in
+# the old VM ansible role, so expired data accumulated until the volume ran out of
+# inodes on 2026-08-17 (6553600/6553600 used, 483580 entries queued).
+expirer:
+  enabled: true
+  # Seconds between passes over the expiry queue.
+  interval: 300
+  concurrency: 1
+  # Rate limit deletions so working through the large existing backlog cannot
+  # saturate the single storage node.
+  tasksPerSecond: 5
+  dequeueFromLegacy: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
 
 # Legacy OBS-only configuration
 cloudNames: "zuul-logs"

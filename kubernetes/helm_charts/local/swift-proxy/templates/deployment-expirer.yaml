@@ -1,0 +1,95 @@
+{{- if .Values.expirer }}
+{{- if .Values.expirer.enabled }}
+# Swift object-expirer.
+#
+# Log objects are uploaded with X-Delete-After (zuul_log_delete_after, 90d). Swift
+# only HIDES an expired object from GETs - the .data file is not removed until the
+# object-expirer processes the matching entry in the .expiring_objects account.
+# This daemon was present in the old VM ansible role but never carried over to k8s,
+# so expired data accumulated forever and the volume ran out of inodes (2026-08-17).
+#
+# Deliberately a standalone single-replica Deployment rather than a container in the
+# proxy Deployment: the proxy can be scaled (HPA), and multiple expirers would
+# duplicate work against the same queue.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-expirer
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+    app.kubernetes.io/component: expirer
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "swift-proxy.selectorLabels" . | nindent 6 }}
+      app.kubernetes.io/component: expirer
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/kolla-config.yaml") . | sha256sum }}
+      labels:
+        {{- include "swift-proxy.selectorLabels" . | nindent 8 }}
+        app.kubernetes.io/component: expirer
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "swift-proxy.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: 30
+      containers:
+        # Local memcache for the internal client; keeps the expirer from logging
+        # a connection error on every container-info lookup.
+        - name: memcached
+          image: memcached:1.6-alpine
+          args: ["-m", "64", "-c", "1024", "-u", "memcache"]
+          ports:
+            - containerPort: 11211
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              memory: 96Mi
+        - name: object-expirer
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.storage.image.object.repository }}:{{ .Values.storage.image.object.tag }}"
+          imagePullPolicy: {{ .Values.storage.image.object.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              sudo -E kolla_set_configs
+              cp -v /srv/rings/*.ring.gz /etc/swift/
+              exec /var/lib/kolla/venv/bin/swift-object-expirer /etc/swift/object-expirer.conf
+          env:
+            - name: KOLLA_CONFIG_STRATEGY
+              value: "COPY_ALWAYS"
+          volumeMounts:
+            - name: kolla-expirer-config
+              mountPath: /var/lib/kolla/config_files
+              readOnly: true
+            - name: cache
+              mountPath: /var/cache/swift
+            - name: swift-rings
+              mountPath: /srv/rings
+              readOnly: true
+          resources:
+            {{- toYaml (.Values.expirer.resources | default dict) | nindent 12 }}
+      volumes:
+        - name: kolla-expirer-config
+          configMap:
+            name: {{ include "swift-proxy.fullname" . }}-kolla-expirer-config
+        - name: cache
+          emptyDir: {}
+        - name: swift-rings
+          configMap:
+            name: {{ include "swift-proxy.fullname" . }}-rings
+{{- end }}
+{{- end }}
