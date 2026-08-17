@@ -194,7 +194,7 @@ applications:
     config:
       namespace: argocd-k8s
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'main'
+      targetRevision: 'cpn-update-hardened'
       path: kubernetes/helm_charts/local/pull-secrets
       pluginName: argocd-vault-plugin-helm-with-args
       pluginEnv: '-f values/prod/values-swr-secret.yaml'
