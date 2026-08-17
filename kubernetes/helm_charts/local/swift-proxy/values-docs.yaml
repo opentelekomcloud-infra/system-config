@@ -176,6 +176,10 @@ swift:
     - cache
     - validatetoken
     - keystoneauth
+    # staticweb MUST come before slo/dlo/versioned_writes/symlink: it generates HTML
+    # bodies (directory listings and 301 redirects) for anonymous requests, and those
+    # middlewares json.loads() the response body of a container listing -> 500/503.
+    - staticweb
     - container_sync
     - bulk
     - formpost
@@ -187,7 +191,6 @@ swift:
     - dlo
     - versioned_writes
     - symlink
-    - staticweb
     - proxy-logging
     - proxy-server
 
