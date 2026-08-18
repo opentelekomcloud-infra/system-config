@@ -51,7 +51,7 @@ spec:
             - --port
             - "8000"
             - --model
-            - /models/Qwen3.8-27B-NVFP4
+            - /models/Qwen3.8-27B-AWQ-INT4
             - --served-model-name
             - qwen3.8-27b
             - --reasoning-parser
