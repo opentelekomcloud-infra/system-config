@@ -39,7 +39,7 @@ images:
 
   - name: "zuul/zuul-executor"
     newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-executor"
-    newTag: "13.1.1-gitea-v5"
+    newTag: "13.1.1-gitea-v6"
 
   - name: "zuul/zuul-merger"
     newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-merger"
