@@ -124,10 +124,16 @@ spec:
             - name: models
               mountPath: /models
               readOnly: false
+            - name: shm
+              mountPath: /dev/shm
       volumes:
         - name: models
           persistentVolumeClaim:
             claimName: vllm-models
+        - name: shm
+          emptyDir:
+            medium: Memory
+            sizeLimit: 60Gi
       tolerations:
         - key: "nvidia.com/gpu"
           operator: "Equal"
