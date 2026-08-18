@@ -38,28 +38,28 @@ images:
     newTag: "1.37.0"
 
   - name: "zuul/zuul-executor"
-    newName: "quay.io/opentelekomcloud/zuul-executor"
-    newTag: "13.1.1-gitea-v3"
+    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-executor"
+    newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-merger"
-    newName: "quay.io/opentelekomcloud/zuul-merger"
-    newTag: "13.1.1-gitea-v3"
+    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-merger"
+    newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-scheduler"
-    newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea-v4"
+    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-scheduler"
+    newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-web"
-    newName: "quay.io/opentelekomcloud/zuul-web"
-    newTag: "13.1.1-gitea-v3"
+    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-web"
+    newTag: "13.1.1-gitea"
 
   - name: "zuul/nodepool-builder"
     newName: "quay.io/opentelekomcloud/nodepool-builder"
     newTag: "11.0.0"
 
   - name: "zuul/nodepool-launcher"
-    newName: "quay.io/opentelekomcloud/nodepool-launcher"
-    newTag: "11.0.0"
+    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-launcher"
+    newTag: "13.1.1-gitea"
 
 resources:
   - zuul-config-pv.yaml
