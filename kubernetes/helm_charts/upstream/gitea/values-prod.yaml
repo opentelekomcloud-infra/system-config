@@ -4,7 +4,7 @@ gitea:
   image:
     registry: "quay.io"
     repository: opentelekomcloud/gitea
-    tag: "1.27.1"
+    tag: "1.27.2"
     rootless: true
     pullPolicy: Always
 
