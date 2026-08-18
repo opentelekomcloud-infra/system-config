@@ -84,4 +84,4 @@ spec:
             - fp8_e4m3
             - --kv-transfer-config
             - >-
-              {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":68719476736,"eviction_policy":"lru","offload_prompt_only":true}}
+              {"kv_connector":"OffloadingConnector","kv_role":"kv_both","kv_connector_extra_config":{"cpu_bytes_to_use":58719476736,"eviction_policy":"lru","offload_prompt_only":true}}
