@@ -22,3 +22,9 @@ data:
       allowed_fails: 4
       cooldown_time: 30
 
+      enable_pre_call_checks: true
+      optional_pre_call_checks:
+        - deployment_affinity
+
+      # Seconds. Default is 3600 if omitted.
+      deployment_affinity_ttl_seconds: 600
