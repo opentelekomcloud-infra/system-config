@@ -16,7 +16,7 @@ spec:
             defaultMode: 0400
         - name: ssh-config
           configMap:
-            name: zuul-ssh-config
+            name: zuul-merger-ssh-config
         - name: ssh-known-hosts
           secret:
             secretName: zuul-merger-known-hosts
@@ -28,15 +28,6 @@ spec:
           env:
             - name: GIT_SSH_COMMAND
               value: "ssh -F /etc/ssh-config/config"
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    # Rewrite HTTPS GitHub URLs to SSH to access private repos
-                    git config --global url."git@github.com:.insteadOf" "https://github.com/"
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh

@@ -13,9 +13,6 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0400
-        - name: ssh-config
-          configMap:
-            name: zuul-ssh-config
         - name: tenant-config
           configMap:
             name: nodepool-config-yaml
@@ -26,24 +23,9 @@ spec:
         - name: zuul
           image: zuul/zuul-scheduler
           imagePullPolicy: Always
-          env:
-            - name: GIT_SSH_COMMAND
-              value: "ssh -F /etc/ssh-config/config"
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    # Rewrite HTTPS GitHub URLs to SSH to access private repos
-                    git config --global url."git@github.com:.insteadOf" "https://github.com/"
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
-              readOnly: true
-            - name: ssh-config
-              mountPath: /etc/ssh-config
               readOnly: true
             - name: tenant-config
               mountPath: /etc/zuul-config/tenants

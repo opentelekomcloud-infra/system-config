@@ -14,9 +14,6 @@ spec:
           secret:
             secretName: zuul-ssh-keys
             defaultMode: 0644
-        - name: ssh-config
-          configMap:
-            name: zuul-ssh-config
         - name: openstack-config
           secret:
             secretName: nodepool-config
@@ -34,9 +31,6 @@ spec:
       containers:
         - name: zuul
           imagePullPolicy: Always
-          env:
-            - name: GIT_SSH_COMMAND
-              value: "ssh -F /etc/ssh-config/config"
           lifecycle:
             postStart:
               exec:
@@ -51,14 +45,9 @@ spec:
                     # /var/run/zuul already exists, just copy the file
                     cp /var/run/zuul/openstack/clouds.yaml /var/run/zuul/clouds.yaml || true
                     chmod 644 /var/run/zuul/clouds.yaml || true
-                    # Rewrite HTTPS GitHub URLs to SSH to access private repos
-                    git config --global url."git@github.com:.insteadOf" "https://github.com/"
           volumeMounts:
             - name: zuul-ssh-keys
               mountPath: /var/lib/zuul-ssh
-              readOnly: true
-            - name: ssh-config
-              mountPath: /etc/ssh-config
               readOnly: true
             - name: zuul-config-data
               mountPath: /var/lib/zuul/builds
