@@ -38,19 +38,19 @@ images:
     newTag: "1.37.0"
 
   - name: "zuul/zuul-executor"
-    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-executor"
+    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-executor"
     newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-merger"
-    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-merger"
+    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-merger"
     newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-scheduler"
-    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-scheduler"
+    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-scheduler"
     newTag: "13.1.1-gitea"
 
   - name: "zuul/zuul-web"
-    newName: "swr.eu-de.otc.t-systems.com/opentelekomcloud/hardened-zuul-web"
+    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-web"
     newTag: "13.1.1-gitea"
 
   - name: "zuul/nodepool-builder"
