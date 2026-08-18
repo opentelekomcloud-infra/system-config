@@ -57,9 +57,13 @@ images:
     newName: "quay.io/opentelekomcloud/nodepool-builder"
     newTag: "11.0.0"
 
+  # nodepool-launcher is a separate upstream project (openstack/nodepool),
+  # NOT part of the Zuul image. It has its own Dockerfile and versioning,
+  # so it must use the real nodepool image -- the zuul-launcher target only
+  # contains /usr/local/bin/zuul-launcher, not nodepool-launcher.
   - name: "zuul/nodepool-launcher"
-    newName: "swr.eu-de.otc.t-systems.com/t-cloud-public/hardened-zuul-launcher"
-    newTag: "13.1.1-gitea"
+    newName: "quay.io/opentelekomcloud/nodepool-launcher"
+    newTag: "11.0.0"
 
 resources:
   - zuul-config-pv.yaml
