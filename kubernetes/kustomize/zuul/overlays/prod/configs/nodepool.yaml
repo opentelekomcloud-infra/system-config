@@ -42,6 +42,14 @@ labels:
     max-hold-age: 7200
     max-ready-age: 600
 
+  # Privileged Debian pod for jobs that run a container runtime inside
+  # the Zuul pod (e.g. CloudMon deploys graphite/statsd/postgres via
+  # docker). Runs privileged so dockerd can set up bridge networking
+  # (CAP_NET_ADMIN); /var/lib/docker lives on an emptyDir.
+  - name: zuul-debian-docker
+    min-ready: 0
+    max-hold-age: 7200
+
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
@@ -92,6 +100,60 @@ providers:
                       memory: "6Gi"
             python-path: /usr/bin/python3
             shell-type: sh
+            context: prod
+
+          # Docker pod — same base image as zuul-debian but privileged,
+          # for jobs that install and run docker inside the pod (CloudMon
+          # deploy). Privileged is required so dockerd can configure
+          # bridge networking (iptables/NAT); /var/lib/docker is backed
+          # by an emptyDir so it survives pod restarts within a job.
+          - name: zuul-debian-docker
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: docker-storage
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian-docker
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: docker-storage
+                      mountPath: /var/lib/docker
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+            python-path: /usr/bin/python3
+            shell-type: /bin/bash
             context: prod
 
           # Builder pod — buildah/podman/skopeo pre-installed.
