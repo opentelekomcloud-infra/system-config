@@ -24,8 +24,13 @@ RUN  git config --global user.email "zuul@otc-service.com" && \
      git config --global user.name "SystemConfig" && \
      git config --global pull.ff only
 
+# Pinned to the commit carrying the JWT `iss` stringify fix; a floating branch
+# ref produced the v9 scheduler crashloop.
+ARG ZUUL_FORK_REF=f31738bafb4a7a79d7e8b723d06df4d0c482d700
 RUN git clone --branch feature/gitea-driver --single-branch \
-  https://github.com/opentelekomcloud-infra/zuul.git zuul_src
+  https://github.com/opentelekomcloud-infra/zuul.git zuul_src \
+  && cd zuul_src \
+  && git checkout $ZUUL_FORK_REF
 
 # Set this to "-debug" to build a debug image (includes gdb, debug
 # symbols, and is quite a bit larger).
