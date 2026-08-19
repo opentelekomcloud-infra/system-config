@@ -1,5 +1,5 @@
 namespace: postgres  # Replace with your actual namespace
 clusterIssuerName: letsencrypt-prod
-commonName: postgres.eco.tsi-dev.otc-service.com
+commonName: <path:secret/data/postgresql/admin#externalURL>
 dnsNames:
-  - postgres.eco.tsi-dev.otc-service.com
+  - <path:secret/data/postgresql/admin#externalURL>

@@ -592,6 +592,7 @@ argo-cd:
                 helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
                 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
                 helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
+                helm repo add bitnami https://charts.bitnami.com/bitnami --force-update || true
                 helm repo add gitea-charts https://dl.gitea.com/charts/ --force-update || true
                 helm dependency build
           generate:
@@ -665,6 +666,7 @@ argo-cd:
                 helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
                 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts --force-update || true
                 helm repo add victoriametrics https://victoriametrics.github.io/helm-charts --force-update || true
+                helm repo add bitnami https://charts.bitnami.com/bitnami --force-update || true
                 helm repo add gitea-charts https://dl.gitea.com/charts/ --force-update || true
                 helm dependency build
           lockRepo: false
