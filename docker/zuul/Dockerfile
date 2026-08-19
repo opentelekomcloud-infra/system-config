@@ -14,7 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 FROM docker.io/opendevorg/python-builder:3.11-bookworm as base
-RUN apt-get update \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && apt-get update \
   && apt-get install -y git \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -30,7 +31,7 @@ RUN git clone --branch feature/gitea-driver --single-branch \
 # symbols, and is quite a bit larger).
 ARG IMAGE_FLAVOR=
 
-FROM docker.io/library/node:16-bookworm as js-builder
+FROM docker.io/library/node:22-bookworm as js-builder
 
 COPY --from=base zuul_src/web /tmp/src
 # Explicitly run the Javascript build
@@ -43,7 +44,8 @@ FROM docker.io/library/golang:1.22-bookworm as go-builder
 # Keep this in sync with zuul-jobs ensure-skopeo
 ARG SKOPEO_VERSION=v1.14.2
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && apt-get update && \
     apt-get -y install libgpgme-dev libassuan-dev \
                        libbtrfs-dev libdevmapper-dev pkg-config && \
     git clone https://github.com/containers/skopeo /go/src/github.com/containers/skopeo &&\
@@ -64,8 +66,9 @@ ARG OPENSHIFT_SHA=74f252c812932425ca19636b2be168df8fe57b114af6b114283975e67d987d
 ARG PBR_VERSION=
 
 COPY --from=base /zuul_src /tmp/src
-COPY --from=js-builder /tmp/src/build /tmp/src/zuul/web/static
-RUN assemble
+COPY --from=js-builder /tmp/src/dist /tmp/src/zuul/web/static
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && assemble
 
 # The wheel install method doesn't run the setup hooks as the source based
 # installations do so we have to call zuul-manage-ansible here. Remove
@@ -86,7 +89,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 ARG IMAGE_FLAVOR=
 
 COPY --from=builder /output/ /output
-RUN /output/install-from-bindep zuul_base \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && /output/install-from-bindep zuul_base \
   && rm -rf /output \
   && useradd -u 10001 -m -d /var/lib/zuul -c "Zuul Daemon" zuul \
 # This enables git protocol v2 which is more efficient at negotiating
@@ -117,7 +121,8 @@ RUN ln -s /usr/local/bin/oc /usr/local/bin/kubectl
 # Once we can use skopeo from Debian again, just change this to
 # install skopeo; in the interim, this installes the runtime
 # dependencies.
-RUN apt-get update \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && apt-get update \
   && apt-get install -y libgpgme11 libdevmapper1.02.1 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
@@ -129,7 +134,8 @@ CMD ["/usr/local/bin/zuul-fingergw", "-f"]
 
 FROM zuul as zuul-launcher
 # Install zstd to decompress images
-RUN apt-get update \
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
+  && apt-get update \
   && apt-get install -y zstd \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
