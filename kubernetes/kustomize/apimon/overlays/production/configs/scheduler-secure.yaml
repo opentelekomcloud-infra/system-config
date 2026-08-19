@@ -1,0 +1,64 @@
+# Scheduler secure config for production
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.production.clouds
+# Cloud mappings from apimon-clouds.yaml:
+#   production_eu-de      -> otcapimon_probes11      -> secret/data/cloud_users/41245_apimon_probes1
+#   production_eu-nl      -> otcapimon_probes15      -> secret/data/cloud_users/41245_apimon_probes5
+#   swift                 -> otcapimon_logs          -> secret/data/cloud_users/448_apimon
+#   production_eu-de-csm  -> otcapimon_csm1          -> secret/data/cloud_users/448_apimon
+alerta:
+  token: <path:secret/data/apimon/alerta#alerta_token>
+clouds:
+  - name: production_eu-de
+    data:
+      access_key: <path:secret/data/cloud_users/41245_apimon_probes1#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/41245_apimon_probes1#auth_url>
+        password: <path:secret/data/cloud_users/41245_apimon_probes1#password>
+        project_name: eu-de_apimon_probes1
+        user_domain_id: <path:secret/data/cloud_users/41245_apimon_probes1#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/41245_apimon_probes1#user_domain_name>
+        username: <path:secret/data/cloud_users/41245_apimon_probes1#username>
+      api_timeout: 60
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/41245_apimon_probes1#secret_key>
+  - name: production_eu-nl
+    data:
+      access_key: <path:secret/data/cloud_users/41245_apimon_probes5#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/41245_apimon_probes5#auth_url>
+        password: <path:secret/data/cloud_users/41245_apimon_probes5#password>
+        project_name: eu-nl_apimon_probes1
+        user_domain_id: <path:secret/data/cloud_users/41245_apimon_probes5#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/41245_apimon_probes5#user_domain_name>
+        username: <path:secret/data/cloud_users/41245_apimon_probes5#username>
+      api_timeout: 60
+      profile: otc
+      region_name: eu-nl
+      secret_key: <path:secret/data/cloud_users/41245_apimon_probes5#secret_key>
+  - name: swift
+    data:
+      access_key: <path:secret/data/cloud_users/448_apimon#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/448_apimon#auth_url>
+        password: <path:secret/data/cloud_users/448_apimon#password>
+        project_name: eu-de_apimon
+        user_domain_id: <path:secret/data/cloud_users/448_apimon#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/448_apimon#user_domain_name>
+        username: <path:secret/data/cloud_users/448_apimon#username>
+      object_store_endpoint_override: <path:secret/data/apimon/swift#object_store_endpoint_override_swift>
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/448_apimon#secret_key>
+  - name: production_eu-de-csm
+    data:
+      access_key: <path:secret/data/cloud_users/448_apimon#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/448_apimon#auth_url>
+        password: <path:secret/data/cloud_users/448_apimon#password>
+        project_name: eu-de_csm
+        user_domain_id: <path:secret/data/cloud_users/448_apimon#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/448_apimon#user_domain_name>
+        username: <path:secret/data/cloud_users/448_apimon#username>
+      api_timeout: 60
+      object_store_endpoint_override: <path:secret/data/apimon/swift#object_store_endpoint_override_csm>
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/448_apimon#secret_key>

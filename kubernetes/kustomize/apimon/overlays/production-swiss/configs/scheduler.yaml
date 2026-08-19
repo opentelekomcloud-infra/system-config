@@ -1,0 +1,72 @@
+# Scheduler config for production_swiss
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: swiss_bern
+  clouds:
+    - production_eu-de:
+        service_override: {}
+    - production_eu-nl:
+        service_override: {}
+scheduler:
+  zone: swiss_bern
+  work_dir: /var/lib/apimon
+  socket: /tmp/scheduler.socket
+  refresh_interval: 10
+test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+    exec_cmd: ansible-playbook -i inventory/production_external %s
+  - name: csm
+    repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
+    repo_ref: main
+    scenarios_location: playbooks
+    exec_cmd: ansible-playbook %s
+test_environments:
+  - name: production_eu-de
+    env:
+      OS_CLOUD: production_eu-de
+      CSM_CLOUD: production_eu-de-csm
+    clouds:
+      - production_eu-de
+  - name: production_eu-nl
+    env:
+      OS_CLOUD: production_eu-nl
+    clouds:
+      - production_eu-nl
+test_matrix:
+  - env: production_eu-de
+    project: apimon
+  - env: production_eu-nl
+    project: apimon
+    tasks:
+      - scenario1_token.yaml
+      - scenario3a_evs_az.yaml
+      - scenario4_image.yaml
+      - scenario21_as.yaml
+      - scenario18_cce_info.yaml
+      - scenario18a_cluster.yaml
+      - scenario44_rds_instance.yaml
+      - scenario19_simple_vpc.yaml
+      - scenario2_simple_ecs.yaml
+      - scenario2a_ecs_az.yaml
+      - scenario3_simple_evs.yaml
+      - scenario9_obs.yaml
+  - env: production_eu-de
+    project: csm
+    tasks:
+      - lb_monitoring.yaml
+metrics:
+  statsd:
+    host: 192.168.195.120
+    port: 8125

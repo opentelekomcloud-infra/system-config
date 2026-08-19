@@ -1,0 +1,58 @@
+# Scheduler config for production (eu-de)
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.production
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: production_eu-de
+  clouds:
+    - production_eu-de:
+        service_override: {}
+    - production_eu-nl:
+        service_override: {}
+scheduler:
+  zone: production_eu-de
+  work_dir: /var/lib/apimon
+  socket: /tmp/scheduler.socket
+  refresh_interval: 10
+test_projects:
+  - name: apimon
+    repo_url: https://github.com/opentelekomcloud-infra/apimon-tests
+    repo_ref: master
+    scenarios_location: playbooks
+    exec_cmd: ansible-playbook -i inventory/production %s
+  - name: csm
+    repo_url: https://github.com/opentelekomcloud-infra/csm-test-scenarios
+    repo_ref: main
+    scenarios_location: playbooks
+    exec_cmd: ansible-playbook %s
+test_environments:
+  - name: production_eu-de
+    env:
+      OS_CLOUD: production_eu-de
+      CSM_CLOUD: production_eu-de-csm
+    clouds:
+      - production_eu-de
+  - name: production_eu-nl
+    env:
+      OS_CLOUD: production_eu-nl
+    clouds:
+      - production_eu-nl
+test_matrix:
+  - env: production_eu-de
+    project: apimon
+  - env: production_eu-de
+    project: csm
+    tasks:
+      - lb_monitoring.yaml
+metrics:
+  statsd:
+    host: 192.168.110.58
+    port: 8125

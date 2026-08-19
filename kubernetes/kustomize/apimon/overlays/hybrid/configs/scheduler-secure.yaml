@@ -1,0 +1,35 @@
+# Scheduler secure config for hybrid
+# Based on inventory/service/group_vars/apimon.yaml -> apimon_instances.hybrid.clouds
+# Cloud mappings from apimon-clouds.yaml:
+#   hybrid_swiss  -> otcapimon_hybrid_swiss  -> secret/data/cloud_users/swiss_apimon_probes1
+#   swift         -> otcapimon_logs          -> secret/data/cloud_users/448_apimon
+alerta:
+  token: <path:secret/data/apimon/alerta#alerta_token>
+clouds:
+  - name: hybrid_swiss
+    data:
+      access_key: <path:secret/data/cloud_users/swiss_apimon_probes1#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/swiss_apimon_probes1#auth_url>
+        password: <path:secret/data/cloud_users/swiss_apimon_probes1#password>
+        project_name: eu-ch2_apimon_probes1
+        user_domain_id: <path:secret/data/cloud_users/swiss_apimon_probes1#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/swiss_apimon_probes1#user_domain_name>
+        username: <path:secret/data/cloud_users/swiss_apimon_probes1#username>
+      api_timeout: 60
+      secret_key: <path:secret/data/cloud_users/swiss_apimon_probes1#secret_key>
+      vendor_hook: otcextensions.sdk:load
+      volume_api_version: "2"
+  - name: swift
+    data:
+      access_key: <path:secret/data/cloud_users/448_apimon#access_key>
+      auth:
+        auth_url: <path:secret/data/cloud_users/448_apimon#auth_url>
+        password: <path:secret/data/cloud_users/448_apimon#password>
+        project_name: eu-de_apimon
+        user_domain_id: <path:secret/data/cloud_users/448_apimon#user_domain_id>
+        user_domain_name: <path:secret/data/cloud_users/448_apimon#user_domain_name>
+        username: <path:secret/data/cloud_users/448_apimon#username>
+      object_store_endpoint_override: <path:secret/data/apimon/swift#object_store_endpoint_override_swift>
+      profile: otc
+      secret_key: <path:secret/data/cloud_users/448_apimon#secret_key>

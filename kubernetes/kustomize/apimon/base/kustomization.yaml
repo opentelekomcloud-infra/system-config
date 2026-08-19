@@ -1,0 +1,21 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - scheduler-deployment.yaml
+  - scheduler-configmap.yaml
+  - scheduler-secret.yaml
+  - executor-deployment.yaml
+  - executor-configmap.yaml
+  - executor-secret.yaml
+  - gearman-service.yaml
+
+commonLabels:
+  app.kubernetes.io/name: apimon
+  app.kubernetes.io/managed-by: kustomize
+
+images:
+  - name: apimon
+    newName: quay.io/stackmon/apimon
+    newTag: change_68_latest

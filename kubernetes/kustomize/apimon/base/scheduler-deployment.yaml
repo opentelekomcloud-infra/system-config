@@ -1,0 +1,92 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apimon-scheduler
+  labels:
+    app.kubernetes.io/name: apimon
+    app.kubernetes.io/component: scheduler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apimon
+      app.kubernetes.io/component: scheduler
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apimon
+        app.kubernetes.io/component: scheduler
+    spec:
+      containers:
+        - name: scheduler
+          image: apimon
+          command:
+            - scheduler
+            - --config
+            - /etc/apimon/apimon.yaml
+          ports:
+            - name: gearman
+              containerPort: 4730
+              protocol: TCP
+          volumeMounts:
+            - name: config
+              mountPath: /etc/apimon
+              readOnly: true
+            - name: secure
+              mountPath: /etc/apimon_secure
+              readOnly: true
+            - name: socket
+              mountPath: /tmp
+            - name: workdir
+              mountPath: /var/lib/apimon
+          resources:
+            requests:
+              cpu: 250m
+              memory: 256Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          livenessProbe:
+            tcpSocket:
+              port: gearman
+            initialDelaySeconds: 30
+            periodSeconds: 15
+          readinessProbe:
+            tcpSocket:
+              port: gearman
+            initialDelaySeconds: 10
+            periodSeconds: 10
+        - name: epmon
+          image: apimon
+          command:
+            - epmon
+            - --config
+            - /etc/apimon/apimon.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /etc/apimon
+              readOnly: true
+            - name: secure
+              mountPath: /etc/apimon_secure
+              readOnly: true
+            - name: socket
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: config
+          configMap:
+            name: apimon-scheduler-config
+        - name: secure
+          secret:
+            secretName: apimon-scheduler-secret
+        - name: socket
+          emptyDir: {}
+        - name: workdir
+          emptyDir: {}

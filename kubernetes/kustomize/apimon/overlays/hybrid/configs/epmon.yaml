@@ -1,0 +1,96 @@
+# EPmon config for hybrid
+    secure: /etc/apimon_secure/scheduler-secure.yaml
+gear:
+  - host: 0.0.0.0
+    port: 4730
+    start: true
+log:
+  config: /etc/apimon/logging.conf
+alerta:
+  endpoint: http://alerta:80
+epmon:
+  socket: /tmp/epmon.socket
+  zone: production_eu-de
+  clouds:
+    - hybrid_swiss:
+        service_override:
+          as:
+            service: auto_scaling
+            urls:
+              - "/"
+              - "/scaling_group"
+              - "/scaling_configuration"
+              - "/scaling_policy"
+          ces:
+            service: ces
+            urls:
+              - "/"
+              - "/metrics"
+              - "/alarms"
+          cesv1: {}
+          compute:
+            urls:
+              - "/"
+              - "/servers"
+              - "/flavors"
+              - "/limits"
+              - "/os-keypairs"
+              - "/os-server-groups"
+              - "/os-availability-zone"
+          cinder:
+            service: block_storage
+            urls:
+              - "/volumes"
+              - "/snapshots"
+              - "/backups"
+              - "/os-volume-transfer"
+              - "/os-availability-zone"
+          volumev2: {}
+          volumev3: {}
+          identity:
+            urls:
+              - "/"
+              - "/regions"
+              - "/auth/projects"
+          image:
+            urls:
+              - "/"
+              - "/images"
+              - "/schemas/images"
+          network:
+            urls:
+              - "/"
+              - "/networks"
+              - "/subnets"
+              - "/ports"
+              - "/routers"
+              - "/floatingips"
+              - "/security-groups"
+              - "/subnetpools"
+          sdrs:
+            urls:
+              - "/"
+              - "/v1"
+              - "/active-domains"
+              - "/server-groups"
+              - "/protected-instances"
+              - "/replications"
+          database: {}
+          rds: {}
+          rdsv1: {}
+          rdsv3:
+            service: rds
+            urls:
+              - "/"
+              - "/datastores/postgresql"
+              - "/instances"
+              - "/configurations"
+          smn: {}
+          smnv2: {}
+          bms: {}
+          data-protect: {}
+  interval: 120
+metrics:
+  statsd:
+    host: 192.168.110.249
+    port: 8125
