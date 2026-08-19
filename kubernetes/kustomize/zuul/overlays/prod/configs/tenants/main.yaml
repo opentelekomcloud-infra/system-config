@@ -213,6 +213,9 @@
           - opentelekomcloud-docs/cloud-trace-service:
               include:
                 - project
+          - opentelekomcloud-docs/customer-service-management-portal:
+              include:
+                - project
           - opentelekomcloud-docs/config:
               include:
                 - project
