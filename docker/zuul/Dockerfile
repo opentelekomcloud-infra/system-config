@@ -23,10 +23,8 @@ RUN  git config --global user.email "zuul@otc-service.com" && \
      git config --global user.name "SystemConfig" && \
      git config --global pull.ff only
 
-RUN git clone https://opendev.org/zuul/zuul zuul_src && \
-     cd /zuul_src && \
-     git fetch https://review.opendev.org/zuul/zuul refs/changes/39/859939/17 && \
-     git checkout FETCH_HEAD
+RUN git clone --branch feature/gitea-driver --single-branch \
+  https://github.com/opentelekomcloud-infra/zuul.git zuul_src
 
 # Set this to "-debug" to build a debug image (includes gdb, debug
 # symbols, and is quite a bit larger).

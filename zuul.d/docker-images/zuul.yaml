@@ -10,7 +10,7 @@
           repository: opentelekomcloud/zuul
           target: zuul
           tags:
-            &imagetag ["latest", "change_859940"]
+            &imagetag ["latest", "13.1.1-gitea-v9"]
         - context: "docker/zuul"
           registry: quay.io
           repository: opentelekomcloud/zuul-executor
