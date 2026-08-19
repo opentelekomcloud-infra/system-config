@@ -307,8 +307,9 @@ applications:
   #      flavor / infra-subnet network id (REPLACE_ placeholders),
   #   3. pod->target reachability is verified (VM backends keycloak/vault/influx/
   #      gitea on the mgmt net; 170.6 otcinfra ingress; 171.6 otcinfra2 via peering).
-  # The searchuser Basic-auth injection (docs-search) resolves at sync time from
-  # Vault secret/opensearch/searchuser via the AVP CMP — no k8s secret in git.
+  # OpenSearch authentication is enforced at the HAProxy edge; requests without
+  # a client Authorization header receive 401 instead of inheriting a shared
+  # searchuser credential.
   - name: haproxy
     clusters: [otcinfra]
     config:

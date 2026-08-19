@@ -11,10 +11,9 @@ data:
   # two k8s-necessary edits:
   #   1. every `ssl crt /etc/ssl/proxy1.eco.tsi-dev.otc-service.com/haproxy`
   #      -> `ssl crt /etc/haproxy/certs` (cert-manager CombinedPEM dir).
-  #   2. the two backend `authorization "Basic <base64>"` header injections
-  #      now source the searchuser basic-auth from Vault via the AVP CMP
-  #      (`<path:secret/data/opensearch/searchuser#basic_auth>`) instead of a
-  #      hard-coded base64 secret in git.
+  #   2. OpenSearch no longer receives an injected searchuser credential for
+  #      requests without client authentication; the public API must enforce
+  #      authentication at the edge.
   # Everything else (backends, VM target IPs, ACLs, blocklist, rate-limit,
   # HSTS, Host allowlist, CORS, gitea/gitea-ssh) is unchanged.
   # -------------------------------------------------------------------------
@@ -154,12 +153,16 @@ data:
       use_backend vault if vault_acl
 
       acl opensearch_acl hdr(host) -i opensearch.eco.tsi-dev.otc-service.com
+      acl opensearch_auth_found req.hdr(authorization) -m found
+      http-request deny deny_status 401 if opensearch_acl !opensearch_auth_found
       use_backend opensearch if opensearch_acl
 
       acl opensearch-dashboard_acl hdr(host) -i opensearch-dashboard.eco.tsi-dev.otc-service.com
       use_backend opensearch-dashboard if opensearch-dashboard_acl
 
       acl opensearch-stg_acl hdr(host) -i opensearch-stg.eco.tsi-dev.otc-service.com
+      acl opensearch-stg_auth_found req.hdr(authorization) -m found
+      http-request deny deny_status 401 if opensearch-stg_acl !opensearch-stg_auth_found
       use_backend opensearch-stg if opensearch-stg_acl
 
       acl opensearch-stg-dashboard_acl hdr(host) -i opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
@@ -359,8 +362,6 @@ data:
 
       default-server check inter 5s fall 5 rise 1
       http-check send hdr Host opensearch.eco.tsi-dev.otc-service.com
-      acl auth_found req.hdr(authorization) -m found
-      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if ! auth_found
       acl get_post_method method GET POST
       http-response set-header Access-Control-Allow-Origin * if get_post_method
       acl options_method method OPTIONS
@@ -391,8 +392,6 @@ data:
 
       default-server check inter 5s fall 5 rise 1
       http-check send hdr Host opensearch-stg.eco.tsi-dev.otc-service.com
-      acl auth_found req.hdr(authorization) -m found
-      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if ! auth_found
       acl get_post_method method GET POST
       http-response set-header Access-Control-Allow-Origin * if get_post_method
       acl options_method method OPTIONS
