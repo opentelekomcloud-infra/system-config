@@ -155,7 +155,8 @@ data:
       acl opensearch_acl hdr(host) -i opensearch.eco.tsi-dev.otc-service.com
       acl opensearch_auth_found req.hdr(authorization) -m found
       acl opensearch_read_method method GET HEAD OPTIONS
-      http-request deny deny_status 401 if opensearch_acl !opensearch_auth_found !opensearch_read_method
+      acl opensearch_search_path path_reg -i ^/([^/]+/)?_m?search(/|$)
+      http-request deny deny_status 401 if opensearch_acl !opensearch_auth_found !opensearch_read_method !opensearch_search_path
       use_backend opensearch if opensearch_acl
 
       acl opensearch-dashboard_acl hdr(host) -i opensearch-dashboard.eco.tsi-dev.otc-service.com
@@ -365,7 +366,9 @@ data:
       http-check send hdr Host opensearch.eco.tsi-dev.otc-service.com
       acl auth_found req.hdr(authorization) -m found
       acl read_method method GET HEAD OPTIONS
-      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if read_method !auth_found
+      acl search_path path_reg -i ^/([^/]+/)?_m?search(/|$)
+      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if !auth_found read_method
+      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if !auth_found search_path
       acl get_post_method method GET POST
       http-response set-header Access-Control-Allow-Origin * if get_post_method
       acl options_method method OPTIONS
