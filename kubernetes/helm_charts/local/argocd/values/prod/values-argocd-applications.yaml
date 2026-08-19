@@ -295,34 +295,17 @@ applications:
           - CreateNamespace=true
 
   # =====================================================
-  #  Gitea - Git Hosting Service
+  #  Gitea - Git Hosting Service (kustomize-based, DHI image)
   # =====================================================
   - name: gitea
     clusters: [otcinfra2]
     config:
       namespace: gitea
       repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Gitea_migration'
-      path: kubernetes/helm_charts/upstream/gitea
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-prod.yaml'
-      project: infra
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
-        syncOptions:
-          - CreateNamespace=true
-
-  - name: gitea-additional-manifests
-    clusters: [otcinfra2]
-    config:
-      namespace: gitea
-      repoURL: 'https://github.com/opentelekomcloud-infra/system-config.git'
-      targetRevision: 'Gitea_migration'
-      path: kubernetes/helm_charts/local/gitea
-      pluginName: argocd-vault-plugin-helm-with-args
-      pluginEnv: '-f values-prod.yaml'
+      targetRevision: 'gitea-kustomize'
+      path: kubernetes/kustomize/gitea/overlays/prod/
+      pluginName: argocd-vault-plugin-kustomize
+      pluginEnv: '.'
       project: infra
       syncPolicy:
         automated:

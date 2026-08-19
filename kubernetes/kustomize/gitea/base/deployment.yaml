@@ -1,0 +1,358 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gitea
+  labels:
+    app.kubernetes.io/component: gitea
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/component: gitea
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/component: gitea
+    spec:
+      serviceAccountName: gitea
+      terminationGracePeriodSeconds: 300
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      containers:
+        - name: gitea
+          image: gitea
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+              protocol: TCP
+            - name: ssh
+              containerPort: 2222
+              protocol: TCP
+          env:
+            # Instance display name
+            - name: APP_NAME
+              value: "Open Telekom Cloud Public: git"
+            # Server configuration
+            - name: SSH_DOMAIN
+              value: "gitea-k8s.eco.tsi-dev.otc-service.com"
+            - name: SSH_PORT
+              value: "2222"
+            - name: SSH_LISTEN_PORT
+              value: "2222"
+            # HTTP port
+            - name: HTTP_PORT
+              value: "3000"
+            # Root URL
+            - name: ROOT_URL
+              value: "https://gitea-k8s.eco.tsi-dev.otc-service.com"
+            # Disable interactive installer
+            - name: INSTALL_LOCK
+              value: "true"
+            # Security settings
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-security-secret
+                  key: secret_key
+            # Internal token for inter-service communication
+            - name: GITEA__SECURITY__INTERNAL_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-security-secret
+                  key: internal_token
+            # LFS support
+            - name: LFS_START_SERVER
+              value: "true"
+            # Database configuration
+            - name: GITEA__database__DB_TYPE
+              value: postgres
+            - name: GITEA__database__HOST
+              value: "gitea-postgres:5432"
+            - name: GITEA__database__NAME
+              value: "gitea"
+            - name: GITEA__database__USER
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-db-secret
+                  key: username
+            - name: GITEA__database__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-db-secret
+                  key: password
+            # SMTP configuration
+            - name: GITEA__mailer__ENABLED
+              value: "true"
+            - name: GITEA__mailer__PROTOCOL
+              value: "smtp+starttls"
+            - name: GITEA__mailer__SMTP_ADDR
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-smtp-secret
+                  key: host
+            - name: GITEA__mailer__USER
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-smtp-secret
+                  key: username
+            - name: GITEA__mailer__PASSWD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-smtp-secret
+                  key: password
+            - name: GITEA__mailer__FROM
+              value: "gitea@gitea-k8s.eco.tsi-dev.otc-service.com"
+            # OBS (S3) configuration for LFS, attachments, packages
+            - name: GITEA__lfs__STORAGE_TYPE
+              value: "minio"
+            - name: GITEA__lfs__MINIO_ENDPOINT
+              value: "obs.eu-de.otc.t-systems.com"
+            - name: GITEA__lfs__MINIO_BUCKET
+              value: "gitea-lfs"
+            - name: GITEA__lfs__MINIO_LOCATION
+              value: "eu-de"
+            - name: GITEA__lfs__MINIO_USE_SSL
+              value: "true"
+            - name: GITEA__lfs__MINIO_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: access_key
+            - name: GITEA__lfs__MINIO_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: secret_key
+            - name: GITEA__attachment__STORAGE_TYPE
+              value: "minio"
+            - name: GITEA__attachment__MINIO_ENDPOINT
+              value: "obs.eu-de.otc.t-systems.com"
+            - name: GITEA__attachment__MINIO_BUCKET
+              value: "gitea-attachments"
+            - name: GITEA__attachment__MINIO_LOCATION
+              value: "eu-de"
+            - name: GITEA__attachment__MINIO_USE_SSL
+              value: "true"
+            - name: GITEA__attachment__MINIO_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: access_key
+            - name: GITEA__attachment__MINIO_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: secret_key
+            - name: GITEA__packages__ENABLED
+              value: "true"
+            - name: GITEA__packages__STORAGE_TYPE
+              value: "minio"
+            - name: GITEA__packages__MINIO_ENDPOINT
+              value: "obs.eu-de.otc.t-systems.com"
+            - name: GITEA__packages__MINIO_BUCKET
+              value: "gitea-packages"
+            - name: GITEA__packages__MINIO_LOCATION
+              value: "eu-de"
+            - name: GITEA__packages__MINIO_USE_SSL
+              value: "true"
+            - name: GITEA__packages__MINIO_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: access_key
+            - name: GITEA__packages__MINIO_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-obs-secret
+                  key: secret_key
+            # Valkey (Redis) for session, cache, queue
+            - name: GITEA__session__PROVIDER
+              value: "redis"
+            - name: GITEA__session__PROVIDER_CONFIG
+              value: >-
+                redis://:$(GITEA__valkey__PASSWORD)@gitea-valkey-headless:6379/0?
+                pool_size=100
+            - name: GITEA__session__COOKIE_SECURE
+              value: "true"
+            - name: GITEA__session__COOKIE_NAME
+              value: "gitea_session"
+            - name: GITEA__session__GC_INTERVAL_TIME
+              value: "86400"
+            - name: GITEA__session__SESSION_LIFE_TIME
+              value: "86400"
+            - name: GITEA__cache__ADAPTER
+              value: "redis"
+            - name: GITEA__cache__HOST
+              value: >-
+                redis://:$(GITEA__valkey__PASSWORD)@gitea-valkey-headless:6379/1?
+                pool_size=100
+            - name: GITEA__cache__INTERVAL
+              value: "60"
+            - name: GITEA__queue__TYPE
+              value: "redis"
+            - name: GITEA__queue__CONN_STR
+              value: >-
+                redis://:$(GITEA__valkey__PASSWORD)@gitea-valkey-headless:6379/2?
+                pool_size=100
+            # Valkey password for connection strings
+            - name: GITEA__valkey__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-valkey-secret
+                  key: password
+            # OAuth2/OIDC (Zitadel)
+            - name: GITEA__oauth2__ENABLED
+              value: "true"
+            - name: GITEA__oauth2__JWT_SIGNING_ALGORITHM
+              value: "RS256"
+            - name: GITEA__oauth2_client__ENABLE_AUTO_REGISTRATION
+              value: "true"
+            - name: GITEA__oauth2_client__ACCOUNT_LINKING
+              value: "auto"
+            - name: GITEA__oauth2_client__USERNAME
+              value: "nickname"
+            - name: GITEA__oauth2_client__UPDATE_AVATAR
+              value: "false"
+            # Security settings
+            - name: GITEA__service__DISABLE_REGISTRATION
+              value: "false"
+            - name: GITEA__service__ALLOW_ONLY_EXTERNAL_REGISTRATION
+              value: "true"
+            - name: GITEA__service__SHOW_REGISTRATION_BUTTON
+              value: "false"
+            - name: GITEA__service__REQUIRE_SIGNIN_VIEW
+              value: "true"
+            - name: GITEA__service__ENABLE_NOTIFY_MAIL
+              value: "true"
+            - name: GITEA__api__ENABLE_SWAGGER
+              value: "false"
+            - name: GITEA__api__REQUIRE_SIGNIN_VIEW
+              value: "true"
+            - name: GITEA__openid__ENABLE_OPENID_SIGNIN
+              value: "false"
+            - name: GITEA__openid__ENABLE_OPENID_SIGNUP
+              value: "false"
+            - name: GITEA__cors__ENABLED
+              value: "true"
+            - name: GITEA__cors__ALLOW_DOMAIN
+              value: "gitea-k8s.eco.tsi-dev.otc-service.com"
+            - name: GITEA__cors__SCHEME
+              value: "https"
+            - name: GITEA__api.rate_limit__ENABLED
+              value: "true"
+            - name: GITEA__api.rate_limit__LIMIT
+              value: "300"
+            # Repository settings
+            - name: GITEA__repository__ENABLE_PUSH_CREATE_USER
+              value: "true"
+            - name: GITEA__repository__ENABLE_PUSH_CREATE_ORG
+              value: "true"
+            - name: GITEA__repository__DEFAULT_BRANCH
+              value: "main"
+            # Admin user configuration
+            - name: GITEA_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-admin-secret
+                  key: username
+            - name: GITEA_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-admin-secret
+                  key: password
+            # Zitadel OAuth2 login source
+            - name: GITEA_OAUTH_ZITADEL_NAME
+              value: "Zitadel"
+            - name: GITEA_OAUTH_ZITADEL_PROVIDER
+              value: "openidConnect"
+            - name: GITEA_OAUTH_ZITADEL_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-oauth-secret
+                  key: key
+            - name: GITEA_OAUTH_ZITADEL_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: gitea-oauth-secret
+                  key: secret
+            - name: GITEA_OAUTH_ZITADEL_AUTO_DISCOVER_URL
+              value: "https://zitadel.eco.tsi-dev.otc-service.com"
+            - name: GITEA_OAUTH_ZITADEL_AUTO_DISCOVER_PATH
+              value: "/.well-known/openid-configuration"
+            - name: GITEA_OAUTH_ZITADEL_SCOPES
+              value: "openid profile email groups"
+            - name: GITEA_OAUTH_ZITADEL_GROUP_CLAIM_NAME
+              value: "groups"
+            - name: GITEA_OAUTH_ZITADEL_ADMIN_GROUP
+              value: "admin"
+            # Admin user creation via Gitea CLI env vars.
+            # Only applies on first run since INSTALL_LOCK=true.
+            - name: GITEA__security__PASSWORD_COMPLEXITY
+              value: "lower,upper,digit,spec"
+            - name: GITEA__security__MIN_PASSWORD_LENGTH
+              value: "12"
+            - name: GITEA__security__INSTALL_LOCK
+              value: "true"
+            # Logging
+            - name: GITEA__log__MODE
+              value: "console"
+            - name: GITEA__log__LEVEL
+              value: "info"
+            # Metrics (disabled by default)
+            - name: GITEA__metrics__ENABLED
+              value: "false"
+            - name: GITEA__metrics__ENABLED_ISSUE_BY_LABEL
+              value: "false"
+            - name: GITEA__metrics__ENABLED_ISSUE_BY_REPOSITORY
+              value: "false"
+            # Minimum key size check
+            - name: GITEA__server__MINIMUM_KEY_SIZE_CHECK
+              value: "true"
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            runAsNonRoot: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          volumeMounts:
+            - name: gitea-data
+              mountPath: /var/lib/gitea
+            - name: gitea-config
+              mountPath: /etc/gitea
+            - name: tmp
+              mountPath: /tmp
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            periodSeconds: 15
+            timeoutSeconds: 5
+      volumes:
+        - name: gitea-data
+          persistentVolumeClaim:
+            claimName: gitea-shared-storage
+        - name: gitea-config
+          emptyDir: {}
+        - name: tmp
+          emptyDir:
+            sizeLimit: 512Mi

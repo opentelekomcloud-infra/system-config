@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gitea-valkey-config
+  labels:
+    app.kubernetes.io/component: valkey
+data:
+  valkey.conf: |
+    # Valkey configuration for Gitea
+    # Disable save to disk since we use memory and don't need persistence
+    save ""
+    # AOF is disabled for performance
+    appendonly no
+    # Memory limit
+    maxmemory 256mb
+    maxmemory-policy allkeys-lru
+    # Bind to all interfaces
+    bind 0.0.0.0
+    # Protected mode is handled via --requirepass
+    protected-mode no
