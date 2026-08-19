@@ -233,6 +233,12 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # zuul-storage-proxy (the internal docs gateways) cannot relay a gzipped
+    # response: it answers with Transfer-Encoding: chunked but writes the raw
+    # gzip body, so nginx rejects it as an invalid chunked response and the
+    # internal portals serve nothing.
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      gzip off;
   hosts:
     - host: swift-proxy-docs.eco.tsi-dev.otc-service.com
       paths:
