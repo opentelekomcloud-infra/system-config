@@ -8,8 +8,19 @@ configMapGenerator:
 
 images:
   - name: postgres
-    newName: "artifactory.devops.telekom.de/docker.io/library/postgres"
-    newTag: "15.2-alpine"
+    newName: swr.eu-de.otc.t-systems.com/t-cloud-public/postgres
+    newTag: "15.19-alpine"
+
+patches:
+  # swr-secret pull secret for the SWR registry mirror
+  - target:
+      kind: Deployment
+      name: gitea-postgres
+    patch: |-
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret
 
 resources:
   - deployment.yaml

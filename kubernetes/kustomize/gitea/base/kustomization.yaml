@@ -5,7 +5,7 @@ namespace: gitea
 
 images:
   - name: gitea
-    newName: artifactory.devops.telekom.de/dhi.io/gitea
+    newName: swr.eu-de.otc.t-systems.com/t-cloud-public/gitea
     newTag: "1.27.2"
 
 labels:
@@ -21,6 +21,17 @@ resources:
 - ingress.yaml
 - gitea-pvc.yaml
 - sa.yaml
+
+patches:
+  # DHI image lives in the SWR registry and requires the swr-secret pull secret
+  - target:
+      kind: Deployment
+      name: gitea
+    patch: |-
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret
 
 secretGenerator:
   - name: gitea-db-secret
