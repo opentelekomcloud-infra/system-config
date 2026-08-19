@@ -10,10 +10,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - matrix.eco.tsi-dev.otc-service.com
+        - matrix.otc-service.com
       secretName: maubot-tls
   rules:
-    - host: matrix.eco.tsi-dev.otc-service.com
+    - host: matrix.otc-service.com
       http:
         paths:
           - path: /_matrix/maubot
