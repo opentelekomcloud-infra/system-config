@@ -6,8 +6,8 @@
     vars: &gitea_vars
       container_images:
         - context: docker/gitea
-          registry: quay.io
-          repository: opentelekomcloud/gitea
+          registry: swr.eu-de.otc.t-systems.com
+          repository: t-cloud-public/gitea
           tags: ['1.27.2-hardened-rootless']
     files: &gitea_files
       - docker/gitea/
