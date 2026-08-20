@@ -107,6 +107,10 @@ providers:
           # deploy). Privileged is required so dockerd can configure
           # bridge networking (iptables/NAT); /var/lib/docker is backed
           # by an emptyDir so it survives pod restarts within a job.
+          #
+          # Only stackmon/cloudmon deploy jobs are expected to request this
+          # label. Anything that merely builds images should use
+          # zuul-debian-builder (buildah, no daemon) instead.
           - name: zuul-debian-docker
             type: pod
             spec:
@@ -123,13 +127,24 @@ providers:
                 - name: zuul-home
                   emptyDir: {}
                 - name: docker-storage
-                  emptyDir: {}
+                  emptyDir:
+                    sizeLimit: 20Gi
               containers:
                 - name: zuul-debian-docker
                   image: quay.io/opentelekomcloud/python-tox:latest
                   imagePullPolicy: Always
                   command: ["/bin/sh", "-c"]
-                  args: ["sleep infinity"]
+                  # The pod network runs at MTU 1442, but dockerd defaults its
+                  # bridge to 1500. Job containers then emit oversized frames
+                  # and TLS to external hosts blackholes on broken PMTU
+                  # discovery - the same failure the Gitea runners hit. Seed
+                  # the daemon config here so it applies whenever the job
+                  # starts dockerd.
+                  args:
+                    - |
+                      mkdir -p /etc/docker
+                      printf '{"mtu": 1442}\n' > /etc/docker/daemon.json
+                      exec sleep infinity
                   securityContext:
                     privileged: true
                   env:
@@ -149,9 +164,11 @@ providers:
                     requests:
                       cpu: "500m"
                       memory: "1Gi"
+                      ephemeral-storage: "2Gi"
                     limits:
                       cpu: "4"
                       memory: "6Gi"
+                      ephemeral-storage: "20Gi"
             python-path: /usr/bin/python3
             shell-type: /bin/bash
             context: prod
