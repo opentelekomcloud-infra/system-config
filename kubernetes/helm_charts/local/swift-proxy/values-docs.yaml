@@ -4,7 +4,9 @@
 # Deployment mode: "obs-only" (zuul-storage-proxy to OBS) or "cluster" (full Swift cluster)
 mode: "cluster"
 
-replicaCount: 1
+# Two replicas: this proxy now serves both the docs portal reads and the docs
+# publish uploads, so a single pod restart was a full outage.
+replicaCount: 2
 
 # Proxy configuration
 proxy:
@@ -267,16 +269,24 @@ affinity:
                   - zuul-new-prod
           topologyKey: kubernetes.io/hostname
 
-# Readiness and liveness probes
+# Readiness and liveness probes.
+# /healthcheck is served by the proxy itself, so it queues behind whatever the
+# proxy is doing. A bulk extract keeps it busy for minutes, and with the 1s
+# default timeout the liveness probe killed the pod mid-upload - clients saw
+# 503 and half-extracted archives.
 probes:
   readiness:
     enabled: true
     initialDelaySeconds: 5
     periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
   liveness:
     enabled: true
     initialDelaySeconds: 5
-    periodSeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 6
 
 # URL Rewriter
 urlRewriter:
