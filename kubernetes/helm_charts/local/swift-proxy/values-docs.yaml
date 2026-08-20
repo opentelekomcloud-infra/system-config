@@ -231,8 +231,8 @@ ingress:
     cert-manager.io/duration: "8760h"
     cert-manager.io/renew-before: "720h"
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
     # zuul-storage-proxy (the internal docs gateways) cannot relay a gzipped
     # response: it answers with Transfer-Encoding: chunked but writes the raw
     # gzip body, so nginx rejects it as an invalid chunked response and the

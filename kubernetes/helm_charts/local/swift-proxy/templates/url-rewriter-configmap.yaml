@@ -25,8 +25,12 @@ data:
         # log upload silently drops the affected object.
         client_max_body_size 0;
         proxy_request_buffering off;
-        proxy_read_timeout 600s;
-        proxy_send_timeout 600s;
+        # Extracting the full docs site is a single request that runs for many
+        # minutes, so these have to outlast it: at 600s nginx gave up reading
+        # the response with "upstream timed out while reading upstream" and the
+        # publish failed even though Swift was still working.
+        proxy_read_timeout 1800s;
+        proxy_send_timeout 1800s;
         # Swift's bulk middleware extracts the archive while it is still
         # reading it, so the upload stalls whenever it writes objects out. The
         # 60s default cuts the body stream during those pauses and Swift then
