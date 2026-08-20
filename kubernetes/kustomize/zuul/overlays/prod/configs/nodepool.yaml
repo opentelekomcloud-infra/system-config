@@ -222,10 +222,22 @@ providers:
                   image: quay.io/opentelekomcloud/zuul-debian-systemd:bookworm
                   imagePullPolicy: Always
                   command: ["/bin/sh", "-c"]
+                  # systemd owns dockerd here, so the daemon settings have to
+                  # live in daemon.json rather than on a command line: pod
+                  # network MTU is 1442, and the pod may lack CAP_NET_ADMIN
+                  # for iptables/bridge even when privileged.
                   args:
                     - |
                       mkdir -p /etc/docker
-                      printf '{"mtu": 1442}\n' > /etc/docker/daemon.json
+                      cat > /etc/docker/daemon.json <<'JSON'
+                      {
+                        "mtu": 1442,
+                        "bridge": "none",
+                        "iptables": false,
+                        "ip6tables": false,
+                        "exec-opts": ["native.cgroupdriver=cgroupfs"]
+                      }
+                      JSON
                       exec /lib/systemd/systemd
                   securityContext:
                     privileged: true
