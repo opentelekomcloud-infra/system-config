@@ -61,34 +61,30 @@
         - system-config-upload-image-gitea
     deploy:
       jobs:
-        # --- Retired legacy bridge jobs (DISABLED: unassigned from all
-        # pipelines) — now ArgoCD-managed on otcinfra2 or decommissioned. Stub
-        # defs (zuul-infra) + playbooks (system-config) are KEPT for history:
-        #   vault -> ArgoCD vault-otcinfra2
-        #   gitea -> ArgoCD gitea-otcinfra2 (NOTE: gitea-sync is NOT retired)
-        #   swift-proxy -> ArgoCD swift-proxy-otcinfra2
-        #   zookeeper -> k8s zookeeper StatefulSet (zuul-otcinfra2)
-        #   keycloak, configure-keycloak -> zitadel-otcinfra2 (decommissioned)
-        #   acme-ssl -> ArgoCD cert-manager-*
-        #   bootstrap-bridge, base, base-ext, service-bridge -> bridge retired
-        #   apimon-epmon/executor/scheduler + statsd -> DEPLOY jobs unassigned
-        #     only; the apimon VM fleet (scheduler1/executor*/hybrid/preprod
-        #     .apimon + influx1.eco) is STILL LIVE production API monitoring
-        #     (epmon/scheduler/executor + influxd running). NOT decommissioned;
-        #     deferred to the new-cluster monitoring migration (net-new k8s port
-        #     — apimon_k8s role is a skeleton, apimon_k8s_instances still []).
-        #   apimon-k8s -> no-op (apimon_k8s_instances is []); k8s port not yet
-        #     populated (skeleton role exists).
-        # Still-active / not-yet-migrated jobs are KEPT below (they soft-dep the
-        # now-absent infra-prod-base, which is ignored). k8s-via-bridge (to be
-        # moved to the bridge-less runner OR converted to GitOps later):
-        # grafana*, alerta, opensearch, install-helm-chart, install-cce,
-        # install-loadbalancer, gitea-sync (live gitea VM HA-replication).
-        # NOTE: monitoring (grafana + alerta) + opensearch stay on the OLD
-        # ansible/bridge setup for now; GitOps charts exist (local/grafana,
-        # local/alerta, local+upstream/opensearch) but are NOT wired into the
-        # app-of-apps — deferred to the new cluster.
-        # Group B targets (kept until migrated): proxy, memcached (graphite1.eco).
+        # DISABLED (bridge retired / migrated to k8s+ArgoCD). These bridge
+        # bootstrap + migrated-service jobs are commented out so the old-Zuul
+        # nightly no longer re-applies them over the ArgoCD-managed releases.
+        # This installs the ansible on bridge that all the infra-prod
+        # jobs will run with.  Note the jobs use this ansible to then
+        # run against zuul's checkout of system-config.
+        # - infra-prod-bootstrap-bridge
+
+        # From now on, all jobs should depend on base
+        # - infra-prod-base: &infra-prod-base
+        #     dependencies:
+        #       - name: infra-prod-bootstrap-bridge
+        #         soft: true
+
+        # - infra-prod-base-ext: &infra-prod-base-ext
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # - infra-prod-service-bridge: &infra-prod-service-bridge
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
         - infra-prod-grafana-dashboards: &infra-prod-grafana-dashboards
             dependencies:
               - name: infra-prod-base
@@ -98,6 +94,17 @@
             dependencies:
               - name: infra-prod-bootstrap-bridge
                 soft: true
+
+        # DISABLED (keycloak retired → zitadel).
+        # - infra-prod-service-keycloak: &infra-prod-service-keycloak
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # - infra-prod-configure-keycloak: &infra-prod-configure-keycloak
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         - infra-prod-install-cce: &infra-prod-install-cce
             dependencies:
@@ -109,15 +116,60 @@
               - name: infra-prod-base
                 soft: true
 
+        # MIGRATED to k8s/ArgoCD (opensearch-otcinfra). The ansible
+        # deployment is disabled so the nightly periodic run no longer
+        # re-applies OpenSearch config on top of the ArgoCD-managed release.
+        # - infra-prod-service-opensearch: &infra-prod-service-opensearch
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
         - infra-prod-install-helm-chart: &infra-prod-install-helm-chart
             dependencies:
               - name: infra-prod-base
                 soft: true
+        # DISABLED (acme-ssl retired → cert-manager).
+        # - infra-prod-service-acme-ssl: &infra-prod-service-acme-ssl
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         - infra-prod-service-alerta: &infra-prod-service-alerta
             dependencies:
               - name: infra-prod-base
                 soft: true
+
+        # DISABLED (apimon monitoring retired / superseded by CloudMon).
+        # - infra-prod-service-apimon-epmon: &infra-prod-service-apimon-epmon
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # - infra-prod-service-apimon-executor: &infra-prod-service-apimon-executor
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # - infra-prod-service-apimon-k8s: &infra-prod-service-apimon-k8s
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # - infra-prod-service-apimon-scheduler: &infra-prod-service-apimon-scheduler
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        - infra-prod-service-cloudmon: &infra-prod-service-cloudmon
+            dependencies:
+              - name: infra-prod-base
+                soft: true
+
+        # DISABLED (gitea migrated → gitea-otcinfra2). gitea-sync kept.
+        # - infra-prod-service-gitea: &infra-prod-service-gitea
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
         - infra-prod-gitea-sync: &infra-prod-gitea-sync
             dependencies:
@@ -129,52 +181,107 @@
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-opensearch: &infra-prod-service-opensearch
+        # DISABLED (graphite migrated → carbonapi-k8s + go-carbon; VM store frozen).
+        # - infra-prod-service-graphite: &infra-prod-service-graphite
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+        #       - name: infra-prod-service-memcached
+        #         soft: true
+
+        # DISABLED (swift-proxy migrated → k8s/ArgoCD swift-proxy-otcinfra2).
+        # - infra-prod-service-swift-proxy: &infra-prod-service-swift-proxy
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # DISABLED (memcached retired with graphite VM store).
+        # - infra-prod-service-memcached: &infra-prod-service-memcached
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        - infra-prod-service-octavia-proxy: &infra-prod-service-octavia-proxy
             dependencies:
               - name: infra-prod-base
                 soft: true
 
-        - infra-prod-service-memcached: &infra-prod-service-memcached
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (statsd migrated → k8s go-carbon; swift statsd now via
+        # control-manager→go-carbon VIP).
+        # - infra-prod-service-statsd: &infra-prod-service-statsd
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        - infra-prod-service-proxy: &infra-prod-service-proxy
-            dependencies:
-              - name: infra-prod-base
-                soft: true
+        # DISABLED (proxy migrated → k8s haproxy 164.30.24.89; proxy1/2 front
+        # zero hosts after DNS cutover, kept only as manual rollback fallback).
+        # - infra-prod-service-proxy: &infra-prod-service-proxy
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
-        # Bridge-less ephemeral-node deploys (infra-prod-playbook-k8s
-        # runner, zuul-infra). Standalone: no bridge/base dependency.
-        # Services migrated off the retired bastion.
-        - infra-prod-cloud-dns
-        - infra-prod-service-cloudmon
-        - infra-prod-service-graphite
-        - infra-prod-service-octavia-proxy
+        # DISABLED (vault migrated → k8s vault-otcinfra2).
+        # - infra-prod-service-vault: &infra-prod-service-vault
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
+
+        # DISABLED (zookeeper migrated → k8s zk in zuul-otcinfra2).
+        # - infra-prod-service-zookeeper: &infra-prod-service-zookeeper
+        #     dependencies:
+        #       - name: infra-prod-base
+        #         soft: true
 
     periodic:
       # Nightly execution
       jobs:
+        # DISABLED (bridge retired / migrated to k8s+ArgoCD) - see deploy notes.
+        # - infra-prod-bootstrap-bridge
+
+        # - infra-prod-base: *infra-prod-base
+        # - infra-prod-base-ext: *infra-prod-base-ext
+        # - infra-prod-service-bridge: *infra-prod-service-bridge
+
         - infra-prod-install-loadbalancer: *infra-prod-install-loadbalancer
         - infra-prod-install-cce: *infra-prod-install-cce
+        # MIGRATED to k8s/ArgoCD (opensearch-otcinfra) - see deploy pipeline note.
+        # - infra-prod-service-opensearch: *infra-prod-service-opensearch
         - infra-prod-install-helm-chart: *infra-prod-install-helm-chart
 
         - infra-prod-grafana-dashboards: *infra-prod-grafana-dashboards
         - infra-prod-grafana-datasources: *infra-prod-grafana-datasources
 
-        - infra-prod-service-alerta: *infra-prod-service-alerta
-        - infra-prod-service-grafana: *infra-prod-service-grafana
-        - infra-prod-service-opensearch: *infra-prod-service-opensearch
-        - infra-prod-service-memcached: *infra-prod-service-memcached
-        - infra-prod-service-proxy: *infra-prod-service-proxy
+        # DISABLED (keycloak→zitadel).
+        # - infra-prod-service-keycloak: *infra-prod-service-keycloak
+        # - infra-prod-configure-keycloak: *infra-prod-configure-keycloak
 
-        # Bridge-less ephemeral-node deploys (nightly drift correction).
-        - infra-prod-cloud-dns
-        - infra-prod-service-cloudmon
-        - infra-prod-service-graphite
-        - infra-prod-service-octavia-proxy
+        # DISABLED (acme-ssl→cert-manager).
+        # - infra-prod-service-acme-ssl: *infra-prod-service-acme-ssl
+        - infra-prod-service-alerta: *infra-prod-service-alerta
+        # DISABLED (apimon monitoring retired / superseded by CloudMon).
+        # - infra-prod-service-apimon-epmon: *infra-prod-service-apimon-epmon
+        # - infra-prod-service-apimon-executor: *infra-prod-service-apimon-executor
+        # - infra-prod-service-apimon-k8s: *infra-prod-service-apimon-k8s
+        # - infra-prod-service-apimon-scheduler: *infra-prod-service-apimon-scheduler
+        # DISABLED (gitea→gitea-otcinfra2).
+        # - infra-prod-service-gitea: *infra-prod-service-gitea
+        - infra-prod-service-grafana: *infra-prod-service-grafana
+        # DISABLED (graphite→carbonapi-k8s+go-carbon, memcached retired with it).
+        # - infra-prod-service-graphite: *infra-prod-service-graphite
+        # - infra-prod-service-memcached: *infra-prod-service-memcached
+        # DISABLED (statsd→go-carbon, proxy→k8s haproxy).
+        # - infra-prod-service-statsd: *infra-prod-service-statsd
+        # - infra-prod-service-proxy: *infra-prod-service-proxy
+        # DISABLED (vault→vault-otcinfra2, zookeeper→k8s zk, swift-proxy→ArgoCD).
+        # - infra-prod-service-vault: *infra-prod-service-vault
+        # - infra-prod-service-zookeeper: *infra-prod-service-zookeeper
+        # - infra-prod-service-swift-proxy: *infra-prod-service-swift-proxy
 
     periodic-hourly:
       # hourly execution
       jobs:
+        # DISABLED (bridge retired) - gitea-sync kept (still active data sync).
+        # - infra-prod-bootstrap-bridge
+
+        # - infra-prod-service-bridge: *infra-prod-service-bridge
         - infra-prod-gitea-sync: *infra-prod-gitea-sync

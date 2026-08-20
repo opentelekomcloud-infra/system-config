@@ -120,6 +120,18 @@ gateway:
 minio:
   enabled: true
   rootPassword: "{{ chart.loki_minio_root_password }}"
+  # fsGroup is disabled on purpose. With fsGroup set, kubelet recursively
+  # chowns the ENTIRE ~800G MinIO dataset (millions of chunk files) on every
+  # mount (see kubernetes/kubernetes#69699). That walk exceeds kubelet's
+  # 2-minute volume-mount deadline, so the pod loops forever in
+  # ContainerCreating ("context deadline exceeded"). fsGroupChangePolicy:
+  # OnRootMismatch is NOT honoured by the CCE kubelet fork. MinIO already runs
+  # as uid/gid 1000 and its data is group 1000, so fsGroup is unnecessary.
+  securityContext:
+    enabled: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: null
   persistence:
     size: 800Gi
     storageClass: csi-disk-retain

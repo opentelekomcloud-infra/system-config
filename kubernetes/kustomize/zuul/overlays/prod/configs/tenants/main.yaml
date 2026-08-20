@@ -1,6 +1,10 @@
 ---
 # Production tenant configuration for Zuul (prod)
 # Mirrored from old prod (zuul-config/zuul/tenants/eco/sources/) on 2026-05-14
+# The live eco2 tenant config is deployed from the system-config kustomize
+# overlay (kubernetes/kustomize/zuul/overlays/prod/configs/tenants/main.yaml),
+# rendered into a ConfigMap and synced by the ArgoCD app zuul-otcinfra2, then
+# mounted by the scheduler at /etc/zuul-config/tenants/prod/main.yaml.
 
 # Operator admin authorization rules (keycloak `zuul` client roles).
 # Referenced by the eco2 tenant admin-rules below and satisfied by the
@@ -226,6 +230,9 @@
               include:
                 - project
           - opentelekomcloud-docs/cloud-trace-service:
+              include:
+                - project
+          - opentelekomcloud-docs/customer-service-management-portal:
               include:
                 - project
           - opentelekomcloud-docs/config:
@@ -661,10 +668,6 @@
           - opentelekomcloud-infra/myndir:
               include:
                 - project
-          - opentelekomcloud-infra/octavia-proxy:
-              include:
-                - project
-                - job
           - opentelekomcloud-infra/otc-api-ref:
               include:
                 - project

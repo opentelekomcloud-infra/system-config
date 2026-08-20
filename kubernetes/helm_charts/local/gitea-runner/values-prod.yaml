@@ -1,21 +1,30 @@
-replicaCount: 1
-
 image:
-  repository: "gitea/act_runner"
-  tag: "0.2.6"
+  repository: "gitea/runner"
+  tag: "2.3.0"
   pullPolicy: IfNotPresent
 
 gitea:
   instanceUrl: "https://gitea-k8s.eco.tsi-dev.otc-service.com"
-  # Org-level registration token for the 'infra' org on gitea-k8s
-  # (serves all repos within the infra organization)
-  registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token>"
+
+# Each entry in the runners list produces a separate Deployment + Secret.
+# Each runner uses its own registration token so they can register as
+# distinct runners on the Gitea instance.
+runners:
+  # Runner 01 — primary runner for the infra organization
+  - name: "gitea-k8s-runner-01"
+    labels: "ubuntu-latest,ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+    registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token>"
+    capacity: 4
+
+  # Runner 02 — secondary runner with its own registration token
+  - name: "gitea-k8s-runner-02"
+    labels: "ubuntu-latest,ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
+    registrationToken: "<path:secret/data/gitea/gitea-runner#runner_registration_token_docs>"
+    capacity: 4
 
 runner:
-  name: "gitea-k8s-runner-01"
-  labels: "ubuntu:docker://ghcr.io/catthehacker/ubuntu:act-22.04,ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian:docker://ghcr.io/catthehacker/ubuntu:act-22.04,debian-bookworm:docker://ghcr.io/catthehacker/ubuntu:act-22.04"
-  capacity: 4
   logLevel: "info"
+  capacity: 4
 
 resources:
   limits:
@@ -48,6 +57,12 @@ dind:
     tag: "24.0.7-dind"
     pullPolicy: IfNotPresent
   storageDriver: "overlay2"
+  # Match the cluster overlay-network MTU (pod eth0 = 1442). The DinD
+  # docker0 bridge defaults to 1500, so job containers emit 1500-byte
+  # frames on a 1442 underlay; TLS handshakes to fully-external hosts
+  # (e.g. the legacy gitea.eco... used by docs build deps) blackhole on
+  # broken PMTU discovery and time out. Pinning the daemon MTU fixes it.
+  mtu: 1442
 
 # privileged: true is required for Docker-in-Docker (DinD).
 # The Docker daemon inside the container needs to create network namespaces

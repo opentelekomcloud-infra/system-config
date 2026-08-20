@@ -32,7 +32,12 @@ configs:
     createSecret: true
     extra:
       oidc.keycloak.clientSecret: "${KEYCLOAK_CLIENT_SECRET}"
-      VAULT_ADDR: "https://vault-lb.eco.tsi-dev.otc-service.com:8200"
+      # Vault: the eco vault-lb ELB was decommissioned. Use the in-cluster
+      # k8s Vault directly (it is intentionally not exposed via ingress).
+      # TLS is served by the internal "vault-ca" issuer, hence SKIP_VERIFY
+      # for this in-cluster hop - same pattern as the argocd-k8s instance.
+      VAULT_ADDR: "https://vault-otcinfra2.vault.svc.cluster.local:8200"
+      VAULT_SKIP_VERIFY: "true"
       AVP_AUTH_TYPE: "k8s"
       AVP_K8S_ROLE: "argocd"
       AVP_TYPE: "vault"
@@ -267,6 +272,24 @@ repoServer:
   env:
     - name: ARGOCD_GPG_ENABLED
       value: "false"
+
+  # The repo-server had no requests at all, so it carried no CPU guarantee and
+  # was scheduled alongside zuul-executor-1 (1737m) on 192.168.171.26. With the
+  # node at 95% CPU, kustomize manifest generation exceeded the default exec
+  # timeout and zuul-ci / swift-proxy-swiss / sealed-secrets-otcinfra2 all
+  # failed to sync with "DeadlineExceeded"; the container had also been killed
+  # with exitCode 137.
+  #
+  # Idle usage is ~16m CPU / 182Mi; generation spikes to ~1185m CPU / 905Mi.
+  # The request buys a guaranteed share under contention. Deliberately NO cpu
+  # limit: manifest generation is bursty and throttling it would make the
+  # timeouts worse. Memory is capped to bound a runaway.
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
 
   initContainers:
     - name: download-tools

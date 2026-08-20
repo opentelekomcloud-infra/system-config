@@ -391,11 +391,11 @@ octavia_proxy_instances:
 
 octavia_proxy_k8s_instances:
   - octavia_proxy_instance: "eu-de"
-    context: "otcinfra"
+    context: "otcinfra2"
     instance: "eu-de"
     namespace: "octavia"
   - octavia_proxy_instance: "eu-nl"
-    context: "otcinfra"
+    context: "otcinfra2"
     instance: "eu-nl"
     namespace: "octavia"
 

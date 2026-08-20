@@ -270,6 +270,37 @@ patches:
       spec:
         template:
           spec:
+            # Populate the redirect files BEFORE nginx starts. nginx fails hard with
+            #   [emerg] open() "/etc/nginx/redirect/additional-resources" failed
+            # if they are missing, and the WATCH sidecar only writes them once the
+            # pod is already running, so every rollout burned 1-3 crash restarts
+            # per pod. METHOD=LIST is a one-shot dump of the same ConfigMaps.
+            initContainers:
+              - name: configmap-sync-init
+                env:
+                  - name: METHOD
+                    value: LIST
+                  - name: LABEL
+                    value: redirect_map
+                  - name: LABEL_VALUE
+                    value: helpcenter
+                  - name: FOLDER
+                    value: /tmp/redirect
+                  - name: RESOURCE
+                    value: configmap
+                image: kiwigrid/k8s-sidecar
+                resources:
+                  # METHOD=LIST loads every matching ConfigMap at once, unlike the
+                  # streaming WATCH sidecar, so 100Mi OOMKills it (exit 137) on the
+                  # namespaces with more redirects. Short-lived, so be generous.
+                  limits:
+                    memory: "512Mi"
+                  requests:
+                    cpu: "10m"
+                    memory: "64Mi"
+                volumeMounts:
+                  - mountPath: /tmp/redirect
+                    name: redirect-map-volume
             containers:
               - name: document-hosting
                 volumeMounts:

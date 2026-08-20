@@ -79,9 +79,17 @@ baseurl=https://opendev.org
 [connection "gitea"]
 name=gitea
 driver=gitea
-baseurl=https://gitea-k8s.eco.tsi-dev.otc-service.com
-server=gitea-k8s.eco.tsi-dev.otc-service.com
-cloneurl=ssh://git@gitea-k8s.eco.tsi-dev.otc-service.com:2222
+# The old zuul serves the gitea VM (haproxy backend gitea -> 192.168.170.200).
+# The credentials in secret/zuul/connections/gitea are issued on that VM, not
+# on the k8s gitea: with this token gitea.eco returns 200 on
+# /api/v1/repos/<org>/<repo>/branches while gitea-k8s.eco returns 401. Pointing
+# this connection at gitea-k8s left the driver unable to authenticate, so it
+# fell back to read-only and refused to fetch branches
+# ("Will not fetch project branches as read-only is set"), which produced 127
+# config errors in the gl tenant.
+baseurl=https://gitea.eco.tsi-dev.otc-service.com
+server=gitea.eco.tsi-dev.otc-service.com
+cloneurl=ssh://git@gitea.eco.tsi-dev.otc-service.com:2222
 {{- with secret "secret/zuul/connections/gitea" }}
 api_token={{ .Data.data.api_token }}
 webhook_secret={{ .Data.data.webhook_secret }}

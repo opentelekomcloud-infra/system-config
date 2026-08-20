@@ -6,12 +6,12 @@ metadata:
   labels:
     {{- include "gitea-runner.labels" . | nindent 4 }}
 data:
-  config.yaml: |
+  config.yaml: |-
     log:
-      level: {{ .Values.runner.logLevel }}
+      level: {{ .Values.runner.logLevel | default "info" }}
     runner:
       file: .runner
-      capacity: {{ .Values.runner.capacity }}
+      capacity: {{ .Values.runner.capacity | default 4 }}
       envs:
         DOCKER_HOST: tcp://localhost:2376
         DOCKER_CERT_PATH: /certs/client
@@ -23,7 +23,7 @@ data:
       port: 0
     container:
       network: ""
-      privileged: false
+      privileged: true
       options: ""
       workdir_parent: ""
       valid_volumes: []

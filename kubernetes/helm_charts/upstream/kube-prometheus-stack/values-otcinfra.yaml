@@ -325,12 +325,12 @@ kube-prometheus-stack:
           format:
           - prometheus
         relabel_configs:
-        - replacement: vault-lb.eco.tsi-dev.otc-service.com
+        - replacement: vault1.eco.tsi-dev.otc-service.com
           target_label: instance
         scheme: https
         static_configs:
         - targets:
-          - vault-lb.eco.tsi-dev.otc-service.com:8200
+          - vault1.eco.tsi-dev.otc-service.com:8200
       - job_name: patroni_cluster_metrics
         metrics_path: /metrics
         relabel_configs:
