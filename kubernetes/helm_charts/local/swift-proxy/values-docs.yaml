@@ -239,6 +239,7 @@ ingress:
     # internal portals serve nothing.
     nginx.ingress.kubernetes.io/configuration-snippet: |
       gzip off;
+      client_body_timeout 600s;
   hosts:
     - host: swift-proxy-docs.eco.tsi-dev.otc-service.com
       paths:

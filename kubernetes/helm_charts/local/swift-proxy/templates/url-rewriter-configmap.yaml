@@ -27,6 +27,11 @@ data:
         proxy_request_buffering off;
         proxy_read_timeout 600s;
         proxy_send_timeout 600s;
+        # Swift's bulk middleware extracts the archive while it is still
+        # reading it, so the upload stalls whenever it writes objects out. The
+        # 60s default cuts the body stream during those pauses and Swift then
+        # reports "499 Client Disconnect" for a partially extracted tarball.
+        client_body_timeout 600s;
 
         # Remove trailing slash from index.html URLs - always redirect to HTTPS
         location ~ ^(.*index\.html)/$ {

@@ -290,6 +290,10 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # Bulk uploads stall while Swift extracts, which the 60s default reads as
+    # an idle client and aborts mid-archive.
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      client_body_timeout 600s;
   hosts:
     - host: swift-proxy.eco.tsi-dev.otc-service.com
       paths:
