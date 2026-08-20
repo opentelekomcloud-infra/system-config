@@ -1,0 +1,70 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: gitea
+
+images:
+  - name: gitea
+    newName: swr.eu-de.otc.t-systems.com/t-cloud-public/gitea
+    newTag: "1.27.2"
+
+labels:
+- pairs:
+    app.kubernetes.io/instance: gitea
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: gitea
+    app.kubernetes.io/version: "1.27.2"
+
+resources:
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+- gitea-pvc.yaml
+- sa.yaml
+
+patches:
+  # DHI image lives in the SWR registry and requires the swr-secret pull secret
+  - target:
+      kind: Deployment
+      name: gitea
+    patch: |-
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret
+
+secretGenerator:
+  - name: gitea-db-secret
+    literals:
+      - host=<path:secret/data/gitea/config#db_host>
+      - database=gitea
+      - username=<path:secret/data/gitea/config#db_username>
+      - password=<path:secret/data/gitea/config#db_password>
+  - name: gitea-pg-secret
+    literals:
+      - postgres-password=<path:secret/data/gitea/config#pg_postgres_password>
+      - password=<path:secret/data/gitea/config#db_password>
+  - name: gitea-security-secret
+    literals:
+      - secret_key=<path:secret/data/gitea/config#secret_key>
+      - internal_token=<path:secret/data/gitea/config#internal_token>
+  - name: gitea-admin-secret
+    literals:
+      - username=<path:secret/data/gitea/config#admin_username>
+      - password=<path:secret/data/gitea/config#admin_password>
+  - name: gitea-smtp-secret
+    literals:
+      - host=<path:secret/data/smtp_gw#host>
+      - username=<path:secret/data/smtp_gw#username>
+      - password=<path:secret/data/smtp_gw#password>
+  - name: gitea-oauth-secret
+    literals:
+      - key=<path:secret/data/gitea/auth/zitadel#client_id>
+      - secret=<path:secret/data/gitea/auth/zitadel#client_secret>
+  - name: gitea-obs-secret
+    literals:
+      - access_key=<path:secret/data/gitea/obs#access_key>
+      - secret_key=<path:secret/data/gitea/obs#secret_key>
+  - name: gitea-valkey-secret
+    literals:
+      - password=<path:secret/data/gitea/config#valkey_password>

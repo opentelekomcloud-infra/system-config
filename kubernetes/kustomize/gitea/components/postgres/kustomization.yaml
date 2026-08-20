@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+configMapGenerator:
+  - name: postgres-vault-config
+    files:
+      - vault-agent.hcl
+
+images:
+  - name: postgres
+    newName: swr.eu-de.otc.t-systems.com/t-cloud-public/postgres
+    newTag: "15.19-alpine"
+
+patches:
+  # swr-secret pull secret for the SWR registry mirror
+  - target:
+      kind: Deployment
+      name: gitea-postgres
+    patch: |-
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - storage.yaml

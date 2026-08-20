@@ -1,0 +1,130 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: gitea
+
+components:
+  - ../../components/postgres
+  - ../../components/valkey
+
+patches:
+  # Patch the gitea deployment with production settings
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: gitea
+        annotations:
+          prometheus.io/scrape: "true"
+          prometheus.io/port: "3000"
+      spec:
+        template:
+          spec:
+            imagePullSecrets:
+              - name: swr-secret
+            nodeSelector:
+              topology.kubernetes.io/zone: "eu-de-03"
+
+  # Patch the gitea PVC with production storage settings
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: gitea-shared-storage
+        labels:
+          topology.kubernetes.io/zone: eu-de-03
+        annotations:
+          everest.io/disk-volume-type: SAS
+          everest.io/disk-mode: SCSI
+          everest.io/enterprise-project-id: "0"
+
+  # Patch the SSH LoadBalancer service with production annotations
+  - patch: |-
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: gitea-ssh
+      spec:
+        externalTrafficPolicy: Local
+
+  # Patch the ingress with production settings
+  - patch: |-
+      apiVersion: networking.k8s.io/v1
+      kind: Ingress
+      metadata:
+        name: gitea
+      spec:
+        rules:
+          - host: gitea-k8s.eco.tsi-dev.otc-service.com
+            http:
+              paths:
+                - path: /
+                  pathType: Prefix
+                  backend:
+                    service:
+                      name: gitea
+                      port:
+                        number: 3000
+        tls:
+          - hosts:
+              - gitea-k8s.eco.tsi-dev.otc-service.com
+            secretName: gitea-tls
+
+  # Patch the PostgreSQL PVC
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: gitea-postgres-storage-claim
+        labels:
+          topology.kubernetes.io/zone: eu-de-03
+        annotations:
+          everest.io/disk-volume-type: SAS
+          everest.io/disk-mode: SCSI
+          everest.io/enterprise-project-id: "0"
+      spec:
+        storageClassName: csi-disk-retain
+
+  # Patch the Valkey PVC
+  - patch: |-
+      apiVersion: v1
+      kind: PersistentVolumeClaim
+      metadata:
+        name: gitea-valkey-storage-claim
+        labels:
+          topology.kubernetes.io/zone: eu-de-03
+        annotations:
+          everest.io/disk-volume-type: SAS
+          everest.io/disk-mode: SCSI
+          everest.io/enterprise-project-id: "0"
+
+  # Patch the Valkey deployment with production settings
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: gitea-valkey
+      spec:
+        template:
+          spec:
+            imagePullSecrets:
+              - name: swr-secret
+            nodeSelector:
+              topology.kubernetes.io/zone: "eu-de-03"
+
+  # Patch the PostgreSQL deployment with production settings
+  - patch: |-
+      apiVersion: apps/v1
+      kind: Deployment
+      metadata:
+        name: gitea-postgres
+      spec:
+        template:
+          spec:
+            imagePullSecrets:
+              - name: swr-secret
+            nodeSelector:
+              topology.kubernetes.io/zone: "eu-de-03"
+
+resources:
+  - ../../base

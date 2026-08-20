@@ -1,0 +1,24 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+images:
+  - name: valkey
+    newName: swr.eu-de.otc.t-systems.com/t-cloud-public/valkey
+    newTag: "8.1.9-debian"
+
+patches:
+  # swr-secret pull secret for the SWR registry mirror
+  - target:
+      kind: Deployment
+      name: gitea-valkey
+    patch: |-
+      - op: add
+        path: /spec/template/spec/imagePullSecrets
+        value:
+          - name: swr-secret
+
+resources:
+  - deployment.yaml
+  - service.yaml
+  - storage.yaml
+  - configmap.yaml

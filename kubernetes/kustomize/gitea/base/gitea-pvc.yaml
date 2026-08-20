@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: gitea-shared-storage
+  labels:
+    app.kubernetes.io/component: gitea
+  annotations:
+    helm.sh/resource-policy: keep
+spec:
+  storageClassName: csi-disk-retain
+  # Pin to the existing PV that holds the migrated repo data (~82G)
+  volumeName: pvc-0602d752-4ce6-4623-afac-3eca0bc7db3d
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 120Gi
