@@ -155,4 +155,3 @@ opensearch-dashboards:
       value: <path:secret/data/opensearch/kibanaserver#username>
     - name: OPENSEARCH_PASSWORD
       value: <path:secret/data/opensearch/kibanaserver#password>
-
