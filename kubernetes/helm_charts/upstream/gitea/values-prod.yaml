@@ -1,18 +1,18 @@
 gitea:
   replicaCount: 1
 
-  # Docker Hardened Image plus the awk/find/grep/xargs the chart's
-  # init-app-ini container needs; built from docker/gitea. The chart appends
-  # "-rootless", resolving to 1.27.2-hardened-rootless.
+  # Docker Hardened Image plus the awk/find/grep/nc/sed/xargs the chart's init
+  # containers need; built from docker/gitea. The chart appends "-rootless",
+  # resolving to 1.27.2-hardened-rootless.
   image:
-    registry: "quay.io"
-    repository: opentelekomcloud/gitea
+    registry: "swr.eu-de.otc.t-systems.com"
+    repository: t-cloud-public/gitea
     tag: "1.27.2-hardened"
     rootless: true
     pullPolicy: Always
 
   imagePullSecrets:
-    - name: quay-pull-secret
+    - name: swr-secret
 
   ## Recreate strategy for single replica with RWO volume
   strategy:
