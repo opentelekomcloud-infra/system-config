@@ -24,11 +24,12 @@ data:
         # default nginx 1m limit rejects large PUTs with HTTP 413 and the Swift
         # log upload silently drops the affected object.
         client_max_body_size 0;
-        proxy_request_buffering off;
-        # nginx talks HTTP/1.0 upstream by default, which cannot stream a body
-        # it has not buffered. Relaying the docs tarball that way took 20min and
-        # Swift aborted the extraction ("408 Request Timeout") after ~900 of
-        # 1770 objects; the same upload straight to the proxy takes 32s.
+        # Buffer the request before relaying it. Streaming it through (
+        # proxy_request_buffering off) fed Swift so slowly that it abandoned the
+        # docs tarball part way through extracting - 1217s and 913 of 1770
+        # objects, vs 32s for the same upload straight to the proxy.
+        proxy_request_buffering on;
+        client_body_buffer_size 1m;
         proxy_http_version 1.1;
         # Extracting the full docs site is a single request that runs for many
         # minutes, so these have to outlast it: at 600s nginx gave up reading
