@@ -50,6 +50,13 @@ labels:
     min-ready: 0
     max-hold-age: 7200
 
+  # Privileged Debian pod running systemd as PID 1, for jobs whose payload
+  # installs and starts systemd units (CloudMon's roles ship 15 unit files).
+  # dockerd is still started by the job, as with zuul-debian-docker.
+  - name: zuul-debian-systemd
+    min-ready: 0
+    max-hold-age: 7200
+
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
@@ -162,6 +169,87 @@ providers:
                       mountPath: /home/zuul
                     - name: docker-storage
                       mountPath: /var/lib/docker
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                      ephemeral-storage: "4Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+                      ephemeral-storage: "4Gi"
+            python-path: /usr/bin/python3
+            shell-type: sh
+
+          # As zuul-debian-docker, but with systemd as PID 1 so the job can
+          # install and start systemd units.
+          - name: zuul-debian-systemd
+            type: pod
+            spec:
+              # systemd 252 (bookworm) cannot run on the CentOS 7 nodes'
+              # 3.10 kernel, so keep these pods on the HCE 5.10 nodes.
+              nodeSelector:
+                os.name: HCE_OS_2.0_x86_64
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: docker-storage
+                  emptyDir:
+                    sizeLimit: 4Gi
+                # The cluster is cgroup v1, so systemd needs write access to
+                # the host hierarchy to create its scopes.
+                - name: cgroup
+                  hostPath:
+                    path: /sys/fs/cgroup
+                    type: Directory
+                - name: run
+                  emptyDir:
+                    medium: Memory
+                - name: run-lock
+                  emptyDir:
+                    medium: Memory
+              containers:
+                - name: zuul-debian-systemd
+                  image: quay.io/opentelekomcloud/zuul-debian-systemd:bookworm
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args:
+                    - |
+                      mkdir -p /etc/docker
+                      printf '{"mtu": 1442}\n' > /etc/docker/daemon.json
+                      exec /lib/systemd/systemd
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                    - name: container
+                      value: docker
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: docker-storage
+                      mountPath: /var/lib/docker
+                    - name: cgroup
+                      mountPath: /sys/fs/cgroup
+                    - name: run
+                      mountPath: /run
+                    - name: run-lock
+                      mountPath: /run/lock
                   resources:
                     requests:
                       cpu: "500m"
