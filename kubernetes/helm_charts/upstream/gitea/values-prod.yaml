@@ -1,18 +1,15 @@
 gitea:
   replicaCount: 1
 
-  # Docker Hardened Image, mirrored to SWR. The chart appends "-rootless" when
-  # image.rootless is true, so this resolves to
-  # swr.eu-de.otc.t-systems.com/t-cloud-public/gitea:1.27.2-rootless
   image:
-    registry: "swr.eu-de.otc.t-systems.com"
-    repository: t-cloud-public/gitea
+    registry: "quay.io"
+    repository: opentelekomcloud/gitea
     tag: "1.27.2"
     rootless: true
     pullPolicy: Always
 
   imagePullSecrets:
-    - name: swr-secret
+    - name: quay-pull-secret
 
   ## Recreate strategy for single replica with RWO volume
   strategy:
@@ -101,20 +98,13 @@ gitea:
       memory: 2Gi
 
   gitea:
-    # NOTE: admin user and OAuth sources are deliberately NOT managed here.
-    # The hardened image ships no grep/awk, and those are the only two things
-    # the chart's configure-gitea init script needs them for. Both are
-    # database state that already exists (admin "otcbot", auth source
-    # "Zitadel"), the chart only ever creates/updates them and never deletes,
-    # so dropping them here changes nothing at runtime. Manage them with
-    # `gitea admin user` / `gitea admin auth` if they ever need to change.
-    # These must be blanked explicitly: the chart renders the admin block for
-    # `existingSecret or (username and password)`, and its own defaults would
-    # otherwise apply.
     admin:
-      existingSecret: ""
-      username: ""
-      password: ""
+      existingSecret: gitea-admin-secret
+      # Skip admin password reset on every restart. The password is set on
+      # initial creation only; subsequent reconciles do not try to update it
+      # (avoids "password does not meet complexity requirements" failures
+      # when the admin already exists in the DB from a previous deployment).
+      passwordMode: initialOnlyNoReset
 
     config:
       APP_NAME: "Open Telekom Cloud Public: git"
@@ -256,8 +246,19 @@ gitea:
         USERNAME: nickname
         UPDATE_AVATAR: false
 
-    # Zitadel OIDC login is configured as auth source "Zitadel" in the database.
-    # It is intentionally not declared here - see the note above.
+    # Zitadel OIDC OAuth2 login source
+    oauth:
+      - name: "Zitadel"
+        provider: "openidConnect"
+        existingSecret: gitea-oauth-secret
+        autoDiscoverUrl: "https://zitadel.eco.tsi-dev.otc-service.com/.well-known/openid-configuration"
+        # Request the scopes whose claims Gitea needs for auto account
+        # linking and group sync. Without these, Zitadel's ID token contains
+        # only "sub" and Gitea reports "missing fields: email,nickname".
+        scopes: "openid profile email groups"
+        groupClaimName: "groups"
+        adminGroup: "admin"
+        restrictedGroup: ""
 
     metrics:
       enabled: false
