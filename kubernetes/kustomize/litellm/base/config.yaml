@@ -15,7 +15,7 @@ data:
       ssl_verify: false
 
     router_settings:
-      routing_strategy: least-busy
+      routing_strategy: simple-shuffle
       num_retries: 4
       timeout: 6000
 
