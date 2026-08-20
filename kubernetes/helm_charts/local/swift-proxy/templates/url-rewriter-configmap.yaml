@@ -25,6 +25,11 @@ data:
         # log upload silently drops the affected object.
         client_max_body_size 0;
         proxy_request_buffering off;
+        # nginx talks HTTP/1.0 upstream by default, which cannot stream a body
+        # it has not buffered. Relaying the docs tarball that way took 20min and
+        # Swift aborted the extraction ("408 Request Timeout") after ~900 of
+        # 1770 objects; the same upload straight to the proxy takes 32s.
+        proxy_http_version 1.1;
         # Extracting the full docs site is a single request that runs for many
         # minutes, so these have to outlast it: at 600s nginx gave up reading
         # the response with "upstream timed out while reading upstream" and the
