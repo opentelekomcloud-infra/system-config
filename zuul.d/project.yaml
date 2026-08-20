@@ -32,7 +32,6 @@
         - system-config-build-image-haproxy-statsd
         - system-config-build-image-zuul
         - system-config-build-image-vault
-        - system-config-build-image-gitea
     gate:
       jobs:
         - otc-tox-linters
@@ -58,7 +57,6 @@
         - system-config-upload-image-haproxy-statsd
         - system-config-upload-image-zuul
         - system-config-upload-image-vault
-        - system-config-upload-image-gitea
     deploy:
       jobs:
         # This installs the ansible on bridge that all the infra-prod
