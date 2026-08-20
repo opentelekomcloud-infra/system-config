@@ -586,7 +586,7 @@ argo-cd:
               - "-c"
               - |
                 helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
-                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add sealed-secrets https://bitnami.github.io/sealed-secrets --force-update || true
                 helm repo add jetstack https://charts.jetstack.io --force-update || true
                 helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
                 helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
@@ -659,7 +659,7 @@ argo-cd:
               - -c
               - |
                 helm repo add argo-cd https://argoproj.github.io/argo-helm --force-update || true
-                helm repo add sealed-secrets https://bitnami-labs.github.io/sealed-secrets --force-update || true
+                helm repo add sealed-secrets https://bitnami.github.io/sealed-secrets --force-update || true
                 helm repo add jetstack https://charts.jetstack.io --force-update || true
                 helm repo add grafana https://grafana.github.io/helm-charts --force-update || true
                 helm repo add cert-exporter https://joe-elliott.github.io/cert-exporter/ --force-update || true
