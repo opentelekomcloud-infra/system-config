@@ -46,10 +46,11 @@ images:
     newName: "quay.io/opentelekomcloud/zuul-merger"
     newTag: "13.1.1-gitea-v7"
 
-  # v9 scheduler crashloops on startup (jwt iss TypeError); the fix ships in v10, which is not published yet.
+  # v9 scheduler crashloops on startup (jwt iss TypeError); v8 can no longer start because
+  # the v9 web already migrated the DB past its alembic revisions. v10 fixes both.
   - name: "zuul/zuul-scheduler"
     newName: "quay.io/opentelekomcloud/zuul-scheduler"
-    newTag: "13.1.1-gitea-v8"
+    newTag: "13.1.1-gitea-v10"
 
   - name: "zuul/zuul-web"
     newName: "quay.io/opentelekomcloud/zuul-web"
