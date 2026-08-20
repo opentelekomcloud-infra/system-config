@@ -128,7 +128,9 @@ providers:
                   emptyDir: {}
                 - name: docker-storage
                   emptyDir:
-                    sizeLimit: 20Gi
+                    # Nodes only have ~9.4Gi allocatable ephemeral-storage; a
+                    # larger cap lets one dind pod fill the whole node disk.
+                    sizeLimit: 4Gi
               containers:
                 - name: zuul-debian-docker
                   image: quay.io/opentelekomcloud/python-tox:latest
@@ -164,11 +166,11 @@ providers:
                     requests:
                       cpu: "500m"
                       memory: "1Gi"
-                      ephemeral-storage: "2Gi"
+                      ephemeral-storage: "4Gi"
                     limits:
                       cpu: "4"
                       memory: "6Gi"
-                      ephemeral-storage: "20Gi"
+                      ephemeral-storage: "4Gi"
             python-path: /usr/bin/python3
             shell-type: sh
             context: prod
