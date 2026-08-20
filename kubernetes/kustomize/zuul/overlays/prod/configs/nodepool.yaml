@@ -170,7 +170,7 @@ providers:
                       memory: "6Gi"
                       ephemeral-storage: "20Gi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
             context: prod
 
           # Builder pod — buildah/podman/skopeo pre-installed.
