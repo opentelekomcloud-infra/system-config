@@ -21,7 +21,7 @@ patches:
         template:
           spec:
             imagePullSecrets:
-              - name: quay-pull-secret
+              - name: swr-secret
             nodeSelector:
               topology.kubernetes.io/zone: "eu-de-03"
 
@@ -108,7 +108,7 @@ patches:
         template:
           spec:
             imagePullSecrets:
-              - name: quay-pull-secret
+              - name: swr-secret
             nodeSelector:
               topology.kubernetes.io/zone: "eu-de-03"
 
@@ -122,7 +122,7 @@ patches:
         template:
           spec:
             imagePullSecrets:
-              - name: quay-pull-secret
+              - name: swr-secret
             nodeSelector:
               topology.kubernetes.io/zone: "eu-de-03"
 
