@@ -25,6 +25,13 @@ labels:
     # dequeued/cancelled buildsets don't accumulate on the pool.
     max-ready-age: 600
 
+  # Same image as zuul-debian with more memory, for otc-tox-docs. Large
+  # docs repos exceed the 6Gi zuul-debian limit and get OOM-killed.
+  - name: zuul-debian-docs
+    min-ready: 0
+    max-hold-age: 7200
+    max-ready-age: 600
+
   # Builder image — for jobs that build container images.
   # Image: quay.io/buildah/stable — Fedora-based, ships buildah + podman + skopeo
   # + fuse-overlayfs. Runs privileged so buildah can do rootful builds.
@@ -98,6 +105,57 @@ providers:
                     limits:
                       cpu: "2"
                       memory: "6Gi"
+            python-path: /usr/bin/python3
+            shell-type: sh
+            context: prod
+
+          # Docs pod — same image as zuul-debian, more memory. Large docs
+          # repos (mapreduce-service: ~3.4k rst files, ~1.9k images) run
+          # sphinx-build -a -E for umn, doc and api-ref plus their JSON
+          # variants, and were OOM-killed at the 6Gi zuul-debian limit
+          # (exit 137, which also killed the pod and made post-run
+          # unreachable, so Zuul retried). Memory is requested rather than
+          # only limited so the scheduler places the pod on a node that
+          # actually has the headroom.
+          - name: zuul-debian-docs
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian-docs
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "6Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "10Gi"
             python-path: /usr/bin/python3
             shell-type: sh
             context: prod
