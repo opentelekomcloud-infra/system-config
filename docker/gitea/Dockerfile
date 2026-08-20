@@ -21,7 +21,15 @@
 
 FROM docker.io/library/busybox:1.37.0-musl AS busybox
 
-FROM swr.eu-de.otc.t-systems.com/t-cloud-public/gitea:1.27.2-rootless
+# Mirror of swr.eu-de.otc.t-systems.com/t-cloud-public/gitea:1.27.2-rootless.
+# The SWR copy requires credentials ("denied: You may not login yet") and
+# container build jobs do no registry login at all -- only the upload path
+# authenticates -- so building straight from SWR fails with rc 125. Refresh
+# the mirror when the upstream hardened image is updated:
+#   podman pull --authfile <swr> <swr-image>
+#   podman tag <swr-image> quay.io/opentelekomcloud/gitea:<ver>-dhi-base
+#   podman push quay.io/opentelekomcloud/gitea:<ver>-dhi-base
+FROM quay.io/opentelekomcloud/gitea:1.27.2-dhi-base
 
 LABEL maintainer="Ecosystem squad - DL-PBCOTCDELECO@t-systems.com"
 
