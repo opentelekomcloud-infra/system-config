@@ -1,10 +1,13 @@
 gitea:
   replicaCount: 1
 
+  # Docker Hardened Image plus the awk/find/grep/xargs the chart's
+  # init-app-ini container needs; built from docker/gitea. The chart appends
+  # "-rootless", resolving to 1.27.2-hardened-rootless.
   image:
     registry: "quay.io"
     repository: opentelekomcloud/gitea
-    tag: "1.27.2"
+    tag: "1.27.2-hardened"
     rootless: true
     pullPolicy: Always
 
