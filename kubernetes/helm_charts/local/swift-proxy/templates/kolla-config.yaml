@@ -50,6 +50,10 @@ data:
     bind_port = {{ .Values.proxy.port }}
     workers = auto
     user = swift
+    # The bulk middleware extracts a tarball while it is still reading it, so a
+    # docs publish keeps the request open far longer than the 60s default and
+    # Swift ends it with "499 Client Disconnect" part way through the archive.
+    client_timeout = {{ .Values.proxy.clientTimeout | default 600 }}
     {{- if .Values.statsd }}
     {{- if and .Values.statsd.enabled .Values.statsd.host }}
     # StatsD -> go-carbon (otcinfra) bundled statsd. Inert until statsd.host is set.
