@@ -1,0 +1,466 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "haproxy.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "haproxy.labels" . | nindent 4 }}
+data:
+  # -------------------------------------------------------------------------
+  # Copied VERBATIM from the live proxy1 /etc/haproxy/haproxy.cfg with exactly
+  # two k8s-necessary edits:
+  #   1. every `ssl crt /etc/ssl/proxy1.eco.tsi-dev.otc-service.com/haproxy`
+  #      -> `ssl crt /etc/haproxy/certs` (cert-manager CombinedPEM dir).
+  #   2. OpenSearch no longer receives an injected searchuser credential for
+  #      requests without client authentication; the public API must enforce
+  #      authentication at the edge.
+  # Everything else (backends, VM target IPs, ACLs, blocklist, rate-limit,
+  # HSTS, Host allowlist, CORS, gitea/gitea-ssh) is unchanged.
+  # -------------------------------------------------------------------------
+  haproxy.cfg: |
+    global
+      user  haproxy
+      group haproxy
+      log   stdout format raw local0
+      maxconn  4000
+      pidfile  /var/haproxy/run/haproxy.pid
+      stats    socket /var/haproxy/run/stats user haproxy group haproxy mode 0600 level admin
+
+      ssl-default-bind-ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384
+      tune.ssl.default-dh-param 4096
+
+      # modern configuration
+      ssl-default-bind-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+      ssl-default-bind-options prefer-client-ciphers no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets
+
+      ssl-default-server-ciphersuites TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256
+      ssl-default-server-options no-sslv3 no-tlsv10 no-tlsv11 no-tls-tickets
+
+    defaults
+      log-format  "%ci:%cp [%t] %ft [%bi]:%bp %b/%s %Tw/%Tc/%Tt %B %ts %ac/%fc/%bc/%sc/%rc %sq/%bq"
+      log  global
+      maxconn  8000
+      compression algo gzip
+      compression type text/html text/plain text/css text/javascript
+      option  redispatch
+      option  dontlognull
+      option  forwardfor
+      option  contstats
+      option  http-server-close
+      option  log-health-checks
+      option  http-keep-alive
+      retries  3
+      timeout  http-request 10s
+      timeout  queue 1m
+      timeout  connect 10s
+      timeout  client 2m
+      timeout  server 20s
+      timeout  check 10s
+
+    frontend web
+      mode http
+      bind *:80
+      bind *:443 ssl crt /etc/haproxy/certs alpn h2,http/1.1
+
+      http-request set-header X-Forwarded-Proto https if { ssl_fc }
+      http-request set-header X-Forwarded-Proto http if !{ ssl_fc }
+      http-request redirect scheme https code 301 unless { ssl_fc }
+
+      # Block known malicious IPs
+      acl known_attacker src 194.163.149.175
+      acl known_attacker src 167.86.124.86
+      acl known_attacker src 173.212.192.0/18
+      acl known_attacker src 173.249.0.0/18
+      acl known_attacker src 62.171.128.0/18
+      acl known_attacker src 5.189.128.0/18
+      acl known_attacker src 144.91.64.0/18
+      acl known_attacker src 38.242.192.0/18
+      acl known_attacker src 194.163.128.0/18
+      acl known_attacker src 161.97.64.0/18
+      acl known_attacker src 144.91.96.0/19
+      acl known_attacker src 37.60.224.0/19
+      acl known_attacker src 38.242.128.0/19
+      acl known_attacker src 154.12.224.0/19
+      acl known_attacker src 154.26.128.0/19
+      acl known_attacker src 207.244.224.0/20
+      acl known_attacker src 209.126.0.0/20
+      acl known_attacker src 2a02:c202::/32
+      acl known_attacker src 2a02:c204::/30
+      http-request deny deny_status 403 if known_attacker
+
+      # HTTP rate limiting: reject sources exceeding 200 requests per 10s
+      stick-table type ip size 100k expire 60s store http_req_rate(10s)
+      http-request track-sc0 src
+      http-request deny deny_status 429 if { sc_http_req_rate(0) gt 200 }
+
+      # max-age is mandatory
+      # 16000000 seconds is a bit more than 6 months
+      http-response set-header Strict-Transport-Security "max-age=16000000; includeSubDomains; preload;"
+
+      # Block direct IP access - only allow valid domain names
+      acl valid_host hdr(host) -i graphite-ca.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i dashboard.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i dashboard-de.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i apimon.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i apimon.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i dashboard.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i alerts.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i influx1.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i matrix.otc-service.com
+      acl valid_host hdr(host) -i docs.otc-service.com
+      acl valid_host hdr(host) -i keycloak.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i vault-lb.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i opensearch.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i opensearch-dashboard.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i opensearch-stg.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea1.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea2.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea3.eco.tsi-dev.otc-service.com
+
+      # Deny requests that don't have a valid Host header
+      http-request deny if !valid_host
+
+      acl graphite-ca_acl hdr(host) -i graphite-ca.eco.tsi-dev.otc-service.com
+      use_backend graphite-ca if graphite-ca_acl
+
+      acl dashboard_acl hdr(host) -i dashboard.tsi-dev.otc-service.com
+      acl dashboard_acl hdr(host) -i dashboard-de.tsi-dev.otc-service.com
+      acl dashboard_acl hdr(host) -i apimon.tsi-dev.otc-service.com
+      acl dashboard_acl hdr(host) -i apimon.eco.tsi-dev.otc-service.com
+      use_backend dashboard if dashboard_acl
+
+      acl dashboard-eco_acl hdr(host) -i dashboard.eco.tsi-dev.otc-service.com
+      use_backend dashboard-eco if dashboard-eco_acl
+
+      acl alerta_acl hdr(host) -i alerts.eco.tsi-dev.otc-service.com
+      use_backend alerta if alerta_acl
+
+      acl influx_acl hdr(host) -i influx1.eco.tsi-dev.otc-service.com
+      use_backend influx if influx_acl
+
+      acl matrix_acl hdr(host) -i matrix.otc-service.com
+      use_backend matrix if matrix_acl
+
+      acl docs_acl hdr(host) -i docs.otc-service.com
+      use_backend docs if docs_acl
+
+      acl keycloak_acl hdr(host) -i keycloak.eco.tsi-dev.otc-service.com
+      use_backend keycloak if keycloak_acl
+
+      acl vault_acl hdr(host) -i vault-lb.eco.tsi-dev.otc-service.com
+      use_backend vault if vault_acl
+
+      acl opensearch_acl hdr(host) -i opensearch.eco.tsi-dev.otc-service.com
+      acl opensearch_auth_found req.hdr(authorization) -m found
+      acl opensearch_read_method method GET HEAD OPTIONS
+      acl opensearch_search_path path_reg -i ^/([^/]+/)?_m?search(/|$)
+      http-request deny deny_status 401 if opensearch_acl !opensearch_auth_found !opensearch_read_method !opensearch_search_path
+      use_backend opensearch if opensearch_acl
+
+      acl opensearch-dashboard_acl hdr(host) -i opensearch-dashboard.eco.tsi-dev.otc-service.com
+      use_backend opensearch-dashboard if opensearch-dashboard_acl
+
+      acl opensearch-stg_acl hdr(host) -i opensearch-stg.eco.tsi-dev.otc-service.com
+      acl opensearch-stg_auth_found req.hdr(authorization) -m found
+      http-request deny deny_status 401 if opensearch-stg_acl !opensearch-stg_auth_found
+      use_backend opensearch-stg if opensearch-stg_acl
+
+      acl opensearch-stg-dashboard_acl hdr(host) -i opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
+      use_backend opensearch-stg-dashboard if opensearch-stg-dashboard_acl
+
+      acl gitea_acl hdr(host) -i gitea.eco.tsi-dev.otc-service.com
+      acl gitea_acl hdr(host) -i gitea1.eco.tsi-dev.otc-service.com
+      acl gitea_acl hdr(host) -i gitea2.eco.tsi-dev.otc-service.com
+      acl gitea_acl hdr(host) -i gitea3.eco.tsi-dev.otc-service.com
+      use_backend gitea if gitea_acl
+
+
+
+      option httplog
+      option http-server-close
+
+    frontend influx
+      mode http
+      bind *:8086 ssl crt /etc/haproxy/certs
+
+      option httplog
+      option http-server-close
+
+      default_backend influx
+
+    frontend matrix
+      mode http
+      bind *:8448 ssl crt /etc/haproxy/certs
+
+      option httplog
+      option http-server-close
+
+      default_backend matrix
+
+    frontend vault
+      mode http
+      bind *:8200 ssl crt /etc/haproxy/certs
+
+      option httplog
+      option http-server-close
+
+      default_backend vault
+
+    frontend gitea-ssh
+      mode tcp
+      bind *:2222
+
+      option tcplog
+
+      default_backend gitea-ssh
+
+
+    backend graphite-ca
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option httpchk GET /lb_check
+      http-check send hdr Host graphite-ca.eco.tsi-dev.otc-service.com
+      option allbackups
+      option forwardfor
+      default-server check weight 100 inter 5s fall 5 rise 1
+      acl graphite_ca_metrics path_beg /debug/vars
+      http-request deny deny_status 403 if graphite_ca_metrics
+      http-request set-path %[path,url_dec,regsub("^/+","/",g)]
+
+      server graphite-otcinfra 192.168.170.6:443 ssl verify none cookie graphite-otcinfra
+      server graphite2 192.168.14.159:8082 cookie graphite2 backup
+      server graphite3 192.168.151.11:8082 cookie graphite3 backup
+      server graphite4 192.168.14.241:8082 cookie graphite4 backup
+      server graphite5 192.168.14.12:8082 cookie graphite5 backup
+
+    backend dashboard
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option httpchk HEAD /api/health
+      http-check send hdr Host dashboard.tsi-dev.otc-service.com
+      option allbackups
+      option forwardfor
+      default-server check weight 100 inter 5s fall 5 rise 1
+      http-request set-header Host dashboard.tsi-dev.otc-service.com
+      http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]
+      acl dashboard_metrics path_beg /metrics
+      http-request deny deny_status 403 if dashboard_metrics
+
+      server dashboard-infra 192.168.170.6:443 ssl verify none cookie infra
+      server dashboard-infra2 192.168.171.6:443 ssl verify none cookie infra2
+
+    backend dashboard-eco
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option httpchk HEAD /api/health
+      http-check send hdr Host dashboard.eco.tsi-dev.otc-service.com
+      option allbackups
+      option forwardfor
+      default-server check weight 100 inter 5s fall 5 rise 1
+      http-request set-path %[path,url_dec,regsub("\\\\\\\\","/",g)]
+      acl dashboard_metrics path_beg /metrics
+      http-request deny deny_status 403 if dashboard_metrics
+
+      server dashboard-eco-infra 192.168.170.6:443 ssl verify none cookie infra
+
+    backend alerta
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option httpchk GET /api/
+      http-check send hdr Host alerts.eco.tsi-dev.otc-service.com
+      option allbackups
+      option forwardfor
+      default-server check weight 100 inter 5s fall 5 rise 1
+
+      server alerta-infra 192.168.170.6:443 ssl verify none cookie infra
+      server alerta-infra2 192.168.171.6:443 ssl verify none cookie infra2
+
+    backend influx
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      http-send-name-header Host
+      default-server check inter 5s fall 5 rise 1
+      option forwardfor
+      acl influx_stats path_beg /stats.json
+      http-request deny if influx_stats
+
+      server influx1 192.168.110.227:8086
+
+    backend matrix
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option forwardfor
+      default-server check inter 5s fall 5 rise 1
+
+      server infra 192.168.170.6:443 ssl verify none cookie otcinfra
+
+    backend docs
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option forwardfor
+      default-server check inter 5s fall 5 rise 1
+
+      server infra 192.168.170.6:443 ssl verify none cookie otcinfra
+
+    backend keycloak
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option forwardfor
+      option httpchk GET /admin/master/console
+      default-server check inter 5s fall 5 rise 1
+      acl get_post_method method GET POST
+      http-response set-header Access-Control-Allow-Origin * if get_post_method
+      acl options_method method OPTIONS
+      http-response set-header Access-Control-Allow-Origin * if options_method
+      http-response set-header Access-Control-Allow-Methods "GET,POST,OPTIONS,HEAD" if options_method
+      http-response set-header Access-Control-Allow-Headers "Authorization,Origin,X-Requested-With,Content-Type,Accept" if options_method
+
+      server infra 192.168.170.90:8443 ssl verify none cookie keycloak1
+
+    backend vault
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      option forwardfor
+      option httpchk GET /v1/sys/health
+
+      server vault1 192.168.170.123:8200 ssl verify none
+      server vault2 192.168.150.123:8200 ssl verify none
+      server vault3 192.168.151.123:8200 ssl verify none
+
+    backend opensearch
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      default-server check inter 5s fall 5 rise 1
+      http-check send hdr Host opensearch.eco.tsi-dev.otc-service.com
+      acl auth_found req.hdr(authorization) -m found
+      acl read_method method GET HEAD OPTIONS
+      acl search_path path_reg -i ^/([^/]+/)?_m?search(/|$)
+      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if !auth_found read_method
+      http-request set-header authorization "Basic <path:secret/data/opensearch/searchuser#basic_auth>" if !auth_found search_path
+      acl get_post_method method GET POST
+      http-response set-header Access-Control-Allow-Origin * if get_post_method
+      acl options_method method OPTIONS
+      http-response set-header Access-Control-Allow-Origin * if options_method
+      http-response set-header Access-Control-Allow-Methods "GET,POST,OPTIONS,HEAD" if options_method
+      http-response set-header Access-Control-Allow-Headers "Authorization,Origin,X-Requested-With,Content-Type,Accept" if options_method
+      option forwardfor
+
+      server infra 192.168.170.6:443 ssl verify none
+
+    backend opensearch-dashboard
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      http-check send hdr Host opensearch-dashboard.eco.tsi-dev.otc-service.com
+      option forwardfor
+      default-server check inter 5s fall 5 rise 1
+
+      server infra 192.168.170.6:443 ssl verify none
+
+    backend opensearch-stg
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      default-server check inter 5s fall 5 rise 1
+      http-check send hdr Host opensearch-stg.eco.tsi-dev.otc-service.com
+      acl get_post_method method GET POST
+      http-response set-header Access-Control-Allow-Origin * if get_post_method
+      acl options_method method OPTIONS
+      http-response set-header Access-Control-Allow-Origin * if options_method
+      http-response set-header Access-Control-Allow-Methods "GET,POST,OPTIONS,HEAD" if options_method
+      http-response set-header Access-Control-Allow-Headers "Authorization,Origin,X-Requested-With,Content-Type,Accept" if options_method
+      option forwardfor
+
+      server infra2 192.168.171.6:443 ssl verify none
+
+    backend opensearch-stg-dashboard
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      http-check send hdr Host opensearch-stg-dashboard.eco.tsi-dev.otc-service.com
+      option forwardfor
+      default-server check inter 5s fall 5 rise 1
+
+      server infra2 192.168.171.6:443 ssl verify none
+
+    backend gitea
+      mode http
+      # http-send-name-header Host
+      balance roundrobin
+      cookie SERVERID insert indirect nocache
+
+      http-check send hdr Host gitea.eco.tsi-dev.otc-service.com
+      option forwardfor
+      timeout server 120s
+      default-server check inter 5s fall 5 rise 1
+      acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea.eco.tsi-dev.otc-service.com:443
+      acl valid_host hdr(host) -i gitea1.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea2.eco.tsi-dev.otc-service.com
+      acl valid_host hdr(host) -i gitea3.eco.tsi-dev.otc-service.com
+      acl issue_search path -i /api/v1/repos/issues/search
+      acl logged_in req.cook(i_like_gitea) -m found
+      acl logged_in req.cook(MacaronSession) -m found
+      acl api_auth req.hdr(Authorization) -m found
+      http-request deny if !valid_host
+      http-request deny if issue_search !logged_in !api_auth
+      # Gitea's markup preview endpoint renders arbitrary POSTed content and is
+      # cheap to abuse. Two ACLs are required: a criterion takes a list of
+      # alternatives, so "method POST path_reg ..." would mean "method is POST
+      # OR path_reg OR ..." and would deny every POST on this backend.
+      # Listing both ACLs in the condition is what ANDs them.
+      acl is_post method POST
+      acl infra_markup path_reg ^/infra/[^/]+/markup$
+      http-request deny deny_status 403 if is_post infra_markup
+      http-request set-header Host gitea.eco.tsi-dev.otc-service.com
+
+      server gitea1 192.168.170.200:443 check cookie gitea1 ssl verify none ssl-min-ver TLSv1.2
+
+    backend gitea-ssh
+      mode tcp
+      balance roundrobin
+
+      stick-table type ip size 100k expire 30s store conn_rate(10s)
+      tcp-request content track-sc0 src
+      tcp-request content reject if { sc0_conn_rate gt 40 }
+      default-server check inter 5s fall 5 rise 1
+
+      server gitea1 192.168.170.200:2222 check

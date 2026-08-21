@@ -1,0 +1,305 @@
+# Swift Proxy for Zuul New Production Environment
+# This values file configures swift-proxy with full Swift cluster in Kubernetes
+
+# Deployment mode: "obs-only" (zuul-storage-proxy to OBS) or "cluster" (full Swift cluster)
+mode: "cluster"
+
+# Two replicas: this proxy now serves both the docs portal reads and the docs
+# publish uploads, so a single pod restart was a full outage.
+replicaCount: 2
+
+# Proxy configuration
+proxy:
+  image:
+    repository: quay.io/openstack.kolla/swift-proxy-server
+    pullPolicy: IfNotPresent
+    tag: "2024.1-ubuntu-jammy"
+  port: 8080
+
+# StatsD metrics -> go-carbon (otcinfra ns graphite) over the eco-infra <-> eco-infra2
+# (192.168.170 <-> .171) peering. Collapses the old VM two-hop (per-node statsd daemon
+# -> graphite1.eco) into a direct send to go-carbon's bundled statsd:8125.
+# INERT until `host` is set to the go-carbon ingest VIP (dedicated ELB on otcinfra
+# infra-subnet, UDP 8125). Requires SG rule: inbound UDP 8125 from 192.168.171.0/24
+# on the ingest target. Metric tree: stats.timers.<metricPrefix>.<server>-server.*
+# (differs from the old per-VM swift.proxyN/storageN tree -> update dashboards).
+statsd:
+  enabled: true
+  host: "192.168.170.50"         # go-carbon ingest ELB VIP (infra-subnet); B2 Path 2
+  port: 8125
+  defaultSampleRate: "1.0"
+  sampleRateFactor: "1.0"
+  metricPrefix: "swift.otcinfra2-docs"
+
+# Storage nodes configuration (only used in cluster mode)
+# Docs proxy shares the logs proxy's storage; no storage StatefulSet here.
+storage:
+  enabled: false
+  replicas: 1
+  image:
+    object:
+      repository: quay.io/openstack.kolla/swift-object
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+    container:
+      repository: quay.io/openstack.kolla/swift-container
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+    account:
+      repository: quay.io/openstack.kolla/swift-account
+      pullPolicy: IfNotPresent
+      tag: "2024.1-ubuntu-jammy"
+  persistence:
+    enabled: true
+    existingClaim: ""
+    existingVolume: ""
+    storageClass: "csi-disk-retain"
+    accessMode: ReadWriteOnce
+    size: 100Gi
+    reclaimPolicy: Retain
+    localStorage:
+      enabled: false
+      nodeName: ""
+      path: ""
+    sharedNFS:
+      enabled: false
+      server: ""
+      path: ""
+      mountOptions:
+        - nolock
+        - noresvport
+        - noatime
+        - nodiratime
+        - rsize=1048576
+        - wsize=1048576
+        - timeo=600
+        - retrans=2
+        - hard
+        - actimeo=120
+  resources:
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+    requests:
+      cpu: "50m"
+      memory: "512Mi"
+  ports:
+    object: 6200
+    container: 6201
+    account: 6202
+    rsync: 873
+
+serviceAccount:
+  create: true
+  name: "swift-proxy-docs"
+
+podAnnotations: {}
+
+podSecurityContext:
+  runAsNonRoot: false
+  runAsUser: 0
+  runAsGroup: 0
+  # NOTE: fsGroup intentionally omitted. Swift runs as uid/gid 42445 and owns
+  # all data on the storage EVS volume (~3.3M files). Setting fsGroup here made
+  # kubelet recursively chown every file on mount, exceeding the 2m volume-setup
+  # deadline (context deadline exceeded) and preventing the storage pod from
+  # ever starting after a remount. Swift accesses its own 42445-owned data
+  # directly, so no fsGroup is required.
+
+securityContext:
+  allowPrivilegeEscalation: true
+  capabilities:
+    add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - SETGID
+      - SETUID
+  readOnlyRootFilesystem: false
+
+service:
+  type: ClusterIP
+  port: 8080
+  targetPort: 8080
+  name: http
+
+resources:
+  limits:
+    cpu: "2"
+    memory: "2Gi"
+  requests:
+    cpu: "75m"
+    memory: "1Gi"
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 70
+  targetMemoryUtilizationPercentage: 70
+
+# Swift configuration
+swift:
+  hashPathPrefix: "<path:secret/data/swift/config#hash_path_prefix>"
+  hashPathSuffix: "<path:secret/data/swift/config#hash_path_suffix>"
+  partitionPower: 14
+  replicaFactor: 1
+  minPartHours: 24
+
+  # Reuse an externally-managed rings ConfigMap (proxy-only deployments that
+  # share another release's storage). Empty = this release builds/owns its rings.
+  ringsConfigMapName: "swift-proxy-otcinfra2-rings"
+
+  # keystoneauth operator_roles (users with one of these roles may manage
+  # containers/objects in AUTH_<project-id>). Matches the VM swift.eco config.
+  keystoneOperatorRoles: "admin,te_admin,server_adm"
+
+  # OTC token self-validation middleware (docs/keystone proxy). Enabled here;
+  # this proxy is keystone-only (NO tempauth) so validatetoken (fail-closed)
+  # never sees tempauth tokens.
+  validatetoken:
+    enabled: true
+    authUrl: "https://iam.eu-de.otc.t-systems.com"
+    httpConnectTimeout: 5
+
+  # Keystone auth configuration
+  keystoneAuth:
+    authUrl: "<path:secret/data/zuul/logs/otc_technical_user#auth_url>"
+    username: "<path:secret/data/zuul/logs/otc_technical_user#username>"
+    password: "<path:secret/data/zuul/logs/otc_technical_user#password>"
+    projectName: "<path:secret/data/zuul/logs/otc_technical_user#project_name>"
+    userDomainName: "<path:secret/data/zuul/logs/otc_technical_user#user_domain_name>"
+    regionName: "<path:secret/data/zuul/logs/otc_technical_user#region_name>"
+
+  proxyPipeline:
+    - catch_errors
+    - gatekeeper
+    - healthcheck
+    - proxy-logging
+    - cache
+    - validatetoken
+    - keystoneauth
+    # staticweb MUST come before slo/dlo/versioned_writes/symlink: it generates HTML
+    # bodies (directory listings and 301 redirects) for anonymous requests, and those
+    # middlewares json.loads() the response body of a container listing -> 500/503.
+    - staticweb
+    - container_sync
+    - bulk
+    - formpost
+    - ratelimit
+    - copy
+    - container-quotas
+    - account-quotas
+    - slo
+    - dlo
+    - versioned_writes
+    - symlink
+    - proxy-logging
+    - proxy-server
+
+  tempauth:
+    enabled: false
+    users:
+      - account: admin
+        username: <path:secret/data/loki#swift_user>
+        password: <path:secret/data/loki#swift_password>
+        groups: .admin
+      # Zuul log uploads
+      - account: zuul-prod-logs
+        username: <path:secret/data/swift/users/zuul#username>
+        password: <path:secret/data/swift/users/zuul#password>
+        groups: .admin
+
+# Legacy OBS-only configuration
+cloudNames: "zuul-logs"
+
+clouds: |
+  zuul-logs:
+    auth:
+      auth_url: <path:secret/data/zuul/logs/otc_technical_user#auth_url>
+      username: <path:secret/data/zuul/logs/otc_technical_user#username>
+      password: <path:secret/data/zuul/logs/otc_technical_user#password>
+      project_name: <path:secret/data/zuul/logs/otc_technical_user#project_name>
+      user_domain_name: <path:secret/data/zuul/logs/otc_technical_user#user_domain_name>
+    auth_type: password
+    region_name: <path:secret/data/zuul/logs/otc_technical_user#region_name>
+    interface: public
+    object_store_endpoint_override: <path:secret/data/zuul/logs/otc_technical_user#object_store_endpoint>
+
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    cert-manager.io/duration: "8760h"
+    cert-manager.io/renew-before: "720h"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "1800"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "1800"
+    # zuul-storage-proxy (the internal docs gateways) cannot relay a gzipped
+    # response: it answers with Transfer-Encoding: chunked but writes the raw
+    # gzip body, so nginx rejects it as an invalid chunked response and the
+    # internal portals serve nothing.
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      gzip off;
+      client_body_timeout 600s;
+  hosts:
+    - host: swift-proxy-docs.eco.tsi-dev.otc-service.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: swift-proxy-docs-tls
+      hosts:
+        - swift-proxy-docs.eco.tsi-dev.otc-service.com
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - swift-proxy
+              - key: app.kubernetes.io/instance
+                operator: In
+                values:
+                  - zuul-new-prod
+          topologyKey: kubernetes.io/hostname
+
+# Readiness and liveness probes.
+# /healthcheck is served by the proxy itself, so it queues behind whatever the
+# proxy is doing. A bulk extract keeps it busy for minutes, and with the 1s
+# default timeout the liveness probe killed the pod mid-upload - clients saw
+# 503 and half-extracted archives.
+probes:
+  readiness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  liveness:
+    enabled: true
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 10
+    failureThreshold: 6
+
+# URL Rewriter
+urlRewriter:
+  enabled: true
+  replicaCount: 2
+  image:
+    repository: nginx
+    tag: "1.27-alpine"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "100m"
+      memory: "128Mi"

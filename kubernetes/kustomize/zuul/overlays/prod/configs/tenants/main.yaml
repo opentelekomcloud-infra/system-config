@@ -6,6 +6,19 @@
 # rendered into a ConfigMap and synced by the ArgoCD app zuul-otcinfra2, then
 # mounted by the scheduler at /etc/zuul-config/tenants/prod/main.yaml.
 
+# Operator admin authorization rules (keycloak `zuul` client roles).
+# Referenced by the eco2 tenant admin-rules below and satisfied by the
+# [auth "keycloak"] OpenIDConnect authenticator in zuul.conf.
+- authorization-rule:
+    name: admin
+    conditions:
+      - resource_access.zuul.roles: admin
+
+- authorization-rule:
+    name: eco_admin
+    conditions:
+      - resource_access.zuul.roles: eco_admin
+
 - tenant:
     name: eco2
     max-nodes-per-job: 5
@@ -26,12 +39,12 @@
                 - pipeline
                 - nodeset
                 - secret
-              load-branch: Migration_of_zuul_to_prod
-              # Repo is private on a Free plan, so branch protection is
-              # unavailable and every branch reports as unprotected. Disable
-              # exclude-unprotected-branches here so the executor can check out
-              # the load-branch (otherwise checkoutTrustedProject fails and all
-              # jobs die with RETRY_LIMIT).
+              load-branch: main
+              # zuul-infra is private on a GitHub Free plan, so branch
+              # protection is unavailable and every branch (including main)
+              # reports as unprotected. Disable exclude-unprotected-branches
+              # here so the executor can check out the load-branch; otherwise
+              # checkoutTrustedProject fails and all jobs die with RETRY_LIMIT.
               exclude-unprotected-branches: false
         untrusted-projects:
           - opentelekomcloud-infra/system-config:
@@ -42,6 +55,12 @@
               # unavailable, so do not exclude unprotected branches or the
               # project config would stop loading.
               exclude-unprotected-branches: false
+              # system-config has hundreds of branches; without this,
+              # exclude-unprotected-branches: false would make Zuul parse
+              # config from every branch (slow reconfigure, empty layout).
+              # Restrict prod config loading to main only.
+              include-branches:
+                - main
           - opentelekomcloud/LoveOTC:
               include:
                 - project
@@ -629,6 +648,13 @@
               include:
                 - project
                 - job
+                # gitcontrol-apply-gh{,-dry-run} consume the in-repo secret
+                # zuul_eco_gitcontrol_vault, so `secret` must be loaded too.
+                # Without it every buildset scheduling those jobs (periodic,
+                # deploy, gate, check-post) fails with "Unable to freeze job
+                # graph: Secret zuul_eco_gitcontrol_vault not found"; only
+                # check survived, because otc-tox-linters needs no secret.
+                - secret
           - opentelekomcloud-infra/hcdc:
               include:
                 - project
@@ -673,10 +699,9 @@
               include:
                 - project
                 - job
-          - opentelekomcloud-infra/otc-zuul-jobs:
-              include:
-                - project
-                - job
+          # otc-zuul-jobs removed from eco2: its jobs are vendored into the
+          # zuul-infra config-project, so loading it as an untrusted project
+          # with `- job` made every vendored job an illegal shadow (~42 errors).
           - stackmon/StatusDashboard-V3:
               include:
                 - project
@@ -717,389 +742,23 @@
           - stackmon/status-dashboard-v3:
               include:
                 - project
-      gitea:
-        untrusted-projects:
-          - infra/system-config:
-              include:
-                - project
-          - infra/gitstyring:
-              include:
-                - project
-          - infra/otc-metadata:
-              include:
-                - project
-          - infra/otc-metadata-swiss:
-              include:
-                - project
-          - infra/otc-metadata-rework:
-              include:
-                - project
-          - docs-swiss/application-operations-management:
-              include:
-                - project
-          - docs-swiss/auto-scaling:
-              include:
-                - project
-          - docs-swiss/cloud-backup-recovery:
-              include:
-                - project
-          - docs-swiss/cloud-container-engine:
-              include:
-                - project
-          - docs-swiss/cloud-eye:
-              include:
-                - project
-          - docs-swiss/cloud-trace-service:
-              include:
-                - project
-          - docs-swiss/dedicated-host:
-              include:
-                - project
-          - docs-swiss/direct-connect:
-              include:
-                - project
-          - docs-swiss/doc-exports:
-              include:
-                - project
-          - docs-swiss/docsportal:
-              include:
-                - project
-          - docs-swiss/domain-name-service:
-              include:
-                - project
-          - docs-swiss/elastic-cloud-server:
-              include:
-                - project
-          - docs-swiss/elastic-ip:
-              include:
-                - project
-          - docs-swiss/elastic-load-balancing:
-              include:
-                - project
-          - docs-swiss/elastic-volume-service:
-              include:
-                - project
-          - docs-swiss/identity-access-management:
-              include:
-                - project
-          - docs-swiss/image-management-service:
-              include:
-                - project
-          - docs-swiss/key-management-service:
-              include:
-                - project
-          - docs-swiss/log-tank-service:
-              include:
-                - project
-          - docs-swiss/nat-gateway:
-              include:
-                - project
-          - docs-swiss/object-storage-service:
-              include:
-                - project
-          - docs-swiss/regions-and-endpoints:
-              include:
-                - project
-          - docs-swiss/relational-database-service:
-              include:
-                - project
-          - docs-swiss/simple-message-notification:
-              include:
-                - project
-          - docs-swiss/software-repository-container:
-              include:
-                - project
-          - docs-swiss/storage-disaster-recovery-service:
-              include:
-                - project
-          - docs-swiss/tag-management-service:
-              include:
-                - project
-          - docs-swiss/virtual-private-cloud:
-              include:
-                - project
-          - docs-swiss/virtual-private-network:
-              include:
-                - project
-          - docs-swiss/vpc-endpoint:
-              include:
-                - project
-          - docs-swiss/web-application-firewall-dedicated:
-              include:
-                - project
-          - docs/anti-ddos:
-              include:
-                - project
-          - docs/api-gateway:
-              include:
-                - project
-          - docs/api-usage:
-              include:
-                - project
-          - docs/application-operations-management:
-              include:
-                - project
-          - docs/application-operations-management-2:
-              include:
-                - project
-          - docs/application-performance-management:
-              include:
-                - project
-          - docs/application-service-mesh:
-              include:
-                - project
-          - docs/architecture-center:
-              include:
-                - project
-          - docs/auto-scaling:
-              include:
-                - project
-          - docs/bare-metal-server:
-              include:
-                - project
-          - docs/blueprints:
-              include:
-                - project
-          - docs/business-continuity-center:
-              include:
-                - project
-          - docs/cloud-backup-recovery:
-              include:
-                - project
-          - docs/cloud-connect:
-              include:
-                - project
-          - docs/cloud-container-engine:
-              include:
-                - project
-          - docs/cloud-container-instance:
-              include:
-                - project
-          - docs/cloud-eye:
-              include:
-                - project
-          - docs/cloud-firewall:
-              include:
-                - project
-          - docs/cloud-search-service:
-              include:
-                - project
-          - docs/cloud-server-backup-service:
-              include:
-                - project
-          - docs/cloud-service-engine:
-              include:
-                - project
-          - docs/cloud-trace-service:
-              include:
-                - project
-          - docs/config:
-              include:
-                - project
-          - docs/content-delivery-network:
-              include:
-                - project
-          - docs/data-admin-service:
-              include:
-                - project
-          - docs/data-arts-studio:
-              include:
-                - project
-          - docs/data-lake-insight:
-              include:
-                - project
-          - docs/data-replication-service:
-              include:
-                - project
-          - docs/data-warehouse-service:
-              include:
-                - project
-          - docs/database-security-service:
-              include:
-                - project
-          - docs/dedicated-host:
-              include:
-                - project
-          - docs/direct-connect:
-              include:
-                - project
-          - docs/distributed-cache-service:
-              include:
-                - project
-          - docs/distributed-database-middleware:
-              include:
-                - project
-          - docs/distributed-message-service:
-              include:
-                - project
-          - docs/distributed-message-service-rabbitmq:
-              include:
-                - project
-          - docs/distributed-message-service-rocketmq:
-              include:
-                - project
-          - docs/doc-convertor:
-              include:
-                - project
-          - docs/doc-exports:
-              include:
-                - project
-          - docs/docsportal:
-              include:
-                - project
-          - docs/document-database-service:
-              include:
-                - project
-          - docs/domain-name-service:
-              include:
-                - project
-          - docs/ecosystem:
-              include:
-                - project
-          - docs/elastic-cloud-server:
-              include:
-                - project
-          - docs/elastic-ip:
-              include:
-                - project
-          - docs/elastic-load-balancing:
-              include:
-                - project
-          - docs/elastic-volume-service:
-              include:
-                - project
-          - docs/enterprise-project-service:
-              include:
-                - project
-          - docs/enterprise-router:
-              include:
-                - project
-          - docs/enterprise-switch:
-              include:
-                - project
-          - docs/function-graph:
-              include:
-                - project
-          - docs/gaussdb-mysql:
-              include:
-                - project
-          - docs/gaussdb-nosql:
-              include:
-                - project
-          - docs/gaussdb-opengauss:
-              include:
-                - project
-          - docs/geminidb:
-              include:
-                - project
-          - docs/glossary:
-              include:
-                - project
-          - docs/host-security-service:
-              include:
-                - project
-          - docs/identity-access-management:
-              include:
-                - project
-          - docs/image-management-service:
-              include:
-                - project
-          - docs/internal-documentation:
-              include:
-                - project
-          - docs/key-management-service:
-              include:
-                - project
-          - docs/log-tank-service:
-              include:
-                - project
-          - docs/mapreduce-service:
-              include:
-                - project
-          - docs/marketplace:
-              include:
-                - project
-          - docs/modelarts:
-              include:
-                - project
-          - docs/nat-gateway:
-              include:
-                - project
-          - docs/object-storage-service:
-              include:
-                - project
-          - docs/object-storage-service-3rd-party:
-              include:
-                - project
-          - docs/optical-character-recognition:
-              include:
-                - project
-          - docs/price-calculator:
-              include:
-                - project
-          - docs/private-link-access-service:
-              include:
-                - project
-          - docs/regions-and-endpoints:
-              include:
-                - project
-          - docs/relational-database-service:
-              include:
-                - project
-          - docs/resource-formation-service:
-              include:
-                - project
-          - docs/resource-template-service:
-              include:
-                - project
-          - docs/scalable-file-service:
-              include:
-                - project
-          - docs/secure-mail-gateway:
-              include:
-                - project
-          - docs/security:
-              include:
-                - project
-          - docs/simple-message-notification:
-              include:
-                - project
-          - docs/software-repository-container:
-              include:
-                - project
-          - docs/status-dashboard:
-              include:
-                - project
-          - docs/storage-disaster-recovery-service:
-              include:
-                - project
-          - docs/tag-management-service:
-              include:
-                - project
-          - docs/taurusdb:
-              include:
-                - project
-          - docs/ubiquitous-cloud-native-service:
-              include:
-                - project
-          - docs/virtual-private-cloud:
-              include:
-                - project
-          - docs/virtual-private-network:
-              include:
-                - project
-          - docs/volume-backup-service:
-              include:
-                - project
-          - docs/vpc-endpoint:
-              include:
-                - project
-          - docs/web-application-firewall:
-              include:
-                - project
-          - docs/web-application-firewall-dedicated:
-              include:
-                - project
+      # gitea: DISABLED 2026-08-21 - the new Zuul must not handle gitea projects yet.
+      # eco2 was running periodic publish-otc-docs-hc against docs/* and docs-swiss/*
+      # (docs/elastic-cloud-server: SUCCESS 2026-08-20T03:59:53), publishing Help Center
+      # content in parallel with the old Zuul, which still owns these repos. Timer-driven
+      # pipelines meant this needed no PR to fire. Restore by reverting this commit
+      # (126 untrusted-projects: docs/* 90, docs-swiss/* 31, infra/* 5).
+      #
+      # BEFORE RESTORING, READ THIS:
+      # docs/internal-documentation was in this list, and the generic
+      # publish-otc-docs-hc job targets the PUBLIC Help Center account
+      # (AUTH_3339cc81c5a644a691fe76fd4f199190). That published ~1800 internal
+      # objects to https://docs.otc.t-systems.com/internal-documentation/ where
+      # they were anonymously readable; they had to be bulk-deleted by hand.
+      # Internal docs belong in AUTH_21aff786cf5d4637abb468c676ce3a28 (cloud
+      # 448_docs_int, served by docs-int.otc-service.com behind SSO).
+      # Any repo whose content is internal MUST be wired to the internal publish
+      # job before it is added here - do not rely on the shared docs template.
       # gitlab: - disabled: git.tsi-dev.otc-service.com returns SSO page, blocks reconfiguration
       #   config-projects:
       #     - ecosystem/zuul-project-config:

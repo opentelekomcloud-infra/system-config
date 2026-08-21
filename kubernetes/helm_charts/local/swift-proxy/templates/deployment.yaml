@@ -34,8 +34,26 @@ spec:
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       terminationGracePeriodSeconds: 30
+      {{- if and (eq .Values.mode "cluster") .Values.swift.validatetoken.enabled }}
+      initContainers:
+        # Install the OTC validatetoken middleware into a shared dir so the
+        # kolla swift-proxy venv can import it via PYTHONPATH (keystone docs proxy).
+        - name: install-validatetoken
+          image: "{{ .Values.proxy.image.repository }}:{{ .Values.proxy.image.tag }}"
+          imagePullPolicy: {{ .Values.proxy.image.pullPolicy }}
+          command: ["/bin/bash", "-c"]
+          args:
+            - |
+              set -ex
+              /var/lib/kolla/venv/bin/pip install --no-deps \
+                --target=/vt-libs \
+                validatetoken{{ if .Values.swift.validatetoken.version }}=={{ .Values.swift.validatetoken.version }}{{ end }}
+          volumeMounts:
+            - name: validatetoken-libs
+              mountPath: /vt-libs
+      {{- end }}
       containers:
-        {{- if and (eq .Values.mode "cluster") .Values.swift.tempauth.enabled }}
+        {{- if and (eq .Values.mode "cluster") (or .Values.swift.tempauth.enabled .Values.swift.validatetoken.enabled) }}
         - name: memcached
           image: memcached:1.6-alpine
           args: ["-m", "64", "-c", "1024", "-u", "memcache"]
@@ -64,6 +82,10 @@ spec:
           env:
             - name: KOLLA_CONFIG_STRATEGY
               value: "COPY_ALWAYS"
+            {{- if .Values.swift.validatetoken.enabled }}
+            - name: PYTHONPATH
+              value: "/vt-libs"
+            {{- end }}
           {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -82,6 +104,8 @@ spec:
               port: http
             initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds | default 5 }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold | default 3 }}
           {{- end }}
           {{- if .Values.probes.liveness.enabled }}
           livenessProbe:
@@ -90,6 +114,8 @@ spec:
               port: http
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds }}
             periodSeconds: {{ .Values.probes.liveness.periodSeconds }}
+            timeoutSeconds: {{ .Values.probes.liveness.timeoutSeconds | default 5 }}
+            failureThreshold: {{ .Values.probes.liveness.failureThreshold | default 6 }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
@@ -103,6 +129,11 @@ spec:
             - name: swift-rings
               mountPath: /srv/rings
               readOnly: true
+            {{- if .Values.swift.validatetoken.enabled }}
+            - name: validatetoken-libs
+              mountPath: /vt-libs
+              readOnly: true
+            {{- end }}
             {{- else }}
             - mountPath: /etc/openstack
               name: clouds-config
@@ -116,7 +147,11 @@ spec:
           emptyDir: {}
         - name: swift-rings
           configMap:
-            name: {{ include "swift-proxy.fullname" . }}-rings
+            name: {{ .Values.swift.ringsConfigMapName | default (printf "%s-rings" (include "swift-proxy.fullname" .)) }}
+        {{- if .Values.swift.validatetoken.enabled }}
+        - name: validatetoken-libs
+          emptyDir: {}
+        {{- end }}
         {{- else }}
         - name: clouds-config
           secret:

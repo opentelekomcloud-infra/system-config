@@ -1,0 +1,16 @@
+apiVersion: v2
+name: cert-manager-webhook-designate
+description: >-
+  Umbrella chart for the SysEleven Designate cert-manager webhook — an ACME
+  DNS-01 solver for OTC / OpenStack Designate DNSaaS. Deployed into the
+  cert-manager namespace on otcinfra via GitOps (ArgoCD + argocd-vault-plugin).
+  It registers the APIService `acme.syseleven.de` that the haproxy `otc-dns01`
+  ClusterIssuer uses to issue Let's Encrypt certs for the public otc-service.com
+  / tsi-dev zones (validating via TXT records, so certs can be issued before any
+  DNS is cut over).
+type: application
+version: 0.1.0
+dependencies:
+  - name: designate-certmanager-webhook
+    version: "0.9.2"
+    repository: "https://syseleven.github.io/designate-certmanager-webhook"

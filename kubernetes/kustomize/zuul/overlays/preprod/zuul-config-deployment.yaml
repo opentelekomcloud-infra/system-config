@@ -9,20 +9,45 @@ spec:
       initContainers:
         - name: git-fetcher
           args:
-            - "git config --global --add safe.directory /data && cd /data && (test -d .git || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .)"
+            - 'git config --global --add safe.directory /data && git config --global url."https://${GIT_USER}:${GIT_TOKEN}@github.com/".insteadOf "https://github.com/" && cd /data && (test -d .git || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .)'
           env:
             - name: ZUUL_CONFIG_BRANCH
               valueFrom:
                 configMapKeyRef:
                   name: zuul-instance-config
                   key: ZUUL_CONFIG_BRANCH
+            - name: GIT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: zuul-config-git
+                  key: username
+            - name: GIT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: zuul-config-git
+                  key: token
       containers:
         - name: git-syncer
           args:
-            - "git config --global --add safe.directory /data && while :; do cd /data && (test -d .git && (git fetch && git checkout $ZUUL_CONFIG_BRANCH && git reset --hard origin/$ZUUL_CONFIG_BRANCH) || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .); sleep 60; done"
+            - 'git config --global --add safe.directory /data && git config --global url."https://${GIT_USER}:${GIT_TOKEN}@github.com/".insteadOf "https://github.com/" && while :; do cd /data && (test -d .git && (git fetch && git checkout $ZUUL_CONFIG_BRANCH && git reset --hard origin/$ZUUL_CONFIG_BRANCH) || git clone -b $ZUUL_CONFIG_BRANCH $ZUUL_CONFIG_REPO .); sleep 60; done'
           env:
             - name: ZUUL_CONFIG_BRANCH
               valueFrom:
                 configMapKeyRef:
                   name: zuul-instance-config
                   key: ZUUL_CONFIG_BRANCH
+            - name: ZUUL_CONFIG_REPO
+              valueFrom:
+                configMapKeyRef:
+                  name: zuul-instance-config
+                  key: ZUUL_CONFIG_REPO
+            - name: GIT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: zuul-config-git
+                  key: username
+            - name: GIT_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: zuul-config-git
+                  key: token

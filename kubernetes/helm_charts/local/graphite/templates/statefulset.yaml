@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "graphite.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "graphite.fullname" . }}
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "graphite.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      labels:
+        {{- include "graphite.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "graphite.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: graphite
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          env:
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          ports:
+            - name: carbonserver
+              containerPort: 8081
+              protocol: TCP
+            - name: carbon-line
+              containerPort: 2003
+              protocol: TCP
+            - name: carbon-pickle
+              containerPort: 2004
+              protocol: TCP
+            - name: statsd
+              containerPort: 8125
+              protocol: UDP
+            - name: web
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: carbonserver
+            initialDelaySeconds: 60
+            periodSeconds: 15
+          readinessProbe:
+            tcpSocket:
+              port: carbonserver
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          volumeMounts:
+            - name: storage
+              mountPath: {{ .Values.persistence.mountPath }}
+            - name: config
+              mountPath: /opt/graphite/conf/go-carbon.conf
+              subPath: go-carbon.conf
+              readOnly: true
+            - name: config
+              mountPath: /opt/graphite/conf/storage-schemas.conf
+              subPath: storage-schemas.conf
+              readOnly: true
+            - name: config
+              mountPath: /opt/graphite/conf/storage-aggregation.conf
+              subPath: storage-aggregation.conf
+              readOnly: true
+            - name: config
+              mountPath: /opt/statsd/config/udp.js
+              subPath: udp.js
+              readOnly: true
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: config
+          configMap:
+            name: {{ include "graphite.fullname" . }}-config
+  volumeClaimTemplates:
+    - metadata:
+        name: storage
+        labels:
+          {{- include "graphite.labels" . | nindent 10 }}
+      spec:
+        accessModes:
+          - {{ .Values.persistence.accessMode }}
+        storageClassName: {{ .Values.persistence.storageClass }}
+        resources:
+          requests:
+            storage: {{ .Values.persistence.size }}

@@ -12,17 +12,67 @@ data:
     }
 
     http {
+      upstream swift_backend {
+        server {{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};
+      }
+
       server {
         listen 8081;
+
+        # Allow arbitrarily large object uploads (e.g. docs tarball segments).
+        # The fronting ingress already sets proxy-body-size: 0; without this the
+        # default nginx 1m limit rejects large PUTs with HTTP 413 and the Swift
+        # log upload silently drops the affected object.
+        client_max_body_size 0;
+        # Buffer the request before relaying it. Streaming it through (
+        # proxy_request_buffering off) fed Swift so slowly that it abandoned the
+        # docs tarball part way through extracting - 1217s and 913 of 1770
+        # objects, vs 32s for the same upload straight to the proxy.
+        proxy_request_buffering on;
+        client_body_buffer_size 1m;
+        proxy_http_version 1.1;
+        # Extracting the full docs site is a single request that runs for many
+        # minutes, so these have to outlast it: at 600s nginx gave up reading
+        # the response with "upstream timed out while reading upstream" and the
+        # publish failed even though Swift was still working.
+        proxy_read_timeout 1800s;
+        proxy_send_timeout 1800s;
+        # Swift's bulk middleware extracts the archive while it is still
+        # reading it, so the upload stalls whenever it writes objects out. The
+        # 60s default cuts the body stream during those pauses and Swift then
+        # reports "499 Client Disconnect" for a partially extracted tarball.
+        client_body_timeout 600s;
 
         # Remove trailing slash from index.html URLs - always redirect to HTTPS
         location ~ ^(.*index\.html)/$ {
           return 301 https://$host$1;
         }
 
-        # Serve index.html for directory URLs (ending with /)
+        # Serve index.html for directory URLs (ending with /).
+        #
+        # Only GET/HEAD may be rewritten. Swift API writes also end in "/" -
+        # notably the bulk upload issued by the docs publish jobs:
+        #
+        #   PUT /v1/AUTH_<project>/<container>/?extract-archive=tar.gz
+        #
+        # Rewriting that to "<container>/index.html" drops the query string, so
+        # Swift's bulk middleware never runs: the tarball is stored verbatim as
+        # an object called index.html and Swift answers "201 Created" with an
+        # empty body instead of "200 OK" with the JSON summary the uploader
+        # parses. The uploader then fails on the missing JSON and the publish
+        # job ends in POST_FAILURE.
+        #
+        # The condition is deliberately on the method only. Keying it on the
+        # query string as well would stop rewriting reads such as
+        # "<container>/?format=json", which Swift answers with a 500.
         location ~ ^(.+)/$ {
-          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }}$1/index.html;
+          # Capture the location match before the "if" regex clobbers $1.
+          set $dir_uri "$1/index.html";
+          set $swift_uri $request_uri;
+          if ($request_method ~ ^(?:GET|HEAD)$) {
+            set $swift_uri $dir_uri;
+          }
+          proxy_pass http://swift_backend$swift_uri;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -31,7 +81,7 @@ data:
 
         # Proxy all other requests to Swift
         location / {
-          proxy_pass http://{{ include "swift-proxy.fullname" . }}:{{ .Values.proxy.port }};
+          proxy_pass http://swift_backend;
           proxy_set_header Host $host;
           proxy_set_header X-Real-IP $remote_addr;
           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

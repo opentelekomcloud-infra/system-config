@@ -15,3 +15,24 @@ clusterIssuers:
       - http01:
           ingress:
             class: nginx
+
+# Additional Opaque Secrets injected from Vault by argocd-vault-plugin at sync
+# time. Each <path:...> is resolved against Vault (KV v2 mount `secret`).
+additionalSecrets:
+  # OpenStack DNS credentials consumed (envFrom) by the SysEleven Designate
+  # cert-manager webhook (deployed separately as
+  # upstream/cert-manager-webhook-designate). otc-dns account (project eu-de_DNS)
+  # able to write TXT records in the public otc-service.com / tsi-dev zones for
+  # ACME DNS-01. Vault path: secret/data/cert-manager/designate-cloud-credentials.
+  - name: cloud-credentials
+    namespace: cert-manager
+    type: Opaque
+    stringData:
+      OS_AUTH_URL: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_AUTH_URL>"
+      OS_REGION_NAME: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_REGION_NAME>"
+      OS_IDENTITY_API_VERSION: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_IDENTITY_API_VERSION>"
+      OS_USERNAME: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_USERNAME>"
+      OS_PASSWORD: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_PASSWORD>"
+      OS_PROJECT_NAME: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_PROJECT_NAME>"
+      OS_USER_DOMAIN_NAME: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_USER_DOMAIN_NAME>"
+      OS_PROJECT_DOMAIN_NAME: "<path:secret/data/cert-manager/designate-cloud-credentials#OS_PROJECT_DOMAIN_NAME>"

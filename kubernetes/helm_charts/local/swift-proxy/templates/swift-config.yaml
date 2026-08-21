@@ -57,9 +57,18 @@ data:
     [filter:ratelimit]
     use = egg:swift#ratelimit
 
+    {{- if .Values.swift.validatetoken.enabled }}
+    [filter:validatetoken]
+    paste.filter_factory = validatetoken.middleware.validatetoken:filter_factory
+    auth_url = {{ .Values.swift.validatetoken.authUrl }}
+    www_authenticate_uri = {{ .Values.swift.validatetoken.authUrl }}
+    http_connect_timeout = {{ .Values.swift.validatetoken.httpConnectTimeout | default 5 }}
+    cache = swift.cache
+    {{- end }}
+
     [filter:keystoneauth]
     use = egg:swift#keystoneauth
-    operator_roles = admin,member
+    operator_roles = {{ .Values.swift.keystoneOperatorRoles | default "admin,member" }}
     reseller_prefix = AUTH_
 
     [filter:copy]

@@ -1,0 +1,247 @@
+# =============================================================================
+# graphite (go-carbon + statsd) — Zuul metrics carbon store
+# =============================================================================
+# k8s port of the ansible-managed graphite1.eco VM (host_vars graphite_cert:
+# graphite1-infra, graphite_relay: true, "zuul" storage schema).
+#
+# Write path : producers -> statsd (:8125/udp) -> relay (:2014) -> go-carbon
+#              (:2004) -> whisper on the PVC.
+# Read path  : carbonapi (ns graphite) -> go-carbon carbonserver (:8081).
+#
+# The image bundles go-carbon + statsd + carbon-relay + graphite-web + nginx
+# + memcached under supervisord. Only the config that materially differs from
+# the image defaults is overridden via the ConfigMap (storage-schemas with the
+# zuul retention, go-carbon.conf with carbonserver enabled, statsd udp.js).
+# carbon.conf / relay-rules.conf / nginx use the image defaults.
+# =============================================================================
+
+nameOverride: ""
+fullnameOverride: "graphite-zuul"
+
+namespace: graphite
+
+replicaCount: 1
+
+image:
+  # Same bundled image the ansible role uses (roles/graphite defaults).
+  repository: quay.io/opentelekomcloud/graphite-statsd
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+serviceAccount:
+  create: true
+  name: ""
+
+podSecurityContext: {}
+
+securityContext: {}
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "2"
+    memory: "4Gi"
+
+# ---------------------------------------------------------------------------
+# Persistence — whisper database (/opt/graphite/storage).
+# graphite1.eco holds ~2.9 GiB whisper; size generously for growth + the
+# one-time seed copy from the VM.
+# ---------------------------------------------------------------------------
+persistence:
+  enabled: true
+  storageClass: "csi-disk-retain"
+  accessMode: ReadWriteOnce
+  size: 20Gi
+  mountPath: /opt/graphite/storage
+
+# ---------------------------------------------------------------------------
+# In-cluster Service (carbonapi read + in-cluster ingest).
+# ---------------------------------------------------------------------------
+service:
+  type: ClusterIP
+  ports:
+    carbonserver: 8081   # go-carbon carbonserver — carbonapi read path
+    carbonLine: 2003     # plaintext carbon receiver
+    carbonPickle: 2004   # pickle carbon receiver
+    statsd: 8125         # statsd UDP ingest
+    web: 80              # graphite-web (nginx) dashboard
+
+# ===========================================================================
+# Cross-boundary statsd ingest (producers outside this cluster).
+# ===========================================================================
+# In-cluster producers (cloudmon, carbonapi) reach go-carbon via the ClusterIP
+# Service above — nothing extra needed. The options below are ONLY for external
+# producers: today the swift controller VM (192.168.14.241 -> repoint here);
+# end state, any producer on otcinfra2 (192.168.171.0/24, already peered).
+#
+# Zero-VM alignment: no VPC peering / VPN is required — the swift VM already
+# routes to otcinfra (192.168.170.0/24) and otcinfra<->otcinfra2 is already
+# peered. The ONLY missing prerequisite is an inbound security-group rule on the
+# otcinfra worker nodes / ELB allowing the chosen UDP port from the producer
+# subnet(s): 192.168.80.0/24 (swift, transitional) + 192.168.171.0/24 (otcinfra2).
+
+# --- PRIMARY: UDP NodePort (no ELB) -----------------------------------------
+# Recommended. UDP works natively on NodePort; no dedicated ELB to provision.
+# Point the swift controller statsd_graphite_host at a stable otcinfra node IP
+# on infra-subnet (e.g. 192.168.170.139) : statsdNodePort. Disabled for prep.
+nodePortIngest:
+  enabled: false
+  statsdNodePort: 31825   # 30000-32767; producer -> <otcinfra-node-ip>:31825/udp
+
+# --- ALTERNATIVE: dedicated ELB VIP -----------------------------------------
+# Use only if a stable VIP is preferred over a node IP. statsd is UDP:8125 and
+# (verified against CCE LoadBalancer docs 2026-08-10) UDP listeners are supported
+# ONLY by DEDICATED load balancers (kubernetes.io/elb.class: performance). The
+# existing internal ELBs (elb-intern @192.168.170.129, elb-swift-proxy
+# @192.168.170.56, ingress) are all SHARED (union) and cannot do UDP.
+#
+# B2 Path 2 producer = k8s swift-proxy-otcinfra2 (otcinfra2, 192.168.171.0/24)
+# -> this ingest VIP on otcinfra over the existing 170<->171 peering.
+# REQUIRED before the sync activates it:
+#   1. A dedicated (performance) internal ELB that supports UDP, in infra-subnet
+#      (192.168.170.0/24). Pre-create it in the OTC console (ELB -> dedicated ->
+#      internal -> VPC eco-infra / infra-subnet) and put its id in elb.id below;
+#      OR use elb.autocreate (needs subnet-id + elb_virsubnet_ids network id +
+#      available_zone + l4_flavor_name).
+#   2. SG rule: inbound UDP 8125 from 192.168.171.0/24 on that ELB's SG.
+# NOTE: manual-sync app — enabling here does NOT apply until you sync in the
+# window. Leave elb.id as the REPLACE_ placeholder until step 1 is done (a
+# premature sync then fails fast rather than mis-provisioning).
+loadBalancer:
+  enabled: true
+  annotations:
+    kubernetes.io/elb.class: performance
+    kubernetes.io/elb.pass-through: onlyLocal
+    # Dedicated (performance) internal ELB auto-created by CCE in infra-subnet
+    # (eco-infra). UDP listener :8125 + backend are auto-managed from this Service.
+    #   network id (elb_virsubnet_ids) = c4957702-1c42-4f47-ad48-5d24858fe410
+    #   ipv4 subnet id (reference)     = 7ad49269-1846-45cd-97bc-0f047729c416
+    #   AZ = eu-de-01 ; VPC = eco-infra
+    # If the sync fails on l4_flavor_name, list valid flavors and adjust.
+    kubernetes.io/elb.autocreate: '{"type":"inner","name":"elb-graphite-ingest","l4_flavor_name":"L4_flavor.elb.s1.small","elb_virsubnet_ids":["c4957702-1c42-4f47-ad48-5d24858fe410"],"available_zone":["eu-de-01"]}'
+  loadBalancerIP: ""
+  ports:
+    statsd: 8125
+    carbonLine: 2003
+    carbonPickle: 2004
+
+# ---------------------------------------------------------------------------
+# go-carbon / statsd runtime env (roles/graphite templates/env.j2).
+# ---------------------------------------------------------------------------
+env:
+  GOCARBON: "1"
+  RELAY: "1"
+  # Image bundles memcached; graphite-web caches locally.
+  MEMCACHE_HOST: "127.0.0.1:11211"
+
+# ---------------------------------------------------------------------------
+# storage-schemas.conf — copied VERBATIM from host_vars/graphite1.eco
+# (graphite_storage_schemas) so the migrated store behaves IDENTICALLY to the
+# VM. NOTE: the live config has a single [zuul] section header with the carbon
+# and default pattern/retentions lines lacking their own headers — go-carbon
+# collapses them (last key wins), so in practice every metric uses
+# 60s:1d,5m:30d,10m:90d. This quirk is preserved intentionally for parity; do
+# NOT "fix" it into three separate sections during the migration (that would
+# change retention for stats.*.zuul.* and carbon.* on new writes).
+# ---------------------------------------------------------------------------
+storageSchemas: |
+  ["zuul"]
+  pattern = ^stats\.*\.zuul\.*
+  retentions = 60:90d
+  pattern = ^carbon\.*
+  retentions = 60:90d
+  pattern = .*
+  retentions = 60s:1d,5m:30d,10m:90d
+
+# ===========================================================================
+# carbonapi — the read/query frontend (graphite-ca), served to cloudmon +
+# Grafana. Port of the ansible carbonapi role (roles/carbonapi tasks/k8s.yaml).
+# ===========================================================================
+# Disabled by default: the live carbonapi-main is still ansible/bridge-managed
+# with the SAME object names. Enabling this and syncing REPLACES/adopts it.
+# The 'zuul' backend is repointed from the graphite1.eco VM (192.168.14.241:8081)
+# to the in-cluster go-carbon Service; the 'apimon' backend group (the separate
+# apimon graphite VMs) is unchanged. TLS moves to cert-manager (no bridge certs).
+carbonapi:
+  enabled: true
+  image: quay.io/opentelekomcloud/carbonapi:v0.15.4
+  fqdn: graphite-ca.eco.tsi-dev.otc-service.com
+  tz: ""
+  hpa:
+    minReplicas: 4
+    maxReplicas: 8
+    targetCPUUtilization: 70
+  resources:
+    limits:
+      cpu: 1
+      memory: 2G
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  readinessTimeout: 10
+  livenessTimeout: 5
+  memcacheHosts:
+    - "192.168.14.12:11211"
+    - "192.168.14.159:11211"
+    - "192.168.151.11:11211"
+  # backendsv2.backends — apimon group unchanged; zuul group -> in-cluster go-carbon.
+  backends:
+    - groupName: "apimon"
+      lbMethod: "any"
+      protocol: "carbonapi_v3_pb"
+      servers:
+        - "http://192.168.14.159:8081"
+        - "http://192.168.14.12:8081"
+        - "http://192.168.151.11:8081"
+    - groupName: "zuul"
+      lbMethod: "broadcast"
+      protocol: "carbonapi_v3_pb"
+      servers:
+        - "http://graphite-zuul.graphite.svc.cluster.local:8081"
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    clusterIssuer: letsencrypt-prod
+    whitelistSourceRange: "10.0.0.0/8,172.16.0.0/12,192.168.0.0/16,80.158.0.0/16"
+    tlsSecretName: carbonapi-main-tls
+
+# ===========================================================================
+# graphite-web — the apimon-domain graphite dashboard (graphite.apimon.eco).
+# Port of the ansible graphite_web_k8s role. NOTE: fronts the *apimon* graphite
+# VMs (GRAPHITE_CLUSTER_SERVERS 192.168.14.159/151.11:8080), which are a
+# SEPARATE stack from the zuul store (go-carbon) — porting only moves its
+# deployment mechanism from the bridge to GitOps; backends are unchanged.
+# ===========================================================================
+# Disabled by default: the live graphite-web-apimon is still ansible-managed
+# with the SAME object names. TLS moves to cert-manager (no bridge certs).
+graphiteWeb:
+  enabled: false
+  image: quay.io/opentelekomcloud/graphite-statsd:latest
+  fqdn: graphite.apimon.eco.tsi-dev.otc-service.com
+  timezone: "Europe/Berlin"
+  clusterServers:
+    - "http://192.168.14.159:8080"
+    - "http://192.168.151.11:8080"
+  memcacheHosts:
+    - "192.168.14.159:11211"
+    - "192.168.151.11:11211"
+  hpa:
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilization: 70
+  resources:
+    limits:
+      cpu: 1
+      memory: 2G
+    requests:
+      cpu: 100m
+      memory: 500Mi
+  readinessTimeout: 10
+  livenessTimeout: 5
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    clusterIssuer: letsencrypt-prod
+    tlsSecretName: graphite-web-apimon-tls

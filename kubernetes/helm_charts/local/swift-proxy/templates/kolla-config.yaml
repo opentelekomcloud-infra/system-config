@@ -50,6 +50,20 @@ data:
     bind_port = {{ .Values.proxy.port }}
     workers = auto
     user = swift
+    # The bulk middleware extracts a tarball while it is still reading it, so a
+    # docs publish keeps the request open far longer than the 60s default and
+    # Swift ends it with "499 Client Disconnect" part way through the archive.
+    client_timeout = {{ .Values.proxy.clientTimeout | default 600 }}
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    # StatsD -> go-carbon (otcinfra) bundled statsd. Inert until statsd.host is set.
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = {{ join " " .Values.swift.proxyPipeline }}
@@ -125,6 +139,20 @@ data:
     user_{{ .account }}_{{ .username }} = {{ .password }} {{ .groups }}
     {{- end }}
     {{- end }}
+    {{- if .Values.swift.validatetoken.enabled }}
+
+    [filter:validatetoken]
+    paste.filter_factory = validatetoken.middleware.validatetoken:filter_factory
+    auth_url = {{ .Values.swift.validatetoken.authUrl }}
+    www_authenticate_uri = {{ .Values.swift.validatetoken.authUrl }}
+    http_connect_timeout = {{ .Values.swift.validatetoken.httpConnectTimeout | default 5 }}
+    cache = swift.cache
+
+    [filter:keystoneauth]
+    use = egg:swift#keystoneauth
+    operator_roles = {{ .Values.swift.keystoneOperatorRoles | default "admin,member" }}
+    reseller_prefix = AUTH_
+    {{- end }}
 
 {{- if .Values.storage.enabled }}
 ---
@@ -159,7 +187,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }
@@ -181,6 +209,15 @@ data:
     mount_check = true
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon object-server
@@ -232,7 +269,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }
@@ -253,6 +290,15 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon container-server
@@ -306,7 +352,7 @@ data:
         {
           "path": "/srv/node",
           "owner": "swift:swift",
-          "recurse": true
+          "recurse": false
         }
       ]
     }
@@ -327,6 +373,15 @@ data:
     mount_check = false
     workers = auto
     user = swift
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
 
     [pipeline:main]
     pipeline = recon account-server
@@ -345,5 +400,106 @@ data:
     [account-auditor]
 
     [account-reaper]
+
+{{- if .Values.expirer }}
+{{- if .Values.expirer.enabled }}
+---
+# Kolla config for the object-expirer daemon.
+# Without this daemon, objects uploaded with X-Delete-After (zuul_log_delete_after)
+# are hidden from GETs once expired but their .data files stay on disk forever, and
+# their entries pile up in the .expiring_objects account -> inode exhaustion.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "swift-proxy.fullname" . }}-kolla-expirer-config
+  labels:
+    {{- include "swift-proxy.labels" . | nindent 4 }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+data:
+  config.json: |
+    {
+      "command": "/var/lib/kolla/venv/bin/swift-object-expirer /etc/swift/object-expirer.conf",
+      "config_files": [
+        {
+          "source": "/var/lib/kolla/config_files/swift.conf",
+          "dest": "/etc/swift/swift.conf",
+          "owner": "swift",
+          "perm": "0640"
+        },
+        {
+          "source": "/var/lib/kolla/config_files/object-expirer.conf",
+          "dest": "/etc/swift/object-expirer.conf",
+          "owner": "swift",
+          "perm": "0640"
+        }
+      ],
+      "permissions": [
+        {
+          "path": "/var/cache/swift",
+          "owner": "swift:swift",
+          "recurse": true
+        }
+      ]
+    }
+  swift.conf: |
+    [swift-hash]
+    swift_hash_path_suffix = {{ .Values.swift.hashPathSuffix }}
+    swift_hash_path_prefix = {{ .Values.swift.hashPathPrefix }}
+
+    [storage-policy:0]
+    name = Policy-0
+    default = yes
+
+  object-expirer.conf: |
+    [DEFAULT]
+    user = swift
+    log_name = object-expirer
+    {{- if .Values.statsd }}
+    {{- if and .Values.statsd.enabled .Values.statsd.host }}
+    log_statsd_host = {{ .Values.statsd.host }}
+    log_statsd_port = {{ .Values.statsd.port | default 8125 }}
+    log_statsd_default_sample_rate = {{ .Values.statsd.defaultSampleRate | default "1.0" }}
+    log_statsd_sample_rate_factor = {{ .Values.statsd.sampleRateFactor | default "1.0" }}
+    log_statsd_metric_prefix = {{ .Values.statsd.metricPrefix | default "swift.otcinfra2" }}
+    {{- end }}
+    {{- end }}
+
+    [object-expirer]
+    interval = {{ .Values.expirer.interval | default 300 }}
+    concurrency = {{ .Values.expirer.concurrency | default 1 }}
+    # Rate limit so the first run through a large backlog cannot saturate the
+    # single storage node.
+    tasks_per_second = {{ .Values.expirer.tasksPerSecond | default 5 }}
+    report_interval = 300
+    recon_cache_path = /var/cache/swift
+    # Also drain entries written by older swift versions into the legacy queue.
+    dequeue_from_legacy = {{ .Values.expirer.dequeueFromLegacy | default true }}
+    process = 0
+    processes = 0
+
+    # swift-object-expirer builds its InternalClient from THIS file (it does not
+    # support internal_client_conf_path), so the pipeline must be defined here.
+    [pipeline:main]
+    pipeline = catch_errors proxy-logging cache symlink proxy-server
+
+    [app:proxy-server]
+    use = egg:swift#proxy
+    account_autocreate = true
+
+    [filter:catch_errors]
+    use = egg:swift#catch_errors
+
+    [filter:proxy-logging]
+    use = egg:swift#proxy_logging
+
+    [filter:cache]
+    use = egg:swift#memcache
+    memcache_servers = 127.0.0.1:11211
+
+    [filter:symlink]
+    use = egg:swift#symlink
+{{- end }}
+{{- end }}
 {{- end }}
 {{- end }}

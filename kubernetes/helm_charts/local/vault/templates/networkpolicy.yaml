@@ -41,6 +41,24 @@ spec:
         - port: {{ $.Values.networkPolicy.vaultPort }}
           protocol: TCP
     {{- end }}
+    # Allow from namespaces matched by arbitrary labels rather than by name.
+    # Needed for consumers whose namespace name is not known up front, such as
+    # the per-node namespaces nodepool creates for build pods (default-<id>),
+    # which carry nodepool_provider_name/nodepool_node_label labels.
+    {{- range .Values.networkPolicy.allowedConsumerSelectors }}
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              {{- toYaml .namespaceLabels | nindent 14 }}
+          {{- if .podSelector }}
+          podSelector:
+            matchLabels:
+              {{- toYaml .podSelector | nindent 14 }}
+          {{- end }}
+      ports:
+        - port: {{ $.Values.networkPolicy.vaultPort }}
+          protocol: TCP
+    {{- end }}
     {{- if .Values.networkPolicy.allowIngress.enabled }}
     # Allow ingress controller (for remote cluster vault-agent access via LB)
     - from:

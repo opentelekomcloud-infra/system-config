@@ -93,7 +93,7 @@ providers:
                       cpu: "1"
                       memory: "1024Mi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
             context: preprod
 
 diskimages:

@@ -1,0 +1,82 @@
+# Alerta — GitOps/ArgoCD values for the otcinfra "prod" instance (ns apimon).
+#
+# This is a faithful port of the former ansible service-alerta k8s deploy.
+# Secrets are NOT stored here: the *config* below carries argocd-vault-plugin
+# (AVP) placeholders <path:secret/data/...#field> that the repo-server AVP CMP
+# renders from vault-otcinfra2 at sync time. TLS is issued by cert-manager via
+# the ingress cluster-issuer annotation (no /etc/ssl dependency).
+#
+# Object names match the live objects (alerta-deployment-prod /
+# alerta-service-prod / alerta-ingress-prod / SA "alerta") so ArgoCD adopts
+# the running deploy in place rather than creating parallels. The former
+# alerta-config-prod ConfigMap + vault-agent sidecars are superseded by the
+# AVP secret alerta-secret-prod mounted below.
+
+instances:
+  - name: prod
+    namespace: apimon
+    replicas: 2
+    image: quay.io/opentelekomcloud/alerta:9.0.4
+    serviceAccountName: alerta
+    fqdn: alerts.eco.tsi-dev.otc-service.com
+    clusterIssuer: letsencrypt-prod
+    tlsSecretName: alerta-ssl-prod
+    # hostAliases entry so ldaps://ldap.otc-service.internal resolves in-pod.
+    ldapServerIp: 192.168.170.43
+    resources:
+      limits:
+        cpu: 500m
+        memory: 500Mi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    # Full alerta server config (was alertad.conf.hcl). Secret values use AVP
+    # inline placeholders instead of the retired vault-agent [%- with secret %]
+    # blocks. Non-secret settings are reproduced verbatim from the live config.
+    serverConfig: |
+      AUTH_REQUIRED = True
+      USE_PROXYFIX = True
+      CUSTOMER_VIEWS = False
+
+      AUTH_PROVIDER='ldap'
+      LDAP_URL = 'ldaps://ldap.otc-service.internal:636'
+      LDAP_DEFAULT_DOMAIN = 't-systems.com'
+      LDAP_BASEDN = 'ou=people,dc=otc,dc=app'
+      LDAP_BIND_USERNAME = 'cn=proxyagent_grafana_eco_squad,ou=profile,dc=otc,dc=app'
+      LDAP_BIND_PASSWORD = '<path:secret/data/ldap/otc#bind_password>'
+      LDAP_USER_FILTER = '(uid={username})'
+      LDAP_USER_EMAIL_ATTR = 'mail'
+      LDAP_USER_NAME_ATTR = 'uid'
+      LDAP_GROUP_BASEDN = 'ou=group,dc=otc,dc=app'
+      LDAP_GROUP_FILTER = '(&(memberUid={username})(objectClass=posixGroup))'
+      LDAP_GROUP_NAME_ATTR = 'cn'
+      LDAP_DOMAINS = {
+      't-systems.com': 'cn=%s,ou=people,dc=otc,dc=app'
+      }
+      LDAP_ALLOW_SELF_SIGNED_CERT = True
+
+
+      SMTP_HOST = 'out-cloud.mms.t-systems-service.com:25'
+      MAIL_FROM = 'alerts@alerts.eco.tsi-dev.otc-service.com'
+      ALLOWED_ENVIRONMENTS = ['ProdInt', 'ProdExt', 'Production', 'Development']
+      COLUMNS = ['severity', 'status', 'lastReceiveTime', 'duplicateCount', 'environment', 'service', 'resource', 'event', 'value', 'text']
+      HEARTBEAT_TIMEOUT = 300
+      PLUGINS = ['blackout', 'zulip']
+      ZULIP_SITE = 'https://zulip.tsi-vc.otc-service.com'
+      ZULIP_EMAIL = 'apimon-bot@zulip.tsi-dev.otc-service.com'
+      ZULIP_TYPE = 'stream'
+      ZULIP_TO = 'Alerts'
+      ZULIP_SUBJECT = 'APImon alert'
+
+      ADMIN_USERS = 'admin,@gtema,@kkucerak,@vladimirhasko,kucerakk,kristian.kucerak@t-systems.com,vhasko,vladimir.hasko@t-systems.com,argoncha,Artem.Goncharov@t-systems.com'
+
+      DATABASE_URL = 'postgresql://<path:secret/data/db/alerta#username>:<path:secret/data/db/alerta#password>@192.168.14.91/alerta'
+
+      SECRET_KEY = '<path:secret/data/alerta/main#secret_key>'
+      ZULIP_API_KEY = '<path:secret/data/alerta/main#zulip_api_key>'
+      ADMIN_KEY = '<path:secret/data/alerta/main#admin_key>'
+    # Alerta client config (was alerta.conf.hcl).
+    clientConfig: |
+      [DEFAULT]
+      endpoint = http://localhost:8080/api
+      key = <path:secret/data/alerta/main#api_key>

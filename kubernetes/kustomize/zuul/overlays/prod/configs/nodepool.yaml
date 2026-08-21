@@ -16,11 +16,14 @@ zookeeper-tls:
 labels:
   - name: debian
     min-ready: 0
-    max-ready-age: 3600
+    max-ready-age: 600
 
   - name: zuul-debian
     min-ready: 0
     max-hold-age: 7200
+    # Auto-delete idle ready nodes after 10 min so leftover nodes from
+    # dequeued/cancelled buildsets don't accumulate on the pool.
+    max-ready-age: 600
 
   # Builder image — for jobs that build container images.
   # Image: quay.io/buildah/stable — Fedora-based, ships buildah + podman + skopeo
@@ -28,12 +31,37 @@ labels:
   - name: zuul-debian-builder
     min-ready: 0
     max-hold-age: 7200
+    max-ready-age: 600
+
+  # Debian pod with a container runtime — for functional tests that need
+  # podman (e.g. rancher-integration-tests). Same Debian python-tox image
+  # as zuul-debian, but privileged with the vfs storage driver so podman
+  # (installed at job runtime) can run rootful containers.
+  - name: zuul-debian-podman
+    min-ready: 0
+    max-hold-age: 7200
+    max-ready-age: 600
+
+  # Privileged Debian pod for jobs that run a container runtime inside
+  # the Zuul pod (e.g. CloudMon deploys graphite/statsd/postgres via
+  # docker). Runs privileged so dockerd can set up bridge networking
+  # (CAP_NET_ADMIN); /var/lib/docker lives on an emptyDir.
+  - name: zuul-debian-docker
+    min-ready: 0
+    max-hold-age: 7200
+
+  # Privileged Debian pod running systemd as PID 1, for jobs whose payload
+  # installs and starts systemd units (CloudMon's roles ship 15 unit files).
+  # dockerd is still started by the job, as with zuul-debian-docker.
+  - name: zuul-debian-systemd
+    min-ready: 0
+    max-hold-age: 7200
 
 providers:
   # Kubernetes provider for pod-based nodes (in-cluster)
   - name: prod-k8s
     driver: kubernetes
-    max-servers: 5
+    max-servers: 10
     context: prod
     pools:
       - name: default
@@ -73,12 +101,178 @@ providers:
                   resources:
                     requests:
                       cpu: "200m"
-                      memory: "512Mi"
+                      memory: "1Gi"
                     limits:
                       cpu: "2"
-                      memory: "6Gi"
+                      memory: "10Gi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
+            context: prod
+
+          # Docker pod — same base image as zuul-debian but privileged,
+          # for jobs that install and run docker inside the pod (CloudMon
+          # deploy). Privileged is required so dockerd can configure
+          # bridge networking (iptables/NAT); /var/lib/docker is backed
+          # by an emptyDir so it survives pod restarts within a job.
+          #
+          # Only stackmon/cloudmon deploy jobs are expected to request this
+          # label. Anything that merely builds images should use
+          # zuul-debian-builder (buildah, no daemon) instead.
+          - name: zuul-debian-docker
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: docker-storage
+                  emptyDir:
+                    # Nodes only have ~9.4Gi allocatable ephemeral-storage; a
+                    # larger cap lets one dind pod fill the whole node disk.
+                    sizeLimit: 4Gi
+              containers:
+                - name: zuul-debian-docker
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  # The pod network runs at MTU 1442, but dockerd defaults its
+                  # bridge to 1500. Job containers then emit oversized frames
+                  # and TLS to external hosts blackholes on broken PMTU
+                  # discovery - the same failure the Gitea runners hit. Seed
+                  # the daemon config here so it applies whenever the job
+                  # starts dockerd.
+                  args:
+                    - |
+                      mkdir -p /etc/docker
+                      printf '{"mtu": 1442}\n' > /etc/docker/daemon.json
+                      exec sleep infinity
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: docker-storage
+                      mountPath: /var/lib/docker
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                      ephemeral-storage: "4Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+                      ephemeral-storage: "4Gi"
+            python-path: /usr/bin/python3
+            shell-type: sh
+
+          # As zuul-debian-docker, but with systemd as PID 1 so the job can
+          # install and start systemd units.
+          - name: zuul-debian-systemd
+            type: pod
+            spec:
+              # systemd 252 (bookworm) cannot run on the CentOS 7 nodes'
+              # 3.10 kernel, so keep these pods on the HCE 5.10 nodes.
+              nodeSelector:
+                os.name: HCE_OS_2.0_x86_64
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: docker-storage
+                  emptyDir:
+                    sizeLimit: 4Gi
+                # The cluster is cgroup v1, so systemd needs write access to
+                # the host hierarchy to create its scopes.
+                - name: cgroup
+                  hostPath:
+                    path: /sys/fs/cgroup
+                    type: Directory
+                - name: run
+                  emptyDir:
+                    medium: Memory
+                - name: run-lock
+                  emptyDir:
+                    medium: Memory
+              containers:
+                - name: zuul-debian-systemd
+                  image: quay.io/opentelekomcloud/zuul-debian-systemd:bookworm
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  # systemd owns dockerd here, so the daemon settings have to
+                  # live in daemon.json rather than on a command line: pod
+                  # network MTU is 1442, and the pod may lack CAP_NET_ADMIN
+                  # for iptables/bridge even when privileged.
+                  args:
+                    - |
+                      mkdir -p /etc/docker
+                      cat > /etc/docker/daemon.json <<'JSON'
+                      {
+                        "mtu": 1442,
+                        "bridge": "none",
+                        "iptables": false,
+                        "ip6tables": false,
+                        "exec-opts": ["native.cgroupdriver=cgroupfs"]
+                      }
+                      JSON
+                      exec /lib/systemd/systemd
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                    - name: container
+                      value: docker
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: docker-storage
+                      mountPath: /var/lib/docker
+                    - name: cgroup
+                      mountPath: /sys/fs/cgroup
+                    - name: run
+                      mountPath: /run
+                    - name: run-lock
+                      mountPath: /run/lock
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                      ephemeral-storage: "4Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+                      ephemeral-storage: "4Gi"
+            python-path: /usr/bin/python3
+            shell-type: sh
             context: prod
 
           # Builder pod — buildah/podman/skopeo pre-installed.
@@ -133,7 +327,63 @@ providers:
                       cpu: "4"
                       memory: "6Gi"
             python-path: /usr/bin/python3
-            shell-type: /bin/bash
+            shell-type: sh
+            context: prod
+
+          # Debian pod with podman — for functional tests needing a
+          # container runtime (rancher-integration-tests). Reuses the
+          # Debian python-tox image; runs privileged with the vfs storage
+          # driver so podman (installed at job runtime) can run rootful
+          # containers without a VM/Docker daemon.
+          - name: zuul-debian-podman
+            type: pod
+            spec:
+              imagePullSecrets:
+                - name: quay-image-pull-secret
+              securityContext:
+                runAsUser: 0
+                runAsGroup: 0
+              volumes:
+                - name: zuul-ssh-keys
+                  secret:
+                    secretName: zuul-ssh-keys
+                    defaultMode: 0600
+                - name: zuul-home
+                  emptyDir: {}
+                - name: containers-storage
+                  emptyDir: {}
+              containers:
+                - name: zuul-debian-podman
+                  image: quay.io/opentelekomcloud/python-tox:latest
+                  imagePullPolicy: Always
+                  command: ["/bin/sh", "-c"]
+                  args: ["sleep infinity"]
+                  securityContext:
+                    privileged: true
+                  env:
+                    - name: HOME
+                      value: /home/zuul
+                    - name: USER
+                      value: zuul
+                    - name: STORAGE_DRIVER
+                      value: vfs
+                  volumeMounts:
+                    - name: zuul-ssh-keys
+                      mountPath: /etc/zuul-ssh-keys
+                      readOnly: true
+                    - name: zuul-home
+                      mountPath: /home/zuul
+                    - name: containers-storage
+                      mountPath: /var/lib/containers
+                  resources:
+                    requests:
+                      cpu: "500m"
+                      memory: "1Gi"
+                    limits:
+                      cpu: "4"
+                      memory: "6Gi"
+            python-path: /usr/bin/python3
+            shell-type: sh
             context: prod
 
 diskimages:

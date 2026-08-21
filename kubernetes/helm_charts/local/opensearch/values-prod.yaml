@@ -1,0 +1,41 @@
+# OpenSearch additional manifests (otcinfra / ns opensearch) — GitOps.
+#
+# ⚠ DISABLED BY DEFAULT (certificates.enabled=false). These cert-manager
+# resources REPLACE the retired bridge x509 CA that used to issue OpenSearch's
+# internal node/admin mTLS certs. Issuing certs from a NEW self-signed CA onto
+# the LIVE cluster would rotate opensearch-node-tls / opensearch-admin-tls and
+# break intra-cluster mTLS unless done as a COORDINATED migration (old + new CA
+# both trusted during rollover, rolling restart). Only enable for a fresh
+# cluster or a planned PKI migration in a maintenance window.
+#
+# The node/admin CommonNames MUST match the security-plugin pins in the upstream
+# values-prod.yaml (plugins.security.nodes_dn / authcz.admin_dn).
+
+certificates:
+  enabled: false
+
+  # Internal self-signed CA (bootstrap), mirrors the local/vault pattern.
+  caSecretName: opensearch-ca
+
+  # Node transport mTLS cert — CN pinned in security config nodes_dn.
+  node:
+    secretName: opensearch-node-tls
+    commonName: opensearch-node.eco.tsi-dev.otc-service.com
+
+  # Admin mTLS cert — CN pinned in security config authcz.admin_dn.
+  admin:
+    secretName: opensearch-admin-tls
+    commonName: opensearch-admin.eco.tsi-dev.otc-service.com
+
+  # Public ingress server certs. issuerRef points at the cluster's real ACME
+  # ClusterIssuer for browser-trusted certs. TODO: confirm the ClusterIssuer
+  # name on otcinfra before enabling (self-signed here would be browser-distrusted).
+  ingressIssuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  opensearch:
+    secretName: opensearch-cert-tls
+    dnsName: opensearch.eco.tsi-dev.otc-service.com
+  dashboard:
+    secretName: opensearch-dashboard-cert-tls
+    dnsName: opensearch-dashboard.eco.tsi-dev.otc-service.com

@@ -1,0 +1,79 @@
+{{- if .Values.carbonapi.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: carbonapi-main
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: carbonapi
+      port: 8081
+      targetPort: 8081
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: carbonapi-main
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    kind: Deployment
+    name: carbonapi-main
+    apiVersion: apps/v1
+  minReplicas: {{ .Values.carbonapi.hpa.minReplicas }}
+  maxReplicas: {{ .Values.carbonapi.hpa.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.carbonapi.hpa.targetCPUUtilization }}
+{{- if .Values.carbonapi.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: carbonapi-main
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: carbonapi
+    app.kubernetes.io/instance: main
+    {{- include "graphite.labels" . | nindent 4 }}
+  annotations:
+    nginx.ingress.kubernetes.io/whitelist-source-range: "{{ .Values.carbonapi.ingress.whitelistSourceRange }}"
+    {{- with .Values.carbonapi.ingress.clusterIssuer }}
+    cert-manager.io/cluster-issuer: {{ . }}
+    {{- end }}
+spec:
+  ingressClassName: {{ .Values.carbonapi.ingress.ingressClassName }}
+  tls:
+    - hosts:
+        - {{ .Values.carbonapi.fqdn }}
+      secretName: {{ .Values.carbonapi.ingress.tlsSecretName }}
+  rules:
+    - host: {{ .Values.carbonapi.fqdn }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: carbonapi-main
+                port:
+                  number: 8081
+{{- end }}
+{{- end }}

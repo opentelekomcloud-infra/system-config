@@ -37,6 +37,18 @@ networkPolicy:
     - namespace: eyes-on-docs
     - namespace: mcaptcha
 
+  # Namespaces matched by label instead of by name, for consumers whose
+  # namespace name is not known up front.
+  allowedConsumerSelectors:
+    # Zuul build pods. nodepool creates one namespace per node
+    # (default-<node id>), so they cannot be listed in allowedConsumers above.
+    # The executor mints a short-lived AppRole token and passes it into the
+    # build pod, which then calls Vault itself to fetch the per-org GitHub
+    # tokens (gitcontrol). Without this rule that request is silently dropped
+    # and the job fails with "<urlopen error timed out>".
+    - namespaceLabels:
+        nodepool_provider_name: prod-k8s
+
   # Ingress controller — required for remote clusters to reach Vault via LB
   # Remote consumers:
   #   otcinfra1: anubis, docsportal, swift-proxy, umami (auth/kubernetes_otcinfra1)

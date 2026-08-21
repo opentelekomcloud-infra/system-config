@@ -1,0 +1,4 @@
+*.tgz
+Chart.lock
+charts/
+.git

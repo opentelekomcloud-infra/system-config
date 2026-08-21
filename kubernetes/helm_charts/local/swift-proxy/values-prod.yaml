@@ -14,6 +14,21 @@ proxy:
     tag: "2024.1-ubuntu-jammy"
   port: 8080
 
+# StatsD metrics -> go-carbon (otcinfra ns graphite) over the eco-infra <-> eco-infra2
+# (192.168.170 <-> .171) peering. Collapses the old VM two-hop (per-node statsd daemon
+# -> graphite1.eco) into a direct send to go-carbon's bundled statsd:8125.
+# INERT until `host` is set to the go-carbon ingest VIP (dedicated ELB on otcinfra
+# infra-subnet, UDP 8125). Requires SG rule: inbound UDP 8125 from 192.168.171.0/24
+# on the ingest target. Metric tree: stats.timers.<metricPrefix>.<server>-server.*
+# (differs from the old per-VM swift.proxyN/storageN tree -> update dashboards).
+statsd:
+  enabled: true
+  host: "192.168.170.50"         # go-carbon ingest ELB VIP (infra-subnet); B2 Path 2
+  port: 8125
+  defaultSampleRate: "1.0"
+  sampleRateFactor: "1.0"
+  metricPrefix: "swift.otcinfra2"
+
 # Storage nodes configuration (only used in cluster mode)
 storage:
   enabled: true
@@ -70,6 +85,19 @@ storage:
     container: 6201
     account: 6202
     rsync: 873
+  # Swift object-updater: drains async_pending (container-DB updates that could not
+  # be applied synchronously). Without it async_pending grows without bound - it
+  # reached 553546 files on 2026-08-17 and exhausted the filesystem inodes, which
+  # broke container listings and silently lost Zuul log uploads.
+  updater:
+    enabled: true
+    resources:
+      requests:
+        cpu: 50m
+        memory: 256Mi
+      limits:
+        cpu: "1"
+        memory: 1Gi
 
 serviceAccount:
   create: true
@@ -81,7 +109,12 @@ podSecurityContext:
   runAsNonRoot: false
   runAsUser: 0
   runAsGroup: 0
-  fsGroup: 42424
+  # NOTE: fsGroup intentionally omitted. Swift runs as uid/gid 42445 and owns
+  # all data on the storage EVS volume (~3.3M files). Setting fsGroup here made
+  # kubelet recursively chown every file on mount, exceeding the 2m volume-setup
+  # deadline (context deadline exceeded) and preventing the storage pod from
+  # ever starting after a remount. Swift accesses its own 42445-owned data
+  # directly, so no fsGroup is required.
 
 securityContext:
   allowPrivilegeEscalation: true
@@ -122,6 +155,22 @@ swift:
   replicaFactor: 1
   minPartHours: 24
 
+  # Reuse an externally-managed rings ConfigMap (proxy-only deployments that
+  # share another release's storage). Empty = this release builds/owns its rings.
+  ringsConfigMapName: ""
+
+  # keystoneauth operator_roles (users with one of these roles may manage
+  # containers/objects in AUTH_<project-id>). Default keeps prior behavior.
+  keystoneOperatorRoles: "admin,member"
+
+  # OTC token self-validation middleware (docs/keystone proxy). Disabled here;
+  # the logs proxy uses tempauth. validatetoken is fail-closed so it must NOT
+  # share a pipeline with tempauth.
+  validatetoken:
+    enabled: false
+    authUrl: "https://iam.eu-de.otc.t-systems.com"
+    httpConnectTimeout: 5
+
   # Keystone auth configuration
   keystoneAuth:
     authUrl: "<path:secret/data/zuul/logs/otc_technical_user#auth_url>"
@@ -138,6 +187,10 @@ swift:
     - proxy-logging
     - cache
     - tempauth
+    # staticweb MUST come before slo/dlo/versioned_writes/symlink: it generates HTML
+    # bodies (directory listings and 301 redirects) for anonymous requests, and those
+    # middlewares json.loads() the response body of a container listing -> 500/503.
+    - staticweb
     - container_sync
     - bulk
     - formpost
@@ -149,7 +202,6 @@ swift:
     - dlo
     - versioned_writes
     - symlink
-    - staticweb
     - proxy-logging
     - proxy-server
 
@@ -165,6 +217,52 @@ swift:
         username: <path:secret/data/swift/users/zuul#username>
         password: <path:secret/data/swift/users/zuul#password>
         groups: .admin
+
+# Swift object-expirer.
+# Log objects are uploaded with X-Delete-After (zuul_log_delete_after = 90d). Swift
+# only hides an expired object; the .data file is not reclaimed until the expirer
+# processes its entry in the .expiring_objects account. This daemon existed only in
+# the old VM ansible role, so expired data accumulated until the volume ran out of
+# inodes on 2026-08-17 (6553600/6553600 used, 483580 entries queued).
+expirer:
+  enabled: true
+  # Seconds between passes over the expiry queue.
+  interval: 300
+  concurrency: 1
+  # Rate limit deletions so working through the large existing backlog cannot
+  # saturate the single storage node.
+  tasksPerSecond: 5
+  dequeueFromLegacy: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+# Storage-node monitoring (Prometheus).
+# The 2026-08-17 outage was caused by async_pending growing unbounded until the
+# volume ran out of inodes. Nothing exported async_pending, and the upstream
+# KubePersistentVolumeInodesFillingUp alert only fires below 3% free - too late,
+# and it was lost among ~60 chronic warnings. These give a leading indicator.
+monitoring:
+  enabled: true
+  port: 9109
+  scrapeInterval: 60s
+  # Prometheus only selects PrometheusRules carrying this release label.
+  prometheusRelease: prometheus-otcinfra2
+  # Bound the async_pending walk so a scrape stays cheap even when the queue is huge.
+  asyncCountCap: 50000
+  asyncPendingWarn: 20000
+  asyncPendingCritical: 100000
+  updaterStaleSeconds: 3600
+  inodeFreeRatioWarn: 0.25
+  # Stated explicitly rather than via .Release.Namespace: this string is baked into
+  # the PromQL, and under the ArgoCD CMP the release namespace is not guaranteed -
+  # a wrong value would silently make the alert never match anything.
+  storageNamespace: swift-proxy
+  storagePvcRegex: ".*swift.*"
 
 # Legacy OBS-only configuration
 cloudNames: "zuul-logs"
@@ -192,6 +290,10 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # Bulk uploads stall while Swift extracts, which the 60s default reads as
+    # an idle client and aborts mid-archive.
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      client_body_timeout 600s;
   hosts:
     - host: swift-proxy.eco.tsi-dev.otc-service.com
       paths:

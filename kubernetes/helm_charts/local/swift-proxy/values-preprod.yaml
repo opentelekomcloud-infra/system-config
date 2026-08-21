@@ -129,6 +129,16 @@ swift:
   replicaFactor: 1  # Preprod: 1 replica (only 1 storage node), Prod: 3 replicas
   minPartHours: 24
 
+  # Reuse an externally-managed rings ConfigMap (proxy-only deployments).
+  ringsConfigMapName: ""
+  # keystoneauth operator_roles (default keeps prior behavior).
+  keystoneOperatorRoles: "admin,member"
+  # OTC token self-validation middleware (docs/keystone proxy). Disabled here.
+  validatetoken:
+    enabled: false
+    authUrl: "https://iam.eu-de.otc.t-systems.com"
+    httpConnectTimeout: 5
+
   # Keystone auth configuration
   keystoneAuth:
     authUrl: "<path:secret/data/zuul/logs/otc_technical_user#auth_url>"
@@ -147,6 +157,10 @@ swift:
     - proxy-logging
     - cache
     - tempauth
+    # staticweb MUST come before slo/dlo/versioned_writes/symlink: it generates HTML
+    # bodies (directory listings and 301 redirects) for anonymous requests, and those
+    # middlewares json.loads() the response body of a container listing -> 500/503.
+    - staticweb
     - container_sync
     - bulk
     - formpost
@@ -158,7 +172,6 @@ swift:
     - dlo
     - versioned_writes
     - symlink
-    - staticweb
     - proxy-logging
     - proxy-server
 

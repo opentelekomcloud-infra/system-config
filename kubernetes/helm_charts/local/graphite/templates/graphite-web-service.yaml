@@ -1,0 +1,81 @@
+{{- if .Values.graphiteWeb.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: graphite-web-apimon
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: graphite-web
+    app.kubernetes.io/instance: apimon
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: graphite-http
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: graphite-https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    app.kubernetes.io/name: graphite
+    app.kubernetes.io/component: web
+    app.kubernetes.io/instance: apimon
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: graphite-web-apimon
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: graphite-web
+    app.kubernetes.io/instance: apimon
+    {{- include "graphite.labels" . | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: graphite-web-apimon
+  minReplicas: {{ .Values.graphiteWeb.hpa.minReplicas }}
+  maxReplicas: {{ .Values.graphiteWeb.hpa.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ .Values.graphiteWeb.hpa.targetCPUUtilization }}
+{{- if .Values.graphiteWeb.ingress.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: graphite-web-apimon
+  namespace: {{ .Values.namespace }}
+  labels:
+    app.kubernetes.io/name: graphite-web
+    app.kubernetes.io/instance: apimon
+    {{- include "graphite.labels" . | nindent 4 }}
+  annotations:
+    cert-manager.io/cluster-issuer: {{ .Values.graphiteWeb.ingress.clusterIssuer }}
+spec:
+  ingressClassName: {{ .Values.graphiteWeb.ingress.ingressClassName }}
+  tls:
+    - hosts:
+        - {{ .Values.graphiteWeb.fqdn }}
+      secretName: {{ .Values.graphiteWeb.ingress.tlsSecretName }}
+  rules:
+    - host: {{ .Values.graphiteWeb.fqdn }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: graphite-web-apimon
+                port:
+                  number: 80
+{{- end }}
+{{- end }}

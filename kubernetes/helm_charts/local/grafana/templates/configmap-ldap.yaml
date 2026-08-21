@@ -1,0 +1,15 @@
+{{- range .Values.instances }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config-{{ .name }}
+  namespace: {{ .namespace }}
+  labels:
+    app.kubernetes.io/name: grafana
+    app.kubernetes.io/instance: {{ .name | quote }}
+    {{- include "grafana.commonLabels" $ | nindent 4 }}
+data:
+  ldap.toml: |
+{{ .ldapToml | indent 4 }}
+{{- end }}
